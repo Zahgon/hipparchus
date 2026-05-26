@@ -29,10 +29,12 @@ import org.hipparchus.exception.MathIllegalStateException;
  * <li><a href="http://mathworld.wolfram.com/ContinuedFraction.html">
  * Continued Fraction</a></li>
  * </ul>
- *
  */
 public abstract class FieldContinuedFraction {
-    /** Maximum allowed numerical error. */
+
+    /**
+     * Maximum allowed numerical error.
+     */
     private static final double DEFAULT_EPSILON = 10e-9;
 
     /**
@@ -70,7 +72,7 @@ public abstract class FieldContinuedFraction {
      * @throws MathIllegalStateException if the algorithm fails to converge.
      */
     public <T extends CalculusFieldElement<T>> T evaluate(T x) throws MathIllegalStateException {
-        return evaluate(x, DEFAULT_EPSILON, Integer.MAX_VALUE);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -82,7 +84,7 @@ public abstract class FieldContinuedFraction {
      * @throws MathIllegalStateException if the algorithm fails to converge.
      */
     public <T extends CalculusFieldElement<T>> T evaluate(T x, double epsilon) throws MathIllegalStateException {
-        return evaluate(x, epsilon, Integer.MAX_VALUE);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -94,9 +96,8 @@ public abstract class FieldContinuedFraction {
      * @throws MathIllegalStateException if the algorithm fails to converge.
      * @throws MathIllegalStateException if maximal number of iterations is reached
      */
-    public <T extends CalculusFieldElement<T>> T evaluate(T x, int maxIterations)
-        throws MathIllegalStateException {
-        return evaluate(x, DEFAULT_EPSILON, maxIterations);
+    public <T extends CalculusFieldElement<T>> T evaluate(T x, int maxIterations) throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -125,66 +126,7 @@ public abstract class FieldContinuedFraction {
      * @throws MathIllegalStateException if the algorithm fails to converge.
      * @throws MathIllegalStateException if maximal number of iterations is reached
      */
-    public <T extends CalculusFieldElement<T>> T evaluate(T x, double epsilon, int maxIterations)
-        throws MathIllegalStateException {
-        final T zero = x.getField().getZero();
-        final T one  = x.getField().getOne();
-
-        final double small      = 1e-50;
-        final T      smallField = one.multiply(small);
-
-        T hPrev = getA(0, x);
-
-        // use the value of small as epsilon criteria for zero checks
-        if (Precision.equals(hPrev.getReal(), 0.0, small)) {
-            hPrev = one.multiply(small);
-        }
-
-        int n     = 1;
-        T   dPrev = zero;
-        T   cPrev = hPrev;
-        T   hN    = hPrev;
-
-        while (n < maxIterations) {
-            final T a = getA(n, x);
-            final T b = getB(n, x);
-
-            T dN = a.add(b.multiply(dPrev));
-            if (Precision.equals(dN.getReal(), 0.0, small)) {
-                dN = smallField;
-            }
-            T cN = a.add(b.divide(cPrev));
-            if (Precision.equals(cN.getReal(), 0.0, small)) {
-                cN = smallField;
-            }
-
-            dN = dN.reciprocal();
-            final T deltaN = cN.multiply(dN);
-            hN = hPrev.multiply(deltaN);
-
-            if (hN.isInfinite()) {
-                throw new MathIllegalStateException(LocalizedCoreFormats.CONTINUED_FRACTION_INFINITY_DIVERGENCE, x);
-            }
-            if (hN.isNaN()) {
-                throw new MathIllegalStateException(LocalizedCoreFormats.CONTINUED_FRACTION_NAN_DIVERGENCE, x);
-            }
-
-            if (deltaN.subtract(1.0).abs().getReal() < epsilon) {
-                break;
-            }
-
-            dPrev = dN;
-            cPrev = cN;
-            hPrev = hN;
-            n++;
-        }
-
-        if (n >= maxIterations) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.NON_CONVERGENT_CONTINUED_FRACTION,
-                                                maxIterations, x);
-        }
-
-        return hN;
+    public <T extends CalculusFieldElement<T>> T evaluate(T x, double epsilon, int maxIterations) throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

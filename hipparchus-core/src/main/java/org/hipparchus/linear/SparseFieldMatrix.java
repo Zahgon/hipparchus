@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -40,11 +39,19 @@ import org.hipparchus.util.OpenIntToFieldHashMap;
  */
 public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMatrix<T> {
 
-    /** Storage for (sparse) matrix elements. */
+    /**
+     * Storage for (sparse) matrix elements.
+     */
     private final OpenIntToFieldHashMap<T> entries;
-    /** Row dimension. */
+
+    /**
+     * Row dimension.
+     */
     private final int rows;
-    /** Column dimension. */
+
+    /**
+     * Column dimension.
+     */
     private final int columns;
 
     /**
@@ -55,7 +62,7 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
     public SparseFieldMatrix(final Field<T> field) {
         super(field);
         rows = 0;
-        columns= 0;
+        columns = 0;
         entries = new OpenIntToFieldHashMap<>(field);
     }
 
@@ -69,8 +76,7 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
      * @throws org.hipparchus.exception.MathIllegalArgumentException
      * if row or column dimension is not positive.
      */
-    public SparseFieldMatrix(final Field<T> field,
-                             final int rowDimension, final int columnDimension) {
+    public SparseFieldMatrix(final Field<T> field, final int rowDimension, final int columnDimension) {
         super(field, rowDimension, columnDimension);
         this.rows = rowDimension;
         this.columns = columnDimension;
@@ -94,7 +100,7 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
      *
      * @param other Instance to copy.
      */
-    public SparseFieldMatrix(FieldMatrix<T> other){
+    public SparseFieldMatrix(FieldMatrix<T> other) {
         super(other.getField(), other.getRowDimension(), other.getColumnDimension());
         rows = other.getRowDimension();
         columns = other.getColumnDimension();
@@ -106,77 +112,68 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addToEntry(int row, int column, T increment) {
-        checkRowIndex(row);
-        checkColumnIndex(column);
-        final int key = computeKey(row, column);
-        final T value = entries.get(key).add(increment);
-        if (getField().getZero().equals(value)) {
-            entries.remove(key);
-        } else {
-            entries.put(key, value);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldMatrix<T> copy() {
-        return new SparseFieldMatrix<>(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldMatrix<T> createMatrix(int rowDimension, int columnDimension) {
-        return new SparseFieldMatrix<>(getField(), rowDimension, columnDimension);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getColumnDimension() {
-        return columns;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T getEntry(int row, int column) {
-        checkRowIndex(row);
-        checkColumnIndex(column);
-        return entries.get(computeKey(row, column));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getRowDimension() {
-        return rows;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void multiplyEntry(int row, int column, T factor) {
-        checkRowIndex(row);
-        checkColumnIndex(column);
-        final int key = computeKey(row, column);
-        final T value = entries.get(key).multiply(factor);
-        if (getField().getZero().equals(value)) {
-            entries.remove(key);
-        } else {
-            entries.put(key, value);
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setEntry(int row, int column, T value) {
-        checkRowIndex(row);
-        checkColumnIndex(column);
-        if (getField().getZero().equals(value)) {
-            entries.remove(computeKey(row, column));
-        } else {
-            entries.put(computeKey(row, column), value);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -187,26 +184,8 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
      * is larger than {@code Integer.MAX_VALUE}.
      */
     @Override
-    public FieldMatrix<T> multiplyTransposed(final FieldMatrix<T> m)
-        throws MathIllegalArgumentException {
-
-        MatrixUtils.checkSameColumnDimension(this, m);
-
-        final int outCols = m.getRowDimension();
-        final FieldMatrix<T> out = m.createMatrix(rows, outCols);
-        for (OpenIntToFieldHashMap<T>.Iterator iterator = entries.iterator(); iterator.hasNext();) {
-            iterator.advance();
-            final T   value    = iterator.value();
-            final int key      = iterator.key();
-            final int i        = key / columns;
-            final int k        = key % columns;
-            for (int j = 0; j < outCols; ++j) {
-                out.addToEntry(i, j, value.multiply(m.getEntry(j, k)));
-            }
-        }
-
-        return out;
-
+    public FieldMatrix<T> multiplyTransposed(final FieldMatrix<T> m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -217,26 +196,8 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
      * is larger than {@code Integer.MAX_VALUE}.
      */
     @Override
-    public FieldMatrix<T> transposeMultiply(final FieldMatrix<T> m)
-        throws MathIllegalArgumentException {
-
-        MatrixUtils.checkSameRowDimension(this, m);
-
-        final int outCols = m.getColumnDimension();
-        final FieldMatrix<T> out = m.createMatrix(columns, outCols);
-        for (OpenIntToFieldHashMap<T>.Iterator iterator = entries.iterator(); iterator.hasNext();) {
-            iterator.advance();
-            final T   value = iterator.value();
-            final int key   = iterator.key();
-            final int k     = key / columns;
-            final int i     = key % columns;
-            for (int j = 0; j < outCols; ++j) {
-                out.addToEntry(i, j, value.multiply(m.getEntry(k, j)));
-            }
-        }
-
-        return out;
-
+    public FieldMatrix<T> transposeMultiply(final FieldMatrix<T> m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**

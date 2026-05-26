@@ -14,13 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
 package org.hipparchus.analysis.solvers;
-
 
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -49,7 +47,9 @@ import org.hipparchus.util.Precision;
  */
 public class BrentSolver extends AbstractUnivariateSolver {
 
-    /** Default absolute accuracy. */
+    /**
+     * Default absolute accuracy.
+     */
     private static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
 
     /**
@@ -58,6 +58,7 @@ public class BrentSolver extends AbstractUnivariateSolver {
     public BrentSolver() {
         this(DEFAULT_ABSOLUTE_ACCURACY);
     }
+
     /**
      * Construct a solver.
      *
@@ -66,16 +67,17 @@ public class BrentSolver extends AbstractUnivariateSolver {
     public BrentSolver(double absoluteAccuracy) {
         super(absoluteAccuracy);
     }
+
     /**
      * Construct a solver.
      *
      * @param relativeAccuracy Relative accuracy.
      * @param absoluteAccuracy Absolute accuracy.
      */
-    public BrentSolver(double relativeAccuracy,
-                       double absoluteAccuracy) {
+    public BrentSolver(double relativeAccuracy, double absoluteAccuracy) {
         super(relativeAccuracy, absoluteAccuracy);
     }
+
     /**
      * Construct a solver.
      *
@@ -85,9 +87,7 @@ public class BrentSolver extends AbstractUnivariateSolver {
      *
      * @see BaseAbstractUnivariateSolver#BaseAbstractUnivariateSolver(double,double,double)
      */
-    public BrentSolver(double relativeAccuracy,
-                       double absoluteAccuracy,
-                       double functionValueAccuracy) {
+    public BrentSolver(double relativeAccuracy, double absoluteAccuracy, double functionValueAccuracy) {
         super(relativeAccuracy, absoluteAccuracy, functionValueAccuracy);
     }
 
@@ -95,45 +95,8 @@ public class BrentSolver extends AbstractUnivariateSolver {
      * {@inheritDoc}
      */
     @Override
-    protected double doSolve()
-        throws MathIllegalArgumentException, MathIllegalStateException {
-        double min = getMin();
-        double max = getMax();
-        final double initial = getStartValue();
-        final double functionValueAccuracy = getFunctionValueAccuracy();
-
-        verifySequence(min, initial, max);
-
-        // Return the initial guess if it is good enough.
-        double yInitial = computeObjectiveValue(initial);
-        if (FastMath.abs(yInitial) <= functionValueAccuracy) {
-            return initial;
-        }
-
-        // Return the first endpoint if it is good enough.
-        double yMin = computeObjectiveValue(min);
-        if (FastMath.abs(yMin) <= functionValueAccuracy) {
-            return min;
-        }
-
-        // Reduce interval if min and initial bracket the root.
-        if (yInitial * yMin < 0) {
-            return brent(min, initial, yMin, yInitial);
-        }
-
-        // Return the second endpoint if it is good enough.
-        double yMax = computeObjectiveValue(max);
-        if (FastMath.abs(yMax) <= functionValueAccuracy) {
-            return max;
-        }
-
-        // Reduce interval if initial and max bracket the root.
-        if (yInitial * yMax < 0) {
-            return brent(initial, max, yInitial, yMax);
-        }
-
-        throw new MathIllegalArgumentException(LocalizedCoreFormats.NOT_BRACKETING_INTERVAL,
-                                               min, max, yMin, yMax);
+    protected double doSolve() throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -152,8 +115,7 @@ public class BrentSolver extends AbstractUnivariateSolver {
      * @param fHi Function value at the higher bound of the search interval.
      * @return the value where the function is zero.
      */
-    private double brent(double lo, double hi,
-                         double fLo, double fHi) {
+    private double brent(double lo, double hi, double fLo, double fHi) {
         double a = lo;
         double fa = fLo;
         double b = hi;
@@ -162,10 +124,8 @@ public class BrentSolver extends AbstractUnivariateSolver {
         double fc = fa;
         double d = b - a;
         double e = d;
-
         final double t = getAbsoluteAccuracy();
         final double eps = getRelativeAccuracy();
-
         while (true) {
             if (FastMath.abs(fc) < FastMath.abs(fb)) {
                 a = b;
@@ -175,16 +135,12 @@ public class BrentSolver extends AbstractUnivariateSolver {
                 fb = fc;
                 fc = fa;
             }
-
             final double tol = 2 * eps * FastMath.abs(b) + t;
             final double m = 0.5 * (c - b);
-
-            if (FastMath.abs(m) <= tol ||
-                Precision.equals(fb, 0))  {
+            if (FastMath.abs(m) <= tol || Precision.equals(fb, 0)) {
                 return b;
             }
-            if (FastMath.abs(e) < tol ||
-                FastMath.abs(fa) <= FastMath.abs(fb)) {
+            if (FastMath.abs(e) < tol || FastMath.abs(fa) <= FastMath.abs(fb)) {
                 // Force bisection.
                 d = m;
                 e = d;
@@ -213,8 +169,7 @@ public class BrentSolver extends AbstractUnivariateSolver {
                 }
                 s = e;
                 e = d;
-                if (p >= 1.5 * m * q - FastMath.abs(tol * q) ||
-                    p >= FastMath.abs(0.5 * s * q)) {
+                if (p >= 1.5 * m * q - FastMath.abs(tol * q) || p >= FastMath.abs(0.5 * s * q)) {
                     // Inverse quadratic interpolation gives a value
                     // in the wrong direction, or progress is slow.
                     // Fall back to bisection.
@@ -226,7 +181,6 @@ public class BrentSolver extends AbstractUnivariateSolver {
             }
             a = b;
             fa = fb;
-
             if (FastMath.abs(d) > tol) {
                 b += d;
             } else if (m > 0) {
@@ -235,8 +189,7 @@ public class BrentSolver extends AbstractUnivariateSolver {
                 b -= tol;
             }
             fb = computeObjectiveValue(b);
-            if ((fb > 0 && fc > 0) ||
-                (fb <= 0 && fc <= 0)) {
+            if ((fb > 0 && fc > 0) || (fb <= 0 && fc <= 0)) {
                 c = a;
                 fc = fa;
                 d = b - a;

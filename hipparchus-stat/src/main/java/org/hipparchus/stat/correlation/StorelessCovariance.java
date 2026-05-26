@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -45,10 +44,14 @@ import org.hipparchus.util.MathUtils;
  */
 public class StorelessCovariance extends Covariance {
 
-    /** the square covariance matrix (upper triangular part) */
+    /**
+     * the square covariance matrix (upper triangular part)
+     */
     private final StorelessBivariateCovariance[] covMatrix;
 
-    /** dimension of the square covariance matrix */
+    /**
+     * dimension of the square covariance matrix
+     */
     private final int dimension;
 
     /**
@@ -82,8 +85,8 @@ public class StorelessCovariance extends Covariance {
      * @param biasCorrected if the covariance estimate shall be corrected for bias
      */
     private void initializeMatrix(final boolean biasCorrected) {
-        for(int i = 0; i < dimension; i++){
-            for(int j = 0; j < dimension; j++){
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
                 setElement(i, j, new StorelessBivariateCovariance(biasCorrected));
             }
         }
@@ -118,8 +121,7 @@ public class StorelessCovariance extends Covariance {
      * @param j the column index
      * @param cov the {@link StorelessBivariateCovariance} element to be set
      */
-    private void setElement(final int i, final int j,
-                            final StorelessBivariateCovariance cov) {
+    private void setElement(final int i, final int j, final StorelessBivariateCovariance cov) {
         covMatrix[indexOf(i, j)] = cov;
     }
 
@@ -132,10 +134,8 @@ public class StorelessCovariance extends Covariance {
      * @throws MathIllegalArgumentException if the number of observations
      * in the cell is &lt; 2
      */
-    public double getCovariance(final int xIndex, final int yIndex)
-        throws MathIllegalArgumentException {
-
-        return getElement(xIndex, yIndex).getResult();
+    public double getCovariance(final int xIndex, final int yIndex) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -145,20 +145,8 @@ public class StorelessCovariance extends Covariance {
      * @throws MathIllegalArgumentException if the length of <code>rowData</code>
      * does not match with the covariance matrix
      */
-    public void increment(final double[] data)
-        throws MathIllegalArgumentException {
-
-        int length = data.length;
-        MathUtils.checkDimension(length, dimension);
-
-        // only update the upper triangular part of the covariance matrix
-        // as only these parts are actually stored
-        for (int i = 0; i < length; i++){
-            for (int j = i; j < length; j++){
-                getElement(i, j).increment(data[i], data[j]);
-            }
-        }
-
+    public void increment(final double[] data) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -171,15 +159,7 @@ public class StorelessCovariance extends Covariance {
      * @throws MathIllegalArgumentException if the dimension of sc does not match this
      */
     public void append(StorelessCovariance sc) throws MathIllegalArgumentException {
-        MathUtils.checkDimension(sc.dimension, dimension);
-
-        // only update the upper triangular part of the covariance matrix
-        // as only these parts are actually stored
-        for (int i = 0; i < dimension; i++) {
-            for (int j = i; j < dimension; j++) {
-                getElement(i, j).append(sc.getElement(i, j));
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -189,7 +169,7 @@ public class StorelessCovariance extends Covariance {
      */
     @Override
     public RealMatrix getCovarianceMatrix() throws MathIllegalArgumentException {
-        return MatrixUtils.createRealMatrix(getData());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -200,13 +180,7 @@ public class StorelessCovariance extends Covariance {
      * for a cell is &lt; 2
      */
     public double[][] getData() throws MathIllegalArgumentException {
-        final double[][] data = new double[dimension][dimension];
-        for (int i = 0; i < dimension; i++) {
-            for (int j = 0; j < dimension; j++) {
-                data[i][j] = getElement(i, j).getResult();
-            }
-        }
-        return data;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -220,6 +194,6 @@ public class StorelessCovariance extends Covariance {
      */
     @Override
     public int getN() throws MathRuntimeException {
-        throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

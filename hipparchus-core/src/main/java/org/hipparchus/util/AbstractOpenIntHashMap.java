@@ -20,52 +20,76 @@ import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
 
-/** Base class for open addressed map from int.
+/**
+ * Base class for open addressed map from int.
  * @since 3.1
  */
 public abstract class AbstractOpenIntHashMap {
 
-    /** Default starting size.
+    /**
+     * Default starting size.
      * <p>This must be a power of two for bit mask to work properly. </p>
      */
     protected static final int DEFAULT_EXPECTED_SIZE = 16;
 
-    /** Multiplier for size growth when map fills up.
+    /**
+     * Multiplier for size growth when map fills up.
      * <p>This must be a power of two for bit mask to work properly. </p>
      */
     protected static final int RESIZE_MULTIPLIER = 2;
 
-    /** Status indicator for free table entries. */
-    private static final byte FREE    = 0;
+    /**
+     * Status indicator for free table entries.
+     */
+    private static final byte FREE = 0;
 
-    /** Status indicator for full table entries. */
-    private static final byte FULL    = 1;
+    /**
+     * Status indicator for full table entries.
+     */
+    private static final byte FULL = 1;
 
-    /** Status indicator for removed table entries. */
+    /**
+     * Status indicator for removed table entries.
+     */
     private static final byte REMOVED = 2;
 
-    /** Load factor for the map. */
+    /**
+     * Load factor for the map.
+     */
     private static final float LOAD_FACTOR = 0.5f;
 
-    /** Number of bits to perturb the index when probing for collision resolution. */
+    /**
+     * Number of bits to perturb the index when probing for collision resolution.
+     */
     private static final int PERTURB_SHIFT = 5;
 
-    /** Keys table. */
+    /**
+     * Keys table.
+     */
     private int[] keys;
 
-    /** States table. */
+    /**
+     * States table.
+     */
     private byte[] states;
 
-    /** Current size of the map. */
+    /**
+     * Current size of the map.
+     */
     private int size;
 
-    /** Bit mask for hash values. */
+    /**
+     * Bit mask for hash values.
+     */
     private int mask;
 
-    /** Modifications count. */
+    /**
+     * Modifications count.
+     */
     private transient int count;
 
-    /** Build an empty map with default size.
+    /**
+     * Build an empty map with default size.
      */
     protected AbstractOpenIntHashMap() {
         this(DEFAULT_EXPECTED_SIZE);
@@ -77,9 +101,9 @@ public abstract class AbstractOpenIntHashMap {
      */
     protected AbstractOpenIntHashMap(final int expectedSize) {
         final int capacity = computeCapacity(expectedSize);
-        keys   = new int[capacity];
+        keys = new int[capacity];
         states = new byte[capacity];
-        mask   = capacity - 1;
+        mask = capacity - 1;
         resetCount();
     }
 
@@ -93,24 +117,26 @@ public abstract class AbstractOpenIntHashMap {
         System.arraycopy(source.keys, 0, keys, 0, length);
         states = new byte[length];
         System.arraycopy(source.states, 0, states, 0, length);
-        size  = source.size;
-        mask  = source.mask;
+        size = source.size;
+        mask = source.mask;
         count = source.count;
     }
 
-    /** Get capacity.
+    /**
+     * Get capacity.
      * @return capacity
      * @since 3.1
      */
     protected int getCapacity() {
-        return keys.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the number of elements stored in the map.
+    /**
+     * Get the number of elements stored in the map.
      * @return number of elements stored in the map
      */
     public int getSize() {
-        return size;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -122,7 +148,7 @@ public abstract class AbstractOpenIntHashMap {
         if (expectedSize == 0) {
             return 1;
         }
-        final int capacity   = (int) FastMath.ceil(expectedSize / LOAD_FACTOR);
+        final int capacity = (int) FastMath.ceil(expectedSize / LOAD_FACTOR);
         final int powerOfTwo = Integer.highestOneBit(capacity);
         if (powerOfTwo == capacity) {
             return capacity;
@@ -130,11 +156,12 @@ public abstract class AbstractOpenIntHashMap {
         return nextPowerOfTwo(capacity);
     }
 
-    /** Reset count.
+    /**
+     * Reset count.
      * @since 3.1
      */
     protected final void resetCount() {
-        count = 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -152,28 +179,7 @@ public abstract class AbstractOpenIntHashMap {
      * @return true if a value is associated with key
      */
     public boolean containsKey(final int key) {
-
-        final int hash  = hashOf(key);
-        int index = hash & mask;
-        if (containsKey(key, index)) {
-            return true;
-        }
-
-        if (states[index] == FREE) {
-            return false;
-        }
-
-        int j = index;
-        for (int perturb = perturb(hash); states[index] != FREE; perturb >>= PERTURB_SHIFT) {
-            j = probe(perturb, j);
-            index = j & mask;
-            if (containsKey(key, index)) {
-                return true;
-            }
-        }
-
-        return false;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -193,8 +199,7 @@ public abstract class AbstractOpenIntHashMap {
      * @param mask bit mask for hash values
      * @return index at which key should be inserted
      */
-    private static int findInsertionIndex(final int[] keys, final byte[] states,
-                                          final int key, final int mask) {
+    private static int findInsertionIndex(final int[] keys, final byte[] states, final int key, final int mask) {
         final int hash = hashOf(key);
         int index = hash & mask;
         if (states[index] == FREE) {
@@ -202,7 +207,6 @@ public abstract class AbstractOpenIntHashMap {
         } else if (states[index] == FULL && keys[index] == key) {
             return changeIndexSign(index);
         }
-
         int perturb = perturb(hash);
         int j = index;
         if (states[index] == FULL) {
@@ -210,13 +214,11 @@ public abstract class AbstractOpenIntHashMap {
                 j = probe(perturb, j);
                 index = j & mask;
                 perturb >>= PERTURB_SHIFT;
-
                 if (states[index] != FULL || keys[index] == key) {
                     break;
                 }
             }
         }
-
         if (states[index] == FREE) {
             return index;
         } else if (states[index] == FULL) {
@@ -224,22 +226,17 @@ public abstract class AbstractOpenIntHashMap {
             // if (states[index] == FULL) then keys[index] == key
             return changeIndexSign(index);
         }
-
         final int firstRemoved = index;
         while (true) {
             j = probe(perturb, j);
             index = j & mask;
-
             if (states[index] == FREE) {
                 return firstRemoved;
             } else if (states[index] == FULL && keys[index] == key) {
                 return changeIndexSign(index);
             }
-
             perturb >>= PERTURB_SHIFT;
-
         }
-
     }
 
     /**
@@ -266,7 +263,7 @@ public abstract class AbstractOpenIntHashMap {
      * @return number of elements stored in the map
      */
     public int size() {
-        return size;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -277,117 +274,51 @@ public abstract class AbstractOpenIntHashMap {
      * @return true if an element is associated with key at index
      */
     public boolean containsKey(final int key, final int index) {
-        return (key != 0 || states[index] == FULL) && keys[index] == key;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Locate the index of value associated with the given key
+    /**
+     * Locate the index of value associated with the given key
      * @param key key associated with the data
      * @return index of value associated with the given key or negative
      * if key not present
      */
     protected int locate(final int key) {
-
-        final int hash  = hashOf(key);
-        int index = hash & mask;
-        if (containsKey(key, index)) {
-            return index;
-        }
-
-        if (states[index] == FREE) {
-            return -1;
-        }
-
-        int j = index;
-        for (int perturb = perturb(hash); states[index] != FREE; perturb >>= PERTURB_SHIFT) {
-            j = probe(perturb, j);
-            index = j & mask;
-            if (containsKey(key, index)) {
-                return index;
-            }
-        }
-
-        return -1;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Remove an element at specified index.
+    /**
+     * Remove an element at specified index.
      * @param index index of the element to remove
      */
     protected void doRemove(int index) {
-        keys[index]   = 0;
-        states[index] = REMOVED;
-        --size;
-        ++count;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Put a value associated with a key in the map.
+    /**
+     * Put a value associated with a key in the map.
      * @param key key to which value is associated
      * @return holder to manage insertion
      */
     protected InsertionHolder put(final int key) {
-        int     oldIndex   = findInsertionIndex(keys, states, key, mask);
-        int     newIndex   = oldIndex;
-        boolean existing   = false;
-        boolean newMapping = true;
-        if (oldIndex < 0) {
-            oldIndex   = changeIndexSign(oldIndex);
-            existing   = true;
-            newMapping = false;
-        }
-        keys[oldIndex] = key;
-        states[oldIndex] = FULL;
-        if (newMapping) {
-            ++size;
-            if (shouldGrowTable()) {
-                newIndex = growTable(oldIndex);
-            }
-            ++count;
-        }
-        return new InsertionHolder(existing ? oldIndex : newIndex, existing);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Grow the tables.
+    /**
+     * Grow the tables.
      * @param oldIndex index the entry being inserted should have used
      * @return index the entry being inserted should really use
      */
     protected abstract int growTable(int oldIndex);
 
-    /** Grow the tables.
+    /**
+     * Grow the tables.
      * @param oldIndex index the entry being inserted should have used
      * @param valueCopier copier for existing values
      * @return index the entry being inserted should really use
      */
     protected int doGrowTable(final int oldIndex, final ValueCopier valueCopier) {
-
-        int newIndex = oldIndex;
-        final int    oldLength = states.length;
-        final int[]  oldKeys   = keys;
-        final byte[] oldStates = states;
-
-        final int    newLength = RESIZE_MULTIPLIER * oldLength;
-        final int[]  newKeys   = new int[newLength];
-        final byte[] newStates = new byte[newLength];
-        final int newMask = newLength - 1;
-        for (int srcIndex = 0; srcIndex < oldLength; ++srcIndex) {
-            if (oldStates[srcIndex] == FULL) {
-                final int key   = oldKeys[srcIndex];
-                final int dstIndex = findInsertionIndex(newKeys, newStates, key, newMask);
-                newKeys[dstIndex]  = key;
-                valueCopier.copyValue(srcIndex, dstIndex);
-                if (srcIndex == oldIndex) {
-                    newIndex = dstIndex;
-                }
-                newStates[dstIndex] = FULL;
-            }
-        }
-
-        mask   = newMask;
-        keys   = newKeys;
-        states = newStates;
-
-        return newIndex;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -408,57 +339,66 @@ public abstract class AbstractOpenIntHashMap {
         return h ^ (h >>> 7) ^ (h >>> 4);
     }
 
-    /** Check if keys are equals.
+    /**
+     * Check if keys are equals.
      * @param other other map
      * @return true if keys are equals
      */
     protected boolean equalKeys(final AbstractOpenIntHashMap other) {
-        return Arrays.equals(keys, other.keys);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check if states are equals.
+    /**
+     * Check if states are equals.
      * @param other other map
      * @return true if states are equals
      */
     protected boolean equalStates(final AbstractOpenIntHashMap other) {
-        return Arrays.equals(states, other.states);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute partial hashcode on keys and states.
+    /**
+     * Compute partial hashcode on keys and states.
      * @return partial hashcode on keys and states
      */
     protected int keysStatesHashCode() {
-        return  53 * Arrays.hashCode(keys) + 31 * Arrays.hashCode(states);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Iterator class for the map. */
+    /**
+     * Iterator class for the map.
+     */
     protected class BaseIterator {
 
-        /** Reference modification count. */
+        /**
+         * Reference modification count.
+         */
         private final int referenceCount;
 
-        /** Index of current element. */
+        /**
+         * Index of current element.
+         */
         private int current;
 
-        /** Index of next element. */
+        /**
+         * Index of next element.
+         */
         private int next;
 
         /**
          * Simple constructor.
          */
         protected BaseIterator() {
-
             // preserve the modification count of the map to detect concurrent modifications later
             referenceCount = count;
-
             // initialize current index
             next = -1;
             try {
                 advance();
-            } catch (NoSuchElementException nsee) { // NOPMD
+            } catch (NoSuchElementException nsee) {
+                // NOPMD
                 // ignored
             }
-
         }
 
         /**
@@ -466,15 +406,16 @@ public abstract class AbstractOpenIntHashMap {
          * @return true if there is a next element
          */
         public boolean hasNext() {
-            return next >= 0;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Get index of current entry.
+        /**
+         * Get index of current entry.
          * @return key of current entry
          * @since 3.1
          */
         protected int getCurrent() {
-            return current;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -484,7 +425,7 @@ public abstract class AbstractOpenIntHashMap {
          * @exception NoSuchElementException if there is no element left in the map
          */
         public int key() throws ConcurrentModificationException, NoSuchElementException {
-            return keys[getCurrent()];
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -492,77 +433,66 @@ public abstract class AbstractOpenIntHashMap {
          * @exception ConcurrentModificationException if the map is modified during iteration
          * @exception NoSuchElementException if there is no element left in the map
          */
-        public void advance()
-            throws ConcurrentModificationException, NoSuchElementException {
-
-            if (referenceCount != count) {
-                throw new ConcurrentModificationException();
-            }
-
-            // advance on step
-            current = next;
-
-            // prepare next step
-            try {
-                while (states[++next] != FULL) { // NOPMD
-                    // nothing to do
-                }
-            } catch (ArrayIndexOutOfBoundsException e) {
-                next = -2;
-                if (current < 0) {
-                    throw new NoSuchElementException(); // NOPMD
-                }
-            }
-
+        public void advance() throws ConcurrentModificationException, NoSuchElementException {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
 
-    /** Holder for handling values insertion.
+    /**
+     * Holder for handling values insertion.
      * @since 3.1
      */
     protected static class InsertionHolder {
 
-        /** Index at which new value should be put. */
+        /**
+         * Index at which new value should be put.
+         */
         private final int index;
 
-        /** Indicator for value already present before insertion. */
+        /**
+         * Indicator for value already present before insertion.
+         */
         private final boolean existing;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          * @param index index at which new value should be put
          * @param existing indicator for value already present before insertion
          */
         InsertionHolder(final int index, final boolean existing) {
-            this.index    = index;
+            this.index = index;
             this.existing = existing;
         }
 
-        /** Get index at which new value should be put.
+        /**
+         * Get index at which new value should be put.
          * @return index at which new value should be put
          */
         public int getIndex() {
-            return index;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Get indicator for value already present before insertion.
+        /**
+         * Get indicator for value already present before insertion.
          * @return indicator for value already present before insertion
          */
         public boolean isExisting() {
-            return existing;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
-    /** Interface for copying values.
+    /**
+     * Interface for copying values.
      * @since 3.1
      */
     @FunctionalInterface
     protected interface ValueCopier {
-        /** Copy a value.
+
+        /**
+         * Copy a value.
          * @param src source index
          * @param dest destination index
          */
         void copyValue(int src, int dest);
     }
-
 }

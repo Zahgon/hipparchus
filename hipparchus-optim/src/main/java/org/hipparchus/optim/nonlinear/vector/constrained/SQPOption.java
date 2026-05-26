@@ -18,230 +18,295 @@ package org.hipparchus.optim.nonlinear.vector.constrained;
 
 import org.hipparchus.optim.OptimizationData;
 
-/** Parameter for SQP Algorithm.
+/**
+ * Parameter for SQP Algorithm.
  * @since 3.1
  */
 public class SQPOption implements OptimizationData {
 
-    /** Default convergence criteria. */
+    /**
+     * Default convergence criteria.
+     */
     public static final int DEFAULT_CONV_CRITERIA = 1;
 
-    /** Default tolerance for convergence and active constraint. */
-    public static final double DEFAULT_EPSILON = 1.0e-7;//>0
+    /**
+     * Default tolerance for convergence and active constraint.
+     */
+    //>0
+    public static final double DEFAULT_EPSILON = 1.0e-7;
 
-    /** Default weight for augmented QP subproblem. */
-    public static final double DEFAULT_RHO = 100.0;//rho>1
+    /**
+     * Default weight for augmented QP subproblem.
+     */
+    //rho>1
+    public static final double DEFAULT_RHO = 100.0;
 
-    /** Default max value admitted for additional variable in QP subproblem. */
-    public static final  double DEFAULT_SIGMA_MAX = 0.90;//0<sigma<1
+    /**
+     * Default max value admitted for additional variable in QP subproblem.
+     */
+    //0<sigma<1
+    public static final double DEFAULT_SIGMA_MAX = 0.90;
 
-    /** Default max iteration admitted for QP subproblem. */
-    public static final  int DEFAULT_QP_MAX_LOOP = 4;
+    /**
+     * Default max iteration admitted for QP subproblem.
+     */
+    public static final int DEFAULT_QP_MAX_LOOP = 4;
 
-    /** Default parameter for evaluation of Armijo condition for descend direction. */
-    public static final  double DEFAULT_MU = 1.0e-4;//[0,0.5]
+    /**
+     * Default parameter for evaluation of Armijo condition for descend direction.
+     */
+    //[0,0.5]
+    public static final double DEFAULT_MU = 1.0e-4;
 
-    /** Default parameter for quadratic line search. */
-    public static final  double DEFAULT_B = 0.5;//[0;1]
+    /**
+     * Default parameter for quadratic line search.
+     */
+    //[0;1]
+    public static final double DEFAULT_B = 0.5;
 
-    /** Default flag for using BFGS update formula. */
-    public static final  boolean DEFAULT_USE_FUNCTION_HESSIAN = false;
+    /**
+     * Default flag for using BFGS update formula.
+     */
+    public static final boolean DEFAULT_USE_FUNCTION_HESSIAN = false;
 
-    /** Default max iteration before reset hessian. */
-    public static final  int DEFAULT_MAX_LINE_SEARCH_ITERATION = 50;
+    /**
+     * Default max iteration before reset hessian.
+     */
+    public static final int DEFAULT_MAX_LINE_SEARCH_ITERATION = 50;
 
-    /** Default Gradient mode. */
+    /**
+     * Default Gradient mode.
+     */
     public static final GradientMode DEFAULT_GRADIENT_MODE = GradientMode.FORWARD;
 
-    /** Convergence criteria*/
+    /**
+     * Convergence criteria
+     */
     private int convCriteria;
 
-    /** Tolerance for convergence and active constraint evaluation. */
+    /**
+     * Tolerance for convergence and active constraint evaluation.
+     */
     private double eps;
 
-    /** Weight for augmented QP subproblem. */
+    /**
+     * Weight for augmented QP subproblem.
+     */
     private double rhoCons;
 
-     /** Max value admitted for the solution of the additional variable in QP subproblem. */
+    /**
+     * Max value admitted for the solution of the additional variable in QP subproblem.
+     */
     private double sigmaMax;
 
-    /** Max iteration admitted for QP subproblem evaluation.
+    /**
+     * Max iteration admitted for QP subproblem evaluation.
      * (over this threshold the descend direction will be approximated using the merit function).
      */
     private int qpMaxLoop;
 
-    /** Parameter for evaluation of Armijo condition for descend direction.
-     * (fhi(alfa)-fhi(0)<=mu * alfa * fhi'(0)) */
+    /**
+     * Parameter for evaluation of Armijo condition for descend direction.
+     * (fhi(alfa)-fhi(0)<=mu * alfa * fhi'(0))
+     */
     private double mu;
 
-    /** Parameter for quadratic line search. */
+    /**
+     * Parameter for quadratic line search.
+     */
     private double b;
 
-    /** Max Iteration for the line search. */
+    /**
+     * Max Iteration for the line search.
+     */
     private int maxLineSearchIteration;
 
-    /** Enable or Disable using direct the function Hessian. */
+    /**
+     * Enable or Disable using direct the function Hessian.
+     */
     private boolean useFunHessian;
 
-    /** Gradient Mode. */
+    /**
+     * Gradient Mode.
+     */
     private GradientMode gradientMode;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * <p>
      * This constructor uses all defaults values.
      * </p>
      */
     public SQPOption() {
-        this.convCriteria           = DEFAULT_CONV_CRITERIA;
-        this.eps                    = DEFAULT_EPSILON;
-        this.rhoCons                = DEFAULT_RHO;
-        this.sigmaMax               = DEFAULT_SIGMA_MAX;
-        this.qpMaxLoop              = DEFAULT_QP_MAX_LOOP;
-        this.mu                     = DEFAULT_MU;
-        this.b                      = DEFAULT_B;
+        this.convCriteria = DEFAULT_CONV_CRITERIA;
+        this.eps = DEFAULT_EPSILON;
+        this.rhoCons = DEFAULT_RHO;
+        this.sigmaMax = DEFAULT_SIGMA_MAX;
+        this.qpMaxLoop = DEFAULT_QP_MAX_LOOP;
+        this.mu = DEFAULT_MU;
+        this.b = DEFAULT_B;
         this.maxLineSearchIteration = DEFAULT_MAX_LINE_SEARCH_ITERATION;
-        this.useFunHessian          = DEFAULT_USE_FUNCTION_HESSIAN;
-        this.gradientMode           = DEFAULT_GRADIENT_MODE;
+        this.useFunHessian = DEFAULT_USE_FUNCTION_HESSIAN;
+        this.gradientMode = DEFAULT_GRADIENT_MODE;
     }
 
-     /** Set Gradient mode
+    /**
+     * Set Gradient mode
      * @param gradientMode gradient mode
      */
     public void setGradientMode(final GradientMode gradientMode) {
-        this.gradientMode = gradientMode;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get Gradient Mode.
+    /**
+     * Get Gradient Mode.
      * @return Gradient Mode
      */
     public GradientMode getGradientMode() {
-        return gradientMode;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set convergence criteria.
+    /**
+     * Set convergence criteria.
      * @param convCriteria convergence criteria
      */
     public void setConvCriteria(final int convCriteria) {
-        this.convCriteria = convCriteria;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get convergence criteria.
+    /**
+     * Get convergence criteria.
      * @return convergence criteria
      */
     public int getConvCriteria() {
-        return convCriteria;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set tolerance for convergence and active constraint evaluation.
+    /**
+     * Set tolerance for convergence and active constraint evaluation.
      * @param eps tolerance for convergence and active constraint evaluation
      */
     public void setEps(final double eps) {
-        this.eps = eps;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get tolerance for convergence and active constraint evaluation.
+    /**
+     * Get tolerance for convergence and active constraint evaluation.
      * @return tolerance for convergence and active constraint evaluation
      */
     public double getEps() {
-        return eps;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set weight for augmented QP subproblem.
+    /**
+     * Set weight for augmented QP subproblem.
      * @param rhoCons weight for augmented QP subproblem
      */
     public void setRhoCons(final double rhoCons) {
-        this.rhoCons = rhoCons;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get weight for augmented QP subproblem.
+    /**
+     * Get weight for augmented QP subproblem.
      * @return weight for augmented QP subproblem
      */
     public double getRhoCons() {
-        return rhoCons;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set max value admitted for the solution of the additional variable in QP subproblem.
+    /**
+     * Set max value admitted for the solution of the additional variable in QP subproblem.
      * @param sigmaMax max value admitted for the solution of the additional variable in QP subproblem
      */
     public void setSigmaMax(final double sigmaMax) {
-        this.sigmaMax = sigmaMax;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get max value admitted for the solution of the additional variable in QP subproblem.
+    /**
+     * Get max value admitted for the solution of the additional variable in QP subproblem.
      * @return max value admitted for the solution of the additional variable in QP subproblem
      */
     public double getSigmaMax() {
-        return sigmaMax;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set max iteration admitted for QP subproblem evaluation.
+    /**
+     * Set max iteration admitted for QP subproblem evaluation.
      * @param qpMaxLoop max iteration admitted for QP subproblem evaluation
      */
     public void setQpMaxLoop(final int qpMaxLoop) {
-        this.qpMaxLoop = qpMaxLoop;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get max iteration admitted for QP subproblem evaluation.
+    /**
+     * Get max iteration admitted for QP subproblem evaluation.
      * @return max iteration admitted for QP subproblem evaluation
      */
     public int getQpMaxLoop() {
-        return qpMaxLoop;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set parameter for evaluation of Armijo condition for descend direction.
+    /**
+     * Set parameter for evaluation of Armijo condition for descend direction.
      * @param mu parameter for evaluation of Armijo condition for descend direction
      */
     public void setMu(final double mu) {
-        this.mu  = mu;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get parameter for evaluation of Armijo condition for descend direction.
+    /**
+     * Get parameter for evaluation of Armijo condition for descend direction.
      * @return parameter for evaluation of Armijo condition for descend direction
      */
     public double getMu() {
-        return mu;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set parameter for quadratic line search.
+    /**
+     * Set parameter for quadratic line search.
      * @param b parameter for quadratic line search
      */
     public void setB(final double b) {
-        this.b = b;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get parameter for quadratic line search.
+    /**
+     * Get parameter for quadratic line search.
      * @return parameter for quadratic line search
      */
     public double getB() {
-        return b;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set max Iteration for the line search
+    /**
+     * Set max Iteration for the line search
      * @param maxLineSearchIteration max Iteration for the line search
      */
     public void setMaxLineSearchIteration(final int maxLineSearchIteration) {
-        this.maxLineSearchIteration = maxLineSearchIteration;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get max Iteration for the line search
+    /**
+     * Get max Iteration for the line search
      * @return max Iteration for the line search
      */
     public int getMaxLineSearchIteration() {
-        return maxLineSearchIteration;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Enable or Disable using direct the function Hessian.
+    /**
+     * Enable or Disable using direct the function Hessian.
      * @param useFunHessian enable or Disable using direct the function Hessian
      */
     public void setUseFunHessian(final boolean useFunHessian) {
-        this.useFunHessian = useFunHessian;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check if using direct the function Hessian is enabled or disabled.
+    /**
+     * Check if using direct the function Hessian is enabled or disabled.
      * @return true if using direct the function Hessian is enabled
      */
     public boolean useFunHessian() {
-        return useFunHessian;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

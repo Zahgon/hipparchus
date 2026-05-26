@@ -21,10 +21,11 @@ import org.hipparchus.util.FastMath;
 /**
  * Procedure to generate variates for Nakagami distribution.
  */
-public class NakagamiGenerator extends AbstractNonUniformGenerator
-{
+public class NakagamiGenerator extends AbstractNonUniformGenerator {
 
-    /** Associated gamma distribution generator. */
+    /**
+     * Associated gamma distribution generator.
+     */
     private final GammaGenerator gamma;
 
     /**
@@ -33,17 +34,17 @@ public class NakagamiGenerator extends AbstractNonUniformGenerator
      * @param m shape parameter
      * @param omega scale parameter
      */
-    public NakagamiGenerator(final RandomGenerator random, final double m, final double omega)
-    {
-        super(random); // really unused
+    public NakagamiGenerator(final RandomGenerator random, final double m, final double omega) {
+        // really unused
+        super(random);
         this.gamma = new GammaGenerator(random, m, omega / m);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double nextVariate()
-    {
-        return FastMath.sqrt(gamma.nextVariate());
+    public double nextVariate() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

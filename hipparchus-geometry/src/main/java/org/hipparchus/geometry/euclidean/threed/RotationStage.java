@@ -14,101 +14,125 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.geometry.euclidean.threed;
 
 import org.hipparchus.CalculusFieldElement;
 
-/** Enumerate for one stage of {@link RotationOrder}.
+/**
+ * Enumerate for one stage of {@link RotationOrder}.
  * @since 3.1
  */
 enum RotationStage {
 
-    /** Rotation around X axis. */
+    /**
+     * Rotation around X axis.
+     */
     X {
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Vector3D getAxis() {
-            return Vector3D.PLUS_I;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public double getComponent(final Vector3D v) {
-            return v.getX();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public <T extends CalculusFieldElement<T>> T getComponent(final FieldVector3D<T> v) {
-            return v.getX();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
-    },
-
-    /** Rotation around Y axis. */
+    }
+    ,
+    /**
+     * Rotation around Y axis.
+     */
     Y {
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Vector3D getAxis() {
-            return Vector3D.PLUS_J;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public double getComponent(final Vector3D v) {
-            return v.getY();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public <T extends CalculusFieldElement<T>> T getComponent(final FieldVector3D<T> v) {
-            return v.getY();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
-    },
-
-    /** Rotation around Z axis. */
+    }
+    ,
+    /**
+     * Rotation around Z axis.
+     */
     Z {
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Vector3D getAxis() {
-            return Vector3D.PLUS_K;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public double getComponent(final Vector3D v) {
-            return v.getZ();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public <T extends CalculusFieldElement<T>> T getComponent(final FieldVector3D<T> v) {
-            return v.getZ();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
+    }
+    ;
 
-    };
-
-    /** Get the rotation axis.
+    /**
+     * Get the rotation axis.
      * @return rotation axis
      */
     public abstract Vector3D getAxis();
 
-    /** Get vector component along axis.
+    /**
+     * Get vector component along axis.
      * @param v vector from which component should be retrieved
      * @return vector component along axis
      */
     public abstract double getComponent(Vector3D v);
 
-    /** Get vector component along axis.
+    /**
+     * Get vector component along axis.
      * @param <T> type of the field elements
      * @param v vector from which component should be retrieved
      * @return vector component along axis
      */
     public abstract <T extends CalculusFieldElement<T>> T getComponent(FieldVector3D<T> v);
-
 }

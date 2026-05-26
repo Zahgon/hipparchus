@@ -14,17 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -80,37 +77,47 @@ import org.hipparchus.util.FastMath;
  * @see FieldODEStateInterpolator
  * @param <T> the type of the field elements
  */
+public class FieldDenseOutputModel<T extends CalculusFieldElement<T>> implements FieldODEStepHandler<T> {
 
-public class FieldDenseOutputModel<T extends CalculusFieldElement<T>>
-    implements FieldODEStepHandler<T> {
-
-    /** Initial integration time. */
+    /**
+     * Initial integration time.
+     */
     private T initialTime;
 
-    /** Final integration time. */
+    /**
+     * Final integration time.
+     */
     private T finalTime;
 
-    /** Integration direction indicator. */
+    /**
+     * Integration direction indicator.
+     */
     private boolean forward;
 
-    /** Current interpolator index. */
+    /**
+     * Current interpolator index.
+     */
     private int index;
 
-    /** Steps table. */
+    /**
+     * Steps table.
+     */
     private List<FieldODEStateInterpolator<T>> steps;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * Build an empty continuous output model.
      */
     public FieldDenseOutputModel() {
-        steps       = new ArrayList<>();
+        steps = new ArrayList<>();
         initialTime = null;
-        finalTime   = null;
-        forward     = true;
-        index       = 0;
+        finalTime = null;
+        forward = true;
+        index = 0;
     }
 
-    /** Append another model at the end of the instance.
+    /**
+     * Append another model at the end of the instance.
      * @param model model to add at the end of the instance
      * @exception MathIllegalArgumentException if the model to append is not
      * compatible with the instance (dimension of the state vector,
@@ -120,90 +127,44 @@ public class FieldDenseOutputModel<T extends CalculusFieldElement<T>>
      * @exception MathIllegalStateException if the number of functions evaluations is exceeded
      * during step finalization
      */
-    public void append(final FieldDenseOutputModel<T> model)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-
-        if (model.steps.isEmpty()) {
-            return;
-        }
-
-        if (steps.isEmpty()) {
-            initialTime = model.initialTime;
-            forward     = model.forward;
-        } else {
-
-            // safety checks
-            final FieldODEStateAndDerivative<T> s1 = steps.get(0).getPreviousState();
-            final FieldODEStateAndDerivative<T> s2 = model.steps.get(0).getPreviousState();
-            checkDimensionsEquality(s1.getPrimaryStateDimension(), s2.getPrimaryStateDimension());
-            checkDimensionsEquality(s1.getNumberOfSecondaryStates(), s2.getNumberOfSecondaryStates());
-            for (int i = 0; i < s1.getNumberOfSecondaryStates(); ++i) {
-                checkDimensionsEquality(s1.getSecondaryStateDimension(i), s2.getSecondaryStateDimension(i));
-            }
-
-            if (forward ^ model.forward) {
-                throw new MathIllegalArgumentException(LocalizedODEFormats.PROPAGATION_DIRECTION_MISMATCH);
-            }
-
-            final FieldODEStateInterpolator<T> lastInterpolator = steps.get(index);
-            final T current  = lastInterpolator.getCurrentState().getTime();
-            final T previous = lastInterpolator.getPreviousState().getTime();
-            final T step = current.subtract(previous);
-            final T gap = model.getInitialTime().subtract(current);
-            if (gap.abs().subtract(step.abs().multiply(1.0e-3)).getReal() > 0) {
-                throw new MathIllegalArgumentException(LocalizedODEFormats.HOLE_BETWEEN_MODELS_TIME_RANGES,
-                                                       gap.norm());
-            }
-
-        }
-
-        steps.addAll(model.steps);
-
-        index = steps.size() - 1;
-        finalTime = (steps.get(index)).getCurrentState().getTime();
-
+    public void append(final FieldDenseOutputModel<T> model) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check dimensions equality.
+    /**
+     * Check dimensions equality.
      * @param d1 first dimension
      * @param d2 second dimansion
      * @exception MathIllegalArgumentException if dimensions do not match
      */
-    private void checkDimensionsEquality(final int d1, final int d2)
-        throws MathIllegalArgumentException {
+    private void checkDimensionsEquality(final int d1, final int d2) throws MathIllegalArgumentException {
         if (d1 != d2) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   d2, d1);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH, d2, d1);
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void init(final FieldODEStateAndDerivative<T> initialState, final T t) {
-        initialTime = initialState.getTime();
-        finalTime   = t;
-        forward     = true;
-        index       = 0;
-        steps.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handleStep(final FieldODEStateInterpolator<T> interpolator) {
-
-        if (steps.isEmpty()) {
-            initialTime = interpolator.getPreviousState().getTime();
-            forward     = interpolator.isForward();
-        }
-
-        steps.add(interpolator);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void finish(FieldODEStateAndDerivative<T> finalState) {
-        finalTime = finalState.getTime();
-        index     = steps.size() - 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -211,7 +172,7 @@ public class FieldDenseOutputModel<T extends CalculusFieldElement<T>>
      * @return initial integration time
      */
     public T getInitialTime() {
-        return initialTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -219,7 +180,7 @@ public class FieldDenseOutputModel<T extends CalculusFieldElement<T>>
      * @return final integration time
      */
     public T getFinalTime() {
-        return finalTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -228,92 +189,11 @@ public class FieldDenseOutputModel<T extends CalculusFieldElement<T>>
      * @return state at interpolated time
      */
     public FieldODEStateAndDerivative<T> getInterpolatedState(final T time) {
-
-        // initialize the search with the complete steps table
-        int iMin = 0;
-        final FieldODEStateInterpolator<T> sMin = steps.get(iMin);
-        T tMin = sMin.getPreviousState().getTime().add(sMin.getCurrentState().getTime()).multiply(0.5);
-
-        int iMax = steps.size() - 1;
-        final FieldODEStateInterpolator<T> sMax = steps.get(iMax);
-        T tMax = sMax.getPreviousState().getTime().add(sMax.getCurrentState().getTime()).multiply(0.5);
-
-        // handle points outside of the integration interval
-        // or in the first and last step
-        if (locatePoint(time, sMin) <= 0) {
-            index = iMin;
-            return sMin.getInterpolatedState(time);
-        }
-        if (locatePoint(time, sMax) >= 0) {
-            index = iMax;
-            return sMax.getInterpolatedState(time);
-        }
-
-        // reduction of the table slice size
-        while (iMax - iMin > 5) {
-
-            // use the last estimated index as the splitting index
-            final FieldODEStateInterpolator<T> si = steps.get(index);
-            final int location = locatePoint(time, si);
-            if (location < 0) {
-                iMax = index;
-                tMax = si.getPreviousState().getTime().add(si.getCurrentState().getTime()).multiply(0.5);
-            } else if (location > 0) {
-                iMin = index;
-                tMin = si.getPreviousState().getTime().add(si.getCurrentState().getTime()).multiply(0.5);
-            } else {
-                // we have found the target step, no need to continue searching
-                return si.getInterpolatedState(time);
-            }
-
-            // compute a new estimate of the index in the reduced table slice
-            final int iMed = (iMin + iMax) / 2;
-            final FieldODEStateInterpolator<T> sMed = steps.get(iMed);
-            final T tMed = sMed.getPreviousState().getTime().add(sMed.getCurrentState().getTime()).multiply(0.5);
-
-            if (tMed.subtract(tMin).abs().subtract(1.0e-6).getReal() < 0 ||
-                tMax.subtract(tMed).abs().subtract(1.0e-6).getReal() < 0) {
-                // too close to the bounds, we estimate using a simple dichotomy
-                index = iMed;
-            } else {
-                // estimate the index using a reverse quadratic polynomial
-                // (reverse means we have i = P(t), thus allowing to simply
-                // compute index = P(time) rather than solving a quadratic equation)
-                final T d12 = tMax.subtract(tMed);
-                final T d23 = tMed.subtract(tMin);
-                final T d13 = tMax.subtract(tMin);
-                final T dt1 = time.subtract(tMax);
-                final T dt2 = time.subtract(tMed);
-                final T dt3 = time.subtract(tMin);
-                final T iLagrange =           dt2.multiply(dt3).multiply(d23).multiply(iMax).
-                                     subtract(dt1.multiply(dt3).multiply(d13).multiply(iMed)).
-                                     add(     dt1.multiply(dt2).multiply(d12).multiply(iMin)).
-                                     divide(d12.multiply(d23).multiply(d13));
-                index = (int) FastMath.rint(iLagrange.getReal());
-            }
-
-            // force the next size reduction to be at least one tenth
-            final int low  = FastMath.max(iMin + 1, (9 * iMin + iMax) / 10);
-            final int high = FastMath.min(iMax - 1, (iMin + 9 * iMax) / 10);
-            if (index < low) {
-                index = low;
-            } else if (index > high) {
-                index = high;
-            }
-
-        }
-
-        // now the table slice is very small, we perform an iterative search
-        index = iMin;
-        while (index <= iMax && locatePoint(time, steps.get(index)) > 0) {
-            ++index;
-        }
-
-        return steps.get(index).getInterpolatedState(time);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compare a step interval and a double.
+    /**
+     * Compare a step interval and a double.
      * @param time point to locate
      * @param interval step interval
      * @return -1 if the double is before the interval, 0 if it is in
@@ -338,5 +218,4 @@ public class FieldDenseOutputModel<T extends CalculusFieldElement<T>>
             return 0;
         }
     }
-
 }

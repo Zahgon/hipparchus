@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.nonstiff;
 
 import org.hipparchus.ode.EquationsMapper;
@@ -47,13 +46,15 @@ import org.hipparchus.ode.nonstiff.interpolators.EulerStateInterpolator;
  * @see ThreeEighthesIntegrator
  * @see LutherIntegrator
  */
-
 public class EulerIntegrator extends FixedStepRungeKuttaIntegrator {
 
-    /** Name of integration scheme. */
+    /**
+     * Name of integration scheme.
+     */
     public static final String METHOD_NAME = "Euler";
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * Build an Euler integrator with the given step.
      * @param step integration step
      */
@@ -61,32 +62,35 @@ public class EulerIntegrator extends FixedStepRungeKuttaIntegrator {
         super(METHOD_NAME, step);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[] getC() {
-        return new double[0];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[][] getA() {
-        return new double[0][];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[] getB() {
-        return new double[] { 1 };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected EulerStateInterpolator createInterpolator(final boolean forward, final double[][] yDotK,
-                                                        final ODEStateAndDerivative globalPreviousState,
-                                                        final ODEStateAndDerivative globalCurrentState,
-                                                        final EquationsMapper mapper) {
-        return new EulerStateInterpolator(forward, yDotK, globalPreviousState, globalCurrentState,
-                                         globalPreviousState, globalCurrentState, mapper);
+    protected EulerStateInterpolator createInterpolator(final boolean forward, final double[][] yDotK, final ODEStateAndDerivative globalPreviousState, final ODEStateAndDerivative globalCurrentState, final EquationsMapper mapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

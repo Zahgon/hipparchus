@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,7 +22,6 @@ package org.hipparchus.stat.descriptive;
 
 import java.io.Serializable;
 import java.util.Arrays;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.linear.RealMatrix;
@@ -58,33 +56,61 @@ import org.hipparchus.util.MathUtils;
  * <p>
  * Note: This class is not thread-safe.
  */
-public class MultivariateSummaryStatistics
-    implements StatisticalMultivariateSummary, Serializable {
+public class MultivariateSummaryStatistics implements StatisticalMultivariateSummary, Serializable {
 
-    /** Serialization UID */
+    /**
+     * Serialization UID
+     */
     private static final long serialVersionUID = 20160424L;
 
-    /** Dimension of the data. */
+    /**
+     * Dimension of the data.
+     */
     private final int k;
 
-    /** Sum statistic implementation */
+    /**
+     * Sum statistic implementation
+     */
     private final StorelessMultivariateStatistic sumImpl;
-    /** Sum of squares statistic implementation */
+
+    /**
+     * Sum of squares statistic implementation
+     */
     private final StorelessMultivariateStatistic sumSqImpl;
-    /** Minimum statistic implementation */
+
+    /**
+     * Minimum statistic implementation
+     */
     private final StorelessMultivariateStatistic minImpl;
-    /** Maximum statistic implementation */
+
+    /**
+     * Maximum statistic implementation
+     */
     private final StorelessMultivariateStatistic maxImpl;
-    /** Sum of log statistic implementation */
+
+    /**
+     * Sum of log statistic implementation
+     */
     private final StorelessMultivariateStatistic sumLogImpl;
-    /** Geometric mean statistic implementation */
+
+    /**
+     * Geometric mean statistic implementation
+     */
     private final StorelessMultivariateStatistic geoMeanImpl;
-    /** Mean statistic implementation */
+
+    /**
+     * Mean statistic implementation
+     */
     private final StorelessMultivariateStatistic meanImpl;
-    /** Covariance statistic implementation */
+
+    /**
+     * Covariance statistic implementation
+     */
     private final VectorialCovariance covarianceImpl;
 
-    /** Count of values that have been added */
+    /**
+     * Count of values that have been added
+     */
     private long n;
 
     /**
@@ -112,15 +138,13 @@ public class MultivariateSummaryStatistics
      */
     public MultivariateSummaryStatistics(int dimension, boolean covarianceBiasCorrection) {
         this.k = dimension;
-
-        sumImpl     = new VectorialStorelessStatistic(k, new Sum());
-        sumSqImpl   = new VectorialStorelessStatistic(k, new SumOfSquares());
-        minImpl     = new VectorialStorelessStatistic(k, new Min());
-        maxImpl     = new VectorialStorelessStatistic(k, new Max());
-        sumLogImpl  = new VectorialStorelessStatistic(k, new SumOfLogs());
+        sumImpl = new VectorialStorelessStatistic(k, new Sum());
+        sumSqImpl = new VectorialStorelessStatistic(k, new SumOfSquares());
+        minImpl = new VectorialStorelessStatistic(k, new Min());
+        maxImpl = new VectorialStorelessStatistic(k, new Max());
+        sumLogImpl = new VectorialStorelessStatistic(k, new SumOfLogs());
         geoMeanImpl = new VectorialStorelessStatistic(k, new GeometricMean());
-        meanImpl    = new VectorialStorelessStatistic(k, new Mean());
-
+        meanImpl = new VectorialStorelessStatistic(k, new Mean());
         covarianceImpl = new VectorialCovariance(k, covarianceBiasCorrection);
     }
 
@@ -132,92 +156,94 @@ public class MultivariateSummaryStatistics
      * of the array does not match the one used at construction
      */
     public void addValue(double[] value) throws MathIllegalArgumentException {
-        MathUtils.checkNotNull(value, LocalizedCoreFormats.INPUT_ARRAY);
-        MathUtils.checkDimension(value.length, k);
-        sumImpl.increment(value);
-        sumSqImpl.increment(value);
-        minImpl.increment(value);
-        maxImpl.increment(value);
-        sumLogImpl.increment(value);
-        geoMeanImpl.increment(value);
-        meanImpl.increment(value);
-        covarianceImpl.increment(value);
-        n++;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Resets all statistics and storage.
      */
     public void clear() {
-        this.n = 0;
-        minImpl.clear();
-        maxImpl.clear();
-        sumImpl.clear();
-        sumLogImpl.clear();
-        sumSqImpl.clear();
-        geoMeanImpl.clear();
-        meanImpl.clear();
-        covarianceImpl.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} **/
+    /**
+     * {@inheritDoc} *
+     */
     @Override
     public int getDimension() {
-        return k;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} **/
+    /**
+     * {@inheritDoc} *
+     */
     @Override
     public long getN() {
-        return n;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} **/
+    /**
+     * {@inheritDoc} *
+     */
     @Override
     public double[] getSum() {
-        return sumImpl.getResult();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} **/
+    /**
+     * {@inheritDoc} *
+     */
     @Override
     public double[] getSumSq() {
-        return sumSqImpl.getResult();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} **/
+    /**
+     * {@inheritDoc} *
+     */
     @Override
     public double[] getSumLog() {
-        return sumLogImpl.getResult();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} **/
+    /**
+     * {@inheritDoc} *
+     */
     @Override
     public double[] getMean() {
-        return meanImpl.getResult();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} **/
+    /**
+     * {@inheritDoc} *
+     */
     @Override
     public RealMatrix getCovariance() {
-        return covarianceImpl.getResult();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} **/
+    /**
+     * {@inheritDoc} *
+     */
     @Override
     public double[] getMax() {
-        return maxImpl.getResult();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} **/
+    /**
+     * {@inheritDoc} *
+     */
     @Override
     public double[] getMin() {
-        return minImpl.getResult();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} **/
+    /**
+     * {@inheritDoc} *
+     */
     @Override
     public double[] getGeometricMean() {
-        return geoMeanImpl.getResult();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -229,18 +255,7 @@ public class MultivariateSummaryStatistics
      */
     @Override
     public double[] getStandardDeviation() {
-        double[] stdDev = new double[k];
-        if (getN() < 1) {
-            Arrays.fill(stdDev, Double.NaN);
-        } else if (getN() < 2) {
-            Arrays.fill(stdDev, 0.0);
-        } else {
-            RealMatrix matrix = getCovariance();
-            for (int i = 0; i < k; ++i) {
-                stdDev[i] = FastMath.sqrt(matrix.getEntry(i, i));
-            }
-        }
-        return stdDev;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -251,20 +266,7 @@ public class MultivariateSummaryStatistics
      */
     @Override
     public String toString() {
-        final String separator = ", ";
-        final String suffix = System.getProperty("line.separator");
-        StringBuilder outBuffer = new StringBuilder(200); // the size is just a wild guess
-        outBuffer.append("MultivariateSummaryStatistics:").append(suffix).
-                  append("n: ").append(getN()).append(suffix);
-        append(outBuffer, getMin(), "min: ", separator, suffix);
-        append(outBuffer, getMax(), "max: ", separator, suffix);
-        append(outBuffer, getMean(), "mean: ", separator, suffix);
-        append(outBuffer, getGeometricMean(), "geometric mean: ", separator, suffix);
-        append(outBuffer, getSumSq(), "sum of squares: ", separator, suffix);
-        append(outBuffer, getSumLog(), "sum of logarithms: ", separator, suffix);
-        append(outBuffer, getStandardDeviation(), "standard deviation: ", separator, suffix);
-        outBuffer.append("covariance: ").append(getCovariance().toString()).append(suffix);
-        return outBuffer.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -275,8 +277,7 @@ public class MultivariateSummaryStatistics
      * @param separator elements separator
      * @param suffix text suffix
      */
-    private void append(StringBuilder buffer, double[] data,
-                        String prefix, String separator, String suffix) {
+    private void append(StringBuilder buffer, double[] data, String prefix, String separator, String suffix) {
         buffer.append(prefix);
         for (int i = 0; i < data.length; ++i) {
             if (i > 0) {
@@ -295,22 +296,7 @@ public class MultivariateSummaryStatistics
      */
     @Override
     public boolean equals(Object object) {
-        if (object == this) {
-            return true;
-        }
-        if (!(object instanceof MultivariateSummaryStatistics)) {
-            return false;
-        }
-        MultivariateSummaryStatistics other = (MultivariateSummaryStatistics) object;
-        return other.getN() == getN()                                                      &&
-               MathArrays.equalsIncludingNaN(other.getGeometricMean(), getGeometricMean()) &&
-               MathArrays.equalsIncludingNaN(other.getMax(),           getMax())           &&
-               MathArrays.equalsIncludingNaN(other.getMean(),          getMean())          &&
-               MathArrays.equalsIncludingNaN(other.getMin(),           getMin())           &&
-               MathArrays.equalsIncludingNaN(other.getSum(),           getSum())           &&
-               MathArrays.equalsIncludingNaN(other.getSumSq(),         getSumSq())         &&
-               MathArrays.equalsIncludingNaN(other.getSumLog(),        getSumLog())        &&
-               other.getCovariance().equals(getCovariance());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -320,16 +306,6 @@ public class MultivariateSummaryStatistics
      */
     @Override
     public int hashCode() {
-        int result = 31 + MathUtils.hash(getN());
-        result = result * 31 + MathUtils.hash(getGeometricMean());
-        result = result * 31 + MathUtils.hash(getMax());
-        result = result * 31 + MathUtils.hash(getMean());
-        result = result * 31 + MathUtils.hash(getMin());
-        result = result * 31 + MathUtils.hash(getSum());
-        result = result * 31 + MathUtils.hash(getSumSq());
-        result = result * 31 + MathUtils.hash(getSumLog());
-        result = result * 31 + getCovariance().hashCode();
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

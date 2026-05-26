@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.stat.descriptive.moment;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.NullArgumentException;
 
 /**
@@ -57,12 +55,16 @@ import org.hipparchus.exception.NullArgumentException;
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.
  */
-class FourthMoment extends ThirdMoment implements Serializable{
+class FourthMoment extends ThirdMoment implements Serializable {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20150412L;
 
-    /** fourth moment of values that have been added */
+    /**
+     * fourth moment of values that have been added
+     */
     private double m4;
 
     /**
@@ -84,44 +86,35 @@ class FourthMoment extends ThirdMoment implements Serializable{
         this.m4 = original.m4;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void increment(final double d) {
-        if (n < 1) {
-            m4 = 0.0;
-            m3 = 0.0;
-            m2 = 0.0;
-            m1 = 0.0;
-        }
-
-        double prevM3 = m3;
-        double prevM2 = m2;
-
-        super.increment(d);
-
-        double n0 = n;
-
-        m4 = m4 - 4.0 * nDev * prevM3 + 6.0 * nDevSq * prevM2 +
-            ((n0 * n0) - 3 * (n0 -1)) * (nDevSq * nDevSq * (n0 - 1) * n0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getResult() {
-        return m4;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
-        super.clear();
-        m4 = Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FourthMoment copy() {
-        return new FourthMoment(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

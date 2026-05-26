@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.analysis.function;
 
 import org.hipparchus.analysis.ParametricUnivariateFunction;
@@ -34,14 +32,22 @@ import org.hipparchus.util.SinCos;
 /**
  * <a href="http://en.wikipedia.org/wiki/Harmonic_oscillator">
  *  simple harmonic oscillator</a> function.
- *
  */
 public class HarmonicOscillator implements UnivariateDifferentiableFunction {
-    /** Amplitude. */
+
+    /**
+     * Amplitude.
+     */
     private final double amplitude;
-    /** Angular frequency. */
+
+    /**
+     * Angular frequency.
+     */
     private final double omega;
-    /** Phase. */
+
+    /**
+     * Phase.
+     */
     private final double phase;
 
     /**
@@ -51,18 +57,18 @@ public class HarmonicOscillator implements UnivariateDifferentiableFunction {
      * @param omega Angular frequency.
      * @param phase Phase.
      */
-    public HarmonicOscillator(double amplitude,
-                              double omega,
-                              double phase) {
+    public HarmonicOscillator(double amplitude, double omega, double phase) {
         this.amplitude = amplitude;
         this.omega = omega;
         this.phase = phase;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double value(double x) {
-        return value(omega * x + phase, amplitude);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -76,14 +82,16 @@ public class HarmonicOscillator implements UnivariateDifferentiableFunction {
      */
     public static class Parametric implements ParametricUnivariateFunction {
 
-        /** Empty constructor.
+        /**
+         * Empty constructor.
          * <p>
          * This constructor is not strictly necessary, but it prevents spurious
          * javadoc warnings with JDK 18 and later.
          * </p>
          * @since 3.0
          */
-        public Parametric() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+        public Parametric() {
+            // NOPMD - unnecessary constructor added intentionally to make javadoc happy
             // nothing to do
         }
 
@@ -98,10 +106,8 @@ public class HarmonicOscillator implements UnivariateDifferentiableFunction {
          * not 3.
          */
         @Override
-        public double value(double x, double ... param)
-            throws MathIllegalArgumentException, NullArgumentException {
-            validateParameters(param);
-            return HarmonicOscillator.value(x * param[1] + param[2], param[0]);
+        public double value(double x, double... param) throws MathIllegalArgumentException, NullArgumentException {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -118,20 +124,8 @@ public class HarmonicOscillator implements UnivariateDifferentiableFunction {
          * not 3.
          */
         @Override
-        public double[] gradient(double x, double ... param)
-            throws MathIllegalArgumentException, NullArgumentException {
-            validateParameters(param);
-
-            final double amplitude = param[0];
-            final double omega = param[1];
-            final double phase = param[2];
-
-            final double xTimesOmegaPlusPhase = omega * x + phase;
-            final double a = HarmonicOscillator.value(xTimesOmegaPlusPhase, 1);
-            final double p = -amplitude * FastMath.sin(xTimesOmegaPlusPhase);
-            final double w = p * x;
-
-            return new double[] { a, w, p };
+        public double[] gradient(double x, double... param) throws MathIllegalArgumentException, NullArgumentException {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -144,8 +138,7 @@ public class HarmonicOscillator implements UnivariateDifferentiableFunction {
          * @throws MathIllegalArgumentException if the size of {@code param} is
          * not 3.
          */
-        private void validateParameters(double[] param)
-            throws MathIllegalArgumentException, NullArgumentException {
+        private void validateParameters(double[] param) throws MathIllegalArgumentException, NullArgumentException {
             MathUtils.checkNotNull(param);
             MathUtils.checkDimension(param.length, 3);
         }
@@ -156,32 +149,15 @@ public class HarmonicOscillator implements UnivariateDifferentiableFunction {
      * @param amplitude Amplitude.
      * @return the value of the harmonic oscillator function at {@code x}.
      */
-    private static double value(double xTimesOmegaPlusPhase,
-                                double amplitude) {
+    private static double value(double xTimesOmegaPlusPhase, double amplitude) {
         return amplitude * FastMath.cos(xTimesOmegaPlusPhase);
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
-    public <T extends Derivative<T>> T value(T t)
-        throws MathIllegalArgumentException {
-        final double x = t.getValue();
-        double[] f = new double[t.getOrder() + 1];
-
-        final double alpha   = omega * x + phase;
-        final SinCos scAlpha = FastMath.sinCos(alpha);
-        f[0] = amplitude * scAlpha.cos();
-        if (f.length > 1) {
-            f[1] = -amplitude * omega * scAlpha.sin();
-            final double mo2 = - omega * omega;
-            for (int i = 2; i < f.length; ++i) {
-                f[i] = mo2 * f[i - 2];
-            }
-        }
-
-        return t.compose(f);
-
+    public <T extends Derivative<T>> T value(T t) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

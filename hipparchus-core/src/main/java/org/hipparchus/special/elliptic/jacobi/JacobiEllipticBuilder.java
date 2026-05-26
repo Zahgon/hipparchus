@@ -20,7 +20,8 @@ import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.complex.Complex;
 import org.hipparchus.complex.FieldComplex;
 
-/** Builder for algorithms compmuting Jacobi elliptic functions.
+/**
+ * Builder for algorithms compmuting Jacobi elliptic functions.
  * <p>
  * The Jacobi elliptic functions are related to elliptic integrals.
  * </p>
@@ -35,70 +36,58 @@ import org.hipparchus.complex.FieldComplex;
  */
 public class JacobiEllipticBuilder {
 
-    /** Threshold near 0 for using specialized algorithm. */
+    /**
+     * Threshold near 0 for using specialized algorithm.
+     */
     private static final double NEAR_ZERO = 1.0e-9;
 
-    /** Threshold near 1 for using specialized algorithm. */
+    /**
+     * Threshold near 1 for using specialized algorithm.
+     */
     private static final double NEAR_ONE = 1.0 - NEAR_ZERO;
 
-    /** Private constructor for utility class.
+    /**
+     * Private constructor for utility class.
      */
     private JacobiEllipticBuilder() {
         // nothing to do
     }
 
-    /** Build an algorithm for computing Jacobi elliptic functions.
+    /**
+     * Build an algorithm for computing Jacobi elliptic functions.
      * @param m parameter of the Jacobi elliptic function
      * @return selected algorithm
      */
     public static JacobiElliptic build(final double m) {
-        if (m < 0) {
-            return new NegativeParameter(m);
-        } else if (m > 1) {
-            return new BigParameter(m);
-        } else if (m < NEAR_ZERO) {
-            return new NearZeroParameter(m);
-        } else if (m > NEAR_ONE) {
-            return new NearOneParameter(m);
-        } else {
-            return new BoundedParameter(m);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Build an algorithm for computing Jacobi elliptic functions.
+    /**
+     * Build an algorithm for computing Jacobi elliptic functions.
      * @param m parameter of the Jacobi elliptic function
      * @param <T> type of the field elements
      * @return selected algorithm
      */
     public static <T extends CalculusFieldElement<T>> FieldJacobiElliptic<T> build(final T m) {
-        if (m.getReal() < 0) {
-            return new FieldNegativeParameter<>(m);
-        } else if (m.getReal() > 1) {
-            return new FieldBigParameter<>(m);
-        } else if (m.getReal() < NEAR_ZERO) {
-            return new FieldNearZeroParameter<>(m);
-        } else if (m.getReal() > NEAR_ONE) {
-            return new FieldNearOneParameter<>(m);
-        } else {
-            return new FieldBoundedParameter<>(m);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Build an algorithm for computing Jacobi elliptic functions.
+    /**
+     * Build an algorithm for computing Jacobi elliptic functions.
      * @param m parameter of the Jacobi elliptic function
      * @return selected algorithm
      */
     public static FieldJacobiElliptic<Complex> build(final Complex m) {
-        return new ComplexParameter(m);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Build an algorithm for computing Jacobi elliptic functions.
+    /**
+     * Build an algorithm for computing Jacobi elliptic functions.
      * @param m parameter of the Jacobi elliptic function
      * @param <T> type of the field elements
      * @return selected algorithm
      */
     public static <T extends CalculusFieldElement<T>> FieldJacobiElliptic<FieldComplex<T>> build(final FieldComplex<T> m) {
-        return new FieldComplexParameter<>(m);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

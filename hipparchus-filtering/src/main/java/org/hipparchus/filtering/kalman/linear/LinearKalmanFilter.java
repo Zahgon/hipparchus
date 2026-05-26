@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.filtering.kalman.linear;
 
 import org.hipparchus.exception.MathRuntimeException;
@@ -32,53 +31,27 @@ import org.hipparchus.linear.RealVector;
  */
 public class LinearKalmanFilter<T extends Measurement> extends AbstractKalmanFilter<T> {
 
-    /** Process to be estimated. */
+    /**
+     * Process to be estimated.
+     */
     private final LinearProcess<T> process;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param decomposer decomposer to use for the correction phase
      * @param process linear process to estimate
      * @param initialState initial state
      */
-    public LinearKalmanFilter(final MatrixDecomposer decomposer,
-                              final LinearProcess<T> process,
-                              final ProcessEstimate initialState) {
+    public LinearKalmanFilter(final MatrixDecomposer decomposer, final LinearProcess<T> process, final ProcessEstimate initialState) {
         super(decomposer, initialState);
         this.process = process;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ProcessEstimate estimationStep(final T measurement)
-        throws MathRuntimeException {
-
-        final LinearEvolution evolution = process.getEvolution(measurement);
-
-        // prediction phase
-        final RealMatrix      a         = evolution.getStateTransitionMatrix();
-        final RealMatrix      b         = evolution.getControlMatrix();
-        final RealVector      u         = (b == null) ? null : evolution.getCommand();
-        final RealMatrix      q         = evolution.getProcessNoiseMatrix();
-
-        RealVector predXk = a.operate(getCorrected().getState());
-        if (b != null) {
-            predXk = predXk.add(b.operate(u));
-        }
-
-        predict(measurement.getTime(), predXk, a, q);
-
-        // correction phase
-        final RealMatrix h          = evolution.getMeasurementJacobian();
-        final RealMatrix s          = computeInnovationCovarianceMatrix(measurement.getCovariance(), h);
-        final RealVector innovation = (h == null) ? null : measurement.getValue().subtract(h.operate(predXk));
-        correct(measurement, a, innovation, h, s);
-
-        if (getObserver() != null) {
-            getObserver().updatePerformed(this);
-        }
-
-        return getCorrected();
-
+    public ProcessEstimate estimationStep(final T measurement) throws MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

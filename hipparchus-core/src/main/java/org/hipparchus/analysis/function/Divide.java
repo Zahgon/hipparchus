@@ -14,37 +14,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.analysis.function;
 
 import org.hipparchus.analysis.BivariateFunction;
 
 /**
  * Divide the first operand by the second.
- *
  */
 public class Divide implements BivariateFunction {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public Divide() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public Divide() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double value(double x, double y) {
-        return x / y;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

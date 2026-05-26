@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -34,13 +33,24 @@ import org.hipparchus.util.MathUtils;
  */
 public class GeometricDistribution extends AbstractIntegerDistribution {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20130507L;
-    /** The probability of success. */
+
+    /**
+     * The probability of success.
+     */
     private final double probabilityOfSuccess;
-    /** {@code log(p)} where p is the probability of success. */
+
+    /**
+     * {@code log(p)} where p is the probability of success.
+     */
     private final double logProbabilityOfSuccess;
-    /** {@code log(1 - p)} where p is the probability of success. */
+
+    /**
+     * {@code log(1 - p)} where p is the probability of success.
+     */
     private final double log1mProbabilityOfSuccess;
 
     /**
@@ -49,12 +59,10 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
      * @param p probability of success.
      * @throws MathIllegalArgumentException if {@code p <= 0} or {@code p > 1}.
      */
-    public GeometricDistribution(double p)
-        throws MathIllegalArgumentException {
+    public GeometricDistribution(double p) throws MathIllegalArgumentException {
         if (p <= 0 || p > 1) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.OUT_OF_RANGE_LEFT, p, 0, 1);
         }
-
         probabilityOfSuccess = p;
         logProbabilityOfSuccess = FastMath.log(p);
         log1mProbabilityOfSuccess = FastMath.log1p(-p);
@@ -66,37 +74,31 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
      * @return the probability of success.
      */
     public double getProbabilityOfSuccess() {
-        return probabilityOfSuccess;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double probability(int x) {
-        if (x < 0) {
-            return 0.0;
-        } else {
-            return FastMath.exp(log1mProbabilityOfSuccess * x) * probabilityOfSuccess;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double logProbability(int x) {
-        if (x < 0) {
-            return Double.NEGATIVE_INFINITY;
-        } else {
-            return x * log1mProbabilityOfSuccess + logProbabilityOfSuccess;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double cumulativeProbability(int x) {
-        if (x < 0) {
-            return 0.0;
-        } else {
-            return -FastMath.expm1(log1mProbabilityOfSuccess * (x + 1));
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -106,7 +108,7 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double getNumericalMean() {
-        return (1 - probabilityOfSuccess) / probabilityOfSuccess;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -117,7 +119,7 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        return (1 - probabilityOfSuccess) / (probabilityOfSuccess * probabilityOfSuccess);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -129,7 +131,7 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public int getSupportLowerBound() {
-        return 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -142,7 +144,7 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public int getSupportUpperBound() {
-        return Integer.MAX_VALUE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -154,7 +156,7 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -162,14 +164,6 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public int inverseCumulativeProbability(double p) throws MathIllegalArgumentException {
-        MathUtils.checkRangeInclusive(p, 0, 1);
-
-        if (p == 1) {
-            return Integer.MAX_VALUE;
-        }
-        if (p == 0) {
-            return 0;
-        }
-        return Math.max(0, (int) Math.ceil(FastMath.log1p(-p)/log1mProbabilityOfSuccess-1));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

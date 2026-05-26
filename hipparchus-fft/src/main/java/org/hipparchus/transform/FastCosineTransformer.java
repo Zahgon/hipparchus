@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.transform;
 
 import java.io.Serializable;
-
 import org.hipparchus.analysis.FunctionUtils;
 import org.hipparchus.analysis.UnivariateFunction;
 import org.hipparchus.complex.Complex;
@@ -64,14 +62,17 @@ import org.hipparchus.util.SinCos;
  * transform requires the length of the data set to be a power of two plus one
  * (N&nbsp;=&nbsp;2<sup>n</sup>&nbsp;+&nbsp;1). Besides, it implicitly assumes
  * that the sampled function is even.
- *
  */
 public class FastCosineTransformer implements RealTransformer, Serializable {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     static final long serialVersionUID = 20120212L;
 
-    /** The type of DCT to be performed. */
+    /**
+     * The type of DCT to be performed.
+     */
     private final DctNormalization normalization;
 
     /**
@@ -92,23 +93,8 @@ public class FastCosineTransformer implements RealTransformer, Serializable {
      * not a power of two plus one
      */
     @Override
-    public double[] transform(final double[] f, final TransformType type)
-      throws MathIllegalArgumentException {
-        if (type == TransformType.FORWARD) {
-            if (normalization == DctNormalization.ORTHOGONAL_DCT_I) {
-                final double s = FastMath.sqrt(2.0 / (f.length - 1));
-                return TransformUtils.scaleArray(fct(f), s);
-            }
-            return fct(f);
-        }
-        final double s2 = 2.0 / (f.length - 1);
-        final double s1;
-        if (normalization == DctNormalization.ORTHOGONAL_DCT_I) {
-            s1 = FastMath.sqrt(s2);
-        } else {
-            s1 = s2;
-        }
-        return TransformUtils.scaleArray(fct(f), s1);
+    public double[] transform(final double[] f, final TransformType type) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -122,12 +108,8 @@ public class FastCosineTransformer implements RealTransformer, Serializable {
      * not a power of two plus one
      */
     @Override
-    public double[] transform(final UnivariateFunction f,
-        final double min, final double max, final int n,
-        final TransformType type) throws MathIllegalArgumentException {
-
-        final double[] data = FunctionUtils.sample(f, min, max, n);
-        return transform(data, type);
+    public double[] transform(final UnivariateFunction f, final double min, final double max, final int n, final TransformType type) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -138,50 +120,7 @@ public class FastCosineTransformer implements RealTransformer, Serializable {
      * @throws MathIllegalArgumentException if the length of the data array is
      * not a power of two plus one
      */
-    protected double[] fct(double[] f)
-        throws MathIllegalArgumentException {
-
-        final double[] transformed = new double[f.length];
-
-        final int n = f.length - 1;
-        if (!ArithmeticUtils.isPowerOfTwo(n)) {
-            throw new MathIllegalArgumentException(LocalizedFFTFormats.NOT_POWER_OF_TWO_PLUS_ONE,
-                    f.length);
-        }
-        if (n == 1) {       // trivial case
-            transformed[0] = 0.5 * (f[0] + f[1]);
-            transformed[1] = 0.5 * (f[0] - f[1]);
-            return transformed;
-        }
-
-        // construct a new array and perform FFT on it
-        final double[] x = new double[n];
-        x[0] = 0.5 * (f[0] + f[n]);
-        x[n >> 1] = f[n >> 1];
-        // temporary variable for transformed[1]
-        double t1 = 0.5 * (f[0] - f[n]);
-        for (int i = 1; i < (n >> 1); i++) {
-            final SinCos sc = FastMath.sinCos(i * FastMath.PI / n);
-            final double a  = 0.5 * (f[i] + f[n - i]);
-            final double b  = sc.sin() * (f[i] - f[n - i]);
-            final double c  = sc.cos() * (f[i] - f[n - i]);
-            x[i] = a - b;
-            x[n - i] = a + b;
-            t1 += c;
-        }
-        FastFourierTransformer transformer;
-        transformer = new FastFourierTransformer(DftNormalization.STANDARD);
-        Complex[] y = transformer.transform(x, TransformType.FORWARD);
-
-        // reconstruct the FCT result for the original array
-        transformed[0] = y[0].getReal();
-        transformed[1] = t1;
-        for (int i = 1; i < (n >> 1); i++) {
-            transformed[2 * i]     = y[i].getReal();
-            transformed[2 * i + 1] = transformed[2 * i - 1] - y[i].getImaginary();
-        }
-        transformed[n] = y[n >> 1].getReal();
-
-        return transformed;
+    protected double[] fct(double[] f) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.stat.descriptive.moment;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.NullArgumentException;
 import org.hipparchus.stat.StatUtils;
@@ -68,13 +66,16 @@ import org.hipparchus.util.MathUtils;
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.
  */
-public class Mean extends AbstractStorelessUnivariateStatistic
-    implements AggregatableStatistic<Mean>, WeightedEvaluation, Serializable {
+public class Mean extends AbstractStorelessUnivariateStatistic implements AggregatableStatistic<Mean>, WeightedEvaluation, Serializable {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20150412L;
 
-    /** First moment on which this statistic is based. */
+    /**
+     * First moment on which this statistic is based.
+     */
     protected final FirstMoment moment;
 
     /**
@@ -85,7 +86,9 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      */
     protected final boolean incMoment;
 
-    /** Constructs a Mean. */
+    /**
+     * Constructs a Mean.
+     */
     public Mean() {
         moment = new FirstMoment();
         incMoment = true;
@@ -110,7 +113,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      */
     public Mean(Mean original) throws NullArgumentException {
         MathUtils.checkNotNull(original);
-        this.moment    = original.moment.copy();
+        this.moment = original.moment.copy();
         this.incMoment = original.incMoment;
     }
 
@@ -123,38 +126,39 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      */
     @Override
     public void increment(final double d) {
-        if (incMoment) {
-            moment.increment(d);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
-        if (incMoment) {
-            moment.clear();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getResult() {
-        return moment.m1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long getN() {
-        return moment.getN();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void aggregate(Mean other) {
-        MathUtils.checkNotNull(other);
-        if (incMoment) {
-            this.moment.aggregate(other.moment);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -170,23 +174,8 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-
-        if (MathArrays.verifyValues(values, begin, length)) {
-            double sampleSize = length;
-
-            // Compute initial estimate using definitional formula
-            double xbar = StatUtils.sum(values, begin, length) / sampleSize;
-
-            // Compute correction factor in second pass
-            double correction = 0;
-            for (int i = begin; i < begin + length; i++) {
-                correction += values[i] - xbar;
-            }
-            return xbar + (correction / sampleSize);
-        }
-        return Double.NaN;
+    public double evaluate(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -218,31 +207,15 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      * @throws MathIllegalArgumentException if the parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values, final double[] weights,
-                           final int begin, final int length)
-        throws MathIllegalArgumentException {
-
-        if (MathArrays.verifyValues(values, weights, begin, length)) {
-            Sum sum = new Sum();
-
-            // Compute initial estimate using definitional formula
-            double sumw = sum.evaluate(weights,begin,length);
-            double xbarw = sum.evaluate(values, weights, begin, length) / sumw;
-
-            // Compute correction factor in second pass
-            double correction = 0;
-            for (int i = begin; i < begin + length; i++) {
-                correction += weights[i] * (values[i] - xbarw);
-            }
-            return xbarw + (correction/sumw);
-        }
-        return Double.NaN;
+    public double evaluate(final double[] values, final double[] weights, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mean copy() {
-        return new Mean(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

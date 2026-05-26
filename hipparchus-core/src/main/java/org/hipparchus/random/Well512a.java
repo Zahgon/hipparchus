@@ -14,13 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
 package org.hipparchus.random;
-
 
 /**
  * This class implements the WELL512a pseudo-random number generator
@@ -38,22 +36,34 @@ package org.hipparchus.random;
  */
 public class Well512a extends AbstractWell {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20150223L;
 
-    /** Number of bits in the pool. */
+    /**
+     * Number of bits in the pool.
+     */
     private static final int K = 512;
 
-    /** First parameter of the algorithm. */
+    /**
+     * First parameter of the algorithm.
+     */
     private static final int M1 = 13;
 
-    /** Second parameter of the algorithm. */
+    /**
+     * Second parameter of the algorithm.
+     */
     private static final int M2 = 9;
 
-    /** Third parameter of the algorithm. */
+    /**
+     * Third parameter of the algorithm.
+     */
     private static final int M3 = 5;
 
-    /** The indirection index table. */
+    /**
+     * The indirection index table.
+     */
     private static final IndexTable TABLE = new IndexTable(K, M1, M2, M3);
 
     /**
@@ -90,28 +100,11 @@ public class Well512a extends AbstractWell {
         super(K, seed);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int nextInt() {
-
-        final int indexRm1 = TABLE.getIndexPred(index);
-
-        final int vi = v[index];
-        final int vi1 = v[TABLE.getIndexM1(index)];
-        final int vi2 = v[TABLE.getIndexM2(index)];
-        final int z0 = v[indexRm1];
-
-        // the values below include the errata of the original article
-        final int z1 = (vi ^ (vi << 16))   ^ (vi1 ^ (vi1 << 15));
-        final int z2 = vi2 ^ (vi2 >>> 11);
-        final int z3 = z1 ^ z2;
-        final int z4 = (z0 ^ (z0 << 2)) ^ (z1 ^ (z1 << 18)) ^ (z2 << 28) ^ (z3 ^ ((z3 << 5) & 0xda442d24));
-
-        v[index] = z3;
-        v[indexRm1]  = z4;
-        index    = indexRm1;
-
-        return z4;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

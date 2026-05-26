@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.distribution.continuous;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -33,11 +31,20 @@ import org.hipparchus.util.MathUtils;
  * Uniform distribution (continuous), at Wikipedia</a>
  */
 public class UniformRealDistribution extends AbstractRealDistribution {
-    /** Serializable version identifier. */
+
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20120109L;
-    /** Lower bound of this distribution (inclusive). */
+
+    /**
+     * Lower bound of this distribution (inclusive).
+     */
     private final double lower;
-    /** Upper bound of this distribution (exclusive). */
+
+    /**
+     * Upper bound of this distribution (exclusive).
+     */
     private final double upper;
 
     /**
@@ -56,45 +63,36 @@ public class UniformRealDistribution extends AbstractRealDistribution {
      * @param upper Upper bound of this distribution (exclusive).
      * @throws MathIllegalArgumentException if {@code lower >= upper}.
      */
-    public UniformRealDistribution(double lower, double upper)
-        throws MathIllegalArgumentException {
+    public UniformRealDistribution(double lower, double upper) throws MathIllegalArgumentException {
         if (lower >= upper) {
-            throw new MathIllegalArgumentException(
-                            LocalizedCoreFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
-                            lower, upper, false);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND, lower, upper, false);
         }
-
         this.lower = lower;
         this.upper = upper;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double density(double x) {
-        if (x < lower || x > upper) {
-            return 0.0;
-        }
-        return 1 / (upper - lower);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double cumulativeProbability(double x)  {
-        if (x <= lower) {
-            return 0;
-        }
-        if (x >= upper) {
-            return 1;
-        }
-        return (x - lower) / (upper - lower);
+    public double cumulativeProbability(double x) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double inverseCumulativeProbability(final double p)
-        throws MathIllegalArgumentException {
-        MathUtils.checkRangeInclusive(p, 0, 1);
-        return p * (upper - lower) + lower;
+    public double inverseCumulativeProbability(final double p) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -105,7 +103,7 @@ public class UniformRealDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalMean() {
-        return 0.5 * (lower + upper);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -116,8 +114,7 @@ public class UniformRealDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        double ul = upper - lower;
-        return ul * ul / 12;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -130,7 +127,7 @@ public class UniformRealDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportLowerBound() {
-        return lower;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -143,7 +140,7 @@ public class UniformRealDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportUpperBound() {
-        return upper;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -155,7 +152,6 @@ public class UniformRealDistribution extends AbstractRealDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

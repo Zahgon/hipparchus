@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.analysis.solvers;
 
 import org.hipparchus.analysis.differentiation.UnivariateDerivative1;
@@ -31,10 +29,12 @@ import org.hipparchus.util.FastMath;
  * Implements <a href="http://mathworld.wolfram.com/NewtonsMethod.html">
  * Newton's Method</a> for finding zeros of real univariate differentiable
  * functions.
- *
  */
 public class NewtonRaphsonSolver extends AbstractUnivariateDifferentiableSolver {
-    /** Default absolute accuracy. */
+
+    /**
+     * Default absolute accuracy.
+     */
     private static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
 
     /**
@@ -43,6 +43,7 @@ public class NewtonRaphsonSolver extends AbstractUnivariateDifferentiableSolver 
     public NewtonRaphsonSolver() {
         this(DEFAULT_ABSOLUTE_ACCURACY);
     }
+
     /**
      * Construct a solver.
      *
@@ -66,31 +67,15 @@ public class NewtonRaphsonSolver extends AbstractUnivariateDifferentiableSolver 
      * if {@code min >= max}.
      */
     @Override
-    public double solve(int maxEval, final UnivariateDifferentiableFunction f,
-                        final double min, final double max)
-        throws MathIllegalStateException {
-        return super.solve(maxEval, f, UnivariateSolverUtils.midpoint(min, max));
+    public double solve(int maxEval, final UnivariateDifferentiableFunction f, final double min, final double max) throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected double doSolve()
-        throws MathIllegalStateException {
-        final double startValue = getStartValue();
-        final double absoluteAccuracy = getAbsoluteAccuracy();
-
-        double x0 = startValue;
-        double x1;
-        while (true) {
-            final UnivariateDerivative1 y0 = computeObjectiveValueAndDerivative(x0);
-            x1 = x0 - (y0.getValue() / y0.getPartialDerivative(1));
-            if (FastMath.abs(x1 - x0) <= absoluteAccuracy) {
-                return x1;
-            }
-
-            x0 = x1;
-        }
+    protected double doSolve() throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

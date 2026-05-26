@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -24,7 +23,8 @@ package org.hipparchus.geometry.partitioning;
 import org.hipparchus.geometry.Point;
 import org.hipparchus.geometry.Space;
 
-/** Class holding boundary attributes.
+/**
+ * Class holding boundary attributes.
  * <p>This class is used for the attributes associated with the
  * nodes of region boundary shell trees returned by the {@link
  * Region#getTree(boolean) Region.getTree(includeBoundaryAttributes)}
@@ -39,27 +39,29 @@ import org.hipparchus.geometry.Space;
  * @param <I> Type of the sub-hyperplane.
  * @see Region#getTree
  */
-public class BoundaryAttribute<S extends Space,
-                               P extends Point<S, P>,
-                               H extends Hyperplane<S, P, H, I>,
-                               I extends SubHyperplane<S, P, H, I>> {
+public class BoundaryAttribute<S extends Space, P extends Point<S, P>, H extends Hyperplane<S, P, H, I>, I extends SubHyperplane<S, P, H, I>> {
 
-    /** Part of the node cut sub-hyperplane that belongs to the
+    /**
+     * Part of the node cut sub-hyperplane that belongs to the
      * boundary and has the outside of the region on the plus side of
      * its underlying hyperplane (may be null).
      */
     private final I plusOutside;
 
-    /** Part of the node cut sub-hyperplane that belongs to the
+    /**
+     * Part of the node cut sub-hyperplane that belongs to the
      * boundary and has the inside of the region on the plus side of
      * its underlying hyperplane (may be null).
      */
     private final I plusInside;
 
-    /** Sub-hyperplanes that were used to split the boundary part. */
+    /**
+     * Sub-hyperplanes that were used to split the boundary part.
+     */
     private final NodesSet<S, P, H, I> splitters;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param plusOutside part of the node cut sub-hyperplane that
      * belongs to the boundary and has the outside of the region on
      * the plus side of its underlying hyperplane (may be null)
@@ -69,15 +71,14 @@ public class BoundaryAttribute<S extends Space,
      * @param splitters sub-hyperplanes that were used to
      * split the boundary part (may be null)
      */
-    BoundaryAttribute(final I plusOutside,
-                      final I plusInside,
-                      final NodesSet<S, P, H, I> splitters) {
+    BoundaryAttribute(final I plusOutside, final I plusInside, final NodesSet<S, P, H, I> splitters) {
         this.plusOutside = plusOutside;
-        this.plusInside  = plusInside;
-        this.splitters   = splitters;
+        this.plusInside = plusInside;
+        this.splitters = splitters;
     }
 
-    /** Get the part of the node cut sub-hyperplane that belongs to the
+    /**
+     * Get the part of the node cut sub-hyperplane that belongs to the
      * boundary and has the outside of the region on the plus side of
      * its underlying hyperplane.
      * @return part of the node cut sub-hyperplane that belongs to the
@@ -85,10 +86,11 @@ public class BoundaryAttribute<S extends Space,
      * its underlying hyperplane
      */
     public I getPlusOutside() {
-        return plusOutside;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the part of the node cut sub-hyperplane that belongs to the
+    /**
+     * Get the part of the node cut sub-hyperplane that belongs to the
      * boundary and has the inside of the region on the plus side of
      * its underlying hyperplane.
      * @return part of the node cut sub-hyperplane that belongs to the
@@ -96,14 +98,14 @@ public class BoundaryAttribute<S extends Space,
      * its underlying hyperplane
      */
     public I getPlusInside() {
-        return plusInside;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the sub-hyperplanes that were used to split the boundary part.
+    /**
+     * Get the sub-hyperplanes that were used to split the boundary part.
      * @return sub-hyperplanes that were used to split the boundary part
      */
     public NodesSet<S, P, H, I> getSplitters() {
-        return splitters;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

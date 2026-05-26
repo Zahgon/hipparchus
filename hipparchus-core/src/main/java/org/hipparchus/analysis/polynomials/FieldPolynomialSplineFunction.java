@@ -18,7 +18,6 @@ package org.hipparchus.analysis.polynomials;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
-
 import org.hipparchus.Field;
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.analysis.CalculusFieldUnivariateFunction;
@@ -86,7 +85,6 @@ public class FieldPolynomialSplineFunction<T extends CalculusFieldElement<T>> im
      */
     private final int n;
 
-
     /**
      * Construct a polynomial spline function with the given segment delimiters
      * and interpolating polynomials.
@@ -99,33 +97,29 @@ public class FieldPolynomialSplineFunction<T extends CalculusFieldElement<T>> im
      * @throws MathIllegalArgumentException if knots has length less than 2.
      * @throws MathIllegalArgumentException if {@code polynomials.length != knots.length - 1}.
      * @throws MathIllegalArgumentException if the {@code knots} array is not strictly increasing.
-     *
      */
     @SuppressWarnings("unchecked")
-    public FieldPolynomialSplineFunction(final T[] knots, final FieldPolynomialFunction<T>[] polynomials)
-        throws MathIllegalArgumentException, NullArgumentException {
-        if (knots == null ||
-            polynomials == null) {
+    public FieldPolynomialSplineFunction(final T[] knots, final FieldPolynomialFunction<T>[] polynomials) throws MathIllegalArgumentException, NullArgumentException {
+        if (knots == null || polynomials == null) {
             throw new NullArgumentException();
         }
         if (knots.length < 2) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NOT_ENOUGH_POINTS_IN_SPLINE_PARTITION,
-                                                   2, knots.length, false);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NOT_ENOUGH_POINTS_IN_SPLINE_PARTITION, 2, knots.length, false);
         }
         MathUtils.checkDimension(polynomials.length, knots.length - 1);
         MathArrays.checkOrder(knots);
-
-        this.n = knots.length -1;
+        this.n = knots.length - 1;
         this.knots = knots.clone();
         this.polynomials = (FieldPolynomialFunction<T>[]) Array.newInstance(FieldPolynomialFunction.class, n);
         System.arraycopy(polynomials, 0, this.polynomials, 0, n);
     }
 
-    /** Get the {@link Field} to which the instance belongs.
+    /**
+     * Get the {@link Field} to which the instance belongs.
      * @return {@link Field} to which the instance belongs
      */
     public Field<T> getField() {
-        return knots[0].getField();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -140,7 +134,7 @@ public class FieldPolynomialSplineFunction<T extends CalculusFieldElement<T>> im
      * largest knot point).
      */
     public T value(final double v) {
-        return value(getField().getZero().add(v));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -156,18 +150,7 @@ public class FieldPolynomialSplineFunction<T extends CalculusFieldElement<T>> im
      */
     @Override
     public T value(final T v) {
-        MathUtils.checkRangeInclusive(v.getReal(), knots[0].getReal(), knots[n].getReal());
-        int i = Arrays.binarySearch(Arrays.stream(knots).map(T::getReal).toArray(), v.getReal());
-        if (i < 0) {
-            i = -i - 2;
-        }
-        // This will handle the case where v is the last knot value
-        // There are only n-1 polynomials, so if v is the last knot
-        // then we will use the last polynomial to calculate the value.
-        if ( i >= polynomials.length ) {
-            i--;
-        }
-        return polynomials[i].value(v.subtract(knots[i]));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -177,7 +160,7 @@ public class FieldPolynomialSplineFunction<T extends CalculusFieldElement<T>> im
      * @return the number of spline segments.
      */
     public int getN() {
-        return n;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -188,7 +171,7 @@ public class FieldPolynomialSplineFunction<T extends CalculusFieldElement<T>> im
      * @return the interpolating polynomials.
      */
     public FieldPolynomialFunction<T>[] getPolynomials() {
-        return polynomials.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -199,7 +182,7 @@ public class FieldPolynomialSplineFunction<T extends CalculusFieldElement<T>> im
      * @return the knot points.
      */
     public T[] getKnots() {
-        return knots.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -209,13 +192,9 @@ public class FieldPolynomialSplineFunction<T extends CalculusFieldElement<T>> im
      * @return {@code true} if {@code x} is a valid point.
      */
     public boolean isValidPoint(T x) {
-        if (x.getReal() < knots[0].getReal() ||
-            x.getReal() > knots[n].getReal()) {
-            return false;
-        } else {
-            return true;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     /**
      * Get the derivative of the polynomial spline function.
      *
@@ -223,13 +202,6 @@ public class FieldPolynomialSplineFunction<T extends CalculusFieldElement<T>> im
      */
     @SuppressWarnings("unchecked")
     public FieldPolynomialSplineFunction<T> polynomialSplineDerivative() {
-        FieldPolynomialFunction<T>[] derivativePolynomials =
-                        (FieldPolynomialFunction<T>[]) Array.newInstance(FieldPolynomialFunction.class, n);
-        for (int i = 0; i < n; i++) {
-            derivativePolynomials[i] = polynomials[i].polynomialDerivative();
-        }
-        return new FieldPolynomialSplineFunction<>(knots, derivativePolynomials);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
-
 }

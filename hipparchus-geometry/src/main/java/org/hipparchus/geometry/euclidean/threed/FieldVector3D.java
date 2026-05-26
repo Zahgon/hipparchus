@@ -14,17 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.geometry.euclidean.threed;
 
 import java.io.Serializable;
 import java.text.NumberFormat;
-
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.Field;
 import org.hipparchus.analysis.polynomials.SmoothStepFactory;
@@ -44,19 +41,28 @@ import org.hipparchus.util.MathArrays;
  */
 public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBlendable<FieldVector3D<T>, T>, Serializable {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20130224L;
 
-    /** Abscissa. */
+    /**
+     * Abscissa.
+     */
     private final T x;
 
-    /** Ordinate. */
+    /**
+     * Ordinate.
+     */
     private final T y;
 
-    /** Height. */
+    /**
+     * Height.
+     */
     private final T z;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * Build a vector from its coordinates
      * @param x abscissa
      * @param y ordinate
@@ -71,7 +77,8 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
         this.z = z;
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * Build a vector from its coordinates
      * @param v coordinates array
      * @exception MathIllegalArgumentException if array does not have 3 elements
@@ -79,15 +86,15 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      */
     public FieldVector3D(final T[] v) throws MathIllegalArgumentException {
         if (v.length != 3) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   v.length, 3);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH, v.length, 3);
         }
         this.x = v[0];
         this.y = v[1];
         this.z = v[2];
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * Build a vector from its azimuthal coordinates
      * @param alpha azimuth (&alpha;) around Z
      *              (0 is +X, &pi;/2 is +Y, &pi; is -X and 3&pi;/2 is -Y)
@@ -103,19 +110,21 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
         this.z = sinCosDelta.sin();
     }
 
-    /** Multiplicative constructor.
+    /**
+     * Multiplicative constructor.
      * Build a vector from another one and a scale factor.
      * The vector built will be a * u
      * @param a scale factor
      * @param u base (unscaled) vector
      */
-    public FieldVector3D(final T a, final FieldVector3D<T>u) {
+    public FieldVector3D(final T a, final FieldVector3D<T> u) {
         this.x = a.multiply(u.x);
         this.y = a.multiply(u.y);
         this.z = a.multiply(u.z);
     }
 
-    /** Multiplicative constructor.
+    /**
+     * Multiplicative constructor.
      * Build a vector from another one and a scale factor.
      * The vector built will be a * u
      * @param a scale factor
@@ -127,7 +136,8 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
         this.z = a.multiply(u.getZ());
     }
 
-    /** Multiplicative constructor.
+    /**
+     * Multiplicative constructor.
      * Build a vector from another one and a scale factor.
      * The vector built will be a * u
      * @param a scale factor
@@ -139,7 +149,8 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
         this.z = u.z.multiply(a);
     }
 
-    /** Linear constructor.
+    /**
+     * Linear constructor.
      * Build a vector from two other ones and corresponding scale factors.
      * The vector built will be a1 * u1 + a2 * u2
      * @param a1 first scale factor
@@ -147,15 +158,15 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param a2 second scale factor
      * @param u2 second base (unscaled) vector
      */
-    public FieldVector3D(final T a1, final FieldVector3D<T> u1,
-                         final T a2, final FieldVector3D<T> u2) {
+    public FieldVector3D(final T a1, final FieldVector3D<T> u1, final T a2, final FieldVector3D<T> u2) {
         final T prototype = a1;
         this.x = prototype.linearCombination(a1, u1.getX(), a2, u2.getX());
         this.y = prototype.linearCombination(a1, u1.getY(), a2, u2.getY());
         this.z = prototype.linearCombination(a1, u1.getZ(), a2, u2.getZ());
     }
 
-    /** Linear constructor.
+    /**
+     * Linear constructor.
      * Build a vector from two other ones and corresponding scale factors.
      * The vector built will be a1 * u1 + a2 * u2
      * @param a1 first scale factor
@@ -163,15 +174,15 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param a2 second scale factor
      * @param u2 second base (unscaled) vector
      */
-    public FieldVector3D(final T a1, final Vector3D u1,
-                         final T a2, final Vector3D u2) {
+    public FieldVector3D(final T a1, final Vector3D u1, final T a2, final Vector3D u2) {
         final T prototype = a1;
         this.x = prototype.linearCombination(u1.getX(), a1, u2.getX(), a2);
         this.y = prototype.linearCombination(u1.getY(), a1, u2.getY(), a2);
         this.z = prototype.linearCombination(u1.getZ(), a1, u2.getZ(), a2);
     }
 
-    /** Linear constructor.
+    /**
+     * Linear constructor.
      * Build a vector from two other ones and corresponding scale factors.
      * The vector built will be a1 * u1 + a2 * u2
      * @param a1 first scale factor
@@ -179,15 +190,15 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param a2 second scale factor
      * @param u2 second base (unscaled) vector
      */
-    public FieldVector3D(final double a1, final FieldVector3D<T> u1,
-                         final double a2, final FieldVector3D<T> u2) {
+    public FieldVector3D(final double a1, final FieldVector3D<T> u1, final double a2, final FieldVector3D<T> u2) {
         final T prototype = u1.getX();
         this.x = prototype.linearCombination(a1, u1.getX(), a2, u2.getX());
         this.y = prototype.linearCombination(a1, u1.getY(), a2, u2.getY());
         this.z = prototype.linearCombination(a1, u1.getZ(), a2, u2.getZ());
     }
 
-    /** Linear constructor.
+    /**
+     * Linear constructor.
      * Build a vector from three other ones and corresponding scale factors.
      * The vector built will be a1 * u1 + a2 * u2 + a3 * u3
      * @param a1 first scale factor
@@ -197,16 +208,15 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param a3 third scale factor
      * @param u3 third base (unscaled) vector
      */
-    public FieldVector3D(final T a1, final FieldVector3D<T> u1,
-                         final T a2, final FieldVector3D<T> u2,
-                         final T a3, final FieldVector3D<T> u3) {
+    public FieldVector3D(final T a1, final FieldVector3D<T> u1, final T a2, final FieldVector3D<T> u2, final T a3, final FieldVector3D<T> u3) {
         final T prototype = a1;
         this.x = prototype.linearCombination(a1, u1.getX(), a2, u2.getX(), a3, u3.getX());
         this.y = prototype.linearCombination(a1, u1.getY(), a2, u2.getY(), a3, u3.getY());
         this.z = prototype.linearCombination(a1, u1.getZ(), a2, u2.getZ(), a3, u3.getZ());
     }
 
-    /** Linear constructor.
+    /**
+     * Linear constructor.
      * Build a vector from three other ones and corresponding scale factors.
      * The vector built will be a1 * u1 + a2 * u2 + a3 * u3
      * @param a1 first scale factor
@@ -216,16 +226,15 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param a3 third scale factor
      * @param u3 third base (unscaled) vector
      */
-    public FieldVector3D(final T a1, final Vector3D u1,
-                         final T a2, final Vector3D u2,
-                         final T a3, final Vector3D u3) {
+    public FieldVector3D(final T a1, final Vector3D u1, final T a2, final Vector3D u2, final T a3, final Vector3D u3) {
         final T prototype = a1;
         this.x = prototype.linearCombination(u1.getX(), a1, u2.getX(), a2, u3.getX(), a3);
         this.y = prototype.linearCombination(u1.getY(), a1, u2.getY(), a2, u3.getY(), a3);
         this.z = prototype.linearCombination(u1.getZ(), a1, u2.getZ(), a2, u3.getZ(), a3);
     }
 
-    /** Linear constructor.
+    /**
+     * Linear constructor.
      * Build a vector from three other ones and corresponding scale factors.
      * The vector built will be a1 * u1 + a2 * u2 + a3 * u3
      * @param a1 first scale factor
@@ -235,16 +244,15 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param a3 third scale factor
      * @param u3 third base (unscaled) vector
      */
-    public FieldVector3D(final double a1, final FieldVector3D<T> u1,
-                         final double a2, final FieldVector3D<T> u2,
-                         final double a3, final FieldVector3D<T> u3) {
+    public FieldVector3D(final double a1, final FieldVector3D<T> u1, final double a2, final FieldVector3D<T> u2, final double a3, final FieldVector3D<T> u3) {
         final T prototype = u1.getX();
         this.x = prototype.linearCombination(a1, u1.getX(), a2, u2.getX(), a3, u3.getX());
         this.y = prototype.linearCombination(a1, u1.getY(), a2, u2.getY(), a3, u3.getY());
         this.z = prototype.linearCombination(a1, u1.getZ(), a2, u2.getZ(), a3, u3.getZ());
     }
 
-    /** Linear constructor.
+    /**
+     * Linear constructor.
      * Build a vector from four other ones and corresponding scale factors.
      * The vector built will be a1 * u1 + a2 * u2 + a3 * u3 + a4 * u4
      * @param a1 first scale factor
@@ -256,17 +264,15 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param a4 fourth scale factor
      * @param u4 fourth base (unscaled) vector
      */
-    public FieldVector3D(final T a1, final FieldVector3D<T> u1,
-                         final T a2, final FieldVector3D<T> u2,
-                         final T a3, final FieldVector3D<T> u3,
-                         final T a4, final FieldVector3D<T> u4) {
+    public FieldVector3D(final T a1, final FieldVector3D<T> u1, final T a2, final FieldVector3D<T> u2, final T a3, final FieldVector3D<T> u3, final T a4, final FieldVector3D<T> u4) {
         final T prototype = a1;
         this.x = prototype.linearCombination(a1, u1.getX(), a2, u2.getX(), a3, u3.getX(), a4, u4.getX());
         this.y = prototype.linearCombination(a1, u1.getY(), a2, u2.getY(), a3, u3.getY(), a4, u4.getY());
         this.z = prototype.linearCombination(a1, u1.getZ(), a2, u2.getZ(), a3, u3.getZ(), a4, u4.getZ());
     }
 
-    /** Linear constructor.
+    /**
+     * Linear constructor.
      * Build a vector from four other ones and corresponding scale factors.
      * The vector built will be a1 * u1 + a2 * u2 + a3 * u3 + a4 * u4
      * @param a1 first scale factor
@@ -278,17 +284,15 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param a4 fourth scale factor
      * @param u4 fourth base (unscaled) vector
      */
-    public FieldVector3D(final T a1, final Vector3D u1,
-                         final T a2, final Vector3D u2,
-                         final T a3, final Vector3D u3,
-                         final T a4, final Vector3D u4) {
+    public FieldVector3D(final T a1, final Vector3D u1, final T a2, final Vector3D u2, final T a3, final Vector3D u3, final T a4, final Vector3D u4) {
         final T prototype = a1;
         this.x = prototype.linearCombination(u1.getX(), a1, u2.getX(), a2, u3.getX(), a3, u4.getX(), a4);
         this.y = prototype.linearCombination(u1.getY(), a1, u2.getY(), a2, u3.getY(), a3, u4.getY(), a4);
         this.z = prototype.linearCombination(u1.getZ(), a1, u2.getZ(), a2, u3.getZ(), a3, u4.getZ(), a4);
     }
 
-    /** Linear constructor.
+    /**
+     * Linear constructor.
      * Build a vector from four other ones and corresponding scale factors.
      * The vector built will be a1 * u1 + a2 * u2 + a3 * u3 + a4 * u4
      * @param a1 first scale factor
@@ -300,17 +304,15 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param a4 fourth scale factor
      * @param u4 fourth base (unscaled) vector
      */
-    public FieldVector3D(final double a1, final FieldVector3D<T> u1,
-                         final double a2, final FieldVector3D<T> u2,
-                         final double a3, final FieldVector3D<T> u3,
-                         final double a4, final FieldVector3D<T> u4) {
+    public FieldVector3D(final double a1, final FieldVector3D<T> u1, final double a2, final FieldVector3D<T> u2, final double a3, final FieldVector3D<T> u3, final double a4, final FieldVector3D<T> u4) {
         final T prototype = u1.getX();
         this.x = prototype.linearCombination(a1, u1.getX(), a2, u2.getX(), a3, u3.getX(), a4, u4.getX());
         this.y = prototype.linearCombination(a1, u1.getY(), a2, u2.getY(), a3, u3.getY(), a4, u4.getY());
         this.z = prototype.linearCombination(a1, u1.getZ(), a2, u2.getZ(), a3, u3.getZ(), a4, u4.getZ());
     }
 
-    /** Build a {@link FieldVector3D} from a {@link Vector3D}.
+    /**
+     * Build a {@link FieldVector3D} from a {@link Vector3D}.
      * @param field field for the components
      * @param v vector to convert
      */
@@ -320,163 +322,177 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
         this.z = field.getZero().add(v.getZ());
     }
 
-    /** Get null vector (coordinates: 0, 0, 0).
+    /**
+     * Get null vector (coordinates: 0, 0, 0).
      * @param field field for the components
      * @return a new vector
      * @param <T> the type of the field elements
      */
     public static <T extends CalculusFieldElement<T>> FieldVector3D<T> getZero(final Field<T> field) {
-        return new FieldVector3D<>(field, Vector3D.ZERO);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get first canonical vector (coordinates: 1, 0, 0).
+    /**
+     * Get first canonical vector (coordinates: 1, 0, 0).
      * @param field field for the components
      * @return a new vector
      * @param <T> the type of the field elements
      */
     public static <T extends CalculusFieldElement<T>> FieldVector3D<T> getPlusI(final Field<T> field) {
-        return new FieldVector3D<>(field, Vector3D.PLUS_I);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get opposite of the first canonical vector (coordinates: -1, 0, 0).
+    /**
+     * Get opposite of the first canonical vector (coordinates: -1, 0, 0).
      * @param field field for the components
      * @return a new vector
      * @param <T> the type of the field elements
      */
     public static <T extends CalculusFieldElement<T>> FieldVector3D<T> getMinusI(final Field<T> field) {
-        return new FieldVector3D<>(field, Vector3D.MINUS_I);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get second canonical vector (coordinates: 0, 1, 0).
+    /**
+     * Get second canonical vector (coordinates: 0, 1, 0).
      * @param field field for the components
      * @return a new vector
      * @param <T> the type of the field elements
      */
     public static <T extends CalculusFieldElement<T>> FieldVector3D<T> getPlusJ(final Field<T> field) {
-        return new FieldVector3D<>(field, Vector3D.PLUS_J);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get opposite of the second canonical vector (coordinates: 0, -1, 0).
+    /**
+     * Get opposite of the second canonical vector (coordinates: 0, -1, 0).
      * @param field field for the components
      * @return a new vector
      * @param <T> the type of the field elements
      */
     public static <T extends CalculusFieldElement<T>> FieldVector3D<T> getMinusJ(final Field<T> field) {
-        return new FieldVector3D<>(field, Vector3D.MINUS_J);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get third canonical vector (coordinates: 0, 0, 1).
+    /**
+     * Get third canonical vector (coordinates: 0, 0, 1).
      * @param field field for the components
      * @return a new vector
      * @param <T> the type of the field elements
      */
     public static <T extends CalculusFieldElement<T>> FieldVector3D<T> getPlusK(final Field<T> field) {
-        return new FieldVector3D<>(field, Vector3D.PLUS_K);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get opposite of the third canonical vector (coordinates: 0, 0, -1).
+    /**
+     * Get opposite of the third canonical vector (coordinates: 0, 0, -1).
      * @param field field for the components
      * @return a new vector
      * @param <T> the type of the field elements
      */
     public static <T extends CalculusFieldElement<T>> FieldVector3D<T> getMinusK(final Field<T> field) {
-        return new FieldVector3D<>(field, Vector3D.MINUS_K);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a vector with all coordinates set to NaN.
+    /**
+     * Get a vector with all coordinates set to NaN.
      * @param field field for the components
      * @return a new vector
      * @param <T> the type of the field elements
      */
     public static <T extends CalculusFieldElement<T>> FieldVector3D<T> getNaN(final Field<T> field) {
-        return new FieldVector3D<>(field, Vector3D.NaN);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a vector with all coordinates set to positive infinity.
+    /**
+     * Get a vector with all coordinates set to positive infinity.
      * @param field field for the components
      * @return a new vector
      * @param <T> the type of the field elements
      */
     public static <T extends CalculusFieldElement<T>> FieldVector3D<T> getPositiveInfinity(final Field<T> field) {
-        return new FieldVector3D<>(field, Vector3D.POSITIVE_INFINITY);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a vector with all coordinates set to negative infinity.
+    /**
+     * Get a vector with all coordinates set to negative infinity.
      * @param field field for the components
      * @return a new vector
      * @param <T> the type of the field elements
      */
     public static <T extends CalculusFieldElement<T>> FieldVector3D<T> getNegativeInfinity(final Field<T> field) {
-        return new FieldVector3D<>(field, Vector3D.NEGATIVE_INFINITY);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the abscissa of the vector.
+    /**
+     * Get the abscissa of the vector.
      * @return abscissa of the vector
      * @see #FieldVector3D(CalculusFieldElement, CalculusFieldElement, CalculusFieldElement)
      */
     public T getX() {
-        return x;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the ordinate of the vector.
+    /**
+     * Get the ordinate of the vector.
      * @return ordinate of the vector
      * @see #FieldVector3D(CalculusFieldElement, CalculusFieldElement, CalculusFieldElement)
      */
     public T getY() {
-        return y;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the height of the vector.
+    /**
+     * Get the height of the vector.
      * @return height of the vector
      * @see #FieldVector3D(CalculusFieldElement, CalculusFieldElement, CalculusFieldElement)
      */
     public T getZ() {
-        return z;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the vector coordinates as a dimension 3 array.
+    /**
+     * Get the vector coordinates as a dimension 3 array.
      * @return vector coordinates
      * @see #FieldVector3D(CalculusFieldElement[])
      */
     public T[] toArray() {
-        final T[] array = MathArrays.buildArray(x.getField(), 3);
-        array[0] = x;
-        array[1] = y;
-        array[2] = z;
-        return array;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Convert to a constant vector without extra field parts.
+    /**
+     * Convert to a constant vector without extra field parts.
      * @return a constant vector
      */
     public Vector3D toVector3D() {
-        return new Vector3D(x.getReal(), y.getReal(), z.getReal());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the L<sub>1</sub> norm for the vector.
+    /**
+     * Get the L<sub>1</sub> norm for the vector.
      * @return L<sub>1</sub> norm for the vector
      */
     public T getNorm1() {
-        return x.abs().add(y.abs()).add(z.abs());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the L<sub>2</sub> norm for the vector.
+    /**
+     * Get the L<sub>2</sub> norm for the vector.
      * @return Euclidean norm for the vector
      * @since 4.1
      */
     public T getNorm2() {
-        // there are no cancellation problems here, so we use the straightforward formula
-        return x.square().add(y.square()).add(z.square()).sqrt();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the most common norm for the vector, by default the Euclidean one.
+    /**
+     * Get the most common norm for the vector, by default the Euclidean one.
      * @return norm for the vector
      */
     public T getNorm() {
-        return getNorm2();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the square of the norm for the vector.
+    /**
+     * Get the square of the norm for the vector.
      * @return square of the norm for the vector
      * @deprecated since 4.1, use getNorm2Sq
      */
@@ -486,163 +502,168 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
         return getNorm2Sq();
     }
 
-    /** Get the square of the 2-norm for the vector.
+    /**
+     * Get the square of the 2-norm for the vector.
      * @return square of the Euclidean norm for the vector
      * @since 4.1
      */
     public T getNorm2Sq() {
-        // there are no cancellation problems here, so we use the straightforward formula
-        return x.square().add(y.square()).add(z.square());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the L<sub>&infin;</sub> norm for the vector.
+    /**
+     * Get the L<sub>&infin;</sub> norm for the vector.
      * @return L<sub>&infin;</sub> norm for the vector
      */
     public T getNormInf() {
-        return FastMath.max(FastMath.abs(x), FastMath.max(FastMath.abs(y), FastMath.abs(z)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the azimuth of the vector.
+    /**
+     * Get the azimuth of the vector.
      * @return azimuth (&alpha;) of the vector, between -&pi; and +&pi;
      * @see #FieldVector3D(CalculusFieldElement, CalculusFieldElement)
      */
     public T getAlpha() {
-        return y.atan2(x);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the elevation of the vector.
+    /**
+     * Get the elevation of the vector.
      * @return elevation (&delta;) of the vector, between -&pi;/2 and +&pi;/2
      * @see #FieldVector3D(CalculusFieldElement, CalculusFieldElement)
      */
     public T getDelta() {
-        return z.divide(getNorm()).asin();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Add a vector to the instance.
+    /**
+     * Add a vector to the instance.
      * @param v vector to add
      * @return a new vector
      */
     public FieldVector3D<T> add(final FieldVector3D<T> v) {
-        return new FieldVector3D<>(x.add(v.x), y.add(v.y), z.add(v.z));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Add a vector to the instance.
+    /**
+     * Add a vector to the instance.
      * @param v vector to add
      * @return a new vector
      */
     public FieldVector3D<T> add(final Vector3D v) {
-        return new FieldVector3D<>(x.add(v.getX()), y.add(v.getY()), z.add(v.getZ()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Add a scaled vector to the instance.
+    /**
+     * Add a scaled vector to the instance.
      * @param factor scale factor to apply to v before adding it
      * @param v vector to add
      * @return a new vector
      */
     public FieldVector3D<T> add(final T factor, final FieldVector3D<T> v) {
-        return new FieldVector3D<>(x.getField().getOne(), this, factor, v);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Add a scaled vector to the instance.
+    /**
+     * Add a scaled vector to the instance.
      * @param factor scale factor to apply to v before adding it
      * @param v vector to add
      * @return a new vector
      */
     public FieldVector3D<T> add(final T factor, final Vector3D v) {
-        return new FieldVector3D<>(x.add(factor.multiply(v.getX())),
-                y.add(factor.multiply(v.getY())),
-                z.add(factor.multiply(v.getZ())));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Add a scaled vector to the instance.
+    /**
+     * Add a scaled vector to the instance.
      * @param factor scale factor to apply to v before adding it
      * @param v vector to add
      * @return a new vector
      */
     public FieldVector3D<T> add(final double factor, final FieldVector3D<T> v) {
-        return new FieldVector3D<>(1.0, this, factor, v);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Add a scaled vector to the instance.
+    /**
+     * Add a scaled vector to the instance.
      * @param factor scale factor to apply to v before adding it
      * @param v vector to add
      * @return a new vector
      */
     public FieldVector3D<T> add(final double factor, final Vector3D v) {
-        return new FieldVector3D<>(x.add(factor * v.getX()),
-                y.add(factor * v.getY()),
-                z.add(factor * v.getZ()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Subtract a vector from the instance.
+    /**
+     * Subtract a vector from the instance.
      * @param v vector to subtract
      * @return a new vector
      */
     public FieldVector3D<T> subtract(final FieldVector3D<T> v) {
-        return new FieldVector3D<>(x.subtract(v.x), y.subtract(v.y), z.subtract(v.z));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Subtract a vector from the instance.
+    /**
+     * Subtract a vector from the instance.
      * @param v vector to subtract
      * @return a new vector
      */
     public FieldVector3D<T> subtract(final Vector3D v) {
-        return new FieldVector3D<>(x.subtract(v.getX()), y.subtract(v.getY()), z.subtract(v.getZ()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Subtract a scaled vector from the instance.
+    /**
+     * Subtract a scaled vector from the instance.
      * @param factor scale factor to apply to v before subtracting it
      * @param v vector to subtract
      * @return a new vector
      */
     public FieldVector3D<T> subtract(final T factor, final FieldVector3D<T> v) {
-        return new FieldVector3D<>(x.getField().getOne(), this, factor.negate(), v);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Subtract a scaled vector from the instance.
+    /**
+     * Subtract a scaled vector from the instance.
      * @param factor scale factor to apply to v before subtracting it
      * @param v vector to subtract
      * @return a new vector
      */
     public FieldVector3D<T> subtract(final T factor, final Vector3D v) {
-        return new FieldVector3D<>(x.subtract(factor.multiply(v.getX())),
-                y.subtract(factor.multiply(v.getY())),
-                z.subtract(factor.multiply(v.getZ())));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Subtract a scaled vector from the instance.
+    /**
+     * Subtract a scaled vector from the instance.
      * @param factor scale factor to apply to v before subtracting it
      * @param v vector to subtract
      * @return a new vector
      */
     public FieldVector3D<T> subtract(final double factor, final FieldVector3D<T> v) {
-        return new FieldVector3D<>(1.0, this, -factor, v);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Subtract a scaled vector from the instance.
+    /**
+     * Subtract a scaled vector from the instance.
      * @param factor scale factor to apply to v before subtracting it
      * @param v vector to subtract
      * @return a new vector
      */
     public FieldVector3D<T> subtract(final double factor, final Vector3D v) {
-        return new FieldVector3D<>(x.subtract(factor * v.getX()),
-                y.subtract(factor * v.getY()),
-                z.subtract(factor * v.getZ()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a normalized vector aligned with the instance.
+    /**
+     * Get a normalized vector aligned with the instance.
      * @return a new normalized vector
      * @exception MathRuntimeException if the norm is zero
      */
     public FieldVector3D<T> normalize() throws MathRuntimeException {
-        final T s = getNorm();
-        if (s.getReal() == 0) {
-            throw new MathRuntimeException(LocalizedGeometryFormats.CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR);
-        }
-        return scalarMultiply(s.reciprocal());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a vector orthogonal to the instance.
+    /**
+     * Get a vector orthogonal to the instance.
      * <p>There are an infinite number of normalized vectors orthogonal
      * to the instance. This method picks up one of them almost
      * arbitrarily. It is useful when one needs to compute a reference
@@ -659,26 +680,11 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @exception MathRuntimeException if the norm of the instance is null
      */
     public FieldVector3D<T> orthogonal() throws MathRuntimeException {
-
-        final double threshold = 0.6 * getNorm().getReal();
-        if (threshold == 0) {
-            throw new MathRuntimeException(LocalizedCoreFormats.ZERO_NORM);
-        }
-
-        if (FastMath.abs(x.getReal()) <= threshold) {
-            final T inverse  = y.square().add(z.square()).sqrt().reciprocal();
-            return new FieldVector3D<>(inverse.getField().getZero(), inverse.multiply(z), inverse.multiply(y).negate());
-        } else if (FastMath.abs(y.getReal()) <= threshold) {
-            final T inverse  = x.square().add(z.square()).sqrt().reciprocal();
-            return new FieldVector3D<>(inverse.multiply(z).negate(), inverse.getField().getZero(), inverse.multiply(x));
-        } else {
-            final T inverse  = x.square().add(y.square()).sqrt().reciprocal();
-            return new FieldVector3D<>(inverse.multiply(y), inverse.multiply(x).negate(), inverse.getField().getZero());
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the angular separation between two vectors.
+    /**
+     * Compute the angular separation between two vectors.
      * <p>This method computes the angular separation between two
      * vectors using the dot product for well separated vectors and the
      * cross product for almost aligned vectors. This allows to have a
@@ -690,31 +696,12 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @return angular separation between v1 and v2
      * @exception MathRuntimeException if either vector has a null norm
      */
-    public static <T extends CalculusFieldElement<T>> T angle(final FieldVector3D<T> v1, final FieldVector3D<T> v2)
-        throws MathRuntimeException {
-
-        final T normProduct = v1.getNorm().multiply(v2.getNorm());
-        if (normProduct.getReal() == 0) {
-            throw new MathRuntimeException(LocalizedCoreFormats.ZERO_NORM);
-        }
-
-        final T dot = dotProduct(v1, v2);
-        final double threshold = normProduct.getReal() * 0.9999;
-        if ((dot.getReal() < -threshold) || (dot.getReal() > threshold)) {
-            // the vectors are almost aligned, compute using the sine
-            FieldVector3D<T> v3 = crossProduct(v1, v2);
-            if (dot.getReal() >= 0) {
-                return v3.getNorm().divide(normProduct).asin();
-            }
-            return v3.getNorm().divide(normProduct).asin().subtract(dot.getPi()).negate();
-        }
-
-        // the vectors are sufficiently separated to use the cosine
-        return dot.divide(normProduct).acos();
-
+    public static <T extends CalculusFieldElement<T>> T angle(final FieldVector3D<T> v1, final FieldVector3D<T> v2) throws MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the angular separation between two vectors.
+    /**
+     * Compute the angular separation between two vectors.
      * <p>This method computes the angular separation between two
      * vectors using the dot product for well separated vectors and the
      * cross product for almost aligned vectors. This allows to have a
@@ -726,31 +713,12 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @return angular separation between v1 and v2
      * @exception MathRuntimeException if either vector has a null norm
      */
-    public static <T extends CalculusFieldElement<T>> T angle(final FieldVector3D<T> v1, final Vector3D v2)
-        throws MathRuntimeException {
-
-        final T normProduct = v1.getNorm().multiply(v2.getNorm());
-        if (normProduct.getReal() == 0) {
-            throw new MathRuntimeException(LocalizedCoreFormats.ZERO_NORM);
-        }
-
-        final T dot = dotProduct(v1, v2);
-        final double threshold = normProduct.getReal() * 0.9999;
-        if ((dot.getReal() < -threshold) || (dot.getReal() > threshold)) {
-            // the vectors are almost aligned, compute using the sine
-            FieldVector3D<T> v3 = crossProduct(v1, v2);
-            if (dot.getReal() >= 0) {
-                return v3.getNorm().divide(normProduct).asin();
-            }
-            return v3.getNorm().divide(normProduct).asin().subtract(dot.getPi()).negate();
-        }
-
-        // the vectors are sufficiently separated to use the cosine
-        return dot.divide(normProduct).acos();
-
+    public static <T extends CalculusFieldElement<T>> T angle(final FieldVector3D<T> v1, final Vector3D v2) throws MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the angular separation between two vectors.
+    /**
+     * Compute the angular separation between two vectors.
      * <p>This method computes the angular separation between two
      * vectors using the dot product for well separated vectors and the
      * cross product for almost aligned vectors. This allows to have a
@@ -762,32 +730,34 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @return angular separation between v1 and v2
      * @exception MathRuntimeException if either vector has a null norm
      */
-    public static <T extends CalculusFieldElement<T>> T angle(final Vector3D v1, final FieldVector3D<T> v2)
-        throws MathRuntimeException {
-        return angle(v2, v1);
+    public static <T extends CalculusFieldElement<T>> T angle(final Vector3D v1, final FieldVector3D<T> v2) throws MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the opposite of the instance.
+    /**
+     * Get the opposite of the instance.
      * @return a new vector which is opposite to the instance
      */
     public FieldVector3D<T> negate() {
-        return new FieldVector3D<>(x.negate(), y.negate(), z.negate());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Multiply the instance by a scalar.
+    /**
+     * Multiply the instance by a scalar.
      * @param a scalar
      * @return a new vector
      */
     public FieldVector3D<T> scalarMultiply(final T a) {
-        return new FieldVector3D<>(x.multiply(a), y.multiply(a), z.multiply(a));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Multiply the instance by a scalar.
+    /**
+     * Multiply the instance by a scalar.
      * @param a scalar
      * @return a new vector
      */
     public FieldVector3D<T> scalarMultiply(final double a) {
-        return new FieldVector3D<>(x.multiply(a), y.multiply(a), z.multiply(a));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -795,7 +765,7 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @return  true if any coordinate of this vector is NaN; false otherwise
      */
     public boolean isNaN() {
-        return Double.isNaN(x.getReal()) || Double.isNaN(y.getReal()) || Double.isNaN(z.getReal());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -805,7 +775,7 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * false otherwise
      */
     public boolean isInfinite() {
-        return !isNaN() && (Double.isInfinite(x.getReal()) || Double.isInfinite(y.getReal()) || Double.isInfinite(z.getReal()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -825,26 +795,10 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @return true if two 3D vector objects are equal, false if
      *         object is null, not an instance of FieldVector3D, or
      *         not equal to this FieldVector3D instance
-     *
      */
     @Override
     public boolean equals(Object other) {
-
-        if (this == other) {
-            return true;
-        }
-
-        if (other instanceof FieldVector3D) {
-            @SuppressWarnings("unchecked")
-            final FieldVector3D<T> rhs = (FieldVector3D<T>) other;
-            if (rhs.isNaN()) {
-                return this.isNaN();
-            }
-
-            return x.equals(rhs.x) && y.equals(rhs.y) && z.equals(rhs.z);
-
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -856,13 +810,11 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      */
     @Override
     public int hashCode() {
-        if (isNaN()) {
-            return 409;
-        }
-        return 311 * (107 * x.hashCode() + 83 * y.hashCode() +  z.hashCode());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the dot-product of the instance and another vector.
+    /**
+     * Compute the dot-product of the instance and another vector.
      * <p>
      * The implementation uses specific multiplication and addition
      * algorithms to preserve accuracy and reduce cancellation effects.
@@ -873,10 +825,11 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @return the dot product this.v
      */
     public T dotProduct(final FieldVector3D<T> v) {
-        return x.linearCombination(x, v.x, y, v.y, z, v.z);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the dot-product of the instance and another vector.
+    /**
+     * Compute the dot-product of the instance and another vector.
      * <p>
      * The implementation uses specific multiplication and addition
      * algorithms to preserve accuracy and reduce cancellation effects.
@@ -887,30 +840,29 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @return the dot product this.v
      */
     public T dotProduct(final Vector3D v) {
-        return x.linearCombination(v.getX(), x, v.getY(), y, v.getZ(), z);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the cross-product of the instance with another vector.
+    /**
+     * Compute the cross-product of the instance with another vector.
      * @param v other vector
      * @return the cross product this ^ v as a new Vector3D
      */
     public FieldVector3D<T> crossProduct(final FieldVector3D<T> v) {
-        return new FieldVector3D<>(x.linearCombination(y, v.z, z.negate(), v.y),
-                y.linearCombination(z, v.x, x.negate(), v.z),
-                z.linearCombination(x, v.y, y.negate(), v.x));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the cross-product of the instance with another vector.
+    /**
+     * Compute the cross-product of the instance with another vector.
      * @param v other vector
      * @return the cross product this ^ v as a new Vector3D
      */
     public FieldVector3D<T> crossProduct(final Vector3D v) {
-        return new FieldVector3D<>(x.linearCombination(v.getZ(), y, -v.getY(), z),
-                y.linearCombination(v.getX(), z, -v.getZ(), x),
-                z.linearCombination(v.getY(), x, -v.getX(), y));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the distance between the instance and another vector according to the L<sub>1</sub> norm.
+    /**
+     * Compute the distance between the instance and another vector according to the L<sub>1</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>q.subtract(p).getNorm1()</code> except that no intermediate
      * vector is built</p>
@@ -918,13 +870,11 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @return the distance between the instance and p according to the L<sub>1</sub> norm
      */
     public T distance1(final FieldVector3D<T> v) {
-        final T dx = v.x.subtract(x).abs();
-        final T dy = v.y.subtract(y).abs();
-        final T dz = v.z.subtract(z).abs();
-        return dx.add(dy).add(dz);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the distance between the instance and another vector according to the L<sub>1</sub> norm.
+    /**
+     * Compute the distance between the instance and another vector according to the L<sub>1</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>q.subtract(p).getNorm1()</code> except that no intermediate
      * vector is built</p>
@@ -932,13 +882,11 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @return the distance between the instance and p according to the L<sub>1</sub> norm
      */
     public T distance1(final Vector3D v) {
-        final T dx = x.subtract(v.getX()).abs();
-        final T dy = y.subtract(v.getY()).abs();
-        final T dz = z.subtract(v.getZ()).abs();
-        return dx.add(dy).add(dz);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the distance between the instance and another vector according to the L<sub>2</sub> norm.
+    /**
+     * Compute the distance between the instance and another vector according to the L<sub>2</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>q.subtract(p).getNorm()</code> except that no intermediate
      * vector is built</p>
@@ -946,13 +894,11 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @return the distance between the instance and p according to the L<sub>2</sub> norm
      */
     public T distance(final FieldVector3D<T> v) {
-        final T dx = v.x.subtract(x);
-        final T dy = v.y.subtract(y);
-        final T dz = v.z.subtract(z);
-        return dx.square().add(dy.square()).add(dz.square()).sqrt();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the distance between the instance and another vector according to the L<sub>2</sub> norm.
+    /**
+     * Compute the distance between the instance and another vector according to the L<sub>2</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>q.subtract(p).getNorm()</code> except that no intermediate
      * vector is built</p>
@@ -960,13 +906,11 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @return the distance between the instance and p according to the L<sub>2</sub> norm
      */
     public T distance(final Vector3D v) {
-        final T dx = x.subtract(v.getX());
-        final T dy = y.subtract(v.getY());
-        final T dz = z.subtract(v.getZ());
-        return dx.square().add(dy.square()).add(dz.square()).sqrt();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the distance between the instance and another vector according to the L<sub>&infin;</sub> norm.
+    /**
+     * Compute the distance between the instance and another vector according to the L<sub>&infin;</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>q.subtract(p).getNormInf()</code> except that no intermediate
      * vector is built</p>
@@ -974,25 +918,11 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @return the distance between the instance and p according to the L<sub>&infin;</sub> norm
      */
     public T distanceInf(final FieldVector3D<T> v) {
-        final T dx = v.x.subtract(x).abs();
-        final T dy = v.y.subtract(y).abs();
-        final T dz = v.z.subtract(z).abs();
-        if (dx.getReal() <= dy.getReal()) {
-            if (dy.getReal() <= dz.getReal()) {
-                return dz;
-            } else {
-                return dy;
-            }
-        } else {
-            if (dx.getReal() <= dz.getReal()) {
-                return dz;
-            } else {
-                return dx;
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the distance between the instance and another vector according to the L<sub>&infin;</sub> norm.
+    /**
+     * Compute the distance between the instance and another vector according to the L<sub>&infin;</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>q.subtract(p).getNormInf()</code> except that no intermediate
      * vector is built</p>
@@ -1000,25 +930,11 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @return the distance between the instance and p according to the L<sub>&infin;</sub> norm
      */
     public T distanceInf(final Vector3D v) {
-        final T dx = x.subtract(v.getX()).abs();
-        final T dy = y.subtract(v.getY()).abs();
-        final T dz = z.subtract(v.getZ()).abs();
-        if (dx.getReal() <= dy.getReal()) {
-            if (dy.getReal() <= dz.getReal()) {
-                return dz;
-            } else {
-                return dy;
-            }
-        } else {
-            if (dx.getReal() <= dz.getReal()) {
-                return dz;
-            } else {
-                return dx;
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the square of the distance between the instance and another vector.
+    /**
+     * Compute the square of the distance between the instance and another vector.
      * <p>Calling this method is equivalent to calling:
      * <code>q.subtract(p).getNorm2Sq()</code> except that no intermediate
      * vector is built</p>
@@ -1026,13 +942,11 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @return the square of the distance between the instance and p
      */
     public T distanceSq(final FieldVector3D<T> v) {
-        final T dx = v.x.subtract(x);
-        final T dy = v.y.subtract(y);
-        final T dz = v.z.subtract(z);
-        return dx.square().add(dy.square()).add(dz.square());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the square of the distance between the instance and another vector.
+    /**
+     * Compute the square of the distance between the instance and another vector.
      * <p>Calling this method is equivalent to calling:
      * <code>q.subtract(p).getNorm2Sq()</code> except that no intermediate
      * vector is built</p>
@@ -1040,81 +954,77 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @return the square of the distance between the instance and p
      */
     public T distanceSq(final Vector3D v) {
-        final T dx = x.subtract(v.getX());
-        final T dy = y.subtract(v.getY());
-        final T dz = z.subtract(v.getZ());
-        return dx.square().add(dy.square()).add(dz.square());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the dot-product of two vectors.
+    /**
+     * Compute the dot-product of two vectors.
      * @param v1 first vector
      * @param v2 second vector
      * @param <T> the type of the field elements
      * @return the dot product v1.v2
      */
-    public static <T extends CalculusFieldElement<T>> T dotProduct(final FieldVector3D<T> v1,
-                                                                   final FieldVector3D<T> v2) {
-        return v1.dotProduct(v2);
+    public static <T extends CalculusFieldElement<T>> T dotProduct(final FieldVector3D<T> v1, final FieldVector3D<T> v2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the dot-product of two vectors.
+    /**
+     * Compute the dot-product of two vectors.
      * @param v1 first vector
      * @param v2 second vector
      * @param <T> the type of the field elements
      * @return the dot product v1.v2
      */
-    public static <T extends CalculusFieldElement<T>> T dotProduct(final FieldVector3D<T> v1,
-                                                                   final Vector3D v2) {
-        return v1.dotProduct(v2);
+    public static <T extends CalculusFieldElement<T>> T dotProduct(final FieldVector3D<T> v1, final Vector3D v2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the dot-product of two vectors.
+    /**
+     * Compute the dot-product of two vectors.
      * @param v1 first vector
      * @param v2 second vector
      * @param <T> the type of the field elements
      * @return the dot product v1.v2
      */
-    public static <T extends CalculusFieldElement<T>> T dotProduct(final Vector3D v1,
-                                                                   final FieldVector3D<T> v2) {
-        return v2.dotProduct(v1);
+    public static <T extends CalculusFieldElement<T>> T dotProduct(final Vector3D v1, final FieldVector3D<T> v2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the cross-product of two vectors.
+    /**
+     * Compute the cross-product of two vectors.
      * @param v1 first vector
      * @param v2 second vector
      * @param <T> the type of the field elements
      * @return the cross product v1 ^ v2 as a new Vector
      */
-    public static <T extends CalculusFieldElement<T>> FieldVector3D<T> crossProduct(final FieldVector3D<T> v1,
-                                                                                    final FieldVector3D<T> v2) {
-        return v1.crossProduct(v2);
+    public static <T extends CalculusFieldElement<T>> FieldVector3D<T> crossProduct(final FieldVector3D<T> v1, final FieldVector3D<T> v2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the cross-product of two vectors.
+    /**
+     * Compute the cross-product of two vectors.
      * @param v1 first vector
      * @param v2 second vector
      * @param <T> the type of the field elements
      * @return the cross product v1 ^ v2 as a new Vector
      */
-    public static <T extends CalculusFieldElement<T>> FieldVector3D<T> crossProduct(final FieldVector3D<T> v1,
-                                                                                    final Vector3D v2) {
-        return v1.crossProduct(v2);
+    public static <T extends CalculusFieldElement<T>> FieldVector3D<T> crossProduct(final FieldVector3D<T> v1, final Vector3D v2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the cross-product of two vectors.
+    /**
+     * Compute the cross-product of two vectors.
      * @param v1 first vector
      * @param v2 second vector
      * @param <T> the type of the field elements
      * @return the cross product v1 ^ v2 as a new Vector
      */
-    public static <T extends CalculusFieldElement<T>> FieldVector3D<T> crossProduct(final Vector3D v1,
-                                                                                    final FieldVector3D<T> v2) {
-        return new FieldVector3D<>(v2.x.linearCombination(v1.getY(), v2.z, -v1.getZ(), v2.y),
-                v2.y.linearCombination(v1.getZ(), v2.x, -v1.getX(), v2.z),
-                v2.z.linearCombination(v1.getX(), v2.y, -v1.getY(), v2.x));
+    public static <T extends CalculusFieldElement<T>> FieldVector3D<T> crossProduct(final Vector3D v1, final FieldVector3D<T> v2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the distance between two vectors according to the L<sub>1</sub> norm.
+    /**
+     * Compute the distance between two vectors according to the L<sub>1</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>v1.subtract(v2).getNorm1()</code> except that no intermediate
      * vector is built</p>
@@ -1123,12 +1033,12 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param <T> the type of the field elements
      * @return the distance between v1 and v2 according to the L<sub>1</sub> norm
      */
-    public static <T extends CalculusFieldElement<T>> T distance1(final FieldVector3D<T> v1,
-                                                                  final FieldVector3D<T> v2) {
-        return v1.distance1(v2);
+    public static <T extends CalculusFieldElement<T>> T distance1(final FieldVector3D<T> v1, final FieldVector3D<T> v2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the distance between two vectors according to the L<sub>1</sub> norm.
+    /**
+     * Compute the distance between two vectors according to the L<sub>1</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>v1.subtract(v2).getNorm1()</code> except that no intermediate
      * vector is built</p>
@@ -1137,12 +1047,12 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param <T> the type of the field elements
      * @return the distance between v1 and v2 according to the L<sub>1</sub> norm
      */
-    public static <T extends CalculusFieldElement<T>> T distance1(final FieldVector3D<T> v1,
-                                                                  final Vector3D v2) {
-        return v1.distance1(v2);
+    public static <T extends CalculusFieldElement<T>> T distance1(final FieldVector3D<T> v1, final Vector3D v2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the distance between two vectors according to the L<sub>1</sub> norm.
+    /**
+     * Compute the distance between two vectors according to the L<sub>1</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>v1.subtract(v2).getNorm1()</code> except that no intermediate
      * vector is built</p>
@@ -1151,12 +1061,12 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param <T> the type of the field elements
      * @return the distance between v1 and v2 according to the L<sub>1</sub> norm
      */
-    public static <T extends CalculusFieldElement<T>> T distance1(final Vector3D v1,
-                                                                  final FieldVector3D<T> v2) {
-        return v2.distance1(v1);
+    public static <T extends CalculusFieldElement<T>> T distance1(final Vector3D v1, final FieldVector3D<T> v2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the distance between two vectors according to the L<sub>2</sub> norm.
+    /**
+     * Compute the distance between two vectors according to the L<sub>2</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>v1.subtract(v2).getNorm()</code> except that no intermediate
      * vector is built</p>
@@ -1165,12 +1075,12 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param <T> the type of the field elements
      * @return the distance between v1 and v2 according to the L<sub>2</sub> norm
      */
-    public static <T extends CalculusFieldElement<T>> T distance(final FieldVector3D<T> v1,
-                                                                 final FieldVector3D<T> v2) {
-        return v1.distance(v2);
+    public static <T extends CalculusFieldElement<T>> T distance(final FieldVector3D<T> v1, final FieldVector3D<T> v2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the distance between two vectors according to the L<sub>2</sub> norm.
+    /**
+     * Compute the distance between two vectors according to the L<sub>2</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>v1.subtract(v2).getNorm()</code> except that no intermediate
      * vector is built</p>
@@ -1179,12 +1089,12 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param <T> the type of the field elements
      * @return the distance between v1 and v2 according to the L<sub>2</sub> norm
      */
-    public static <T extends CalculusFieldElement<T>> T distance(final FieldVector3D<T> v1,
-                                                                 final Vector3D v2) {
-        return v1.distance(v2);
+    public static <T extends CalculusFieldElement<T>> T distance(final FieldVector3D<T> v1, final Vector3D v2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the distance between two vectors according to the L<sub>2</sub> norm.
+    /**
+     * Compute the distance between two vectors according to the L<sub>2</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>v1.subtract(v2).getNorm()</code> except that no intermediate
      * vector is built</p>
@@ -1193,12 +1103,12 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param <T> the type of the field elements
      * @return the distance between v1 and v2 according to the L<sub>2</sub> norm
      */
-    public static <T extends CalculusFieldElement<T>> T distance(final Vector3D v1,
-                                                                 final FieldVector3D<T> v2) {
-        return v2.distance(v1);
+    public static <T extends CalculusFieldElement<T>> T distance(final Vector3D v1, final FieldVector3D<T> v2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the distance between two vectors according to the L<sub>&infin;</sub> norm.
+    /**
+     * Compute the distance between two vectors according to the L<sub>&infin;</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>v1.subtract(v2).getNormInf()</code> except that no intermediate
      * vector is built</p>
@@ -1207,12 +1117,12 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param <T> the type of the field elements
      * @return the distance between v1 and v2 according to the L<sub>&infin;</sub> norm
      */
-    public static <T extends CalculusFieldElement<T>> T distanceInf(final FieldVector3D<T> v1,
-                                                                    final FieldVector3D<T> v2) {
-        return v1.distanceInf(v2);
+    public static <T extends CalculusFieldElement<T>> T distanceInf(final FieldVector3D<T> v1, final FieldVector3D<T> v2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the distance between two vectors according to the L<sub>&infin;</sub> norm.
+    /**
+     * Compute the distance between two vectors according to the L<sub>&infin;</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>v1.subtract(v2).getNormInf()</code> except that no intermediate
      * vector is built</p>
@@ -1221,12 +1131,12 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param <T> the type of the field elements
      * @return the distance between v1 and v2 according to the L<sub>&infin;</sub> norm
      */
-    public static <T extends CalculusFieldElement<T>> T distanceInf(final FieldVector3D<T> v1,
-                                                                    final Vector3D v2) {
-        return v1.distanceInf(v2);
+    public static <T extends CalculusFieldElement<T>> T distanceInf(final FieldVector3D<T> v1, final Vector3D v2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the distance between two vectors according to the L<sub>&infin;</sub> norm.
+    /**
+     * Compute the distance between two vectors according to the L<sub>&infin;</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>v1.subtract(v2).getNormInf()</code> except that no intermediate
      * vector is built</p>
@@ -1235,12 +1145,12 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param <T> the type of the field elements
      * @return the distance between v1 and v2 according to the L<sub>&infin;</sub> norm
      */
-    public static <T extends CalculusFieldElement<T>> T distanceInf(final Vector3D v1,
-                                                                    final FieldVector3D<T> v2) {
-        return v2.distanceInf(v1);
+    public static <T extends CalculusFieldElement<T>> T distanceInf(final Vector3D v1, final FieldVector3D<T> v2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the square of the distance between two vectors.
+    /**
+     * Compute the square of the distance between two vectors.
      * <p>Calling this method is equivalent to calling:
      * <code>v1.subtract(v2).getNorm2Sq()</code> except that no intermediate
      * vector is built</p>
@@ -1249,12 +1159,12 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param <T> the type of the field elements
      * @return the square of the distance between v1 and v2
      */
-    public static <T extends CalculusFieldElement<T>> T distanceSq(final FieldVector3D<T> v1,
-                                                                   final FieldVector3D<T> v2) {
-        return v1.distanceSq(v2);
+    public static <T extends CalculusFieldElement<T>> T distanceSq(final FieldVector3D<T> v1, final FieldVector3D<T> v2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the square of the distance between two vectors.
+    /**
+     * Compute the square of the distance between two vectors.
      * <p>Calling this method is equivalent to calling:
      * <code>v1.subtract(v2).getNorm2Sq()</code> except that no intermediate
      * vector is built</p>
@@ -1263,12 +1173,12 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param <T> the type of the field elements
      * @return the square of the distance between v1 and v2
      */
-    public static <T extends CalculusFieldElement<T>> T distanceSq(final FieldVector3D<T> v1,
-                                                                   final Vector3D v2) {
-        return v1.distanceSq(v2);
+    public static <T extends CalculusFieldElement<T>> T distanceSq(final FieldVector3D<T> v1, final Vector3D v2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the square of the distance between two vectors.
+    /**
+     * Compute the square of the distance between two vectors.
      * <p>Calling this method is equivalent to calling:
      * <code>v1.subtract(v2).getNorm2Sq()</code> except that no intermediate
      * vector is built</p>
@@ -1277,33 +1187,33 @@ public class FieldVector3D<T extends CalculusFieldElement<T>> implements FieldBl
      * @param <T> the type of the field elements
      * @return the square of the distance between v1 and v2
      */
-    public static <T extends CalculusFieldElement<T>> T distanceSq(final Vector3D v1,
-                                                                   final FieldVector3D<T> v2) {
-        return v2.distanceSq(v1);
+    public static <T extends CalculusFieldElement<T>> T distanceSq(final Vector3D v1, final FieldVector3D<T> v2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a string representation of this vector.
+    /**
+     * Get a string representation of this vector.
      * @return a string representation of this vector
      */
     @Override
     public String toString() {
-        return Vector3DFormat.getVector3DFormat().format(toVector3D());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a string representation of this vector.
+    /**
+     * Get a string representation of this vector.
      * @param format the custom format for components
      * @return a string representation of this vector
      */
     public String toString(final NumberFormat format) {
-        return new Vector3DFormat(format).format(toVector3D());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldVector3D<T> blendArithmeticallyWith(final FieldVector3D<T> other, final T blendingValue)
-            throws MathIllegalArgumentException {
-        SmoothStepFactory.checkBetweenZeroAndOneIncluded(blendingValue.getReal());
-        final T one = x.getField().getOne();
-        return this.scalarMultiply(one.subtract(blendingValue)).add(other.scalarMultiply(blendingValue));
+    public FieldVector3D<T> blendArithmeticallyWith(final FieldVector3D<T> other, final T blendingValue) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -32,16 +31,25 @@ import org.hipparchus.util.MathUtils;
  */
 public class LevyDistribution extends AbstractRealDistribution {
 
-    /** Serializable UID. */
+    /**
+     * Serializable UID.
+     */
     private static final long serialVersionUID = 20130314L;
 
-    /** Location parameter. */
+    /**
+     * Location parameter.
+     */
     private final double mu;
 
-    /** Scale parameter. */
-    private final double c;  // Setting this to 1 returns a cumProb of 1.0
+    /**
+     * Scale parameter.
+     */
+    // Setting this to 1 returns a cumProb of 1.0
+    private final double c;
 
-    /** Half of c (for calculations). */
+    /**
+     * Half of c (for calculations).
+     */
     private final double halfC;
 
     /**
@@ -51,53 +59,43 @@ public class LevyDistribution extends AbstractRealDistribution {
      * @param c scale parameter
      */
     public LevyDistribution(final double mu, final double c) {
-        this.mu    = mu;
-        this.c     = c;
+        this.mu = mu;
+        this.c = c;
         this.halfC = 0.5 * c;
     }
 
-
-    /** {@inheritDoc}
-    * <p>
-    * From Wikipedia: The probability density function of the L&eacute;vy distribution
-    * over the domain is
-    * </p>
-    * \[
-    * f(x; \mu, c) = \sqrt{\frac{c}{2\pi}} \frac{e^{\frac{-c}{2 (x - \mu)}}}{(x - \mu)^\frac{3}{2}}
-    * \]
-    * <p>
-    * For this distribution, {@code X}, this method returns {@code P(X < x)}.
-    * If {@code x} is less than location parameter &mu;, {@code Double.NaN} is
-    * returned, as in these cases the distribution is not defined.
-    * </p>
-    */
+    /**
+     * {@inheritDoc}
+     * <p>
+     * From Wikipedia: The probability density function of the L&eacute;vy distribution
+     * over the domain is
+     * </p>
+     * \[
+     * f(x; \mu, c) = \sqrt{\frac{c}{2\pi}} \frac{e^{\frac{-c}{2 (x - \mu)}}}{(x - \mu)^\frac{3}{2}}
+     * \]
+     * <p>
+     * For this distribution, {@code X}, this method returns {@code P(X < x)}.
+     * If {@code x} is less than location parameter &mu;, {@code Double.NaN} is
+     * returned, as in these cases the distribution is not defined.
+     * </p>
+     */
     @Override
     public double density(final double x) {
-        if (x < mu) {
-            return Double.NaN;
-        }
-
-        final double delta = x - mu;
-        final double f     = halfC / delta;
-        return FastMath.sqrt(f / FastMath.PI) * FastMath.exp(-f) /delta;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      *
      * See documentation of {@link #density(double)} for computation details.
      */
     @Override
     public double logDensity(double x) {
-        if (x < mu) {
-            return Double.NaN;
-        }
-
-        final double delta = x - mu;
-        final double f     = halfC / delta;
-        return 0.5 * FastMath.log(f / FastMath.PI) - f - FastMath.log(delta);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * From Wikipedia: the cumulative distribution function is
      * </p>
@@ -107,62 +105,70 @@ public class LevyDistribution extends AbstractRealDistribution {
      */
     @Override
     public double cumulativeProbability(final double x) {
-        if (x < mu) {
-            return Double.NaN;
-        }
-        return Erf.erfc(FastMath.sqrt(halfC / (x - mu)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double inverseCumulativeProbability(final double p) throws MathIllegalArgumentException {
-        MathUtils.checkRangeInclusive(p, 0, 1);
-        final double t = Erf.erfcInv(p);
-        return mu + halfC / (t * t);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the scale parameter of the distribution.
+    /**
+     * Get the scale parameter of the distribution.
      * @return scale parameter of the distribution
      */
     public double getScale() {
-        return c;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the location parameter of the distribution.
+    /**
+     * Get the location parameter of the distribution.
      * @return location parameter of the distribution
      */
     public double getLocation() {
-        return mu;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getNumericalMean() {
-        return Double.POSITIVE_INFINITY;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getNumericalVariance() {
-        return Double.POSITIVE_INFINITY;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getSupportLowerBound() {
-        return mu;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getSupportUpperBound() {
-        return Double.POSITIVE_INFINITY;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

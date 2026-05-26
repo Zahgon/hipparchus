@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -27,13 +26,17 @@ import org.hipparchus.optim.nonlinear.vector.leastsquares.LeastSquaresProblem.Ev
 
 /**
  * Applies a dense weight matrix to an evaluation.
- *
  */
 class DenseWeightedEvaluation extends AbstractEvaluation {
 
-    /** the unweighted evaluation */
+    /**
+     * the unweighted evaluation
+     */
     private final Evaluation unweighted;
-    /** reference to the weight square root matrix */
+
+    /**
+     * reference to the weight square root matrix
+     */
     private final RealMatrix weightSqrt;
 
     /**
@@ -42,8 +45,7 @@ class DenseWeightedEvaluation extends AbstractEvaluation {
      * @param unweighted the evalutation before weights are applied
      * @param weightSqrt the matrix square root of the weight matrix
      */
-    DenseWeightedEvaluation(final Evaluation unweighted,
-                            final RealMatrix weightSqrt) {
+    DenseWeightedEvaluation(final Evaluation unweighted, final RealMatrix weightSqrt) {
         // weight square root is square, nR=nC=number of observations
         super(weightSqrt.getColumnDimension());
         this.unweighted = unweighted;
@@ -51,25 +53,28 @@ class DenseWeightedEvaluation extends AbstractEvaluation {
     }
 
     /* apply weights */
-
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealMatrix getJacobian() {
-        return weightSqrt.multiply(this.unweighted.getJacobian());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector getResiduals() {
-        return this.weightSqrt.operate(this.unweighted.getResiduals());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /* delegate */
-
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector getPoint() {
-        return unweighted.getPoint();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

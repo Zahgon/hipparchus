@@ -14,19 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.util;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Properties;
-
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.FieldElement;
 import org.hipparchus.exception.Localizable;
@@ -43,20 +40,27 @@ import org.hipparchus.exception.NullArgumentException;
  * @see MathArrays
  */
 public final class MathUtils {
-    /** \(2\pi\) */
+
+    /**
+     * \(2\pi\)
+     */
     public static final double TWO_PI = 2 * FastMath.PI;
 
-    /** \(\pi^2\) */
+    /**
+     * \(\pi^2\)
+     */
     public static final double PI_SQUARED = FastMath.PI * FastMath.PI;
 
-    /** \(\pi/2\). */
+    /**
+     * \(\pi/2\).
+     */
     public static final double SEMI_PI = 0.5 * FastMath.PI;
 
     /**
      * Class contains only static methods.
      */
-    private MathUtils() {}
-
+    private MathUtils() {
+    }
 
     /**
      * Returns an integer hash code representing the given double value.
@@ -65,7 +69,7 @@ public final class MathUtils {
      * @return the hash code
      */
     public static int hash(double value) {
-        return Double.hashCode(value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -77,7 +81,7 @@ public final class MathUtils {
      * @return {@code Double.valueOf(x).equals(Double.valueOf(y))}
      */
     public static boolean equals(double x, double y) {
-        return Double.valueOf(x).equals(y);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -87,7 +91,7 @@ public final class MathUtils {
      * @return the hash code
      */
     public static int hash(double[] value) {
-        return Arrays.hashCode(value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -108,52 +112,54 @@ public final class MathUtils {
      * @param center center of the desired 2&pi; interval for the result
      * @return a-2k&pi; with integer k and center-&pi; &lt;= a-2k&pi; &lt;= center+&pi;
      */
-     public static double normalizeAngle(double a, double center) {
-         return a - TWO_PI * FastMath.floor((a + FastMath.PI - center) / TWO_PI);
-     }
+    public static double normalizeAngle(double a, double center) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-     /**
-      * Normalize an angle in a 2&pi; wide interval around a center value.
-      * <p>This method has three main uses:</p>
-      * <ul>
-      *   <li>normalize an angle between 0 and 2&pi;:<br>
-      *       {@code a = MathUtils.normalizeAngle(a, FastMath.PI);}</li>
-      *   <li>normalize an angle between -&pi; and +&pi;<br>
-      *       {@code a = MathUtils.normalizeAngle(a, zero);}</li>
-      *   <li>compute the angle between two defining angular positions:<br>
-      *       {@code angle = MathUtils.normalizeAngle(end, start).subtract(start);}</li>
-      * </ul>
-      * <p>Note that due to numerical accuracy and since &pi; cannot be represented
-      * exactly, the result interval is <em>closed</em>, it cannot be half-closed
-      * as would be more satisfactory in a purely mathematical view.</p>
-      * @param <T> the type of the field elements
-      * @param a angle to normalize
-      * @param center center of the desired 2&pi; interval for the result
-      * @return a-2k&pi; with integer k and center-&pi; &lt;= a-2k&pi; &lt;= center+&pi;
-      */
-      public static <T extends CalculusFieldElement<T>> T normalizeAngle(T a, T center) {
-          return a.subtract(FastMath.floor(a.add(FastMath.PI).subtract(center).divide(TWO_PI)).multiply(TWO_PI));
-      }
+    /**
+     * Normalize an angle in a 2&pi; wide interval around a center value.
+     * <p>This method has three main uses:</p>
+     * <ul>
+     *   <li>normalize an angle between 0 and 2&pi;:<br>
+     *       {@code a = MathUtils.normalizeAngle(a, FastMath.PI);}</li>
+     *   <li>normalize an angle between -&pi; and +&pi;<br>
+     *       {@code a = MathUtils.normalizeAngle(a, zero);}</li>
+     *   <li>compute the angle between two defining angular positions:<br>
+     *       {@code angle = MathUtils.normalizeAngle(end, start).subtract(start);}</li>
+     * </ul>
+     * <p>Note that due to numerical accuracy and since &pi; cannot be represented
+     * exactly, the result interval is <em>closed</em>, it cannot be half-closed
+     * as would be more satisfactory in a purely mathematical view.</p>
+     * @param <T> the type of the field elements
+     * @param a angle to normalize
+     * @param center center of the desired 2&pi; interval for the result
+     * @return a-2k&pi; with integer k and center-&pi; &lt;= a-2k&pi; &lt;= center+&pi;
+     */
+    public static <T extends CalculusFieldElement<T>> T normalizeAngle(T a, T center) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-     /** Find the maximum of two field elements.
-      * @param <T> the type of the field elements
-      * @param e1 first element
-      * @param e2 second element
-      * @return max(a1, e2)
-      */
-     public static <T extends CalculusFieldElement<T>> T max(final T e1, final T e2) {
-         return e1.subtract(e2).getReal() >= 0 ? e1 : e2;
-     }
+    /**
+     * Find the maximum of two field elements.
+     * @param <T> the type of the field elements
+     * @param e1 first element
+     * @param e2 second element
+     * @return max(a1, e2)
+     */
+    public static <T extends CalculusFieldElement<T>> T max(final T e1, final T e2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-     /** Find the minimum of two field elements.
-      * @param <T> the type of the field elements
-      * @param e1 first element
-      * @param e2 second element
-      * @return min(a1, e2)
-      */
-     public static <T extends CalculusFieldElement<T>> T min(final T e1, final T e2) {
-         return e1.subtract(e2).getReal() >= 0 ? e2 : e1;
-     }
+    /**
+     * Find the minimum of two field elements.
+     * @param <T> the type of the field elements
+     * @param e1 first element
+     * @param e2 second element
+     * @return min(a1, e2)
+     */
+    public static <T extends CalculusFieldElement<T>> T min(final T e1, final T e2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
     /**
      * <p>Reduce {@code |a - offset|} to the primary interval
@@ -171,11 +177,8 @@ public final class MathUtils {
      * @return the value, within the interval {@code [0 |period|)},
      * that corresponds to {@code a}.
      */
-    public static double reduce(double a,
-                                double period,
-                                double offset) {
-        final double p = FastMath.abs(period);
-        return a - p * FastMath.floor((a - offset) / p) - offset;
+    public static double reduce(double a, double period, double offset) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -188,17 +191,8 @@ public final class MathUtils {
      * @throws MathRuntimeException if {@code magnitude == Byte.MIN_VALUE}
      * and {@code sign >= 0}.
      */
-    public static byte copySign(byte magnitude, byte sign)
-        throws MathRuntimeException {
-        if ((magnitude >= 0 && sign >= 0) ||
-            (magnitude < 0 && sign < 0)) { // Sign is OK.
-            return magnitude;
-        } else if (sign >= 0 &&
-                   magnitude == Byte.MIN_VALUE) {
-            throw new MathRuntimeException(LocalizedCoreFormats.OVERFLOW);
-        } else {
-            return (byte) -magnitude; // Flip sign.
-        }
+    public static byte copySign(byte magnitude, byte sign) throws MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -211,17 +205,8 @@ public final class MathUtils {
      * @throws MathRuntimeException if {@code magnitude == Short.MIN_VALUE}
      * and {@code sign >= 0}.
      */
-    public static short copySign(short magnitude, short sign)
-            throws MathRuntimeException {
-        if ((magnitude >= 0 && sign >= 0) ||
-            (magnitude < 0 && sign < 0)) { // Sign is OK.
-            return magnitude;
-        } else if (sign >= 0 &&
-                   magnitude == Short.MIN_VALUE) {
-            throw new MathRuntimeException(LocalizedCoreFormats.OVERFLOW);
-        } else {
-            return (short) -magnitude; // Flip sign.
-        }
+    public static short copySign(short magnitude, short sign) throws MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -234,17 +219,8 @@ public final class MathUtils {
      * @throws MathRuntimeException if {@code magnitude == Integer.MIN_VALUE}
      * and {@code sign >= 0}.
      */
-    public static int copySign(int magnitude, int sign)
-            throws MathRuntimeException {
-        if ((magnitude >= 0 && sign >= 0) ||
-            (magnitude < 0 && sign < 0)) { // Sign is OK.
-            return magnitude;
-        } else if (sign >= 0 &&
-                   magnitude == Integer.MIN_VALUE) {
-            throw new MathRuntimeException(LocalizedCoreFormats.OVERFLOW);
-        } else {
-            return -magnitude; // Flip sign.
-        }
+    public static int copySign(int magnitude, int sign) throws MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -257,18 +233,10 @@ public final class MathUtils {
      * @throws MathRuntimeException if {@code magnitude == Long.MIN_VALUE}
      * and {@code sign >= 0}.
      */
-    public static long copySign(long magnitude, long sign)
-        throws MathRuntimeException {
-        if ((magnitude >= 0 && sign >= 0) ||
-            (magnitude < 0 && sign < 0)) { // Sign is OK.
-            return magnitude;
-        } else if (sign >= 0 &&
-                   magnitude == Long.MIN_VALUE) {
-            throw new MathRuntimeException(LocalizedCoreFormats.OVERFLOW);
-        } else {
-            return -magnitude; // Flip sign.
-        }
+    public static long copySign(long magnitude, long sign) throws MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     /**
      * Check that the argument is a real number.
      *
@@ -276,11 +244,8 @@ public final class MathUtils {
      * @throws MathIllegalArgumentException if {@code x} is not a
      * finite real number.
      */
-    public static void checkFinite(final double x)
-        throws MathIllegalArgumentException {
-        if (Double.isInfinite(x) || Double.isNaN(x)) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NOT_FINITE_NUMBER, x);
-        }
+    public static void checkFinite(final double x) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -290,13 +255,8 @@ public final class MathUtils {
      * @throws MathIllegalArgumentException if any values of the array is not a
      * finite real number.
      */
-    public static void checkFinite(final double[] val)
-        throws MathIllegalArgumentException {
-        for (final double x : val) {
-            if (Double.isInfinite(x) || Double.isNaN(x)) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.NOT_FINITE_NUMBER, x);
-            }
-        }
+    public static void checkFinite(final double[] val) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -307,13 +267,8 @@ public final class MathUtils {
      * @param args Arguments to replace the placeholders in {@code pattern}.
      * @throws NullArgumentException if {@code o} is {@code null}.
      */
-    public static void checkNotNull(Object o,
-                                    Localizable pattern,
-                                    Object ... args)
-        throws NullArgumentException {
-        if (o == null) {
-            throw new NullArgumentException(pattern, args);
-        }
+    public static void checkNotNull(Object o, Localizable pattern, Object... args) throws NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -322,11 +277,8 @@ public final class MathUtils {
      * @param o Object to be checked.
      * @throws NullArgumentException if {@code o} is {@code null}.
      */
-    public static void checkNotNull(Object o)
-        throws NullArgumentException {
-        if (o == null) {
-            throw new NullArgumentException(LocalizedCoreFormats.NULL_NOT_ALLOWED);
-        }
+    public static void checkNotNull(Object o) throws NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -338,10 +290,7 @@ public final class MathUtils {
      * @throws MathIllegalArgumentException if {@code value} is strictly outside [lo, hi].
      */
     public static void checkRangeInclusive(long value, long lo, long hi) {
-        if (value < lo || value > hi) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.OUT_OF_RANGE_SIMPLE,
-                                                   value, lo, hi);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -353,10 +302,7 @@ public final class MathUtils {
      * @throws MathIllegalArgumentException if {@code value} is strictly outside [lo, hi].
      */
     public static void checkRangeInclusive(double value, double lo, double hi) {
-        if (value < lo || value > hi) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.OUT_OF_RANGE_SIMPLE,
-                                                   value, lo, hi);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -367,10 +313,7 @@ public final class MathUtils {
      * @throws MathIllegalArgumentException if length != otherLength.
      */
     public static void checkDimension(int dimension, int otherDimension) {
-        if (dimension != otherDimension) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   dimension, otherDimension);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -384,17 +327,7 @@ public final class MathUtils {
      * @since 4.0
      */
     public static String getHipparchusVersion() {
-        String version = "unknown";
-        final Properties properties = new Properties();
-        try (InputStream stream = MathUtils.class.getResourceAsStream("/assets/org/hipparchus/hipparchus.properties")) {
-            if (stream != null) {
-                properties.load(stream);
-                version = properties.getProperty("hipparchus.version", version);
-            }
-        } catch (IOException ioe) { // NOPMD
-            // ignored
-        }
-        return version;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -415,13 +348,7 @@ public final class MathUtils {
      * @return sum and residual error in the sum
      */
     public static SumAndResidual twoSum(final double a, final double b) {
-        final double s = a + b;
-        final double aPrime = s - b;
-        final double bPrime = s - aPrime;
-        final double deltaA = a - aPrime;
-        final double deltaB = b - bPrime;
-        final double t = deltaA + deltaB;
-        return new SumAndResidual(s, t);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -443,13 +370,7 @@ public final class MathUtils {
      * @return sum and residual error in the sum
      */
     public static <T extends FieldElement<T>> FieldSumAndResidual<T> twoSum(final T a, final T b) {
-        final T s = a.add(b);
-        final T aPrime = s.subtract(b);
-        final T bPrime = s.subtract(aPrime);
-        final T deltaA = a.subtract(aPrime);
-        final T deltaB = b.subtract(bPrime);
-        final T t = deltaA.add(deltaB);
-        return new FieldSumAndResidual<>(s, t);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -458,9 +379,14 @@ public final class MathUtils {
      */
     public static final class SumAndResidual {
 
-        /** Sum. */
+        /**
+         * Sum.
+         */
         private final double sum;
-        /** Residual error in the sum. */
+
+        /**
+         * Residual error in the sum.
+         */
         private final double residual;
 
         /**
@@ -478,7 +404,7 @@ public final class MathUtils {
          * @return sum
          */
         public double getSum() {
-            return sum;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -486,9 +412,8 @@ public final class MathUtils {
          * @return residual error in the sum
          */
         public double getResidual() {
-            return residual;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
 
     /**
@@ -499,9 +424,14 @@ public final class MathUtils {
      */
     public static final class FieldSumAndResidual<T extends FieldElement<T>> {
 
-        /** Sum. */
+        /**
+         * Sum.
+         */
         private final T sum;
-        /** Residual error in the sum. */
+
+        /**
+         * Residual error in the sum.
+         */
         private final T residual;
 
         /**
@@ -519,7 +449,7 @@ public final class MathUtils {
          * @return sum
          */
         public T getSum() {
-            return sum;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -527,9 +457,7 @@ public final class MathUtils {
          * @return residual error in the sum
          */
         public T getResidual() {
-            return residual;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
-
 }

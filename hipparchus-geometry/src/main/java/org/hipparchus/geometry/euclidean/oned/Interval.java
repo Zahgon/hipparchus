@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -25,60 +24,69 @@ import org.hipparchus.geometry.partitioning.Region.Location;
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 
-
-/** This class represents a 1D interval.
+/**
+ * This class represents a 1D interval.
  * @see IntervalsSet
  */
 public class Interval {
 
-    /** The lower bound of the interval. */
+    /**
+     * The lower bound of the interval.
+     */
     private final double lower;
 
-    /** The upper bound of the interval. */
+    /**
+     * The upper bound of the interval.
+     */
     private final double upper;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param lower lower bound of the interval
      * @param upper upper bound of the interval
      */
     public Interval(final double lower, final double upper) {
         if (upper < lower) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.ENDPOINTS_NOT_AN_INTERVAL,
-                                                upper, lower, true);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.ENDPOINTS_NOT_AN_INTERVAL, upper, lower, true);
         }
         this.lower = lower;
         this.upper = upper;
     }
 
-    /** Get the lower bound of the interval.
+    /**
+     * Get the lower bound of the interval.
      * @return lower bound of the interval
      */
     public double getInf() {
-        return lower;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the upper bound of the interval.
+    /**
+     * Get the upper bound of the interval.
      * @return upper bound of the interval
      */
     public double getSup() {
-        return upper;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the size of the interval.
+    /**
+     * Get the size of the interval.
      * @return size of the interval
      */
     public double getSize() {
-        return upper - lower;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the barycenter of the interval.
+    /**
+     * Get the barycenter of the interval.
      * @return barycenter of the interval
      */
     public double getBarycenter() {
-        return 0.5 * (lower + upper);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check a point with respect to the interval.
+    /**
+     * Check a point with respect to the interval.
      * @param point point to check
      * @param tolerance tolerance below which points are considered to
      * belong to the boundary
@@ -86,13 +94,6 @@ public class Interval {
      * Location#INSIDE}, {@link Location#OUTSIDE} or {@link Location#BOUNDARY}
      */
     public Location checkPoint(final double point, final double tolerance) {
-        if (point < lower - tolerance || point > upper + tolerance) {
-            return Location.OUTSIDE;
-        } else if (point > lower + tolerance && point < upper - tolerance) {
-            return Location.INSIDE;
-        } else {
-            return Location.BOUNDARY;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

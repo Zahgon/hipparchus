@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -28,7 +27,6 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -38,27 +36,33 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
-/** Graphics utilities for examples.
+/**
+ * Graphics utilities for examples.
  */
 //CHECKSTYLE: stop HideUtilityClassConstructor
 public class ExampleUtils {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public ExampleUtils() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public ExampleUtils() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** Display frame. */
+    /**
+     * Display frame.
+     */
     @SuppressWarnings("serial")
     public static class ExampleFrame extends JFrame {
 
-        /** Empty constructor.
+        /**
+         * Empty constructor.
          * <p>
          * This constructor is not strictly necessary, but it prevents spurious
          * javadoc warnings with JDK 18 and later.
@@ -78,46 +82,16 @@ public class ExampleUtils {
          * @return the main panel to print
          */
         public Component getMainPanel() {
-            return getContentPane();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
-    /** Display example.
+    /**
+     * Display example.
      * @param frame frame to display
      */
     public static void showExampleFrame(final ExampleFrame frame) {
-        Runnable r = () -> {
-            JMenuItem screenshot = new JMenuItem("Screenshot (png)");
-            screenshot.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_0, InputEvent.CTRL_DOWN_MASK));
-            screenshot.addActionListener(ae -> {
-                JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
-                if (fileChooser.showSaveDialog(frame) == JFileChooser.APPROVE_OPTION) {
-                  File file = fileChooser.getSelectedFile();
-                  BufferedImage img = getScreenShot(frame.getMainPanel());
-                  try {
-                      // write the image as a PNG
-                      ImageIO.write(img, "png", file);
-                  } catch (IOException e) {
-                      e.printStackTrace();
-                  }
-                }
-            });
-
-            JMenuItem exit = new JMenuItem("Exit");
-            exit.addActionListener(e -> System.exit(0));
-
-            JMenu menu = new JMenu("File");
-            menu.add(screenshot);
-            menu.add(exit);
-            JMenuBar mb = new JMenuBar();
-            mb.add(menu);
-            frame.setJMenuBar(mb);
-
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setVisible(true);
-        };
-        SwingUtilities.invokeLater(r);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static BufferedImage getScreenShot(Component component) {
@@ -127,7 +101,8 @@ public class ExampleUtils {
         return image;
     }
 
-    /** Resize an image.
+    /**
+     * Resize an image.
      * @param originalImage original image
      * @param width desired width
      * @param height desired height
@@ -135,11 +110,6 @@ public class ExampleUtils {
      * @return resized image
      */
     public static BufferedImage resizeImage(BufferedImage originalImage, int width, int height, int type) {
-        BufferedImage resizedImage = new BufferedImage(width, height, type);
-        Graphics2D g = resizedImage.createGraphics();
-        g.drawImage(originalImage, 0, 0, width, height, null);
-        g.dispose();
-        return resizedImage;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

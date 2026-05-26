@@ -14,17 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.events;
 
 import org.hipparchus.ode.ODEStateAndDerivative;
 
-/** This interface represents an event checking interval that depends on state.
-*
-* @see ODEEventDetector
-* @since 3.0
-*
-*/
+/**
+ * This interface represents an event checking interval that depends on state.
+ *
+ * @see ODEEventDetector
+ * @since 3.0
+ */
 @FunctionalInterface
 public interface AdaptableInterval {
 
@@ -44,6 +43,6 @@ public interface AdaptableInterval {
      * @since 4.0
      */
     static AdaptableInterval of(final double maxCheck) {
-        return (state, isForward) -> maxCheck;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

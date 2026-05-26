@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.sampling;
 
 import org.hipparchus.CalculusFieldElement;
@@ -23,7 +22,7 @@ import org.hipparchus.ode.FieldODEStateAndDerivative;
 /**
  * This interface represents a handler that should be called after
  * each successful fixed step.
-
+ *
  * <p>This interface should be implemented by anyone who is interested
  * in getting the solution of an ordinary differential equation at
  * fixed time steps. Objects implementing this interface should be
@@ -38,10 +37,10 @@ import org.hipparchus.ode.FieldODEStateAndDerivative;
  * @see FieldODEStateInterpolator
  * @param <T> the type of the field elements
  */
-
 public interface FieldODEFixedStepHandler<T extends CalculusFieldElement<T>> {
 
-    /** Initialize step handler at the start of an ODE integration.
+    /**
+     * Initialize step handler at the start of an ODE integration.
      * <p>
      * This method is called once at the start of the integration. It
      * may be used by the step handler to initialize some internal data
@@ -54,7 +53,7 @@ public interface FieldODEFixedStepHandler<T extends CalculusFieldElement<T>> {
      * @param finalTime target time for the integration
      */
     default void init(FieldODEStateAndDerivative<T> initialState, T finalTime) {
-        // nothing by default
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -69,5 +68,4 @@ public interface FieldODEFixedStepHandler<T extends CalculusFieldElement<T>> {
      * @param isLast true if the step is the last one
      */
     void handleStep(FieldODEStateAndDerivative<T> state, boolean isLast);
-
 }

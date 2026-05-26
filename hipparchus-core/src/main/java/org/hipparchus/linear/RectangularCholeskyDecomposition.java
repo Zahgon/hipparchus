@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.linear;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -49,10 +47,14 @@ import org.hipparchus.util.FastMath;
  */
 public class RectangularCholeskyDecomposition {
 
-    /** Permutated Cholesky root of the symmetric positive semidefinite matrix. */
+    /**
+     * Permutated Cholesky root of the symmetric positive semidefinite matrix.
+     */
     private final RealMatrix root;
 
-    /** Rank of the symmetric positive semidefinite matrix. */
+    /**
+     * Rank of the symmetric positive semidefinite matrix.
+     */
     private int rank;
 
     /**
@@ -69,8 +71,7 @@ public class RectangularCholeskyDecomposition {
      * @exception MathIllegalArgumentException if the matrix is not
      * positive semidefinite.
      */
-    public RectangularCholeskyDecomposition(RealMatrix matrix)
-        throws MathIllegalArgumentException {
+    public RectangularCholeskyDecomposition(RealMatrix matrix) throws MathIllegalArgumentException {
         this(matrix, 0);
     }
 
@@ -83,50 +84,40 @@ public class RectangularCholeskyDecomposition {
      * @exception MathIllegalArgumentException if the matrix is not
      * positive semidefinite.
      */
-    public RectangularCholeskyDecomposition(RealMatrix matrix, double small)
-        throws MathIllegalArgumentException {
-
+    public RectangularCholeskyDecomposition(RealMatrix matrix, double small) throws MathIllegalArgumentException {
         final int order = matrix.getRowDimension();
         final double[][] c = matrix.getData();
         final double[][] b = new double[order][order];
-
         int[] index = new int[order];
         for (int i = 0; i < order; ++i) {
             index[i] = i;
         }
-
         int r = 0;
-        for (boolean loop = true; loop;) {
-
+        for (boolean loop = true; loop; ) {
             // find maximal diagonal element
             int swapR = r;
             for (int i = r + 1; i < order; ++i) {
-                int ii  = index[i];
+                int ii = index[i];
                 int isr = index[swapR];
                 if (c[ii][ii] > c[isr][isr]) {
                     swapR = i;
                 }
             }
-
-
             // swap elements
             if (swapR != r) {
-                final int tmpIndex    = index[r];
-                index[r]              = index[swapR];
-                index[swapR]          = tmpIndex;
+                final int tmpIndex = index[r];
+                index[r] = index[swapR];
+                index[swapR] = tmpIndex;
                 final double[] tmpRow = b[r];
-                b[r]                  = b[swapR];
-                b[swapR]              = tmpRow;
+                b[r] = b[swapR];
+                b[swapR] = tmpRow;
             }
-
             // check diagonal element
             int ir = index[r];
             if (c[ir][ir] <= small) {
-
                 if (r == 0) {
                     throw new MathIllegalArgumentException(LocalizedCoreFormats.NOT_POSITIVE_DEFINITE_MATRIX);
                 }
-
                 // check remaining diagonal elements
                 for (int i = r; i < order; ++i) {
                     if (c[index[i]][index[i]] < -small) {
@@ -135,17 +126,14 @@ public class RectangularCholeskyDecomposition {
                         throw new MathIllegalArgumentException(LocalizedCoreFormats.NOT_POSITIVE_DEFINITE_MATRIX);
                     }
                 }
-
                 // all remaining diagonal elements are close to zero, we consider we have
                 // found the rank of the symmetric positive semidefinite matrix
                 loop = false;
-
             } else {
-
                 // transform the matrix
                 final double sqrt = FastMath.sqrt(c[ir][ir]);
                 b[r][r] = sqrt;
-                final double inverse  = 1 / sqrt;
+                final double inverse = 1 / sqrt;
                 final double inverse2 = 1 / c[ir][ir];
                 for (int i = r + 1; i < order; ++i) {
                     final int ii = index[i];
@@ -159,12 +147,10 @@ public class RectangularCholeskyDecomposition {
                         c[ij][ii] = f;
                     }
                 }
-
                 // prepare next iteration
                 loop = ++r < order;
             }
         }
-
         // build the root matrix
         rank = r;
         root = MatrixUtils.createRealMatrix(order, r);
@@ -173,20 +159,21 @@ public class RectangularCholeskyDecomposition {
                 root.setEntry(index[i], j, b[i][j]);
             }
         }
-
     }
 
-    /** Get the root of the covariance matrix.
+    /**
+     * Get the root of the covariance matrix.
      * The root is the rectangular matrix <code>B</code> such that
      * the covariance matrix is equal to <code>B.B<sup>T</sup></code>
      * @return root of the square matrix
      * @see #getRank()
      */
     public RealMatrix getRootMatrix() {
-        return root;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the rank of the symmetric positive semidefinite matrix.
+    /**
+     * Get the rank of the symmetric positive semidefinite matrix.
      * The r is the number of independent rows in the symmetric positive semidefinite
      * matrix, it is also the number of columns of the rectangular
      * matrix of the decomposition.
@@ -194,7 +181,6 @@ public class RectangularCholeskyDecomposition {
      * @see #getRootMatrix()
      */
     public int getRank() {
-        return rank;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

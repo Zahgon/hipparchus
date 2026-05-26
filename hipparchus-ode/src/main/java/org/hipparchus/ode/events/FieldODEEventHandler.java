@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.events;
 
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.ode.FieldODEState;
 import org.hipparchus.ode.FieldODEStateAndDerivative;
 
-/** This interface represents a handler for discrete events triggered
+/**
+ * This interface represents a handler for discrete events triggered
  * during ODE integration.
  *
  * <p>Some events can be triggered at discrete times as an ODE problem
@@ -57,9 +57,10 @@ import org.hipparchus.ode.FieldODEStateAndDerivative;
  * @see org.hipparchus.ode.events
  * @param <T> the type of the field elements
  */
-public interface FieldODEEventHandler<T extends CalculusFieldElement<T>>  {
+public interface FieldODEEventHandler<T extends CalculusFieldElement<T>> {
 
-    /** Initialize event handler at the start of an ODE integration.
+    /**
+     * Initialize event handler at the start of an ODE integration.
      * <p>
      * This method is called once at the start of the integration. It
      * may be used by the event handler to initialize some internal data
@@ -73,11 +74,12 @@ public interface FieldODEEventHandler<T extends CalculusFieldElement<T>>  {
      * @param detector event detector related to the event handler
      */
     default void init(FieldODEStateAndDerivative<T> initialState, T finalTime, FieldODEEventDetector<T> detector) {
-        // nothing by default
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Handle an event and choose what to do next.
-
+    /**
+     * Handle an event and choose what to do next.
+     *
      * <p>This method is called when the integrator has accepted a step
      * ending exactly on a sign change of the function, just <em>after</em>
      * the step handler itself is called (see below for scheduling). It
@@ -124,8 +126,9 @@ public interface FieldODEEventHandler<T extends CalculusFieldElement<T>>  {
      */
     Action eventOccurred(FieldODEStateAndDerivative<T> state, FieldODEEventDetector<T> detector, boolean increasing);
 
-    /** Reset the state prior to continue the integration.
-
+    /**
+     * Reset the state prior to continue the integration.
+     *
      * <p>This method is called after the step handler has returned and
      * before the next step is started, but only when {@link
      * #eventOccurred(FieldODEStateAndDerivative, FieldODEEventDetector, boolean) eventOccurred}
@@ -140,7 +143,6 @@ public interface FieldODEEventHandler<T extends CalculusFieldElement<T>>  {
      * be added automatically by the integrator afterwards)
      */
     default FieldODEState<T> resetState(FieldODEEventDetector<T> detector, FieldODEStateAndDerivative<T> state) {
-        return state;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

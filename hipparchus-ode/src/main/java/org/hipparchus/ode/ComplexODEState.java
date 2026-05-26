@@ -14,40 +14,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode;
 
 import java.io.Serializable;
-
 import org.hipparchus.complex.Complex;
 
-/** Container for time, main and secondary state vectors.
-
+/**
+ * Container for time, main and secondary state vectors.
+ *
  * @see ComplexOrdinaryDifferentialEquation
  * @see SecondaryODE
  * @see ODEIntegrator
  * @see ODEStateAndDerivative
  * @since 1.4
  */
-
 public class ComplexODEState implements Serializable {
 
-    /** Serializable UID. */
+    /**
+     * Serializable UID.
+     */
     private static final long serialVersionUID = 20180902;
 
-    /** Time. */
+    /**
+     * Time.
+     */
     private final double time;
 
-    /** Primary state at time. */
+    /**
+     * Primary state at time.
+     */
     private final Complex[] primaryState;
 
-    /** Secondary state at time. */
+    /**
+     * Secondary state at time.
+     */
     private final Complex[][] secondaryState;
 
-    /** Complete dimension. */
+    /**
+     * Complete dimension.
+     */
     private final int completeDimension;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * <p>Calling this constructor is equivalent to call {@link
      * #ComplexODEState(double, Complex[], Complex[][])
      * ComplexODEState(time, state, null)}.</p>
@@ -58,17 +67,16 @@ public class ComplexODEState implements Serializable {
         this(time, primaryState, null);
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param time time
      * @param primaryState state at time
      * @param secondaryState primary state at time (may be null)
      */
     public ComplexODEState(double time, Complex[] primaryState, Complex[][] secondaryState) {
-
-        this.time           = time;
-        this.primaryState   = primaryState.clone();
+        this.time = time;
+        this.primaryState = primaryState.clone();
         this.secondaryState = copy(secondaryState);
-
         // compute once and for all the complete dimension
         int dimension = primaryState.length;
         if (secondaryState != null) {
@@ -77,65 +85,55 @@ public class ComplexODEState implements Serializable {
             }
         }
         this.completeDimension = dimension;
-
     }
 
-    /** Copy a two-dimensions array.
+    /**
+     * Copy a two-dimensions array.
      * @param original original array (may be null)
      * @return copied array or null if original array was null
      */
     protected Complex[][] copy(final Complex[][] original) {
-
-        // special handling of null arrays
-        if (original == null) {
-            return null; // NOPMD
-        }
-
-        // allocate the array
-        final Complex[][] copied = new Complex[original.length][];
-
-        // copy content
-        for (int i = 0; i < original.length; ++i) {
-            copied[i] = original[i].clone();
-        }
-
-        return copied;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get time.
+    /**
+     * Get time.
      * @return time
      */
     public double getTime() {
-        return time;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get primary state dimension.
+    /**
+     * Get primary state dimension.
      * @return primary state dimension
      * @see #getSecondaryStateDimension(int)
      * @see #getCompleteStateDimension()
      */
     public int getPrimaryStateDimension() {
-        return primaryState.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get primary state at time.
+    /**
+     * Get primary state at time.
      * @return primary state at time
      * @see #getSecondaryState(int)
      * @see #getCompleteState()
      */
     public Complex[] getPrimaryState() {
-        return primaryState.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the number of secondary states.
+    /**
+     * Get the number of secondary states.
      * @return number of secondary states.
      */
     public int getNumberOfSecondaryStates() {
-        return secondaryState == null ? 0 : secondaryState.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get secondary state dimension.
+    /**
+     * Get secondary state dimension.
      * @param index index of the secondary set as returned
      * by {@link ExpandableODE#addSecondaryEquations(SecondaryODE)}
      * (beware index 0 corresponds to primary state, secondary states start at 1)
@@ -144,10 +142,11 @@ public class ComplexODEState implements Serializable {
      * @see #getCompleteStateDimension()
      */
     public int getSecondaryStateDimension(final int index) {
-        return index == 0 ? primaryState.length : secondaryState[index - 1].length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get secondary state at time.
+    /**
+     * Get secondary state at time.
      * @param index index of the secondary set as returned
      * by {@link ExpandableODE#addSecondaryEquations(SecondaryODE)}
      * (beware index 0 corresponds to primary state, secondary states start at 1)
@@ -156,10 +155,11 @@ public class ComplexODEState implements Serializable {
      * @see #getCompleteState()
      */
     public Complex[] getSecondaryState(final int index) {
-        return index == 0 ? primaryState.clone() : secondaryState[index - 1].clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Return the dimension of the complete set of equations.
+    /**
+     * Return the dimension of the complete set of equations.
      * <p>
      * The complete set of equations correspond to the primary set plus all secondary sets.
      * </p>
@@ -168,10 +168,11 @@ public class ComplexODEState implements Serializable {
      * @see #getSecondaryStateDimension(int)
      */
     public int getCompleteStateDimension() {
-        return completeDimension;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get complete state at time.
+    /**
+     * Get complete state at time.
      * @return complete state at time, starting with
      * {@link #getPrimaryState() primary state}, followed
      * by all {@link #getSecondaryState(int) secondary states} in
@@ -180,18 +181,6 @@ public class ComplexODEState implements Serializable {
      * @see #getSecondaryState(int)
      */
     public Complex[] getCompleteState() {
-        final Complex[] completeState = new Complex[getCompleteStateDimension()];
-        System.arraycopy(primaryState, 0, completeState, 0, primaryState.length);
-        int offset = primaryState.length;
-        if (secondaryState != null) {
-            for (Complex[] complexes : secondaryState) {
-                System.arraycopy(complexes, 0,
-                        completeState, offset,
-                        complexes.length);
-                offset += complexes.length;
-            }
-        }
-        return completeState;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

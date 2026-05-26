@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -31,16 +30,16 @@ import org.hipparchus.optim.PointValuePair;
  * Base class for implementing optimizers for multivariate scalar
  * differentiable functions.
  * It contains boiler-plate code for dealing with gradient evaluation.
- *
  */
-public abstract class GradientMultivariateOptimizer
-    extends MultivariateOptimizer {
+public abstract class GradientMultivariateOptimizer extends MultivariateOptimizer {
+
     /**
      * Gradient of the objective function.
      */
     private MultivariateVectorFunction gradient;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param checker Convergence checker.
      */
     protected GradientMultivariateOptimizer(ConvergenceChecker<PointValuePair> checker) {
@@ -54,7 +53,7 @@ public abstract class GradientMultivariateOptimizer
      * @return the gradient at the specified point.
      */
     protected double[] computeObjectiveGradient(final double[] params) {
-        return gradient.value(params);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -71,10 +70,8 @@ public abstract class GradientMultivariateOptimizer
      * evaluations (of the objective function) is exceeded.
      */
     @Override
-    public PointValuePair optimize(OptimizationData... optData)
-        throws MathIllegalStateException {
-        // Set up base class and perform computation.
-        return super.optimize(optData);
+    public PointValuePair optimize(OptimizationData... optData) throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -89,18 +86,6 @@ public abstract class GradientMultivariateOptimizer
      */
     @Override
     protected void parseOptimizationData(OptimizationData... optData) {
-        // Allow base class to register its own data.
-        super.parseOptimizationData(optData);
-
-        // The existing values (as set by the previous call) are reused if
-        // not provided in the argument list.
-        for (OptimizationData data : optData) {
-            if  (data instanceof ObjectiveFunctionGradient) {
-                gradient = ((ObjectiveFunctionGradient) data).getObjectiveFunctionGradient();
-                // If more data must be parsed, this statement _must_ be
-                // changed to "continue".
-                break;
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

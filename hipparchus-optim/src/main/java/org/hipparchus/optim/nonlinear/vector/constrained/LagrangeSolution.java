@@ -18,29 +18,37 @@ package org.hipparchus.optim.nonlinear.vector.constrained;
 
 import org.hipparchus.linear.RealVector;
 
-/** Container for Lagrange t-uple.
+/**
+ * Container for Lagrange t-uple.
  * @since 3.1
  */
 public class LagrangeSolution {
 
-    /** Solution vector. */
+    /**
+     * Solution vector.
+     */
     private final RealVector x;
 
-    /** Lagrange multipliers. */
+    /**
+     * Lagrange multipliers.
+     */
     private final RealVector lambda;
 
-    /** Objective function value. */
+    /**
+     * Objective function value.
+     */
     private final double value;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param x solution
      * @param lambda Lagrange multipliers
      * @param value objective function value
      */
-    public LagrangeSolution(final RealVector x, final RealVector lambda, final double value){
-        this.x      = x;
+    public LagrangeSolution(final RealVector x, final RealVector lambda, final double value) {
+        this.x = x;
         this.lambda = lambda;
-        this.value  = value;
+        this.value = value;
     }
 
     /**
@@ -49,7 +57,7 @@ public class LagrangeSolution {
      * @return X solution
      */
     public RealVector getX() {
-        return x;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -58,7 +66,7 @@ public class LagrangeSolution {
      * @return X Lambda Multiplier
      */
     public RealVector getLambda() {
-        return lambda;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -67,7 +75,6 @@ public class LagrangeSolution {
      * @return min(max) evaluated function at x
      */
     public double getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

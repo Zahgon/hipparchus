@@ -24,23 +24,24 @@ import org.hipparchus.exception.MathIllegalArgumentException;
  */
 public class BilinearInterpolator implements BivariateGridInterpolator {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public BilinearInterpolator() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public BilinearInterpolator() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public BilinearInterpolatingFunction interpolate(final double[] xval, final double[] yval,
-                                                     final double[][] fval)
-        throws MathIllegalArgumentException {
-        return new BilinearInterpolatingFunction(xval, yval, fval);
+    public BilinearInterpolatingFunction interpolate(final double[] xval, final double[] yval, final double[][] fval) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -33,12 +32,19 @@ import org.hipparchus.util.MathUtils;
  */
 public class LaplaceDistribution extends AbstractRealDistribution {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20141003L;
 
-    /** The location parameter. */
+    /**
+     * The location parameter.
+     */
     private final double mu;
-    /** The scale parameter. */
+
+    /**
+     * The scale parameter.
+     */
     private final double beta;
 
     /**
@@ -48,13 +54,11 @@ public class LaplaceDistribution extends AbstractRealDistribution {
      * @param beta scale parameter (must be positive)
      * @throws MathIllegalArgumentException if {@code beta <= 0}
      */
-    public LaplaceDistribution(double mu, double beta)
-        throws MathIllegalArgumentException {
+    public LaplaceDistribution(double mu, double beta) throws MathIllegalArgumentException {
         if (beta <= 0.0) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.NOT_POSITIVE_SCALE, beta);
         }
-
-        this.mu   = mu;
+        this.mu = mu;
         this.beta = beta;
     }
 
@@ -64,7 +68,7 @@ public class LaplaceDistribution extends AbstractRealDistribution {
      * @return the location parameter.
      */
     public double getLocation() {
-        return mu;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -73,67 +77,70 @@ public class LaplaceDistribution extends AbstractRealDistribution {
      * @return the scale parameter.
      */
     public double getScale() {
-        return beta;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double density(double x) {
-        return FastMath.exp(-FastMath.abs(x - mu) / beta) / (2.0 * beta);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double cumulativeProbability(double x) {
-        if (x <= mu) {
-            return FastMath.exp((x - mu) / beta) / 2.0;
-        } else {
-            return 1.0 - FastMath.exp((mu - x) / beta) / 2.0;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double inverseCumulativeProbability(double p) throws MathIllegalArgumentException {
-        MathUtils.checkRangeInclusive(p, 0, 1);
-
-        if (p == 0) {
-            return Double.NEGATIVE_INFINITY;
-        } else if (p == 1) {
-            return Double.POSITIVE_INFINITY;
-        }
-        double x = (p > 0.5) ? -Math.log(2.0 - 2.0 * p) : Math.log(2.0 * p);
-        return mu + beta * x;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getNumericalMean() {
-        return mu;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getNumericalVariance() {
-        return 2.0 * beta * beta;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getSupportLowerBound() {
-        return Double.NEGATIVE_INFINITY;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getSupportUpperBound() {
-        return Double.POSITIVE_INFINITY;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

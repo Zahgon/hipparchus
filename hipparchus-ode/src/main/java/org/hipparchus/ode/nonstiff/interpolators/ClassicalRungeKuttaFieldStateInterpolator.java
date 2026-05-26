@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode.nonstiff.interpolators;
 
 import org.hipparchus.CalculusFieldElement;
@@ -59,11 +57,10 @@ import org.hipparchus.ode.nonstiff.ClassicalRungeKuttaFieldIntegrator;
  * @see ClassicalRungeKuttaFieldIntegrator
  * @param <T> the type of the field elements
  */
+public class ClassicalRungeKuttaFieldStateInterpolator<T extends CalculusFieldElement<T>> extends RungeKuttaFieldStateInterpolator<T> {
 
-public class ClassicalRungeKuttaFieldStateInterpolator<T extends CalculusFieldElement<T>>
-    extends RungeKuttaFieldStateInterpolator<T> {
-
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param field field to which the time and state vector elements belong
      * @param forward integration direction indicator
      * @param yDotK slopes at the intermediate points
@@ -73,66 +70,24 @@ public class ClassicalRungeKuttaFieldStateInterpolator<T extends CalculusFieldEl
      * @param softCurrentState end of the restricted step
      * @param mapper equations mapper for the all equations
      */
-    public ClassicalRungeKuttaFieldStateInterpolator(final Field<T> field, final boolean forward, final T[][] yDotK,
-                                                     final FieldODEStateAndDerivative<T> globalPreviousState,
-                                                     final FieldODEStateAndDerivative<T> globalCurrentState,
-                                                     final FieldODEStateAndDerivative<T> softPreviousState,
-                                                     final FieldODEStateAndDerivative<T> softCurrentState,
-                                                     final FieldEquationsMapper<T> mapper) {
-        super(field, forward, yDotK, globalPreviousState, globalCurrentState, softPreviousState, softCurrentState,
-                mapper);
+    public ClassicalRungeKuttaFieldStateInterpolator(final Field<T> field, final boolean forward, final T[][] yDotK, final FieldODEStateAndDerivative<T> globalPreviousState, final FieldODEStateAndDerivative<T> globalCurrentState, final FieldODEStateAndDerivative<T> softPreviousState, final FieldODEStateAndDerivative<T> softCurrentState, final FieldEquationsMapper<T> mapper) {
+        super(field, forward, yDotK, globalPreviousState, globalCurrentState, softPreviousState, softCurrentState, mapper);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected ClassicalRungeKuttaFieldStateInterpolator<T> create(final Field<T> newField, final boolean newForward, final T[][] newYDotK,
-                                                                  final FieldODEStateAndDerivative<T> newGlobalPreviousState,
-                                                                  final FieldODEStateAndDerivative<T> newGlobalCurrentState,
-                                                                  final FieldODEStateAndDerivative<T> newSoftPreviousState,
-                                                                  final FieldODEStateAndDerivative<T> newSoftCurrentState,
-                                                                  final FieldEquationsMapper<T> newMapper) {
-        return new ClassicalRungeKuttaFieldStateInterpolator<>(newField, newForward, newYDotK,
-                                                                newGlobalPreviousState, newGlobalCurrentState,
-                                                                newSoftPreviousState, newSoftCurrentState,
-                                                                newMapper);
+    protected ClassicalRungeKuttaFieldStateInterpolator<T> create(final Field<T> newField, final boolean newForward, final T[][] newYDotK, final FieldODEStateAndDerivative<T> newGlobalPreviousState, final FieldODEStateAndDerivative<T> newGlobalCurrentState, final FieldODEStateAndDerivative<T> newSoftPreviousState, final FieldODEStateAndDerivative<T> newSoftCurrentState, final FieldEquationsMapper<T> newMapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
     @Override
-    protected FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(final FieldEquationsMapper<T> mapper,
-                                                                                   final T time, final T theta,
-                                                                                   final T thetaH, final T oneMinusThetaH) {
-
-        final T one                       = time.getField().getOne();
-        final T oneMinusTheta             = one.subtract(theta);
-        final T oneMinus2Theta            = one.subtract(theta.twice());
-        final T coeffDot1                 = oneMinusTheta.multiply(oneMinus2Theta);
-        final T coeffDot23                = theta.multiply(oneMinusTheta).twice();
-        final T coeffDot4                 = theta.multiply(oneMinus2Theta).negate();
-        final T[] interpolatedState;
-        final T[] interpolatedDerivatives;
-
-        if (getGlobalPreviousState() != null && theta.getReal() <= 0.5) {
-            final T fourTheta2      = theta.multiply(theta).multiply(4);
-            final T s               = thetaH.divide(6.0);
-            final T coeff1          = s.multiply(fourTheta2.subtract(theta.multiply(9)).add(6));
-            final T coeff23         = s.multiply(theta.multiply(6).subtract(fourTheta2));
-            final T coeff4          = s.multiply(fourTheta2.subtract(theta.multiply(3)));
-            interpolatedState       = previousStateLinearCombination(coeff1, coeff23, coeff23, coeff4);
-            interpolatedDerivatives = derivativeLinearCombination(coeffDot1, coeffDot23, coeffDot23, coeffDot4);
-        } else {
-            final T fourTheta       = theta.multiply(4);
-            final T s               = oneMinusThetaH.divide(6);
-            final T coeff1          = s.multiply(theta.multiply(fourTheta.negate().add(5)).subtract(1));
-            final T coeff23         = s.multiply(theta.multiply(fourTheta.subtract(2)).subtract(2));
-            final T coeff4          = s.multiply(theta.multiply(fourTheta.negate().subtract(1)).subtract(1));
-            interpolatedState       = currentStateLinearCombination(coeff1, coeff23, coeff23, coeff4);
-            interpolatedDerivatives = derivativeLinearCombination(coeffDot1, coeffDot23, coeffDot23, coeffDot4);
-        }
-
-        return mapper.mapStateAndDerivative(time, interpolatedState, interpolatedDerivatives);
-
+    protected FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(final FieldEquationsMapper<T> mapper, final T time, final T theta, final T thetaH, final T oneMinusThetaH) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -23,25 +23,39 @@ import org.hipparchus.util.Precision;
  */
 public class SQPLogger {
 
-    /** LS column fixed to 2 digits + 1 space for safety. */
+    /**
+     * LS column fixed to 2 digits + 1 space for safety.
+     */
     private static final int LS_WIDTH = 3;
 
-    /** Field start. */
+    /**
+     * Field start.
+     */
     private static final String FIELD_START = " %";
 
-    /** Field continuation. */
+    /**
+     * Field continuation.
+     */
     private static final String FIELD_CONTINUATION = "s |";
 
-    /** Fields width. */
+    /**
+     * Fields width.
+     */
     private int width;
 
-    /** Format of header line. */
+    /**
+     * Format of header line.
+     */
     private String headerFormat;
 
-    /** Format of row lines. */
+    /**
+     * Format of row lines.
+     */
     private String rowFormat;
 
-    /** Debug printer. */
+    /**
+     * Debug printer.
+     */
     private DebugPrinter printer;
 
     /**
@@ -59,42 +73,27 @@ public class SQPLogger {
      * @param epsilon convergence threshold
      */
     public void setEps(double epsilon) {
-        final int precision = (int) Math.ceil(-Math.log10(epsilon)) + 2;
-        this.width = precision + 7; // space for digits, sign, exponent, padding
-
-        final String f = "%%-%ds";
-        String col = String.format(f, width);
-        String lsCol = String.format(f, LS_WIDTH);
-        this.headerFormat = String.format(
-            "[SQP] ITER %%2s | %s | %s | %s | %s | %s | %s | %s | %s | %s |",
-            col, lsCol, col, col, col, col, col, col, col
-        );
-
-        final String percent = "%%";
-        String fld = String.format(percent + width + "." + precision + "f");
-        String intf = String.format(percent + LS_WIDTH + "d");
-        this.rowFormat = String.format(
-            "[SQP] ITER %%2d | %s | %s | %s | %s | %s | %s | %s | %s | %s |",
-            fld, intf, fld, fld, fld, fld, fld, fld, fld
-        );
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set debug printer.
+    /**
+     * Set debug printer.
      * @param debugPrinter debug printer
      */
     public void setDebugPrinter(DebugPrinter debugPrinter) {
-        this.printer = debugPrinter;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get header line.
+    /**
+     * Get header line.
      * @return header line
      */
     public String header() {
-        return String.format(headerFormat,
-            "", "alpha", "LS", "dxNorm", "dx'Hdx", "KKT", "viol", "sigma", "penalty", "f(x)");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Format one row.
+    /**
+     * Format one row.
      * @param iter     iteration number
      * @param alpha    step length
      * @param lsCount  line search iteration
@@ -107,19 +106,15 @@ public class SQPLogger {
      * @param fx       objective function evaluation
      * @return formatted row
      */
-    public String formatRow(final int iter, final double alpha, final int lsCount,
-                            final double dxNorm, final double dxHdx, final double kkt,
-                            final double viol, final double sigma, final double penalty, final double fx) {
-        return String.format(rowFormat,
-                             iter, alpha, lsCount, dxNorm, dxHdx, kkt, viol, sigma, penalty, fx);
+    public String formatRow(final int iter, final double alpha, final int lsCount, final double dxNorm, final double dxHdx, final double kkt, final double viol, final double sigma, final double penalty, final double fx) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Log header.
+    /**
+     * Log header.
      */
     public void logHeader() {
-        if (printer != null) {
-            printer.print(header());
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -130,24 +125,11 @@ public class SQPLogger {
      * @param crit3 constraints violations criterion
      */
     public void logRow(final boolean crit2, final boolean crit1, final boolean crit0, final boolean crit3) {
-        if (printer == null) {
-            return;
-        }
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("[SQP] ITER %2d |", -1)).
-           append(String.format(FIELD_START + width + FIELD_CONTINUATION, "")).
-           append(String.format(FIELD_START + LS_WIDTH + FIELD_CONTINUATION, "")).
-           append(String.format(FIELD_START + width + FIELD_CONTINUATION, crit2)).
-           append(String.format(FIELD_START + width + FIELD_CONTINUATION, crit1)).
-           append(String.format(FIELD_START + width + FIELD_CONTINUATION, crit0)).
-           append(String.format(FIELD_START + width + FIELD_CONTINUATION, crit3)).
-           append(String.format(FIELD_START + width + FIELD_CONTINUATION, "")).
-           append(String.format(FIELD_START + width + FIELD_CONTINUATION, "")).
-           append(String.format(FIELD_START + width + FIELD_CONTINUATION, ""));
-        printer.print(sb.toString());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Log one row.
+    /**
+     * Log one row.
      * @param iter     iteration number
      * @param alpha    step length
      * @param lsCount  line search iteration
@@ -159,19 +141,15 @@ public class SQPLogger {
      * @param penalty  penalty
      * @param fx       objective function evaluation
      */
-    public void logRow(int iter, double alpha, int lsCount,
-                       double dxNorm, double dxHdx, double kkt,
-                       double viol, double sigma, double penalty, double fx) {
-        if (printer != null) {
-            printer.print(formatRow(iter, alpha, lsCount, dxNorm, dxHdx, kkt, viol, sigma, penalty, fx));
-        }
+    public void logRow(int iter, double alpha, int lsCount, double dxNorm, double dxHdx, double kkt, double viol, double sigma, double penalty, double fx) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get default logger.
+    /**
+     * Get default logger.
      * @return default logger
      */
     public static SQPLogger defaultLogger() {
-        return new SQPLogger(Precision.EPSILON);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

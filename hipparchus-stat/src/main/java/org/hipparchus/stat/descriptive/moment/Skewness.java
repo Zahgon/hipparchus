@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.stat.descriptive.moment;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.NullArgumentException;
 import org.hipparchus.stat.descriptive.AbstractStorelessUnivariateStatistic;
@@ -52,18 +50,22 @@ import org.hipparchus.util.MathUtils;
  */
 public class Skewness extends AbstractStorelessUnivariateStatistic implements Serializable {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20150412L;
 
-    /** Third moment on which this statistic is based */
+    /**
+     * Third moment on which this statistic is based
+     */
     protected final ThirdMoment moment;
 
-     /**
+    /**
      * Determines whether or not this statistic can be incremented or cleared.
      * <p>
      * Statistics based on (constructed from) external moments cannot
      * be incremented or cleared.
-    */
+     */
     protected final boolean incMoment;
 
     /**
@@ -92,7 +94,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      */
     public Skewness(Skewness original) throws NullArgumentException {
         MathUtils.checkNotNull(original);
-        this.moment    = original.moment.copy();
+        this.moment = original.moment.copy();
         this.incMoment = original.incMoment;
     }
 
@@ -104,9 +106,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      */
     @Override
     public void increment(final double d) {
-        if (incMoment) {
-            moment.increment(d);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -118,32 +118,23 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      */
     @Override
     public double getResult() {
-
-        if (moment.n < 3) {
-            return Double.NaN;
-        }
-        double variance = moment.m2 / (moment.n - 1);
-        if (variance < 10E-20) {
-            return 0.0d;
-        } else {
-            double n0 = moment.getN();
-            return  (n0 * moment.m3) /
-            ((n0 - 1) * (n0 -2) * FastMath.sqrt(variance) * variance);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long getN() {
-        return moment.getN();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
-        if (incMoment) {
-            moment.clear();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -162,49 +153,15 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-
-        // Initialize the skewness
-        double skew = Double.NaN;
-
-        if (MathArrays.verifyValues(values, begin, length) && length > 2 ) {
-            Mean mean = new Mean();
-            // Get the mean and the standard deviation
-            double m = mean.evaluate(values, begin, length);
-
-            // Calc the std, this is implemented here instead
-            // of using the standardDeviation method eliminate
-            // a duplicate pass to get the mean
-            double accum = 0.0;
-            double accum2 = 0.0;
-            for (int i = begin; i < begin + length; i++) {
-                final double d = values[i] - m;
-                accum  += d * d;
-                accum2 += d;
-            }
-            final double variance = (accum - (accum2 * accum2 / length)) / (length - 1);
-
-            double accum3 = 0.0;
-            for (int i = begin; i < begin + length; i++) {
-                final double d = values[i] - m;
-                accum3 += d * d * d;
-            }
-            accum3 /= variance * FastMath.sqrt(variance);
-
-            // Get N
-            double n0 = length;
-
-            // Calculate skewness
-            skew = (n0 / ((n0 - 1) * (n0 - 2))) * accum3;
-        }
-        return skew;
+    public double evaluate(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Skewness copy() {
-        return new Skewness(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

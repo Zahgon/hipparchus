@@ -14,18 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.linear;
 
-/** Matrix decomposer using Cholseky decomposition.
+/**
+ * Matrix decomposer using Cholseky decomposition.
  * @since 1.3
  */
 public class CholeskyDecomposer implements MatrixDecomposer {
 
-    /** Threshold above which off-diagonal elements are considered too different and matrix not symmetric. */
+    /**
+     * Threshold above which off-diagonal elements are considered too different and matrix not symmetric.
+     */
     private final double relativeSymmetryThreshold;
 
-    /** Threshold below which diagonal elements are considered null and matrix not positive definite. */
+    /**
+     * Threshold below which diagonal elements are considered null and matrix not positive definite.
+     */
     private final double absolutePositivityThreshold;
 
     /**
@@ -35,17 +39,16 @@ public class CholeskyDecomposer implements MatrixDecomposer {
      * @param absolutePositivityThreshold threshold below which diagonal
      * elements are considered null and matrix not positive definite
      */
-    public CholeskyDecomposer(final double relativeSymmetryThreshold,
-                              final double absolutePositivityThreshold) {
-        this.relativeSymmetryThreshold   = relativeSymmetryThreshold;
+    public CholeskyDecomposer(final double relativeSymmetryThreshold, final double absolutePositivityThreshold) {
+        this.relativeSymmetryThreshold = relativeSymmetryThreshold;
         this.absolutePositivityThreshold = absolutePositivityThreshold;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DecompositionSolver decompose(final RealMatrix a) {
-        return new CholeskyDecomposition(a, relativeSymmetryThreshold, absolutePositivityThreshold).
-               getSolver();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

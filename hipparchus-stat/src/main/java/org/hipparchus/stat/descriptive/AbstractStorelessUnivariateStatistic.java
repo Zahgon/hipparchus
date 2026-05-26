@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -31,33 +30,42 @@ import org.hipparchus.util.Precision;
  * Provides default {@code hashCode()} and {@code equals(Object)}
  * implementations.
  */
-public abstract class AbstractStorelessUnivariateStatistic
-    implements StorelessUnivariateStatistic {
+public abstract class AbstractStorelessUnivariateStatistic implements StorelessUnivariateStatistic {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    protected AbstractStorelessUnivariateStatistic() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    protected AbstractStorelessUnivariateStatistic() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public abstract StorelessUnivariateStatistic copy();
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public abstract void clear();
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public abstract double getResult();
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public abstract void increment(double d);
 
@@ -72,15 +80,7 @@ public abstract class AbstractStorelessUnivariateStatistic
      */
     @Override
     public boolean equals(Object object) {
-        if (object == this ) {
-            return true;
-        }
-        if (object == null || object.getClass() != this.getClass()) {
-            return false;
-        }
-        StorelessUnivariateStatistic other = (StorelessUnivariateStatistic) object;
-        return Precision.equalsIncludingNaN(other.getResult(), getResult()) &&
-               Precision.equalsIncludingNaN(other.getN(),      getN());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -90,14 +90,11 @@ public abstract class AbstractStorelessUnivariateStatistic
      */
     @Override
     public int hashCode() {
-        return 31 * (31 + MathUtils.hash(getResult())) + MathUtils.hash(getN());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return String.format("%s: result=%f, N=%d",
-                             getClass().getSimpleName(),
-                             getResult(),
-                             getN());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

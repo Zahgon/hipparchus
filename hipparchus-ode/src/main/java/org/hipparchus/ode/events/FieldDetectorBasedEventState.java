@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode.events;
 
 import org.hipparchus.CalculusFieldElement;
@@ -35,7 +33,8 @@ import org.hipparchus.ode.LocalizedODEFormats;
 import org.hipparchus.ode.sampling.FieldODEStateInterpolator;
 import org.hipparchus.util.FastMath;
 
-/** This class handles the state for one {@link FieldODEEventHandler
+/**
+ * This class handles the state for one {@link FieldODEEventHandler
  * event handler} during integration steps.
  *
  * <p>Each time the integrator proposes a step, the event handler
@@ -49,38 +48,56 @@ import org.hipparchus.util.FastMath;
  */
 public class FieldDetectorBasedEventState<T extends CalculusFieldElement<T>> implements FieldEventState<T> {
 
-    /** Event detector.
+    /**
+     * Event detector.
      * @since 3.0
      */
     private final FieldODEEventDetector<T> detector;
 
-    /** Event solver.
+    /**
+     * Event solver.
      * @since 3.0
      */
     private final BracketedRealFieldUnivariateSolver<T> solver;
 
-    /** Event handler. */
+    /**
+     * Event handler.
+     */
     private final FieldODEEventHandler<T> handler;
 
-    /** Time of the previous call to g. */
+    /**
+     * Time of the previous call to g.
+     */
     private T lastT;
 
-    /** Value from the previous call to g. */
+    /**
+     * Value from the previous call to g.
+     */
     private T lastG;
 
-    /** Time at the beginning of the step. */
+    /**
+     * Time at the beginning of the step.
+     */
     private T t0;
 
-    /** Value of the events handler at the beginning of the step. */
+    /**
+     * Value of the events handler at the beginning of the step.
+     */
     private T g0;
 
-    /** Sign of g0. */
+    /**
+     * Sign of g0.
+     */
     private boolean g0Positive;
 
-    /** Indicator of event expected during the step. */
+    /**
+     * Indicator of event expected during the step.
+     */
     private boolean pendingEvent;
 
-    /** Occurrence time of the pending event. */
+    /**
+     * Occurrence time of the pending event.
+     */
     private T pendingEventTime;
 
     /**
@@ -89,55 +106,64 @@ public class FieldDetectorBasedEventState<T extends CalculusFieldElement<T>> imp
      */
     private T stopTime;
 
-    /** Time after the current event. */
+    /**
+     * Time after the current event.
+     */
     private T afterEvent;
 
-    /** Value of the g function after the current event. */
+    /**
+     * Value of the g function after the current event.
+     */
     private T afterG;
 
-    /** The earliest time considered for events. */
+    /**
+     * The earliest time considered for events.
+     */
     private T earliestTimeConsidered;
 
-    /** Integration direction. */
+    /**
+     * Integration direction.
+     */
     private boolean forward;
 
-    /** Variation direction around pending event.
+    /**
+     * Variation direction around pending event.
      *  (this is considered with respect to the integration direction)
      */
     private boolean increasing;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param detector event detector
      * @since 3.0
      */
     public FieldDetectorBasedEventState(final FieldODEEventDetector<T> detector) {
-
-        this.detector     = detector;
-        this.solver       = detector.getSolver();
-        this.handler      = detector.getHandler();
-
+        this.detector = detector;
+        this.solver = detector.getSolver();
+        this.handler = detector.getHandler();
         // some dummy values ...
-        t0                = null;
-        g0                = null;
-        g0Positive        = true;
-        pendingEvent      = false;
-        pendingEventTime  = null;
-        increasing        = true;
+        t0 = null;
+        g0 = null;
+        g0Positive = true;
+        pendingEvent = false;
+        pendingEventTime = null;
+        increasing = true;
         earliestTimeConsidered = null;
         afterEvent = null;
         afterG = null;
-
     }
 
-    /** Get the underlying event detector.
+    /**
+     * Get the underlying event detector.
      * @return underlying event detector
      * @since 3.0
      */
     public FieldODEEventDetector<T> getEventDetector() {
-        return detector;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Initialize event handler at the start of an integration.
+    /**
+     * Initialize event handler at the start of an integration.
      * <p>
      * This method is called once at the start of the integration. It
      * may be used by the event handler to initialize some internal data
@@ -145,16 +171,14 @@ public class FieldDetectorBasedEventState<T extends CalculusFieldElement<T>> imp
      * </p>
      * @param s0 initial state
      * @param t target time for the integration
-     *
      */
     @Override
     public void init(final FieldODEStateAndDerivative<T> s0, final T t) {
-        detector.init(s0, t);
-        lastT = t.getField().getZero().newInstance(Double.NEGATIVE_INFINITY);
-        lastG = null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the value of the switching function.
+    /**
+     * Compute the value of the switching function.
      * This function must be continuous (at least in its roots neighborhood),
      * as the integrator will need to find its roots to locate the events.
      * @param s the current state information: date, kinematics, attitude
@@ -168,46 +192,18 @@ public class FieldDetectorBasedEventState<T extends CalculusFieldElement<T>> imp
         return lastG;
     }
 
-    /** Reinitialize the beginning of the step.
+    /**
+     * Reinitialize the beginning of the step.
      * @param interpolator valid for the current step
      * @exception MathIllegalStateException if the interpolator throws one because
      * the number of functions evaluations is exceeded
      */
-    public void reinitializeBegin(final FieldODEStateInterpolator<T> interpolator)
-        throws MathIllegalStateException {
-
-        forward = interpolator.isForward();
-        final FieldODEStateAndDerivative<T> s0 = interpolator.getPreviousState();
-        t0 = s0.getTime();
-        g0 = g(s0);
-        while (g0.isZero()) {
-            // excerpt from MATH-421 issue:
-            // If an ODE solver is setup with a FieldODEEventHandler that return STOP
-            // when the even is triggered, the integrator stops (which is exactly
-            // the expected behavior). If however the user wants to restart the
-            // solver from the final state reached at the event with the same
-            // configuration (expecting the event to be triggered again at a
-            // later time), then the integrator may fail to start. It can get stuck
-            // at the previous event. The use case for the bug MATH-421 is fairly
-            // general, so events occurring exactly at start in the first step should
-            // be ignored.
-
-            // extremely rare case: there is a zero EXACTLY at interval start
-            // we will use the sign slightly after step beginning to force ignoring this zero
-            T tStart = t0.add(solver.getAbsoluteAccuracy().multiply(forward ? 0.5 : -0.5));
-            if (tStart.equals(t0)) {
-                tStart = nextAfter(t0);
-            }
-            t0 = tStart;
-            g0 = g(interpolator.getInterpolatedState(tStart));
-        }
-        g0Positive = g0.getReal() > 0;
-        // "last" event was increasing
-        increasing = g0Positive;
-
+    public void reinitializeBegin(final FieldODEStateInterpolator<T> interpolator) throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Evaluate the impact of the proposed step on the event handler.
+    /**
+     * Evaluate the impact of the proposed step on the event handler.
      * @param interpolator step interpolator for the proposed step
      * @return true if the event handler triggers an event before
      * the end of the proposed step
@@ -216,53 +212,12 @@ public class FieldDetectorBasedEventState<T extends CalculusFieldElement<T>> imp
      * @exception MathIllegalArgumentException if the event cannot be bracketed
      */
     @Override
-    public boolean evaluateStep(final FieldODEStateInterpolator<T> interpolator)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-
-        forward = interpolator.isForward();
-        final FieldODEStateAndDerivative<T> s0 = interpolator.getPreviousState();
-        final FieldODEStateAndDerivative<T> s1 = interpolator.getCurrentState();
-        final T t1 = s1.getTime();
-        final T dt = t1.subtract(t0);
-        if (dt.abs().subtract(solver.getAbsoluteAccuracy()).getReal() < 0) {
-            // we cannot do anything on such a small step, don't trigger any events
-            pendingEvent     = false;
-            pendingEventTime = null;
-            return false;
-        }
-
-        T ta = t0;
-        T ga = g0;
-        for (FieldODEStateAndDerivative<T>sb = nextCheck(s0, s1, interpolator);
-             sb != null;
-             sb = nextCheck(sb, s1, interpolator)) {
-
-            // evaluate handler value at the end of the substep
-            final T tb = sb.getTime();
-            final T gb = g(sb);
-
-            // check events occurrence
-            if (gb.getReal() == 0.0 || (g0Positive ^ (gb.getReal() > 0))) {
-                // there is a sign change: an event is expected during this step
-                if (findRoot(interpolator, ta, ga, tb, gb)) {
-                    return true;
-                }
-            } else {
-                // no sign change: there is no event for now
-                ta = tb;
-                ga = gb;
-            }
-
-        }
-
-        // no event during the whole step
-        pendingEvent     = false;
-        pendingEventTime = null;
-        return false;
-
+    public boolean evaluateStep(final FieldODEStateInterpolator<T> interpolator) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Estimate next state to check.
+    /**
+     * Estimate next state to check.
      * @param done state already checked
      * @param target target state towards which we are checking
      * @param interpolator step interpolator for the proposed step
@@ -270,17 +225,16 @@ public class FieldDetectorBasedEventState<T extends CalculusFieldElement<T>> imp
      * if we already have {@code done == target}
      * @since 3.0
      */
-    private FieldODEStateAndDerivative<T> nextCheck(final FieldODEStateAndDerivative<T> done, final FieldODEStateAndDerivative<T> target,
-                                                    final FieldODEStateInterpolator<T> interpolator) {
+    private FieldODEStateAndDerivative<T> nextCheck(final FieldODEStateAndDerivative<T> done, final FieldODEStateAndDerivative<T> target, final FieldODEStateInterpolator<T> interpolator) {
         if (done == target) {
             // we have already reached target
             return null;
         } else {
             // we have to select some intermediate state
             // attempting to split the remaining time in an integer number of checks
-            final T dt       = target.getTime().subtract(done.getTime());
+            final T dt = target.getTime().subtract(done.getTime());
             final double maxCheck = detector.getMaxCheckInterval().currentInterval(done, dt.getReal() >= 0.);
-            final int    n        = FastMath.max(1, (int) FastMath.ceil(dt.abs().divide(maxCheck).getReal()));
+            final int n = FastMath.max(1, (int) FastMath.ceil(dt.abs().divide(maxCheck).getReal()));
             return n == 1 ? target : interpolator.getInterpolatedState(done.getTime().add(dt.divide(n)));
         }
     }
@@ -298,23 +252,14 @@ public class FieldDetectorBasedEventState<T extends CalculusFieldElement<T>> imp
      * @param gb           g(tb).
      * @return if a zero crossing was found.
      */
-    private boolean findRoot(final FieldODEStateInterpolator<T> interpolator,
-                             final T ta,
-                             final T ga,
-                             final T tb,
-                             final T gb) {
+    private boolean findRoot(final FieldODEStateInterpolator<T> interpolator, final T ta, final T ga, final T tb, final T gb) {
         // check there appears to be a root in [ta, tb]
-        check(ga.getReal() == 0.0 || gb.getReal() == 0.0 ||
-                (ga.getReal() > 0.0 && gb.getReal() < 0.0) ||
-                (ga.getReal() < 0.0 && gb.getReal() > 0.0));
-
+        check(ga.getReal() == 0.0 || gb.getReal() == 0.0 || (ga.getReal() > 0.0 && gb.getReal() < 0.0) || (ga.getReal() < 0.0 && gb.getReal() > 0.0));
         final int maxIterationCount = detector.getMaxIterationCount();
         final CalculusFieldUnivariateFunction<T> f = t -> g(interpolator.getInterpolatedState(t));
-
         // prepare loop below
         T loopT = ta;
         T loopG = ga;
-
         // event time, just at or before the actual root.
         T beforeRootT = null;
         T beforeRootG = null;
@@ -322,7 +267,6 @@ public class FieldDetectorBasedEventState<T extends CalculusFieldElement<T>> imp
         // Initialized the the loop below executes once.
         T afterRootT = ta;
         T afterRootG = ta.getField().getZero();
-
         // check for some conditions that the root finders don't like
         // these conditions cannot not happen in the loop below
         // the ga == 0.0 case is handled by the loop below
@@ -356,16 +300,14 @@ public class FieldDetectorBasedEventState<T extends CalculusFieldElement<T>> imp
                 } else {
                     beforeRootT = ta;
                     beforeRootG = newGa;
-                    afterRootT  = nextT;
-                    afterRootG  = nextG;
+                    afterRootT = nextT;
+                    afterRootG = nextG;
                 }
             }
         }
-
         // loop to skip through "fake" roots, i.e. where g(t) = g'(t) = 0.0
         // executed once if we didn't hit a special case above
-        while ((afterRootG.isZero() || afterRootG.getReal() > 0.0 == g0Positive) &&
-               strictlyAfter(afterRootT, tb)) {
+        while ((afterRootG.isZero() || afterRootG.getReal() > 0.0 == g0Positive) && strictlyAfter(afterRootT, tb)) {
             if (loopG.getReal() == 0.0) {
                 // ga == 0.0 and gb may or may not be 0.0
                 // handle the root at ta first
@@ -377,35 +319,29 @@ public class FieldDetectorBasedEventState<T extends CalculusFieldElement<T>> imp
                 // both non-zero, the usual case, use a root finder.
                 if (forward) {
                     try {
-                        final Interval<T> interval =
-                                        solver.solveInterval(maxIterationCount, f, loopT, tb);
+                        final Interval<T> interval = solver.solveInterval(maxIterationCount, f, loopT, tb);
                         beforeRootT = interval.getLeftAbscissa();
                         beforeRootG = interval.getLeftValue();
                         afterRootT = interval.getRightAbscissa();
                         afterRootG = interval.getRightValue();
                         // CHECKSTYLE: stop IllegalCatch check
-                    } catch (RuntimeException e) { // NOPMD
+                    } catch (RuntimeException e) {
+                        // NOPMD
                         // CHECKSTYLE: resume IllegalCatch check
-                        throw new MathIllegalStateException(e, LocalizedODEFormats.FIND_ROOT,
-                                                            detector, loopT.getReal(), loopG.getReal(),
-                                                            tb.getReal(), gb.getReal(),
-                                                            lastT.getReal(), lastG.getReal());
+                        throw new MathIllegalStateException(e, LocalizedODEFormats.FIND_ROOT, detector, loopT.getReal(), loopG.getReal(), tb.getReal(), gb.getReal(), lastT.getReal(), lastG.getReal());
                     }
                 } else {
                     try {
-                        final Interval<T> interval =
-                                        solver.solveInterval(maxIterationCount, f, tb, loopT);
+                        final Interval<T> interval = solver.solveInterval(maxIterationCount, f, tb, loopT);
                         beforeRootT = interval.getRightAbscissa();
                         beforeRootG = interval.getRightValue();
                         afterRootT = interval.getLeftAbscissa();
                         afterRootG = interval.getLeftValue();
                         // CHECKSTYLE: stop IllegalCatch check
-                    } catch (RuntimeException e) { // NOPMD
+                    } catch (RuntimeException e) {
+                        // NOPMD
                         // CHECKSTYLE: resume IllegalCatch check
-                        throw new MathIllegalStateException(e, LocalizedODEFormats.FIND_ROOT,
-                                                            detector, tb.getReal(), gb.getReal(),
-                                                            loopT.getReal(), loopG.getReal(),
-                                                            lastT.getReal(), lastG.getReal());
+                        throw new MathIllegalStateException(e, LocalizedODEFormats.FIND_ROOT, detector, tb.getReal(), gb.getReal(), loopT.getReal(), loopG.getReal(), lastT.getReal(), lastG.getReal());
                     }
                 }
             }
@@ -416,13 +352,11 @@ public class FieldDetectorBasedEventState<T extends CalculusFieldElement<T>> imp
                 afterRootG = f.value(afterRootT);
             }
             // check loop is making some progress
-            check((forward && afterRootT.getReal() > beforeRootT.getReal()) ||
-                  (!forward && afterRootT.getReal() < beforeRootT.getReal()));
+            check((forward && afterRootT.getReal() > beforeRootT.getReal()) || (!forward && afterRootT.getReal() < beforeRootT.getReal()));
             // setup next iteration
             loopT = afterRootT;
             loopG = afterRootG;
         }
-
         // figure out the result of root finding, and return accordingly
         if (afterRootG.getReal() == 0.0 || afterRootG.getReal() > 0.0 == g0Positive) {
             // loop gave up and didn't find any crossing within this step
@@ -437,11 +371,9 @@ public class FieldDetectorBasedEventState<T extends CalculusFieldElement<T>> imp
             pendingEvent = true;
             afterEvent = afterRootT;
             afterG = afterRootG;
-
             // check increasing set correctly
             check(afterG.getReal() > 0 == increasing);
             check(increasing == gb.getReal() >= ga.getReal());
-
             return true;
         }
     }
@@ -460,41 +392,8 @@ public class FieldDetectorBasedEventState<T extends CalculusFieldElement<T>> imp
      * before the same time as {@code state}. In other words {@code false} means continue
      * on while {@code true} means stop and handle my event first.
      */
-    public boolean tryAdvance(final FieldODEStateAndDerivative<T> state,
-                              final FieldODEStateInterpolator<T> interpolator) {
-        final T t = state.getTime();
-        // check this is only called before a pending event.
-        check(!pendingEvent || !strictlyAfter(pendingEventTime, t));
-
-        final boolean meFirst;
-
-        // just found an event and we know the next time we want to search again
-        if (earliestTimeConsidered != null && strictlyAfter(t, earliestTimeConsidered)) {
-            meFirst = false;
-        } else {
-            // check g function to see if there is a new event
-            final T g = g(state);
-            final boolean positive = g.getReal() > 0;
-
-            if (positive == g0Positive) {
-                // g function has expected sign
-                g0 = g; // g0Positive is the same
-                meFirst = false;
-            } else {
-                // found a root we didn't expect -> find precise location
-                final T oldPendingEventTime = pendingEventTime;
-                final boolean foundRoot = findRoot(interpolator, t0, g0, t, g);
-                // make sure the new root is not the same as the old root, if one exists
-                meFirst = foundRoot && !pendingEventTime.equals(oldPendingEventTime);
-            }
-        }
-
-        if (!meFirst) {
-            // advance t0 to the current time so we can't find events that occur before t
-            t0 = t;
-        }
-
-        return meFirst;
+    public boolean tryAdvance(final FieldODEStateAndDerivative<T> state, final FieldODEStateInterpolator<T> interpolator) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -512,28 +411,7 @@ public class FieldDetectorBasedEventState<T extends CalculusFieldElement<T>> imp
      */
     @Override
     public FieldEventOccurrence<T> doEvent(final FieldODEStateAndDerivative<T> state) {
-        // check event is pending and is at the same time
-        check(pendingEvent);
-        check(FastMath.abs(state.getTime().getReal() - this.pendingEventTime.getReal()) <= FastMath.ulp(state.getTime().getReal()));
-
-        final Action action = handler.eventOccurred(state, detector, increasing == forward);
-        final FieldODEState<T> newState;
-        if (action == Action.RESET_STATE) {
-            newState = handler.resetState(detector, state);
-        } else {
-            newState = state;
-        }
-        // clear pending event
-        pendingEvent = false;
-        pendingEventTime = null;
-        // setup for next search
-        earliestTimeConsidered = afterEvent;
-        t0 = afterEvent;
-        g0 = afterG;
-        g0Positive = increasing;
-        // check g0Positive set correctly
-        check(g0.isZero() || g0Positive == (g0.getReal() > 0));
-        return new FieldEventOccurrence<>(action, newState, stopTime);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -615,15 +493,13 @@ public class FieldDetectorBasedEventState<T extends CalculusFieldElement<T>> imp
         }
     }
 
-    /** Get the occurrence time of the event triggered in the current step.
+    /**
+     * Get the occurrence time of the event triggered in the current step.
      * @return occurrence time of the event triggered in the current
      * step or infinity if no events are triggered
      */
     @Override
     public T getEventTime() {
-        return pendingEvent ?
-               pendingEventTime :
-               t0.getField().getZero().add(forward ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

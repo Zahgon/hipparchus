@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,7 +22,6 @@ package org.hipparchus.stat.descriptive;
 
 import java.io.Serializable;
 import java.util.function.DoubleConsumer;
-
 import org.hipparchus.exception.NullArgumentException;
 import org.hipparchus.random.RandomGenerator;
 import org.hipparchus.stat.descriptive.moment.GeometricMean;
@@ -56,46 +54,91 @@ import org.hipparchus.util.Precision;
  * <p>
  * Note: This class is not thread-safe.
  */
-public class StreamingStatistics
-    implements StatisticalSummary, AggregatableStatistic<StreamingStatistics>,
-               DoubleConsumer, Serializable {
+public class StreamingStatistics implements StatisticalSummary, AggregatableStatistic<StreamingStatistics>, DoubleConsumer, Serializable {
 
-    /** Serialization UID */
+    /**
+     * Serialization UID
+     */
     private static final long serialVersionUID = 20160422L;
 
-    /** count of values that have been added */
+    /**
+     * count of values that have been added
+     */
     private long n;
 
-    /** SecondMoment is used to compute the mean and variance */
+    /**
+     * SecondMoment is used to compute the mean and variance
+     */
     private final SecondMoment secondMoment;
-    /** min of values that have been added */
+
+    /**
+     * min of values that have been added
+     */
     private final Min minImpl;
-    /** max of values that have been added */
+
+    /**
+     * max of values that have been added
+     */
     private final Max maxImpl;
-    /** sum of values that have been added */
+
+    /**
+     * sum of values that have been added
+     */
     private final Sum sumImpl;
-    /** sum of the square of each value that has been added */
+
+    /**
+     * sum of the square of each value that has been added
+     */
     private final SumOfSquares sumOfSquaresImpl;
-    /** sumLog of values that have been added */
+
+    /**
+     * sumLog of values that have been added
+     */
     private final SumOfLogs sumOfLogsImpl;
-    /** mean of values that have been added */
+
+    /**
+     * mean of values that have been added
+     */
     private final Mean meanImpl;
-    /** variance of values that have been added */
+
+    /**
+     * variance of values that have been added
+     */
     private final Variance varianceImpl;
-    /** geoMean of values that have been added */
+
+    /**
+     * geoMean of values that have been added
+     */
     private final GeometricMean geoMeanImpl;
-    /** population variance of values that have been added */
+
+    /**
+     * population variance of values that have been added
+     */
     private final Variance populationVariance;
-    /** source of percentiles */
+
+    /**
+     * source of percentiles
+     */
     private final RandomPercentile randomPercentile;
 
-    /** whether or not moment stats (sum, mean, variance) are maintained */
+    /**
+     * whether or not moment stats (sum, mean, variance) are maintained
+     */
     private final boolean computeMoments;
-    /** whether or not sum of squares and quadratic mean are maintained */
+
+    /**
+     * whether or not sum of squares and quadratic mean are maintained
+     */
     private final boolean computeSumOfSquares;
-    /** whether or not sum of logs and geometric mean are maintained */
+
+    /**
+     * whether or not sum of logs and geometric mean are maintained
+     */
     private final boolean computeSumOfLogs;
-    /** whether or not min and max are maintained */
+
+    /**
+     * whether or not min and max are maintained
+     */
     private final boolean computeExtrema;
 
     /**
@@ -103,7 +146,7 @@ public class StreamingStatistics
      * other than percentiles.
      */
     public StreamingStatistics() {
-       this(Double.NaN, null);
+        this(Double.NaN, null);
     }
 
     /**
@@ -115,7 +158,7 @@ public class StreamingStatistics
      * @since 2.3
      */
     public StreamingStatistics(final double epsilon, final RandomGenerator randomGenerator) {
-       this(true, true, true, true, epsilon, randomGenerator);
+        this(true, true, true, true, epsilon, randomGenerator);
     }
 
     /**
@@ -129,15 +172,11 @@ public class StreamingStatistics
      * @param randomGenerator PRNG used in sampling and merge operations (null if percentiles should not be computed)
      * @since 2.3
      */
-    private StreamingStatistics(final boolean computeMoments,
-                                final boolean computeSumOfLogs, final boolean computeSumOfSquares,
-                                final boolean computeExtrema,
-                                final double epsilon, final RandomGenerator randomGenerator) {
+    private StreamingStatistics(final boolean computeMoments, final boolean computeSumOfLogs, final boolean computeSumOfSquares, final boolean computeExtrema, final double epsilon, final RandomGenerator randomGenerator) {
         this.computeMoments = computeMoments;
         this.computeSumOfLogs = computeSumOfLogs;
         this.computeSumOfSquares = computeSumOfSquares;
         this.computeExtrema = computeExtrema;
-
         this.secondMoment = computeMoments ? new SecondMoment() : null;
         this.maxImpl = computeExtrema ? new Max() : null;
         this.minImpl = computeExtrema ? new Min() : null;
@@ -145,7 +184,7 @@ public class StreamingStatistics
         this.sumOfSquaresImpl = computeSumOfSquares ? new SumOfSquares() : null;
         this.sumOfLogsImpl = computeSumOfLogs ? new SumOfLogs() : null;
         this.meanImpl = computeMoments ? new Mean(this.secondMoment) : null;
-        this.varianceImpl = computeMoments ?  new Variance(this.secondMoment) : null;
+        this.varianceImpl = computeMoments ? new Variance(this.secondMoment) : null;
         this.geoMeanImpl = computeSumOfLogs ? new GeometricMean(this.sumOfLogsImpl) : null;
         this.populationVariance = computeMoments ? new Variance(false, this.secondMoment) : null;
         this.randomPercentile = randomGenerator == null ? null : new RandomPercentile(epsilon, randomGenerator);
@@ -159,22 +198,19 @@ public class StreamingStatistics
      */
     StreamingStatistics(StreamingStatistics original) throws NullArgumentException {
         MathUtils.checkNotNull(original);
-
-        this.n                = original.n;
-        this.secondMoment     = original.computeMoments ? original.secondMoment.copy() : null;
-        this.maxImpl          = original.computeExtrema ? original.maxImpl.copy() : null;
-        this.minImpl          = original.computeExtrema ? original.minImpl.copy() : null;
-        this.sumImpl          = original.computeMoments ? original.sumImpl.copy() : null;
-        this.sumOfLogsImpl    = original.computeSumOfLogs ? original.sumOfLogsImpl.copy() : null;
+        this.n = original.n;
+        this.secondMoment = original.computeMoments ? original.secondMoment.copy() : null;
+        this.maxImpl = original.computeExtrema ? original.maxImpl.copy() : null;
+        this.minImpl = original.computeExtrema ? original.minImpl.copy() : null;
+        this.sumImpl = original.computeMoments ? original.sumImpl.copy() : null;
+        this.sumOfLogsImpl = original.computeSumOfLogs ? original.sumOfLogsImpl.copy() : null;
         this.sumOfSquaresImpl = original.computeSumOfSquares ? original.sumOfSquaresImpl.copy() : null;
-
         // Keep statistics with embedded moments in synch
-        this.meanImpl     = original.computeMoments ? new Mean(this.secondMoment) : null;
+        this.meanImpl = original.computeMoments ? new Mean(this.secondMoment) : null;
         this.varianceImpl = original.computeMoments ? new Variance(this.secondMoment) : null;
-        this.geoMeanImpl  = original.computeSumOfLogs ? new GeometricMean(this.sumOfLogsImpl) : null;
+        this.geoMeanImpl = original.computeSumOfLogs ? new GeometricMean(this.sumOfLogsImpl) : null;
         this.populationVariance = original.computeMoments ? new Variance(false, this.secondMoment) : null;
         this.randomPercentile = original.randomPercentile != null ? original.randomPercentile.copy() : null;
-
         this.computeMoments = original.computeMoments;
         this.computeSumOfLogs = original.computeSumOfLogs;
         this.computeSumOfSquares = original.computeSumOfSquares;
@@ -187,7 +223,7 @@ public class StreamingStatistics
      * @return a copy of this
      */
     public StreamingStatistics copy() {
-        return new StreamingStatistics(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -196,8 +232,7 @@ public class StreamingStatistics
      * @return Current values of statistics
      */
     public StatisticalSummary getSummary() {
-        return new StatisticalSummaryValues(getMean(), getVariance(), getN(),
-                                            getMax(), getMin(), getSum());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -205,78 +240,54 @@ public class StreamingStatistics
      * @param value the value to add
      */
     public void addValue(double value) {
-        if (computeMoments) {
-            secondMoment.increment(value);
-            sumImpl.increment(value);
-        }
-        if (computeExtrema) {
-            minImpl.increment(value);
-            maxImpl.increment(value);
-        }
-        if (computeSumOfSquares) {
-            sumOfSquaresImpl.increment(value);
-        }
-        if (computeSumOfLogs) {
-            sumOfLogsImpl.increment(value);
-        }
-        if (randomPercentile != null) {
-            randomPercentile.increment(value);
-        }
-        n++;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void accept(double value) {
-        addValue(value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Resets all statistics and storage.
      */
     public void clear() {
-        this.n = 0;
-        if (computeExtrema) {
-            minImpl.clear();
-            maxImpl.clear();
-        }
-        if (computeMoments) {
-            sumImpl.clear();
-            secondMoment.clear();
-        }
-        if (computeSumOfLogs) {
-            sumOfLogsImpl.clear();
-        }
-        if (computeSumOfSquares) {
-            sumOfSquaresImpl.clear();
-        }
-        if (randomPercentile != null) {
-            randomPercentile.clear();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long getN() {
-        return n;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getMax() {
-        return computeExtrema ? maxImpl.getResult() : Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getMin() {
-        return computeExtrema ? minImpl.getResult() : Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getSum() {
-        return computeMoments ? sumImpl.getResult() : Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -287,19 +298,23 @@ public class StreamingStatistics
      * @return The sum of squares
      */
     public double getSumOfSquares() {
-        return computeSumOfSquares ? sumOfSquaresImpl.getResult() : Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getMean() {
-        return computeMoments ? meanImpl.getResult() : Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getVariance() {
-        return computeMoments ? varianceImpl.getResult() : Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -311,7 +326,7 @@ public class StreamingStatistics
      * @return the population variance
      */
     public double getPopulationVariance() {
-        return computeMoments ? populationVariance.getResult() : Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -322,7 +337,7 @@ public class StreamingStatistics
      * @return the geometric mean
      */
     public double getGeometricMean() {
-        return computeSumOfLogs ? geoMeanImpl.getResult() : Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -333,7 +348,7 @@ public class StreamingStatistics
      * @return the sum of logs
      */
     public double getSumOfLogs() {
-        return computeSumOfLogs ? sumOfLogsImpl.getResult() : Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -347,7 +362,7 @@ public class StreamingStatistics
      * @return second central moment statistic
      */
     public double getSecondMoment() {
-        return computeMoments ? secondMoment.getResult() : Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -359,12 +374,7 @@ public class StreamingStatistics
      * have been added.
      */
     public double getQuadraticMean() {
-        if (computeSumOfSquares) {
-            long size = getN();
-            return size > 0 ? FastMath.sqrt(getSumOfSquares() / size) : Double.NaN;
-        } else {
-            return Double.NaN;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -376,16 +386,7 @@ public class StreamingStatistics
      */
     @Override
     public double getStandardDeviation() {
-        long size = getN();
-        if (computeMoments) {
-            if (size > 0) {
-                return size > 1 ? FastMath.sqrt(getVariance()) : 0.0;
-            } else {
-                return Double.NaN;
-            }
-        } else {
-            return Double.NaN;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -396,7 +397,7 @@ public class StreamingStatistics
      * @return the median
      */
     public double getMedian() {
-        return randomPercentile != null ? randomPercentile.getResult(50d) : Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -408,7 +409,7 @@ public class StreamingStatistics
      * @return estimated percentile
      */
     public double getPercentile(double percentile) {
-        return randomPercentile == null ? Double.NaN : randomPercentile.getResult(percentile);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -419,28 +420,7 @@ public class StreamingStatistics
      */
     @Override
     public void aggregate(StreamingStatistics other) {
-        MathUtils.checkNotNull(other);
-
-        if (other.n > 0) {
-            this.n += other.n;
-            if (computeMoments && other.computeMoments) {
-                this.secondMoment.aggregate(other.secondMoment);
-                this.sumImpl.aggregate(other.sumImpl);
-            }
-            if (computeExtrema && other.computeExtrema) {
-                this.minImpl.aggregate(other.minImpl);
-                this.maxImpl.aggregate(other.maxImpl);
-            }
-            if (computeSumOfLogs && other.computeSumOfLogs) {
-                this.sumOfLogsImpl.aggregate(other.sumOfLogsImpl);
-            }
-            if (computeSumOfSquares && other.computeSumOfSquares) {
-                this.sumOfSquaresImpl.aggregate(other.sumOfSquaresImpl);
-            }
-            if (randomPercentile != null && other.randomPercentile != null) {
-                this.randomPercentile.aggregate(other.randomPercentile);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -451,22 +431,7 @@ public class StreamingStatistics
      */
     @Override
     public String toString() {
-        StringBuilder outBuffer = new StringBuilder(200); // the size is just a wild guess
-        String endl = "\n";
-        outBuffer.append("StreamingStatistics:").append(endl).
-                  append("n: ").append(getN()).append(endl).
-                  append("min: ").append(getMin()).append(endl).
-                  append("max: ").append(getMax()).append(endl).
-                  append("sum: ").append(getSum()).append(endl).
-                  append("mean: ").append(getMean()).append(endl).
-                  append("variance: ").append(getVariance()).append(endl).
-                  append("population variance: ").append(getPopulationVariance()).append(endl).
-                  append("standard deviation: ").append(getStandardDeviation()).append(endl).
-                  append("geometric mean: ").append(getGeometricMean()).append(endl).
-                  append("second moment: ").append(getSecondMoment()).append(endl).
-                  append("sum of squares: ").append(getSumOfSquares()).append(endl).
-                  append("sum of logs: ").append(getSumOfLogs()).append(endl);
-        return outBuffer.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -478,23 +443,7 @@ public class StreamingStatistics
      */
     @Override
     public boolean equals(Object object) {
-        if (object == this) {
-            return true;
-        }
-        if (!(object instanceof StreamingStatistics)) {
-            return false;
-        }
-        StreamingStatistics other = (StreamingStatistics)object;
-        return other.getN() == getN()                                                     &&
-               Precision.equalsIncludingNaN(other.getMax(),           getMax())           &&
-               Precision.equalsIncludingNaN(other.getMin(),           getMin())           &&
-               Precision.equalsIncludingNaN(other.getSum(),           getSum())           &&
-               Precision.equalsIncludingNaN(other.getGeometricMean(), getGeometricMean()) &&
-               Precision.equalsIncludingNaN(other.getMean(),          getMean())          &&
-               Precision.equalsIncludingNaN(other.getSumOfSquares(),  getSumOfSquares())  &&
-               Precision.equalsIncludingNaN(other.getSumOfLogs(),     getSumOfLogs())     &&
-               Precision.equalsIncludingNaN(other.getVariance(),      getVariance())      &&
-               Precision.equalsIncludingNaN(other.getMedian(),        getMedian());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -503,17 +452,7 @@ public class StreamingStatistics
      */
     @Override
     public int hashCode() {
-        int result = 31 + MathUtils.hash(getN());
-        result = result * 31 + MathUtils.hash(getMax());
-        result = result * 31 + MathUtils.hash(getMin());
-        result = result * 31 + MathUtils.hash(getSum());
-        result = result * 31 + MathUtils.hash(getGeometricMean());
-        result = result * 31 + MathUtils.hash(getMean());
-        result = result * 31 + MathUtils.hash(getSumOfSquares());
-        result = result * 31 + MathUtils.hash(getSumOfLogs());
-        result = result * 31 + MathUtils.hash(getVariance());
-        result = result * 31 + MathUtils.hash(getMedian());
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -523,37 +462,54 @@ public class StreamingStatistics
      * @return a StreamingStatisticsBuilder instance
      */
     public static StreamingStatisticsBuilder builder() {
-        return new StreamingStatisticsBuilder();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Builder for StreamingStatistics instances.
      */
     public static class StreamingStatisticsBuilder {
-        /** whether or not moment statistics are maintained by instances created by this factory */
+
+        /**
+         * whether or not moment statistics are maintained by instances created by this factory
+         */
         private boolean computeMoments;
-        /** whether or not sum of squares and quadratic mean are maintained by instances created by this factory */
+
+        /**
+         * whether or not sum of squares and quadratic mean are maintained by instances created by this factory
+         */
         private boolean computeSumOfSquares;
-        /** whether or not sum of logs and geometric mean are maintained by instances created by this factory */
+
+        /**
+         * whether or not sum of logs and geometric mean are maintained by instances created by this factory
+         */
         private boolean computeSumOfLogs;
-        /** whether or not min and max are maintained by instances created by this factory */
+
+        /**
+         * whether or not min and max are maintained by instances created by this factory
+         */
         private boolean computeExtrema;
-        /** bound on quantile estimation error for percentiles.
+
+        /**
+         * bound on quantile estimation error for percentiles.
          * @since 2.3
          */
         private double epsilon;
-        /** PRNG used in sampling and merge operations.
+
+        /**
+         * PRNG used in sampling and merge operations.
          * @since 2.3
          */
         private RandomGenerator randomGenerator;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          */
         public StreamingStatisticsBuilder() {
-            computeMoments      = true;
+            computeMoments = true;
             computeSumOfSquares = true;
-            computeSumOfLogs    = true;
-            computeExtrema      = true;
+            computeSumOfLogs = true;
+            computeExtrema = true;
             percentiles(Double.NaN, null);
         }
 
@@ -565,8 +521,7 @@ public class StreamingStatistics
          * @return a factory with the given computeMoments property set
          */
         public StreamingStatisticsBuilder moments(boolean arg) {
-            this.computeMoments = arg;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -577,8 +532,7 @@ public class StreamingStatistics
          * @return a factory with the given computeSumOfLogs property set
          */
         public StreamingStatisticsBuilder sumOfLogs(boolean arg) {
-            this.computeSumOfLogs = arg;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -589,8 +543,7 @@ public class StreamingStatistics
          * @return a factory with the given computeSumOfSquares property set
          */
         public StreamingStatisticsBuilder sumOfSquares(boolean arg) {
-            this.computeSumOfSquares = arg;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -601,9 +554,7 @@ public class StreamingStatistics
          * @since 2.3
          */
         public StreamingStatisticsBuilder percentiles(final double epsilonBound, final RandomGenerator generator) {
-            this.epsilon         = epsilonBound;
-            this.randomGenerator = generator;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -614,8 +565,7 @@ public class StreamingStatistics
          * @return a factory with the given computeExtrema property set
          */
         public StreamingStatisticsBuilder extrema(boolean arg) {
-            this.computeExtrema = arg;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -624,10 +574,7 @@ public class StreamingStatistics
          * @return newly configured StreamingStatistics instance
          */
         public StreamingStatistics build() {
-            return new StreamingStatistics(computeMoments,
-                                           computeSumOfLogs, computeSumOfSquares,
-                                           computeExtrema,
-                                           epsilon, randomGenerator);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

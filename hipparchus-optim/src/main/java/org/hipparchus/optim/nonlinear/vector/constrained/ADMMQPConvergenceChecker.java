@@ -22,53 +22,69 @@ import org.hipparchus.optim.ConvergenceChecker;
 import org.hipparchus.optim.OptimizationData;
 import org.hipparchus.util.FastMath;
 
-/** Convergence Checker for ADMM QP Optimizer.
+/**
+ * Convergence Checker for ADMM QP Optimizer.
  * @since 3.1
  */
-public class ADMMQPConvergenceChecker implements ConvergenceChecker<LagrangeSolution>, OptimizationData  {
+public class ADMMQPConvergenceChecker implements ConvergenceChecker<LagrangeSolution>, OptimizationData {
 
-    /** Quadratic term matrix. */
-    private  final RealMatrix h;
+    /**
+     * Quadratic term matrix.
+     */
+    private final RealMatrix h;
 
-    /** Constraint coefficients matrix. */
-    private  final RealMatrix a;
+    /**
+     * Constraint coefficients matrix.
+     */
+    private final RealMatrix a;
 
-    /** Linear term matrix. */
-    private  final RealVector q;
+    /**
+     * Linear term matrix.
+     */
+    private final RealVector q;
 
-    /** Absolute tolerance for convergence. */
-    private  final double epsAbs;
+    /**
+     * Absolute tolerance for convergence.
+     */
+    private final double epsAbs;
 
-    /** Relative tolerance for convergence. */
-    private  final double epsRel;
+    /**
+     * Relative tolerance for convergence.
+     */
+    private final double epsRel;
 
-    /** Convergence indicator. */
-    private  boolean converged;
+    /**
+     * Convergence indicator.
+     */
+    private boolean converged;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param h quadratic term matrix
      * @param a constraint coefficients matrix
      * @param q linear term matrix
      * @param epsAbs
      * @param epsRel
      */
-    ADMMQPConvergenceChecker(final RealMatrix h, final RealMatrix a, final RealVector q,
-                             final double epsAbs, final double epsRel) {
-        this.h         = h;
-        this.a         = a;
-        this.q         = q;
-        this.epsAbs    = epsAbs;
-        this.epsRel    = epsRel;
+    ADMMQPConvergenceChecker(final RealMatrix h, final RealMatrix a, final RealVector q, final double epsAbs, final double epsRel) {
+        this.h = h;
+        this.a = a;
+        this.q = q;
+        this.epsAbs = epsAbs;
+        this.epsRel = epsRel;
         this.converged = false;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean converged(final int i, final LagrangeSolution previous, final LagrangeSolution current) {
-        return converged;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Evaluate convergence.
+    /**
+     * Evaluate convergence.
      * @param rp primal residual
      * @param rd dual residual
      * @param maxPrimal primal vectors max
@@ -76,54 +92,51 @@ public class ADMMQPConvergenceChecker implements ConvergenceChecker<LagrangeSolu
      * @return true of convergence has been reached
      */
     public boolean converged(final double rp, final double rd, final double maxPrimal, final double maxDual) {
-        boolean result = false;
-
-        if (rp <= epsPrimalDual(maxPrimal) && rd <= epsPrimalDual(maxDual)) {
-            result = true;
-            converged = true;
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute primal residual.
+    /**
+     * Compute primal residual.
      * @param x primal problem solution
      * @param z auxiliary variable
      * @return primal residual
      */
     public double residualPrime(final RealVector x, final RealVector z) {
-        return a.operate(x).subtract(z).getLInfNorm();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute dual residual.
+    /**
+     * Compute dual residual.
      * @param x primal problem solution
      * @param y dual problem solution
      * @return dual residual
      */
     public double residualDual(final RealVector x, final RealVector y) {
-        return q.add(a.transpose().operate(y)).add(h.operate(x)).getLInfNorm();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute primal vectors max.
+    /**
+     * Compute primal vectors max.
      * @param x primal problem solution
      * @param z auxiliary variable
      * @return primal vectors max
      */
     public double maxPrimal(final RealVector x, final RealVector z) {
-        return FastMath.max(a.operate(x).getLInfNorm(), z.getLInfNorm());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute dual vectors max.
+    /**
+     * Compute dual vectors max.
      * @param x primal problem solution
      * @param y dual problem solution
      * @return dual vectors max
      */
     public double maxDual(final RealVector x, final RealVector y) {
-        return FastMath.max(FastMath.max(h.operate(x).getLInfNorm(),
-                                         a.transpose().operate(y).getLInfNorm()),
-                            q.getLInfNorm());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Combine absolute and relative tolerances.
+    /**
+     * Combine absolute and relative tolerances.
      * @param maxPrimalDual either {@link #maxPrimal(RealVector, RealVector)}
      * or {@link #maxDual(RealVector, RealVector)}
      * @return global tolerance
@@ -131,5 +144,4 @@ public class ADMMQPConvergenceChecker implements ConvergenceChecker<LagrangeSolu
     private double epsPrimalDual(final double maxPrimalDual) {
         return epsAbs + epsRel * maxPrimalDual;
     }
-
 }

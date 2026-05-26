@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.random;
 
 import java.util.Random;
-
 import org.hipparchus.util.MathUtils;
 
 /**
@@ -31,10 +29,14 @@ import org.hipparchus.util.MathUtils;
  */
 public class RandomAdaptor extends Random implements RandomGenerator {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20160529L;
 
-    /** Wrapped randomGenerator instance */
+    /**
+     * Wrapped randomGenerator instance
+     */
     private final RandomGenerator randomGenerator;
 
     /**
@@ -56,7 +58,7 @@ public class RandomAdaptor extends Random implements RandomGenerator {
      * @return a Random instance wrapping the RandomGenerator
      */
     public static Random of(RandomGenerator randomGenerator) {
-        return new RandomAdaptor(randomGenerator);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -70,7 +72,7 @@ public class RandomAdaptor extends Random implements RandomGenerator {
      */
     @Override
     public boolean nextBoolean() {
-        return randomGenerator.nextBoolean();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -83,13 +85,15 @@ public class RandomAdaptor extends Random implements RandomGenerator {
      */
     @Override
     public void nextBytes(byte[] bytes) {
-        randomGenerator.nextBytes(bytes);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void nextBytes(byte[] bytes, int offset, int len) {
-        randomGenerator.nextBytes(bytes, offset, len);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -103,7 +107,7 @@ public class RandomAdaptor extends Random implements RandomGenerator {
      */
     @Override
     public double nextDouble() {
-        return randomGenerator.nextDouble();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -117,7 +121,7 @@ public class RandomAdaptor extends Random implements RandomGenerator {
      */
     @Override
     public float nextFloat() {
-        return randomGenerator.nextFloat();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -132,10 +136,10 @@ public class RandomAdaptor extends Random implements RandomGenerator {
      */
     @Override
     public double nextGaussian() {
-        return randomGenerator.nextGaussian();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-     /**
+    /**
      * Returns the next pseudorandom, uniformly distributed <code>int</code>
      * value from this random number generator's sequence.
      * All 2<sup>32</sup> possible {@code int} values
@@ -146,7 +150,7 @@ public class RandomAdaptor extends Random implements RandomGenerator {
      */
     @Override
     public int nextInt() {
-        return randomGenerator.nextInt();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -162,7 +166,7 @@ public class RandomAdaptor extends Random implements RandomGenerator {
      */
     @Override
     public int nextInt(int n) {
-        return randomGenerator.nextInt(n);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -176,37 +180,38 @@ public class RandomAdaptor extends Random implements RandomGenerator {
      */
     @Override
     public long nextLong() {
-        return randomGenerator.nextLong();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long nextLong(long n) {
-        return randomGenerator.nextLong(n);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSeed(int seed) {
-        if (randomGenerator != null) {  // required to avoid NPE in constructor
-            randomGenerator.setSeed(seed);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSeed(int[] seed) {
-        if (randomGenerator != null) {  // required to avoid NPE in constructor
-            randomGenerator.setSeed(seed);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSeed(long seed) {
-        if (randomGenerator != null) {  // required to avoid NPE in constructor
-            randomGenerator.setSeed(seed);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

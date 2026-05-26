@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.random;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -31,57 +29,58 @@ import org.hipparchus.exception.MathIllegalArgumentException;
  */
 abstract class IntRandomGenerator extends BaseRandomGenerator {
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public abstract int nextInt();
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean nextBoolean() {
-        return (nextInt() >>> 31) != 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double nextDouble() {
-        final long high = ((long) (nextInt() >>> 6)) << 26;
-        final int low = nextInt() >>> 6;
-        return (high | low) * 0x1.0p-52d;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public float nextFloat() {
-        return (nextInt() >>> 9) * 0x1.0p-23f;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long nextLong() {
-        return (((long) nextInt()) << 32) | (nextInt() & 0xffffffffL);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void nextBytes(byte[] bytes) {
-        nextBytesFill(bytes, 0, bytes.length);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void nextBytes(byte[] bytes, int start, int len) {
-        if (start < 0 ||
-            start >= bytes.length) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.OUT_OF_RANGE_SIMPLE,
-                                                   start, 0, bytes.length);
-        }
-        if (len < 0 ||
-            len > bytes.length - start) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.OUT_OF_RANGE_SIMPLE,
-                                                   len, 0, bytes.length - start);
-        }
-
-        nextBytesFill(bytes, start, len);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -97,12 +96,11 @@ abstract class IntRandomGenerator extends BaseRandomGenerator {
      * {@code offset + len >= bytes.length}
      */
     private void nextBytesFill(byte[] bytes, int offset, int len) {
-        int index = offset; // Index of first insertion.
-
+        // Index of first insertion.
+        int index = offset;
         // Index of first insertion plus multiple of 4 part of length
         // (i.e. length with 2 least significant bits unset).
         final int indexLoopLimit = index + (len & 0x7ffffffc);
-
         // Start filling in the byte array, 4 bytes at a time.
         while (index < indexLoopLimit) {
             final int random = nextInt();
@@ -111,9 +109,8 @@ abstract class IntRandomGenerator extends BaseRandomGenerator {
             bytes[index++] = (byte) (random >>> 16);
             bytes[index++] = (byte) (random >>> 24);
         }
-
-        final int indexLimit = offset + len; // Index of last insertion + 1.
-
+        // Index of last insertion + 1.
+        final int indexLimit = offset + len;
         // Fill in the remaining bytes.
         if (index < indexLimit) {
             int random = nextInt();

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,7 +22,6 @@ package org.hipparchus.optim.linear;
 
 import java.util.Collection;
 import java.util.Collections;
-
 import org.hipparchus.exception.MathIllegalStateException;
 import org.hipparchus.optim.OptimizationData;
 import org.hipparchus.optim.PointValuePair;
@@ -31,18 +29,19 @@ import org.hipparchus.optim.nonlinear.scalar.MultivariateOptimizer;
 
 /**
  * Base class for implementing linear optimizers.
- *
  */
-public abstract class LinearOptimizer
-    extends MultivariateOptimizer {
+public abstract class LinearOptimizer extends MultivariateOptimizer {
+
     /**
      * Linear objective function.
      */
     private LinearObjectiveFunction function;
+
     /**
      * Linear constraints.
      */
     private Collection<LinearConstraint> linearConstraints;
+
     /**
      * Whether to restrict the variables to non-negative values.
      */
@@ -50,31 +49,34 @@ public abstract class LinearOptimizer
 
     /**
      * Simple constructor with default settings.
-     *
      */
     protected LinearOptimizer() {
-        super(null); // No convergence checker.
+        // No convergence checker.
+        super(null);
     }
 
-    /** Check if variables are restricted to non-negative values.
+    /**
+     * Check if variables are restricted to non-negative values.
      * @return {@code true} if the variables are restricted to non-negative values
      */
     protected boolean isRestrictedToNonNegative() {
-        return nonNegative;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get optimization type.
+    /**
+     * Get optimization type.
      * @return the optimization type
      */
     protected LinearObjectiveFunction getFunction() {
-        return function;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get constraints.
+    /**
+     * Get constraints.
      * @return the constraints
      */
     protected Collection<LinearConstraint> getConstraints() {
-        return Collections.unmodifiableCollection(linearConstraints);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -93,10 +95,8 @@ public abstract class LinearOptimizer
      * iterations is exceeded.
      */
     @Override
-    public PointValuePair optimize(OptimizationData... optData)
-        throws MathIllegalStateException {
-        // Set up base class and perform computation.
-        return super.optimize(optData);
+    public PointValuePair optimize(OptimizationData... optData) throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -113,24 +113,6 @@ public abstract class LinearOptimizer
      */
     @Override
     protected void parseOptimizationData(OptimizationData... optData) {
-        // Allow base class to register its own data.
-        super.parseOptimizationData(optData);
-
-        // The existing values (as set by the previous call) are reused if
-        // not provided in the argument list.
-        for (OptimizationData data : optData) {
-            if (data instanceof LinearObjectiveFunction) {
-                function = (LinearObjectiveFunction) data;
-                continue;
-            }
-            if (data instanceof LinearConstraintSet) {
-                linearConstraints = ((LinearConstraintSet) data).getConstraints();
-                continue;
-            }
-            if  (data instanceof NonNegativeConstraint) {
-                nonNegative = ((NonNegativeConstraint) data).isRestrictedToNonNegative();
-                continue;
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

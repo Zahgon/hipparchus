@@ -21,10 +21,11 @@ import org.hipparchus.util.FastMath;
 /**
  * Procedure to generate variates for exponential distribution.
  */
-public class ExponentialGenerator extends AbstractNonUniformGenerator
-{
+public class ExponentialGenerator extends AbstractNonUniformGenerator {
 
-    /** Rate parameter */
+    /**
+     * Rate parameter
+     */
     private final double lambda;
 
     /**
@@ -32,17 +33,16 @@ public class ExponentialGenerator extends AbstractNonUniformGenerator
      * @param random underlying random generator
      * @param lambda rate parameter
      */
-    public ExponentialGenerator(final RandomGenerator random, final double lambda)
-    {
+    public ExponentialGenerator(final RandomGenerator random, final double lambda) {
         super(random);
         this.lambda = lambda;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double nextVariate()
-    {
-        return -FastMath.log(nextUniform()) / lambda;
+    public double nextVariate() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

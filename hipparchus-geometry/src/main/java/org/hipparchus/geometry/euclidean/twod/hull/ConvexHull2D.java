@@ -17,7 +17,6 @@
 package org.hipparchus.geometry.euclidean.twod.hull;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.geometry.LocalizedGeometryFormats;
@@ -34,17 +33,22 @@ import org.hipparchus.util.Precision;
 
 /**
  * This class represents a convex hull in an two-dimensional euclidean space.
- *
  */
 public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D, Line, SubLine>, Serializable {
 
-    /** Serializable UID. */
+    /**
+     * Serializable UID.
+     */
     private static final long serialVersionUID = 20140129L;
 
-    /** Vertices of the hull. */
+    /**
+     * Vertices of the hull.
+     */
     private final Vector2D[] vertices;
 
-    /** Tolerance threshold used during creation of the hull vertices. */
+    /**
+     * Tolerance threshold used during creation of the hull vertices.
+     */
     private final double tolerance;
 
     /**
@@ -59,16 +63,12 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D, Line, Sub
      * @param tolerance tolerance below which points are considered identical
      * @throws MathIllegalArgumentException if the vertices do not form a convex hull
      */
-    public ConvexHull2D(final Vector2D[] vertices, final double tolerance)
-        throws MathIllegalArgumentException {
-
+    public ConvexHull2D(final Vector2D[] vertices, final double tolerance) throws MathIllegalArgumentException {
         // assign tolerance as it will be used by the isConvex method
         this.tolerance = tolerance;
-
         if (!isConvex(vertices)) {
             throw new MathIllegalArgumentException(LocalizedGeometryFormats.NOT_CONVEX);
         }
-
         this.vertices = vertices.clone();
     }
 
@@ -81,16 +81,13 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D, Line, Sub
         if (hullVertices.length < 3) {
             return true;
         }
-
         int sign = 0;
         for (int i = 0; i < hullVertices.length; i++) {
             final Vector2D p1 = hullVertices[i == 0 ? hullVertices.length - 1 : i - 1];
             final Vector2D p2 = hullVertices[i];
             final Vector2D p3 = hullVertices[i == hullVertices.length - 1 ? 0 : i + 1];
-
             final Vector2D d1 = p2.subtract(p1);
             final Vector2D d2 = p3.subtract(p2);
-
             final double crossProduct = MathArrays.linearCombination(d1.getX(), d2.getY(), -d1.getY(), d2.getX());
             final int cmp = Precision.compareTo(crossProduct, 0.0, tolerance);
             // in case of collinear points the cross product will be zero
@@ -101,14 +98,15 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D, Line, Sub
                 sign = cmp;
             }
         }
-
         return true;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector2D[] getVertices() {
-        return vertices.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -116,7 +114,7 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D, Line, Sub
      * @return the line segments of the convex hull
      */
     public Segment[] getLineSegments() {
-        return retrieveLineSegments().clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -145,30 +143,21 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D, Line, Sub
                         firstPoint = point;
                         lastPoint = point;
                     } else {
-                        this.lineSegments[index++] =
-                                new Segment(lastPoint, point, new Line(lastPoint, point, tolerance));
+                        this.lineSegments[index++] = new Segment(lastPoint, point, new Line(lastPoint, point, tolerance));
                         lastPoint = point;
                     }
                 }
-                this.lineSegments[index] =
-                        new Segment(lastPoint, firstPoint, new Line(lastPoint, firstPoint, tolerance));
+                this.lineSegments[index] = new Segment(lastPoint, firstPoint, new Line(lastPoint, firstPoint, tolerance));
             }
         }
         return lineSegments;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Region<Euclidean2D, Vector2D, Line, SubLine> createRegion() throws MathIllegalArgumentException {
-        if (vertices.length < 3) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INSUFFICIENT_DATA);
-        }
-        final RegionFactory<Euclidean2D, Vector2D, Line, SubLine> factory = new RegionFactory<>();
-        final Segment[] segments = retrieveLineSegments();
-        final Line[] lineArray = new Line[segments.length];
-        for (int i = 0; i < segments.length; i++) {
-            lineArray[i] = segments[i].getLine();
-        }
-        return factory.buildConvex(lineArray);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

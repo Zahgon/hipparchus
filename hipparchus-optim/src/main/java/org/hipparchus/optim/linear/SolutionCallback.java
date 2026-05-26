@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -27,20 +26,24 @@ import org.hipparchus.optim.PointValuePair;
 /**
  * A callback object that can be provided to a linear optimizer to keep track
  * of the best solution found.
- *
  */
 public class SolutionCallback implements OptimizationData {
-    /** The SimplexTableau used by the SimplexSolver. */
+
+    /**
+     * The SimplexTableau used by the SimplexSolver.
+     */
     private SimplexTableau tableau;
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public SolutionCallback() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public SolutionCallback() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
@@ -51,7 +54,7 @@ public class SolutionCallback implements OptimizationData {
      * @param tableau the simplex tableau containing a feasible solution
      */
     void setTableau(final SimplexTableau tableau) {
-        this.tableau = tableau;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -64,7 +67,7 @@ public class SolutionCallback implements OptimizationData {
      * no feasible solution could be found
      */
     public PointValuePair getSolution() {
-        return tableau != null ? tableau.getSolution() : null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -72,6 +75,6 @@ public class SolutionCallback implements OptimizationData {
      * @return {@code true} if the solution is optimal, {@code false} otherwise
      */
     public boolean isSolutionOptimal() {
-        return tableau != null && tableau.isOptimal();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

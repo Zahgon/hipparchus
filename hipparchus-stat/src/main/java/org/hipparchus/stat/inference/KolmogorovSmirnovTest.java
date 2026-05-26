@@ -14,18 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.stat.inference;
 
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.HashSet;
-
 import org.hipparchus.distribution.RealDistribution;
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -109,17 +106,22 @@ import org.hipparchus.util.MathUtils;
  * Note that [1] contains an error in computing h, refer to <a
  * href="https://issues.apache.org/jira/browse/MATH-437">MATH-437</a> for details.
  */
-public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, PMD false positive here
+public class // NOPMD - this is not a Junit test class, PMD false positive here
+KolmogorovSmirnovTest {
 
     /**
      * Bound on the number of partial sums in {@link #ksSum(double, double, int)}
      */
     protected static final int MAXIMUM_PARTIAL_SUM_COUNT = 100000;
 
-    /** Convergence criterion for {@link #ksSum(double, double, int)} */
+    /**
+     * Convergence criterion for {@link #ksSum(double, double, int)}
+     */
     protected static final double KS_SUM_CAUCHY_CRITERION = 1E-20;
 
-    /** Convergence criterion for the sums in #pelzGood(double, double, int)} */
+    /**
+     * Convergence criterion for the sums in #pelzGood(double, double, int)}
+     */
     protected static final double PG_SUM_RELATIVE_ERROR = 1.0e-10;
 
     /**
@@ -168,7 +170,7 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      * @throws org.hipparchus.exception.NullArgumentException if {@code data} is null
      */
     public double kolmogorovSmirnovTest(RealDistribution distribution, double[] data, boolean exact) {
-        return 1d - cdf(kolmogorovSmirnovStatistic(distribution, data), data.length, exact);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -184,21 +186,7 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      * @throws org.hipparchus.exception.NullArgumentException if {@code data} is null
      */
     public double kolmogorovSmirnovStatistic(RealDistribution distribution, double[] data) {
-        checkArray(data);
-        final int n = data.length;
-        final double nd = n;
-        final double[] dataCopy = new double[n];
-        System.arraycopy(data, 0, dataCopy, 0, n);
-        Arrays.sort(dataCopy);
-        double d = 0d;
-        for (int i = 1; i <= n; i++) {
-            final double yi = distribution.cumulativeProbability(dataCopy[i - 1]);
-            final double currD = FastMath.max(yi - (i - 1) / nd, i / nd - yi);
-            if (currD > d) {
-                d = currD;
-            }
-        }
-        return d;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -239,21 +227,7 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      * @see #bootstrap(double[], double[], int, boolean)
      */
     public double kolmogorovSmirnovTest(double[] x, double[] y, boolean strict) {
-        final long lengthProduct = (long) x.length * y.length;
-        final double[] xa;
-        final double[] ya;
-        if (lengthProduct < LARGE_SAMPLE_PRODUCT && hasTies(x,y)) {
-            xa = x.clone();
-            ya = y.clone();
-            fixTies(xa, ya);
-        } else {
-            xa = x;
-            ya = y;
-        }
-        if (lengthProduct < LARGE_SAMPLE_PRODUCT) {
-            return exactP(kolmogorovSmirnovStatistic(xa, ya), x.length, y.length, strict);
-        }
-        return approximateP(kolmogorovSmirnovStatistic(x, y), x.length, y.length);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -272,7 +246,7 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      * @throws org.hipparchus.exception.NullArgumentException if either {@code x} or {@code y} is null
      */
     public double kolmogorovSmirnovTest(double[] x, double[] y) {
-        return kolmogorovSmirnovTest(x, y, true);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -290,7 +264,7 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      * @throws org.hipparchus.exception.NullArgumentException if either {@code x} or {@code y} is null
      */
     public double kolmogorovSmirnovStatistic(double[] x, double[] y) {
-        return integralKolmogorovSmirnovStatistic(x, y)/((double)(x.length * (long)y.length));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -318,30 +292,27 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
         Arrays.sort(sy);
         final int n = sx.length;
         final int m = sy.length;
-
         int rankX = 0;
         int rankY = 0;
         long curD = 0l;
-
         // Find the max difference between cdf_x and cdf_y
         long supD = 0l;
         do {
             double z = Double.compare(sx[rankX], sy[rankY]) <= 0 ? sx[rankX] : sy[rankY];
-            while(rankX < n && Double.compare(sx[rankX], z) == 0) {
+            while (rankX < n && Double.compare(sx[rankX], z) == 0) {
                 rankX += 1;
                 curD += m;
             }
-            while(rankY < m && Double.compare(sy[rankY], z) == 0) {
+            while (rankY < m && Double.compare(sy[rankY], z) == 0) {
                 rankY += 1;
                 curD -= n;
             }
             if (curD > supD) {
                 supD = curD;
-            }
-            else if (-curD > supD) {
+            } else if (-curD > supD) {
                 supD = -curD;
             }
-        } while(rankX < n && rankY < m);
+        } while (rankX < n && rankY < m);
         return supD;
     }
 
@@ -358,7 +329,7 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      * @throws org.hipparchus.exception.NullArgumentException if {@code data} is null
      */
     public double kolmogorovSmirnovTest(RealDistribution distribution, double[] data) {
-        return kolmogorovSmirnovTest(distribution, data, false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -374,10 +345,7 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      * @throws org.hipparchus.exception.NullArgumentException if {@code data} is null
      */
     public boolean kolmogorovSmirnovTest(RealDistribution distribution, double[] data, double alpha) {
-        if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new MathIllegalArgumentException(LocalizedStatFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL, alpha, 0, 0.5);
-        }
-        return kolmogorovSmirnovTest(distribution, data) < alpha;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -399,29 +367,7 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      * @return estimated p-value
      */
     public double bootstrap(double[] x, double[] y, int iterations, boolean strict) {
-        final int xLength = x.length;
-        final int yLength = y.length;
-        final double[] combined = new double[xLength + yLength];
-        System.arraycopy(x, 0, combined, 0, xLength);
-        System.arraycopy(y, 0, combined, xLength, yLength);
-        final long d = integralKolmogorovSmirnovStatistic(x, y);
-        int greaterCount = 0;
-        int equalCount = 0;
-        double[] curX;
-        double[] curY;
-        long curD;
-        for (int i = 0; i < iterations; i++) {
-            curX = resample(combined, xLength);
-            curY = resample(combined, yLength);
-            curD = integralKolmogorovSmirnovStatistic(curX, curY);
-            if (curD > d) {
-                greaterCount++;
-            } else if (curD == d) {
-                equalCount++;
-            }
-        }
-        return strict ? greaterCount / (double) iterations :
-            (greaterCount + equalCount) / (double) iterations;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -435,7 +381,7 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      * @return estimated p-value
      */
     public double bootstrap(double[] x, double[] y, int iterations) {
-        return bootstrap(x, y, iterations, true);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -467,9 +413,8 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      *         {@link org.hipparchus.fraction.BigFraction} in expressing {@code d} as \((k
      *         - h) / m\) for integer {@code k, m} and \(0 &lt;= h &lt; 1\)
      */
-    public double cdf(double d, int n)
-        throws MathRuntimeException {
-        return cdf(d, n, false);
+    public double cdf(double d, int n) throws MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -486,9 +431,8 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      *         {@link org.hipparchus.fraction.BigFraction} in expressing {@code d} as \((k
      *         - h) / m\) for integer {@code k, m} and \(0 &lt;= h &lt; 1\)
      */
-    public double cdfExact(double d, int n)
-        throws MathRuntimeException {
-        return cdf(d, n, true);
+    public double cdfExact(double d, int n) throws MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -507,34 +451,8 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      *         {@link org.hipparchus.fraction.BigFraction} in expressing {@code d} as \((k
      *         - h) / m\) for integer {@code k, m} and \(0 \lt;= h &lt; 1\).
      */
-    public double cdf(double d, int n, boolean exact)
-        throws MathRuntimeException {
-
-        final double ninv = 1 / ((double) n);
-        final double ninvhalf = 0.5 * ninv;
-
-        if (d <= ninvhalf) {
-            return 0;
-        } else if (ninvhalf < d && d <= ninv) {
-            double res = 1;
-            final double f = 2 * d - ninv;
-            // n! f^n = n*f * (n-1)*f * ... * 1*x
-            for (int i = 1; i <= n; ++i) {
-                res *= i * f;
-            }
-            return res;
-        } else if (1 - ninv <= d && d < 1) {
-            return 1 - 2 * Math.pow(1 - d, n);
-        } else if (1 <= d) {
-            return 1;
-        }
-        if (exact) {
-            return exactK(d, n);
-        }
-        if (n <= 140) {
-            return roundedK(d, n);
-        }
-        return pelzGood(d, n);
+    public double cdf(double d, int n, boolean exact) throws MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -549,20 +467,14 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      *         {@link org.hipparchus.fraction.BigFraction} in expressing {@code d} as \((k
      *         - h) / m\) for integer {@code k, m} and \(0 \le h < 1\).
      */
-    private double exactK(double d, int n)
-        throws MathRuntimeException {
-
+    private double exactK(double d, int n) throws MathRuntimeException {
         final int k = (int) Math.ceil(n * d);
-
         final FieldMatrix<BigFraction> H = this.createExactH(d, n);
         final FieldMatrix<BigFraction> Hpower = H.power(n);
-
         BigFraction pFrac = Hpower.getEntry(k - 1, k - 1);
-
         for (int i = 1; i <= n; ++i) {
             pFrac = pFrac.multiply(i).divide(n);
         }
-
         /*
          * BigFraction.doubleValue converts numerator to double and the denominator to double and
          * divides afterwards. That gives NaN quite easy. This does not (scale is the number of
@@ -579,16 +491,13 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      * @return \(P(D_n < d)\)
      */
     private double roundedK(double d, int n) {
-
         final int k = (int) Math.ceil(n * d);
         final RealMatrix H = this.createRoundedH(d, n);
         final RealMatrix Hpower = H.power(n);
-
         double pFrac = Hpower.getEntry(k - 1, k - 1);
         for (int i = 1; i <= n; ++i) {
             pFrac *= ((double) i) / n;
         }
-
         return pFrac;
     }
 
@@ -600,127 +509,10 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      * @return \(P(D_n &lt; d)\)
      */
     public double pelzGood(double d, int n) {
-        // Change the variable since approximation is for the distribution evaluated at d / sqrt(n)
-        final double sqrtN = FastMath.sqrt(n);
-        final double z = d * sqrtN;
-        final double z2 = d * d * n;
-        final double z4 = z2 * z2;
-        final double z6 = z4 * z2;
-        final double z8 = z4 * z4;
-
-        // Compute K_0(z)
-        double sum = 0;
-        double z2Term = MathUtils.PI_SQUARED / (8 * z2);
-        int k = 1;
-        for (; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
-            final double kTerm = 2 * k - 1;
-            final double increment = FastMath.exp(-z2Term * kTerm * kTerm);
-            sum += increment;
-            if (increment <= PG_SUM_RELATIVE_ERROR * sum) {
-                break;
-            }
-        }
-        if (k == MAXIMUM_PARTIAL_SUM_COUNT) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.MAX_COUNT_EXCEEDED, MAXIMUM_PARTIAL_SUM_COUNT);
-        }
-        double ret = sum * FastMath.sqrt(2 * FastMath.PI) / z;
-
-        // K_1(z)
-        // Sum is -inf to inf, but k term is always (k + 1/2) ^ 2, so really have
-        // twice the sum from k = 0 to inf (k = -1 is same as 0, -2 same as 1, ...)
-        final double twoZ2 = 2 * z2;
-        sum = 0;
-        for (k = 0; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
-            final double kTerm = k + 0.5;
-            final double kTerm2 = kTerm * kTerm;
-            final double increment = (MathUtils.PI_SQUARED * kTerm2 - z2) * FastMath.exp(-MathUtils.PI_SQUARED * kTerm2 / twoZ2);
-            sum += increment;
-            if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum)) {
-                break;
-            }
-        }
-        if (k == MAXIMUM_PARTIAL_SUM_COUNT) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.MAX_COUNT_EXCEEDED, MAXIMUM_PARTIAL_SUM_COUNT);
-        }
-        final double sqrtHalfPi = FastMath.sqrt(FastMath.PI / 2);
-        // Instead of doubling sum, divide by 3 instead of 6
-        ret += sum * sqrtHalfPi / (3 * z4 * sqrtN);
-
-        // K_2(z)
-        // Same drill as K_1, but with two doubly infinite sums, all k terms are even powers.
-        final double z4Term = 2 * z4;
-        final double z6Term = 6 * z6;
-        z2Term = 5 * z2;
-        final double pi4 = MathUtils.PI_SQUARED * MathUtils.PI_SQUARED;
-        sum = 0;
-        for (k = 0; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
-            final double kTerm = k + 0.5;
-            final double kTerm2 = kTerm * kTerm;
-            final double increment =  (z6Term + z4Term + MathUtils.PI_SQUARED * (z4Term - z2Term) * kTerm2 +
-                    pi4 * (1 - twoZ2) * kTerm2 * kTerm2) * FastMath.exp(-MathUtils.PI_SQUARED * kTerm2 / twoZ2);
-            sum += increment;
-            if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum)) {
-                break;
-            }
-        }
-        if (k == MAXIMUM_PARTIAL_SUM_COUNT) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.MAX_COUNT_EXCEEDED, MAXIMUM_PARTIAL_SUM_COUNT);
-        }
-        double sum2 = 0;
-        for (k = 1; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
-            final double kTerm2 = k * k;
-            final double increment = MathUtils.PI_SQUARED * kTerm2 * FastMath.exp(-MathUtils.PI_SQUARED * kTerm2 / twoZ2);
-            sum2 += increment;
-            if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum2)) {
-                break;
-            }
-        }
-        if (k == MAXIMUM_PARTIAL_SUM_COUNT) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.MAX_COUNT_EXCEEDED, MAXIMUM_PARTIAL_SUM_COUNT);
-        }
-        // Again, adjust coefficients instead of doubling sum, sum2
-        ret += (sqrtHalfPi / n) * (sum / (36 * z2 * z2 * z2 * z) - sum2 / (18 * z2 * z));
-
-        // K_3(z) One more time with feeling - two doubly infinite sums, all k powers even.
-        // Multiply coefficient denominators by 2, so omit doubling sums.
-        final double pi6 = pi4 * MathUtils.PI_SQUARED;
-        sum = 0;
-        for (k = 0; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
-            final double kTerm = k + 0.5;
-            final double kTerm2 = kTerm * kTerm;
-            final double kTerm4 = kTerm2 * kTerm2;
-            final double kTerm6 = kTerm4 * kTerm2;
-            final double increment = (pi6 * kTerm6 * (5 - 30 * z2) + pi4 * kTerm4 * (-60 * z2 + 212 * z4) +
-                            MathUtils.PI_SQUARED * kTerm2 * (135 * z4 - 96 * z6) - 30 * z6 - 90 * z8) *
-                    FastMath.exp(-MathUtils.PI_SQUARED * kTerm2 / twoZ2);
-            sum += increment;
-            if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum)) {
-                break;
-            }
-        }
-        if (k == MAXIMUM_PARTIAL_SUM_COUNT) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.MAX_COUNT_EXCEEDED, MAXIMUM_PARTIAL_SUM_COUNT);
-        }
-        sum2 = 0;
-        for (k = 1; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
-            final double kTerm2 = k * k;
-            final double kTerm4 = kTerm2 * kTerm2;
-            final double increment = (-pi4 * kTerm4 + 3 * MathUtils.PI_SQUARED * kTerm2 * z2) *
-                    FastMath.exp(-MathUtils.PI_SQUARED * kTerm2 / twoZ2);
-            sum2 += increment;
-            if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum2)) {
-                break;
-            }
-        }
-        if (k == MAXIMUM_PARTIAL_SUM_COUNT) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.MAX_COUNT_EXCEEDED, MAXIMUM_PARTIAL_SUM_COUNT);
-        }
-        return ret + (sqrtHalfPi / (sqrtN * n)) * (sum / (3240 * z6 * z4) +
-                + sum2 / (108 * z6));
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /***
+    /**
      * Creates {@code H} of size {@code m x m} as described in [1] (see above).
      *
      * @param d statistic
@@ -731,15 +523,12 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      *         {@link org.hipparchus.fraction.BigFraction} in expressing {@code d} as \((k
      *         - h) / m\) for integer {@code k, m} and \(0 <= h < 1\).
      */
-    private FieldMatrix<BigFraction> createExactH(double d, int n)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-
+    private FieldMatrix<BigFraction> createExactH(double d, int n) throws MathIllegalArgumentException, MathIllegalStateException {
         final int k = (int) Math.ceil(n * d);
         final int m = 2 * k - 1;
         final double hDouble = k - n * d;
         if (hDouble >= 1) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                   hDouble, 1.0);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED, hDouble, 1.0);
         }
         BigFraction h;
         try {
@@ -752,7 +541,6 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
             }
         }
         final BigFraction[][] Hdata = new BigFraction[m][m];
-
         /*
          * Start by filling everything with either 0 or 1.
          */
@@ -765,7 +553,6 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
                 }
             }
         }
-
         /*
          * Setting up power-array to avoid calculating the same value twice: hPowers[0] = h^1 ...
          * hPowers[m-1] = h^m
@@ -775,7 +562,6 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
         for (int i = 1; i < m; ++i) {
             hPowers[i] = h.multiply(hPowers[i - 1]);
         }
-
         /*
          * First column and last row has special values (each other reversed).
          */
@@ -783,7 +569,6 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
             Hdata[i][0] = Hdata[i][0].subtract(hPowers[i]);
             Hdata[m - 1][i] = Hdata[m - 1][i].subtract(hPowers[m - i - 1]);
         }
-
         /*
          * [1] states: "For 1/2 < h < 1 the bottom left element of the matrix should be (1 - 2*h^m +
          * (2h - 1)^m )/m!" Since 0 <= h < 1, then if h > 1/2 is sufficient to check:
@@ -791,7 +576,6 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
         if (h.compareTo(BigFraction.ONE_HALF) == 1) {
             Hdata[m - 1][0] = Hdata[m - 1][0].add(h.multiply(2).subtract(1).pow(m));
         }
-
         /*
          * Aside from the first column and last row, the (i, j)-th element is 1/(i - j + 1)! if i -
          * j + 1 >= 0, else 0. 1's and 0's are already put, so only division with (i - j + 1)! is
@@ -812,7 +596,7 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
         return new Array2DRowFieldMatrix<>(BigFractionField.getInstance(), Hdata);
     }
 
-    /***
+    /**
      * Creates {@code H} of size {@code m x m} as described in [1] (see above)
      * using double-precision.
      *
@@ -821,18 +605,14 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      * @return H matrix
      * @throws MathIllegalArgumentException if fractional part is greater than 1
      */
-    private RealMatrix createRoundedH(double d, int n)
-        throws MathIllegalArgumentException {
-
+    private RealMatrix createRoundedH(double d, int n) throws MathIllegalArgumentException {
         final int k = (int) Math.ceil(n * d);
         final int m = 2 * k - 1;
         final double h = k - n * d;
         if (h >= 1) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                   h, 1.0);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED, h, 1.0);
         }
         final double[][] Hdata = new double[m][m];
-
         /*
          * Start by filling everything with either 0 or 1.
          */
@@ -845,7 +625,6 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
                 }
             }
         }
-
         /*
          * Setting up power-array to avoid calculating the same value twice: hPowers[0] = h^1 ...
          * hPowers[m-1] = h^m
@@ -855,7 +634,6 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
         for (int i = 1; i < m; ++i) {
             hPowers[i] = h * hPowers[i - 1];
         }
-
         /*
          * First column and last row has special values (each other reversed).
          */
@@ -863,7 +641,6 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
             Hdata[i][0] = Hdata[i][0] - hPowers[i];
             Hdata[m - 1][i] -= hPowers[m - i - 1];
         }
-
         /*
          * [1] states: "For 1/2 < h < 1 the bottom left element of the matrix should be (1 - 2*h^m +
          * (2h - 1)^m )/m!" Since 0 <= h < 1, then if h > 1/2 is sufficient to check:
@@ -871,7 +648,6 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
         if (Double.compare(h, 0.5) > 0) {
             Hdata[m - 1][0] += FastMath.pow(2 * h - 1, m);
         }
-
         /*
          * Aside from the first column and last row, the (i, j)-th element is 1/(i - j + 1)! if i -
          * j + 1 >= 0, else 0. 1's and 0's are already put, so only division with (i - j + 1)! is
@@ -902,8 +678,7 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
     private void checkArray(double[] array) {
         MathUtils.checkNotNull(array);
         if (array.length < 2) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE, array.length,
-                                                   2);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE, array.length, 2);
         }
     }
 
@@ -920,28 +695,7 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      * @throws MathIllegalStateException if the series does not converge
      */
     public double ksSum(double t, double tolerance, int maxIterations) {
-        if (t == 0.0) {
-            return 0.0;
-        }
-
-        // TODO: for small t (say less than 1), the alternative expansion in part 3 of [1]
-        // from class javadoc should be used.
-
-        final double x = -2 * t * t;
-        int sign = -1;
-        long i = 1;
-        double partialSum = 0.5d;
-        double delta = 1;
-        while (delta > tolerance && i < maxIterations) {
-            delta = FastMath.exp(x * i * i);
-            partialSum += sign * delta;
-            sign *= -1;
-            i++;
-        }
-        if (i == maxIterations) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.MAX_COUNT_EXCEEDED, maxIterations);
-        }
-        return partialSum * 2;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -961,16 +715,7 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      *         greater than (resp. greater than or equal to) {@code d}
      */
     public double exactP(double d, int n, int m, boolean strict) {
-        if (d < 1 / (double)( m * n)) {
-            return 1.0;
-        } else if (d >= 1) {
-            return 0;
-        }
-        double normalizeD = normalizeD(d, n, m);
-        if (!strict) {
-            normalizeD -= 1 / ((double)n * m);
-        }
-        return exactPAtMeshpoint(normalizeD, n, m);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -985,9 +730,8 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      * @return d value suitable for input to exactPAtMeshpoint(d, m, n)
      */
     private double normalizeD(double d, int n, int m) {
-        final double resolution = 1 / ((double)n * m);
+        final double resolution = 1 / ((double) n * m);
         final double tol = 1e-12;
-
         // If d is smaller that the first mesh point, return 0
         // If greater than 1, return 1
         if (d < resolution) {
@@ -995,17 +739,15 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
         } else if (d > 1) {
             return 1;
         }
-
         // Normalize d to the smallest mesh point less than or equal to d;
         // except if d is less than tol less than the next mesh point, bump it up
         final double resolutions = d / resolution;
         final double ceil = FastMath.ceil(resolutions);
         if (ceil - resolutions < tol) {
-           return ceil * resolution;
+            return ceil * resolution;
         } else {
-           return FastMath.floor(resolutions) * resolution;
+            return FastMath.floor(resolutions) * resolution;
         }
-
     }
 
     /**
@@ -1068,10 +810,7 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      *         \(D_{n,m}\) greater than {@code d}
      */
     public double approximateP(double d, int n, int m) {
-        final double dm = m;
-        final double dn = n;
-        return 1 - ksSum(d * FastMath.sqrt((dm * dn) / (dm + dn)),
-                         KS_SUM_CAUCHY_CRITERION, MAXIMUM_PARTIAL_SUM_COUNT);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1087,11 +826,7 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      * @param rng random data generator
      */
     static void fillBooleanArrayRandomlyWithFixedNumberTrueValues(final boolean[] b, final int numberOfTrueValues, final RandomGenerator rng) {
-        Arrays.fill(b, true);
-        for (int k = numberOfTrueValues; k < b.length; k++) {
-            final int r = rng.nextInt(k + 1);
-            b[(b[r]) ? r : k] = false;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1109,40 +844,39 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
      * @param y second sample
      */
     private void fixTies(double[] x, double[] y) {
-       final double[] values = MathArrays.unique(MathArrays.concatenate(x,y));
-       if (values.length == x.length + y.length) {
-           return;  // There are no ties
-       }
-
-       // Find the smallest difference between values, or 1 if all values are the same
-       double minDelta = 1;
-       double prev = values[0];
-       for (int i = 1; i < values.length; i++) {
-          final double delta = prev - values[i];
-          if (delta < minDelta) {
-              minDelta = delta;
-          }
-          prev = values[i];
-       }
-       minDelta /= 2;
-
-       // Add jitter using a fixed seed (so same arguments always give same results),
-       // low-initialization-overhead generator
-       gen.setSeed(100);
-
-       // It is theoretically possible that jitter does not break ties, so repeat
-       // until all ties are gone.  Bound the loop and throw MIE if bound is exceeded.
-       int ct = 0;
-       boolean ties;
-       do {
-           jitter(x, minDelta);
-           jitter(y, minDelta);
-           ties = hasTies(x, y);
-           ct++;
-       } while (ties && ct < 1000);
-       if (ties) {
-           throw MathRuntimeException.createInternalError(); // Should never happen
-       }
+        final double[] values = MathArrays.unique(MathArrays.concatenate(x, y));
+        if (values.length == x.length + y.length) {
+            // There are no ties
+            return;
+        }
+        // Find the smallest difference between values, or 1 if all values are the same
+        double minDelta = 1;
+        double prev = values[0];
+        for (int i = 1; i < values.length; i++) {
+            final double delta = prev - values[i];
+            if (delta < minDelta) {
+                minDelta = delta;
+            }
+            prev = values[i];
+        }
+        minDelta /= 2;
+        // Add jitter using a fixed seed (so same arguments always give same results),
+        // low-initialization-overhead generator
+        gen.setSeed(100);
+        // It is theoretically possible that jitter does not break ties, so repeat
+        // until all ties are gone.  Bound the loop and throw MIE if bound is exceeded.
+        int ct = 0;
+        boolean ties;
+        do {
+            jitter(x, minDelta);
+            jitter(y, minDelta);
+            ties = hasTies(x, y);
+            ct++;
+        } while (ties && ct < 1000);
+        if (ties) {
+            // Should never happen
+            throw MathRuntimeException.createInternalError();
+        }
     }
 
     /**
@@ -1183,5 +917,4 @@ public class KolmogorovSmirnovTest { // NOPMD - this is not a Junit test class, 
             data[i] += gen.nextUniform(-delta, delta);
         }
     }
-
 }

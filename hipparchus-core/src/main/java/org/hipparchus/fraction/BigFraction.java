@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -27,7 +26,6 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.function.Function;
 import java.util.stream.Stream;
-
 import org.hipparchus.FieldElement;
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -44,68 +42,104 @@ import org.hipparchus.util.Precision;
 /**
  * Representation of a rational number without any overflow. This class is
  * immutable.
- *
  */
-public class BigFraction
-    extends Number
-    implements FieldElement<BigFraction>, Comparable<BigFraction>, Serializable {
+public class BigFraction extends Number implements FieldElement<BigFraction>, Comparable<BigFraction>, Serializable {
 
-    /** A fraction representing "2 / 1". */
+    /**
+     * A fraction representing "2 / 1".
+     */
     public static final BigFraction TWO = new BigFraction(2);
 
-    /** A fraction representing "1". */
+    /**
+     * A fraction representing "1".
+     */
     public static final BigFraction ONE = new BigFraction(1);
 
-    /** A fraction representing "0". */
+    /**
+     * A fraction representing "0".
+     */
     public static final BigFraction ZERO = new BigFraction(0);
 
-    /** A fraction representing "-1 / 1". */
+    /**
+     * A fraction representing "-1 / 1".
+     */
     public static final BigFraction MINUS_ONE = new BigFraction(-1);
 
-    /** A fraction representing "4/5". */
+    /**
+     * A fraction representing "4/5".
+     */
     public static final BigFraction FOUR_FIFTHS = new BigFraction(4, 5);
 
-    /** A fraction representing "1/5". */
+    /**
+     * A fraction representing "1/5".
+     */
     public static final BigFraction ONE_FIFTH = new BigFraction(1, 5);
 
-    /** A fraction representing "1/2". */
+    /**
+     * A fraction representing "1/2".
+     */
     public static final BigFraction ONE_HALF = new BigFraction(1, 2);
 
-    /** A fraction representing "1/4". */
+    /**
+     * A fraction representing "1/4".
+     */
     public static final BigFraction ONE_QUARTER = new BigFraction(1, 4);
 
-    /** A fraction representing "1/3". */
+    /**
+     * A fraction representing "1/3".
+     */
     public static final BigFraction ONE_THIRD = new BigFraction(1, 3);
 
-    /** A fraction representing "3/5". */
+    /**
+     * A fraction representing "3/5".
+     */
     public static final BigFraction THREE_FIFTHS = new BigFraction(3, 5);
 
-    /** A fraction representing "3/4". */
+    /**
+     * A fraction representing "3/4".
+     */
     public static final BigFraction THREE_QUARTERS = new BigFraction(3, 4);
 
-    /** A fraction representing "2/5". */
+    /**
+     * A fraction representing "2/5".
+     */
     public static final BigFraction TWO_FIFTHS = new BigFraction(2, 5);
 
-    /** A fraction representing "2/4". */
+    /**
+     * A fraction representing "2/4".
+     */
     public static final BigFraction TWO_QUARTERS = new BigFraction(2, 4);
 
-    /** A fraction representing "2/3". */
+    /**
+     * A fraction representing "2/3".
+     */
     public static final BigFraction TWO_THIRDS = new BigFraction(2, 3);
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = -5630213147331578515L;
 
-    /** <code>BigInteger</code> representation of 100. */
+    /**
+     * <code>BigInteger</code> representation of 100.
+     */
     private static final BigInteger ONE_HUNDRED = BigInteger.valueOf(100);
 
-    /** Convert a convergence step to the corresponding double fraction. */
-    private static final Function<ConvergenceStep, BigFraction> STEP_TO_FRACTION = //
-            s -> new BigFraction(s.getNumerator(), s.getDenominator());
+    /**
+     * Convert a convergence step to the corresponding double fraction.
+     */
+    private static final //
+    Function<ConvergenceStep, BigFraction> //
+    STEP_TO_FRACTION = s -> new BigFraction(s.getNumerator(), s.getDenominator());
 
-    /** The numerator. */
+    /**
+     * The numerator.
+     */
     private final BigInteger numerator;
 
-    /** The denominator. */
+    /**
+     * The denominator.
+     */
     private final BigInteger denominator;
 
     /**
@@ -137,27 +171,23 @@ public class BigFraction
             throw new MathIllegalArgumentException(LocalizedCoreFormats.ZERO_DENOMINATOR);
         }
         if (num.signum() == 0) {
-            numerator   = BigInteger.ZERO;
+            numerator = BigInteger.ZERO;
             denominator = BigInteger.ONE;
         } else {
-
             // reduce numerator and denominator by greatest common denominator
             final BigInteger gcd = num.gcd(den);
             if (BigInteger.ONE.compareTo(gcd) < 0) {
                 num = num.divide(gcd);
                 den = den.divide(gcd);
             }
-
             // move sign to numerator
             if (den.signum() == -1) {
                 num = num.negate();
                 den = den.negate();
             }
-
             // store the values in the final fields
-            numerator   = num;
+            numerator = num;
             denominator = den;
-
         }
     }
 
@@ -189,12 +219,11 @@ public class BigFraction
         if (Double.isInfinite(value)) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.INFINITE_VALUE_CONVERSION);
         }
-
         // compute m and k such that value = m * 2^k
-        final long bits     = Double.doubleToLongBits(value);
-        final long sign     = bits & 0x8000000000000000L;
+        final long bits = Double.doubleToLongBits(value);
+        final long sign = bits & 0x8000000000000000L;
         final long exponent = bits & 0x7ff0000000000000L;
-        long m              = bits & 0x000fffffffffffffL;
+        long m = bits & 0x000fffffffffffffL;
         if (exponent != 0) {
             // this was a normalized number, add the implicit most significant bit
             m |= 0x0010000000000000L;
@@ -207,15 +236,13 @@ public class BigFraction
             m >>= 1;
             ++k;
         }
-
         if (k < 0) {
-            numerator   = BigInteger.valueOf(m);
+            numerator = BigInteger.valueOf(m);
             denominator = BigInteger.ZERO.flipBit(-k);
         } else {
-            numerator   = BigInteger.valueOf(m).multiply(BigInteger.ZERO.flipBit(k));
+            numerator = BigInteger.valueOf(m).multiply(BigInteger.ZERO.flipBit(k));
             denominator = BigInteger.ONE;
         }
-
     }
 
     /**
@@ -237,9 +264,7 @@ public class BigFraction
      *             if the continued fraction failed to converge.
      * @see #BigFraction(double)
      */
-    public BigFraction(final double value, final double epsilon,
-                       final int maxIterations)
-        throws MathIllegalStateException {
+    public BigFraction(final double value, final double epsilon, final int maxIterations) throws MathIllegalStateException {
         ConvergenceStep converged = ConvergentsIterator.convergent(value, maxIterations, s -> {
             final double quotient = s.getFractionValue();
             return Precision.equals(quotient, value, 1) || FastMath.abs(quotient - value) < epsilon;
@@ -248,8 +273,7 @@ public class BigFraction
             this.numerator = BigInteger.valueOf(converged.getNumerator());
             this.denominator = BigInteger.valueOf(converged.getDenominator());
         } else {
-            throw new MathIllegalStateException(LocalizedCoreFormats.FAILED_FRACTION_CONVERSION,
-                                                value, maxIterations);
+            throw new MathIllegalStateException(LocalizedCoreFormats.FAILED_FRACTION_CONVERSION, value, maxIterations);
         }
     }
 
@@ -268,8 +292,7 @@ public class BigFraction
      * @throws MathIllegalStateException
      *             if the continued fraction failed to converge.
      */
-    public BigFraction(final double value, final long maxDenominator)
-        throws MathIllegalStateException {
+    public BigFraction(final double value, final long maxDenominator) throws MathIllegalStateException {
         final int maxIterations = 100;
         ConvergenceStep[] lastValid = new ConvergenceStep[1];
         ConvergentsIterator.convergent(value, maxIterations, s -> {
@@ -279,11 +302,10 @@ public class BigFraction
             return Precision.equals(s.getFractionValue(), value, 1);
         });
         if (lastValid[0] != null) {
-            this.numerator   = BigInteger.valueOf(lastValid[0].getNumerator());
+            this.numerator = BigInteger.valueOf(lastValid[0].getNumerator());
             this.denominator = BigInteger.valueOf(lastValid[0].getDenominator());
         } else {
-            throw new MathIllegalStateException(LocalizedCoreFormats.FAILED_FRACTION_CONVERSION,
-                                                value, maxIterations);
+            throw new MathIllegalStateException(LocalizedCoreFormats.FAILED_FRACTION_CONVERSION, value, maxIterations);
         }
     }
 
@@ -347,6 +369,7 @@ public class BigFraction
      */
     @FunctionalInterface
     public interface ConvergenceTest {
+
         /**
          * Evaluates if the fraction formed by {@code numerator/denominator} satisfies
          * this convergence test.
@@ -355,17 +378,19 @@ public class BigFraction
          * @param denominator the denominator
          * @return if this convergence test is satisfied
          */
-        boolean test(long numerator, long denominator); // NOPMD - this is not a Junit test, PMD false positive here
+        // NOPMD - this is not a Junit test, PMD false positive here
+        boolean test(long numerator, long denominator);
     }
 
-    /** Generate a {@link Stream stream} of convergents from a real number.
+    /**
+     * Generate a {@link Stream stream} of convergents from a real number.
      * @param value value to approximate
      * @param maxConvergents maximum number of convergents.
      * @return stream of {@link BigFraction} convergents approximating  {@code value}
      * @since 2.1
      */
     public static Stream<BigFraction> convergents(final double value, final int maxConvergents) {
-        return ConvergentsIterator.convergents(value, maxConvergents).map(STEP_TO_FRACTION);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -389,17 +414,16 @@ public class BigFraction
      * @return the pair of last element of the series of convergents and a boolean
      *         indicating if that element satisfies the specified convergent test
      */
-    public static Pair<BigFraction, Boolean> convergent(double value, int maxConvergents,
-            ConvergenceTest convergenceTest) {
-        Pair<ConvergenceStep, Boolean> converged = ConvergentsIterator.convergent(value, maxConvergents,
-                s -> convergenceTest.test(s.getNumerator(), s.getDenominator()));
-        return Pair.create(STEP_TO_FRACTION.apply(converged.getKey()), converged.getValue());
+    public static Pair<BigFraction, Boolean> convergent(double value, int maxConvergents, ConvergenceTest convergenceTest) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getReal() {
-        return doubleValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -421,13 +445,8 @@ public class BigFraction
      * @throws ArithmeticException
      *             if the denominator is <code>zero</code>.
      */
-    public static BigFraction getReducedFraction(final int numerator,
-                                                 final int denominator) {
-        if (numerator == 0) {
-            return ZERO; // normalize zero.
-        }
-
-        return new BigFraction(numerator, denominator);
+    public static BigFraction getReducedFraction(final int numerator, final int denominator) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -438,17 +457,19 @@ public class BigFraction
      * @return the absolute value as a {@link BigFraction}.
      */
     public BigFraction abs() {
-        return (numerator.signum() == 1) ? this : negate();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check if a fraction is an integer.
+    /**
+     * Check if a fraction is an integer.
      * @return true of fraction is an integer
      */
     public boolean isInteger() {
-        return denominator.equals(BigInteger.ONE);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Returns the signum function of this {@link BigFraction}.
+    /**
+     * Returns the signum function of this {@link BigFraction}.
      * <p>
      * The return value is -1 if the specified value is negative;
      * 0 if the specified value is zero; and 1 if the specified value is positive.
@@ -457,7 +478,7 @@ public class BigFraction
      * @since 1.7
      */
     public int signum() {
-        return numerator.signum();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -473,16 +494,7 @@ public class BigFraction
      *             if the {@link BigInteger} is <code>null</code>.
      */
     public BigFraction add(final BigInteger bg) throws NullArgumentException {
-        MathUtils.checkNotNull(bg);
-
-        if (numerator.signum() == 0) {
-            return new BigFraction(bg);
-        }
-        if (bg.signum() == 0) {
-            return this;
-        }
-
-        return new BigFraction(numerator.add(denominator.multiply(bg)), denominator);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -496,7 +508,7 @@ public class BigFraction
      * @return a {@code BigFraction} instance with the resulting values.
      */
     public BigFraction add(final int i) {
-        return add(BigInteger.valueOf(i));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -510,7 +522,7 @@ public class BigFraction
      * @return a {@code BigFraction} instance with the resulting values.
      */
     public BigFraction add(final long l) {
-        return add(BigInteger.valueOf(l));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -526,30 +538,7 @@ public class BigFraction
      */
     @Override
     public BigFraction add(final BigFraction fraction) {
-        MathUtils.checkNotNull(fraction, LocalizedCoreFormats.FRACTION);
-        if (fraction.numerator.signum() == 0) {
-            return this;
-        }
-        if (numerator.signum() == 0) {
-            return fraction;
-        }
-
-        BigInteger num;
-        BigInteger den;
-        if (denominator.equals(fraction.denominator)) {
-            num = numerator.add(fraction.numerator);
-            den = denominator;
-        } else {
-            num = (numerator.multiply(fraction.denominator)).add((fraction.numerator).multiply(denominator));
-            den = denominator.multiply(fraction.denominator);
-        }
-
-        if (num.signum() == 0) {
-            return ZERO;
-        }
-
-        return new BigFraction(num, den);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -565,7 +554,7 @@ public class BigFraction
      * @see BigDecimal
      */
     public BigDecimal bigDecimalValue() {
-        return new BigDecimal(numerator).divide(new BigDecimal(denominator));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -584,7 +573,7 @@ public class BigFraction
      * @see BigDecimal
      */
     public BigDecimal bigDecimalValue(final RoundingMode roundingMode) {
-        return new BigDecimal(numerator).divide(new BigDecimal(denominator), roundingMode);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -603,7 +592,7 @@ public class BigFraction
      * @see BigDecimal
      */
     public BigDecimal bigDecimalValue(final int scale, final RoundingMode roundingMode) {
-        return new BigDecimal(numerator).divide(new BigDecimal(denominator), scale, roundingMode);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -619,19 +608,7 @@ public class BigFraction
      */
     @Override
     public int compareTo(final BigFraction object) {
-        int lhsSigNum = numerator.signum();
-        int rhsSigNum = object.numerator.signum();
-
-        if (lhsSigNum != rhsSigNum) {
-            return (lhsSigNum > rhsSigNum) ? 1 : -1;
-        }
-        if (lhsSigNum == 0) {
-            return 0;
-        }
-
-        BigInteger nOd = numerator.multiply(object.denominator);
-        BigInteger dOn = denominator.multiply(object.numerator);
-        return nOd.compareTo(dOn);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -646,14 +623,7 @@ public class BigFraction
      * @throws MathRuntimeException if the fraction to divide by is zero
      */
     public BigFraction divide(final BigInteger bg) {
-        MathUtils.checkNotNull(bg);
-        if (bg.signum() == 0) {
-            throw new MathRuntimeException(LocalizedCoreFormats.ZERO_DENOMINATOR);
-        }
-        if (numerator.signum() == 0) {
-            return ZERO;
-        }
-        return new BigFraction(numerator, denominator.multiply(bg));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -667,7 +637,7 @@ public class BigFraction
      * @throws MathRuntimeException if the fraction to divide by is zero
      */
     public BigFraction divide(final int i) {
-        return divide(BigInteger.valueOf(i));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -681,7 +651,7 @@ public class BigFraction
      * @throws MathRuntimeException if the fraction to divide by is zero
      */
     public BigFraction divide(final long l) {
-        return divide(BigInteger.valueOf(l));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -697,15 +667,7 @@ public class BigFraction
      */
     @Override
     public BigFraction divide(final BigFraction fraction) {
-        MathUtils.checkNotNull(fraction, LocalizedCoreFormats.FRACTION);
-        if (fraction.numerator.signum() == 0) {
-            throw new MathRuntimeException(LocalizedCoreFormats.ZERO_DENOMINATOR);
-        }
-        if (numerator.signum() == 0) {
-            return ZERO;
-        }
-
-        return multiply(fraction.reciprocal());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -719,16 +681,7 @@ public class BigFraction
      */
     @Override
     public double doubleValue() {
-        double result = numerator.doubleValue() / denominator.doubleValue();
-        if (Double.isInfinite(result) || Double.isNaN(result)) {
-            // Numerator and/or denominator must be out of range:
-            // Calculate how far to shift them to put them in range.
-            int shift = FastMath.max(numerator.bitLength(),
-                                     denominator.bitLength()) - FastMath.getExponent(Double.MAX_VALUE);
-            result = numerator.shiftRight(shift).doubleValue() /
-                denominator.shiftRight(shift).doubleValue();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -748,16 +701,7 @@ public class BigFraction
      */
     @Override
     public boolean equals(final Object other) {
-        boolean ret = false;
-
-        if (this == other) {
-            ret = true;
-        } else if (other instanceof BigFraction) {
-            BigFraction rhs = (BigFraction) other;
-            ret = numerator.equals(rhs.numerator) && denominator.equals(rhs.denominator);
-        }
-
-        return ret;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -771,16 +715,7 @@ public class BigFraction
      */
     @Override
     public float floatValue() {
-        float result = numerator.floatValue() / denominator.floatValue();
-        if (Double.isNaN(result)) {
-            // Numerator and/or denominator must be out of range:
-            // Calculate how far to shift them to put them in range.
-            int shift = FastMath.max(numerator.bitLength(),
-                                     denominator.bitLength()) - FastMath.getExponent(Float.MAX_VALUE);
-            result = numerator.shiftRight(shift).floatValue() /
-                denominator.shiftRight(shift).floatValue();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -792,13 +727,13 @@ public class BigFraction
      * @since 3.1
      */
     private static BigInteger lcm(final BigInteger i0, final BigInteger i1) {
-      if (i0.signum() == 0 && i1.signum() == 0) {
-        return BigInteger.ZERO;
-      }
-      BigInteger a = i0.abs();
-      BigInteger b = i1.abs();
-      BigInteger gcd = i0.gcd(b);
-      return (a.multiply(b)).divide(gcd);
+        if (i0.signum() == 0 && i1.signum() == 0) {
+            return BigInteger.ZERO;
+        }
+        BigInteger a = i0.abs();
+        BigInteger b = i1.abs();
+        BigInteger gcd = i0.gcd(b);
+        return (a.multiply(b)).divide(gcd);
     }
 
     /**
@@ -809,15 +744,7 @@ public class BigFraction
      * @since 3.1
      */
     public BigFraction gcd(BigFraction s) {
-      if (s.isZero()) {
-        return this;
-      }
-      if (this.isZero()) {
-        return s;
-      }
-      BigInteger p = numerator.gcd(s.numerator);
-      BigInteger q = lcm(denominator, s.denominator);
-      return new BigFraction(p, q);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -828,13 +755,7 @@ public class BigFraction
      * @since 3.1
      */
     public BigFraction lcm(BigFraction s) {
-      if (s.isZero()) {
-        return ZERO;
-      }
-      if (this.isZero()) {
-        return ZERO;
-      }
-      return new BigFraction(lcm(numerator, s.numerator), denominator.gcd(s.denominator));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -845,7 +766,7 @@ public class BigFraction
      * @return the denominator as a <code>BigInteger</code>.
      */
     public BigInteger getDenominator() {
-        return denominator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -856,7 +777,7 @@ public class BigFraction
      * @return the denominator as a {@code int}.
      */
     public int getDenominatorAsInt() {
-        return denominator.intValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -867,7 +788,7 @@ public class BigFraction
      * @return the denominator as a {@code long}.
      */
     public long getDenominatorAsLong() {
-        return denominator.longValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -878,7 +799,7 @@ public class BigFraction
      * @return the numerator as a <code>BigInteger</code>.
      */
     public BigInteger getNumerator() {
-        return numerator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -889,7 +810,7 @@ public class BigFraction
      * @return the numerator as a {@code int}.
      */
     public int getNumeratorAsInt() {
-        return numerator.intValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -900,7 +821,7 @@ public class BigFraction
      * @return the numerator as a {@code long}.
      */
     public long getNumeratorAsLong() {
-        return numerator.longValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -913,7 +834,7 @@ public class BigFraction
      */
     @Override
     public int hashCode() {
-        return 37 * (37 * 17 + numerator.hashCode()) + denominator.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -927,7 +848,7 @@ public class BigFraction
      */
     @Override
     public int intValue() {
-        return numerator.divide(denominator).intValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -941,7 +862,7 @@ public class BigFraction
      */
     @Override
     public long longValue() {
-        return numerator.divide(denominator).longValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -955,11 +876,7 @@ public class BigFraction
      * @throws NullArgumentException if {@code bg} is {@code null}.
      */
     public BigFraction multiply(final BigInteger bg) {
-        MathUtils.checkNotNull(bg);
-        if (numerator.signum() == 0 || bg.signum() == 0) {
-            return ZERO;
-        }
-        return new BigFraction(bg.multiply(numerator), denominator);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -974,11 +891,7 @@ public class BigFraction
      */
     @Override
     public BigFraction multiply(final int i) {
-        if (i == 0 || numerator.signum() == 0) {
-            return ZERO;
-        }
-
-        return multiply(BigInteger.valueOf(i));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -992,11 +905,7 @@ public class BigFraction
      * @return a {@link BigFraction} instance with the resulting values.
      */
     public BigFraction multiply(final long l) {
-        if (l == 0 || numerator.signum() == 0) {
-            return ZERO;
-        }
-
-        return multiply(BigInteger.valueOf(l));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1011,13 +920,7 @@ public class BigFraction
      */
     @Override
     public BigFraction multiply(final BigFraction fraction) {
-        MathUtils.checkNotNull(fraction, LocalizedCoreFormats.FRACTION);
-        if (numerator.signum() == 0 ||
-            fraction.numerator.signum() == 0) {
-            return ZERO;
-        }
-        return new BigFraction(numerator.multiply(fraction.numerator),
-                               denominator.multiply(fraction.denominator));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1030,7 +933,7 @@ public class BigFraction
      */
     @Override
     public BigFraction negate() {
-        return new BigFraction(numerator.negate(), denominator);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1042,7 +945,7 @@ public class BigFraction
      * @return the fraction percentage as a {@code double}.
      */
     public double percentageValue() {
-        return multiply(ONE_HUNDRED).doubleValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1057,17 +960,7 @@ public class BigFraction
      * @return this<sup>exponent</sup>
      */
     public BigFraction pow(final int exponent) {
-        if (exponent == 0) {
-            return ONE;
-        }
-        if (numerator.signum() == 0) {
-            return this;
-        }
-
-        if (exponent < 0) {
-            return new BigFraction(denominator.pow(-exponent), numerator.pow(-exponent));
-        }
-        return new BigFraction(numerator.pow(exponent), denominator.pow(exponent));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1081,19 +974,7 @@ public class BigFraction
      * @return this<sup>exponent</sup> as a {@code BigFraction}.
      */
     public BigFraction pow(final long exponent) {
-        if (exponent == 0) {
-            return ONE;
-        }
-        if (numerator.signum() == 0) {
-            return this;
-        }
-
-        if (exponent < 0) {
-            return new BigFraction(ArithmeticUtils.pow(denominator, -exponent),
-                                   ArithmeticUtils.pow(numerator,   -exponent));
-        }
-        return new BigFraction(ArithmeticUtils.pow(numerator,   exponent),
-                               ArithmeticUtils.pow(denominator, exponent));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1107,20 +988,7 @@ public class BigFraction
      * @return this<sup>exponent</sup> as a {@code BigFraction}.
      */
     public BigFraction pow(final BigInteger exponent) {
-        if (exponent.signum() == 0) {
-            return ONE;
-        }
-        if (numerator.signum() == 0) {
-            return this;
-        }
-
-        if (exponent.signum() == -1) {
-            final BigInteger eNeg = exponent.negate();
-            return new BigFraction(ArithmeticUtils.pow(denominator, eNeg),
-                                   ArithmeticUtils.pow(numerator,   eNeg));
-        }
-        return new BigFraction(ArithmeticUtils.pow(numerator,   exponent),
-                               ArithmeticUtils.pow(denominator, exponent));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1134,8 +1002,7 @@ public class BigFraction
      * @return this<sup>exponent</sup>
      */
     public double pow(final double exponent) {
-        return FastMath.pow(numerator.doubleValue(),   exponent) /
-               FastMath.pow(denominator.doubleValue(), exponent);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1147,7 +1014,7 @@ public class BigFraction
      */
     @Override
     public BigFraction reciprocal() {
-        return new BigFraction(denominator, numerator);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1159,13 +1026,7 @@ public class BigFraction
      *         the fraction can be reduced.
      */
     public BigFraction reduce() {
-        final BigInteger gcd = numerator.gcd(denominator);
-
-        if (BigInteger.ONE.compareTo(gcd) < 0) {
-            return new BigFraction(numerator.divide(gcd), denominator.divide(gcd));
-        } else {
-            return this;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1179,15 +1040,7 @@ public class BigFraction
      * @throws NullArgumentException if the {@link BigInteger} is {@code null}.
      */
     public BigFraction subtract(final BigInteger bg) {
-        MathUtils.checkNotNull(bg);
-        if (bg.signum() == 0) {
-            return this;
-        }
-        if (numerator.signum() == 0) {
-            return new BigFraction(bg.negate());
-        }
-
-        return new BigFraction(numerator.subtract(denominator.multiply(bg)), denominator);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1200,7 +1053,7 @@ public class BigFraction
      * @return a {@code BigFraction} instance with the resulting values.
      */
     public BigFraction subtract(final int i) {
-        return subtract(BigInteger.valueOf(i));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1213,7 +1066,7 @@ public class BigFraction
      * @return a {@code BigFraction} instance with the resulting values.
      */
     public BigFraction subtract(final long l) {
-        return subtract(BigInteger.valueOf(l));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1228,25 +1081,7 @@ public class BigFraction
      */
     @Override
     public BigFraction subtract(final BigFraction fraction) {
-        MathUtils.checkNotNull(fraction, LocalizedCoreFormats.FRACTION);
-        if (fraction.numerator.signum() == 0) {
-            return this;
-        }
-        if (numerator.signum() == 0) {
-            return fraction.negate();
-        }
-
-        BigInteger num;
-        BigInteger den;
-        if (denominator.equals(fraction.denominator)) {
-            num = numerator.subtract(fraction.numerator);
-            den = denominator;
-        } else {
-            num = (numerator.multiply(fraction.denominator)).subtract((fraction.numerator).multiply(denominator));
-            den = denominator.multiply(fraction.denominator);
-        }
-        return new BigFraction(num, den);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1260,19 +1095,14 @@ public class BigFraction
      */
     @Override
     public String toString() {
-        if (BigInteger.ONE.equals(denominator)) {
-            return numerator.toString();
-        } else if (BigInteger.ZERO.equals(numerator)) {
-            return "0";
-        } else {
-            return numerator + " / " + denominator;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BigFractionField getField() {
-        return BigFractionField.getInstance();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

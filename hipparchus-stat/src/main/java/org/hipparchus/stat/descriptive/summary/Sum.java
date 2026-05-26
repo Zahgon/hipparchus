@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.stat.descriptive.summary;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.NullArgumentException;
 import org.hipparchus.stat.descriptive.AbstractStorelessUnivariateStatistic;
@@ -31,9 +29,8 @@ import org.hipparchus.stat.descriptive.WeightedEvaluation;
 import org.hipparchus.util.MathArrays;
 import org.hipparchus.util.MathUtils;
 
-
 /**
-  * Returns the sum of the available values.
+ * Returns the sum of the available values.
  * <p>
  * If there are no values in the dataset, then 0 is returned.
  * If any of the values are
@@ -44,16 +41,21 @@ import org.hipparchus.util.MathUtils;
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.
  */
-public class Sum extends AbstractStorelessUnivariateStatistic
-    implements AggregatableStatistic<Sum>, WeightedEvaluation, Serializable {
+public class Sum extends AbstractStorelessUnivariateStatistic implements AggregatableStatistic<Sum>, WeightedEvaluation, Serializable {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20150412L;
 
-    /** The number of values that have been added */
+    /**
+     * The number of values that have been added
+     */
     private long n;
 
-    /** The currently running sum */
+    /**
+     * The currently running sum
+     */
     private double value;
 
     /**
@@ -73,44 +75,48 @@ public class Sum extends AbstractStorelessUnivariateStatistic
      */
     public Sum(Sum original) throws NullArgumentException {
         MathUtils.checkNotNull(original);
-        this.n     = original.n;
+        this.n = original.n;
         this.value = original.value;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void increment(final double d) {
-        value += d;
-        n++;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getResult() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long getN() {
-        return n;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
-        value = 0;
-        n = 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void aggregate(Sum other) {
-        MathUtils.checkNotNull(other);
-        if (other.n > 0) {
-            this.n     += other.n;
-            this.value += other.value;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -125,17 +131,8 @@ public class Sum extends AbstractStorelessUnivariateStatistic
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-
-        double sum = Double.NaN;
-        if (MathArrays.verifyValues(values, begin, length, true)) {
-            sum = 0.0;
-            for (int i = begin; i < begin + length; i++) {
-                sum += values[i];
-            }
-        }
-        return sum;
+    public double evaluate(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -166,22 +163,15 @@ public class Sum extends AbstractStorelessUnivariateStatistic
      * @throws MathIllegalArgumentException if the parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values, final double[] weights,
-                           final int begin, final int length) throws MathIllegalArgumentException {
-        double sum = Double.NaN;
-        if (MathArrays.verifyValues(values, weights, begin, length, true)) {
-            sum = 0.0;
-            for (int i = begin; i < begin + length; i++) {
-                sum += values[i] * weights[i];
-            }
-        }
-        return sum;
+    public double evaluate(final double[] values, final double[] weights, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Sum copy() {
-        return new Sum(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

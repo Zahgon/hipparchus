@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.stat.descriptive.moment;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.NullArgumentException;
 import org.hipparchus.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.hipparchus.util.MathUtils;
@@ -52,16 +50,21 @@ import org.hipparchus.util.MathUtils;
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.
  */
-class FirstMoment extends AbstractStorelessUnivariateStatistic
-    implements Serializable {
+class FirstMoment extends AbstractStorelessUnivariateStatistic implements Serializable {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20150412L;
 
-    /** Count of values that have been added */
+    /**
+     * Count of values that have been added
+     */
     protected long n;
 
-    /** First moment of values that have been added */
+    /**
+     * First moment of values that have been added
+     */
     protected double m1;
 
     /**
@@ -94,46 +97,44 @@ class FirstMoment extends AbstractStorelessUnivariateStatistic
      * @param original the {@code FirstMoment} instance to copy
      * @throws NullArgumentException if original is null
      */
-     FirstMoment(FirstMoment original) throws NullArgumentException {
-         MathUtils.checkNotNull(original);
-         this.n    = original.n;
-         this.m1   = original.m1;
-         this.dev  = original.dev;
-         this.nDev = original.nDev;
-     }
-
-    /** {@inheritDoc} */
-     @Override
-    public void increment(final double d) {
-        if (n == 0) {
-            m1 = 0.0;
-        }
-        n++;
-        double n0 = n;
-        dev = d - m1;
-        nDev = dev / n0;
-        m1 += nDev;
+    FirstMoment(FirstMoment original) throws NullArgumentException {
+        MathUtils.checkNotNull(original);
+        this.n = original.n;
+        this.m1 = original.m1;
+        this.dev = original.dev;
+        this.nDev = original.nDev;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void increment(final double d) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
-        m1 = Double.NaN;
-        n = 0;
-        dev = Double.NaN;
-        nDev = Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getResult() {
-        return m1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long getN() {
-        return n;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -143,22 +144,14 @@ class FirstMoment extends AbstractStorelessUnivariateStatistic
      * @param other the instance to aggregate from
      */
     protected void aggregate(FirstMoment other) {
-        MathUtils.checkNotNull(other);
-        if (other.n > 0) {
-            if (this.n == 0) {
-                this.m1 = 0.0;
-            }
-            this.n   += other.n;
-            this.dev  = other.m1 - this.m1;
-            this.nDev = this.dev / this.n;
-            this.m1  += other.n / (double) this.n * this.dev;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FirstMoment copy() {
-        return new FirstMoment(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

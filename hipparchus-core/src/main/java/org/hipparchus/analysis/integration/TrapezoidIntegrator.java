@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -33,14 +32,17 @@ import org.hipparchus.util.FastMath;
  * chapter 3.
  * <p>
  * The function should be integrable.</p>
- *
  */
 public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
 
-    /** Maximum number of iterations for trapezoid. */
+    /**
+     * Maximum number of iterations for trapezoid.
+     */
     public static final int TRAPEZOID_MAX_ITERATIONS_COUNT = 64;
 
-    /** Intermediate result. */
+    /**
+     * Intermediate result.
+     */
     private double s;
 
     /**
@@ -57,15 +59,10 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
      * @exception MathIllegalArgumentException if maximal number of iterations
      * is greater than {@link #TRAPEZOID_MAX_ITERATIONS_COUNT}
      */
-    public TrapezoidIntegrator(final double relativeAccuracy,
-                               final double absoluteAccuracy,
-                               final int minimalIterationCount,
-                               final int maximalIterationCount)
-        throws MathIllegalArgumentException {
+    public TrapezoidIntegrator(final double relativeAccuracy, final double absoluteAccuracy, final int minimalIterationCount, final int maximalIterationCount) throws MathIllegalArgumentException {
         super(relativeAccuracy, absoluteAccuracy, minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > TRAPEZOID_MAX_ITERATIONS_COUNT) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                   maximalIterationCount, TRAPEZOID_MAX_ITERATIONS_COUNT);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED, maximalIterationCount, TRAPEZOID_MAX_ITERATIONS_COUNT);
         }
     }
 
@@ -81,13 +78,10 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
      * @exception MathIllegalArgumentException if maximal number of iterations
      * is greater than {@link #TRAPEZOID_MAX_ITERATIONS_COUNT}
      */
-    public TrapezoidIntegrator(final int minimalIterationCount,
-                               final int maximalIterationCount)
-        throws MathIllegalArgumentException {
+    public TrapezoidIntegrator(final int minimalIterationCount, final int maximalIterationCount) throws MathIllegalArgumentException {
         super(minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > TRAPEZOID_MAX_ITERATIONS_COUNT) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                   maximalIterationCount, TRAPEZOID_MAX_ITERATIONS_COUNT);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED, maximalIterationCount, TRAPEZOID_MAX_ITERATIONS_COUNT);
         }
     }
 
@@ -114,56 +108,15 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
      * @throws MathIllegalStateException if the maximal number of evaluations
      * is exceeded.
      */
-    double stage(final BaseAbstractUnivariateIntegrator baseIntegrator, final int n)
-        throws MathIllegalStateException {
-
-        if (n == 0) {
-            final double max = baseIntegrator.getMax();
-            final double min = baseIntegrator.getMin();
-            s = 0.5 * (max - min) *
-                      (baseIntegrator.computeObjectiveValue(min) +
-                       baseIntegrator.computeObjectiveValue(max));
-            return s;
-        } else {
-            final long np = 1L << (n-1);           // number of new points in this stage
-            double sum = 0;
-            final double max = baseIntegrator.getMax();
-            final double min = baseIntegrator.getMin();
-            // spacing between adjacent new points
-            final double spacing = (max - min) / np;
-            double x = min + 0.5 * spacing;    // the first new point
-            for (long i = 0; i < np; i++) {
-                sum += baseIntegrator.computeObjectiveValue(x);
-                x += spacing;
-            }
-            // add the new sum to previously calculated result
-            s = 0.5 * (s + sum * spacing);
-            return s;
-        }
+    double stage(final BaseAbstractUnivariateIntegrator baseIntegrator, final int n) throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected double doIntegrate()
-        throws MathIllegalArgumentException, MathIllegalStateException {
-
-        double oldt = stage(this, 0);
-        iterations.increment();
-        while (true) {
-            final int i = iterations.getCount();
-            final double t = stage(this, i);
-            if (i >= getMinimalIterationCount()) {
-                final double delta = FastMath.abs(t - oldt);
-                final double rLimit =
-                    getRelativeAccuracy() * (FastMath.abs(oldt) + FastMath.abs(t)) * 0.5;
-                if ((delta <= rLimit) || (delta <= getAbsoluteAccuracy())) {
-                    return t;
-                }
-            }
-            oldt = t;
-            iterations.increment();
-        }
-
+    protected double doIntegrate() throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

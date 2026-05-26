@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -40,51 +39,37 @@ import org.hipparchus.util.Pair;
  * <a href="http://en.wikipedia.org/wiki/Abramowitz_and_Stegun">
  * Abramowitz and Stegun, 1964</a>.
  * </p>
- *
  */
 public class HermiteRuleFactory extends AbstractRuleFactory {
 
-    /** √π. */
+    /**
+     * √π.
+     */
     private static final double SQRT_PI = 1.77245385090551602729;
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public HermiteRuleFactory() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public HermiteRuleFactory() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected Pair<double[], double[]> computeRule(int numberOfPoints)
-        throws MathIllegalArgumentException {
-
-        if (numberOfPoints == 1) {
-            // Break recursion.
-            return new Pair<>(new double[] { 0 } , new double[] { SQRT_PI });
-        }
-
-        // find nodes as roots of Hermite polynomial
-        final double[] points = findRoots(numberOfPoints, new Hermite(numberOfPoints)::ratio);
-        enforceSymmetry(points);
-
-        // compute weights
-        final double[] weights = new double[numberOfPoints];
-        final Hermite hm1 = new Hermite(numberOfPoints - 1);
-        for (int i = 0; i < numberOfPoints; i++) {
-            final double y = hm1.hNhNm1(points[i])[0];
-            weights[i] = SQRT_PI / (numberOfPoints * y * y);
-        }
-
-        return new Pair<>(points, weights);
-
+    protected Pair<double[], double[]> computeRule(int numberOfPoints) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Hermite polynomial, normalized to avoid overflow.
+    /**
+     * Hermite polynomial, normalized to avoid overflow.
      * <p>
      * The regular Hermite polynomials and associated weights are given by:
      *   <pre>
@@ -107,29 +92,35 @@ public class HermiteRuleFactory extends AbstractRuleFactory {
      */
     private static class Hermite {
 
-        /** √2. */
+        /**
+         * √2.
+         */
         private static final double SQRT2 = FastMath.sqrt(2);
 
-        /** Degree. */
+        /**
+         * Degree.
+         */
         private final int degree;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          * @param degree polynomial degree
          */
         Hermite(int degree) {
             this.degree = degree;
         }
 
-        /** Compute ratio H(x)/H'(x).
+        /**
+         * Compute ratio H(x)/H'(x).
          * @param x point at which ratio must be computed
          * @return ratio H(x)/H'(x)
          */
         public double ratio(double x) {
-            double[] h = hNhNm1(x);
-            return h[0] / (h[1] * 2 * degree);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Compute Nₙ(x) and Nₙ₋₁(x).
+        /**
+         * Compute Nₙ(x) and Nₙ₋₁(x).
          * @param x point at which polynomials are evaluated
          * @return array containing Nₙ(x) at index 0 and Nₙ₋₁(x) at index 1
          */
@@ -140,13 +131,11 @@ public class HermiteRuleFactory extends AbstractRuleFactory {
                 // apply recurrence relation hₙ₊₁(x) = [√2 x hₙ(x) - √n hₙ₋₁(x)]/√(n+1)
                 final double sqrtNp = FastMath.sqrt(n + 1);
                 final double hp = (h[0] * x * SQRT2 - h[1] * sqrtN) / sqrtNp;
-                h[1]  = h[0];
-                h[0]  = hp;
+                h[1] = h[0];
+                h[0] = hp;
                 sqrtN = sqrtNp;
             }
             return h;
         }
-
     }
-
 }

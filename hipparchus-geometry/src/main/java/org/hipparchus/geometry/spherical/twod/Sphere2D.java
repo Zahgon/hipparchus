@@ -14,16 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.geometry.spherical.twod;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.geometry.LocalizedGeometryFormats;
 import org.hipparchus.geometry.Space;
@@ -41,7 +38,8 @@ import org.hipparchus.util.FastMath;
  */
 public class Sphere2D implements Serializable, Space {
 
-    /** Smallest tolerance that can be managed.
+    /**
+     * Smallest tolerance that can be managed.
      * <p>
      * Tolerances smaller than this value will generate exceptions.
      * </p>
@@ -49,62 +47,71 @@ public class Sphere2D implements Serializable, Space {
      */
     public static final double SMALLEST_TOLERANCE = FastMath.ulp(2 * FastMath.PI);
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20131218L;
 
-    /** Private constructor for the singleton.
+    /**
+     * Private constructor for the singleton.
      */
     private Sphere2D() {
     }
 
-    /** Get the unique instance.
+    /**
+     * Get the unique instance.
      * @return the unique instance
      */
     public static Sphere2D getInstance() {
-        return LazyHolder.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check tolerance against {@link #SMALLEST_TOLERANCE}.
+    /**
+     * Check tolerance against {@link #SMALLEST_TOLERANCE}.
      * @param tolerance tolerance to check
      * @exception MathIllegalArgumentException if tolerance is smaller
      * than {@link #SMALLEST_TOLERANCE}
      */
-    public static void checkTolerance(final double tolerance)
-        throws MathIllegalArgumentException {
-        if (tolerance < SMALLEST_TOLERANCE) {
-            throw new MathIllegalArgumentException(LocalizedGeometryFormats.TOO_SMALL_TOLERANCE,
-                                                   tolerance, "Sphere2D.SMALLEST_TOLERANCE", SMALLEST_TOLERANCE);
-        }
+    public static void checkTolerance(final double tolerance) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getDimension() {
-        return 2;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Sphere1D getSubSpace() {
-        return Sphere1D.getInstance();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // CHECKSTYLE: stop HideUtilityClassConstructor
-    /** Holder for the instance.
+    /**
+     * Holder for the instance.
      * <p>We use here the Initialization On Demand Holder Idiom.</p>
      */
     private static class LazyHolder {
-        /** Cached field instance. */
+
+        /**
+         * Cached field instance.
+         */
         private static final Sphere2D INSTANCE = new Sphere2D();
     }
-    // CHECKSTYLE: resume HideUtilityClassConstructor
 
-    /** Handle deserialization of the singleton.
+    // CHECKSTYLE: resume HideUtilityClassConstructor
+    /**
+     * Handle deserialization of the singleton.
      * @return the singleton instance
      */
     private Object readResolve() {
         // return the singleton instance
         return LazyHolder.INSTANCE;
     }
-
 }

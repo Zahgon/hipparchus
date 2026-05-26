@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -25,14 +24,14 @@ package org.hipparchus.optim;
  * Base class for all convergence checker implementations.
  *
  * @param <P> Type of (point, value) pair.
- *
  */
-public abstract class AbstractConvergenceChecker<P>
-    implements ConvergenceChecker<P> {
+public abstract class AbstractConvergenceChecker<P> implements ConvergenceChecker<P> {
+
     /**
      * Relative tolerance threshold.
      */
     private final double relativeThreshold;
+
     /**
      * Absolute tolerance threshold.
      */
@@ -44,23 +43,24 @@ public abstract class AbstractConvergenceChecker<P>
      * @param relativeThreshold relative tolerance threshold
      * @param absoluteThreshold absolute tolerance threshold
      */
-    protected AbstractConvergenceChecker(final double relativeThreshold,
-                                         final double absoluteThreshold) {
+    protected AbstractConvergenceChecker(final double relativeThreshold, final double absoluteThreshold) {
         this.relativeThreshold = relativeThreshold;
         this.absoluteThreshold = absoluteThreshold;
     }
 
-    /** Get relative threshold.
+    /**
+     * Get relative threshold.
      * @return the relative threshold.
      */
     public double getRelativeThreshold() {
-        return relativeThreshold;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get absolute threshold.
+    /**
+     * Get absolute threshold.
      * @return the absolute threshold.
      */
     public double getAbsoluteThreshold() {
-        return absoluteThreshold;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

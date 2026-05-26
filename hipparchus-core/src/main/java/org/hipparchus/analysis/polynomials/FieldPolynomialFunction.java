@@ -33,7 +33,6 @@ import org.hipparchus.util.MathUtils;
  * is used to evaluate the function.</p>
  * @param <T> the type of the field elements
  * @since 1.5
- *
  */
 public class FieldPolynomialFunction<T extends CalculusFieldElement<T>> implements CalculusFieldUnivariateFunction<T> {
 
@@ -58,8 +57,7 @@ public class FieldPolynomialFunction<T extends CalculusFieldElement<T>> implemen
      * @throws NullArgumentException if {@code c} is {@code null}.
      * @throws MathIllegalArgumentException if {@code c} is empty.
      */
-    public FieldPolynomialFunction(final T[] c)
-        throws MathIllegalArgumentException, NullArgumentException {
+    public FieldPolynomialFunction(final T[] c) throws MathIllegalArgumentException, NullArgumentException {
         MathUtils.checkNotNull(c);
         int n = c.length;
         if (n == 0) {
@@ -85,7 +83,7 @@ public class FieldPolynomialFunction<T extends CalculusFieldElement<T>> implemen
      * @see org.hipparchus.analysis.UnivariateFunction#value(double)
      */
     public T value(double x) {
-       return evaluate(coefficients, getField().getZero().add(x));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -102,14 +100,15 @@ public class FieldPolynomialFunction<T extends CalculusFieldElement<T>> implemen
      */
     @Override
     public T value(T x) {
-       return evaluate(coefficients, x);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the {@link Field} to which the instance belongs.
+    /**
+     * Get the {@link Field} to which the instance belongs.
      * @return {@link Field} to which the instance belongs
      */
     public Field<T> getField() {
-        return coefficients[0].getField();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -118,7 +117,7 @@ public class FieldPolynomialFunction<T extends CalculusFieldElement<T>> implemen
      * @return the degree of the polynomial.
      */
     public int degree() {
-        return coefficients.length - 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -130,7 +129,7 @@ public class FieldPolynomialFunction<T extends CalculusFieldElement<T>> implemen
      * @return a fresh copy of the coefficients array.
      */
     public T[] getCoefficients() {
-        return coefficients.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -144,18 +143,8 @@ public class FieldPolynomialFunction<T extends CalculusFieldElement<T>> implemen
      * @throws MathIllegalArgumentException if {@code coefficients} is empty.
      * @throws NullArgumentException if {@code coefficients} is {@code null}.
      */
-    protected static <T extends CalculusFieldElement<T>> T evaluate(T[] coefficients, T argument)
-        throws MathIllegalArgumentException, NullArgumentException {
-        MathUtils.checkNotNull(coefficients);
-        int n = coefficients.length;
-        if (n == 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
-        }
-        T result = coefficients[n - 1];
-        for (int j = n - 2; j >= 0; j--) {
-            result = argument.multiply(result).add(coefficients[j]);
-        }
-        return result;
+    protected static <T extends CalculusFieldElement<T>> T evaluate(T[] coefficients, T argument) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -165,22 +154,7 @@ public class FieldPolynomialFunction<T extends CalculusFieldElement<T>> implemen
      * @return a new polynomial which is the sum of the instance and {@code p}.
      */
     public FieldPolynomialFunction<T> add(final FieldPolynomialFunction<T> p) {
-        // identify the lowest degree polynomial
-        final int lowLength  = FastMath.min(coefficients.length, p.coefficients.length);
-        final int highLength = FastMath.max(coefficients.length, p.coefficients.length);
-
-        // build the coefficients array
-        T[] newCoefficients = MathArrays.buildArray(getField(), highLength);
-        for (int i = 0; i < lowLength; ++i) {
-            newCoefficients[i] = coefficients[i].add(p.coefficients[i]);
-        }
-        System.arraycopy((coefficients.length < p.coefficients.length) ?
-                         p.coefficients : coefficients,
-                         lowLength,
-                         newCoefficients, lowLength,
-                         highLength - lowLength);
-
-        return new FieldPolynomialFunction<>(newCoefficients);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -190,25 +164,7 @@ public class FieldPolynomialFunction<T extends CalculusFieldElement<T>> implemen
      * @return a new polynomial which is the instance minus {@code p}.
      */
     public FieldPolynomialFunction<T> subtract(final FieldPolynomialFunction<T> p) {
-        // identify the lowest degree polynomial
-        int lowLength  = FastMath.min(coefficients.length, p.coefficients.length);
-        int highLength = FastMath.max(coefficients.length, p.coefficients.length);
-
-        // build the coefficients array
-        T[] newCoefficients = MathArrays.buildArray(getField(), highLength);
-        for (int i = 0; i < lowLength; ++i) {
-            newCoefficients[i] = coefficients[i].subtract(p.coefficients[i]);
-        }
-        if (coefficients.length < p.coefficients.length) {
-            for (int i = lowLength; i < highLength; ++i) {
-                newCoefficients[i] = p.coefficients[i].negate();
-            }
-        } else {
-            System.arraycopy(coefficients, lowLength, newCoefficients, lowLength,
-                             highLength - lowLength);
-        }
-
-        return new FieldPolynomialFunction<>(newCoefficients);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -217,11 +173,7 @@ public class FieldPolynomialFunction<T extends CalculusFieldElement<T>> implemen
      * @return a new polynomial with all coefficients negated
      */
     public FieldPolynomialFunction<T> negate() {
-        final T[] newCoefficients = MathArrays.buildArray(getField(), coefficients.length);
-        for (int i = 0; i < coefficients.length; ++i) {
-            newCoefficients[i] = coefficients[i].negate();
-        }
-        return new FieldPolynomialFunction<>(newCoefficients);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -231,19 +183,7 @@ public class FieldPolynomialFunction<T extends CalculusFieldElement<T>> implemen
      * @return a new polynomial equal to this times {@code p}
      */
     public FieldPolynomialFunction<T> multiply(final FieldPolynomialFunction<T> p) {
-        final Field<T> field = getField();
-        final T[] newCoefficients = MathArrays.buildArray(field, coefficients.length + p.coefficients.length - 1);
-
-        for (int i = 0; i < newCoefficients.length; ++i) {
-            newCoefficients[i] = field.getZero();
-            for (int j = FastMath.max(0, i + 1 - p.coefficients.length);
-                 j < FastMath.min(coefficients.length, i + 1);
-                 ++j) {
-                newCoefficients[i] = newCoefficients[i].add(coefficients[j].multiply(p.coefficients[i-j]));
-            }
-        }
-
-        return new FieldPolynomialFunction<>(newCoefficients);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -255,23 +195,8 @@ public class FieldPolynomialFunction<T extends CalculusFieldElement<T>> implemen
      * @throws MathIllegalArgumentException if {@code coefficients} is empty.
      * @throws NullArgumentException if {@code coefficients} is {@code null}.
      */
-    protected static <T extends CalculusFieldElement<T>> T[] differentiate(T[] coefficients)
-        throws MathIllegalArgumentException, NullArgumentException {
-        MathUtils.checkNotNull(coefficients);
-        int n = coefficients.length;
-        if (n == 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
-        }
-        final Field<T> field = coefficients[0].getField();
-        final T[] result = MathArrays.buildArray(field, FastMath.max(1, n - 1));
-        if (n == 1) {
-            result[0] = field.getZero();
-        } else {
-            for (int i = n - 1; i > 0; i--) {
-                result[i - 1] = coefficients[i].multiply(i);
-            }
-        }
-        return result;
+    protected static <T extends CalculusFieldElement<T>> T[] differentiate(T[] coefficients) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -280,14 +205,7 @@ public class FieldPolynomialFunction<T extends CalculusFieldElement<T>> implemen
      * @return a polynomial whose derivative has the same coefficients as this polynomial
      */
     public FieldPolynomialFunction<T> antiDerivative() {
-        final Field<T> field = getField();
-        final int d = degree();
-        final T[] anti = MathArrays.buildArray(field, d + 2);
-        anti[0] = field.getZero();
-        for (int i = 1; i <= d + 1; i++) {
-            anti[i] = coefficients[i - 1].multiply(1.0 / i);
-        }
-        return new FieldPolynomialFunction<>(anti);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -302,8 +220,7 @@ public class FieldPolynomialFunction<T extends CalculusFieldElement<T>> implemen
      * @throws MathIllegalArgumentException if the bounds do not describe a finite interval
      */
     public T integrate(final double lower, final double upper) {
-        final T zero = getField().getZero();
-        return integrate(zero.add(lower), zero.add(upper));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -318,14 +235,7 @@ public class FieldPolynomialFunction<T extends CalculusFieldElement<T>> implemen
      * @throws MathIllegalArgumentException if the bounds do not describe a finite interval
      */
     public T integrate(final T lower, final T upper) {
-        if (Double.isInfinite(lower.getReal()) || Double.isInfinite(upper.getReal())) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INFINITE_BOUND);
-        }
-        if (lower.getReal() > upper.getReal()) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND);
-        }
-        final FieldPolynomialFunction<T> anti = antiDerivative();
-        return anti.value(upper).subtract(anti.value(lower));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -334,7 +244,6 @@ public class FieldPolynomialFunction<T extends CalculusFieldElement<T>> implemen
      * @return the derivative polynomial.
      */
     public FieldPolynomialFunction<T> polynomialDerivative() {
-        return new FieldPolynomialFunction<>(differentiate(coefficients));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

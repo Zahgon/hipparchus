@@ -14,34 +14,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode;
 
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.util.MathArrays;
 
-/** Container for time, main and secondary state vectors as well as their derivatives.
-
+/**
+ * Container for time, main and secondary state vectors as well as their derivatives.
+ *
  * @see FieldOrdinaryDifferentialEquation
  * @see FieldSecondaryODE
  * @see FieldODEIntegrator
  * @param <T> the type of the field elements
  */
-
 public class FieldODEStateAndDerivative<T extends CalculusFieldElement<T>> extends FieldODEState<T> {
 
-    /** Derivative of the primary state at time. */
+    /**
+     * Derivative of the primary state at time.
+     */
     private final T[] primaryDerivative;
 
-    /** Derivative of the secondary state at time. */
+    /**
+     * Derivative of the secondary state at time.
+     */
     private final T[][] secondaryDerivative;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * <p>Calling this constructor is equivalent to call {@link
      * #FieldODEStateAndDerivative(CalculusFieldElement, CalculusFieldElement[], CalculusFieldElement[],
      * CalculusFieldElement[][], CalculusFieldElement[][]) FieldODEStateAndDerivative(time, state,
@@ -54,30 +57,32 @@ public class FieldODEStateAndDerivative<T extends CalculusFieldElement<T>> exten
         this(time, primaryState, primaryDerivative, null, null);
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param time time
      * @param primaryState primary state at time
      * @param primaryDerivative derivative of the primary state at time
      * @param secondaryState state at time (may be null)
      * @param secondaryDerivative derivative of the state at time (may be null)
      */
-    public FieldODEStateAndDerivative(T time, T[] primaryState, T[] primaryDerivative,
-                                      T[][] secondaryState, T[][] secondaryDerivative) {
+    public FieldODEStateAndDerivative(T time, T[] primaryState, T[] primaryDerivative, T[][] secondaryState, T[][] secondaryDerivative) {
         super(time, primaryState, secondaryState);
-        this.primaryDerivative   = primaryDerivative.clone();
+        this.primaryDerivative = primaryDerivative.clone();
         this.secondaryDerivative = copy(secondaryDerivative);
     }
 
-    /** Get derivative of the primary state at time.
+    /**
+     * Get derivative of the primary state at time.
      * @return derivative of the primary state at time
      * @see #getSecondaryDerivative(int)
      * @see #getCompleteDerivative()
      */
     public T[] getPrimaryDerivative() {
-        return primaryDerivative.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get derivative of the secondary state at time.
+    /**
+     * Get derivative of the secondary state at time.
      * @param index index of the secondary set as returned
      * by {@link FieldExpandableODE#addSecondaryEquations(FieldSecondaryODE)}
      * (beware index 0 corresponds to primary state, secondary states start at 1)
@@ -86,10 +91,11 @@ public class FieldODEStateAndDerivative<T extends CalculusFieldElement<T>> exten
      * @see #getCompleteDerivative()
      */
     public T[] getSecondaryDerivative(final int index) {
-        return index == 0 ? primaryDerivative.clone() : secondaryDerivative[index - 1].clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get complete derivative at time.
+    /**
+     * Get complete derivative at time.
      * @return complete derivative at time, starting with
      * {@link #getPrimaryDerivative() primary derivative}, followed
      * by all {@link #getSecondaryDerivative(int) secondary derivatives} in
@@ -98,18 +104,6 @@ public class FieldODEStateAndDerivative<T extends CalculusFieldElement<T>> exten
      * @see #getSecondaryDerivative(int)
      */
     public T[] getCompleteDerivative() {
-        final T[] completeDerivative = MathArrays.buildArray(getTime().getField(), getCompleteStateDimension());
-        System.arraycopy(primaryDerivative, 0, completeDerivative, 0, primaryDerivative.length);
-        int offset = primaryDerivative.length;
-        if (secondaryDerivative != null) {
-            for (T[] ts : secondaryDerivative) {
-                System.arraycopy(ts, 0,
-                        completeDerivative, offset,
-                        ts.length);
-                offset += ts.length;
-            }
-        }
-        return completeDerivative;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

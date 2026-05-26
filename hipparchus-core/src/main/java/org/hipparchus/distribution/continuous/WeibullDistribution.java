@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.distribution.continuous;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -38,11 +36,20 @@ import org.hipparchus.util.MathUtils;
  * @see <a href="http://mathworld.wolfram.com/WeibullDistribution.html">Weibull distribution (MathWorld)</a>
  */
 public class WeibullDistribution extends AbstractRealDistribution {
-    /** Serializable version identifier. */
+
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20160320L;
-    /** The shape parameter. */
+
+    /**
+     * The shape parameter.
+     */
     private final double shape;
-    /** The scale parameter. */
+
+    /**
+     * The scale parameter.
+     */
     private final double scale;
 
     /**
@@ -52,15 +59,12 @@ public class WeibullDistribution extends AbstractRealDistribution {
      * @param beta Scale parameter.
      * @throws MathIllegalArgumentException if {@code alpha <= 0} or {@code beta <= 0}.
      */
-    public WeibullDistribution(double alpha, double beta)
-        throws MathIllegalArgumentException {
+    public WeibullDistribution(double alpha, double beta) throws MathIllegalArgumentException {
         if (alpha <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.SHAPE,
-                                                   alpha);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.SHAPE, alpha);
         }
         if (beta <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.SCALE,
-                                                   beta);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.SCALE, beta);
         }
         scale = beta;
         shape = alpha;
@@ -72,7 +76,7 @@ public class WeibullDistribution extends AbstractRealDistribution {
      * @return the shape parameter, {@code alpha}.
      */
     public double getShape() {
-        return shape;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -81,59 +85,31 @@ public class WeibullDistribution extends AbstractRealDistribution {
      * @return the scale parameter, {@code beta}.
      */
     public double getScale() {
-        return scale;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double density(double x) {
-        if (x < 0) {
-            return 0;
-        }
-
-        final double xscale = x / scale;
-        final double xscalepow = FastMath.pow(xscale, shape - 1);
-
-        /*
-         * FastMath.pow(x / scale, shape) =
-         * FastMath.pow(xscale, shape) =
-         * FastMath.pow(xscale, shape - 1) * xscale
-         */
-        final double xscalepowshape = xscalepow * xscale;
-
-        return (shape / scale) * xscalepow * FastMath.exp(-xscalepowshape);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double logDensity(double x) {
-        if (x < 0) {
-            return Double.NEGATIVE_INFINITY;
-        }
-
-        final double xscale = x / scale;
-        final double logxscalepow = FastMath.log(xscale) * (shape - 1);
-
-        /*
-         * FastMath.pow(x / scale, shape) =
-         * FastMath.pow(xscale, shape) =
-         * FastMath.pow(xscale, shape - 1) * xscale
-         */
-        final double xscalepowshape = FastMath.exp(logxscalepow) * xscale;
-
-        return FastMath.log(shape / scale) + logxscalepow - xscalepowshape;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double cumulativeProbability(double x) {
-        double ret;
-        if (x <= 0.0) {
-            ret = 0.0;
-        } else {
-            ret = 1.0 - FastMath.exp(-FastMath.pow(x / scale, shape));
-        }
-        return ret;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -144,17 +120,7 @@ public class WeibullDistribution extends AbstractRealDistribution {
      */
     @Override
     public double inverseCumulativeProbability(double p) {
-        MathUtils.checkRangeInclusive(p, 0, 1);
-
-        double ret;
-        if (p == 0) {
-            ret = 0.0;
-        } else  if (p == 1) {
-            ret = Double.POSITIVE_INFINITY;
-        } else {
-            ret = scale * FastMath.pow(-FastMath.log1p(-p), 1.0 / shape);
-        }
-        return ret;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -165,10 +131,7 @@ public class WeibullDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalMean() {
-        final double sh = getShape();
-        final double sc = getScale();
-
-        return sc * FastMath.exp(Gamma.logGamma(1 + (1 / sh)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -179,12 +142,7 @@ public class WeibullDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        final double sh = getShape();
-        final double sc = getScale();
-        final double mn = getNumericalMean();
-
-        return (sc * sc) * FastMath.exp(Gamma.logGamma(1 + (2 / sh))) -
-               (mn * mn);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -196,7 +154,7 @@ public class WeibullDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportLowerBound() {
-        return 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -210,7 +168,7 @@ public class WeibullDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportUpperBound() {
-        return Double.POSITIVE_INFINITY;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -222,7 +180,6 @@ public class WeibullDistribution extends AbstractRealDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }
-

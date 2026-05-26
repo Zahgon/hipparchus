@@ -20,42 +20,45 @@ import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 
-/** Abstract class representing both the value and the differentials of a function.
+/**
+ * Abstract class representing both the value and the differentials of a function.
  * @param <S> the type of the field elements
  * @param <T> the type of the function derivative
  * @since 1.7
  */
-public abstract class FieldUnivariateDerivative<S extends CalculusFieldElement<S>, T extends FieldUnivariateDerivative<S, T>>
-    implements FieldDerivative<S, T> {
+public abstract class FieldUnivariateDerivative<S extends CalculusFieldElement<S>, T extends FieldUnivariateDerivative<S, T>> implements FieldDerivative<S, T> {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    protected FieldUnivariateDerivative() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    protected FieldUnivariateDerivative() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getFreeParameters() {
-        return 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public S getPartialDerivative(final int ... orders) throws MathIllegalArgumentException {
-        if (orders.length != 1) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   orders.length, 1);
-        }
-        return getDerivative(orders[0]);
+    public S getPartialDerivative(final int... orders) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a derivative from the univariate derivative.
+    /**
+     * Get a derivative from the univariate derivative.
      * @param n derivation order (must be between 0 and {@link #getOrder()}, both inclusive)
      * @return n<sup>th</sup> derivative
      * @exception MathIllegalArgumentException if n is
@@ -63,18 +66,17 @@ public abstract class FieldUnivariateDerivative<S extends CalculusFieldElement<S
      */
     public abstract S getDerivative(int n) throws MathIllegalArgumentException;
 
-    /** Convert the instance to a {@link DerivativeStructure}.
+    /**
+     * Convert the instance to a {@link DerivativeStructure}.
      * @return derivative structure with same value and derivative as the instance
      */
     public abstract FieldDerivativeStructure<S> toDerivativeStructure();
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double norm() {
-        double sum = 0.;
-        for (int i = 0; i <= getOrder(); i++) {
-            sum += getDerivative(i).norm();
-        }
-        return sum;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

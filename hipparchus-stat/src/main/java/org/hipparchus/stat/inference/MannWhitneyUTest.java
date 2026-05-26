@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -24,7 +23,6 @@ package org.hipparchus.stat.inference;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.LongStream;
-
 import org.hipparchus.distribution.continuous.NormalDistribution;
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -53,7 +51,8 @@ import org.hipparchus.util.Precision;
  * false). The minimum of the W value returned by R for wilcox.test(x, y...) and
  * wilcox.test(y, x...) should equal mannWhitneyU(x, y...).
  */
-public class MannWhitneyUTest { // NOPMD - this is not a Junit test class, PMD false positive here
+public class // NOPMD - this is not a Junit test class, PMD false positive here
+MannWhitneyUTest {
 
     /**
      * If the combined dataset contains no more values than this, test defaults to
@@ -61,10 +60,14 @@ public class MannWhitneyUTest { // NOPMD - this is not a Junit test class, PMD f
      */
     private static final int SMALL_SAMPLE_SIZE = 50;
 
-    /** Ranking algorithm. */
+    /**
+     * Ranking algorithm.
+     */
     private final NaturalRanking naturalRanking;
 
-    /** Normal distribution */
+    /**
+     * Normal distribution
+     */
     private final NormalDistribution standardNormal;
 
     /**
@@ -72,8 +75,7 @@ public class MannWhitneyUTest { // NOPMD - this is not a Junit test class, PMD f
      * the average of applicable ranks.
      */
     public MannWhitneyUTest() {
-        naturalRanking = new NaturalRanking(NaNStrategy.FIXED,
-                                            TiesStrategy.AVERAGE);
+        naturalRanking = new NaturalRanking(NaNStrategy.FIXED, TiesStrategy.AVERAGE);
         standardNormal = new NormalDistribution(0, 1);
     }
 
@@ -84,8 +86,7 @@ public class MannWhitneyUTest { // NOPMD - this is not a Junit test class, PMD f
      *        Double.NaN's
      * @param tiesStrategy specifies the strategy that should be used for ties
      */
-    public MannWhitneyUTest(final NaNStrategy nanStrategy,
-                            final TiesStrategy tiesStrategy) {
+    public MannWhitneyUTest(final NaNStrategy nanStrategy, final TiesStrategy tiesStrategy) {
         naturalRanking = new NaturalRanking(nanStrategy, tiesStrategy);
         standardNormal = new NormalDistribution(0, 1);
     }
@@ -118,36 +119,8 @@ public class MannWhitneyUTest { // NOPMD - this is not a Junit test class, PMD f
      * @throws MathIllegalArgumentException if {@code x} or {@code y} are
      *         zero-length.
      */
-    public double mannWhitneyU(final double[] x, final double[] y)
-        throws MathIllegalArgumentException, NullArgumentException {
-
-        ensureDataConformance(x, y);
-
-        final double[] z = concatenateSamples(x, y);
-        final double[] ranks = naturalRanking.rank(z);
-
-        double sumRankX = 0;
-
-        /*
-         * The ranks for x is in the first x.length entries in ranks because x
-         * is in the first x.length entries in z
-         */
-        for (int i = 0; i < x.length; ++i) {
-            sumRankX += ranks[i];
-        }
-
-        /*
-         * U1 = R1 - (n1 * (n1 + 1)) / 2 where R1 is sum of ranks for sample 1,
-         * e.g. x, n1 is the number of observations in sample 1.
-         */
-        final double U1 = sumRankX - ((long) x.length * (x.length + 1)) / 2;
-
-        /*
-         * U1 + U2 = n1 * n2
-         */
-        final double U2 = (long) x.length * y.length - U1;
-
-        return FastMath.min(U1, U2);
+    public double mannWhitneyU(final double[] x, final double[] y) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -159,10 +132,8 @@ public class MannWhitneyUTest { // NOPMD - this is not a Junit test class, PMD f
      */
     private double[] concatenateSamples(final double[] x, final double[] y) {
         final double[] z = new double[x.length + y.length];
-
         System.arraycopy(x, 0, z, 0, x.length);
         System.arraycopy(y, 0, z, x.length, y.length);
-
         return z;
     }
 
@@ -197,17 +168,8 @@ public class MannWhitneyUTest { // NOPMD - this is not a Junit test class, PMD f
      * @throws MathIllegalArgumentException if {@code x} or {@code y} are
      *         zero-length
      */
-    public double mannWhitneyUTest(final double[] x, final double[] y)
-        throws MathIllegalArgumentException, NullArgumentException {
-        ensureDataConformance(x, y);
-
-        // If samples are both small and there are no ties, perform exact test
-        if (x.length + y.length <= SMALL_SAMPLE_SIZE &&
-            tiesMap(x, y).isEmpty()) {
-            return mannWhitneyUTest(x, y, true);
-        } else { // Normal approximation
-            return mannWhitneyUTest(x, y, false);
-        }
+    public double mannWhitneyUTest(final double[] x, final double[] y) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -250,21 +212,8 @@ public class MannWhitneyUTest { // NOPMD - this is not a Junit test class, PMD f
      *         zero-length or if {@code exact} is {@code true} and ties are
      *         present in the data
      */
-    public double mannWhitneyUTest(final double[] x, final double[] y,
-                                   final boolean exact)
-        throws MathIllegalArgumentException, NullArgumentException {
-        ensureDataConformance(x, y);
-        final Map<Double, Integer> tiesMap = tiesMap(x, y);
-        final double u = mannWhitneyU(x, y);
-        if (exact) {
-            if (!tiesMap.isEmpty()) {
-                throw new MathIllegalArgumentException(LocalizedStatFormats.TIES_ARE_NOT_ALLOWED);
-            }
-            return exactP(x.length, y.length, u);
-        }
-
-        return approximateP(u, x.length, y.length,
-                            varU(x.length, y.length, tiesMap));
+    public double mannWhitneyUTest(final double[] x, final double[] y, final boolean exact) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -276,9 +225,7 @@ public class MannWhitneyUTest { // NOPMD - this is not a Junit test class, PMD f
      * @throws MathIllegalArgumentException if {@code x} or {@code y} are
      *         zero-length.
      */
-    private void ensureDataConformance(final double[] x, final double[] y)
-        throws MathIllegalArgumentException, NullArgumentException {
-
+    private void ensureDataConformance(final double[] x, final double[] y) throws MathIllegalArgumentException, NullArgumentException {
         if (x == null || y == null) {
             throw new NullArgumentException();
         }
@@ -304,21 +251,15 @@ public class MannWhitneyUTest { // NOPMD - this is not a Junit test class, PMD f
      * @throws MathIllegalStateException if the maximum number of iterations is
      *         exceeded
      */
-    private double approximateP(final double u, final int n1, final int n2,
-                                final double varU)
-        throws MathIllegalStateException {
-
+    private double approximateP(final double u, final int n1, final int n2, final double varU) throws MathIllegalStateException {
         final double mu = (long) n1 * n2 / 2.0;
-
         // If u == mu, return 1
         if (Precision.equals(mu, u)) {
             return 1;
         }
-
         // Force z <= 0 so we get tail probability. Also apply continuity
         // correction
         final double z = -Math.abs((u - mu) + 0.5) / FastMath.sqrt(varU);
-
         return 2 * standardNormal.cumulativeProbability(z);
     }
 
@@ -343,13 +284,13 @@ public class MannWhitneyUTest { // NOPMD - this is not a Junit test class, PMD f
      */
     private double exactP(final int n, final int m, final double u) {
         final double nm = m * n;
-        if (u > nm) { // Quick exit if u is out of range
+        if (u > nm) {
+            // Quick exit if u is out of range
             return 1;
         }
         // Need to convert u to a mean deviation, so cumulative probability is
         // tail probability
         final double crit = u < nm / 2 ? u : nm / 2 - u;
-
         double cum = 0d;
         for (int ct = 0; ct <= crit; ct++) {
             cum += uDensity(n, m, ct);
@@ -375,8 +316,7 @@ public class MannWhitneyUTest { // NOPMD - this is not a Junit test class, PMD f
             return 0;
         }
         final long[] freq = uFrequencies(n, m);
-        return freq[(int) FastMath.round(u + 1)] /
-               (double) LongStream.of(freq).sum();
+        return freq[(int) FastMath.round(u + 1)] / (double) LongStream.of(freq).sum();
     }
 
     /**
@@ -397,8 +337,7 @@ public class MannWhitneyUTest { // NOPMD - this is not a Junit test class, PMD f
     private long[] uFrequencies(final int n, final int m) {
         final int max = FastMath.max(m, n);
         if (max > 100) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE,
-                                                   max, 100);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE, max, 100);
         }
         final int min = FastMath.min(m, n);
         final long[] out = new long[n * m + 2];
@@ -437,19 +376,14 @@ public class MannWhitneyUTest { // NOPMD - this is not a Junit test class, PMD f
      * @param tiesMap map of <value, multiplicity>
      * @return ties-adjusted variance
      */
-    private double varU(final int n, final int m,
-                        Map<Double, Integer> tiesMap) {
+    private double varU(final int n, final int m, Map<Double, Integer> tiesMap) {
         final double nm = (long) n * m;
         if (tiesMap.isEmpty()) {
             return nm * (n + m + 1) / 12.0;
         }
-        final long tSum = tiesMap.entrySet().stream()
-            .mapToLong(e -> e.getValue() * e.getValue() * e.getValue() -
-                            e.getValue())
-            .sum();
+        final long tSum = tiesMap.entrySet().stream().mapToLong(e -> e.getValue() * e.getValue() * e.getValue() - e.getValue()).sum();
         final double totalN = n + m;
         return (nm / 12) * (totalN + 1 - tSum / (totalN * (totalN - 1)));
-
     }
 
     /**
@@ -464,7 +398,8 @@ public class MannWhitneyUTest { // NOPMD - this is not a Junit test class, PMD f
      *         map is <em>not</em> thread-safe, which is OK in the context of the callers)
      */
     private Map<Double, Integer> tiesMap(final double[] x, final double[] y) {
-        final Map<Double, Integer> tiesMap = new TreeMap<>(); // NOPMD - no concurrent access in the callers context
+        // NOPMD - no concurrent access in the callers context
+        final Map<Double, Integer> tiesMap = new TreeMap<>();
         for (double value : x) {
             tiesMap.merge(value, 1, Integer::sum);
         }

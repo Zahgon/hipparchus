@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.analysis.solvers;
 
 import org.hipparchus.analysis.differentiation.UnivariateDerivative1;
@@ -29,13 +27,12 @@ import org.hipparchus.exception.MathIllegalStateException;
 /**
  * Provide a default implementation for several functions useful to generic
  * solvers.
- *
  */
-public abstract class AbstractUnivariateDifferentiableSolver
-    extends BaseAbstractUnivariateSolver<UnivariateDifferentiableFunction>
-    implements UnivariateDifferentiableSolver {
+public abstract class AbstractUnivariateDifferentiableSolver extends BaseAbstractUnivariateSolver<UnivariateDifferentiableFunction> implements UnivariateDifferentiableSolver {
 
-    /** Function to solve. */
+    /**
+     * Function to solve.
+     */
     private UnivariateDifferentiableFunction function;
 
     /**
@@ -54,9 +51,7 @@ public abstract class AbstractUnivariateDifferentiableSolver
      * @param absoluteAccuracy Maximum absolute error.
      * @param functionValueAccuracy Maximum function value error.
      */
-    protected AbstractUnivariateDifferentiableSolver(final double relativeAccuracy,
-                                                     final double absoluteAccuracy,
-                                                     final double functionValueAccuracy) {
+    protected AbstractUnivariateDifferentiableSolver(final double relativeAccuracy, final double absoluteAccuracy, final double functionValueAccuracy) {
         super(relativeAccuracy, absoluteAccuracy, functionValueAccuracy);
     }
 
@@ -68,19 +63,15 @@ public abstract class AbstractUnivariateDifferentiableSolver
      * @throws MathIllegalStateException
      * if the maximal number of evaluations is exceeded.
      */
-    protected UnivariateDerivative1 computeObjectiveValueAndDerivative(double point)
-        throws MathIllegalStateException {
-        incrementEvaluationCount();
-        return function.value(new UnivariateDerivative1(point, 1.));
+    protected UnivariateDerivative1 computeObjectiveValueAndDerivative(double point) throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void setup(int maxEval, UnivariateDifferentiableFunction f,
-                         double min, double max, double startValue) {
-        super.setup(maxEval, f, min, max, startValue);
-        function = f;
+    protected void setup(int maxEval, UnivariateDifferentiableFunction f, double min, double max, double startValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

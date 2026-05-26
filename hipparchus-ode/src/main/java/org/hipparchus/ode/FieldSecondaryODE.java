@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode;
 
 import org.hipparchus.CalculusFieldElement;
@@ -41,12 +40,14 @@ import org.hipparchus.exception.MathIllegalStateException;
  */
 public interface FieldSecondaryODE<T extends CalculusFieldElement<T>> {
 
-    /** Get the dimension of the secondary state parameters.
+    /**
+     * Get the dimension of the secondary state parameters.
      * @return dimension of the secondary state parameters
      */
     int getDimension();
 
-    /** Initialize equations at the start of an ODE integration.
+    /**
+     * Initialize equations at the start of an ODE integration.
      * <p>
      * This method is called once at the start of the integration. It
      * may be used by the equations to initialize some internal data
@@ -61,10 +62,11 @@ public interface FieldSecondaryODE<T extends CalculusFieldElement<T>> {
      * @param finalTime target time for the integration
      */
     default void init(T t0, T[] primary0, T[] secondary0, T finalTime) {
-        // nothing by default
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the derivatives related to the secondary state parameters.
+    /**
+     * Compute the derivatives related to the secondary state parameters.
      * <p>
      * In some cases, additional equations can require to change the derivatives
      * of the primary state (i.e. the content of the {@code primaryDot} array).
@@ -88,7 +90,5 @@ public interface FieldSecondaryODE<T extends CalculusFieldElement<T>> {
      * @exception MathIllegalStateException if the number of functions evaluations is exceeded
      * @exception MathIllegalArgumentException if arrays dimensions do not match equations settings
      */
-    T[] computeDerivatives(T t, T[] primary, T[] primaryDot, T[] secondary)
-        throws MathIllegalArgumentException, MathIllegalStateException;
-
+    T[] computeDerivatives(T t, T[] primary, T[] primaryDot, T[] secondary) throws MathIllegalArgumentException, MathIllegalStateException;
 }

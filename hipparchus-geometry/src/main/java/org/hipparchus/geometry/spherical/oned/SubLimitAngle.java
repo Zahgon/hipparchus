@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -24,12 +23,13 @@ package org.hipparchus.geometry.spherical.oned;
 import org.hipparchus.geometry.partitioning.AbstractSubHyperplane;
 import org.hipparchus.geometry.partitioning.Region;
 
-/** This class represents sub-hyperplane for {@link LimitAngle}.
+/**
+ * This class represents sub-hyperplane for {@link LimitAngle}.
  */
-public class SubLimitAngle
-    extends AbstractSubHyperplane<Sphere1D, S1Point, LimitAngle, SubLimitAngle, Sphere1D, S1Point, LimitAngle, SubLimitAngle> {
+public class SubLimitAngle extends AbstractSubHyperplane<Sphere1D, S1Point, LimitAngle, SubLimitAngle, Sphere1D, S1Point, LimitAngle, SubLimitAngle> {
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param hyperplane underlying hyperplane
      * @param remainingRegion remaining region of the hyperplane
      */
@@ -37,41 +37,43 @@ public class SubLimitAngle
         super(hyperplane, remainingRegion);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getSize() {
-        return 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isEmpty() {
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected SubLimitAngle buildNew(final LimitAngle hyperplane, final Region<Sphere1D, S1Point, LimitAngle, SubLimitAngle> remainingRegion) {
-        return new SubLimitAngle(hyperplane, remainingRegion);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public S1Point getInteriorPoint() {
-        return getHyperplane().getLocation();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SplitSubHyperplane<Sphere1D, S1Point, LimitAngle, SubLimitAngle> split(final LimitAngle hyperplane) {
-        final double global = hyperplane.getOffset(getHyperplane().getLocation());
-        if (global < -hyperplane.getTolerance())  {
-            return new SplitSubHyperplane<>(null, this);
-        } else if (global > hyperplane.getTolerance()) {
-            return new SplitSubHyperplane<>(this, null);
-        } else {
-            return new SplitSubHyperplane<>(null, null);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

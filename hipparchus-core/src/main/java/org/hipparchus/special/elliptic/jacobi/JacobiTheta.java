@@ -21,24 +21,34 @@ import org.hipparchus.util.FastMath;
 import org.hipparchus.util.FieldSinCos;
 import org.hipparchus.util.Precision;
 
-/** Algorithm computing Jacobi theta functions.
+/**
+ * Algorithm computing Jacobi theta functions.
  * @since 2.0
  */
 public class JacobiTheta {
 
-    /** Maximum number of terms in the Fourier series. */
+    /**
+     * Maximum number of terms in the Fourier series.
+     */
     private static final int N_MAX = 100;
 
-    /** Nome. */
+    /**
+     * Nome.
+     */
     private final double q;
 
-    /** q². */
+    /**
+     * q².
+     */
     private final double qSquare;
 
-    /** ∜q. */
+    /**
+     * ∜q.
+     */
     private final double qFourth;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * <p>
      * The nome {@code q} can be computed using ratios of complete elliptic integrals
      * ({@link org.hipparchus.special.elliptic.legendre.LegendreEllipticIntegral#nome(double)
@@ -48,70 +58,25 @@ public class JacobiTheta {
      * @param q nome
      */
     public JacobiTheta(final double q) {
-        this.q       = q;
+        this.q = q;
         this.qSquare = q * q;
         this.qFourth = FastMath.sqrt(FastMath.sqrt(q));
     }
 
-    /** Get the nome.
+    /**
+     * Get the nome.
      * @return nome
      */
     public double getQ() {
-        return q;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Evaluate the Jacobi theta functions.
+    /**
+     * Evaluate the Jacobi theta functions.
      * @param z argument of the functions
      * @return container for the four Jacobi theta functions θ₁(z|τ), θ₂(z|τ), θ₃(z|τ), and θ₄(z|τ)
      */
     public Theta values(final Complex z) {
-
-        // the computation is based on Fourier series,
-        // see Digital Library of Mathematical Functions section 20.2
-        // https://dlmf.nist.gov/20.2
-
-        // base angle for Fourier Series
-        final FieldSinCos<Complex> sc1 = FastMath.sinCos(z);
-
-        // recursion rules initialization
-        double               sgn   = 1.0;
-        double               qNN   = 1.0;
-        double               qTwoN = 1.0;
-        double               qNNp1 = 1.0;
-        FieldSinCos<Complex> sc2n1 = sc1;
-
-        // Fourier series
-        Complex sum1 = sc1.sin();
-        Complex sum2 = sc1.cos();
-        Complex sum3 = Complex.ZERO;
-        Complex sum4 = Complex.ZERO;
-        for (int n = 1; n < N_MAX; ++n) {
-
-            sgn   = -sgn;              // (-1)ⁿ⁻¹     ← (-1)ⁿ
-            qNN   = qNN   * qTwoN * q; // q⁽ⁿ⁻¹⁾⁽ⁿ⁻¹⁾ ← qⁿⁿ
-            qTwoN = qTwoN * qSquare;   // q²⁽ⁿ⁻¹⁾     ← q²ⁿ
-            qNNp1 = qNNp1 * qTwoN;     // q⁽ⁿ⁻¹⁾ⁿ     ← qⁿ⁽ⁿ⁺¹⁾
-
-            sc2n1 = FieldSinCos.sum(sc2n1, sc1); // {sin|cos}([2n-1] z) ← {sin|cos}(2n z)
-            sum3  = sum3.add(sc2n1.cos().multiply(qNN));
-            sum4  = sum4.add(sc2n1.cos().multiply(sgn * qNN));
-
-            sc2n1 = FieldSinCos.sum(sc2n1, sc1); // {sin|cos}(2n z) ← {sin|cos}([2n+1] z)
-            sum1  = sum1.add(sc2n1.sin().multiply(sgn * qNNp1));
-            sum2  = sum2.add(sc2n1.cos().multiply(qNNp1));
-
-            if (FastMath.abs(qNNp1) <= Precision.EPSILON) {
-                // we have reach convergence
-                break;
-            }
-
-        }
-
-        return new Theta(sum1.multiply(2 * qFourth),
-                         sum2.multiply(2 * qFourth),
-                         sum3.twice().add(1),
-                         sum4.twice().add(1));
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

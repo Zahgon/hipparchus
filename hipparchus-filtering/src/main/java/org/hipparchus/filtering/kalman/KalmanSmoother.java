@@ -21,7 +21,6 @@ import org.hipparchus.filtering.LocalizedFilterFormats;
 import org.hipparchus.linear.MatrixDecomposer;
 import org.hipparchus.linear.RealMatrix;
 import org.hipparchus.linear.RealVector;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -54,13 +53,18 @@ import java.util.List;
  */
 public class KalmanSmoother implements KalmanObserver {
 
-    /** Decomposer to use for gain calculation. */
+    /**
+     * Decomposer to use for gain calculation.
+     */
     private final MatrixDecomposer decomposer;
 
-    /** Storage for smoother gain matrices. */
+    /**
+     * Storage for smoother gain matrices.
+     */
     private final List<SmootherData> smootherData;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param decomposer decomposer to use for the smoother gain calculations
      */
     public KalmanSmoother(final MatrixDecomposer decomposer) {
@@ -70,107 +74,61 @@ public class KalmanSmoother implements KalmanObserver {
 
     @Override
     public void init(KalmanEstimate estimate) {
-        // Add initial state to smoother data
-        smootherData.add(new SmootherData(
-                estimate.getCorrected().getTime(),
-                null,
-                null,
-                estimate.getCorrected().getState(),
-                estimate.getCorrected().getCovariance(),
-                null
-        ));
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void updatePerformed(KalmanEstimate estimate) {
-        // Smoother gain
-        // We want G = D * P^(-1)
-        // Calculate with G = (P^(-1) * D^T)^T
-        final RealMatrix smootherGain = decomposer
-                .decompose(estimate.getPredicted().getCovariance())
-                .solve(estimate.getStateCrossCovariance().transpose())
-                .transpose();
-        smootherData.add(new SmootherData(
-                estimate.getCorrected().getTime(),
-                estimate.getPredicted().getState(),
-                estimate.getPredicted().getCovariance(),
-                estimate.getCorrected().getState(),
-                estimate.getCorrected().getCovariance(),
-                smootherGain
-        ));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Backwards smooth.
+    /**
+     * Backwards smooth.
      * This is a backward pass over the filtered data, recursively calculating smoothed states, using the
      * Rauch-Tung-Striebel (RTS) formulation.
      * Note that the list result is a `LinkedList`, not an `ArrayList`.
      * @return list of smoothed states
      */
     public List<ProcessEstimate> backwardsSmooth() {
-        // Check for at least one measurement
-        if (smootherData.size() < 2) {
-            throw new MathIllegalStateException(LocalizedFilterFormats.PROCESS_AT_LEAST_ONE_MEASUREMENT);
-        }
-
-        // Initialise output
-        final LinkedList<ProcessEstimate> smootherResults = new LinkedList<>();
-
-        // Last smoothed state is the same as the filtered state
-        final SmootherData lastUpdate = smootherData.get(smootherData.size() - 1);
-        ProcessEstimate smoothedState = new ProcessEstimate(lastUpdate.getTime(),
-                lastUpdate.getCorrectedState(), lastUpdate.getCorrectedCovariance());
-        smootherResults.addFirst(smoothedState);
-
-        // Backwards recursion on the smoothed state
-        for (int i = smootherData.size() - 2; i >= 0; --i) {
-
-            // These are from equation 8.6 in Sarkka, "Bayesian Filtering and Smoothing", Cambridge, 2013.
-            final RealMatrix smootherGain = smootherData.get(i + 1).getSmootherGain();
-
-            final RealVector smoothedMean = smootherData.get(i).getCorrectedState()
-                    .add(smootherGain.operate(smoothedState.getState()
-                            .subtract(smootherData.get(i + 1).getPredictedState())));
-
-            final RealMatrix smoothedCovariance = smootherData.get(i).getCorrectedCovariance()
-                    .add(smootherGain.multiply(smoothedState.getCovariance()
-                                    .subtract(smootherData.get(i + 1).getPredictedCovariance()))
-                            .multiplyTransposed(smootherGain));
-
-            // Populate smoothed state
-            smoothedState = new ProcessEstimate(smootherData.get(i).getTime(), smoothedMean, smoothedCovariance);
-            smootherResults.addFirst(smoothedState);
-        }
-
-        return smootherResults;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Container for smoother data. */
+    /**
+     * Container for smoother data.
+     */
     private static class SmootherData {
-        /** Process time (typically the time or index of a measurement). */
+
+        /**
+         * Process time (typically the time or index of a measurement).
+         */
         private final double time;
 
-        /** Predicted state vector. */
+        /**
+         * Predicted state vector.
+         */
         private final RealVector predictedState;
 
-        /** Predicted covariance. */
+        /**
+         * Predicted covariance.
+         */
         private final RealMatrix predictedCovariance;
 
-        /** Corrected state vector. */
+        /**
+         * Corrected state vector.
+         */
         private final RealVector correctedState;
 
-        /** Corrected covariance. */
+        /**
+         * Corrected covariance.
+         */
         private final RealMatrix correctedCovariance;
 
-        /** Smoother gain. */
+        /**
+         * Smoother gain.
+         */
         private final RealMatrix smootherGain;
 
-        SmootherData(final double time,
-                     final RealVector predictedState,
-                     final RealMatrix predictedCovariance,
-                     final RealVector correctedState,
-                     final RealMatrix correctedCovariance,
-                     final RealMatrix smootherGain) {
+        SmootherData(final double time, final RealVector predictedState, final RealMatrix predictedCovariance, final RealVector correctedState, final RealMatrix correctedCovariance, final RealMatrix smootherGain) {
             this.time = time;
             this.predictedState = predictedState;
             this.predictedCovariance = predictedCovariance;
@@ -179,11 +137,12 @@ public class KalmanSmoother implements KalmanObserver {
             this.smootherGain = smootherGain;
         }
 
-        /** Get the process time.
+        /**
+         * Get the process time.
          * @return process time (typically the time or index of a measurement)
          */
         public double getTime() {
-            return time;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -191,7 +150,7 @@ public class KalmanSmoother implements KalmanObserver {
          * @return predicted state
          */
         public RealVector getPredictedState() {
-            return predictedState;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -199,7 +158,7 @@ public class KalmanSmoother implements KalmanObserver {
          * @return predicted covariance
          */
         public RealMatrix getPredictedCovariance() {
-            return predictedCovariance;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -207,7 +166,7 @@ public class KalmanSmoother implements KalmanObserver {
          * @return corrected state
          */
         public RealVector getCorrectedState() {
-            return correctedState;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -215,7 +174,7 @@ public class KalmanSmoother implements KalmanObserver {
          * @return corrected covariance
          */
         public RealMatrix getCorrectedCovariance() {
-            return correctedCovariance;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -223,8 +182,7 @@ public class KalmanSmoother implements KalmanObserver {
          * @return smoother gain
          */
         public RealMatrix getSmootherGain() {
-            return smootherGain;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
-
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -33,11 +32,12 @@ import org.hipparchus.util.FastMath;
  * chapter 9.2.
  * <p>
  * The function should be integrable.</p>
- *
  */
 public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
 
-    /** Maximum number of iterations for midpoint. */
+    /**
+     * Maximum number of iterations for midpoint.
+     */
     public static final int MIDPOINT_MAX_ITERATIONS_COUNT = 64;
 
     /**
@@ -54,15 +54,10 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
      * @exception MathIllegalArgumentException if maximal number of iterations
      * is greater than {@link #MIDPOINT_MAX_ITERATIONS_COUNT}
      */
-    public MidPointIntegrator(final double relativeAccuracy,
-                              final double absoluteAccuracy,
-                              final int minimalIterationCount,
-                              final int maximalIterationCount)
-        throws MathIllegalArgumentException {
+    public MidPointIntegrator(final double relativeAccuracy, final double absoluteAccuracy, final int minimalIterationCount, final int maximalIterationCount) throws MathIllegalArgumentException {
         super(relativeAccuracy, absoluteAccuracy, minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > MIDPOINT_MAX_ITERATIONS_COUNT) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                   maximalIterationCount, MIDPOINT_MAX_ITERATIONS_COUNT);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED, maximalIterationCount, MIDPOINT_MAX_ITERATIONS_COUNT);
         }
     }
 
@@ -78,13 +73,10 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
      * @exception MathIllegalArgumentException if maximal number of iterations
      * is greater than {@link #MIDPOINT_MAX_ITERATIONS_COUNT}
      */
-    public MidPointIntegrator(final int minimalIterationCount,
-                              final int maximalIterationCount)
-        throws MathIllegalArgumentException {
+    public MidPointIntegrator(final int minimalIterationCount, final int maximalIterationCount) throws MathIllegalArgumentException {
         super(minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > MIDPOINT_MAX_ITERATIONS_COUNT) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                   maximalIterationCount, MIDPOINT_MAX_ITERATIONS_COUNT);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED, maximalIterationCount, MIDPOINT_MAX_ITERATIONS_COUNT);
         }
     }
 
@@ -115,19 +107,12 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
      * @throws MathIllegalStateException if the maximal number of evaluations
      * is exceeded.
      */
-    private double stage(final int n,
-                         double previousStageResult,
-                         double min,
-                         double diffMaxMin)
-        throws MathIllegalStateException {
-
+    private double stage(final int n, double previousStageResult, double min, double diffMaxMin) throws MathIllegalStateException {
         // number of new points in this stage
         final long np = 1L << (n - 1);
         double sum = 0;
-
         // spacing between adjacent new points
         final double spacing = diffMaxMin / np;
-
         // the first new point
         double x = min + 0.5 * spacing;
         for (long i = 0; i < np; i++) {
@@ -138,33 +123,11 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
         return 0.5 * (previousStageResult + sum * spacing);
     }
 
-
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected double doIntegrate()
-        throws MathIllegalArgumentException, MathIllegalStateException {
-
-        final double min = getMin();
-        final double diff = getMax() - min;
-        final double midPoint = min + 0.5 * diff;
-
-        double oldt = diff * computeObjectiveValue(midPoint);
-
-        while (true) {
-            iterations.increment();
-            final int i = iterations.getCount();
-            final double t = stage(i, oldt, min, diff);
-            if (i >= getMinimalIterationCount()) {
-                final double delta = FastMath.abs(t - oldt);
-                final double rLimit =
-                        getRelativeAccuracy() * (FastMath.abs(oldt) + FastMath.abs(t)) * 0.5;
-                if ((delta <= rLimit) || (delta <= getAbsoluteAccuracy())) {
-                    return t;
-                }
-            }
-            oldt = t;
-        }
-
+    protected double doIntegrate() throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

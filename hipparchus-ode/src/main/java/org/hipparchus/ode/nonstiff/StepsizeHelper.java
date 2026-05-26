@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.nonstiff;
 
 import org.hipparchus.CalculusFieldElement;
@@ -23,37 +22,54 @@ import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.ode.LocalizedODEFormats;
 import org.hipparchus.util.FastMath;
 
-/** Helper for adaptive stepsize control.
+/**
+ * Helper for adaptive stepsize control.
  * @since 2.0
  */
-
 public class StepsizeHelper {
 
-    /** Allowed absolute scalar error. */
+    /**
+     * Allowed absolute scalar error.
+     */
     private double scalAbsoluteTolerance;
 
-    /** Allowed relative scalar error. */
+    /**
+     * Allowed relative scalar error.
+     */
     private double scalRelativeTolerance;
 
-    /** Allowed absolute vectorial error. */
+    /**
+     * Allowed absolute vectorial error.
+     */
     private double[] vecAbsoluteTolerance;
 
-    /** Allowed relative vectorial error. */
+    /**
+     * Allowed relative vectorial error.
+     */
     private double[] vecRelativeTolerance;
 
-    /** Main set dimension. */
+    /**
+     * Main set dimension.
+     */
     private int mainSetDimension;
 
-    /** User supplied initial step. */
+    /**
+     * User supplied initial step.
+     */
     private double initialStep;
 
-    /** Minimal step. */
+    /**
+     * Minimal step.
+     */
     private double minStep;
 
-    /** Maximal step. */
+    /**
+     * Maximal step.
+     */
     private double maxStep;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param minStep minimal step (sign is irrelevant, regardless of
      * integration direction, forward or backward), the last step can
      * be smaller than this
@@ -63,20 +79,18 @@ public class StepsizeHelper {
      * @param scalAbsoluteTolerance allowed absolute error
      * @param scalRelativeTolerance allowed relative error
      */
-    public StepsizeHelper(final double minStep, final double maxStep,
-                          final double scalAbsoluteTolerance,
-                          final double scalRelativeTolerance) {
-        this.minStep     = FastMath.abs(minStep);
-        this.maxStep     = FastMath.abs(maxStep);
+    public StepsizeHelper(final double minStep, final double maxStep, final double scalAbsoluteTolerance, final double scalRelativeTolerance) {
+        this.minStep = FastMath.abs(minStep);
+        this.maxStep = FastMath.abs(maxStep);
         this.initialStep = -1;
-
         this.scalAbsoluteTolerance = scalAbsoluteTolerance;
         this.scalRelativeTolerance = scalRelativeTolerance;
-        this.vecAbsoluteTolerance  = null;
-        this.vecRelativeTolerance  = null;
+        this.vecAbsoluteTolerance = null;
+        this.vecRelativeTolerance = null;
     }
 
-    /** Simple constructor..
+    /**
+     * Simple constructor..
      * @param minStep minimal step (sign is irrelevant, regardless of
      * integration direction, forward or backward), the last step can
      * be smaller than this
@@ -86,79 +100,66 @@ public class StepsizeHelper {
      * @param vecAbsoluteTolerance allowed absolute error
      * @param vecRelativeTolerance allowed relative error
      */
-    public StepsizeHelper(final double minStep, final double maxStep,
-                          final double[] vecAbsoluteTolerance,
-                          final double[] vecRelativeTolerance) {
-
-        this.minStep     = FastMath.abs(minStep);
-        this.maxStep     = FastMath.abs(maxStep);
+    public StepsizeHelper(final double minStep, final double maxStep, final double[] vecAbsoluteTolerance, final double[] vecRelativeTolerance) {
+        this.minStep = FastMath.abs(minStep);
+        this.maxStep = FastMath.abs(maxStep);
         this.initialStep = -1;
-
-       this.scalAbsoluteTolerance = 0;
-       this.scalRelativeTolerance = 0;
-       this.vecAbsoluteTolerance  = vecAbsoluteTolerance.clone();
-       this.vecRelativeTolerance  = vecRelativeTolerance.clone();
-
+        this.scalAbsoluteTolerance = 0;
+        this.scalRelativeTolerance = 0;
+        this.vecAbsoluteTolerance = vecAbsoluteTolerance.clone();
+        this.vecRelativeTolerance = vecRelativeTolerance.clone();
     }
 
-    /** Set main set dimension.
+    /**
+     * Set main set dimension.
      * @param mainSetDimension dimension of the main set
      * @exception MathIllegalArgumentException if adaptive step size integrators
      * tolerance arrays dimensions are not compatible with equations settings
      */
     protected void setMainSetDimension(final int mainSetDimension) throws MathIllegalArgumentException {
-        this.mainSetDimension = mainSetDimension;
-
-        if (vecAbsoluteTolerance != null && vecAbsoluteTolerance.length != mainSetDimension) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   mainSetDimension, vecAbsoluteTolerance.length);
-        }
-
-        if (vecRelativeTolerance != null && vecRelativeTolerance.length != mainSetDimension) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   mainSetDimension, vecRelativeTolerance.length);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the main set dimension.
+    /**
+     * Get the main set dimension.
      * @return main set dimension
      */
     public int getMainSetDimension() {
-        return mainSetDimension;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the relative tolerance for one component.
+    /**
+     * Get the relative tolerance for one component.
      * @param i component to select
      * @return relative tolerance for selected component
      */
     public double getRelativeTolerance(final int i) {
-        return vecAbsoluteTolerance == null ? scalRelativeTolerance : vecRelativeTolerance[i];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the tolerance for one component.
+    /**
+     * Get the tolerance for one component.
      * @param i component to select
      * @param scale scale factor for relative tolerance (i.e. y[i])
      * @return tolerance for selected component
      */
     public double getTolerance(final int i, final double scale) {
-        return vecAbsoluteTolerance == null ?
-               scalAbsoluteTolerance   + scalRelativeTolerance   * scale :
-               vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * scale;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the tolerance for one component.
+    /**
+     * Get the tolerance for one component.
      * @param i component to select
      * @param scale scale factor for relative tolerance (i.e. y[i])
      * @param <T> type of the field elements
      * @return tolerance for selected component
      */
     public <T extends CalculusFieldElement<T>> T getTolerance(final int i, final T scale) {
-        return vecAbsoluteTolerance == null ?
-               scale.multiply(scalRelativeTolerance).add(scalAbsoluteTolerance) :
-               scale.multiply(vecRelativeTolerance[i]).add(vecAbsoluteTolerance[i]);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Filter the integration step.
+    /**
+     * Filter the integration step.
      * @param h signed step
      * @param forward forward integration indicator
      * @param acceptSmall if true, steps smaller than the minimal value
@@ -167,30 +168,12 @@ public class StepsizeHelper {
      * @return a bounded integration step (h if no bound is reach, or a bounded value)
      * @exception MathIllegalArgumentException if the step is too small and acceptSmall is false
      */
-    public double filterStep(final double h, final boolean forward, final boolean acceptSmall)
-        throws MathIllegalArgumentException {
-
-        double filteredH = h;
-        if (FastMath.abs(h) < minStep) {
-            if (acceptSmall) {
-                filteredH = forward ? minStep : -minStep;
-            } else {
-                throw new MathIllegalArgumentException(LocalizedODEFormats.MINIMAL_STEPSIZE_REACHED_DURING_INTEGRATION,
-                                                       FastMath.abs(h), minStep, true);
-            }
-        }
-
-        if (filteredH > maxStep) {
-            filteredH = maxStep;
-        } else if (filteredH < -maxStep) {
-            filteredH = -maxStep;
-        }
-
-        return filteredH;
-
+    public double filterStep(final double h, final boolean forward, final boolean acceptSmall) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Filter the integration step.
+    /**
+     * Filter the integration step.
      * @param h signed step
      * @param forward forward integration indicator
      * @param acceptSmall if true, steps smaller than the minimal value
@@ -200,30 +183,12 @@ public class StepsizeHelper {
      * @return a bounded integration step (h if no bound is reach, or a bounded value)
      * @exception MathIllegalArgumentException if the step is too small and acceptSmall is false
      */
-    public <T extends CalculusFieldElement<T>> T filterStep(final T h, final boolean forward, final boolean acceptSmall)
-        throws MathIllegalArgumentException {
-
-        T filteredH = h;
-        if (h.abs().subtract(minStep).getReal() < 0) {
-            if (acceptSmall) {
-                filteredH = h.getField().getZero().add(forward ? minStep : -minStep);
-            } else {
-                throw new MathIllegalArgumentException(LocalizedODEFormats.MINIMAL_STEPSIZE_REACHED_DURING_INTEGRATION,
-                                                       FastMath.abs(h.getReal()), minStep, true);
-            }
-        }
-
-        if (filteredH.subtract(maxStep).getReal() > 0) {
-            filteredH = h.getField().getZero().newInstance(maxStep);
-        } else if (filteredH.add(maxStep).getReal() < 0) {
-            filteredH = h.getField().getZero().newInstance(-maxStep);
-        }
-
-        return filteredH;
-
+    public <T extends CalculusFieldElement<T>> T filterStep(final T h, final boolean forward, final boolean acceptSmall) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set the initial step size.
+    /**
+     * Set the initial step size.
      * <p>This method allows the user to specify an initial positive
      * step size instead of letting the integrator guess it by
      * itself. If this method is not called before integration is
@@ -235,39 +200,38 @@ public class StepsizeHelper {
      * ignore the value and compute the initial step size by itself)
      */
     public void setInitialStepSize(final double initialStepSize) {
-        if ((initialStepSize < minStep) || (initialStepSize > maxStep)) {
-            initialStep = -1.0;
-        } else {
-            initialStep = initialStepSize;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the initial step.
+    /**
+     * Get the initial step.
      * @return initial step
      */
     public double getInitialStep() {
-        return initialStep;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the minimal step.
+    /**
+     * Get the minimal step.
      * @return minimal step
      */
     public double getMinStep() {
-        return minStep;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the maximal step.
+    /**
+     * Get the maximal step.
      * @return maximal step
      */
     public double getMaxStep() {
-        return maxStep;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a dummy step size.
+    /**
+     * Get a dummy step size.
      * @return geometric mean of {@link #getMinStep()} and {@link #getMaxStep()}
      */
     public double getDummyStepsize() {
-        return FastMath.sqrt(minStep * maxStep);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

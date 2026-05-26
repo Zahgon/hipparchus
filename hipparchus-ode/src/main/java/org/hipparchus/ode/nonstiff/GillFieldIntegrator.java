@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode.nonstiff;
 
 import org.hipparchus.CalculusFieldElement;
@@ -29,11 +27,10 @@ import org.hipparchus.ode.FieldODEStateAndDerivative;
 import org.hipparchus.ode.nonstiff.interpolators.GillFieldStateInterpolator;
 import org.hipparchus.util.MathArrays;
 
-
 /**
  * This class implements the Gill fourth order Runge-Kutta
  * integrator for Ordinary Differential Equations .
-
+ *
  * <p>This method is an explicit Runge-Kutta method, its Butcher-array
  * is the following one :</p>
  * <pre>
@@ -53,14 +50,15 @@ import org.hipparchus.util.MathArrays;
  * @see LutherFieldIntegrator
  * @param <T> the type of the field elements
  */
+public class GillFieldIntegrator<T extends CalculusFieldElement<T>> extends FixedStepRungeKuttaFieldIntegrator<T> {
 
-public class GillFieldIntegrator<T extends CalculusFieldElement<T>>
-    extends FixedStepRungeKuttaFieldIntegrator<T> {
-
-    /** Name of integration scheme. */
+    /**
+     * Name of integration scheme.
+     */
     public static final String METHOD_NAME = GillIntegrator.METHOD_NAME;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * Build a fourth-order Gill integrator with the given step.
      * @param field field to which the time and state vector elements belong
      * @param step integration step
@@ -69,62 +67,35 @@ public class GillFieldIntegrator<T extends CalculusFieldElement<T>>
         super(field, METHOD_NAME, step);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[] getC() {
-        final T[] c = MathArrays.buildArray(getField(), 3);
-        c[0] = FieldExplicitRungeKuttaIntegrator.fraction(getField(), 1, 2);
-        c[1] = c[0];
-        c[2] = getField().getOne();
-        return c;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[][] getA() {
-
-        final T two     = getField().getZero().add(2);
-        final T sqrtTwo = two.sqrt();
-
-        final T[][] a = MathArrays.buildArray(getField(), 3, -1);
-        for (int i = 0; i < a.length; ++i) {
-            a[i] = MathArrays.buildArray(getField(), i + 1);
-        }
-        a[0][0] = FieldExplicitRungeKuttaIntegrator.fraction(getField(), 1, 2);
-        a[1][0] = sqrtTwo.subtract(1).multiply(0.5);
-        a[1][1] = sqrtTwo.subtract(2).multiply(-0.5);
-        a[2][0] = getField().getZero();
-        a[2][1] = sqrtTwo.multiply(-0.5);
-        a[2][2] = sqrtTwo.add(2).multiply(0.5);
-        return a;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[] getB() {
-
-        final T two     = getField().getZero().add(2);
-        final T sqrtTwo = two.sqrt();
-
-        final T[] b = MathArrays.buildArray(getField(), 4);
-        b[0] = FieldExplicitRungeKuttaIntegrator.fraction(getField(), 1, 6);
-        b[1] = sqrtTwo.subtract(2).divide(-6);
-        b[2] = sqrtTwo.add(2).divide(6);
-        b[3] = b[0];
-
-        return b;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected GillFieldStateInterpolator<T>
-        createInterpolator(final boolean forward, T[][] yDotK,
-                           final FieldODEStateAndDerivative<T> globalPreviousState,
-                           final FieldODEStateAndDerivative<T> globalCurrentState,
-                           final FieldEquationsMapper<T> mapper) {
-        return new GillFieldStateInterpolator<>(getField(), forward, yDotK, globalPreviousState, globalCurrentState,
-                                                globalPreviousState, globalCurrentState, mapper);
+    protected GillFieldStateInterpolator<T> createInterpolator(final boolean forward, T[][] yDotK, final FieldODEStateAndDerivative<T> globalPreviousState, final FieldODEStateAndDerivative<T> globalCurrentState, final FieldEquationsMapper<T> mapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

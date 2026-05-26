@@ -14,16 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.random;
 
 import java.util.Arrays;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 
@@ -33,16 +30,21 @@ import org.hipparchus.exception.MathIllegalArgumentException;
  * Components of generated vectors follow (independent) Gaussian distributions,
  * with parameters supplied in the constructor.
  */
-public class UncorrelatedRandomVectorGenerator
-    implements RandomVectorGenerator {
+public class UncorrelatedRandomVectorGenerator implements RandomVectorGenerator {
 
-    /** Underlying scalar generator. */
+    /**
+     * Underlying scalar generator.
+     */
     private final NormalizedRandomGenerator generator;
 
-    /** Mean vector. */
+    /**
+     * Mean vector.
+     */
     private final double[] mean;
 
-    /** Standard deviation vector. */
+    /**
+     * Standard deviation vector.
+     */
     private final double[] standardDeviation;
 
     /**
@@ -55,11 +57,9 @@ public class UncorrelatedRandomVectorGenerator
      * @param standardDeviation standard deviation for each component
      * @param generator underlying generator for uncorrelated normalized components
      */
-    public UncorrelatedRandomVectorGenerator(double[] mean, double[] standardDeviation,
-                                             NormalizedRandomGenerator generator) {
+    public UncorrelatedRandomVectorGenerator(double[] mean, double[] standardDeviation, NormalizedRandomGenerator generator) {
         if (mean.length != standardDeviation.length) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH, mean.length,
-                                                   standardDeviation.length);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH, mean.length, standardDeviation.length);
         }
         this.mean = mean.clone();
         this.standardDeviation = standardDeviation.clone();
@@ -89,13 +89,6 @@ public class UncorrelatedRandomVectorGenerator
      */
     @Override
     public double[] nextVector() {
-
-        double[] random = new double[mean.length];
-        for (int i = 0; i < random.length; ++i) {
-            random[i] = mean[i] + standardDeviation[i] * generator.nextNormalizedDouble();
-        }
-
-        return random;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

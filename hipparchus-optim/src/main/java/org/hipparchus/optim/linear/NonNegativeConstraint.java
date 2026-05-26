@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -26,13 +25,16 @@ import org.hipparchus.optim.OptimizationData;
 /**
  * A constraint for a linear optimization problem indicating whether all
  * variables must be restricted to non-negative values.
- *
  */
 public class NonNegativeConstraint implements OptimizationData {
-    /** Whether the variables are all positive. */
+
+    /**
+     * Whether the variables are all positive.
+     */
     private final boolean isRestricted;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param restricted If {@code true}, all the variables must be positive.
      */
     public NonNegativeConstraint(boolean restricted) {
@@ -46,6 +48,6 @@ public class NonNegativeConstraint implements OptimizationData {
      * @return {@code true} if all the variables must be positive.
      */
     public boolean isRestrictedToNonNegative() {
-        return isRestricted;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

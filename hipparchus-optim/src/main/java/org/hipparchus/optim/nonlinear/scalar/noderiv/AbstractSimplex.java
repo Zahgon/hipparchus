@@ -14,17 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.optim.nonlinear.scalar.noderiv;
 
 import java.util.Arrays;
 import java.util.Comparator;
-
 import org.hipparchus.analysis.MultivariateFunction;
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -50,11 +47,20 @@ import org.hipparchus.util.MathUtils;
  * @see SimplexOptimizer
  */
 public abstract class AbstractSimplex implements OptimizationData {
-    /** Simplex. */
+
+    /**
+     * Simplex.
+     */
     private PointValuePair[] simplex;
-    /** Start simplex configuration. */
+
+    /**
+     * Start simplex configuration.
+     */
     private double[][] startConfiguration;
-    /** Simplex dimension (must be equal to {@code simplex.length - 1}). */
+
+    /**
+     * Simplex dimension (must be equal to {@code simplex.length - 1}).
+     */
     private final int dimension;
 
     /**
@@ -72,8 +78,7 @@ public abstract class AbstractSimplex implements OptimizationData {
      * @param n Dimension of the simplex.
      * @param sideLength Length of the sides of the hypercube.
      */
-    protected AbstractSimplex(int n,
-                              double sideLength) {
+    protected AbstractSimplex(int n, double sideLength) {
         this(createHypercubeSteps(n, sideLength));
     }
 
@@ -103,7 +108,6 @@ public abstract class AbstractSimplex implements OptimizationData {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.ZERO_NOT_ALLOWED);
         }
         dimension = steps.length;
-
         // Only the relative position of the n final vertices with respect
         // to the first one are stored.
         startConfiguration = new double[dimension][dimension];
@@ -132,24 +136,19 @@ public abstract class AbstractSimplex implements OptimizationData {
      */
     protected AbstractSimplex(final double[][] referenceSimplex) {
         if (referenceSimplex.length <= 0) {
-            throw new MathIllegalArgumentException(LocalizedOptimFormats.SIMPLEX_NEED_ONE_POINT,
-                                                   referenceSimplex.length);
+            throw new MathIllegalArgumentException(LocalizedOptimFormats.SIMPLEX_NEED_ONE_POINT, referenceSimplex.length);
         }
         dimension = referenceSimplex.length - 1;
-
         // Only the relative position of the n final vertices with respect
         // to the first one are stored.
         startConfiguration = new double[dimension][dimension];
         final double[] ref0 = referenceSimplex[0];
-
         // Loop over vertices.
         for (int i = 0; i < referenceSimplex.length; i++) {
             final double[] refI = referenceSimplex[i];
-
             // Safety checks.
             if (refI.length != dimension) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                       refI.length, dimension);
+                throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH, refI.length, dimension);
             }
             for (int j = 0; j < i; j++) {
                 final double[] refJ = referenceSimplex[j];
@@ -161,11 +160,9 @@ public abstract class AbstractSimplex implements OptimizationData {
                     }
                 }
                 if (allEquals) {
-                    throw new MathIllegalArgumentException(LocalizedOptimFormats.EQUAL_VERTICES_IN_SIMPLEX,
-                                                           i, j);
+                    throw new MathIllegalArgumentException(LocalizedOptimFormats.EQUAL_VERTICES_IN_SIMPLEX, i, j);
                 }
             }
-
             // Store vertex i position relative to vertex 0 position.
             if (i > 0) {
                 final double[] confI = startConfiguration[i - 1];
@@ -182,7 +179,7 @@ public abstract class AbstractSimplex implements OptimizationData {
      * @return the dimension of the simplex.
      */
     public int getDimension() {
-        return dimension;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -193,7 +190,7 @@ public abstract class AbstractSimplex implements OptimizationData {
      * @return the size of the simplex.
      */
     public int getSize() {
-        return simplex.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -205,8 +202,7 @@ public abstract class AbstractSimplex implements OptimizationData {
      * @throws org.hipparchus.exception.MathIllegalStateException
      * if the algorithm fails to converge.
      */
-    public abstract void iterate(MultivariateFunction evaluationFunction,
-                                 Comparator<PointValuePair> comparator);
+    public abstract void iterate(MultivariateFunction evaluationFunction, Comparator<PointValuePair> comparator);
 
     /**
      * Build an initial simplex.
@@ -216,24 +212,7 @@ public abstract class AbstractSimplex implements OptimizationData {
      * simplex dimension.
      */
     public void build(final double[] startPoint) {
-        if (dimension != startPoint.length) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   dimension, startPoint.length);
-        }
-
-        // Set first vertex.
-        simplex = new PointValuePair[dimension + 1];
-        simplex[0] = new PointValuePair(startPoint, Double.NaN);
-
-        // Set remaining vertices.
-        for (int i = 0; i < dimension; i++) {
-            final double[] confI = startConfiguration[i];
-            final double[] vertexI = new double[dimension];
-            for (int k = 0; k < dimension; k++) {
-                vertexI[k] = startPoint[k] + confI[k];
-            }
-            simplex[i + 1] = new PointValuePair(vertexI, Double.NaN);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -244,19 +223,8 @@ public abstract class AbstractSimplex implements OptimizationData {
      * @throws org.hipparchus.exception.MathIllegalStateException
      * if the maximal number of evaluations is exceeded.
      */
-    public void evaluate(final MultivariateFunction evaluationFunction,
-                         final Comparator<PointValuePair> comparator) {
-        // Evaluate the objective function at all non-evaluated simplex points.
-        for (int i = 0; i < simplex.length; i++) {
-            final PointValuePair vertex = simplex[i];
-            final double[] point = vertex.getPointRef();
-            if (Double.isNaN(vertex.getValue())) {
-                simplex[i] = new PointValuePair(point, evaluationFunction.value(point), false);
-            }
-        }
-
-        // Sort the simplex from best to worst.
-        Arrays.sort(simplex, comparator);
+    public void evaluate(final MultivariateFunction evaluationFunction, final Comparator<PointValuePair> comparator) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -266,16 +234,8 @@ public abstract class AbstractSimplex implements OptimizationData {
      * @param comparator Comparator to use for sorting the simplex vertices
      * from best to worst.
      */
-    protected void replaceWorstPoint(PointValuePair pointValuePair,
-                                     final Comparator<PointValuePair> comparator) {
-        for (int i = 0; i < dimension; i++) {
-            if (comparator.compare(simplex[i], pointValuePair) > 0) {
-                PointValuePair tmp = simplex[i];
-                simplex[i] = pointValuePair;
-                pointValuePair = tmp;
-            }
-        }
-        simplex[dimension] = pointValuePair;
+    protected void replaceWorstPoint(PointValuePair pointValuePair, final Comparator<PointValuePair> comparator) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -284,9 +244,7 @@ public abstract class AbstractSimplex implements OptimizationData {
      * @return all the simplex points.
      */
     public PointValuePair[] getPoints() {
-        final PointValuePair[] copy = new PointValuePair[simplex.length];
-        System.arraycopy(simplex, 0, copy, 0, simplex.length);
-        return copy;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -296,8 +254,7 @@ public abstract class AbstractSimplex implements OptimizationData {
      * @return the point at location {@code index}.
      */
     public PointValuePair getPoint(int index) {
-        MathUtils.checkRangeInclusive(index, 0, simplex.length - 1);
-        return simplex[index];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -308,8 +265,7 @@ public abstract class AbstractSimplex implements OptimizationData {
      * @param point New value.
      */
     protected void setPoint(int index, PointValuePair point) {
-        MathUtils.checkRangeInclusive(index, 0, simplex.length - 1);
-        simplex[index] = point;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -319,11 +275,7 @@ public abstract class AbstractSimplex implements OptimizationData {
      * @param points New Points.
      */
     protected void setPoints(PointValuePair[] points) {
-        if (points.length != simplex.length) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   points.length, simplex.length);
-        }
-        simplex = points.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -333,8 +285,7 @@ public abstract class AbstractSimplex implements OptimizationData {
      * @param sideLength Length of the sides of the hypercube.
      * @return the steps.
      */
-    private static double[] createHypercubeSteps(int n,
-                                                 double sideLength) {
+    private static double[] createHypercubeSteps(int n, double sideLength) {
         final double[] steps = new double[n];
         for (int i = 0; i < n; i++) {
             steps[i] = sideLength;

@@ -14,18 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.linear;
 
 import org.hipparchus.CalculusFieldElement;
 
-/** Matrix decomposer using QR-decomposition.
+/**
+ * Matrix decomposer using QR-decomposition.
  * @param <T> the type of the field elements
  * @since 2.2
  */
 public class FieldQRDecomposer<T extends CalculusFieldElement<T>> implements FieldMatrixDecomposer<T> {
 
-    /** Threshold under which a matrix is considered singular. */
+    /**
+     * Threshold under which a matrix is considered singular.
+     */
     private final T singularityThreshold;
 
     /**
@@ -37,10 +39,11 @@ public class FieldQRDecomposer<T extends CalculusFieldElement<T>> implements Fie
         this.singularityThreshold = singularityThreshold;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldDecompositionSolver<T> decompose(final FieldMatrix<T> a) {
-        return new FieldQRDecomposition<>(a, singularityThreshold).getSolver();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

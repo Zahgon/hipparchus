@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,78 +21,89 @@
 package org.hipparchus.geometry.spherical.twod;
 
 import java.util.List;
-
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
 import org.hipparchus.geometry.spherical.oned.Arc;
 import org.hipparchus.util.FastMath;
 import org.hipparchus.util.MathUtils;
 
-/** Spherical polygons boundary edge.
+/**
+ * Spherical polygons boundary edge.
  * @see SphericalPolygonsSet#getBoundaryLoops()
  * @see Vertex
  */
 public class Edge {
 
-    /** Start vertex. */
+    /**
+     * Start vertex.
+     */
     private final Vertex start;
 
-    /** End vertex. */
+    /**
+     * End vertex.
+     */
     private Vertex end;
 
-    /** Length of the arc. */
+    /**
+     * Length of the arc.
+     */
     private double length;
 
-    /** Circle supporting the edge. */
+    /**
+     * Circle supporting the edge.
+     */
     private final Circle circle;
 
-    /** Build an edge not contained in any node yet.
+    /**
+     * Build an edge not contained in any node yet.
      * @param start start vertex
      * @param end end vertex
      * @param length length of the arc (it can be greater than \( \pi \))
      * @param circle circle supporting the edge
      */
     Edge(final Vertex start, final Vertex end, final double length, final Circle circle) {
-
-        this.start  = start;
-        this.end    = end;
+        this.start = start;
+        this.end = end;
         this.length = length;
         this.circle = circle;
-
         // connect the vertices back to the edge
         start.setOutgoing(this);
         end.setIncoming(this);
-
     }
 
-    /** Get start vertex.
+    /**
+     * Get start vertex.
      * @return start vertex
      */
     public Vertex getStart() {
-        return start;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get end vertex.
+    /**
+     * Get end vertex.
      * @return end vertex
      */
     public Vertex getEnd() {
-        return end;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the length of the arc.
+    /**
+     * Get the length of the arc.
      * @return length of the arc (can be greater than \( \pi \))
      */
     public double getLength() {
-        return length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the circle supporting this edge.
+    /**
+     * Get the circle supporting this edge.
      * @return circle supporting this edge
      */
     public Circle getCircle() {
-        return circle;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get an intermediate point.
+    /**
+     * Get an intermediate point.
      * <p>
      * The angle along the edge should normally be between 0 and {@link #getLength()}
      * in order to remain within edge limits. However, there are no checks on the
@@ -104,25 +114,27 @@ public class Edge {
      * @return an intermediate point
      */
     public Vector3D getPointAt(final double alpha) {
-        return circle.getPointAt(alpha + circle.getPhase(start.getLocation().getVector()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set the length.
+    /**
+     * Set the length.
      * @param length new length
      */
     void setLength(final double length) {
-        this.length = length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Connect the instance with a following edge.
+    /**
+     * Connect the instance with a following edge.
      * @param next edge following the instance
      */
     void setNextEdge(final Edge next) {
-        end = next.getStart();
-        end.setIncoming(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Split the edge.
+    /**
+     * Split the edge.
      * <p>
      * Once split, this edge is not referenced anymore by the vertices,
      * it is replaced by the two or three sub-edges and intermediate splitting
@@ -133,73 +145,11 @@ public class Edge {
      * @param insideList list where to put parts that are inside the split circle
      */
     void split(final Circle splitCircle, final List<Edge> outsideList, final List<Edge> insideList) {
-
-        // get the inside arc, synchronizing its phase with the edge itself
-        final double edgeStart        = circle.getPhase(start.getLocation().getVector());
-        final Arc    arc              = circle.getInsideArc(splitCircle);
-        final double arcRelativeStart = MathUtils.normalizeAngle(arc.getInf(), edgeStart + FastMath.PI) - edgeStart;
-        final double arcRelativeEnd   = arcRelativeStart + arc.getSize();
-        final double unwrappedEnd     = arcRelativeEnd - MathUtils.TWO_PI;
-
-        // build the sub-edges
-        final double tolerance = circle.getTolerance();
-        Vertex previousVertex = start;
-        if (unwrappedEnd >= length - tolerance) {
-
-            // the edge is entirely contained inside the circle
-            // we don't split anything
-            insideList.add(this);
-
-        } else {
-
-            // there are at least some parts of the edge that should be outside
-            // (even is they are later be filtered out as being too small)
-            double alreadyManagedLength = 0;
-            if (unwrappedEnd >= 0) {
-                // the start of the edge is inside the circle
-                previousVertex = addSubEdge(previousVertex,
-                                            new Vertex(new S2Point(circle.getPointAt(edgeStart + unwrappedEnd))),
-                                            unwrappedEnd, insideList);
-                alreadyManagedLength = unwrappedEnd;
-            }
-
-            if (arcRelativeStart >= length - tolerance) {
-                // the edge ends while still outside the circle
-                if (unwrappedEnd >= 0) {
-                    addSubEdge(previousVertex, end,
-                               length - alreadyManagedLength, outsideList);
-                } else {
-                    // the edge is entirely outside the circle
-                    // we don't split anything
-                    outsideList.add(this);
-                }
-            } else {
-                // the edge is long enough to enter inside the circle
-                previousVertex = addSubEdge(previousVertex,
-                                            new Vertex(new S2Point(circle.getPointAt(edgeStart + arcRelativeStart))),
-                                            arcRelativeStart - alreadyManagedLength, outsideList);
-                alreadyManagedLength = arcRelativeStart;
-
-                if (arcRelativeEnd >= length - tolerance) {
-                    // the edge ends while still inside the circle
-                    addSubEdge(previousVertex, end,
-                               length - alreadyManagedLength, insideList);
-                } else {
-                    // the edge is long enough to exit outside the circle
-                    previousVertex = addSubEdge(previousVertex,
-                                                new Vertex(new S2Point(circle.getPointAt(edgeStart + arcRelativeEnd))),
-                                                arcRelativeEnd - alreadyManagedLength, insideList);
-                    alreadyManagedLength = arcRelativeEnd;
-                    addSubEdge(previousVertex, end,
-                               length - alreadyManagedLength, outsideList);
-                }
-            }
-
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Add a sub-edge to a list if long enough.
+    /**
+     * Add a sub-edge to a list if long enough.
      * <p>
      * If the length of the sub-edge to add is smaller than the {@link Circle#getTolerance()}
      * tolerance of the support circle, it will be ignored.
@@ -212,17 +162,13 @@ public class Edge {
      * added, {@code subStart} if the edge was too small and therefore ignored)
      */
     private Vertex addSubEdge(final Vertex subStart, final Vertex subEnd, final double subLength, final List<Edge> list) {
-
         if (subLength <= circle.getTolerance()) {
             // the edge is too short, we ignore it
             return subStart;
         }
-
         // really add the edge
         final Edge edge = new Edge(subStart, subEnd, subLength, circle);
         list.add(edge);
         return subEnd;
-
     }
-
 }

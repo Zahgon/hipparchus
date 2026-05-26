@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.stat.descriptive.rank;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.NullArgumentException;
 import org.hipparchus.stat.descriptive.AbstractStorelessUnivariateStatistic;
@@ -44,16 +42,21 @@ import org.hipparchus.util.MathUtils;
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.
  */
-public class Min extends AbstractStorelessUnivariateStatistic
-    implements AggregatableStatistic<Min>, Serializable {
+public class Min extends AbstractStorelessUnivariateStatistic implements AggregatableStatistic<Min>, Serializable {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20150412L;
 
-    /** Number of values that have been added */
+    /**
+     * Number of values that have been added
+     */
     private long n;
 
-    /** Current value of the statistic */
+    /**
+     * Current value of the statistic
+     */
     private double value;
 
     /**
@@ -73,48 +76,48 @@ public class Min extends AbstractStorelessUnivariateStatistic
      */
     public Min(Min original) throws NullArgumentException {
         MathUtils.checkNotNull(original);
-        this.n     = original.n;
+        this.n = original.n;
         this.value = original.value;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void increment(final double d) {
-        if (d < value || Double.isNaN(value)) {
-            value = d;
-        }
-        n++;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
-        value = Double.NaN;
-        n = 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getResult() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long getN() {
-        return n;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void aggregate(Min other) {
-        MathUtils.checkNotNull(other);
-        if (other.n > 0) {
-            if (other.value < this.value || Double.isNaN(this.value)) {
-                this.value = other.value;
-            }
-            this.n += other.n;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -140,25 +143,15 @@ public class Min extends AbstractStorelessUnivariateStatistic
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values,final int begin, final int length)
-        throws MathIllegalArgumentException {
-
-        double min = Double.NaN;
-        if (MathArrays.verifyValues(values, begin, length)) {
-            min = values[begin];
-            for (int i = begin; i < begin + length; i++) {
-                if (!Double.isNaN(values[i])) {
-                    min = (min < values[i]) ? min : values[i];
-                }
-            }
-        }
-        return min;
+    public double evaluate(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Min copy() {
-        return new Min(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

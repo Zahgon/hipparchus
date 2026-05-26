@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -30,22 +29,36 @@ import org.hipparchus.optim.nonlinear.scalar.GoalType;
 
 /**
  * Base class for a univariate scalar function optimizer.
- *
  */
-public abstract class UnivariateOptimizer
-    extends BaseOptimizer<UnivariatePointValuePair> {
-    /** Objective function. */
+public abstract class UnivariateOptimizer extends BaseOptimizer<UnivariatePointValuePair> {
+
+    /**
+     * Objective function.
+     */
     private UnivariateFunction function;
-    /** Type of optimization. */
+
+    /**
+     * Type of optimization.
+     */
     private GoalType goal;
-    /** Initial guess. */
+
+    /**
+     * Initial guess.
+     */
     private double start;
-    /** Lower bound. */
+
+    /**
+     * Lower bound.
+     */
     private double min;
-    /** Upper bound. */
+
+    /**
+     * Upper bound.
+     */
     private double max;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param checker Convergence checker.
      */
     protected UnivariateOptimizer(ConvergenceChecker<UnivariatePointValuePair> checker) {
@@ -68,17 +81,16 @@ public abstract class UnivariateOptimizer
      * evaluations is exceeded.
      */
     @Override
-    public UnivariatePointValuePair optimize(OptimizationData... optData)
-        throws MathIllegalStateException {
-        // Perform computation.
-        return super.optimize(optData);
+    public UnivariatePointValuePair optimize(OptimizationData... optData) throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get optimization type.
+    /**
+     * Get optimization type.
      * @return the optimization type
      */
     public GoalType getGoalType() {
-        return goal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -95,47 +107,31 @@ public abstract class UnivariateOptimizer
      */
     @Override
     protected void parseOptimizationData(OptimizationData... optData) {
-        // Allow base class to register its own data.
-        super.parseOptimizationData(optData);
-
-        // The existing values (as set by the previous call) are reused if
-        // not provided in the argument list.
-        for (OptimizationData data : optData) {
-            if (data instanceof SearchInterval) {
-                final SearchInterval interval = (SearchInterval) data;
-                min = interval.getMin();
-                max = interval.getMax();
-                start = interval.getStartValue();
-                continue;
-            }
-            if (data instanceof UnivariateObjectiveFunction) {
-                function = ((UnivariateObjectiveFunction) data).getObjectiveFunction();
-                continue;
-            }
-            if (data instanceof GoalType) {
-                goal = (GoalType) data;
-                continue;
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get initial guess.
+    /**
+     * Get initial guess.
      * @return the initial guess
      */
     public double getStartValue() {
-        return start;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    /** Get lower bounds.
+
+    /**
+     * Get lower bounds.
      * @return the lower bounds
      */
     public double getMin() {
-        return min;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    /** Get upper bounds.
+
+    /**
+     * Get upper bounds.
      * @return the upper bounds
      */
     public double getMax() {
-        return max;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -149,7 +145,6 @@ public abstract class UnivariateOptimizer
      * evaluations is exceeded.
      */
     protected double computeObjectiveValue(double x) {
-        super.incrementEvaluationCount();
-        return function.value(x);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

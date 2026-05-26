@@ -14,11 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.linear;
 
 import java.util.Arrays;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.util.FastMath;
@@ -38,11 +36,19 @@ import org.hipparchus.util.FastMath;
  */
 public class SemiDefinitePositiveCholeskyDecomposition {
 
-    /** Default threshold below which elements are not considered positive. */
+    /**
+     * Default threshold below which elements are not considered positive.
+     */
     public static final double POSITIVITY_THRESHOLD = 1.0e-15;
-    /** Cached value of L. */
+
+    /**
+     * Cached value of L.
+     */
     private RealMatrix cachedL;
-    /** Cached value of LT. */
+
+    /**
+     * Cached value of LT.
+     */
     private RealMatrix cachedLT;
 
     /**
@@ -62,25 +68,19 @@ public class SemiDefinitePositiveCholeskyDecomposition {
      * @param positivityThreshold threshold below which elements are not considered positive
      * @throws MathIllegalArgumentException if the matrix is not square.
      */
-    public SemiDefinitePositiveCholeskyDecomposition(final RealMatrix matrix,
-                                                     final double positivityThreshold) {
+    public SemiDefinitePositiveCholeskyDecomposition(final RealMatrix matrix, final double positivityThreshold) {
         if (!matrix.isSquare()) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NON_SQUARE_MATRIX,
-                                                   matrix.getRowDimension(), matrix.getColumnDimension());
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NON_SQUARE_MATRIX, matrix.getRowDimension(), matrix.getColumnDimension());
         }
-
         final int order = matrix.getRowDimension();
         final double[][] lTData = matrix.getData();
-        cachedL  = MatrixUtils.createRealMatrix(lTData);
-        int def  = 1;
-
+        cachedL = MatrixUtils.createRealMatrix(lTData);
+        int def = 1;
         final double[] zeroArray = new double[order];
         Arrays.fill(zeroArray, 0.);
-
         for (int i = 0; i < order; ++i) {
             cachedL.setColumn(i, zeroArray);
         }
-
         for (int i = 0; i < order; ++i) {
             for (int j = 0; j < i + 1; j++) {
                 double s = lTData[i][j];
@@ -103,16 +103,12 @@ public class SemiDefinitePositiveCholeskyDecomposition {
                     }
                     cachedL.setEntry(j, j, FastMath.sqrt(s));
                 }
-
             }
         }
-
         cachedLT = cachedL.transpose();
-
         if (def < 0) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.NEGATIVE_DEFINITE_MATRIX);
         }
-
     }
 
     /**
@@ -121,8 +117,7 @@ public class SemiDefinitePositiveCholeskyDecomposition {
      * @return the L matrix
      */
     public RealMatrix getL() {
-        // return the cached matrix
-        return cachedL;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -131,8 +126,6 @@ public class SemiDefinitePositiveCholeskyDecomposition {
      * @return the transpose of the matrix L of the decomposition
      */
     public RealMatrix getLT() {
-         // return the cached matrix
-        return cachedLT;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

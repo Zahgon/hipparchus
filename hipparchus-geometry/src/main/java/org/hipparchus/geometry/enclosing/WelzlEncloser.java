@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,12 +22,12 @@ package org.hipparchus.geometry.enclosing;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hipparchus.exception.MathRuntimeException;
 import org.hipparchus.geometry.Point;
 import org.hipparchus.geometry.Space;
 
-/** Class implementing Emo Welzl algorithm to find the smallest enclosing ball in linear time.
+/**
+ * Class implementing Emo Welzl algorithm to find the smallest enclosing ball in linear time.
  * <p>
  * The class implements the algorithm described in paper <a
  * href="http://www.inf.ethz.ch/personal/emo/PublFiles/SmallEnclDisk_LNCS555_91.pdf">Smallest
@@ -45,13 +44,18 @@ import org.hipparchus.geometry.Space;
  */
 public class WelzlEncloser<S extends Space, P extends Point<S, P>> implements Encloser<S, P> {
 
-    /** Tolerance below which points are consider to be identical. */
+    /**
+     * Tolerance below which points are consider to be identical.
+     */
     private final double tolerance;
 
-    /** Generator for balls on support. */
+    /**
+     * Generator for balls on support.
+     */
     private final SupportBallGenerator<S, P> generator;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param tolerance below which points are consider to be identical
      * @param generator generator for balls on support
      */
@@ -60,44 +64,33 @@ public class WelzlEncloser<S extends Space, P extends Point<S, P>> implements En
         this.generator = generator;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public EnclosingBall<S, P> enclose(final Iterable<P> points) {
-
-        if (points == null || !points.iterator().hasNext()) {
-            // return an empty ball
-            return generator.ballOnSupport(new ArrayList<>());
-        }
-
-        // Emo Welzl algorithm with Bernd Gärtner and Linus Källberg improvements
-        return pivotingBall(points);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute enclosing ball using Gärtner's pivoting heuristic.
+    /**
+     * Compute enclosing ball using Gärtner's pivoting heuristic.
      * @param points points to be enclosed
      * @return enclosing ball
      */
     private EnclosingBall<S, P> pivotingBall(final Iterable<P> points) {
-
         final P first = points.iterator().next();
         final List<P> extreme = new ArrayList<>(first.getSpace().getDimension() + 1);
         final List<P> support = new ArrayList<>(first.getSpace().getDimension() + 1);
-
         // start with only first point selected as a candidate support
         extreme.add(first);
         EnclosingBall<S, P> ball = moveToFrontBall(extreme, extreme.size(), support);
-
         while (true) {
-
             // select the point farthest to current ball
             final P farthest = selectFarthest(points, ball);
-
             if (ball.contains(farthest, tolerance)) {
                 // we have found a ball containing all points
                 return ball;
             }
-
             // recurse search, restricted to the small subset containing support and farthest point
             support.clear();
             support.add(farthest);
@@ -107,79 +100,52 @@ public class WelzlEncloser<S extends Space, P extends Point<S, P>> implements En
                 // this should never happen
                 throw MathRuntimeException.createInternalError();
             }
-
             // it was an interesting point, move it to the front
             // according to Gärtner's heuristic
             extreme.add(0, farthest);
-
             // prune the least interesting points
             extreme.subList(ball.getSupportSize(), extreme.size()).clear();
-
-
         }
     }
 
-    /** Compute enclosing ball using Welzl's move to front heuristic.
+    /**
+     * Compute enclosing ball using Welzl's move to front heuristic.
      * @param extreme subset of extreme points
      * @param nbExtreme number of extreme points to consider
      * @param support points that must belong to the ball support
      * @return enclosing ball, for the extreme subset only
      */
-    private EnclosingBall<S, P> moveToFrontBall(final List<P> extreme, final int nbExtreme,
-                                                final List<P> support) {
-
+    private EnclosingBall<S, P> moveToFrontBall(final List<P> extreme, final int nbExtreme, final List<P> support) {
         // create a new ball on the prescribed support
         EnclosingBall<S, P> ball = generator.ballOnSupport(support);
-
         if (ball.getSupportSize() <= ball.getCenter().getSpace().getDimension()) {
-
             for (int i = 0; i < nbExtreme; ++i) {
                 final P pi = extreme.get(i);
                 if (!ball.contains(pi, tolerance)) {
-
                     // we have found an outside point,
                     // enlarge the ball by adding it to the support
                     support.add(pi);
                     ball = moveToFrontBall(extreme, i, support);
                     support.remove(support.size() - 1);
-
                     // it was an interesting point, move it to the front
                     // according to Welzl's heuristic
                     for (int j = i; j > 0; --j) {
                         extreme.set(j, extreme.get(j - 1));
                     }
                     extreme.set(0, pi);
-
                 }
             }
-
         }
-
         return ball;
-
     }
 
-    /** Select the point farthest to the current ball.
+    /**
+     * Select the point farthest to the current ball.
      * @param points points to be enclosed
      * @param ball current ball
      * @return farthest point
      */
     public P selectFarthest(final Iterable<P> points, final EnclosingBall<S, P> ball) {
-
-        final P center = ball.getCenter();
-        P farthest   = null;
-        double dMax  = -1.0;
-
-        for (final P point : points) {
-            final double d = point.distance(center);
-            if (d > dMax) {
-                farthest = point;
-                dMax     = d;
-            }
-        }
-
-        return farthest;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

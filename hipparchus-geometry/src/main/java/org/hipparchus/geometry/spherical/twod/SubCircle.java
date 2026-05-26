@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -32,51 +31,41 @@ import org.hipparchus.geometry.spherical.oned.Sphere1D;
 import org.hipparchus.geometry.spherical.oned.SubLimitAngle;
 import org.hipparchus.util.FastMath;
 
-/** This class represents a sub-hyperplane for {@link Circle}.
+/**
+ * This class represents a sub-hyperplane for {@link Circle}.
  */
-public class SubCircle
-    extends AbstractSubHyperplane<Sphere2D, S2Point, Circle, SubCircle, Sphere1D, S1Point, LimitAngle, SubLimitAngle> {
+public class SubCircle extends AbstractSubHyperplane<Sphere2D, S2Point, Circle, SubCircle, Sphere1D, S1Point, LimitAngle, SubLimitAngle> {
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param hyperplane underlying hyperplane
      * @param remainingRegion remaining region of the hyperplane
      */
-    public SubCircle(final Circle hyperplane,
-                     final Region<Sphere1D, S1Point, LimitAngle, SubLimitAngle> remainingRegion) {
+    public SubCircle(final Circle hyperplane, final Region<Sphere1D, S1Point, LimitAngle, SubLimitAngle> remainingRegion) {
         super(hyperplane, remainingRegion);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected SubCircle buildNew(final Circle hyperplane, final Region<Sphere1D, S1Point, LimitAngle, SubLimitAngle> remainingRegion) {
-        return new SubCircle(hyperplane, remainingRegion);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public S2Point getInteriorPoint() {
-        return isEmpty() ? null : getHyperplane().toSpace(getRemainingRegion().getInteriorPoint());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SplitSubHyperplane<Sphere2D, S2Point, Circle, SubCircle> split(final Circle hyperplane) {
-
-        final double angle = Vector3D.angle(getHyperplane().getPole(), hyperplane.getPole());
-
-        if (angle < getHyperplane().getTolerance() || angle > FastMath.PI - getHyperplane().getTolerance()) {
-            // the two circles are aligned or opposite
-            return new SplitSubHyperplane<>(null, null);
-        } else {
-            // the two circles intersect each other
-            final Arc    arc          = getHyperplane().getInsideArc(hyperplane);
-            final ArcsSet.Split split = ((ArcsSet) getRemainingRegion()).split(arc);
-            final ArcsSet plus        = split.getPlus();
-            final ArcsSet minus       = split.getMinus();
-            return new SplitSubHyperplane<>(plus  == null ? null : new SubCircle(getHyperplane().copySelf(), plus),
-                                            minus == null ? null : new SubCircle(getHyperplane().copySelf(), minus));
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -18,69 +18,67 @@ package org.hipparchus.random;
 
 import org.hipparchus.util.FastMath;
 
-/** This class is a Gauss-Markov order 1 autoregressive process generator for scalars.
+/**
+ * This class is a Gauss-Markov order 1 autoregressive process generator for scalars.
  * @since 3.1
  */
-
 public class GaussMarkovGenerator {
 
-    /** Correlation time. */
+    /**
+     * Correlation time.
+     */
     private final double tau;
 
-    /** Standard deviation of the stationary process. */
+    /**
+     * Standard deviation of the stationary process.
+     */
     private final double stationarySigma;
 
-    /** Underlying generator. */
+    /**
+     * Underlying generator.
+     */
     private final RandomGenerator generator;
 
-    /** Last generated value. */
+    /**
+     * Last generated value.
+     */
     private double last;
 
-    /** Create a new generator.
+    /**
+     * Create a new generator.
      * @param tau correlation time
      * @param stationarySigma standard deviation of the stationary process
      * @param generator underlying random generator to use
      */
-    public GaussMarkovGenerator(final double tau, final double stationarySigma,
-                                final RandomGenerator generator) {
-        this.tau             = tau;
+    public GaussMarkovGenerator(final double tau, final double stationarySigma, final RandomGenerator generator) {
+        this.tau = tau;
         this.stationarySigma = stationarySigma;
-        this.generator       = generator;
-        this.last            = Double.NaN;
+        this.generator = generator;
+        this.last = Double.NaN;
     }
 
-    /** Get the correlation time.
+    /**
+     * Get the correlation time.
      * @return correlation time
      */
     public double getTau() {
-        return tau;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the standard deviation of the stationary process.
+    /**
+     * Get the standard deviation of the stationary process.
      * @return standard deviation of the stationary process
      */
     public double getStationarySigma() {
-        return stationarySigma;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Generate next step in the autoregressive process.
+    /**
+     * Generate next step in the autoregressive process.
      * @param deltaT time step since previous estimate (unused at first call)
      * @return a random scalar obeying autoregressive model
      */
     public double next(final double deltaT) {
-
-        if (Double.isNaN(last)) {
-            // first generation: use the stationary process
-            last = stationarySigma * generator.nextGaussian();
-        } else {
-            // regular generation: use the autoregressive process
-            final double phi    = FastMath.exp(-deltaT / tau);
-            final double sigmaE = FastMath.sqrt(1 - phi * phi) * stationarySigma;
-            last = phi * last + sigmaE * generator.nextGaussian();
-        }
-
-        return last;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -39,22 +38,41 @@ import org.hipparchus.util.Precision;
  * @see <a href="http://mathworld.wolfram.com/MultivariateNormalDistribution.html">
  * Multivariate normal distribution (MathWorld)</a>
  */
-public class MultivariateNormalDistribution
-    extends AbstractMultivariateRealDistribution {
-    /** Default singular matrix tolerance check value **/
+public class MultivariateNormalDistribution extends AbstractMultivariateRealDistribution {
+
+    /**
+     * Default singular matrix tolerance check value *
+     */
     private static final double DEFAULT_TOLERANCE = Precision.EPSILON;
 
-    /** Vector of means. */
+    /**
+     * Vector of means.
+     */
     private final double[] means;
-    /** Covariance matrix. */
+
+    /**
+     * Covariance matrix.
+     */
     private final RealMatrix covarianceMatrix;
-    /** The matrix inverse of the covariance matrix. */
+
+    /**
+     * The matrix inverse of the covariance matrix.
+     */
     private final RealMatrix covarianceMatrixInverse;
-    /** The determinant of the covariance matrix. */
+
+    /**
+     * The determinant of the covariance matrix.
+     */
     private final double covarianceMatrixDeterminant;
-    /** Matrix used in computation of samples. */
+
+    /**
+     * Matrix used in computation of samples.
+     */
     private final RealMatrix samplingMatrix;
-    /** Inverse singular check tolerance when testing if invertable **/
+
+    /**
+     * Inverse singular check tolerance when testing if invertable *
+     */
     private final double singularMatrixCheckTolerance;
 
     /**
@@ -80,9 +98,7 @@ public class MultivariateNormalDistribution
      * @throws MathIllegalArgumentException if any of the eigenvalues is
      * negative.
      */
-    public MultivariateNormalDistribution(final double[] means,
-                                          final double[][] covariances)
-        throws MathIllegalArgumentException {
+    public MultivariateNormalDistribution(final double[] means, final double[][] covariances) throws MathIllegalArgumentException {
         this(means, covariances, DEFAULT_TOLERANCE);
     }
 
@@ -110,13 +126,9 @@ public class MultivariateNormalDistribution
      * @throws MathIllegalArgumentException if any of the eigenvalues is
      * negative.
      */
-    public MultivariateNormalDistribution(final double[] means,
-                                          final double[][] covariances,
-                                          final double singularMatrixCheckTolerance)
-        throws MathIllegalArgumentException {
+    public MultivariateNormalDistribution(final double[] means, final double[][] covariances, final double singularMatrixCheckTolerance) throws MathIllegalArgumentException {
         this(new Well19937c(), means, covariances, singularMatrixCheckTolerance);
     }
-
 
     /**
      * Creates a multivariate normal distribution with the given mean vector and
@@ -136,9 +148,7 @@ public class MultivariateNormalDistribution
      * @throws MathIllegalArgumentException if any of the eigenvalues is
      * negative.
      */
-    public MultivariateNormalDistribution(RandomGenerator rng,
-                                          final double[] means,
-                                          final double[][] covariances) {
+    public MultivariateNormalDistribution(RandomGenerator rng, final double[] means, final double[][] covariances) {
         this(rng, means, covariances, DEFAULT_TOLERANCE);
     }
 
@@ -161,59 +171,40 @@ public class MultivariateNormalDistribution
      * @throws MathIllegalArgumentException if any of the eigenvalues is
      * negative.
      */
-    public MultivariateNormalDistribution(RandomGenerator rng,
-                                          final double[] means,
-                                          final double[][] covariances,
-                                          final double singularMatrixCheckTolerance)
-            throws MathIllegalArgumentException {
+    public MultivariateNormalDistribution(RandomGenerator rng, final double[] means, final double[][] covariances, final double singularMatrixCheckTolerance) throws MathIllegalArgumentException {
         super(rng, means.length);
-
         final int dim = means.length;
-
         if (covariances.length != dim) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   covariances.length, dim);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH, covariances.length, dim);
         }
-
         for (int i = 0; i < dim; i++) {
             if (dim != covariances[i].length) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                       covariances[i].length, dim);
+                throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH, covariances[i].length, dim);
             }
         }
-
         this.means = means.clone();
         this.singularMatrixCheckTolerance = singularMatrixCheckTolerance;
-
         covarianceMatrix = new Array2DRowRealMatrix(covariances);
-
         // Covariance matrix eigen decomposition.
-        final EigenDecompositionSymmetric covMatDec =
-                        new EigenDecompositionSymmetric(covarianceMatrix, singularMatrixCheckTolerance, true);
-
+        final EigenDecompositionSymmetric covMatDec = new EigenDecompositionSymmetric(covarianceMatrix, singularMatrixCheckTolerance, true);
         // Compute and store the inverse.
         covarianceMatrixInverse = covMatDec.getSolver().getInverse();
         // Compute and store the determinant.
         covarianceMatrixDeterminant = covMatDec.getDeterminant();
-
         // Eigenvalues of the covariance matrix.
         final double[] covMatEigenvalues = covMatDec.getEigenvalues();
-
         for (double covMatEigenvalue : covMatEigenvalues) {
             if (covMatEigenvalue < 0) {
                 throw new MathIllegalArgumentException(LocalizedCoreFormats.NOT_POSITIVE_DEFINITE_MATRIX);
             }
         }
-
         // Matrix where each column is an eigenvector of the covariance matrix.
         final Array2DRowRealMatrix covMatEigenvectors = new Array2DRowRealMatrix(dim, dim);
         for (int v = 0; v < dim; v++) {
             final double[] evec = covMatDec.getEigenvector(v).toArray();
             covMatEigenvectors.setColumn(v, evec);
         }
-
         final RealMatrix tmpMatrix = covMatEigenvectors.transpose();
-
         // Scale each eigenvector by the square root of its eigenvalue.
         for (int row = 0; row < dim; row++) {
             final double factor = FastMath.sqrt(covMatEigenvalues[row]);
@@ -221,7 +212,6 @@ public class MultivariateNormalDistribution
                 tmpMatrix.multiplyEntry(row, col, factor);
             }
         }
-
         samplingMatrix = covMatEigenvectors.multiply(tmpMatrix);
     }
 
@@ -231,7 +221,7 @@ public class MultivariateNormalDistribution
      * @return the mean vector.
      */
     public double[] getMeans() {
-        return means.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -240,27 +230,23 @@ public class MultivariateNormalDistribution
      * @return the covariance matrix.
      */
     public RealMatrix getCovariances() {
-        return covarianceMatrix.copy();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Gets the current setting for the tolerance check used during singular checks before inversion
      * @return tolerance
      */
-    public double getSingularMatrixCheckTolerance() { return singularMatrixCheckTolerance; }
+    public double getSingularMatrixCheckTolerance() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double density(final double[] vals) throws MathIllegalArgumentException {
-        final int dim = getDimension();
-        if (vals.length != dim) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   vals.length, dim);
-        }
-
-        return FastMath.pow(2 * FastMath.PI, -0.5 * dim) *
-            FastMath.pow(covarianceMatrixDeterminant, -0.5) *
-            getExponentTerm(vals);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -270,32 +256,15 @@ public class MultivariateNormalDistribution
      * @return the standard deviations.
      */
     public double[] getStandardDeviations() {
-        final int dim = getDimension();
-        final double[] std = new double[dim];
-        final double[][] s = covarianceMatrix.getData();
-        for (int i = 0; i < dim; i++) {
-            std[i] = FastMath.sqrt(s[i][i]);
-        }
-        return std;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[] sample() {
-        final int dim = getDimension();
-        final double[] normalVals = new double[dim];
-
-        for (int i = 0; i < dim; i++) {
-            normalVals[i] = random.nextGaussian();
-        }
-
-        final double[] vals = samplingMatrix.operate(normalVals);
-
-        for (int i = 0; i < dim; i++) {
-            vals[i] += means[i];
-        }
-
-        return vals;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**

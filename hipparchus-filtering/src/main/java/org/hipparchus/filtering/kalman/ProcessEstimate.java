@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.filtering.kalman;
 
 import org.hipparchus.linear.RealMatrix;
@@ -34,36 +33,47 @@ import org.hipparchus.linear.RealVector;
  */
 public class ProcessEstimate {
 
-    /** Process time (typically the time or index of a measurement). */
+    /**
+     * Process time (typically the time or index of a measurement).
+     */
     private final double time;
 
-    /** State vector. */
+    /**
+     * State vector.
+     */
     private final RealVector state;
 
-    /** State covariance. */
+    /**
+     * State covariance.
+     */
     private final RealMatrix covariance;
 
-    /** State transition matrix, may be null.
+    /**
+     * State transition matrix, may be null.
      * @since 1.4
      */
     private final RealMatrix stateTransitionMatrix;
 
-    /** Jacobian of the measurement with respect to the state (h matrix), may be null.
+    /**
+     * Jacobian of the measurement with respect to the state (h matrix), may be null.
      * @since 1.4
      */
     private final RealMatrix measurementJacobian;
 
-    /** Innovation covariance matrix, defined as \(h.P.h^T + r\), may be null.
+    /**
+     * Innovation covariance matrix, defined as \(h.P.h^T + r\), may be null.
      * @since 1.4
      */
     private final RealMatrix innovationCovarianceMatrix;
 
-    /** Kalman gain (k matrix), may be null.
+    /**
+     * Kalman gain (k matrix), may be null.
      * @since 1.4
      */
     private final RealMatrix kalmanGain;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * <p>
      * This constructor sets state transition matrix, covariance matrix H,
      * innovation covariance matrix and Kalman gain k to null.
@@ -76,7 +86,8 @@ public class ProcessEstimate {
         this(time, state, covariance, null, null, null, null);
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param time process time (typically the time or index of a measurement)
      * @param state state vector
      * @param covariance state covariance
@@ -86,73 +97,77 @@ public class ProcessEstimate {
      * @param kalmanGain Kalman Gain matrix, may be null
      * @since 1.4
      */
-    public ProcessEstimate(final double time, final RealVector state, final RealMatrix covariance,
-                           final RealMatrix stateTransitionMatrix, final RealMatrix measurementJacobian,
-                           final RealMatrix innovationCovariance, final RealMatrix kalmanGain) {
-        this.time                       = time;
-        this.state                      = state;
-        this.covariance                 = covariance;
-        this.stateTransitionMatrix      = stateTransitionMatrix;
-        this.measurementJacobian        = measurementJacobian;
+    public ProcessEstimate(final double time, final RealVector state, final RealMatrix covariance, final RealMatrix stateTransitionMatrix, final RealMatrix measurementJacobian, final RealMatrix innovationCovariance, final RealMatrix kalmanGain) {
+        this.time = time;
+        this.state = state;
+        this.covariance = covariance;
+        this.stateTransitionMatrix = stateTransitionMatrix;
+        this.measurementJacobian = measurementJacobian;
         this.innovationCovarianceMatrix = innovationCovariance;
-        this.kalmanGain                 = kalmanGain;
+        this.kalmanGain = kalmanGain;
     }
 
-    /** Get the process time.
+    /**
+     * Get the process time.
      * @return process time (typically the time or index of a measurement)
      */
     public double getTime() {
-        return time;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the state vector.
+    /**
+     * Get the state vector.
      * @return state vector
      */
     public RealVector getState() {
-        return state;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the state covariance.
+    /**
+     * Get the state covariance.
      * @return state covariance
      */
     public RealMatrix getCovariance() {
-        return covariance;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get state transition matrix between previous state and estimated (but not yet corrected) state.
+    /**
+     * Get state transition matrix between previous state and estimated (but not yet corrected) state.
      * @return state transition matrix between previous state and estimated state (but not yet corrected)
      * (may be null for initial process estimate)
      * @since 1.4
      */
     public RealMatrix getStateTransitionMatrix() {
-        return stateTransitionMatrix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the Jacobian of the measurement with respect to the state (H matrix).
+    /**
+     * Get the Jacobian of the measurement with respect to the state (H matrix).
      * @return Jacobian of the measurement with respect to the state (may be null for initial
      * process estimate or if the measurement has been ignored)
      * @since 1.4
      */
     public RealMatrix getMeasurementJacobian() {
-        return measurementJacobian;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the innovation covariance matrix.
+    /**
+     * Get the innovation covariance matrix.
      * @return innovation covariance matrix (may be null for initial
      * process estimate or if the measurement has been ignored)
      * @since 1.4
      */
     public RealMatrix getInnovationCovariance() {
-        return innovationCovarianceMatrix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the Kalman gain matrix.
+    /**
+     * Get the Kalman gain matrix.
      * @return Kalman gain matrix (may be null for initial
      * process estimate or if the measurement has been ignored)
      * @since 1.4
      */
     public RealMatrix getKalmanGain() {
-        return kalmanGain;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.distribution.continuous;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -34,13 +32,25 @@ import org.hipparchus.util.FastMath;
  * @see <a href="http://mathworld.wolfram.com/F-Distribution.html">F-distribution (MathWorld)</a>
  */
 public class FDistribution extends AbstractRealDistribution {
-    /** Serializable version identifier. */
+
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20160320L;
-    /** The numerator degrees of freedom. */
+
+    /**
+     * The numerator degrees of freedom.
+     */
     private final double numeratorDegreesOfFreedom;
-    /** The numerator degrees of freedom. */
+
+    /**
+     * The numerator degrees of freedom.
+     */
     private final double denominatorDegreesOfFreedom;
-    /** Cached numerical variance */
+
+    /**
+     * Cached numerical variance
+     */
     private final double numericalVariance;
 
     /**
@@ -52,13 +62,9 @@ public class FDistribution extends AbstractRealDistribution {
      * {@code numeratorDegreesOfFreedom <= 0} or
      * {@code denominatorDegreesOfFreedom <= 0}.
      */
-    public FDistribution(double numeratorDegreesOfFreedom,
-                         double denominatorDegreesOfFreedom)
-        throws MathIllegalArgumentException {
-        this(numeratorDegreesOfFreedom, denominatorDegreesOfFreedom,
-             DEFAULT_SOLVER_ABSOLUTE_ACCURACY);
+    public FDistribution(double numeratorDegreesOfFreedom, double denominatorDegreesOfFreedom) throws MathIllegalArgumentException {
+        this(numeratorDegreesOfFreedom, denominatorDegreesOfFreedom, DEFAULT_SOLVER_ABSOLUTE_ACCURACY);
     }
-
 
     /**
      * Creates an F distribution.
@@ -70,23 +76,17 @@ public class FDistribution extends AbstractRealDistribution {
      * @throws MathIllegalArgumentException if {@code numeratorDegreesOfFreedom <= 0} or
      * {@code denominatorDegreesOfFreedom <= 0}.
      */
-    public FDistribution(double numeratorDegreesOfFreedom,
-                         double denominatorDegreesOfFreedom,
-                         double inverseCumAccuracy)
-        throws MathIllegalArgumentException {
+    public FDistribution(double numeratorDegreesOfFreedom, double denominatorDegreesOfFreedom, double inverseCumAccuracy) throws MathIllegalArgumentException {
         super(inverseCumAccuracy);
-
         if (numeratorDegreesOfFreedom <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DEGREES_OF_FREEDOM,
-                                                   numeratorDegreesOfFreedom);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.DEGREES_OF_FREEDOM, numeratorDegreesOfFreedom);
         }
         if (denominatorDegreesOfFreedom <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DEGREES_OF_FREEDOM,
-                                                   denominatorDegreesOfFreedom);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.DEGREES_OF_FREEDOM, denominatorDegreesOfFreedom);
         }
-        this.numeratorDegreesOfFreedom   = numeratorDegreesOfFreedom;
+        this.numeratorDegreesOfFreedom = numeratorDegreesOfFreedom;
         this.denominatorDegreesOfFreedom = denominatorDegreesOfFreedom;
-        this.numericalVariance           = calculateNumericalVariance();
+        this.numericalVariance = calculateNumericalVariance();
     }
 
     /**
@@ -94,22 +94,15 @@ public class FDistribution extends AbstractRealDistribution {
      */
     @Override
     public double density(double x) {
-        return FastMath.exp(logDensity(x));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} **/
+    /**
+     * {@inheritDoc} *
+     */
     @Override
     public double logDensity(double x) {
-        final double nhalf = numeratorDegreesOfFreedom / 2;
-        final double mhalf = denominatorDegreesOfFreedom / 2;
-        final double logx = FastMath.log(x);
-        final double logn = FastMath.log(numeratorDegreesOfFreedom);
-        final double logm = FastMath.log(denominatorDegreesOfFreedom);
-        final double lognxm = FastMath.log(numeratorDegreesOfFreedom * x +
-                                           denominatorDegreesOfFreedom);
-        return nhalf * logn + nhalf * logx - logx +
-               mhalf * logm - nhalf * lognxm - mhalf * lognxm -
-               Beta.logBeta(nhalf, mhalf);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -124,19 +117,8 @@ public class FDistribution extends AbstractRealDistribution {
      * </ul>
      */
     @Override
-    public double cumulativeProbability(double x)  {
-        double ret;
-        if (x <= 0) {
-            ret = 0;
-        } else {
-            double n = numeratorDegreesOfFreedom;
-            double m = denominatorDegreesOfFreedom;
-
-            ret = Beta.regularizedBeta((n * x) / (m + n * x),
-                0.5 * n,
-                0.5 * m);
-        }
-        return ret;
+    public double cumulativeProbability(double x) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -145,7 +127,7 @@ public class FDistribution extends AbstractRealDistribution {
      * @return the numerator degrees of freedom.
      */
     public double getNumeratorDegreesOfFreedom() {
-        return numeratorDegreesOfFreedom;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -154,7 +136,7 @@ public class FDistribution extends AbstractRealDistribution {
      * @return the denominator degrees of freedom.
      */
     public double getDenominatorDegreesOfFreedom() {
-        return denominatorDegreesOfFreedom;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -168,13 +150,7 @@ public class FDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalMean() {
-        final double denominatorDF = getDenominatorDegreesOfFreedom();
-
-        if (denominatorDF > 2) {
-            return denominatorDF / (denominatorDF - 2);
-        }
-
-        return Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -192,7 +168,7 @@ public class FDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        return numericalVariance;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -202,15 +178,11 @@ public class FDistribution extends AbstractRealDistribution {
      */
     private double calculateNumericalVariance() {
         final double denominatorDF = getDenominatorDegreesOfFreedom();
-
         if (denominatorDF > 4) {
             final double numeratorDF = getNumeratorDegreesOfFreedom();
             final double denomDFMinusTwo = denominatorDF - 2;
-
-            return ( 2 * (denominatorDF * denominatorDF) * (numeratorDF + denominatorDF - 2) ) /
-                   ( (numeratorDF * (denomDFMinusTwo * denomDFMinusTwo) * (denominatorDF - 4)) );
+            return (2 * (denominatorDF * denominatorDF) * (numeratorDF + denominatorDF - 2)) / ((numeratorDF * (denomDFMinusTwo * denomDFMinusTwo) * (denominatorDF - 4)));
         }
-
         return Double.NaN;
     }
 
@@ -223,7 +195,7 @@ public class FDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportLowerBound() {
-        return 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -236,7 +208,7 @@ public class FDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportUpperBound() {
-        return Double.POSITIVE_INFINITY;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -248,6 +220,6 @@ public class FDistribution extends AbstractRealDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

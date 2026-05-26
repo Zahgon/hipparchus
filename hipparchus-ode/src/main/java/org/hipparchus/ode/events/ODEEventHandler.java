@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.events;
 
 import org.hipparchus.ode.ODEState;
 import org.hipparchus.ode.ODEStateAndDerivative;
 
-/** This interface represents a handler for discrete events triggered
+/**
+ * This interface represents a handler for discrete events triggered
  * during ODE integration.
  *
  * <p>Some events can be triggered at discrete times as an ODE problem
@@ -57,9 +57,10 @@ import org.hipparchus.ode.ODEStateAndDerivative;
  * @see org.hipparchus.ode.events
  * @since 3.0
  */
-public interface ODEEventHandler  {
+public interface ODEEventHandler {
 
-    /** Initialize event handler at the start of an ODE integration.
+    /**
+     * Initialize event handler at the start of an ODE integration.
      * <p>
      * This method is called once at the start of the integration. It
      * may be used by the event handler to initialize some internal data
@@ -73,11 +74,12 @@ public interface ODEEventHandler  {
      * @param detector event detector related to the event handler
      */
     default void init(ODEStateAndDerivative initialState, double finalTime, ODEEventDetector detector) {
-        // nothing by default
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Handle an event and choose what to do next.
-
+    /**
+     * Handle an event and choose what to do next.
+     *
      * <p>This method is called when the integrator has accepted a step
      * ending exactly on a sign change of the function, just <em>after</em>
      * the step handler itself is called (see below for scheduling). It
@@ -124,7 +126,8 @@ public interface ODEEventHandler  {
      */
     Action eventOccurred(ODEStateAndDerivative state, ODEEventDetector detector, boolean increasing);
 
-    /** Reset the state prior to continue the integration.
+    /**
+     * Reset the state prior to continue the integration.
      *
      * <p>This method is called after the step handler has returned and
      * before the next step is started, but only when {@link
@@ -140,7 +143,6 @@ public interface ODEEventHandler  {
      * be added automatically by the integrator afterwards)
      */
     default ODEState resetState(ODEEventDetector detector, ODEStateAndDerivative state) {
-        return state;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

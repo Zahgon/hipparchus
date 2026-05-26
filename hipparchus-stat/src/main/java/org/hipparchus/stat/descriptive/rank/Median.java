@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,14 +21,12 @@
 package org.hipparchus.stat.descriptive.rank;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.NullArgumentException;
 import org.hipparchus.stat.descriptive.AbstractUnivariateStatistic;
 import org.hipparchus.stat.descriptive.rank.Percentile.EstimationType;
 import org.hipparchus.stat.ranking.NaNStrategy;
 import org.hipparchus.util.KthSelector;
-
 
 /**
  * Returns the median of the available values.  This is the same as the 50th percentile.
@@ -42,13 +39,19 @@ import org.hipparchus.util.KthSelector;
  */
 public class Median extends AbstractUnivariateStatistic implements Serializable {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20150412L;
 
-    /** Fixed quantile. */
+    /**
+     * Fixed quantile.
+     */
     private static final double FIXED_QUANTILE_50 = 50.0;
 
-    /** The percentile impl to calculate the median. */
+    /**
+     * The percentile impl to calculate the median.
+     */
     private final Percentile percentile;
 
     /**
@@ -68,12 +71,8 @@ public class Median extends AbstractUnivariateStatistic implements Serializable 
      * @throws MathIllegalArgumentException if p is not within (0,100]
      * @throws NullArgumentException if type or NaNStrategy passed is null
      */
-    private Median(final EstimationType estimationType, final NaNStrategy nanStrategy,
-                   final KthSelector kthSelector)
-        throws MathIllegalArgumentException {
-
-        percentile = new Percentile(FIXED_QUANTILE_50, estimationType,
-                                    nanStrategy, kthSelector);
+    private Median(final EstimationType estimationType, final NaNStrategy nanStrategy, final KthSelector kthSelector) throws MathIllegalArgumentException {
+        percentile = new Percentile(FIXED_QUANTILE_50, estimationType, nanStrategy, kthSelector);
     }
 
     /**
@@ -88,17 +87,20 @@ public class Median extends AbstractUnivariateStatistic implements Serializable 
         this.percentile = original.percentile.copy();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double evaluate(double[] values, int begin, int length)
-        throws MathIllegalArgumentException {
-        return percentile.evaluate(values, begin, length);
+    public double evaluate(double[] values, int begin, int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Median copy() {
-        return new Median(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -107,7 +109,7 @@ public class Median extends AbstractUnivariateStatistic implements Serializable 
      * @return the {@code estimationType} set
      */
     public EstimationType getEstimationType() {
-        return percentile.getEstimationType();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -119,9 +121,7 @@ public class Median extends AbstractUnivariateStatistic implements Serializable 
      * @throws NullArgumentException when newEstimationType is null
      */
     public Median withEstimationType(final EstimationType newEstimationType) {
-        return new Median(newEstimationType,
-                          percentile.getNaNStrategy(),
-                          percentile.getKthSelector());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -129,7 +129,7 @@ public class Median extends AbstractUnivariateStatistic implements Serializable 
      * @return {@code NaN Handling} strategy set during construction
      */
     public NaNStrategy getNaNStrategy() {
-        return percentile.getNaNStrategy();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -141,9 +141,7 @@ public class Median extends AbstractUnivariateStatistic implements Serializable 
      * @throws NullArgumentException when newNaNStrategy is null
      */
     public Median withNaNStrategy(final NaNStrategy newNaNStrategy) {
-        return new Median(percentile.getEstimationType(),
-                          newNaNStrategy,
-                          percentile.getKthSelector());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -151,7 +149,7 @@ public class Median extends AbstractUnivariateStatistic implements Serializable 
      * @return the {@code kthSelector} set
      */
     public KthSelector getKthSelector() {
-        return percentile.getKthSelector();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -163,9 +161,6 @@ public class Median extends AbstractUnivariateStatistic implements Serializable 
      * @throws NullArgumentException when newKthSelector is null
      */
     public Median withKthSelector(final KthSelector newKthSelector) {
-        return new Median(percentile.getEstimationType(),
-                          percentile.getNaNStrategy(),
-                          newKthSelector);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -51,34 +51,7 @@ public abstract class AbstractUnscentedTransform implements UnscentedTransformPr
      */
     @Override
     public RealVector[] unscentedTransform(final RealVector state, final RealMatrix covariance) {
-
-        // State dimensions
-        final int n = state.getDimension();
-
-        // Initialize array containing sigma points
-        final RealVector[] sigmaPoints = new ArrayRealVector[(2 * n) + 1];
-        sigmaPoints[0] = state;
-
-        // Apply multiplication factor to the covariance matrix
-        final double     factor = getMultiplicationFactor();
-        final RealMatrix temp   = covariance.scalarMultiply(factor);
-
-        // Compute lower triangular matrix of Cholesky decomposition
-        // Note: When the estimation error covariance is propagated, it sometimes
-        //       cannot maintain the positive semidefiniteness.
-        //       To enhance the numerical stability of the unscented transform,
-        //       the semidefinite positive Cholesky decomposition is used.
-        final RealMatrix L = new SemiDefinitePositiveCholeskyDecomposition(temp).getL();
-
-        // Compute sigma points
-        for (int i = 1; i <= n; i++) {
-            sigmaPoints[i]     = sigmaPoints[0].add(L.getColumnVector(i - 1));
-            sigmaPoints[i + n] = sigmaPoints[0].subtract(L.getColumnVector(i - 1));
-        }
-
-        // Return sigma points
-        return sigmaPoints;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -86,5 +59,4 @@ public abstract class AbstractUnscentedTransform implements UnscentedTransformPr
      * @return the factor applied to the covariance matrix during the unscented transform
      */
     protected abstract double getMultiplicationFactor();
-
 }

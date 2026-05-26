@@ -17,7 +17,6 @@
 package org.hipparchus.util;
 
 import java.util.Arrays;
-
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.Field;
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -30,13 +29,18 @@ import org.hipparchus.exception.MathIllegalArgumentException;
  */
 public class FieldTuple<T extends CalculusFieldElement<T>> implements CalculusFieldElement<FieldTuple<T>> {
 
-    /** Components of the tuple. */
+    /**
+     * Components of the tuple.
+     */
     private final T[] values;
 
-    /** Field the instance belongs to. */
+    /**
+     * Field the instance belongs to.
+     */
     private final FieldTupleField<T> field;
 
-    /** Creates a new instance from its components.
+    /**
+     * Creates a new instance from its components.
      * @param x components of the tuple
      */
     @SafeVarargs
@@ -44,822 +48,663 @@ public class FieldTuple<T extends CalculusFieldElement<T>> implements CalculusFi
         this(new FieldTupleField<>(x[0].getField(), x.length), x.clone());
     }
 
-    /** Creates a new instance from its components.
+    /**
+     * Creates a new instance from its components.
      * @param field field the instance belongs to
      * @param x components of the tuple (beware, it is <em>not</em> copied, it is shared with caller)
      */
-    private FieldTuple(final FieldTupleField<T> field, final T[] x) { // NOPMD - storing user-supplied array is intentional and documented here
+    private FieldTuple(final FieldTupleField<T> field, final T[] x) {
+        // NOPMD - storing user-supplied array is intentional and documented here
         this.values = x;
-        this.field  = field;
+        this.field = field;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> newInstance(final double value) {
-        return field.getZero().add(value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the dimension of the tuple.
+    /**
+     * Get the dimension of the tuple.
      * @return dimension of the tuple
      */
     public int getDimension() {
-        return values.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get one component of the tuple.
+    /**
+     * Get one component of the tuple.
      * @param index index of the component, between 0 and {@link #getDimension() getDimension()} - 1
      * @return value of the component
      */
     public T getComponent(final int index) {
-        return values[index];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get all components of the tuple.
+    /**
+     * Get all components of the tuple.
      * @return all components
      */
     public T[] getComponents() {
-        return values.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Field<FieldTuple<T>> getField() {
-        return field;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> add(final FieldTuple<T> a) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].add(a.values[i]);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> subtract(final FieldTuple<T> a) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].subtract(a.values[i]);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> negate() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].negate();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> multiply(final FieldTuple<T> a) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].multiply(a.values[i]);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> multiply(final int n) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].multiply(n);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> divide(final FieldTuple<T> a) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].divide(a.values[i]);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> reciprocal() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].reciprocal();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(final Object obj) {
-        if (obj instanceof FieldTuple<?> ) {
-            @SuppressWarnings("unchecked")
-            final FieldTuple<T> that = (FieldTuple<T>) obj;
-            if (getDimension() == that.getDimension()) {
-                boolean equals = true;
-                for (int i = 0; i < values.length; ++i) {
-                    equals &= values[i].equals(that.values[i]);
-                }
-                return equals;
-            }
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
-        return  0x58f61de5 + Arrays.hashCode(values);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getReal() {
-        return values[0].getReal();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> getAddendum() {
-        final T[] addendum = values.clone();
-        addendum[0] = addendum[0].getField().getZero();
-        for (int i = 1; i < addendum.length; ++i) {
-            addendum[i] = addendum[i].subtract(values[0]);
-        }
-        return new FieldTuple<>(field, addendum);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> add(final double a) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].add(a);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> subtract(final double a) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].subtract(a);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> multiply(final double a) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].multiply(a);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> square() {
-        return multiply(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> divide(final double a) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].divide(a);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> remainder(final double a) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].remainder(a);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> remainder(final FieldTuple<T> a) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].remainder(a.values[i]);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> abs() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].abs();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> ceil() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].ceil();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> floor() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].floor();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> rint() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].rint();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> sign() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].sign();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> copySign(final FieldTuple<T> sign) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].copySign(sign.values[i]);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> copySign(final double sign) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].copySign(sign);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> scalb(final int n) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].scalb(n);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> ulp() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].ulp();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> hypot(final FieldTuple<T> y) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].hypot(y.values[i]);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> sqrt() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].sqrt();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> cbrt() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].cbrt();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> rootN(final int n) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].rootN(n);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> pow(final double p) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].pow(p);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> pow(final int n) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].pow(n);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> pow(final FieldTuple<T> e) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].pow(e.values[i]);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> exp() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].exp();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> expm1() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].expm1();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> log() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].log();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> log1p() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].log1p();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> log10() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].log10();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> cos() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].cos();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> sin() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].sin();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldSinCos<FieldTuple<T>> sinCos() {
-        final FieldTuple<T> sin = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        final FieldTuple<T> cos = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            final FieldSinCos<T> sc = FastMath.sinCos(values[i]);
-            sin.values[i] = sc.sin();
-            cos.values[i] = sc.cos();
-        }
-        return new FieldSinCos<>(sin, cos);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> tan() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].tan();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> acos() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].acos();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> asin() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].asin();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> atan() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].atan();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> atan2(final FieldTuple<T> x) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].atan2(x.values[i]);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> cosh() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].cosh();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> sinh() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].sinh();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldSinhCosh<FieldTuple<T>> sinhCosh() {
-        final FieldTuple<T> sinh = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        final FieldTuple<T> cosh = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            final FieldSinhCosh<T> sc = FastMath.sinhCosh(values[i]);
-            sinh.values[i] = sc.sinh();
-            cosh.values[i] = sc.cosh();
-        }
-        return new FieldSinhCosh<>(sinh, cosh);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> tanh() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].tanh();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> acosh() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].acosh();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> asinh() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].asinh();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> atanh() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].atanh();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> toDegrees() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].toDegrees();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> toRadians() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = values[i].toRadians();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldTuple<T> linearCombination(final FieldTuple<T>[] a, final FieldTuple<T>[] b)
-        throws MathIllegalArgumentException {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        MathUtils.checkDimension(a.length, b.length);
-        final T[] aT = MathArrays.buildArray(values[0].getField(), a.length);
-        final T[] bT = MathArrays.buildArray(values[0].getField(), b.length);
-        for (int i = 0; i < values.length; ++i) {
-            for (int j = 0; j < a.length; ++j) {
-                aT[j] = a[j].values[i];
-                bT[j] = b[j].values[i];
-            }
-            result.values[i] = aT[0].linearCombination(aT, bT);
-        }
-        return result;
+    public FieldTuple<T> linearCombination(final FieldTuple<T>[] a, final FieldTuple<T>[] b) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldTuple<T> linearCombination(final double[] a, final FieldTuple<T>[] b)
-        throws MathIllegalArgumentException {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        MathUtils.checkDimension(a.length, b.length);
-        final T[] bT = MathArrays.buildArray(values[0].getField(), b.length);
-        for (int i = 0; i < values.length; ++i) {
-            for (int j = 0; j < a.length; ++j) {
-                bT[j] = b[j].values[i];
-            }
-            result.values[i] = bT[0].linearCombination(a, bT);
-        }
-        return result;
+    public FieldTuple<T> linearCombination(final double[] a, final FieldTuple<T>[] b) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldTuple<T> linearCombination(final FieldTuple<T> a1, final FieldTuple<T> b1,
-                                           final FieldTuple<T> a2, final FieldTuple<T> b2) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = a1.values[0].linearCombination(a1.values[i], b1.values[i],
-                                                              a2.values[i], b2.values[i]);
-        }
-        return result;
+    public FieldTuple<T> linearCombination(final FieldTuple<T> a1, final FieldTuple<T> b1, final FieldTuple<T> a2, final FieldTuple<T> b2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldTuple<T> linearCombination(final double a1, final FieldTuple<T> b1,
-                                           final double a2, final FieldTuple<T> b2) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = b1.values[0].linearCombination(a1, b1.values[i],
-                                                              a2, b2.values[i]);
-        }
-        return result;
+    public FieldTuple<T> linearCombination(final double a1, final FieldTuple<T> b1, final double a2, final FieldTuple<T> b2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldTuple<T> linearCombination(final FieldTuple<T> a1, final FieldTuple<T> b1,
-                                           final FieldTuple<T> a2, final FieldTuple<T> b2,
-                                           final FieldTuple<T> a3, final FieldTuple<T> b3) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = a1.values[0].linearCombination(a1.values[i], b1.values[i],
-                                                              a2.values[i], b2.values[i],
-                                                              a3.values[i], b3.values[i]);
-        }
-        return result;
+    public FieldTuple<T> linearCombination(final FieldTuple<T> a1, final FieldTuple<T> b1, final FieldTuple<T> a2, final FieldTuple<T> b2, final FieldTuple<T> a3, final FieldTuple<T> b3) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldTuple<T> linearCombination(final double a1, final FieldTuple<T> b1,
-                                           final double a2, final FieldTuple<T> b2,
-                                           final double a3, final FieldTuple<T> b3) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = b1.values[0].linearCombination(a1, b1.values[i],
-                                                              a2, b2.values[i],
-                                                              a3, b3.values[i]);
-        }
-        return result;
+    public FieldTuple<T> linearCombination(final double a1, final FieldTuple<T> b1, final double a2, final FieldTuple<T> b2, final double a3, final FieldTuple<T> b3) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldTuple<T> linearCombination(final FieldTuple<T> a1, final FieldTuple<T> b1,
-                                           final FieldTuple<T> a2, final FieldTuple<T> b2,
-                                           final FieldTuple<T> a3, final FieldTuple<T> b3,
-                                           final FieldTuple<T> a4, final FieldTuple<T> b4) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = a1.values[0].linearCombination(a1.values[i], b1.values[i],
-                                                              a2.values[i], b2.values[i],
-                                                              a3.values[i], b3.values[i],
-                                                              a4.values[i], b4.values[i]);
-        }
-        return result;
+    public FieldTuple<T> linearCombination(final FieldTuple<T> a1, final FieldTuple<T> b1, final FieldTuple<T> a2, final FieldTuple<T> b2, final FieldTuple<T> a3, final FieldTuple<T> b3, final FieldTuple<T> a4, final FieldTuple<T> b4) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldTuple<T> linearCombination(final double a1, final FieldTuple<T> b1,
-                                           final double a2, final FieldTuple<T> b2,
-                                           final double a3, final FieldTuple<T> b3,
-                                           final double a4, final FieldTuple<T> b4) {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        for (int i = 0; i < values.length; ++i) {
-            result.values[i] = b1.values[0].linearCombination(a1, b1.values[i],
-                                                              a2, b2.values[i],
-                                                              a3, b3.values[i],
-                                                              a4, b4.values[i]);
-        }
-        return result;
+    public FieldTuple<T> linearCombination(final double a1, final FieldTuple<T> b1, final double a2, final FieldTuple<T> b2, final double a3, final FieldTuple<T> b3, final double a4, final FieldTuple<T> b4) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double norm() {
-        double sum = 0;
-        for (final T value: values) {
-            sum += value.norm();
-        }
-        return sum;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldTuple<T> getPi() {
-        final FieldTuple<T> result = new FieldTuple<>(field, MathArrays.buildArray(values[0].getField(), values.length));
-        Arrays.fill(result.values, values[0].getPi());
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSmall(final FieldTuple<T> base, final double relativeThreshold) {
-        if (values.length != base.values.length) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   values.length, base.values.length);
-        }
-        boolean ok = true;
-        for (int i = 0; i < values.length && ok; ++i) {
-            ok = values[i].isSmall(base.values[i], relativeThreshold);
-        }
-        return ok;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Field for {link FieldTuple} instances.
+    /**
+     * Field for {link FieldTuple} instances.
      * @param <T> the type of the field elements
      */
     private static class FieldTupleField<T extends CalculusFieldElement<T>> implements Field<FieldTuple<T>> {
 
-        /** Constant function evaluating to 0.0. */
+        /**
+         * Constant function evaluating to 0.0.
+         */
         private final FieldTuple<T> zero;
 
-        /** Constant function evaluating to 1.0. */
+        /**
+         * Constant function evaluating to 1.0.
+         */
         private final FieldTuple<T> one;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          * @param field field to which the elements belong
          * @param dimension dimension of the tuple
          */
         FieldTupleField(final Field<T> field, final int dimension) {
             final T[] zeroData = MathArrays.buildArray(field, dimension);
             Arrays.fill(zeroData, field.getZero());
-            final T[] oneData  = MathArrays.buildArray(field, dimension);
+            final T[] oneData = MathArrays.buildArray(field, dimension);
             Arrays.fill(oneData, field.getOne());
             this.zero = new FieldTuple<>(this, zeroData);
-            this.one  = new FieldTuple<>(this, oneData);
+            this.one = new FieldTuple<>(this, oneData);
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public FieldTuple<T> getZero() {
-            return zero;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public FieldTuple<T> getOne() {
-            return one;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @SuppressWarnings("unchecked")
         @Override
         public Class<FieldTuple<T>> getRuntimeClass() {
-            return (Class<FieldTuple<T>>) zero.getClass();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean equals(final Object other) {
-            if (other instanceof FieldTupleField) {
-                @SuppressWarnings("unchecked")
-                final FieldTupleField<T> that = (FieldTupleField<T>) other;
-                return zero.getDimension() == that.zero.getDimension();
-            } else {
-                return false;
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int hashCode() {
-            return 0xb4a533e1 ^ zero.getDimension();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
-
 }

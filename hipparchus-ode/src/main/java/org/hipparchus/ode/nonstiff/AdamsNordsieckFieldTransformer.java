@@ -14,18 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode.nonstiff;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.hipparchus.Field;
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.linear.Array2DRowFieldMatrix;
@@ -35,7 +32,8 @@ import org.hipparchus.linear.FieldLUDecomposition;
 import org.hipparchus.linear.FieldMatrix;
 import org.hipparchus.util.MathArrays;
 
-/** Transformer to Nordsieck vectors for Adams integrators.
+/**
+ * Transformer to Nordsieck vectors for Adams integrators.
  * <p>This class is used by {@link AdamsBashforthIntegrator Adams-Bashforth} and
  * {@link AdamsMoultonIntegrator Adams-Moulton} integrators to convert between
  * classical representation with several previous first derivatives and Nordsieck
@@ -141,39 +139,41 @@ import org.hipparchus.util.MathArrays;
  */
 public class AdamsNordsieckFieldTransformer<T extends CalculusFieldElement<T>> {
 
-    /** Cache for already computed coefficients. */
-    private static final Map<Integer,
-                         Map<Field<? extends CalculusFieldElement<?>>,
-                                   AdamsNordsieckFieldTransformer<? extends CalculusFieldElement<?>>>> CACHE = new HashMap<>();
+    /**
+     * Cache for already computed coefficients.
+     */
+    private static final Map<Integer, Map<Field<? extends CalculusFieldElement<?>>, AdamsNordsieckFieldTransformer<? extends CalculusFieldElement<?>>>> CACHE = new HashMap<>();
 
-    /** Field to which the time and state vector elements belong. */
+    /**
+     * Field to which the time and state vector elements belong.
+     */
     private final Field<T> field;
 
-    /** Update matrix for the higher order derivatives h<sup>2</sup>/2 y'', h<sup>3</sup>/6 y''' ... */
+    /**
+     * Update matrix for the higher order derivatives h<sup>2</sup>/2 y'', h<sup>3</sup>/6 y''' ...
+     */
     private final Array2DRowFieldMatrix<T> update;
 
-    /** Update coefficients of the higher order derivatives wrt y'. */
+    /**
+     * Update coefficients of the higher order derivatives wrt y'.
+     */
     private final T[] c1;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param field field to which the time and state vector elements belong
      * @param n number of steps of the multistep method
      * (excluding the one being computed)
      */
     private AdamsNordsieckFieldTransformer(final Field<T> field, final int n) {
-
         this.field = field;
         final int rows = n - 1;
-
         // compute coefficients
         FieldMatrix<T> bigP = buildP(rows);
-        FieldDecompositionSolver<T> pSolver =
-                new FieldLUDecomposition<>(bigP).getSolver();
-
+        FieldDecompositionSolver<T> pSolver = new FieldLUDecomposition<>(bigP).getSolver();
         T[] u = MathArrays.buildArray(field, rows);
         Arrays.fill(u, field.getOne());
         c1 = pSolver.solve(new ArrayFieldVector<>(u, false)).toArray();
-
         // update coefficients are computed by combining transform from
         // Nordsieck to multistep, then shifting rows to represent step advance
         // then applying inverse transform
@@ -185,33 +185,22 @@ public class AdamsNordsieckFieldTransformer<T extends CalculusFieldElement<T>> {
         shiftedP[0] = MathArrays.buildArray(field, rows);
         Arrays.fill(shiftedP[0], field.getZero());
         update = new Array2DRowFieldMatrix<>(pSolver.solve(new Array2DRowFieldMatrix<>(shiftedP, false)).getData());
-
     }
 
-    /** Get the Nordsieck transformer for a given field and number of steps.
+    /**
+     * Get the Nordsieck transformer for a given field and number of steps.
      * @param field field to which the time and state vector elements belong
      * @param nSteps number of steps of the multistep method
      * (excluding the one being computed)
      * @return Nordsieck transformer for the specified field and number of steps
      * @param <T> the type of the field elements
      */
-    public static <T extends CalculusFieldElement<T>> AdamsNordsieckFieldTransformer<T>
-    getInstance(final Field<T> field, final int nSteps) { // NOPMD - PMD false positive
-        synchronized(CACHE) {
-            Map<Field<? extends CalculusFieldElement<?>>,
-                    AdamsNordsieckFieldTransformer<? extends CalculusFieldElement<?>>> map = CACHE.computeIfAbsent(nSteps, k -> new HashMap<>());
-            @SuppressWarnings("unchecked")
-            AdamsNordsieckFieldTransformer<T> t = (AdamsNordsieckFieldTransformer<T>) map.get(field);
-            if (t == null) {
-                t = new AdamsNordsieckFieldTransformer<>(field, nSteps);
-                map.put(field, t);
-            }
-            return t;
-
-        }
+    public static <T extends CalculusFieldElement<T>> AdamsNordsieckFieldTransformer<T> getInstance(final Field<T> field, final int nSteps) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Build the P matrix.
+    /**
+     * Build the P matrix.
      * <p>The P matrix general terms are shifted \((j+1) (-i)^j\) terms
      * with i being the row number starting from 1 and j being the column
      * number starting from 1:
@@ -226,9 +215,7 @@ public class AdamsNordsieckFieldTransformer<T extends CalculusFieldElement<T>> {
      * @return P matrix
      */
     private FieldMatrix<T> buildP(final int rows) {
-
         final T[][] pData = MathArrays.buildArray(field, rows, rows);
-
         for (int i = 1; i <= pData.length; ++i) {
             // build the P matrix elements from Taylor series formulas
             final T[] pI = pData[i - 1];
@@ -239,12 +226,11 @@ public class AdamsNordsieckFieldTransformer<T extends CalculusFieldElement<T>> {
                 aj = aj.multiply(factor);
             }
         }
-
         return new Array2DRowFieldMatrix<>(pData, false);
-
     }
 
-    /** Initialize the high order scaled derivatives at step start.
+    /**
+     * Initialize the high order scaled derivatives at step start.
      * @param h step size to use for scaling
      * @param t first steps times
      * @param y first steps states
@@ -252,74 +238,12 @@ public class AdamsNordsieckFieldTransformer<T extends CalculusFieldElement<T>> {
      * @return Nordieck vector at start of first step (h<sup>2</sup>/2 y''<sub>n</sub>,
      * h<sup>3</sup>/6 y'''<sub>n</sub> ... h<sup>k</sup>/k! y<sup>(k)</sup><sub>n</sub>)
      */
-
-    public Array2DRowFieldMatrix<T> initializeHighOrderDerivatives(final T h, final T[] t,
-                                                                   final T[][] y,
-                                                                   final T[][] yDot) {
-
-        // using Taylor series with di = ti - t0, we get:
-        //  y(ti)  - y(t0)  - di y'(t0) =   di^2 / h^2 s2 + ... +   di^k     / h^k sk + O(h^k)
-        //  y'(ti) - y'(t0)             = 2 di   / h^2 s2 + ... + k di^(k-1) / h^k sk + O(h^(k-1))
-        // we write these relations for i = 1 to i= 1+n/2 as a set of n + 2 linear
-        // equations depending on the Nordsieck vector [s2 ... sk rk], so s2 to sk correspond
-        // to the appropriately truncated Taylor expansion, and rk is the Taylor remainder.
-        // The goal is to have s2 to sk as accurate as possible considering the fact the sum is
-        // truncated and we don't want the error terms to be included in s2 ... sk, so we need
-        // to solve also for the remainder
-        final T[][] a     = MathArrays.buildArray(field, c1.length + 1, c1.length + 1);
-        final T[][] b     = MathArrays.buildArray(field, c1.length + 1, y[0].length);
-        final T[]   y0    = y[0];
-        final T[]   yDot0 = yDot[0];
-        for (int i = 1; i < y.length; ++i) {
-
-            final T di    = t[i].subtract(t[0]);
-            final T ratio = di.divide(h);
-            T dikM1Ohk    = h.reciprocal();
-
-            // linear coefficients of equations
-            // y(ti) - y(t0) - di y'(t0) and y'(ti) - y'(t0)
-            final T[] aI    = a[2 * i - 2];
-            final T[] aDotI = (2 * i - 1) < a.length ? a[2 * i - 1] : null;
-            for (int j = 0; j < aI.length; ++j) {
-                dikM1Ohk = dikM1Ohk.multiply(ratio);
-                aI[j]    = di.multiply(dikM1Ohk);
-                if (aDotI != null) {
-                    aDotI[j]  = dikM1Ohk.multiply(j + 2);
-                }
-            }
-
-            // expected value of the previous equations
-            final T[] yI    = y[i];
-            final T[] yDotI = yDot[i];
-            final T[] bI    = b[2 * i - 2];
-            final T[] bDotI = (2 * i - 1) < b.length ? b[2 * i - 1] : null;
-            for (int j = 0; j < yI.length; ++j) {
-                bI[j]    = yI[j].subtract(y0[j]).subtract(di.multiply(yDot0[j]));
-                if (bDotI != null) {
-                    bDotI[j] = yDotI[j].subtract(yDot0[j]);
-                }
-            }
-
-        }
-
-        // solve the linear system to get the best estimate of the Nordsieck vector [s2 ... sk],
-        // with the additional terms s(k+1) and c grabbing the parts after the truncated Taylor expansion
-        final FieldLUDecomposition<T> decomposition = new FieldLUDecomposition<>(new Array2DRowFieldMatrix<>(a, false));
-        final FieldMatrix<T> x = decomposition.getSolver().solve(new Array2DRowFieldMatrix<>(b, false));
-
-        // extract just the Nordsieck vector [s2 ... sk]
-        final Array2DRowFieldMatrix<T> truncatedX =
-                        new Array2DRowFieldMatrix<>(field, x.getRowDimension() - 1, x.getColumnDimension());
-        for (int i = 0; i < truncatedX.getRowDimension(); ++i) {
-            for (int j = 0; j < truncatedX.getColumnDimension(); ++j) {
-                truncatedX.setEntry(i, j, x.getEntry(i, j));
-            }
-        }
-        return truncatedX;
-
+    public Array2DRowFieldMatrix<T> initializeHighOrderDerivatives(final T h, final T[] t, final T[][] y, final T[][] yDot) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Update the high order scaled derivatives for Adams integrators (phase 1).
+    /**
+     * Update the high order scaled derivatives for Adams integrators (phase 1).
      * <p>The complete update of high order derivatives has a form similar to:
      * \[
      * r_{n+1} = (s_1(n) - s_1(n+1)) P^{-1} u + P^{-1} A P r_n
@@ -331,10 +255,11 @@ public class AdamsNordsieckFieldTransformer<T extends CalculusFieldElement<T>> {
      * @see #updateHighOrderDerivativesPhase2(CalculusFieldElement[], CalculusFieldElement[], Array2DRowFieldMatrix)
      */
     public Array2DRowFieldMatrix<T> updateHighOrderDerivativesPhase1(final Array2DRowFieldMatrix<T> highOrder) {
-        return update.multiply(highOrder);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Update the high order scaled derivatives Adams integrators (phase 2).
+    /**
+     * Update the high order scaled derivatives Adams integrators (phase 2).
      * <p>The complete update of high order derivatives has a form similar to:
      * \[
      * r_{n+1} = (s_1(n) - s_1(n+1)) P^{-1} u + P^{-1} A P r_n
@@ -347,17 +272,7 @@ public class AdamsNordsieckFieldTransformer<T extends CalculusFieldElement<T>> {
      * (h<sup>2</sup>/2 y'', ... h<sup>k</sup>/k! y(k))
      * @see #updateHighOrderDerivativesPhase1(Array2DRowFieldMatrix)
      */
-    public void updateHighOrderDerivativesPhase2(final T[] start,
-                                                 final T[] end,
-                                                 final Array2DRowFieldMatrix<T> highOrder) {
-        final T[][] data = highOrder.getDataRef();
-        for (int i = 0; i < data.length; ++i) {
-            final T[] dataI = data[i];
-            final T c1I = c1[i];
-            for (int j = 0; j < dataI.length; ++j) {
-                dataI[j] = dataI[j].add(c1I.multiply(start[j].subtract(end[j])));
-            }
-        }
+    public void updateHighOrderDerivativesPhase2(final T[] start, final T[] end, final Array2DRowFieldMatrix<T> highOrder) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

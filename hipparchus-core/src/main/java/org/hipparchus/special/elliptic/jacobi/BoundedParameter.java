@@ -20,38 +20,43 @@ import org.hipparchus.complex.Complex;
 import org.hipparchus.special.elliptic.legendre.LegendreEllipticIntegral;
 import org.hipparchus.util.MathUtils;
 
-/** Algorithm for computing the principal Jacobi functions for parameter m in [0; 1].
+/**
+ * Algorithm for computing the principal Jacobi functions for parameter m in [0; 1].
  * @since 2.0
  */
 class BoundedParameter extends JacobiElliptic {
 
-    /** Jacobi θ functions. */
+    /**
+     * Jacobi θ functions.
+     */
     private final JacobiTheta jacobiTheta;
 
-    /** Value of Jacobi θ functions at origin. */
+    /**
+     * Value of Jacobi θ functions at origin.
+     */
     private final Theta t0;
 
-    /** Scaling factor. */
+    /**
+     * Scaling factor.
+     */
     private final double scaling;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param m parameter of the Jacobi elliptic function
      */
     BoundedParameter(final double m) {
-
         super(m);
-
         // compute nome
         final double q = LegendreEllipticIntegral.nome(m);
-
         // prepare underlying Jacobi θ functions
         this.jacobiTheta = new JacobiTheta(q);
-        this.t0          = jacobiTheta.values(Complex.ZERO);
-        this.scaling     = MathUtils.SEMI_PI / LegendreEllipticIntegral.bigK(m);
-
+        this.t0 = jacobiTheta.values(Complex.ZERO);
+        this.scaling = MathUtils.SEMI_PI / LegendreEllipticIntegral.bigK(m);
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * The algorithm for evaluating the functions is based on {@link JacobiTheta
      * Jacobi theta functions}.
@@ -59,17 +64,6 @@ class BoundedParameter extends JacobiElliptic {
      */
     @Override
     public CopolarN valuesN(double u) {
-
-        // evaluate Jacobi θ functions at argument
-        final Theta tZ = jacobiTheta.values(new Complex(u * scaling));
-
-        // convert to Jacobi elliptic functions
-        final double sn = t0.theta3().multiply(tZ.theta1()).divide(t0.theta2().multiply(tZ.theta4())).getRealPart();
-        final double cn = t0.theta4().multiply(tZ.theta2()).divide(t0.theta2().multiply(tZ.theta4())).getRealPart();
-        final double dn = t0.theta4().multiply(tZ.theta3()).divide(t0.theta3().multiply(tZ.theta4())).getRealPart();
-
-        return new CopolarN(sn, cn, dn);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -34,18 +33,22 @@ import java.util.Locale;
  * <p>
  * Note: from 1.0 onwards, this class extends {@link NullPointerException} instead
  * of {@link MathIllegalArgumentException}.
- *
  */
-public class NullArgumentException extends NullPointerException
-    implements LocalizedException {
+public class NullArgumentException extends NullPointerException implements LocalizedException {
 
-    /** Serializable version Id. */
+    /**
+     * Serializable version Id.
+     */
     private static final long serialVersionUID = 20160217L;
 
-    /** Format specifier (to be translated). */
+    /**
+     * Format specifier (to be translated).
+     */
     private final Localizable specifier;
 
-    /** Parts to insert in the format (no translation). */
+    /**
+     * Parts to insert in the format (no translation).
+     */
     private final Object[] parts;
 
     /**
@@ -55,43 +58,54 @@ public class NullArgumentException extends NullPointerException
         this(LocalizedCoreFormats.NULL_NOT_ALLOWED);
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param specifier format specifier (to be translated).
      * @param parts parts to insert in the format (no translation).
      */
-    public NullArgumentException(final Localizable specifier, final Object ... parts) {
+    public NullArgumentException(final Localizable specifier, final Object... parts) {
         this.specifier = specifier;
-        this.parts     = (parts == null) ? new Object[0] : parts.clone();
+        this.parts = (parts == null) ? new Object[0] : parts.clone();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getMessage(final Locale locale) {
-        return buildMessage(locale, specifier, parts);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getMessage() {
-        return getMessage(Locale.US);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getLocalizedMessage() {
-        return getMessage(Locale.getDefault());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Localizable getSpecifier() {
-        return specifier;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object[] getParts() {
-        return parts.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -101,8 +115,7 @@ public class NullArgumentException extends NullPointerException
      * @param parts parts to insert in the format (no translation)
      * @return a message string
      */
-    private static String buildMessage(final Locale locale, final Localizable specifier, final Object ... parts) {
+    private static String buildMessage(final Locale locale, final Localizable specifier, final Object... parts) {
         return (specifier == null) ? "" : new MessageFormat(specifier.getLocalizedString(locale), locale).format(parts);
     }
-
 }

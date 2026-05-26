@@ -19,7 +19,8 @@ package org.hipparchus.special.elliptic.jacobi;
 import org.hipparchus.util.FastMath;
 import org.hipparchus.util.SinCos;
 
-/** Algorithm for computing the principal Jacobi functions for parameters slightly above zero.
+/**
+ * Algorithm for computing the principal Jacobi functions for parameters slightly above zero.
  * <p>
  * The algorithm for evaluating the functions is based on approximation
  * in terms of circular functions. It is given in Abramowitz and Stegun,
@@ -29,21 +30,19 @@ import org.hipparchus.util.SinCos;
  */
 class NearZeroParameter extends JacobiElliptic {
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param m parameter of the Jacobi elliptic function (must be zero or slightly positive here)
      */
     NearZeroParameter(final double m) {
         super(m);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CopolarN valuesN(final double u) {
-        final SinCos sc     = FastMath.sinCos(u);
-        final double factor = 0.25 * getM() * (u - sc.sin() * sc.cos());
-        return new CopolarN(sc.sin() - factor * sc.cos(),            // equation 16.13.1
-                            sc.cos() + factor * sc.sin(),            // equation 16.13.2
-                            1 - 0.5 * getM() * sc.sin() * sc.sin()); // equation 16.13.3
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

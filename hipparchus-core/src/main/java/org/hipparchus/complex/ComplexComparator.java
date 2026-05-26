@@ -21,25 +21,29 @@ import java.util.Comparator;
 
 /**
  * Comparator for Complex Numbers.
- *
  */
 public class ComplexComparator implements Comparator<Complex>, Serializable {
 
-    /** Serializable UID. */
+    /**
+     * Serializable UID.
+     */
     private static final long serialVersionUID = 20171113L;
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public ComplexComparator() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public ComplexComparator() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** Compare two complex numbers, using real ordering as the primary sort order and
+    /**
+     * Compare two complex numbers, using real ordering as the primary sort order and
      * imaginary ordering as the secondary sort order.
      * @param o1 first complex number
      * @param o2 second complex number
@@ -48,13 +52,6 @@ public class ComplexComparator implements Comparator<Complex>, Serializable {
      */
     @Override
     public int compare(Complex o1, Complex o2) {
-        if (o1 == null) {
-            return o2 == null ? 0 : -1;
-        } else if (o2 == null) {
-            return 1;
-        } else {
-            return o1.compareTo(o2);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

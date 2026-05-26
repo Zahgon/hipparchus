@@ -14,29 +14,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.events;
 
 import org.hipparchus.ode.ODEState;
 import org.hipparchus.ode.ODEStateAndDerivative;
 import org.hipparchus.ode.sampling.ODEStateInterpolator;
 
-/** This class handles the state for one {@link ODEEventHandler
+/**
+ * This class handles the state for one {@link ODEEventHandler
  * event handler} that triggers at step end.
  * @since 3.0
  */
 public class StepEndEventState implements EventState {
 
-    /** Step end handler. */
+    /**
+     * Step end handler.
+     */
     private final ODEStepEndHandler handler;
 
-    /** Time at step end. */
+    /**
+     * Time at step end.
+     */
     private double stepEnd;
 
-    /** Integration direction. */
+    /**
+     * Integration direction.
+     */
     private boolean forward;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param handler step end handler
      */
     public StepEndEventState(final ODEStepEndHandler handler) {
@@ -44,54 +51,51 @@ public class StepEndEventState implements EventState {
         this.stepEnd = Double.NaN;
     }
 
-    /** Get the underlying step end handler.
+    /**
+     * Get the underlying step end handler.
      * @return underlying step end handler
      */
     public ODEStepEndHandler getHandler() {
-        return handler;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void init(final ODEStateAndDerivative s0, final double t) {
-        forward = t >= s0.getTime();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set the step end.
+    /**
+     * Set the step end.
      * @param stepEnd step end
      */
     public void setStepEnd(final double stepEnd) {
-        this.stepEnd = stepEnd;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean evaluateStep(final ODEStateInterpolator interpolator) {
-        return stepEnd == interpolator.getCurrentState().getTime();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getEventTime() {
-        return stepEnd;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public EventOccurrence doEvent(final ODEStateAndDerivative state) {
-
-        final Action action = handler.stepEndOccurred(state, forward);
-        final ODEState newState;
-        if (action == Action.RESET_STATE) {
-            newState = handler.resetState(state);
-        } else {
-            newState = state;
-        }
-
-        final EventOccurrence occurrence = new EventOccurrence(action, newState, stepEnd);
-        setStepEnd(Double.NaN);
-        return occurrence;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

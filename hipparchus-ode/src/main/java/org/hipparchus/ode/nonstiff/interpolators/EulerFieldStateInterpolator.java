@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode.nonstiff.interpolators;
 
 import org.hipparchus.CalculusFieldElement;
@@ -49,11 +47,10 @@ import org.hipparchus.ode.nonstiff.EulerFieldIntegrator;
  * @see EulerFieldIntegrator
  * @param <T> the type of the field elements
  */
+public class EulerFieldStateInterpolator<T extends CalculusFieldElement<T>> extends RungeKuttaFieldStateInterpolator<T> {
 
-public class EulerFieldStateInterpolator<T extends CalculusFieldElement<T>>
-    extends RungeKuttaFieldStateInterpolator<T> {
-
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param field field to which the time and state vector elements belong
      * @param forward integration direction indicator
      * @param yDotK slopes at the intermediate points
@@ -63,45 +60,24 @@ public class EulerFieldStateInterpolator<T extends CalculusFieldElement<T>>
      * @param softCurrentState end of the restricted step
      * @param mapper equations mapper for the all equations
      */
-    public EulerFieldStateInterpolator(final Field<T> field, final boolean forward,
-                                       final T[][] yDotK,
-                                       final FieldODEStateAndDerivative<T> globalPreviousState,
-                                       final FieldODEStateAndDerivative<T> globalCurrentState,
-                                       final FieldODEStateAndDerivative<T> softPreviousState,
-                                       final FieldODEStateAndDerivative<T> softCurrentState,
-                                       final FieldEquationsMapper<T> mapper) {
-        super(field, forward, yDotK, globalPreviousState, globalCurrentState, softPreviousState, softCurrentState,
-              mapper);
+    public EulerFieldStateInterpolator(final Field<T> field, final boolean forward, final T[][] yDotK, final FieldODEStateAndDerivative<T> globalPreviousState, final FieldODEStateAndDerivative<T> globalCurrentState, final FieldODEStateAndDerivative<T> softPreviousState, final FieldODEStateAndDerivative<T> softCurrentState, final FieldEquationsMapper<T> mapper) {
+        super(field, forward, yDotK, globalPreviousState, globalCurrentState, softPreviousState, softCurrentState, mapper);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected EulerFieldStateInterpolator<T> create(final Field<T> newField, final boolean newForward, final T[][] newYDotK,
-                                                    final FieldODEStateAndDerivative<T> newGlobalPreviousState,
-                                                    final FieldODEStateAndDerivative<T> newGlobalCurrentState,
-                                                    final FieldODEStateAndDerivative<T> newSoftPreviousState,
-                                                    final FieldODEStateAndDerivative<T> newSoftCurrentState,
-                                                    final FieldEquationsMapper<T> newMapper) {
-        return new EulerFieldStateInterpolator<>(newField, newForward, newYDotK, newGlobalPreviousState,
-                newGlobalCurrentState, newSoftPreviousState, newSoftCurrentState, newMapper);
+    protected EulerFieldStateInterpolator<T> create(final Field<T> newField, final boolean newForward, final T[][] newYDotK, final FieldODEStateAndDerivative<T> newGlobalPreviousState, final FieldODEStateAndDerivative<T> newGlobalCurrentState, final FieldODEStateAndDerivative<T> newSoftPreviousState, final FieldODEStateAndDerivative<T> newSoftCurrentState, final FieldEquationsMapper<T> newMapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
     @Override
-    protected FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(final FieldEquationsMapper<T> mapper,
-                                                                                   final T time, final T theta,
-                                                                                   final T thetaH, final T oneMinusThetaH) {
-        final T[] interpolatedState;
-        if (getGlobalPreviousState() != null && theta.getReal() <= 0.5) {
-            interpolatedState       = previousStateLinearCombination(thetaH);
-        } else {
-            interpolatedState       = currentStateLinearCombination(oneMinusThetaH.negate());
-        }
-        final T[] interpolatedDerivatives = derivativeLinearCombination(time.getField().getOne());
-
-        return mapper.mapStateAndDerivative(time, interpolatedState, interpolatedDerivatives);
-
+    protected FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(final FieldEquationsMapper<T> mapper, final T time, final T theta, final T thetaH, final T oneMinusThetaH) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

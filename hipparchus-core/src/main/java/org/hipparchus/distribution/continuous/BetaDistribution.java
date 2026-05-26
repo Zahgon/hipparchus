@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -33,13 +32,25 @@ import org.hipparchus.util.FastMath;
  * @see <a href="http://en.wikipedia.org/wiki/Beta_distribution">Beta distribution</a>
  */
 public class BetaDistribution extends AbstractRealDistribution {
-    /** Serializable version identifier. */
+
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20160320L;
-    /** First shape parameter. */
+
+    /**
+     * First shape parameter.
+     */
     private final double alpha;
-    /** Second shape parameter. */
+
+    /**
+     * Second shape parameter.
+     */
     private final double beta;
-    /** Normalizing factor used in density computations. */
+
+    /**
+     * Normalizing factor used in density computations.
+     */
     private final double z;
 
     /**
@@ -63,12 +74,9 @@ public class BetaDistribution extends AbstractRealDistribution {
      */
     public BetaDistribution(double alpha, double beta, double inverseCumAccuracy) {
         super(inverseCumAccuracy);
-
         this.alpha = alpha;
-        this.beta  = beta;
-        this.z     = Gamma.logGamma(alpha) +
-                     Gamma.logGamma(beta)  -
-                     Gamma.logGamma(alpha + beta);
+        this.beta = beta;
+        this.z = Gamma.logGamma(alpha) + Gamma.logGamma(beta) - Gamma.logGamma(alpha + beta);
     }
 
     /**
@@ -77,7 +85,7 @@ public class BetaDistribution extends AbstractRealDistribution {
      * @return the first shape parameter.
      */
     public double getAlpha() {
-        return alpha;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -86,50 +94,31 @@ public class BetaDistribution extends AbstractRealDistribution {
      * @return the second shape parameter.
      */
     public double getBeta() {
-        return beta;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double density(double x) {
-        final double logDensity = logDensity(x);
-        return logDensity == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logDensity);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} **/
+    /**
+     * {@inheritDoc} *
+     */
     @Override
     public double logDensity(double x) {
-        if (x < 0 || x > 1) {
-            return Double.NEGATIVE_INFINITY;
-        } else if (x == 0) {
-            if (alpha < 1) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.CANNOT_COMPUTE_BETA_DENSITY_AT_0_FOR_SOME_ALPHA,
-                                                       alpha, 1, false);
-            }
-            return Double.NEGATIVE_INFINITY;
-        } else if (x == 1) {
-            if (beta < 1) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.CANNOT_COMPUTE_BETA_DENSITY_AT_1_FOR_SOME_BETA,
-                                                       beta, 1, false);
-            }
-            return Double.NEGATIVE_INFINITY;
-        } else {
-            double logX = FastMath.log(x);
-            double log1mX = FastMath.log1p(-x);
-            return (alpha - 1) * logX + (beta - 1) * log1mX - z;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double cumulativeProbability(double x)  {
-        if (x <= 0) {
-            return 0;
-        } else if (x >= 1) {
-            return 1;
-        } else {
-            return Beta.regularizedBeta(x, alpha, beta);
-        }
+    public double cumulativeProbability(double x) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -140,8 +129,7 @@ public class BetaDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalMean() {
-        final double a = getAlpha();
-        return a / (a + getBeta());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -153,10 +141,7 @@ public class BetaDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        final double a = getAlpha();
-        final double b = getBeta();
-        final double alphabetasum = a + b;
-        return (a * b) / ((alphabetasum * alphabetasum) * (alphabetasum + 1));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -168,7 +153,7 @@ public class BetaDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportLowerBound() {
-        return 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -180,7 +165,7 @@ public class BetaDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportUpperBound() {
-        return 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -192,6 +177,6 @@ public class BetaDistribution extends AbstractRealDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

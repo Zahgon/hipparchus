@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.complex;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathIllegalStateException;
@@ -35,13 +33,19 @@ import org.hipparchus.util.SinCos;
  */
 public class RootsOfUnity implements Serializable {
 
-    /** Serializable version id. */
+    /**
+     * Serializable version id.
+     */
     private static final long serialVersionUID = 20120201L;
 
-    /** Number of roots of unity. */
+    /**
+     * Number of roots of unity.
+     */
     private int omegaCount;
 
-    /** Real part of the roots. */
+    /**
+     * Real part of the roots.
+     */
     private double[] omegaReal;
 
     /**
@@ -83,14 +87,8 @@ public class RootsOfUnity implements Serializable {
      * @return {@code true} if the roots of unity are stored in counter-clockwise order
      * @throws MathIllegalStateException if no roots of unity have been computed yet
      */
-    public boolean isCounterClockWise()
-            throws MathIllegalStateException {
-        synchronized (this) {
-            if (omegaCount == 0) {
-                throw new MathIllegalStateException(LocalizedCoreFormats.ROOTS_OF_UNITY_NOT_COMPUTED_YET);
-            }
-            return isCounterClockWise;
-        }
+    public boolean isCounterClockWise() throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -111,39 +109,7 @@ public class RootsOfUnity implements Serializable {
      * @throws MathIllegalArgumentException if {@code n = 0}
      */
     public void computeRoots(int n) throws MathIllegalArgumentException {
-
-        if (n == 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.CANNOT_COMPUTE_0TH_ROOT_OF_UNITY);
-        }
-
-        synchronized (this) {
-            isCounterClockWise = n > 0;
-
-            // avoid repetitive calculations
-            final int absN = FastMath.abs(n);
-
-            if (absN == omegaCount) {
-                return;
-            }
-
-            // calculate everything from scratch
-            final double t  = 2.0 * FastMath.PI / absN;
-            final SinCos sc = FastMath.sinCos(t);
-            omegaReal = new double[absN];
-            omegaImaginaryCounterClockwise = new double[absN];
-            omegaImaginaryClockwise = new double[absN];
-            omegaReal[0] = 1.0;
-            omegaImaginaryCounterClockwise[0] = 0.0;
-            omegaImaginaryClockwise[0] = 0.0;
-            for (int i = 1; i < absN; i++) {
-                omegaReal[i] = omegaReal[i - 1] * sc.cos() -
-                                omegaImaginaryCounterClockwise[i - 1] * sc.sin();
-                omegaImaginaryCounterClockwise[i] = omegaReal[i - 1] * sc.sin() +
-                                omegaImaginaryCounterClockwise[i - 1] * sc.cos();
-                omegaImaginaryClockwise[i] = -omegaImaginaryCounterClockwise[i];
-            }
-            omegaCount = absN;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -154,20 +120,8 @@ public class RootsOfUnity implements Serializable {
      * @throws MathIllegalStateException if no roots of unity have been computed yet
      * @throws MathIllegalArgumentException if {@code k} is out of range
      */
-    public double getReal(int k)
-            throws MathIllegalArgumentException, MathIllegalStateException {
-
-        synchronized (this) {
-            if (omegaCount == 0) {
-                throw new MathIllegalStateException(LocalizedCoreFormats.ROOTS_OF_UNITY_NOT_COMPUTED_YET);
-            }
-            if ((k < 0) || (k >= omegaCount)) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.OUT_OF_RANGE_ROOT_OF_UNITY_INDEX,
-                                                       k, 0, omegaCount - 1);
-            }
-
-            return omegaReal[k];
-        }
+    public double getReal(int k) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -178,22 +132,8 @@ public class RootsOfUnity implements Serializable {
      * @throws MathIllegalStateException if no roots of unity have been computed yet
      * @throws MathIllegalArgumentException if {@code k} is out of range
      */
-    public double getImaginary(int k)
-            throws MathIllegalArgumentException, MathIllegalStateException {
-
-        synchronized (this) {
-            if (omegaCount == 0) {
-                throw new MathIllegalStateException(LocalizedCoreFormats.ROOTS_OF_UNITY_NOT_COMPUTED_YET);
-            }
-            if ((k < 0) || (k >= omegaCount)) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.OUT_OF_RANGE_ROOT_OF_UNITY_INDEX,
-                                                       k, 0, omegaCount - 1);
-            }
-
-            return isCounterClockWise ?
-                   omegaImaginaryCounterClockwise[k] :
-                   omegaImaginaryClockwise[k];
-        }
+    public double getImaginary(int k) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -206,8 +146,6 @@ public class RootsOfUnity implements Serializable {
      * @return the number of roots of unity currently stored
      */
     public int getNumberOfRoots() {
-        synchronized (this) {
-            return omegaCount;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -42,14 +41,16 @@ import java.util.Comparator;
  */
 public class LongFrequency extends Frequency<Long> {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20160322L;
 
     /**
      * Default constructor.
      */
     public LongFrequency() {
-     // This constructor is intentionally empty. Nothing special is needed here.
+        // This constructor is intentionally empty. Nothing special is needed here.
     }
 
     /**
@@ -67,7 +68,7 @@ public class LongFrequency extends Frequency<Long> {
      * @param v the value to add.
      */
     public void addValue(int v) {
-        incrementValue(Long.valueOf(v), 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -77,11 +78,10 @@ public class LongFrequency extends Frequency<Long> {
      * @param increment the amount by which the value should be incremented
      */
     public void incrementValue(int v, long increment) {
-        incrementValue(Long.valueOf(v), increment);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
-
     /**
      * Returns the number of values equal to v.
      *
@@ -89,7 +89,7 @@ public class LongFrequency extends Frequency<Long> {
      * @return the frequency of v.
      */
     public long getCount(int v) {
-        return getCount(Long.valueOf(v));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -102,11 +102,10 @@ public class LongFrequency extends Frequency<Long> {
      * @return the proportion of values equal to v
      */
     public double getPct(int v) {
-        return getPct(Long.valueOf(v));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------------------------
-
     /**
      * Returns the cumulative frequency of values less than or equal to v.
      *
@@ -114,11 +113,10 @@ public class LongFrequency extends Frequency<Long> {
      * @return the proportion of values equal to v
      */
     public long getCumFreq(int v) {
-        return getCumFreq(Long.valueOf(v));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //----------------------------------------------------------------------------------------------
-
     /**
      * Returns the cumulative percentage of values less than or equal to v
      * (as a proportion between 0 and 1).
@@ -129,7 +127,6 @@ public class LongFrequency extends Frequency<Long> {
      * @return the proportion of values less than or equal to v
      */
     public double getCumPct(int v) {
-        return getCumPct(Long.valueOf(v));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

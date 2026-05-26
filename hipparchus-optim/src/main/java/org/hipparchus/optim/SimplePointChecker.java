@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -41,16 +40,16 @@ import org.hipparchus.util.Pair;
  *
  * @param <P> Type of the (point, value) pair.
  * The type of the "value" part of the pair (not used by this class).
- *
  */
-public class SimplePointChecker<P extends Pair<double[], ? extends Object>>
-    extends AbstractConvergenceChecker<P> {
+public class SimplePointChecker<P extends Pair<double[], ? extends Object>> extends AbstractConvergenceChecker<P> {
+
     /**
      * If {@link #maxIterationCount} is set to this value, the number of
      * iterations will never cause {@link #converged(int, Pair, Pair)}
      * to return {@code true}.
      */
     private static final int ITERATION_CHECK_DISABLED = -1;
+
     /**
      * Number of iterations after which the
      * {@link #converged(int, Pair, Pair)} method
@@ -67,8 +66,7 @@ public class SimplePointChecker<P extends Pair<double[], ? extends Object>>
      * @param relativeThreshold relative tolerance threshold
      * @param absoluteThreshold absolute tolerance threshold
      */
-    public SimplePointChecker(final double relativeThreshold,
-                              final double absoluteThreshold) {
+    public SimplePointChecker(final double relativeThreshold, final double absoluteThreshold) {
         super(relativeThreshold, absoluteThreshold);
         maxIterationCount = ITERATION_CHECK_DISABLED;
     }
@@ -83,16 +81,11 @@ public class SimplePointChecker<P extends Pair<double[], ? extends Object>>
      * @param absoluteThreshold Absolute tolerance threshold.
      * @param maxIter Maximum iteration count.
      * @throws MathIllegalArgumentException if {@code maxIter <= 0}.
-     *
      */
-    public SimplePointChecker(final double relativeThreshold,
-                              final double absoluteThreshold,
-                              final int maxIter) {
+    public SimplePointChecker(final double relativeThreshold, final double absoluteThreshold, final int maxIter) {
         super(relativeThreshold, absoluteThreshold);
-
         if (maxIter <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
-                                                   maxIter, 0);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED, maxIter, 0);
         }
         maxIterationCount = maxIter;
     }
@@ -114,25 +107,7 @@ public class SimplePointChecker<P extends Pair<double[], ? extends Object>>
      * @return {@code true} if the arguments satify the convergence criterion.
      */
     @Override
-    public boolean converged(final int iteration,
-                             final P previous,
-                             final P current) {
-        if (maxIterationCount != ITERATION_CHECK_DISABLED && iteration >= maxIterationCount) {
-            return true;
-        }
-
-        final double[] p = previous.getKey();
-        final double[] c = current.getKey();
-        for (int i = 0; i < p.length; ++i) {
-            final double pi = p[i];
-            final double ci = c[i];
-            final double difference = FastMath.abs(pi - ci);
-            final double size = FastMath.max(FastMath.abs(pi), FastMath.abs(ci));
-            if (difference > size * getRelativeThreshold() &&
-                difference > getAbsoluteThreshold()) {
-                return false;
-            }
-        }
-        return true;
+    public boolean converged(final int iteration, final P previous, final P current) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

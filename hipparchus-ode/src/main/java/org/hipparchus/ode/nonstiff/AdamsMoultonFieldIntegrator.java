@@ -14,16 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode.nonstiff;
 
 import java.util.Arrays;
-
 import org.hipparchus.Field;
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -37,7 +34,6 @@ import org.hipparchus.ode.LocalizedODEFormats;
 import org.hipparchus.ode.nonstiff.interpolators.AdamsFieldStateInterpolator;
 import org.hipparchus.util.MathArrays;
 import org.hipparchus.util.MathUtils;
-
 
 /**
  * This class implements implicit Adams-Moulton integrators for Ordinary
@@ -177,7 +173,9 @@ import org.hipparchus.util.MathUtils;
  */
 public class AdamsMoultonFieldIntegrator<T extends CalculusFieldElement<T>> extends AdamsFieldIntegrator<T> {
 
-    /** Name of integration scheme. */
+    /**
+     * Name of integration scheme.
+     */
     public static final String METHOD_NAME = AdamsMoultonIntegrator.METHOD_NAME;
 
     /**
@@ -194,13 +192,8 @@ public class AdamsMoultonFieldIntegrator<T extends CalculusFieldElement<T>> exte
      * @param scalRelativeTolerance allowed relative error
      * @exception MathIllegalArgumentException if order is 1 or less
      */
-    public AdamsMoultonFieldIntegrator(final Field<T> field, final int nSteps,
-                                       final double minStep, final double maxStep,
-                                       final double scalAbsoluteTolerance,
-                                       final double scalRelativeTolerance)
-        throws MathIllegalArgumentException {
-        super(field, METHOD_NAME, nSteps, nSteps + 1, minStep, maxStep,
-              scalAbsoluteTolerance, scalRelativeTolerance);
+    public AdamsMoultonFieldIntegrator(final Field<T> field, final int nSteps, final double minStep, final double maxStep, final double scalAbsoluteTolerance, final double scalRelativeTolerance) throws MathIllegalArgumentException {
+        super(field, METHOD_NAME, nSteps, nSteps + 1, minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
     }
 
     /**
@@ -217,56 +210,28 @@ public class AdamsMoultonFieldIntegrator<T extends CalculusFieldElement<T>> exte
      * @param vecRelativeTolerance allowed relative error
      * @exception IllegalArgumentException if order is 1 or less
      */
-    public AdamsMoultonFieldIntegrator(final Field<T> field, final int nSteps,
-                                       final double minStep, final double maxStep,
-                                       final double[] vecAbsoluteTolerance,
-                                       final double[] vecRelativeTolerance)
-        throws IllegalArgumentException {
-        super(field, METHOD_NAME, nSteps, nSteps + 1, minStep, maxStep,
-              vecAbsoluteTolerance, vecRelativeTolerance);
+    public AdamsMoultonFieldIntegrator(final Field<T> field, final int nSteps, final double minStep, final double maxStep, final double[] vecAbsoluteTolerance, final double[] vecRelativeTolerance) throws IllegalArgumentException {
+        super(field, METHOD_NAME, nSteps, nSteps + 1, minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected double errorEstimation(final T[] previousState, final T predictedTime,
-                                     final T[] predictedState, final T[] predictedScaled,
-                                     final FieldMatrix<T> predictedNordsieck) {
-        final double error = predictedNordsieck.walkInOptimizedOrder(new Corrector(previousState, predictedScaled, predictedState)).getReal();
-        if (Double.isNaN(error)) {
-            throw new MathIllegalStateException(LocalizedODEFormats.NAN_APPEARING_DURING_INTEGRATION,
-                                                predictedTime.getReal());
-        }
-        return error;
+    protected double errorEstimation(final T[] previousState, final T predictedTime, final T[] predictedState, final T[] predictedScaled, final FieldMatrix<T> predictedNordsieck) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected AdamsFieldStateInterpolator<T> finalizeStep(final T stepSize, final T[] predictedY,
-                                                          final T[] predictedScaled, final Array2DRowFieldMatrix<T> predictedNordsieck,
-                                                          final boolean isForward,
-                                                          final FieldODEStateAndDerivative<T> globalPreviousState,
-                                                          final FieldODEStateAndDerivative<T> globalCurrentState,
-                                                          final FieldEquationsMapper<T> equationsMapper) {
-
-        final T[] correctedYDot = computeDerivatives(globalCurrentState.getTime(), predictedY);
-
-        // update Nordsieck vector
-        final T[] correctedScaled = MathArrays.buildArray(getField(), predictedY.length);
-        for (int j = 0; j < correctedScaled.length; ++j) {
-            correctedScaled[j] = getStepSize().multiply(correctedYDot[j]);
-        }
-        updateHighOrderDerivativesPhase2(predictedScaled, correctedScaled, predictedNordsieck);
-
-        final FieldODEStateAndDerivative<T> updatedStepEnd =
-                        equationsMapper.mapStateAndDerivative(globalCurrentState.getTime(), predictedY, correctedYDot);
-        return new AdamsFieldStateInterpolator<>(getStepSize(), updatedStepEnd,
-                                                          correctedScaled, predictedNordsieck, isForward,
-                                                          getStepStart(), updatedStepEnd,
-                                                          equationsMapper);
-
+    protected AdamsFieldStateInterpolator<T> finalizeStep(final T stepSize, final T[] predictedY, final T[] predictedScaled, final Array2DRowFieldMatrix<T> predictedNordsieck, final boolean isForward, final FieldODEStateAndDerivative<T> globalPreviousState, final FieldODEStateAndDerivative<T> globalCurrentState, final FieldEquationsMapper<T> equationsMapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Corrector for current state in Adams-Moulton method.
+    /**
+     * Corrector for current state in Adams-Moulton method.
      * <p>
      * This visitor implements the Taylor series formula:
      * <pre>
@@ -276,19 +241,28 @@ public class AdamsMoultonFieldIntegrator<T extends CalculusFieldElement<T>> exte
      */
     private class Corrector implements FieldMatrixPreservingVisitor<T> {
 
-        /** Previous state. */
+        /**
+         * Previous state.
+         */
         private final T[] previous;
 
-        /** Current scaled first derivative. */
+        /**
+         * Current scaled first derivative.
+         */
         private final T[] scaled;
 
-        /** Current state before correction. */
+        /**
+         * Current state before correction.
+         */
         private final T[] before;
 
-        /** Current state after correction. */
+        /**
+         * Current state after correction.
+         */
         private final T[] after;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          * <p>
          * All arrays will be stored by reference to caller arrays.
          * </p>
@@ -297,27 +271,29 @@ public class AdamsMoultonFieldIntegrator<T extends CalculusFieldElement<T>> exte
          * @param state state to correct (will be overwritten after visit)
          */
         Corrector(final T[] previous, final T[] scaled, final T[] state) {
-            this.previous = previous; // NOPMD - array reference storage is intentional and documented here
-            this.scaled   = scaled;   // NOPMD - array reference storage is intentional and documented here
-            this.after    = state;    // NOPMD - array reference storage is intentional and documented here
-            this.before   = state.clone();
+            // NOPMD - array reference storage is intentional and documented here
+            this.previous = previous;
+            // NOPMD - array reference storage is intentional and documented here
+            this.scaled = scaled;
+            // NOPMD - array reference storage is intentional and documented here
+            this.after = state;
+            this.before = state.clone();
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
-        public void start(int rows, int columns,
-                          int startRow, int endRow, int startColumn, int endColumn) {
-            Arrays.fill(after, getField().getZero());
+        public void start(int rows, int columns, int startRow, int endRow, int startColumn, int endColumn) {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void visit(int row, int column, T value) {
-            if ((row & 0x1) == 0) {
-                after[column] = after[column].subtract(value);
-            } else {
-                after[column] = after[column].add(value);
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -331,21 +307,7 @@ public class AdamsMoultonFieldIntegrator<T extends CalculusFieldElement<T>> exte
          */
         @Override
         public T end() {
-
-            final StepsizeHelper helper = getStepSizeHelper();
-            T error = getField().getZero();
-            for (int i = 0; i < after.length; ++i) {
-                after[i] = after[i].add(previous[i].add(scaled[i]));
-                if (i < helper.getMainSetDimension()) {
-                    final T tol   = helper.getTolerance(i, MathUtils.max(previous[i].abs(), after[i].abs()));
-                    final T ratio = after[i].subtract(before[i]).divide(tol); // (corrected-predicted)/tol
-                    error = error.add(ratio.multiply(ratio));
-                }
-            }
-
-            return error.divide(helper.getMainSetDimension()).sqrt();
-
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
-
 }

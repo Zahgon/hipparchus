@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -30,8 +29,9 @@ import org.hipparchus.geometry.partitioning.Embedding;
 import org.hipparchus.util.FastMath;
 import org.hipparchus.util.Precision;
 
-/** The class represent lines in a three dimensional space.
-
+/**
+ * The class represent lines in a three dimensional space.
+ *
  * <p>Each oriented line is intrinsically associated with an abscissa
  * which is a coordinate on the line. The point at abscissa 0 is the
  * orthogonal projection of the origin on the line, another equivalent
@@ -44,29 +44,36 @@ import org.hipparchus.util.Precision;
  */
 public class Line implements Embedding<Euclidean3D, Vector3D, Euclidean1D, Vector1D> {
 
-    /** Line direction. */
+    /**
+     * Line direction.
+     */
     private Vector3D direction;
 
-    /** Line point closest to the origin. */
+    /**
+     * Line point closest to the origin.
+     */
     private Vector3D zero;
 
-    /** Tolerance below which points are considered identical. */
+    /**
+     * Tolerance below which points are considered identical.
+     */
     private final double tolerance;
 
-    /** Build a line from two points.
+    /**
+     * Build a line from two points.
      * @param p1 first point belonging to the line (this can be any point)
      * @param p2 second point belonging to the line (this can be any point, different from p1)
      * @param tolerance tolerance below which points are considered identical
      * @exception MathIllegalArgumentException if the points are equal
      * @see #fromDirection(Vector3D, Vector3D, double)
      */
-    public Line(final Vector3D p1, final Vector3D p2, final double tolerance)
-        throws MathIllegalArgumentException {
+    public Line(final Vector3D p1, final Vector3D p2, final double tolerance) throws MathIllegalArgumentException {
         this(tolerance);
         reset(p1, p2);
     }
 
-    /** Copy constructor.
+    /**
+     * Copy constructor.
      * <p>The created instance is completely independent from the
      * original instance, it is a deep copy.</p>
      * @param line line to copy
@@ -74,7 +81,7 @@ public class Line implements Embedding<Euclidean3D, Vector3D, Euclidean1D, Vecto
     public Line(final Line line) {
         this(line.tolerance);
         this.direction = line.direction;
-        this.zero      = line.zero;
+        this.zero = line.zero;
     }
 
     /**
@@ -97,21 +104,18 @@ public class Line implements Embedding<Euclidean3D, Vector3D, Euclidean1D, Vecto
      * @throws MathIllegalArgumentException if {@code direction} is the zero vector.
      * @see #Line(Vector3D, Vector3D, double)
      */
-    public static Line fromDirection(final Vector3D point,
-                                     final Vector3D direction,
-                                     final double tolerance) {
-        final Line line = new Line(tolerance);
-        line.resetWithDirection(point, direction);
-        return line;
+    public static Line fromDirection(final Vector3D point, final Vector3D direction, final double tolerance) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Reset the instance as if built from two points.
+    /**
+     * Reset the instance as if built from two points.
      * @param p1 first point belonging to the line (this can be any point)
      * @param p2 second point belonging to the line (this can be any point, different from p1)
      * @exception MathIllegalArgumentException if the points are equal
      */
     public void reset(final Vector3D p1, final Vector3D p2) throws MathIllegalArgumentException {
-        resetWithDirection(p1, p2.subtract(p1));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -130,37 +134,40 @@ public class Line implements Embedding<Euclidean3D, Vector3D, Euclidean1D, Vecto
         zero = new Vector3D(1.0, p1, -p1.dotProduct(delta) / norm2, delta);
     }
 
-    /** Get the tolerance below which points are considered identical.
+    /**
+     * Get the tolerance below which points are considered identical.
      * @return tolerance below which points are considered identical
      */
     public double getTolerance() {
-        return tolerance;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a line with reversed direction.
+    /**
+     * Get a line with reversed direction.
      * @return a new instance, with reversed direction
      */
     public Line revert() {
-        final Line reverted = new Line(this);
-        reverted.direction = reverted.direction.negate();
-        return reverted;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the normalized direction vector.
+    /**
+     * Get the normalized direction vector.
      * @return normalized direction vector
      */
     public Vector3D getDirection() {
-        return direction;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the line point closest to the origin.
+    /**
+     * Get the line point closest to the origin.
      * @return line point closest to the origin
      */
     public Vector3D getOrigin() {
-        return zero;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the abscissa of a point with respect to the line.
+    /**
+     * Get the abscissa of a point with respect to the line.
      * <p>The abscissa is 0 if the projection of the point and the
      * projection of the frame origin on the line are the same
      * point.</p>
@@ -168,34 +175,38 @@ public class Line implements Embedding<Euclidean3D, Vector3D, Euclidean1D, Vecto
      * @return abscissa of the point
      */
     public double getAbscissa(final Vector3D point) {
-        return point.subtract(zero).dotProduct(direction);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get one point from the line.
+    /**
+     * Get one point from the line.
      * @param abscissa desired abscissa for the point
      * @return one point belonging to the line, at specified abscissa
      */
     public Vector3D pointAt(final double abscissa) {
-        return new Vector3D(1.0, zero, abscissa, direction);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @see #getAbscissa(Vector3D)
      */
     @Override
     public Vector1D toSubSpace(final Vector3D point) {
-        return new Vector1D(getAbscissa(point));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @see #pointAt(double)
      */
     @Override
     public Vector3D toSpace(final Vector1D point) {
-        return pointAt(point.getX());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check if the instance is similar to another line.
+    /**
+     * Check if the instance is similar to another line.
      * <p>Lines are considered similar if they contain the same
      * points. This does not mean they are equal since they can have
      * opposite directions.</p>
@@ -203,84 +214,60 @@ public class Line implements Embedding<Euclidean3D, Vector3D, Euclidean1D, Vecto
      * @return true if the lines are similar
      */
     public boolean isSimilarTo(final Line line) {
-        final double angle = Vector3D.angle(direction, line.direction);
-        return ((angle < tolerance) || (angle > (FastMath.PI - tolerance))) && contains(line.zero);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check if the instance contains a point.
+    /**
+     * Check if the instance contains a point.
      * @param p point to check
      * @return true if p belongs to the line
      */
     public boolean contains(final Vector3D p) {
-        return distance(p) < tolerance;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the distance between the instance and a point.
+    /**
+     * Compute the distance between the instance and a point.
      * @param p to check
      * @return distance between the instance and the point
      */
     public double distance(final Vector3D p) {
-        final Vector3D d = p.subtract(zero);
-        final Vector3D n = new Vector3D(1.0, d, -d.dotProduct(direction), direction);
-        return n.getNorm();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the shortest distance between the instance and another line.
+    /**
+     * Compute the shortest distance between the instance and another line.
      * @param line line to check against the instance
      * @return shortest distance between the instance and the line
      */
     public double distance(final Line line) {
-
-        final Vector3D normal = Vector3D.crossProduct(direction, line.direction);
-        final double n = normal.getNorm();
-        if (n < Precision.SAFE_MIN) {
-            // lines are parallel
-            return distance(line.zero);
-        }
-
-        // signed separation of the two parallel planes that contains the lines
-        final double offset = line.zero.subtract(zero).dotProduct(normal) / n;
-
-        return FastMath.abs(offset);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the point of the instance closest to another line.
+    /**
+     * Compute the point of the instance closest to another line.
      * @param line line to check against the instance
      * @return point of the instance closest to another line
      */
     public Vector3D closestPoint(final Line line) {
-
-        final double cos = direction.dotProduct(line.direction);
-        final double n = 1 - cos * cos;
-        if (n < Precision.EPSILON) {
-            // the lines are parallel
-            return zero;
-        }
-
-        final Vector3D delta0 = line.zero.subtract(zero);
-        final double a        = delta0.dotProduct(direction);
-        final double b        = delta0.dotProduct(line.direction);
-
-        return new Vector3D(1, zero, (a - b * cos) / n, direction);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the intersection point of the instance and another line.
+    /**
+     * Get the intersection point of the instance and another line.
      * @param line other line
      * @return intersection point of the instance and the other line
      * or null if there are no intersection points
      */
     public Vector3D intersection(final Line line) {
-        final Vector3D closest = closestPoint(line);
-        return line.contains(closest) ? closest : null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Build a sub-line covering the whole line.
+    /**
+     * Build a sub-line covering the whole line.
      * @return a sub-line covering the whole line
      */
     public SubLine wholeLine() {
-        return new SubLine(this, new IntervalsSet(tolerance));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

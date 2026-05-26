@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.nonstiff;
 
 import org.hipparchus.ode.EquationsMapper;
@@ -42,13 +41,15 @@ import org.hipparchus.ode.nonstiff.interpolators.ThreeEighthesStateInterpolator;
  * @see MidpointIntegrator
  * @see LutherIntegrator
  */
-
 public class ThreeEighthesIntegrator extends FixedStepRungeKuttaIntegrator {
 
-    /** Name of integration scheme. */
+    /**
+     * Name of integration scheme.
+     */
     public static final String METHOD_NAME = "3/8";
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * Build a 3/8 integrator with the given step.
      * @param step integration step
      */
@@ -56,40 +57,35 @@ public class ThreeEighthesIntegrator extends FixedStepRungeKuttaIntegrator {
         super(METHOD_NAME, step);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[] getC() {
-        return new double[] {
-            1.0 / 3.0, 2.0 / 3.0, 1.0
-        };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[][] getA() {
-        return new double[][] {
-            {  1.0 / 3.0 },
-            { -1.0 / 3.0, 1.0 },
-            {  1.0, -1.0, 1.0 }
-        };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[] getB() {
-        return new double[] {
-            1.0 / 8.0, 3.0 / 8.0, 3.0 / 8.0, 1.0 / 8.0
-        };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected ThreeEighthesStateInterpolator createInterpolator(final boolean forward, final double[][] yDotK,
-                                                                final ODEStateAndDerivative globalPreviousState,
-                                                                final ODEStateAndDerivative globalCurrentState,
-                                                                final EquationsMapper mapper) {
-        return new ThreeEighthesStateInterpolator(forward, yDotK, globalPreviousState, globalCurrentState,
-                                                 globalPreviousState, globalCurrentState, mapper);
+    protected ThreeEighthesStateInterpolator createInterpolator(final boolean forward, final double[][] yDotK, final ODEStateAndDerivative globalPreviousState, final ODEStateAndDerivative globalCurrentState, final EquationsMapper mapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

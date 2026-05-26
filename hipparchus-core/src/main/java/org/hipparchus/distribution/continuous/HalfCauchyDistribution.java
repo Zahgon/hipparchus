@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.distribution.continuous;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -28,9 +27,15 @@ import org.hipparchus.util.MathUtils;
  * @see <a href="https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/dist.HalfCauchy.html">Half-Cauchy distribution</a>
  */
 public class HalfCauchyDistribution extends AbstractRealDistribution {
-    /** Serializable version identifier */
+
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20250915L;
-    /** The scale of this distribution. */
+
+    /**
+     * The scale of this distribution.
+     */
     private final double scale;
 
     /**
@@ -39,21 +44,19 @@ public class HalfCauchyDistribution extends AbstractRealDistribution {
      * @param scale Scale parameter for this distribution
      * @throws MathIllegalArgumentException if {@code scale <= 0}
      */
-    public HalfCauchyDistribution(double scale)
-        throws MathIllegalArgumentException {
+    public HalfCauchyDistribution(double scale) throws MathIllegalArgumentException {
         if (scale <= 0) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.SCALE, scale);
         }
         this.scale = scale;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double cumulativeProbability(double x) {
-        if (x < 0) {
-            return 0;
-        }
-        return (2.0/FastMath.PI) * FastMath.atan(x/scale) ;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -62,7 +65,7 @@ public class HalfCauchyDistribution extends AbstractRealDistribution {
      * @return the median for this distribution.
      */
     public double getMedian() {
-        return Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -71,16 +74,15 @@ public class HalfCauchyDistribution extends AbstractRealDistribution {
      * @return the scale parameter for this distribution.
      */
     public double getScale() {
-        return scale;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double density(double x) {
-        if (x < 0) {
-            return 0;
-        }
-        return (2.0 / FastMath.PI) * (scale / (x * x + scale * scale));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -91,18 +93,7 @@ public class HalfCauchyDistribution extends AbstractRealDistribution {
      */
     @Override
     public double inverseCumulativeProbability(double p) throws MathIllegalArgumentException {
-        MathUtils.checkRangeInclusive(p, 0, 1);
-
-        double ret;
-        if (p == 0) {
-            ret = 0.0;
-        } else  if (p == 1) {
-            ret = Double.POSITIVE_INFINITY;
-        } else {
-            ret = scale * FastMath.tan(FastMath.PI * p / 2.0);
-        }
-        return ret;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -114,7 +105,7 @@ public class HalfCauchyDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalMean() {
-        return Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -126,7 +117,7 @@ public class HalfCauchyDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        return Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -139,7 +130,7 @@ public class HalfCauchyDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportLowerBound() {
-        return 0.0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -152,7 +143,7 @@ public class HalfCauchyDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportUpperBound() {
-        return Double.POSITIVE_INFINITY;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -164,7 +155,6 @@ public class HalfCauchyDistribution extends AbstractRealDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }
-

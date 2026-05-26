@@ -18,266 +18,339 @@ package org.hipparchus.optim.nonlinear.vector.constrained;
 
 import org.hipparchus.optim.OptimizationData;
 
-/** Container for {@link ADMMQPOptimizer} settings.
+/**
+ * Container for {@link ADMMQPOptimizer} settings.
  * @since 3.1
  */
 public class ADMMQPOption implements OptimizationData {
 
-    /** Default Absolute and Relative Tolerance for convergence. */
+    /**
+     * Default Absolute and Relative Tolerance for convergence.
+     */
     public static final double DEFAULT_EPS = 1.0e-5;
 
-    /** Default Absolute and Relative Tolerance for Infeasible Criteria. */
+    /**
+     * Default Absolute and Relative Tolerance for Infeasible Criteria.
+     */
     public static final double DEFAULT_EPS_INFEASIBLE = 1.0e-7;
 
-    /** Default Value of regularization term sigma for Karush–Kuhn–Tucker solver. */
+    /**
+     * Default Value of regularization term sigma for Karush–Kuhn–Tucker solver.
+     */
     public static final double DEFAULT_SIGMA = 1.0e-12;
 
-    /** Default Value of Alpha filter for ADMM iteration. */
+    /**
+     * Default Value of Alpha filter for ADMM iteration.
+     */
     public static final double DEFAULT_ALPHA = 1.6;
 
-    /** Default Value for Enabling Problem Scaling. */
+    /**
+     * Default Value for Enabling Problem Scaling.
+     */
     public static final boolean DEFAULT_SCALING = true;
 
-    /** Default Value for the Max Iteration for the scaling. */
+    /**
+     * Default Value for the Max Iteration for the scaling.
+     */
     public static final int DEFAULT_SCALING_MAX_ITERATION = 10;
 
-    /** Default Value for adapting the weight during iterations. */
+    /**
+     * Default Value for adapting the weight during iterations.
+     */
     public static final boolean DEFAULT_RHO_UPDATE = true;
 
-    /** Default Max Value for the Weight for ADMM iteration. */
+    /**
+     * Default Max Value for the Weight for ADMM iteration.
+     */
     public static final double DEFAULT_RHO_MAX = 1.0e6;
 
-    /** Default Min Value for the Weight for ADMM iteration. */
+    /**
+     * Default Min Value for the Weight for ADMM iteration.
+     */
     public static final double DEFAULT_RHO_MIN = 1.0e-6;
 
-    /** Default Max number of weight changes. */
+    /**
+     * Default Max number of weight changes.
+     */
     public static final int DEFAULT_MAX_RHO_ITERATION = 10;
 
-    /** Default Value for enabling polishing the solution. */
+    /**
+     * Default Value for enabling polishing the solution.
+     */
     public static final boolean DEFAULT_POLISHING = false;
 
-    /** Default Value for Iteration of polishing Algorithm. */
+    /**
+     * Default Value for Iteration of polishing Algorithm.
+     */
     public static final int DEFAULT_POLISHING_ITERATION = 5;
 
-    /** Absolute and Relative Tolerance for convergence. */
+    /**
+     * Absolute and Relative Tolerance for convergence.
+     */
     private double eps;
 
-    /** Absolute and Relative Tolerance for Infeasible Criteria. */
+    /**
+     * Absolute and Relative Tolerance for Infeasible Criteria.
+     */
     private double epsInfeasible;
 
-    /** Value of regularization term sigma for Karush–Kuhn–Tucker solver. */
+    /**
+     * Value of regularization term sigma for Karush–Kuhn–Tucker solver.
+     */
     private double sigma;
 
-    /** Value of alpha filter for ADMM iteration. */
+    /**
+     * Value of alpha filter for ADMM iteration.
+     */
     private double alpha;
 
-    /** Scaling enabling flag. */
+    /**
+     * Scaling enabling flag.
+     */
     private boolean scaling;
 
-    /** Value for the Max Iteration for the scaling. */
+    /**
+     * Value for the Max Iteration for the scaling.
+     */
     private int scaleMaxIteration;
 
-    /** Value for adapt the weight during iterations. */
+    /**
+     * Value for adapt the weight during iterations.
+     */
     private boolean updateRho;
 
-    /** Max Value for thr Weight for ADMM iteration. */
+    /**
+     * Max Value for thr Weight for ADMM iteration.
+     */
     private double rhoMax;
 
-    /** Min Value for the Weight for ADMM iteration. */
+    /**
+     * Min Value for the Weight for ADMM iteration.
+     */
     private double rhoMin;
 
-    /** Max Value of changing the weight during iterations. */
+    /**
+     * Max Value of changing the weight during iterations.
+     */
     private int maxRhoIteration;
 
-    /** Enabling flag for polishing the solution. */
+    /**
+     * Enabling flag for polishing the solution.
+     */
     private boolean polishing;
 
-    /** Value for Iteration of polishing Algorithm. */
+    /**
+     * Value for Iteration of polishing Algorithm.
+     */
     private int polishingIteration;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      */
     public ADMMQPOption() {
-        eps                = DEFAULT_EPS;
-        epsInfeasible      = DEFAULT_EPS_INFEASIBLE;
-        sigma              = DEFAULT_SIGMA;
-        alpha              = DEFAULT_ALPHA;
-        scaling            = DEFAULT_SCALING;
-        scaleMaxIteration  = DEFAULT_SCALING_MAX_ITERATION;
-        updateRho          = DEFAULT_RHO_UPDATE;
-        rhoMax             = DEFAULT_RHO_MAX;
-        rhoMin             = DEFAULT_RHO_MIN;
-        maxRhoIteration    = DEFAULT_MAX_RHO_ITERATION;
-        polishing          = DEFAULT_POLISHING;
+        eps = DEFAULT_EPS;
+        epsInfeasible = DEFAULT_EPS_INFEASIBLE;
+        sigma = DEFAULT_SIGMA;
+        alpha = DEFAULT_ALPHA;
+        scaling = DEFAULT_SCALING;
+        scaleMaxIteration = DEFAULT_SCALING_MAX_ITERATION;
+        updateRho = DEFAULT_RHO_UPDATE;
+        rhoMax = DEFAULT_RHO_MAX;
+        rhoMin = DEFAULT_RHO_MIN;
+        maxRhoIteration = DEFAULT_MAX_RHO_ITERATION;
+        polishing = DEFAULT_POLISHING;
         polishingIteration = DEFAULT_POLISHING_ITERATION;
     }
 
-    /** Set absolute and Relative Tolerance for convergence.
+    /**
+     * Set absolute and Relative Tolerance for convergence.
      * @param eps absolute and Relative Tolerance for convergence
      */
     public void setEps(final double eps) {
-        this.eps = eps;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get absolute and Relative Tolerance for convergence.
+    /**
+     * Get absolute and Relative Tolerance for convergence.
      * @return absolute and Relative Tolerance for convergence
      */
     public double getEps() {
-        return eps;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set absolute and Relative Tolerance for infeasible criteria.
+    /**
+     * Set absolute and Relative Tolerance for infeasible criteria.
      * @param epsInfeasible absolute and Relative Tolerance for infeasible criteria
      */
     public void setEpsInfeasible(final double epsInfeasible) {
-        this.epsInfeasible = epsInfeasible;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get absolute and Relative Tolerance for infeasible criteria.
+    /**
+     * Get absolute and Relative Tolerance for infeasible criteria.
      * @return absolute and Relative Tolerance for infeasible criteria
      */
     public double getEpsInfeasible() {
-        return epsInfeasible;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set value of regularization term sigma for Karush–Kuhn–Tucker solver.
+    /**
+     * Set value of regularization term sigma for Karush–Kuhn–Tucker solver.
      * @param sigma value of regularization term sigma for Karush–Kuhn–Tucker solver
      */
     public void setSigma(final double sigma) {
-        this.sigma = sigma;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get value of regularization term sigma for Karush–Kuhn–Tucker solver.
+    /**
+     * Get value of regularization term sigma for Karush–Kuhn–Tucker solver.
      * @return value of regularization term sigma for Karush–Kuhn–Tucker solver
      */
     public double getSigma() {
-        return sigma;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set value of alpha filter for ADMM iteration.
+    /**
+     * Set value of alpha filter for ADMM iteration.
      * @param alpha value of alpha filter for ADMM iteration
      */
     public void setAlpha(final double alpha) {
-        this.alpha = alpha;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get value of alpha filter for ADMM iteration.
+    /**
+     * Get value of alpha filter for ADMM iteration.
      * @return value of alpha filter for ADMM iteration
      */
     public double getAlpha() {
-        return alpha;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set scaling enabling flag.
+    /**
+     * Set scaling enabling flag.
      * @param scaling if true, scaling is enabled
      */
     public void setScaling(final boolean scaling) {
-        this.scaling = scaling;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check if scaling is enabled.
+    /**
+     * Check if scaling is enabled.
      * @return true if scaling is enabled
      */
     public boolean isScaling() {
-        return scaling;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set max iteration for the scaling.
+    /**
+     * Set max iteration for the scaling.
      * @param scaleMaxIteration max iteration for the scaling
      */
     public void setScaleMaxIteration(final int scaleMaxIteration) {
-        this.scaleMaxIteration = scaleMaxIteration;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get max iteration for the scaling.
+    /**
+     * Get max iteration for the scaling.
      * @return max iteration for the scaling
      */
     public int getScaleMaxIteration() {
-        return scaleMaxIteration;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set weight updating flag.
+    /**
+     * Set weight updating flag.
      * @param updateRho if true, weight is updated during iterations
      */
     public void setUpdateRho(final boolean updateRho) {
-        this.updateRho = updateRho;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check if weight updating is enabled.
+    /**
+     * Check if weight updating is enabled.
      * @return true if weight is updated during iterations
      */
     public boolean updateRho() {
-        return updateRho;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set min Value for the Weight for ADMM iteration.
+    /**
+     * Set min Value for the Weight for ADMM iteration.
      * @param rhoMin min Value for the Weight for ADMM iteration
      */
     public void setRhoMin(final double rhoMin) {
-        this.rhoMin = rhoMin;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get min Value for the Weight for ADMM iteration.
+    /**
+     * Get min Value for the Weight for ADMM iteration.
      * @return min Value for the Weight for ADMM iteration
      */
     public double getRhoMin() {
-        return rhoMin;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set max Value for the Weight for ADMM iteration.
+    /**
+     * Set max Value for the Weight for ADMM iteration.
      * @param rhoMax max Value for the Weight for ADMM iteration
      */
     public void setRhoMax(final double rhoMax) {
-        this.rhoMax = rhoMax;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get max Value for the Weight for ADMM iteration.
+    /**
+     * Get max Value for the Weight for ADMM iteration.
      * @return max Value for the Weight for ADMM iteration
      */
     public double getRhoMax() {
-        return rhoMax;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set max number of weight changes.
+    /**
+     * Set max number of weight changes.
      * @param maxRhoIteration max number of weight changes
      */
     public void setMaxRhoIteration(final int maxRhoIteration) {
-        this.maxRhoIteration = maxRhoIteration;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get max number of weight changes.
+    /**
+     * Get max number of weight changes.
      * @return max number of weight changes
      */
     public int getMaxRhoIteration() {
-        return maxRhoIteration;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set polishing enabling flag.
+    /**
+     * Set polishing enabling flag.
      * @param polishing if true, polishing is enabled
      */
     public void setPolishing(final boolean polishing) {
-        this.polishing = polishing;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check if polishing is enabled.
+    /**
+     * Check if polishing is enabled.
      * @return true if polishing is enabled
      */
     public boolean isPolishing() {
-        return polishing;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set number of iterations of polishing algorithm.
+    /**
+     * Set number of iterations of polishing algorithm.
      * @param polishingIteration number of iterations of polishing algorithm
      */
     public void setPolishingIteration(final int polishingIteration) {
-        this.polishingIteration = polishingIteration;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get number of iterations of polishing algorithm.
+    /**
+     * Get number of iterations of polishing algorithm.
      * @return number of iterations of polishing algorithm
      */
     public int getPolishIteration() {
-        return polishingIteration;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

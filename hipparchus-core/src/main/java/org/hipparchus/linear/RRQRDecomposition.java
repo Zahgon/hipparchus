@@ -14,16 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.linear;
 
 import org.hipparchus.util.FastMath;
-
 
 /**
  * Calculates the rank-revealing QR-decomposition of a matrix, with column pivoting.
@@ -49,16 +46,18 @@ import org.hipparchus.util.FastMath;
  *
  * @see <a href="http://mathworld.wolfram.com/QRDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/QR_decomposition">Wikipedia</a>
- *
  */
 public class RRQRDecomposition extends QRDecomposition {
 
-    /** An array to record the column pivoting for later creation of P. */
+    /**
+     * An array to record the column pivoting for later creation of P.
+     */
     private int[] p;
 
-    /** Cached value of P. */
+    /**
+     * Cached value of P.
+     */
     private RealMatrix cachedP;
-
 
     /**
      * Calculates the QR-decomposition of the given matrix.
@@ -72,63 +71,35 @@ public class RRQRDecomposition extends QRDecomposition {
         this(matrix, 0d);
     }
 
-   /**
+    /**
      * Calculates the QR-decomposition of the given matrix.
      *
      * @param matrix The matrix to decompose.
      * @param threshold Singularity threshold.
      * @see #RRQRDecomposition(RealMatrix)
      */
-    public RRQRDecomposition(RealMatrix matrix,  double threshold) {
+    public RRQRDecomposition(RealMatrix matrix, double threshold) {
         super(matrix, threshold);
     }
 
-    /** Decompose matrix.
+    /**
+     * Decompose matrix.
      * @param qrt transposed matrix
      */
     @Override
     protected void decompose(double[][] qrt) {
-        p = new int[qrt.length];
-        for (int i = 0; i < p.length; i++) {
-            p[i] = i;
-        }
-        super.decompose(qrt);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Perform Householder reflection for a minor A(minor, minor) of A.
+    /**
+     * Perform Householder reflection for a minor A(minor, minor) of A.
      * @param minor minor index
      * @param qrt transposed matrix
      */
     @Override
     protected void performHouseholderReflection(int minor, double[][] qrt) {
-
-        double l2NormSquaredMax = 0;
-        // Find the unreduced column with the greatest L2-Norm
-        int l2NormSquaredMaxIndex = minor;
-        for (int i = minor; i < qrt.length; i++) {
-            double l2NormSquared = 0;
-            for (int j = 0; j < qrt[i].length; j++) {
-                l2NormSquared += qrt[i][j] * qrt[i][j];
-            }
-            if (l2NormSquared > l2NormSquaredMax) {
-                l2NormSquaredMax = l2NormSquared;
-                l2NormSquaredMaxIndex = i;
-            }
-        }
-        // swap the current column with that with the greated L2-Norm and record in p
-        if (l2NormSquaredMaxIndex != minor) {
-            double[] tmp1 = qrt[minor];
-            qrt[minor] = qrt[l2NormSquaredMaxIndex];
-            qrt[l2NormSquaredMaxIndex] = tmp1;
-            int tmp2 = p[minor];
-            p[minor] = p[l2NormSquaredMaxIndex];
-            p[l2NormSquaredMaxIndex] = tmp2;
-        }
-
-        super.performHouseholderReflection(minor, qrt);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     /**
      * Returns the pivot matrix, P, used in the QR Decomposition of matrix A such that AP = QR.
@@ -138,14 +109,7 @@ public class RRQRDecomposition extends QRDecomposition {
      * @return a permutation matrix.
      */
     public RealMatrix getP() {
-        if (cachedP == null) {
-            int n = p.length;
-            cachedP = MatrixUtils.createRealMatrix(n,n);
-            for (int i = 0; i < n; i++) {
-                cachedP.setEntry(p[i], i, 1);
-            }
-        }
-        return cachedP ;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -168,21 +132,7 @@ public class RRQRDecomposition extends QRDecomposition {
      * @return effective numerical matrix rank
      */
     public int getRank(final double dropThreshold) {
-        RealMatrix r    = getR();
-        int rows        = r.getRowDimension();
-        int columns     = r.getColumnDimension();
-        int rank        = 1;
-        double lastNorm = r.getFrobeniusNorm();
-        double rNorm    = lastNorm;
-        while (rank < FastMath.min(rows, columns)) {
-            double thisNorm = r.getSubMatrix(rank, rows - 1, rank, columns - 1).getFrobeniusNorm();
-            if (thisNorm == 0 || (thisNorm / lastNorm) * rNorm < dropThreshold) {
-                break;
-            }
-            lastNorm = thisNorm;
-            rank++;
-        }
-        return rank;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -199,16 +149,22 @@ public class RRQRDecomposition extends QRDecomposition {
      */
     @Override
     public DecompositionSolver getSolver() {
-        return new Solver(super.getSolver(), this.getP());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Specialized solver. */
+    /**
+     * Specialized solver.
+     */
     private static class Solver implements DecompositionSolver {
 
-        /** Upper level solver. */
+        /**
+         * Upper level solver.
+         */
         private final DecompositionSolver upper;
 
-        /** A permutation matrix for the pivots used in the QR decomposition */
+        /**
+         * A permutation matrix for the pivots used in the QR decomposition
+         */
         private RealMatrix p;
 
         /**
@@ -219,25 +175,31 @@ public class RRQRDecomposition extends QRDecomposition {
          */
         private Solver(final DecompositionSolver upper, final RealMatrix p) {
             this.upper = upper;
-            this.p     = p;
+            this.p = p;
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean isNonSingular() {
-            return upper.isNonSingular();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public RealVector solve(RealVector b) {
-            return p.operate(upper.solve(b));
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public RealMatrix solve(RealMatrix b) {
-            return p.multiply(upper.solve(b));
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -247,19 +209,23 @@ public class RRQRDecomposition extends QRDecomposition {
          */
         @Override
         public RealMatrix getInverse() {
-            return solve(MatrixUtils.createRealIdentityMatrix(p.getRowDimension()));
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-        /** {@inheritDoc} */
+
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int getRowDimension() {
-            return upper.getRowDimension();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int getColumnDimension() {
-            return upper.getColumnDimension();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -34,19 +33,28 @@ import org.hipparchus.util.Pair;
  */
 public class FieldGaussIntegratorFactory<T extends CalculusFieldElement<T>> {
 
-    /** Generator of Gauss-Legendre integrators. */
+    /**
+     * Generator of Gauss-Legendre integrators.
+     */
     private final FieldRuleFactory<T> legendre;
-    /** Generator of Gauss-Hermite integrators. */
+
+    /**
+     * Generator of Gauss-Hermite integrators.
+     */
     private final FieldRuleFactory<T> hermite;
-    /** Generator of Gauss-Laguerre integrators. */
+
+    /**
+     * Generator of Gauss-Laguerre integrators.
+     */
     private final FieldRuleFactory<T> laguerre;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param field field to which function argument and value belong
      */
     public FieldGaussIntegratorFactory(final Field<T> field) {
         legendre = new FieldLegendreRuleFactory<>(field);
-        hermite  = new FieldHermiteRuleFactory<>(field);
+        hermite = new FieldHermiteRuleFactory<>(field);
         laguerre = new FieldLaguerreRuleFactory<>(field);
     }
 
@@ -65,7 +73,7 @@ public class FieldGaussIntegratorFactory<T extends CalculusFieldElement<T>> {
      * @return a Gauss-Legendre integrator.
      */
     public FieldGaussIntegrator<T> laguerre(int numberOfPoints) {
-        return new FieldGaussIntegrator<>(laguerre.getRule(numberOfPoints));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -79,7 +87,7 @@ public class FieldGaussIntegratorFactory<T extends CalculusFieldElement<T>> {
      * @return a Gauss-Legendre integrator.
      */
     public FieldGaussIntegrator<T> legendre(int numberOfPoints) {
-        return new FieldGaussIntegrator<>(legendre.getRule(numberOfPoints));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -94,12 +102,8 @@ public class FieldGaussIntegratorFactory<T extends CalculusFieldElement<T>> {
      * @return a Gauss-Legendre integrator.
      * @throws MathIllegalArgumentException if number of points is not positive
      */
-    public FieldGaussIntegrator<T> legendre(int numberOfPoints,
-                                            T lowerBound,
-                                            T upperBound)
-        throws MathIllegalArgumentException {
-        return new FieldGaussIntegrator<>(transform(legendre.getRule(numberOfPoints),
-                                                    lowerBound, upperBound));
+    public FieldGaussIntegrator<T> legendre(int numberOfPoints, T lowerBound, T upperBound) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -117,7 +121,7 @@ public class FieldGaussIntegratorFactory<T extends CalculusFieldElement<T>> {
      * @return a Gauss-Hermite integrator.
      */
     public SymmetricFieldGaussIntegrator<T> hermite(int numberOfPoints) {
-        return new SymmetricFieldGaussIntegrator<>(hermite.getRule(numberOfPoints));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -133,17 +137,13 @@ public class FieldGaussIntegratorFactory<T extends CalculusFieldElement<T>> {
     private Pair<T[], T[]> transform(Pair<T[], T[]> rule, T a, T b) {
         final T[] points = rule.getFirst();
         final T[] weights = rule.getSecond();
-
         // Scaling
         final T scale = b.subtract(a).multiply(0.5);
         final T shift = a.add(scale);
-
         for (int i = 0; i < points.length; i++) {
-            points[i]  = points[i].multiply(scale).add(shift);
+            points[i] = points[i].multiply(scale).add(shift);
             weights[i] = weights[i].multiply(scale);
         }
-
         return new Pair<>(points, weights);
     }
-
 }

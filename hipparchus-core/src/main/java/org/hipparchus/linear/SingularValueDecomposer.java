@@ -14,29 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.linear;
 
-/** Matrix decomposer using Singular Value Decomposition.
+/**
+ * Matrix decomposer using Singular Value Decomposition.
  * @since 1.3
  */
 public class SingularValueDecomposer implements MatrixDecomposer {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public SingularValueDecomposer() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public SingularValueDecomposer() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DecompositionSolver decompose(final RealMatrix a) {
-        return new SingularValueDecomposition(a).getSolver();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

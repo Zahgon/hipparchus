@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -24,7 +23,6 @@ package org.hipparchus.fitting;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.hipparchus.analysis.function.HarmonicOscillator;
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -48,14 +46,22 @@ import org.hipparchus.util.SinCos;
  *  <li>phase</li>
  * </ul>
  * The optimal values will be returned in the same order.
- *
  */
 public class HarmonicCurveFitter extends AbstractCurveFitter {
-    /** Parametric function to be fitted. */
+
+    /**
+     * Parametric function to be fitted.
+     */
     private static final HarmonicOscillator.Parametric FUNCTION = new HarmonicOscillator.Parametric();
-    /** Initial guess. */
+
+    /**
+     * Initial guess.
+     */
     private final double[] initialGuess;
-    /** Maximum number of iterations of the optimization algorithm. */
+
+    /**
+     * Maximum number of iterations of the optimization algorithm.
+     */
     private final int maxIter;
 
     /**
@@ -82,7 +88,7 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
      * @see #withMaxIterations(int)
      */
     public static HarmonicCurveFitter create() {
-        return new HarmonicCurveFitter(null, Integer.MAX_VALUE);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -91,8 +97,7 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
      * @return a new instance.
      */
     public HarmonicCurveFitter withStartPoint(double[] newStart) {
-        return new HarmonicCurveFitter(newStart.clone(),
-                                       maxIter);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -101,45 +106,15 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
      * @return a new instance.
      */
     public HarmonicCurveFitter withMaxIterations(int newMaxIter) {
-        return new HarmonicCurveFitter(initialGuess,
-                                       newMaxIter);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected LeastSquaresProblem getProblem(Collection<WeightedObservedPoint> observations) {
-        // Prepare least-squares problem.
-        final int len = observations.size();
-        final double[] target  = new double[len];
-        final double[] weights = new double[len];
-
-        int i = 0;
-        for (WeightedObservedPoint obs : observations) {
-            target[i]  = obs.getY();
-            weights[i] = obs.getWeight();
-            ++i;
-        }
-
-        final AbstractCurveFitter.TheoreticalValuesFunction model
-            = new AbstractCurveFitter.TheoreticalValuesFunction(FUNCTION,
-                                                                observations);
-
-        final double[] startPoint = initialGuess != null ?
-            initialGuess :
-            // Compute estimation.
-            new ParameterGuesser(observations).guess();
-
-        // Return a new optimizer set up to fit a Gaussian curve to the
-        // observed points.
-        return new LeastSquaresBuilder().
-                maxEvaluations(Integer.MAX_VALUE).
-                maxIterations(maxIter).
-                start(startPoint).
-                target(target).
-                weight(new DiagonalMatrix(weights)).
-                model(model.getModelFunction(), model.getModelFunctionJacobian()).
-                build();
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -242,11 +217,20 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
      * number of measurements.</p>
      */
     public static class ParameterGuesser {
-        /** Amplitude. */
+
+        /**
+         * Amplitude.
+         */
         private final double a;
-        /** Angular frequency. */
+
+        /**
+         * Angular frequency.
+         */
         private final double omega;
-        /** Phase. */
+
+        /**
+         * Phase.
+         */
         private final double phi;
 
         /**
@@ -260,17 +244,12 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
          */
         public ParameterGuesser(Collection<WeightedObservedPoint> observations) {
             if (observations.size() < 4) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE,
-                                                    observations.size(), 4, true);
+                throw new MathIllegalArgumentException(LocalizedCoreFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE, observations.size(), 4, true);
             }
-
-            final WeightedObservedPoint[] sorted
-                = sortObservations(observations).toArray(new WeightedObservedPoint[0]);
-
+            final WeightedObservedPoint[] sorted = sortObservations(observations).toArray(new WeightedObservedPoint[0]);
             final double[] aOmega = guessAOmega(sorted);
             a = aOmega[0];
             omega = aOmega[1];
-
             phi = guessPhi(sorted);
         }
 
@@ -285,7 +264,7 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
          * </ul>
          */
         public double[] guess() {
-            return new double[] { a, omega, phi };
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -296,7 +275,6 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
          */
         private List<WeightedObservedPoint> sortObservations(Collection<WeightedObservedPoint> unsorted) {
             final List<WeightedObservedPoint> observations = new ArrayList<>(unsorted);
-
             // Since the samples are almost always already sorted, this
             // method is implemented as an insertion sort that reorders the
             // elements in place. Insertion sort is very efficient in this case.
@@ -320,7 +298,6 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
                     curr = observations.get(j);
                 }
             }
-
             return observations;
         }
 
@@ -336,14 +313,12 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
          */
         private double[] guessAOmega(WeightedObservedPoint[] observations) {
             final double[] aOmega = new double[2];
-
             // initialize the sums for the linear model between the two integrals
             double sx2 = 0;
             double sy2 = 0;
             double sxy = 0;
             double sxz = 0;
             double syz = 0;
-
             double currentX = observations[0].getX();
             double currentY = observations[0].getY();
             double f2Integral = 0;
@@ -355,26 +330,21 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
                 final double previousY = currentY;
                 currentX = observations[i].getX();
                 currentY = observations[i].getY();
-
                 // update the integrals of f<sup>2</sup> and f'<sup>2</sup>
                 // considering a linear model for f (and therefore constant f')
                 final double dx = currentX - previousX;
                 final double dy = currentY - previousY;
-                final double f2StepIntegral =
-                    dx * (previousY * previousY + previousY * currentY + currentY * currentY) / 3;
+                final double f2StepIntegral = dx * (previousY * previousY + previousY * currentY + currentY * currentY) / 3;
                 final double fPrime2StepIntegral = dy * dy / dx;
-
                 final double x = currentX - startX;
                 f2Integral += f2StepIntegral;
                 fPrime2Integral += fPrime2StepIntegral;
-
                 sx2 += x * x;
                 sy2 += f2Integral * f2Integral;
                 sxy += x * f2Integral;
                 sxz += x * fPrime2Integral;
                 syz += f2Integral * fPrime2Integral;
             }
-
             // compute the amplitude and pulsation coefficients
             double c1 = sy2 * sxz - sxy * syz;
             double c2 = sxy * sxz - sx2 * syz;
@@ -388,7 +358,6 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
                     throw new MathIllegalArgumentException(LocalizedCoreFormats.ZERO_NOT_ALLOWED);
                 }
                 aOmega[1] = 2 * Math.PI / xRange;
-
                 double yMin = Double.POSITIVE_INFINITY;
                 double yMax = Double.NEGATIVE_INFINITY;
                 for (int i = 1; i < observations.length; ++i) {
@@ -407,11 +376,9 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
                     // procedure cannot produce sensible results.
                     throw new MathIllegalStateException(LocalizedCoreFormats.ZERO_DENOMINATOR);
                 }
-
                 aOmega[0] = FastMath.sqrt(c1 / c2);
                 aOmega[1] = FastMath.sqrt(c2 / c3);
             }
-
             return aOmega;
         }
 
@@ -425,7 +392,6 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
             // initialize the means
             double fcMean = 0;
             double fsMean = 0;
-
             double currentX = observations[0].getX();
             double currentY = observations[0].getY();
             for (int i = 1; i < observations.length; ++i) {
@@ -435,13 +401,11 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
                 currentX = observations[i].getX();
                 currentY = observations[i].getY();
                 final double currentYPrime = (currentY - previousY) / (currentX - previousX);
-
                 double omegaX = omega * currentX;
-                SinCos sc     = FastMath.sinCos(omegaX);
+                SinCos sc = FastMath.sinCos(omegaX);
                 fcMean += omega * currentY * sc.cos() - currentYPrime * sc.sin();
                 fsMean += omega * currentY * sc.sin() + currentYPrime * sc.cos();
             }
-
             return FastMath.atan2(-fsMean, fcMean);
         }
     }

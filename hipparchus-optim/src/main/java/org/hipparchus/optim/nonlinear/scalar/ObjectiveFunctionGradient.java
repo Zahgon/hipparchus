@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -26,13 +25,16 @@ import org.hipparchus.optim.OptimizationData;
 
 /**
  * Gradient of the scalar function to be optimized.
- *
  */
 public class ObjectiveFunctionGradient implements OptimizationData {
-    /** Function to be optimized. */
+
+    /**
+     * Function to be optimized.
+     */
     private final MultivariateVectorFunction gradient;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param g Gradient of the function to be optimized.
      */
     public ObjectiveFunctionGradient(MultivariateVectorFunction g) {
@@ -45,6 +47,6 @@ public class ObjectiveFunctionGradient implements OptimizationData {
      * @return the objective function gradient.
      */
     public MultivariateVectorFunction getObjectiveFunctionGradient() {
-        return gradient;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

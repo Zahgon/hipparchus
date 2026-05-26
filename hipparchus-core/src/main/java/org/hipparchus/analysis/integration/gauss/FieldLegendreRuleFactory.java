@@ -36,87 +36,52 @@ import org.hipparchus.util.Pair;
  */
 public class FieldLegendreRuleFactory<T extends CalculusFieldElement<T>> extends FieldAbstractRuleFactory<T> {
 
-    /** Simple constructor
+    /**
+     * Simple constructor
      * @param field field to which rule coefficients belong
      */
     public FieldLegendreRuleFactory(final Field<T> field) {
         super(field);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Pair<T[], T[]> computeRule(int numberOfPoints)
-        throws MathIllegalArgumentException {
-
-        final Field<T> field = getField();
-
-        if (numberOfPoints == 1) {
-            // Break recursion.
-            final T[] points  = MathArrays.buildArray(field, numberOfPoints);
-            final T[] weights = MathArrays.buildArray(field, numberOfPoints);
-            points[0]  = field.getZero();
-            weights[0] = field.getZero().newInstance(2);
-            return new Pair<>(points, weights);
-        }
-
-        // find nodes as roots of Legendre polynomial
-        final Legendre<T> p      =  new Legendre<>(numberOfPoints);
-        final T[]         points = findRoots(numberOfPoints, p::ratio);
-        enforceSymmetry(points);
-
-        // compute weights
-        final T[] weights = MathArrays.buildArray(field, numberOfPoints);
-        for (int i = 0; i <= numberOfPoints / 2; i++) {
-            final T c = points[i];
-            final T[] pKpKm1 = p.pNpNm1(c);
-            final T d = pKpKm1[1].subtract(c.multiply(pKpKm1[0])).multiply(numberOfPoints);
-            weights[i] = c.square().subtract(1).multiply(-2).divide(d.multiply(d));
-
-            // symmetrical point
-            final int idx = numberOfPoints - i - 1;
-            weights[idx]  = weights[i];
-
-        }
-
-        return new Pair<>(points, weights);
-
+    public Pair<T[], T[]> computeRule(int numberOfPoints) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Legendre polynomial.
+    /**
+     * Legendre polynomial.
      * @param <T> Type of the field elements.
      */
     private static class Legendre<T extends CalculusFieldElement<T>> {
 
-        /** Degree. */
+        /**
+         * Degree.
+         */
         private int degree;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          * @param degree polynomial degree
          */
         Legendre(int degree) {
             this.degree = degree;
         }
 
-        /** Compute ratio P(x)/P'(x).
+        /**
+         * Compute ratio P(x)/P'(x).
          * @param x point at which ratio must be computed
          * @return ratio P(x)/P'(x)
          */
         public T ratio(T x) {
-            T pm = x.getField().getOne();
-            T p  = x;
-            T d  = x.getField().getOne();
-            for (int n = 1; n < degree; n++) {
-                // apply recurrence relations (n+1) Pₙ₊₁(x)  = (2n+1) x Pₙ(x) - n Pₙ₋₁(x)
-                // and                              P'ₙ₊₁(x) = (n+1) Pₙ(x) + x P'ₙ(x)
-                final T pp = p.multiply(x.multiply(2 * n + 1)).subtract(pm.multiply(n)).divide(n + 1);
-                d  = p.multiply(n + 1).add(d.multiply(x));
-                pm = p;
-                p  = pp;
-            }
-            return p.divide(d);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Compute Pₙ(x) and Pₙ₋₁(x).
+        /**
+         * Compute Pₙ(x) and Pₙ₋₁(x).
          * @param x point at which polynomials are evaluated
          * @return array containing Pₙ(x) at index 0 and Pₙ₋₁(x) at index 1
          */
@@ -132,7 +97,5 @@ public class FieldLegendreRuleFactory<T extends CalculusFieldElement<T>> extends
             }
             return p;
         }
-
     }
-
 }

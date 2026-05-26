@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,9 +22,7 @@ package org.hipparchus.util;
 
 import java.io.Serializable;
 import java.util.Arrays;
-
 import org.hipparchus.exception.NullArgumentException;
-
 
 /**
  * A Simple K<sup>th</sup> selector implementation to pick up the
@@ -34,13 +31,19 @@ import org.hipparchus.exception.NullArgumentException;
  */
 public class KthSelector implements Serializable {
 
-    /** Serializable UID. */
+    /**
+     * Serializable UID.
+     */
     private static final long serialVersionUID = 20140713L;
 
-    /** Minimum selection size for insertion sort rather than selection. */
+    /**
+     * Minimum selection size for insertion sort rather than selection.
+     */
     private static final int MIN_SELECT_SIZE = 15;
 
-    /** A {@link PivotingStrategy} used for pivoting.  */
+    /**
+     * A {@link PivotingStrategy} used for pivoting.
+     */
     private final PivotingStrategy pivotingStrategy;
 
     /**
@@ -57,17 +60,17 @@ public class KthSelector implements Serializable {
      * @param pivotingStrategy pivoting strategy to use
      * @throws NullArgumentException when pivotingStrategy is null
      */
-    public KthSelector(final PivotingStrategy pivotingStrategy)
-        throws NullArgumentException {
+    public KthSelector(final PivotingStrategy pivotingStrategy) throws NullArgumentException {
         MathUtils.checkNotNull(pivotingStrategy);
         this.pivotingStrategy = pivotingStrategy;
     }
 
-    /** Get the pivoting strategy.
+    /**
+     * Get the pivoting strategy.
      * @return pivoting strategy
      */
     public PivotingStrategy getPivotingStrategy() {
-        return pivotingStrategy;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -79,41 +82,7 @@ public class KthSelector implements Serializable {
      * @return K<sup>th</sup> value
      */
     public double select(final double[] work, final int[] pivotsHeap, final int k) {
-        int begin = 0;
-        int end = work.length;
-        int node = 0;
-        final boolean usePivotsHeap = pivotsHeap != null;
-        while (end - begin > MIN_SELECT_SIZE) {
-            final int pivot;
-
-            if (usePivotsHeap && node < pivotsHeap.length &&
-                    pivotsHeap[node] >= 0) {
-                // the pivot has already been found in a previous call
-                // and the array has already been partitioned around it
-                pivot = pivotsHeap[node];
-            } else {
-                // select a pivot and partition work array around it
-                pivot = partition(work, begin, end, pivotingStrategy.pivotIndex(work, begin, end));
-                if (usePivotsHeap && node < pivotsHeap.length) {
-                    pivotsHeap[node] = pivot;
-                }
-            }
-
-            if (k == pivot) {
-                // the pivot was exactly the element we wanted
-                return work[k];
-            } else if (k < pivot) {
-                // the element is in the left partition
-                end  = pivot;
-                node = FastMath.min(2 * node + 1, usePivotsHeap ? pivotsHeap.length : end);
-            } else {
-                // the element is in the right partition
-                begin = pivot + 1;
-                node  = FastMath.min(2 * node + 2, usePivotsHeap ? pivotsHeap.length : end);
-            }
-        }
-        Arrays.sort(work, begin, end);
-        return work[k];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -128,10 +97,8 @@ public class KthSelector implements Serializable {
      * @return index of the pivot after partition
      */
     private int partition(final double[] work, final int begin, final int end, final int pivot) {
-
         final double value = work[pivot];
         work[pivot] = work[begin];
-
         int i = begin + 1;
         int j = end - 1;
         while (i < j) {
@@ -141,14 +108,12 @@ public class KthSelector implements Serializable {
             while (i < j && Double.compare(work[i], value) < 0) {
                 ++i;
             }
-
             if (i < j) {
                 final double tmp = work[i];
                 work[i++] = work[j];
                 work[j--] = tmp;
             }
         }
-
         if (i >= end || Double.compare(work[i], value) > 0) {
             --i;
         }

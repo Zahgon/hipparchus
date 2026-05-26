@@ -27,16 +27,16 @@ import org.hipparchus.geometry.Space;
  * @param <I> Type of the sub-hyperplane.
  * @since 4.0
  */
-public class InteriorPointFinder<S extends Space,
-                                 P extends Point<S, P>,
-                                 H extends Hyperplane<S, P, H, I>,
-                                 I extends SubHyperplane<S, P, H, I>>
-    implements BSPTreeVisitor<S, P, H, I> {
+public class InteriorPointFinder<S extends Space, P extends Point<S, P>, H extends Hyperplane<S, P, H, I>, I extends SubHyperplane<S, P, H, I>> implements BSPTreeVisitor<S, P, H, I> {
 
-    /** Default point to use for whole space. */
+    /**
+     * Default point to use for whole space.
+     */
     private final P defaultPoint;
 
-    /** Selected point. */
+    /**
+     * Selected point.
+     */
     private BSPTree.InteriorPoint<S, P> selected;
 
     /**
@@ -45,32 +45,31 @@ public class InteriorPointFinder<S extends Space,
      */
     public InteriorPointFinder(final P defaultPoint) {
         this.defaultPoint = defaultPoint;
-        this.selected     = null;
+        this.selected = null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Order visitOrder(final BSPTree<S, P, H, I> node) {
-        return Order.MINUS_PLUS_SUB;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void visitInternalNode(final BSPTree<S, P, H, I> node) {
-        // nothing to do
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void visitLeafNode(final BSPTree<S, P, H, I> node) {
-        if ((Boolean) node.getAttribute()) {
-            // this is an inside cell, look for the barycenter of edges/facets interior points
-            final BSPTree.InteriorPoint<S, P> interior = node.getInteriorPoint(defaultPoint);
-            if (selected == null || interior.getDistance() > selected.getDistance()) {
-                // this new point is farther away to edges/facets than the selected one, change selection
-                selected = interior;
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -78,7 +77,6 @@ public class InteriorPointFinder<S extends Space,
      * @return found point (null if tree was empty)
      */
     public BSPTree.InteriorPoint<S, P> getPoint() {
-        return selected;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,7 +22,6 @@ package org.hipparchus.util;
 
 import java.io.Serializable;
 import java.util.Arrays;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathIllegalStateException;
@@ -77,15 +75,27 @@ import org.hipparchus.exception.NullArgumentException;
  * <b>Note:</b> this class is <b>NOT</b> thread-safe.
  */
 public class ResizableDoubleArray implements Serializable {
-    /** Serializable version identifier. */
+
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20160327L;
 
-    /** Default value for initial capacity. */
+    /**
+     * Default value for initial capacity.
+     */
     private static final int DEFAULT_INITIAL_CAPACITY = 16;
-    /** Default value for array size modifier. */
+
+    /**
+     * Default value for array size modifier.
+     */
     private static final double DEFAULT_EXPANSION_FACTOR = 2.0;
-    /** Default value for expansion mode. */
+
+    /**
+     * Default value for expansion mode.
+     */
     private static final ExpansionMode DEFAULT_EXPANSION_MODE = ExpansionMode.MULTIPLICATIVE;
+
     /**
      * Default value for the difference between {@link #contractionCriterion}
      * and {@link #expansionFactor}.
@@ -132,11 +142,18 @@ public class ResizableDoubleArray implements Serializable {
      */
     private int startIndex;
 
-    /** Specification of expansion algorithm. */
+    /**
+     * Specification of expansion algorithm.
+     */
     public enum ExpansionMode {
-        /** Multiplicative expansion mode. */
+
+        /**
+         * Multiplicative expansion mode.
+         */
         MULTIPLICATIVE,
-        /** Additive expansion mode. */
+        /**
+         * Additive expansion mode.
+         */
         ADDITIVE
     }
 
@@ -187,12 +204,7 @@ public class ResizableDoubleArray implements Serializable {
      * @param initialArray initial array
      */
     public ResizableDoubleArray(double[] initialArray) {
-        this(initialArray == null || initialArray.length == 0 ?
-             DEFAULT_INITIAL_CAPACITY : initialArray.length,
-             DEFAULT_EXPANSION_FACTOR,
-             DEFAULT_CONTRACTION_DELTA + DEFAULT_EXPANSION_FACTOR,
-             DEFAULT_EXPANSION_MODE,
-             initialArray);
+        this(initialArray == null || initialArray.length == 0 ? DEFAULT_INITIAL_CAPACITY : initialArray.length, DEFAULT_EXPANSION_FACTOR, DEFAULT_CONTRACTION_DELTA + DEFAULT_EXPANSION_FACTOR, DEFAULT_EXPANSION_MODE, initialArray);
     }
 
     /**
@@ -239,8 +251,7 @@ public class ResizableDoubleArray implements Serializable {
      * @param contractionCriterion Contraction criterion.
      * @throws MathIllegalArgumentException if the parameters are not valid.
      */
-    public ResizableDoubleArray(int initialCapacity, double expansionFactor, double contractionCriterion)
-        throws MathIllegalArgumentException {
+    public ResizableDoubleArray(int initialCapacity, double expansionFactor, double contractionCriterion) throws MathIllegalArgumentException {
         this(initialCapacity, expansionFactor, contractionCriterion, DEFAULT_EXPANSION_MODE, null);
     }
 
@@ -263,26 +274,18 @@ public class ResizableDoubleArray implements Serializable {
      * @throws MathIllegalArgumentException if the parameters are not valid.
      * @throws NullArgumentException if expansionMode is null
      */
-    public ResizableDoubleArray(int initialCapacity,
-                                double expansionFactor,
-                                double contractionCriterion,
-                                ExpansionMode expansionMode,
-                                double ... data)
-        throws MathIllegalArgumentException {
+    public ResizableDoubleArray(int initialCapacity, double expansionFactor, double contractionCriterion, ExpansionMode expansionMode, double... data) throws MathIllegalArgumentException {
         if (initialCapacity <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INITIAL_CAPACITY_NOT_POSITIVE,
-                                                   initialCapacity);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.INITIAL_CAPACITY_NOT_POSITIVE, initialCapacity);
         }
         checkContractExpand(contractionCriterion, expansionFactor);
         MathUtils.checkNotNull(expansionMode);
-
         this.expansionFactor = expansionFactor;
         this.contractionCriterion = contractionCriterion;
         this.expansionMode = expansionMode;
         internalArray = new double[initialCapacity];
         numElements = 0;
         startIndex = 0;
-
         if (data != null && data.length > 0) {
             addElements(data);
         }
@@ -297,8 +300,7 @@ public class ResizableDoubleArray implements Serializable {
      * @param original array to copy
      * @exception NullArgumentException if original is null
      */
-    public ResizableDoubleArray(final ResizableDoubleArray original)
-        throws NullArgumentException {
+    public ResizableDoubleArray(final ResizableDoubleArray original) throws NullArgumentException {
         MathUtils.checkNotNull(original);
         this.contractionCriterion = original.contractionCriterion;
         this.expansionFactor = original.expansionFactor;
@@ -315,10 +317,7 @@ public class ResizableDoubleArray implements Serializable {
      * @param value Value to be added to end of array.
      */
     public void addElement(final double value) {
-        if (internalArray.length <= startIndex + numElements) {
-            expand();
-        }
-        internalArray[startIndex + numElements++] = value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -327,12 +326,7 @@ public class ResizableDoubleArray implements Serializable {
      * @param values Values to be added to end of array.
      */
     public void addElements(final double[] values) {
-        final double[] tempArray = new double[numElements + values.length + 1];
-        System.arraycopy(internalArray, startIndex, tempArray, 0, numElements);
-        System.arraycopy(values, 0, tempArray, numElements, values.length);
-        internalArray = tempArray;
-        startIndex = 0;
-        numElements += values.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -350,22 +344,7 @@ public class ResizableDoubleArray implements Serializable {
      * by this rolling insert.
      */
     public double addElementRolling(double value) {
-        double discarded = internalArray[startIndex];
-
-        if ((startIndex + (numElements + 1)) > internalArray.length) {
-            expand();
-        }
-        // Increment the start index
-        startIndex += 1;
-
-        // Add the new value
-        internalArray[startIndex + (numElements - 1)] = value;
-
-        // Check the contraction criterion.
-        if (shouldContract()) {
-            contract();
-        }
-        return discarded;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -379,16 +358,7 @@ public class ResizableDoubleArray implements Serializable {
      * @throws MathIllegalStateException if the array is empty
      */
     public double substituteMostRecentElement(double value) throws MathIllegalStateException {
-        if (numElements < 1) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.CANNOT_SUBSTITUTE_ELEMENT_FROM_EMPTY_ARRAY);
-        }
-
-        final int substIndex = startIndex + (numElements - 1);
-        final double discarded = internalArray[substIndex];
-
-        internalArray[substIndex] = value;
-
-        return discarded;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -402,31 +372,15 @@ public class ResizableDoubleArray implements Serializable {
      * @throws MathIllegalArgumentException if {@code contraction <= 1}.
      * @throws MathIllegalArgumentException if {@code expansion <= 1 }.
      */
-    protected void checkContractExpand(double contraction, double expansion)
-        throws MathIllegalArgumentException {
-
-        if (contraction < expansion) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.CONTRACTION_CRITERIA_SMALLER_THAN_EXPANSION_FACTOR,
-                                                   contraction, expansion);
-        }
-
-        if (contraction <= 1) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.CONTRACTION_CRITERIA_SMALLER_THAN_ONE,
-                                                   contraction);
-        }
-
-        if (expansion <= 1) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.EXPANSION_FACTOR_SMALLER_THAN_ONE,
-                                                   expansion);
-        }
+    protected void checkContractExpand(double contraction, double expansion) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Clear the array contents, resetting the number of elements to zero.
      */
     public void clear() {
-        numElements = 0;
-        startIndex = 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -434,14 +388,7 @@ public class ResizableDoubleArray implements Serializable {
      * a zero length array. This function also resets the startIndex to zero.
      */
     public void contract() {
-        final double[] tempArray = new double[numElements + 1];
-
-        // Copy and swap - copy only the element array from the src array.
-        System.arraycopy(internalArray, startIndex, tempArray, 0, numElements);
-        internalArray = tempArray;
-
-        // Reset the start index to zero
-        startIndex = 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -455,7 +402,7 @@ public class ResizableDoubleArray implements Serializable {
      * @throws MathIllegalArgumentException if i is greater than numElements.
      */
     public void discardFrontElements(int i) throws MathIllegalArgumentException {
-        discardExtremeElements(i,true);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -469,7 +416,7 @@ public class ResizableDoubleArray implements Serializable {
      * @throws MathIllegalArgumentException if i is greater than numElements.
      */
     public void discardMostRecentElements(int i) throws MathIllegalArgumentException {
-        discardExtremeElements(i,false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -491,13 +438,9 @@ public class ResizableDoubleArray implements Serializable {
      */
     private void discardExtremeElements(int i, boolean front) throws MathIllegalArgumentException {
         if (i > numElements) {
-            throw new MathIllegalArgumentException(
-                    LocalizedCoreFormats.TOO_MANY_ELEMENTS_TO_DISCARD_FROM_ARRAY,
-                    i, numElements);
-       } else if (i < 0) {
-           throw new MathIllegalArgumentException(
-                   LocalizedCoreFormats.CANNOT_DISCARD_NEGATIVE_NUMBER_OF_ELEMENTS,
-                   i);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.TOO_MANY_ELEMENTS_TO_DISCARD_FROM_ARRAY, i, numElements);
+        } else if (i < 0) {
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.CANNOT_DISCARD_NEGATIVE_NUMBER_OF_ELEMENTS, i);
         } else {
             // "Subtract" this number of discarded from numElements
             numElements -= i;
@@ -519,22 +462,7 @@ public class ResizableDoubleArray implements Serializable {
      * after expansion will be {@code internalArray.length + expansionFactor}.
      */
     protected void expand() {
-        // notice the use of FastMath.ceil(), this guarantees that we will always
-        // have an array of at least currentSize + 1.   Assume that the
-        // current initial capacity is 1 and the expansion factor
-        // is 1.000000000000000001.  The newly calculated size will be
-        // rounded up to 2 after the multiplication is performed.
-        final int newSize;
-        if (expansionMode == ExpansionMode.MULTIPLICATIVE) {
-            newSize = (int) FastMath.ceil(internalArray.length * expansionFactor);
-        } else {
-            newSize = (int) (internalArray.length + FastMath.round(expansionFactor));
-        }
-        final double[] tempArray = new double[newSize];
-
-        // Copy and swap
-        System.arraycopy(internalArray, 0, tempArray, 0, internalArray.length);
-        internalArray = tempArray;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -562,7 +490,7 @@ public class ResizableDoubleArray implements Serializable {
      * @return the contraction criterion used to reclaim memory.
      */
     public double getContractionCriterion() {
-        return contractionCriterion;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -574,16 +502,10 @@ public class ResizableDoubleArray implements Serializable {
      * zero or is greater than {@code getNumElements() - 1}.
      */
     public double getElement(int index) {
-        if (index >= numElements) {
-            throw new ArrayIndexOutOfBoundsException(index);
-        } else if (index >= 0) {
-            return internalArray[startIndex + index];
-        } else {
-            throw new ArrayIndexOutOfBoundsException(index);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-     /**
+    /**
      * Returns a double array containing the elements of this ResizableArray.
      * <p>
      * This method returns a copy, not a reference to the underlying array,
@@ -592,9 +514,7 @@ public class ResizableDoubleArray implements Serializable {
      * @return the double array.
      */
     public double[] getElements() {
-        final double[] elementArray = new double[numElements];
-        System.arraycopy(internalArray, startIndex, elementArray, 0, numElements);
-        return elementArray;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -610,7 +530,7 @@ public class ResizableDoubleArray implements Serializable {
      * @return the expansion factor of this expandable double array
      */
     public double getExpansionFactor() {
-        return expansionFactor;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -620,7 +540,7 @@ public class ResizableDoubleArray implements Serializable {
      * @return the expansion mode.
      */
     public ExpansionMode getExpansionMode() {
-        return expansionMode;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -632,7 +552,7 @@ public class ResizableDoubleArray implements Serializable {
      * @return the length of the internal array.
      */
     public int getCapacity() {
-        return internalArray.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -642,7 +562,7 @@ public class ResizableDoubleArray implements Serializable {
      * @return the number of elements.
      */
     public int getNumElements() {
-        return numElements;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -664,7 +584,7 @@ public class ResizableDoubleArray implements Serializable {
      * @return the internal storage array used by this object.
      */
     protected double[] getArrayRef() {
-        return internalArray; // NOPMD - returning an internal array is intentional and documented here
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -679,7 +599,7 @@ public class ResizableDoubleArray implements Serializable {
      * @return the start index.
      */
     protected int getStartIndex() {
-        return startIndex;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -689,7 +609,7 @@ public class ResizableDoubleArray implements Serializable {
      * @return the result.
      */
     public double compute(MathArrays.Function f) {
-        return f.evaluate(internalArray, startIndex, numElements);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -706,16 +626,7 @@ public class ResizableDoubleArray implements Serializable {
      * @throws ArrayIndexOutOfBoundsException if {@code index < 0}.
      */
     public void setElement(int index, double value) {
-        if (index < 0) {
-            throw new ArrayIndexOutOfBoundsException(index);
-        }
-        if (index + 1 > numElements) {
-            numElements = index + 1;
-        }
-        if ((startIndex + index) >= internalArray.length) {
-            expandTo(startIndex + (index + 1));
-        }
-        internalArray[startIndex + index] = value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -727,20 +638,7 @@ public class ResizableDoubleArray implements Serializable {
      * @throws MathIllegalArgumentException if {@code i} is negative.
      */
     public void setNumElements(int i) throws MathIllegalArgumentException {
-        // If index is negative thrown an error.
-        if (i < 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INDEX_NOT_POSITIVE, i);
-        }
-
-        // Test the new num elements, check to see if the array needs to be
-        // expanded to accommodate this new number of elements.
-        final int newSize = startIndex + i;
-        if (newSize > internalArray.length) {
-            expandTo(newSize);
-        }
-
-        // Set the new number of elements to new value.
-        numElements = i;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -765,7 +663,7 @@ public class ResizableDoubleArray implements Serializable {
      * properties as this
      */
     public ResizableDoubleArray copy() {
-        return new ResizableDoubleArray(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -778,24 +676,7 @@ public class ResizableDoubleArray implements Serializable {
      */
     @Override
     public boolean equals(Object object) {
-        if (object == this) {
-            return true;
-        }
-        if (!(object instanceof ResizableDoubleArray)) {
-            return false;
-        }
-        boolean result = true;
-        final ResizableDoubleArray other = (ResizableDoubleArray) object;
-        result = result && (other.contractionCriterion == contractionCriterion);
-        result = result && (other.expansionFactor == expansionFactor);
-        result = result && (other.expansionMode == expansionMode);
-        result = result && (other.numElements == numElements);
-        result = result && (other.startIndex == startIndex);
-        if (!result) {
-            return false;
-        } else {
-            return Arrays.equals(internalArray, other.internalArray);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -805,14 +686,6 @@ public class ResizableDoubleArray implements Serializable {
      */
     @Override
     public int hashCode() {
-        final int[] hashData = new int[6];
-        hashData[0] = Double.valueOf(expansionFactor).hashCode();
-        hashData[1] = Double.valueOf(contractionCriterion).hashCode();
-        hashData[2] = expansionMode.hashCode();
-        hashData[3] = Arrays.hashCode(internalArray);
-        hashData[4] = numElements;
-        hashData[5] = startIndex;
-        return Arrays.hashCode(hashData);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

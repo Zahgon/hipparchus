@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -28,19 +27,19 @@ import org.hipparchus.util.MathArrays;
 
 /**
  * Generates a piecewise-bicubic interpolating function.
- *
  */
-public class PiecewiseBicubicSplineInterpolator
-    implements BivariateGridInterpolator {
+public class PiecewiseBicubicSplineInterpolator implements BivariateGridInterpolator {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public PiecewiseBicubicSplineInterpolator() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public PiecewiseBicubicSplineInterpolator() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
@@ -48,22 +47,7 @@ public class PiecewiseBicubicSplineInterpolator
      * {@inheritDoc}
      */
     @Override
-    public PiecewiseBicubicSplineInterpolatingFunction interpolate( final double[] xval,
-                                                                    final double[] yval,
-                                                                    final double[][] fval)
-        throws MathIllegalArgumentException, NullArgumentException {
-        if (xval == null || yval == null || fval == null || fval[0] == null) {
-            throw new NullArgumentException();
-        }
-
-        if (xval.length == 0 || yval.length == 0 || fval.length == 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NO_DATA);
-        }
-
-        MathArrays.checkOrder(xval);
-        MathArrays.checkOrder(yval);
-
-        return new PiecewiseBicubicSplineInterpolatingFunction(xval, yval, fval);
+    public PiecewiseBicubicSplineInterpolatingFunction interpolate(final double[] xval, final double[] yval, final double[][] fval) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

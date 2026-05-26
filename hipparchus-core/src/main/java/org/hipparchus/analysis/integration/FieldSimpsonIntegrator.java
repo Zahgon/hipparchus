@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -41,7 +40,9 @@ import org.hipparchus.util.FastMath;
  */
 public class FieldSimpsonIntegrator<T extends CalculusFieldElement<T>> extends BaseAbstractFieldUnivariateIntegrator<T> {
 
-    /** Maximal number of iterations for Simpson. */
+    /**
+     * Maximal number of iterations for Simpson.
+     */
     public static final int SIMPSON_MAX_ITERATIONS_COUNT = 64;
 
     /**
@@ -59,16 +60,10 @@ public class FieldSimpsonIntegrator<T extends CalculusFieldElement<T>> extends B
      * @exception MathIllegalArgumentException if maximal number of iterations
      * is greater than {@link #SIMPSON_MAX_ITERATIONS_COUNT}
      */
-    public FieldSimpsonIntegrator(final Field<T> field,
-                                  final double relativeAccuracy,
-                                  final double absoluteAccuracy,
-                                  final int minimalIterationCount,
-                                  final int maximalIterationCount)
-        throws MathIllegalArgumentException {
+    public FieldSimpsonIntegrator(final Field<T> field, final double relativeAccuracy, final double absoluteAccuracy, final int minimalIterationCount, final int maximalIterationCount) throws MathIllegalArgumentException {
         super(field, relativeAccuracy, absoluteAccuracy, minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > SIMPSON_MAX_ITERATIONS_COUNT) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                   maximalIterationCount, SIMPSON_MAX_ITERATIONS_COUNT);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED, maximalIterationCount, SIMPSON_MAX_ITERATIONS_COUNT);
         }
     }
 
@@ -85,14 +80,10 @@ public class FieldSimpsonIntegrator<T extends CalculusFieldElement<T>> extends B
      * @exception MathIllegalArgumentException if maximal number of iterations
      * is greater than {@link #SIMPSON_MAX_ITERATIONS_COUNT}
      */
-    public FieldSimpsonIntegrator(final Field<T> field,
-                                  final int minimalIterationCount,
-                                  final int maximalIterationCount)
-        throws MathIllegalArgumentException {
+    public FieldSimpsonIntegrator(final Field<T> field, final int minimalIterationCount, final int maximalIterationCount) throws MathIllegalArgumentException {
         super(field, minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > SIMPSON_MAX_ITERATIONS_COUNT) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                   maximalIterationCount, SIMPSON_MAX_ITERATIONS_COUNT);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED, maximalIterationCount, SIMPSON_MAX_ITERATIONS_COUNT);
         }
     }
 
@@ -105,34 +96,11 @@ public class FieldSimpsonIntegrator<T extends CalculusFieldElement<T>> extends B
         super(field, DEFAULT_MIN_ITERATIONS_COUNT, SIMPSON_MAX_ITERATIONS_COUNT);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected T doIntegrate()
-        throws MathIllegalStateException {
-
-        FieldTrapezoidIntegrator<T> qtrap = new FieldTrapezoidIntegrator<>(getField());
-        if (getMinimalIterationCount() == 1) {
-            return qtrap.stage(this, 1).multiply(4).subtract(qtrap.stage(this, 0)).divide(3.0);
-        }
-
-        // Simpson's rule requires at least two trapezoid stages.
-        T olds = getField().getZero();
-        T oldt = qtrap.stage(this, 0);
-        while (true) {
-            final T t = qtrap.stage(this, iterations.getCount());
-            iterations.increment();
-            final T s = t.multiply(4).subtract(oldt).divide(3.0);
-            if (iterations.getCount() >= getMinimalIterationCount()) {
-                final double delta = FastMath.abs(s.subtract(olds)).getReal();
-                final double rLimit = FastMath.abs(olds).add(FastMath.abs(s)).multiply(0.5 * getRelativeAccuracy()).getReal();
-                if ((delta <= rLimit) || (delta <= getAbsoluteAccuracy())) {
-                    return s;
-                }
-            }
-            olds = s;
-            oldt = t;
-        }
-
+    protected T doIntegrate() throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

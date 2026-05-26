@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -28,10 +27,15 @@ import java.util.EventObject;
  * {@link IterationManager} should be derived.
  */
 public class IterationEvent extends EventObject {
-    /** Serializable UID. */
+
+    /**
+     * Serializable UID.
+     */
     private static final long serialVersionUID = 20120128L;
 
-    /** The number of iterations performed so far. */
+    /**
+     * The number of iterations performed so far.
+     */
     private final int iterations;
 
     /**
@@ -54,6 +58,6 @@ public class IterationEvent extends EventObject {
      * @return the number of iterations performed
      */
     public int getIterations() {
-        return iterations;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
- }
+}

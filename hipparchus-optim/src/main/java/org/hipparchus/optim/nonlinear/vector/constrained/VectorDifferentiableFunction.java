@@ -16,14 +16,13 @@
  */
 package org.hipparchus.optim.nonlinear.vector.constrained;
 
-
-
 import org.hipparchus.analysis.MultivariateVectorFunction;
 import org.hipparchus.linear.ArrayRealVector;
 import org.hipparchus.linear.RealMatrix;
 import org.hipparchus.linear.RealVector;
 
-/** A MultivariateFunction that also has a defined gradient and Hessian.
+/**
+ * A MultivariateFunction that also has a defined gradient and Hessian.
  * @since 3.1
  */
 public interface VectorDifferentiableFunction extends MultivariateVectorFunction {
@@ -35,7 +34,7 @@ public interface VectorDifferentiableFunction extends MultivariateVectorFunction
      */
     int dim();
 
-     /**
+    /**
      * Returns the dimensionality of the function eval.
      *
      * @return the expected dimension of the function's eval
@@ -58,7 +57,7 @@ public interface VectorDifferentiableFunction extends MultivariateVectorFunction
      */
     @Override
     default double[] value(final double[] x) {
-        return value(new ArrayRealVector(x, false)).toArray();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -76,7 +75,6 @@ public interface VectorDifferentiableFunction extends MultivariateVectorFunction
      * @return the gradient of this function at (x)
      */
     default RealMatrix gradient(final double[] x) {
-        return jacobian(new ArrayRealVector(x, false));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

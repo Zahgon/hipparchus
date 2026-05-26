@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.stat.correlation;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -43,13 +41,19 @@ import org.hipparchus.util.MathArrays;
  */
 public class SpearmansCorrelation {
 
-    /** Input data */
+    /**
+     * Input data
+     */
     private final RealMatrix data;
 
-    /** Ranking algorithm  */
+    /**
+     * Ranking algorithm
+     */
     private final RankingAlgorithm rankingAlgorithm;
 
-    /** Rank correlation */
+    /**
+     * Rank correlation
+     */
     private final PearsonsCorrelation rankCorrelation;
 
     /**
@@ -66,15 +70,10 @@ public class SpearmansCorrelation {
      * @throws MathIllegalArgumentException if the provided {@link RankingAlgorithm} is of
      * type {@link NaturalRanking} and uses a {@link NaNStrategy#REMOVED} strategy
      */
-    public SpearmansCorrelation(final RankingAlgorithm rankingAlgorithm)
-        throws MathIllegalArgumentException {
-
-        if (rankingAlgorithm instanceof NaturalRanking &&
-            NaNStrategy.REMOVED == ((NaturalRanking) rankingAlgorithm).getNanStrategy()) {
-            throw new MathIllegalArgumentException(LocalizedStatFormats.NOT_SUPPORTED_NAN_STRATEGY,
-                                                   NaNStrategy.REMOVED);
+    public SpearmansCorrelation(final RankingAlgorithm rankingAlgorithm) throws MathIllegalArgumentException {
+        if (rankingAlgorithm instanceof NaturalRanking && NaNStrategy.REMOVED == ((NaturalRanking) rankingAlgorithm).getNanStrategy()) {
+            throw new MathIllegalArgumentException(LocalizedStatFormats.NOT_SUPPORTED_NAN_STRATEGY, NaNStrategy.REMOVED);
         }
-
         data = null;
         this.rankingAlgorithm = rankingAlgorithm;
         rankCorrelation = null;
@@ -100,15 +99,10 @@ public class SpearmansCorrelation {
      * @throws MathIllegalArgumentException if the provided {@link RankingAlgorithm} is of
      * type {@link NaturalRanking} and uses a {@link NaNStrategy#REMOVED} strategy
      */
-    public SpearmansCorrelation(final RealMatrix dataMatrix, final RankingAlgorithm rankingAlgorithm)
-        throws MathIllegalArgumentException {
-
-        if (rankingAlgorithm instanceof NaturalRanking &&
-            NaNStrategy.REMOVED == ((NaturalRanking) rankingAlgorithm).getNanStrategy()) {
-            throw new MathIllegalArgumentException(LocalizedStatFormats.NOT_SUPPORTED_NAN_STRATEGY,
-                                                   NaNStrategy.REMOVED);
+    public SpearmansCorrelation(final RealMatrix dataMatrix, final RankingAlgorithm rankingAlgorithm) throws MathIllegalArgumentException {
+        if (rankingAlgorithm instanceof NaturalRanking && NaNStrategy.REMOVED == ((NaturalRanking) rankingAlgorithm).getNanStrategy()) {
+            throw new MathIllegalArgumentException(LocalizedStatFormats.NOT_SUPPORTED_NAN_STRATEGY, NaNStrategy.REMOVED);
         }
-
         this.rankingAlgorithm = rankingAlgorithm;
         this.data = rankTransform(dataMatrix);
         rankCorrelation = new PearsonsCorrelation(data);
@@ -121,7 +115,7 @@ public class SpearmansCorrelation {
      * @throws NullPointerException if this instance was created with no data
      */
     public RealMatrix getCorrelationMatrix() {
-        return rankCorrelation.getCorrelationMatrix();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -139,7 +133,7 @@ public class SpearmansCorrelation {
      * @return PearsonsCorrelation among ranked column data
      */
     public PearsonsCorrelation getRankCorrelation() {
-        return rankCorrelation;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -150,8 +144,7 @@ public class SpearmansCorrelation {
      * @return correlation matrix
      */
     public RealMatrix computeCorrelationMatrix(final RealMatrix matrix) {
-        final RealMatrix matrixCopy = rankTransform(matrix);
-        return new PearsonsCorrelation().computeCorrelationMatrix(matrixCopy);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -163,7 +156,7 @@ public class SpearmansCorrelation {
      * @return correlation matrix
      */
     public RealMatrix computeCorrelationMatrix(final double[][] matrix) {
-       return computeCorrelationMatrix(new BlockRealMatrix(matrix));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -176,14 +169,7 @@ public class SpearmansCorrelation {
      * @throws MathIllegalArgumentException if the array length is less than 2
      */
     public double correlation(final double[] xArray, final double[] yArray) {
-        MathArrays.checkEqualLength(xArray, yArray);
-        if (xArray.length < 2) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INSUFFICIENT_DIMENSION,
-                                                   xArray.length, 2);
-        }
-
-        return new PearsonsCorrelation().correlation(rankingAlgorithm.rank(xArray),
-                                                     rankingAlgorithm.rank(yArray));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -198,8 +184,6 @@ public class SpearmansCorrelation {
         for (int i = 0; i < transformed.getColumnDimension(); i++) {
             transformed.setColumn(i, rankingAlgorithm.rank(transformed.getColumn(i)));
         }
-
         return transformed;
     }
-
 }

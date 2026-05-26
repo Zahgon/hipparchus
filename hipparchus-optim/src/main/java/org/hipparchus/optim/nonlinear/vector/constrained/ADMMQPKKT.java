@@ -16,7 +16,6 @@
  */
 package org.hipparchus.optim.nonlinear.vector.constrained;
 
-
 import org.hipparchus.linear.ArrayRealVector;
 import org.hipparchus.linear.DecompositionSolver;
 import org.hipparchus.linear.EigenDecompositionSymmetric;
@@ -25,50 +24,76 @@ import org.hipparchus.linear.RealMatrix;
 import org.hipparchus.linear.RealVector;
 import org.hipparchus.util.FastMath;
 
-/** Alternative Direction Method of Multipliers Solver.
+/**
+ * Alternative Direction Method of Multipliers Solver.
  * @since 3.1
  */
 public class ADMMQPKKT implements KarushKuhnTuckerSolver<ADMMQPSolution> {
 
-    /** Tolerance for symmetric matrices decomposition.
+    /**
+     * Tolerance for symmetric matrices decomposition.
      * @since 4.1
      */
     private double decompositionEpsilon;
 
-    /** Square matrix of weights for quadratic terms. */
+    /**
+     * Square matrix of weights for quadratic terms.
+     */
     private RealMatrix H;
 
-    /** Vector of weights for linear terms. */
+    /**
+     * Vector of weights for linear terms.
+     */
     private RealVector q;
 
-    /** Constraints coefficients matrix. */
+    /**
+     * Constraints coefficients matrix.
+     */
     private RealMatrix A;
 
-    /** Regularization term sigma for Karush–Kuhn–Tucker solver. */
+    /**
+     * Regularization term sigma for Karush–Kuhn–Tucker solver.
+     */
     private double sigma;
 
-    /** TBC. */
+    /**
+     * TBC.
+     */
     private RealMatrix R;
 
-    /** Inverse of R. */
+    /**
+     * Inverse of R.
+     */
     private RealMatrix Rinv;
 
-    /** Lower bound. */
+    /**
+     * Lower bound.
+     */
     private RealVector lb;
 
-    /** Upper bound. */
+    /**
+     * Upper bound.
+     */
     private RealVector ub;
 
-    /** Alpha filter for ADMM iteration. */
+    /**
+     * Alpha filter for ADMM iteration.
+     */
     private double alpha;
 
-    /** Constrained problem KKT matrix. */
-    private RealMatrix M; // NOPMD
+    /**
+     * Constrained problem KKT matrix.
+     */
+    // NOPMD
+    private RealMatrix M;
 
-    /** Solver for M. */
+    /**
+     * Solver for M.
+     */
     private DecompositionSolver dsX;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * <p>
      * BEWARE, nothing is initialized here, it is {@link #initialize(RealMatrix, RealMatrix,
      * RealVector, int, RealVector, RealVector, double, double, double) initialize} <em>must</em>
@@ -79,40 +104,35 @@ public class ADMMQPKKT implements KarushKuhnTuckerSolver<ADMMQPSolution> {
         decompositionEpsilon = EigenDecompositionSymmetric.DEFAULT_EPSILON;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ADMMQPSolution solve(RealVector b1, final RealVector b2) {
-        RealVector z = dsX.solve(new ArrayRealVector((ArrayRealVector) b1, b2));
-        return new ADMMQPSolution(z.getSubVector(0,b1.getDimension()), z.getSubVector(b1.getDimension(), b2.getDimension()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Update tolerance for matrix decomposition
+    /**
+     * Update tolerance for matrix decomposition
      * @param newDecompositionEpsilon tolerance for symmetric matrix decomposition
      * @since 4.1
      */
     public void updateDecompositionEpsilon(final double newDecompositionEpsilon) {
-        this.decompositionEpsilon = newDecompositionEpsilon;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Update steps
+    /**
+     * Update steps
      * @param newSigma new regularization term sigma for Karush–Kuhn–Tucker solver
      * @param me number of equality constraints
      * @param rho new step size
      */
     public void updateSigmaRho(double newSigma, int me, double rho) {
-        this.sigma = newSigma;
-        this.H = H.add(MatrixUtils.createRealIdentityMatrix(H.getColumnDimension()).scalarMultiply(newSigma));
-        createPenaltyMatrix(me, rho);
-        M =  MatrixUtils.createRealMatrix(H.getRowDimension() + A.getRowDimension(),
-                                          H.getRowDimension() + A.getRowDimension());
-        M.setSubMatrix(H.getData(), 0,0);
-        M.setSubMatrix(A.getData(), H.getRowDimension(),0);
-        M.setSubMatrix(A.transpose().getData(), 0, H.getRowDimension());
-        M.setSubMatrix(Rinv.scalarMultiply(-1.0).getData(), H.getRowDimension(),H.getRowDimension());
-        dsX = new EigenDecompositionSymmetric(M, decompositionEpsilon, true).getSolver();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Initialize problem
+    /**
+     * Initialize problem
      * @param newH square matrix of weights for quadratic term
      * @param newA constraints coefficients matrix
      * @param newQ TBD
@@ -123,78 +143,27 @@ public class ADMMQPKKT implements KarushKuhnTuckerSolver<ADMMQPSolution> {
      * @param newSigma regularization term sigma for Karush–Kuhn–Tucker solver
      * @param newAlpha alpha filter for ADMM iteration
      */
-    public void initialize(RealMatrix newH, RealMatrix newA, RealVector newQ,
-                           int me, RealVector newLb, RealVector newUb,
-                           double rho, double newSigma, double newAlpha) {
-        this.lb = newLb;
-        this.ub = newUb;
-        this.alpha = newAlpha;
-        this.sigma = newSigma;
-        this.H = newH.add(MatrixUtils.createRealIdentityMatrix(newH.getColumnDimension()).scalarMultiply(newSigma));
-        this.A = newA.copy();
-        this.q = newQ.copy();
-        createPenaltyMatrix(me, rho);
-
-        M =  MatrixUtils.createRealMatrix(newH.getRowDimension() + newA.getRowDimension(),
-                                          newH.getRowDimension() + newA.getRowDimension());
-        M.setSubMatrix(newH.getData(),0,0);
-        M.setSubMatrix(newA.getData(),newH.getRowDimension(),0);
-        M.setSubMatrix(newA.transpose().getData(),0,newH.getRowDimension());
-        M.setSubMatrix(Rinv.scalarMultiply(-1.0).getData(),newH.getRowDimension(),newH.getRowDimension());
-        dsX = new EigenDecompositionSymmetric(M, decompositionEpsilon, true).getSolver();
+    public void initialize(RealMatrix newH, RealMatrix newA, RealVector newQ, int me, RealVector newLb, RealVector newUb, double rho, double newSigma, double newAlpha) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void createPenaltyMatrix(int me, double rho) {
         this.R = MatrixUtils.createRealIdentityMatrix(A.getRowDimension());
-
         for (int i = 0; i < R.getRowDimension(); i++) {
             if (i < me) {
                 R.setEntry(i, i, rho * 1000.0);
-
             } else {
                 R.setEntry(i, i, rho);
-
             }
         }
         this.Rinv = MatrixUtils.inverse(R);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ADMMQPSolution iterate(RealVector... previousSol) {
-        double onealfa = 1.0 - alpha;
-        //SAVE OLD VALUE
-        RealVector xold = previousSol[0].copy();
-        RealVector yold = previousSol[1].copy();
-        RealVector zold = previousSol[2].copy();
-
-        //UPDATE RIGHT VECTOR
-        RealVector b1 = previousSol[0].mapMultiply(sigma).subtract(q);
-        RealVector b2 = previousSol[2].subtract(Rinv.operate(previousSol[1]));
-
-        //SOLVE KKT SYSYEM
-        ADMMQPSolution sol = solve(b1, b2);
-        RealVector xtilde = sol.getX();
-        RealVector vtilde = sol.getV();
-
-        //UPDATE ZTILDE
-        RealVector ztilde = zold.add(Rinv.operate(vtilde.subtract(yold)));
-        //UPDATE X
-        previousSol[0] = xtilde.mapMultiply(alpha).add(xold.mapMultiply(onealfa));
-
-        //UPDATE Z PARTIAL
-        RealVector zpartial = ztilde.mapMultiply(alpha).add(zold.mapMultiply(onealfa)).add(Rinv.operate(yold));
-
-        //PROJECT ZPARTIAL AND UPDATE Z
-        for (int j = 0; j < previousSol[2].getDimension(); j++) {
-            previousSol[2].setEntry(j, FastMath.min(FastMath.max(zpartial.getEntry(j), lb.getEntry(j)), ub.getEntry(j)));
-        }
-
-        //UPDATE Y
-        RealVector ytilde = ztilde.mapMultiply(alpha).add(zold.mapMultiply(onealfa).subtract(previousSol[2]));
-        previousSol[1] = yold.add(R.operate(ytilde));
-
-        return new ADMMQPSolution(previousSol[0], vtilde, previousSol[1], previousSol[2]);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

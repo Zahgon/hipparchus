@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -33,13 +32,14 @@ import org.hipparchus.util.MathUtils;
 
 /**
  * Utility routines for {@link UnivariateSolver} objects.
- *
  */
 public class UnivariateSolverUtils {
+
     /**
      * Class contains only static methods.
      */
-    private UnivariateSolverUtils() {}
+    private UnivariateSolverUtils() {
+    }
 
     /**
      * Convenience method to find a zero of a univariate real function.  A default
@@ -53,11 +53,8 @@ public class UnivariateSolverUtils {
      * endpoints.
      * @throws NullArgumentException if {@code function} is {@code null}.
      */
-    public static double solve(UnivariateFunction function, double x0, double x1)
-        throws MathIllegalArgumentException, NullArgumentException {
-        MathUtils.checkNotNull(function, LocalizedCoreFormats.FUNCTION);
-        final UnivariateSolver solver = new BrentSolver();
-        return solver.solve(Integer.MAX_VALUE, function, x0, x1);
+    public static double solve(UnivariateFunction function, double x0, double x1) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -73,13 +70,8 @@ public class UnivariateSolverUtils {
      * endpoints.
      * @throws NullArgumentException if {@code function} is {@code null}.
      */
-    public static double solve(UnivariateFunction function,
-                               double x0, double x1,
-                               double absoluteAccuracy)
-        throws MathIllegalArgumentException, NullArgumentException {
-        MathUtils.checkNotNull(function, LocalizedCoreFormats.FUNCTION);
-        final UnivariateSolver solver = new BrentSolver(absoluteAccuracy);
-        return solver.solve(Integer.MAX_VALUE, function, x0, x1);
+    public static double solve(UnivariateFunction function, double x0, double x1, double absoluteAccuracy) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -100,76 +92,8 @@ public class UnivariateSolverUtils {
      * @throws MathIllegalArgumentException if the function has the same sign at the
      * endpoints.
      */
-    public static double forceSide(final int maxEval, final UnivariateFunction f,
-                                   final BracketedUnivariateSolver<UnivariateFunction> bracketing,
-                                   final double baseRoot, final double min, final double max,
-                                   final AllowedSolution allowedSolution)
-        throws MathIllegalArgumentException {
-
-        if (allowedSolution == AllowedSolution.ANY_SIDE) {
-            // no further bracketing required
-            return baseRoot;
-        }
-
-        // find a very small interval bracketing the root
-        final double step = FastMath.max(bracketing.getAbsoluteAccuracy(),
-                                         FastMath.abs(baseRoot * bracketing.getRelativeAccuracy()));
-        double xLo        = FastMath.max(min, baseRoot - step);
-        double fLo        = f.value(xLo);
-        double xHi        = FastMath.min(max, baseRoot + step);
-        double fHi        = f.value(xHi);
-        int remainingEval = maxEval - 2;
-        while (remainingEval > 0) {
-
-            if ((fLo >= 0 && fHi <= 0) || (fLo <= 0 && fHi >= 0)) {
-                // compute the root on the selected side
-                return bracketing.solve(remainingEval, f, xLo, xHi, baseRoot, allowedSolution);
-            }
-
-            // try increasing the interval
-            boolean changeLo = false;
-            boolean changeHi = false;
-            if (fLo < fHi) {
-                // increasing function
-                if (fLo >= 0) {
-                    changeLo = true;
-                } else {
-                    changeHi = true;
-                }
-            } else if (fLo > fHi) {
-                // decreasing function
-                if (fLo <= 0) {
-                    changeLo = true;
-                } else {
-                    changeHi = true;
-                }
-            } else {
-                // unknown variation
-                changeLo = true;
-                changeHi = true;
-            }
-
-            // update the lower bound
-            if (changeLo) {
-                xLo = FastMath.max(min, xLo - step);
-                fLo  = f.value(xLo);
-                remainingEval--;
-            }
-
-            // update the higher bound
-            if (changeHi) {
-                xHi = FastMath.min(max, xHi + step);
-                fHi  = f.value(xHi);
-                remainingEval--;
-            }
-
-        }
-
-        throw new MathIllegalArgumentException(LocalizedCoreFormats.FAILED_BRACKETING,
-                                               xLo, xHi, fLo, fHi,
-                                               maxEval - remainingEval, maxEval, baseRoot,
-                                               min, max);
-
+    public static double forceSide(final int maxEval, final UnivariateFunction f, final BracketedUnivariateSolver<UnivariateFunction> bracketing, final double baseRoot, final double min, final double max, final AllowedSolution allowedSolution) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -196,14 +120,11 @@ public class UnivariateSolverUtils {
      * @throws MathIllegalArgumentException if {@code maximumIterations <= 0}.
      * @throws NullArgumentException if {@code function} is {@code null}.
      */
-    public static double[] bracket(UnivariateFunction function,
-                                   double initial,
-                                   double lowerBound, double upperBound)
-        throws MathIllegalArgumentException, NullArgumentException {
-        return bracket(function, initial, lowerBound, upperBound, 1.0, 1.0, Integer.MAX_VALUE);
+    public static double[] bracket(UnivariateFunction function, double initial, double lowerBound, double upperBound) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-     /**
+    /**
      * This method simply calls {@link #bracket(UnivariateFunction, double, double, double,
      * double, double, int) bracket(function, initial, lowerBound, upperBound, q, r, maximumIterations)}
      * with {@code q} and {@code r} set to 1.0.
@@ -220,12 +141,8 @@ public class UnivariateSolverUtils {
      * @throws MathIllegalArgumentException if {@code maximumIterations <= 0}.
      * @throws NullArgumentException if {@code function} is {@code null}.
      */
-    public static double[] bracket(UnivariateFunction function,
-                                   double initial,
-                                   double lowerBound, double upperBound,
-                                   int maximumIterations)
-        throws MathIllegalArgumentException, NullArgumentException {
-        return bracket(function, initial, lowerBound, upperBound, 1.0, 1.0, maximumIterations);
+    public static double[] bracket(UnivariateFunction function, double initial, double lowerBound, double upperBound, int maximumIterations) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -289,69 +206,8 @@ public class UnivariateSolverUtils {
      * @return a two element array holding the bracketing values.
      * @exception MathIllegalArgumentException if function cannot be bracketed in the search interval
      */
-    public static double[] bracket(final UnivariateFunction function, final double initial,
-                                   final double lowerBound, final double upperBound,
-                                   final double q, final double r, final int maximumIterations)
-        throws MathIllegalArgumentException {
-
-        MathUtils.checkNotNull(function, LocalizedCoreFormats.FUNCTION);
-
-        if (q <= 0)  {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
-                                                   q, 0);
-        }
-        if (maximumIterations <= 0)  {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INVALID_MAX_ITERATIONS, maximumIterations);
-        }
-        verifySequence(lowerBound, initial, upperBound);
-
-        // initialize the recurrence
-        double a     = initial;
-        double b     = initial;
-        double fa    = Double.NaN;
-        double fb    = Double.NaN;
-        double delta = 0;
-
-        for (int numIterations = 0;
-             (numIterations < maximumIterations) && (a > lowerBound || b < upperBound);
-             ++numIterations) {
-
-            final double previousA  = a;
-            final double previousFa = fa;
-            final double previousB  = b;
-            final double previousFb = fb;
-
-            delta = r * delta + q;
-            a     = FastMath.max(initial - delta, lowerBound);
-            b     = FastMath.min(initial + delta, upperBound);
-            fa    = function.value(a);
-            fb    = function.value(b);
-
-            if (numIterations == 0) {
-                // at first iteration, we don't have a previous interval
-                // we simply compare both sides of the initial interval
-                if (fa * fb <= 0) {
-                    // the first interval already brackets a root
-                    return new double[] { a, b };
-                }
-            } else {
-                // we have a previous interval with constant sign and expand it,
-                // we expect sign changes to occur at boundaries
-                if (fa * previousFa <= 0) {
-                    // sign change detected at near lower bound
-                    return new double[] { a, previousA };
-                } else if (fb * previousFb <= 0) {
-                    // sign change detected at near upper bound
-                    return new double[] { previousB, b };
-                }
-            }
-
-        }
-
-        // no bracketing found
-        throw new MathIllegalArgumentException(LocalizedCoreFormats.NOT_BRACKETING_INTERVAL,
-                                               a, b, fa, fb);
-
+    public static double[] bracket(final UnivariateFunction function, final double initial, final double lowerBound, final double upperBound, final double q, final double r, final int maximumIterations) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -381,16 +237,11 @@ public class UnivariateSolverUtils {
      * @throws NullArgumentException if {@code function} is {@code null}.
      * @since 1.2
      */
-    public static <T extends CalculusFieldElement<T>> T[] bracket(CalculusFieldUnivariateFunction<T> function,
-                                                              T initial,
-                                                              T lowerBound, T upperBound)
-        throws MathIllegalArgumentException, NullArgumentException {
-        return bracket(function, initial, lowerBound, upperBound,
-                       initial.getField().getOne(), initial.getField().getOne(),
-                       Integer.MAX_VALUE);
+    public static <T extends CalculusFieldElement<T>> T[] bracket(CalculusFieldUnivariateFunction<T> function, T initial, T lowerBound, T upperBound) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-     /**
+    /**
      * This method simply calls {@link #bracket(CalculusFieldUnivariateFunction,
      * CalculusFieldElement, CalculusFieldElement, CalculusFieldElement, CalculusFieldElement,
      * CalculusFieldElement, int) bracket(function, initial, lowerBound, upperBound, q, r, maximumIterations)}
@@ -410,14 +261,8 @@ public class UnivariateSolverUtils {
      * @throws NullArgumentException if {@code function} is {@code null}.
      * @since 1.2
      */
-    public static <T extends CalculusFieldElement<T>> T[] bracket(CalculusFieldUnivariateFunction<T> function,
-                                                              T initial,
-                                                              T lowerBound, T upperBound,
-                                                              int maximumIterations)
-        throws MathIllegalArgumentException, NullArgumentException {
-        return bracket(function, initial, lowerBound, upperBound,
-                       initial.getField().getOne(), initial.getField().getOne(),
-                       maximumIterations);
+    public static <T extends CalculusFieldElement<T>> T[] bracket(CalculusFieldUnivariateFunction<T> function, T initial, T lowerBound, T upperBound, int maximumIterations) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -483,84 +328,12 @@ public class UnivariateSolverUtils {
      * @exception MathIllegalArgumentException if function cannot be bracketed in the search interval
      * @since 1.2
      */
-    public static <T extends CalculusFieldElement<T>> T[] bracket(final CalculusFieldUnivariateFunction<T> function,
-                                                              final T initial,
-                                                              final T lowerBound, final T upperBound,
-                                                              final T q, final T r,
-                                                              final int maximumIterations)
-        throws MathIllegalArgumentException {
-
-        MathUtils.checkNotNull(function, LocalizedCoreFormats.FUNCTION);
-
-        if (q.getReal() <= 0)  {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
-                                                   q, 0);
-        }
-        if (maximumIterations <= 0)  {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INVALID_MAX_ITERATIONS, maximumIterations);
-        }
-        verifySequence(lowerBound.getReal(), initial.getReal(), upperBound.getReal());
-
-        // initialize the recurrence
-        T a     = initial;
-        T b     = initial;
-        T fa    = null;
-        T fb    = null;
-        T delta = initial.getField().getZero();
-
-        for (int numIterations = 0;
-             (numIterations < maximumIterations) &&
-             (a.getReal() > lowerBound.getReal() || b.getReal() < upperBound.getReal());
-             ++numIterations) {
-
-            final T previousA  = a;
-            final T previousFa = fa;
-            final T previousB  = b;
-            final T previousFb = fb;
-
-            delta = r.multiply(delta).add(q);
-            a     = max(initial.subtract(delta), lowerBound);
-            b     = min(initial.add(delta), upperBound);
-            fa    = function.value(a);
-            fb    = function.value(b);
-
-            if (numIterations == 0) {
-                // at first iteration, we don't have a previous interval
-                // we simply compare both sides of the initial interval
-                if (fa.multiply(fb).getReal() <= 0) {
-                    // the first interval already brackets a root
-                    final T[] interval = MathArrays.buildArray(initial.getField(), 2);
-                    interval[0] = a;
-                    interval[1] = b;
-                    return interval;
-                }
-            } else {
-                // we have a previous interval with constant sign and expand it,
-                // we expect sign changes to occur at boundaries
-                if (fa.multiply(previousFa).getReal() <= 0) {
-                    // sign change detected at near lower bound
-                    final T[] interval = MathArrays.buildArray(initial.getField(), 2);
-                    interval[0] = a;
-                    interval[1] = previousA;
-                    return interval;
-                } else if (fb.multiply(previousFb).getReal() <= 0) {
-                    // sign change detected at near upper bound
-                    final T[] interval = MathArrays.buildArray(initial.getField(), 2);
-                    interval[0] = previousB;
-                    interval[1] = b;
-                    return interval;
-                }
-            }
-
-        }
-
-        // no bracketing found
-        throw new MathIllegalArgumentException(LocalizedCoreFormats.NOT_BRACKETING_INTERVAL,
-                                               a.getReal(), b.getReal(), fa.getReal(), fb.getReal());
-
+    public static <T extends CalculusFieldElement<T>> T[] bracket(final CalculusFieldUnivariateFunction<T> function, final T initial, final T lowerBound, final T upperBound, final T q, final T r, final int maximumIterations) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the maximum of two values
+    /**
+     * Compute the maximum of two values
      * @param a first value
      * @param b second value
      * @param <T> type of the field elements
@@ -571,7 +344,8 @@ public class UnivariateSolverUtils {
         return (a.subtract(b).getReal() <= 0) ? b : a;
     }
 
-    /** Compute the minimum of two values
+    /**
+     * Compute the minimum of two values
      * @param a first value
      * @param b second value
      * @param <T> type of the field elements
@@ -590,7 +364,7 @@ public class UnivariateSolverUtils {
      * @return the midpoint.
      */
     public static double midpoint(double a, double b) {
-        return (a + b) * 0.5;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -605,14 +379,8 @@ public class UnivariateSolverUtils {
      * given points.
      * @throws NullArgumentException if {@code function} is {@code null}.
      */
-    public static boolean isBracketing(UnivariateFunction function,
-                                       final double lower,
-                                       final double upper)
-        throws NullArgumentException {
-        MathUtils.checkNotNull(function, LocalizedCoreFormats.FUNCTION);
-        final double fLo = function.value(lower);
-        final double fHi = function.value(upper);
-        return (fLo >= 0 && fHi <= 0) || (fLo <= 0 && fHi >= 0);
+    public static boolean isBracketing(UnivariateFunction function, final double lower, final double upper) throws NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -623,10 +391,8 @@ public class UnivariateSolverUtils {
      * @param end Third number.
      * @return {@code true} if the arguments form an increasing sequence.
      */
-    public static boolean isSequence(final double start,
-                                     final double mid,
-                                     final double end) {
-        return (start < mid) && (mid < end);
+    public static boolean isSequence(final double start, final double mid, final double end) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -636,13 +402,8 @@ public class UnivariateSolverUtils {
      * @param upper Upper endpoint.
      * @throws MathIllegalArgumentException if {@code lower >= upper}.
      */
-    public static void verifyInterval(final double lower,
-                                      final double upper)
-        throws MathIllegalArgumentException {
-        if (lower >= upper) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.ENDPOINTS_NOT_AN_INTERVAL,
-                                                lower, upper, false);
-        }
+    public static void verifyInterval(final double lower, final double upper) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -654,12 +415,8 @@ public class UnivariateSolverUtils {
      * @throws MathIllegalArgumentException if {@code lower >= initial} or
      * {@code initial >= upper}.
      */
-    public static void verifySequence(final double lower,
-                                      final double initial,
-                                      final double upper)
-        throws MathIllegalArgumentException {
-        verifyInterval(lower, initial);
-        verifyInterval(initial, upper);
+    public static void verifySequence(final double lower, final double initial, final double upper) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -673,16 +430,7 @@ public class UnivariateSolverUtils {
      * endpoints.
      * @throws NullArgumentException if {@code function} is {@code null}.
      */
-    public static void verifyBracketing(UnivariateFunction function,
-                                        final double lower,
-                                        final double upper)
-        throws MathIllegalArgumentException, NullArgumentException {
-        MathUtils.checkNotNull(function, LocalizedCoreFormats.FUNCTION);
-        verifyInterval(lower, upper);
-        if (!isBracketing(function, lower, upper)) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NOT_BRACKETING_INTERVAL,
-                                                   lower, upper,
-                                                   function.value(lower), function.value(upper));
-        }
+    public static void verifyBracketing(UnivariateFunction function, final double lower, final double upper) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

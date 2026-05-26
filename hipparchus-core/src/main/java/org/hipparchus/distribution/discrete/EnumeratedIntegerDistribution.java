@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -26,7 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.hipparchus.distribution.EnumeratedDistribution;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.util.MathUtils;
@@ -43,7 +41,9 @@ import org.hipparchus.util.Pair;
  */
 public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
 
-    /** Serializable UID. */
+    /**
+     * Serializable UID.
+     */
     private static final long serialVersionUID = 20130308L;
 
     /**
@@ -62,10 +62,8 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      * {@code singletons.length != probabilities.length}
      * @throws MathIllegalArgumentException if probabilities contains negative, infinite or NaN values or only 0's
      */
-    public EnumeratedIntegerDistribution(final int[] singletons, final double[] probabilities)
-        throws MathIllegalArgumentException {
-        innerDistribution =
-                new EnumeratedDistribution<>(createDistribution(singletons, probabilities));
+    public EnumeratedIntegerDistribution(final int[] singletons, final double[] probabilities) throws MathIllegalArgumentException {
+        innerDistribution = new EnumeratedDistribution<>(createDistribution(singletons, probabilities));
     }
 
     /**
@@ -94,8 +92,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
             probabilities[index] = entry.getValue() / denom;
             index++;
         }
-        innerDistribution =
-                new EnumeratedDistribution<>(createDistribution(values, probabilities));
+        innerDistribution = new EnumeratedDistribution<>(createDistribution(values, probabilities));
     }
 
     /**
@@ -106,11 +103,9 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      * @return list of value/probability pairs
      * @throws MathIllegalArgumentException if probabilities contains negative, infinite or NaN values or only 0's
      */
-    private static List<Pair<Integer, Double>> createDistribution(int[] singletons,
-                                                                  double[] probabilities) {
+    private static List<Pair<Integer, Double>> createDistribution(int[] singletons, double[] probabilities) {
         MathUtils.checkDimension(singletons.length, probabilities.length);
         final List<Pair<Integer, Double>> samples = new ArrayList<>(singletons.length);
-
         final double[] normalizedProbabilities = EnumeratedDistribution.checkAndNormalize(probabilities);
         for (int i = 0; i < singletons.length; i++) {
             samples.add(new Pair<>(singletons[i], normalizedProbabilities[i]));
@@ -123,7 +118,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double probability(final int x) {
-        return innerDistribution.probability(x);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -131,15 +126,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double cumulativeProbability(final int x) {
-        double probability = 0;
-
-        for (final Pair<Integer, Double> sample : innerDistribution.getPmf()) {
-            if (sample.getKey() <= x) {
-                probability += sample.getValue();
-            }
-        }
-
-        return probability;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -149,13 +136,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double getNumericalMean() {
-        double mean = 0;
-
-        for (final Pair<Integer, Double> sample : innerDistribution.getPmf()) {
-            mean += sample.getValue() * sample.getKey();
-        }
-
-        return mean;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -165,15 +146,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        double mean = 0;
-        double meanOfSquares = 0;
-
-        for (final Pair<Integer, Double> sample : innerDistribution.getPmf()) {
-            mean += sample.getValue() * sample.getKey();
-            meanOfSquares += sample.getValue() * sample.getKey() * sample.getKey();
-        }
-
-        return meanOfSquares - mean * mean;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -185,14 +158,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public int getSupportLowerBound() {
-        int min = Integer.MAX_VALUE;
-        for (final Pair<Integer, Double> sample : innerDistribution.getPmf()) {
-            if (sample.getKey() < min && sample.getValue() > 0) {
-                min = sample.getKey();
-            }
-        }
-
-        return min;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -204,14 +170,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public int getSupportUpperBound() {
-        int max = Integer.MIN_VALUE;
-        for (final Pair<Integer, Double> sample : innerDistribution.getPmf()) {
-            if (sample.getKey() > max && sample.getValue() > 0) {
-                max = sample.getKey();
-            }
-        }
-
-        return max;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -223,7 +182,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -232,7 +191,6 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      * @return the probability mass function.
      */
     public List<Pair<Integer, Double>> getPmf() {
-        return innerDistribution.getPmf();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

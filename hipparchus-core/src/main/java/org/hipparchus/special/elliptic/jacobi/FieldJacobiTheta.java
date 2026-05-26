@@ -20,25 +20,35 @@ import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.util.FastMath;
 import org.hipparchus.util.FieldSinCos;
 
-/** Algorithm computing Jacobi theta functions.
+/**
+ * Algorithm computing Jacobi theta functions.
  * @param <T> the type of the field elements
  * @since 2.0
  */
 public class FieldJacobiTheta<T extends CalculusFieldElement<T>> {
 
-    /** Maximum number of terms in the Fourier series. */
+    /**
+     * Maximum number of terms in the Fourier series.
+     */
     private static final int N_MAX = 100;
 
-    /** Nome. */
+    /**
+     * Nome.
+     */
     private final T q;
 
-    /** q². */
+    /**
+     * q².
+     */
     private final T qSquare;
 
-    /** ∜q. */
+    /**
+     * ∜q.
+     */
     private final T qFourth;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * <p>
      * The nome {@code q} can be computed using ratios of complete elliptic integrals
      * ({@link org.hipparchus.special.elliptic.legendre.LegendreEllipticIntegral#nome(CalculusFieldElement)
@@ -48,73 +58,25 @@ public class FieldJacobiTheta<T extends CalculusFieldElement<T>> {
      * @param q nome
      */
     public FieldJacobiTheta(final T q) {
-        this.q       = q;
+        this.q = q;
         this.qSquare = q.multiply(q);
         this.qFourth = FastMath.sqrt(FastMath.sqrt(q));
     }
 
-    /** Get the nome.
+    /**
+     * Get the nome.
      * @return nome
      */
     public T getQ() {
-        return q;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Evaluate the Jacobi theta functions.
+    /**
+     * Evaluate the Jacobi theta functions.
      * @param z argument of the functions
      * @return container for the four Jacobi theta functions θ₁(z|τ), θ₂(z|τ), θ₃(z|τ), and θ₄(z|τ)
      */
     public FieldTheta<T> values(final T z) {
-
-        // the computation is based on Fourier series,
-        // see Digital Library of Mathematical Functions section 20.2
-        // https://dlmf.nist.gov/20.2
-        final T zero = q.getField().getZero();
-        final T one  = q.getField().getOne();
-
-        // base angle for Fourier Series
-        final FieldSinCos<T> sc1 = FastMath.sinCos(z);
-
-        // recursion rules initialization
-        double         sgn   = 1.0;
-        T              qNN   = one;
-        T              qTwoN = one;
-        T              qNNp1 = one;
-        FieldSinCos<T> sc2n1 = sc1;
-        final double   eps   = FastMath.ulp(one).getReal();
-
-        // Fourier series
-        T sum1 = sc1.sin();
-        T sum2 = sc1.cos();
-        T sum3 = zero;
-        T sum4 = zero;
-        for (int n = 1; n < N_MAX; ++n) {
-
-            sgn   = -sgn;                            // (-1)ⁿ⁻¹     ← (-1)ⁿ
-            qNN   = qNN.multiply(qTwoN).multiply(q); // q⁽ⁿ⁻¹⁾⁽ⁿ⁻¹⁾ ← qⁿⁿ
-            qTwoN = qTwoN.multiply(qSquare);         // q²⁽ⁿ⁻¹⁾     ← q²ⁿ
-            qNNp1 = qNNp1.multiply(qTwoN);           // q⁽ⁿ⁻¹⁾ⁿ     ← qⁿ⁽ⁿ⁺¹⁾
-
-            sc2n1 = FieldSinCos.sum(sc2n1, sc1); // {sin|cos}([2n-1] z) ← {sin|cos}(2n z)
-            sum3  = sum3.add(sc2n1.cos().multiply(qNN));
-            sum4  = sum4.add(sc2n1.cos().multiply(qNN.multiply(sgn)));
-
-            sc2n1 = FieldSinCos.sum(sc2n1, sc1); // {sin|cos}(2n z) ← {sin|cos}([2n+1] z)
-            sum1  = sum1.add(sc2n1.sin().multiply(qNNp1.multiply(sgn)));
-            sum2  = sum2.add(sc2n1.cos().multiply(qNNp1));
-
-            if (qNNp1.norm() <= eps) {
-                // we have reach convergence
-                break;
-            }
-
-        }
-
-        return new FieldTheta<>(sum1.multiply(qFourth.twice()),
-                                sum2.multiply(qFourth.twice()),
-                                sum3.twice().add(1),
-                                sum4.twice().add(1));
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

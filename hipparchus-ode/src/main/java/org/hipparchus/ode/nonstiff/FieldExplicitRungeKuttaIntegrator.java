@@ -14,9 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.nonstiff;
-
 
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.Field;
@@ -48,47 +46,30 @@ import org.hipparchus.util.MathArrays;
  * @param <T> the type of the field elements
  * @since 3.1
  */
+public interface FieldExplicitRungeKuttaIntegrator<T extends CalculusFieldElement<T>> extends FieldButcherArrayProvider<T>, FieldODEIntegrator<T> {
 
-public interface FieldExplicitRungeKuttaIntegrator<T extends CalculusFieldElement<T>>
-    extends FieldButcherArrayProvider<T>, FieldODEIntegrator<T> {
-
-    /** Get the time steps from Butcher array (without the first zero). Real version (non-Field).
+    /**
+     * Get the time steps from Butcher array (without the first zero). Real version (non-Field).
      * @return time steps from Butcher array (without the first zero).
      */
     default double[] getRealC() {
-        final T[] c = getC();
-        final double[] cReal = new double[c.length];
-        for (int i = 0; i < c.length; i++) {
-            cReal[i] = c[i].getReal();
-        }
-        return cReal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the internal weights from Butcher array (without the first empty row). Real version (non-Field).
+    /**
+     * Get the internal weights from Butcher array (without the first empty row). Real version (non-Field).
      * @return internal weights from Butcher array (without the first empty row)
      */
     default double[][] getRealA() {
-        final T[][] a = getA();
-        final double[][] aReal = new double[a.length][];
-        for (int i = 0; i < a.length; i++) {
-            aReal[i] = new double[a[i].length];
-            for (int j = 0; j < aReal[i].length; j++) {
-                aReal[i][j] = a[i][j].getReal();
-            }
-        }
-        return aReal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the external weights for the high order method from Butcher array. Real version (non-Field).
+    /**
+     * Get the external weights for the high order method from Butcher array. Real version (non-Field).
      * @return external weights for the high order method from Butcher array
      */
     default double[] getRealB() {
-        final T[] b = getB();
-        final double[] bReal = new double[b.length];
-        for (int i = 0; i < b.length; i++) {
-            bReal[i] = b[i].getReal();
-        }
-        return bReal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -104,10 +85,11 @@ public interface FieldExplicitRungeKuttaIntegrator<T extends CalculusFieldElemen
      * @return number of stages
      */
     default int getNumberOfStages() {
-        return getB().length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Fast computation of a single step of ODE integration.
+    /**
+     * Fast computation of a single step of ODE integration.
      * <p>This method is intended for the limited use case of
      * very fast computation of only one step without using any of the
      * rich features of general integrators that may take some time
@@ -133,23 +115,7 @@ public interface FieldExplicitRungeKuttaIntegrator<T extends CalculusFieldElemen
      * @return state vector at {@code t}
      */
     default T[] singleStep(final FieldOrdinaryDifferentialEquation<T> equations, final T t0, final T[] y0, final T t) {
-
-        // create some internal working arrays
-        final int stages  = getNumberOfStages();
-        final T[][] yDotK = MathArrays.buildArray(t0.getField(), stages, -1);
-
-        // first stage
-        final T h = t.subtract(t0);
-        final FieldExpandableODE<T> fieldExpandableODE = new FieldExpandableODE<>(equations);
-        yDotK[0] = fieldExpandableODE.computeDerivatives(t0, y0);
-
-        if (isUsingFieldCoefficients()) {
-            applyInternalButcherWeights(fieldExpandableODE, t0, y0, h, getA(), getC(), yDotK);
-            return applyExternalButcherWeights(y0, yDotK, h, getB());
-        } else {
-            applyInternalButcherWeights(fieldExpandableODE, t0, y0, h, getRealA(), getRealC(), yDotK);
-            return applyExternalButcherWeights(y0, yDotK, h, getRealB());
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -162,8 +128,7 @@ public interface FieldExplicitRungeKuttaIntegrator<T extends CalculusFieldElemen
      * @return p/q computed in the instance field
      */
     static <T extends CalculusFieldElement<T>> T fraction(final Field<T> field, final int p, final int q) {
-        final T zero = field.getZero();
-        return zero.newInstance(p).divide(zero.newInstance(q));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -175,8 +140,7 @@ public interface FieldExplicitRungeKuttaIntegrator<T extends CalculusFieldElemen
      * @return p/q computed in the instance field
      */
     static <T extends CalculusFieldElement<T>> T fraction(final Field<T> field, final double p, final double q) {
-        final T zero = field.getZero();
-        return zero.newInstance(p).divide(zero.newInstance(q));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -190,29 +154,12 @@ public interface FieldExplicitRungeKuttaIntegrator<T extends CalculusFieldElemen
      * @param c         times of Butcher array
      * @param yDotK     array where to store result
      */
-    static <T extends CalculusFieldElement<T>> void applyInternalButcherWeights(final FieldExpandableODE<T> equations,
-                                                                                final T t0, final T[] y0, final T h,
-                                                                                final T[][] a, final T[] c,
-                                                                                final T[][] yDotK) {
-        // create some internal working arrays
-        final int stages = c.length + 1;
-        final T[] yTmp = y0.clone();
-
-        for (int k = 1; k < stages; ++k) {
-
-            for (int j = 0; j < y0.length; ++j) {
-                T sum = yDotK[0][j].multiply(a[k - 1][0]);
-                for (int l = 1; l < k; ++l) {
-                    sum = sum.add(yDotK[l][j].multiply(a[k - 1][l]));
-                }
-                yTmp[j] = y0[j].add(h.multiply(sum));
-            }
-
-            yDotK[k] = equations.computeDerivatives(t0.add(h.multiply(c[k - 1])), yTmp);
-        }
+    static <T extends CalculusFieldElement<T>> void applyInternalButcherWeights(final FieldExpandableODE<T> equations, final T t0, final T[] y0, final T h, final T[][] a, final T[] c, final T[][] yDotK) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Apply internal weights of Butcher array, with corresponding times. Version with real Butcher array (non-Field).
+    /**
+     * Apply internal weights of Butcher array, with corresponding times. Version with real Butcher array (non-Field).
      * @param <T> the type of the field elements
      * @param equations differential equations to integrate
      * @param t0 initial time
@@ -222,29 +169,12 @@ public interface FieldExplicitRungeKuttaIntegrator<T extends CalculusFieldElemen
      * @param c times of Butcher array
      * @param yDotK array where to store result
      */
-    static <T extends CalculusFieldElement<T>> void applyInternalButcherWeights(final FieldExpandableODE<T> equations,
-                                                                                final T t0, final T[] y0, final T h,
-                                                                                final double[][] a, final double[] c,
-                                                                                final T[][] yDotK) {
-        // create some internal working arrays
-        final int stages = c.length + 1;
-        final T[] yTmp = y0.clone();
-
-        for (int k = 1; k < stages; ++k) {
-
-            for (int j = 0; j < y0.length; ++j) {
-                T sum = yDotK[0][j].multiply(a[k - 1][0]);
-                for (int l = 1; l < k; ++l) {
-                    sum = sum.add(yDotK[l][j].multiply(a[k - 1][l]));
-                }
-                yTmp[j] = y0[j].add(h.multiply(sum));
-            }
-
-            yDotK[k] = equations.computeDerivatives(t0.add(h.multiply(c[k - 1])), yTmp);
-        }
+    static <T extends CalculusFieldElement<T>> void applyInternalButcherWeights(final FieldExpandableODE<T> equations, final T t0, final T[] y0, final T h, final double[][] a, final double[] c, final T[][] yDotK) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Apply external weights of Butcher array, assuming internal ones have been applied.
+    /**
+     * Apply external weights of Butcher array, assuming internal ones have been applied.
      * @param <T> the type of the field elements
      * @param yDotK output of stages
      * @param y0 initial value of the state vector at t0
@@ -252,21 +182,12 @@ public interface FieldExplicitRungeKuttaIntegrator<T extends CalculusFieldElemen
      * @param b external weights of Butcher array
      * @return state vector
      */
-    static <T extends CalculusFieldElement<T>> T[] applyExternalButcherWeights(final T[] y0, final T[][] yDotK,
-                                                                               final T h, final T[] b) {
-        final T[] y = y0.clone();
-        final int stages = b.length;
-        for (int j = 0; j < y0.length; ++j) {
-            T sum = yDotK[0][j].multiply(b[0]);
-            for (int l = 1; l < stages; ++l) {
-                sum = sum.add(yDotK[l][j].multiply(b[l]));
-            }
-            y[j] = y[j].add(h.multiply(sum));
-        }
-        return y;
+    static <T extends CalculusFieldElement<T>> T[] applyExternalButcherWeights(final T[] y0, final T[][] yDotK, final T h, final T[] b) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Apply external weights of Butcher array, assuming internal ones have been applied. Version with real Butcher
+    /**
+     * Apply external weights of Butcher array, assuming internal ones have been applied. Version with real Butcher
      * array (non-Field version).
      * @param <T> the type of the field elements
      * @param yDotK output of stages
@@ -275,18 +196,7 @@ public interface FieldExplicitRungeKuttaIntegrator<T extends CalculusFieldElemen
      * @param b external weights of Butcher array
      * @return state vector
      */
-    static <T extends CalculusFieldElement<T>> T[] applyExternalButcherWeights(final T[] y0, final T[][] yDotK,
-                                                                               final T h, final double[] b) {
-        final T[] y = y0.clone();
-        final int stages = b.length;
-        for (int j = 0; j < y0.length; ++j) {
-            T sum = yDotK[0][j].multiply(b[0]);
-            for (int l = 1; l < stages; ++l) {
-                sum = sum.add(yDotK[l][j].multiply(b[l]));
-            }
-            y[j] = y[j].add(h.multiply(sum));
-        }
-        return y;
+    static <T extends CalculusFieldElement<T>> T[] applyExternalButcherWeights(final T[] y0, final T[][] yDotK, final T h, final double[] b) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

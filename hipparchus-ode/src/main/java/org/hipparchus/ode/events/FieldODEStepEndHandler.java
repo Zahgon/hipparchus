@@ -14,22 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.events;
 
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.ode.FieldODEState;
 import org.hipparchus.ode.FieldODEStateAndDerivative;
 
-/** This interface represents a handler for discrete events triggered
+/**
+ * This interface represents a handler for discrete events triggered
  * during ODE integration at each step end.
  * @see org.hipparchus.ode.events
  * @since 3.0
  * @param <T> the type of the field elements
  */
-public interface FieldODEStepEndHandler<T extends CalculusFieldElement<T>>  {
+public interface FieldODEStepEndHandler<T extends CalculusFieldElement<T>> {
 
-    /** Initialize step end handler at the start of an ODE integration.
+    /**
+     * Initialize step end handler at the start of an ODE integration.
      * <p>
      * This method is called once at the start of the integration. It
      * may be used by the step end handler to initialize some internal data
@@ -42,11 +43,12 @@ public interface FieldODEStepEndHandler<T extends CalculusFieldElement<T>>  {
      * @param finalTime target time for the integration
      */
     default void init(FieldODEStateAndDerivative<T> initialState, T finalTime) {
-        // nothing by default
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Handle an event and choose what to do next.
-
+    /**
+     * Handle an event and choose what to do next.
+     *
      * <p>This method is called when the integrator has accepted a step
      * ending exactly on step end, just <em>after</em>
      * the step handler itself is called (see below for scheduling). It
@@ -89,7 +91,8 @@ public interface FieldODEStepEndHandler<T extends CalculusFieldElement<T>>  {
      */
     Action stepEndOccurred(FieldODEStateAndDerivative<T> state, boolean forward);
 
-    /** Reset the state prior to continue the integration.
+    /**
+     * Reset the state prior to continue the integration.
      *
      * <p>This method is called after the step handler has returned and
      * before the next step is started, but only when {@link
@@ -105,7 +108,6 @@ public interface FieldODEStepEndHandler<T extends CalculusFieldElement<T>>  {
      * be added automatically by the integrator afterwards)
      */
     default FieldODEState<T> resetState(FieldODEStateAndDerivative<T> state) {
-        return state;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

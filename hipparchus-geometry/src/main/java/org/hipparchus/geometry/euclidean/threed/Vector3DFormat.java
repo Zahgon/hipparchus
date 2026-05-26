@@ -14,19 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.geometry.euclidean.threed;
 
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Locale;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalStateException;
 import org.hipparchus.geometry.Vector;
@@ -46,7 +43,6 @@ import org.hipparchus.util.CompositeFormat;
  * <p><b>Note:</b> using "," as a separator may interfere with the grouping separator
  * of the default {@link NumberFormat} for the current locale. Thus it is advised
  * to use a {@link NumberFormat} instance with disabled grouping in such a case.</p>
- *
  */
 public class Vector3DFormat extends VectorFormat<Euclidean3D, Vector3D> {
 
@@ -56,8 +52,7 @@ public class Vector3DFormat extends VectorFormat<Euclidean3D, Vector3D> {
      * "{", "}", and "; " and the default number format for components.</p>
      */
     public Vector3DFormat() {
-        super(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_SEPARATOR,
-              CompositeFormat.getDefaultNumberFormat());
+        super(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_SEPARATOR, CompositeFormat.getDefaultNumberFormat());
     }
 
     /**
@@ -74,8 +69,7 @@ public class Vector3DFormat extends VectorFormat<Euclidean3D, Vector3D> {
      * @param suffix suffix to use instead of the default "}"
      * @param separator separator to use instead of the default "; "
      */
-    public Vector3DFormat(final String prefix, final String suffix,
-                         final String separator) {
+    public Vector3DFormat(final String prefix, final String suffix, final String separator) {
         super(prefix, suffix, separator, CompositeFormat.getDefaultNumberFormat());
     }
 
@@ -87,8 +81,7 @@ public class Vector3DFormat extends VectorFormat<Euclidean3D, Vector3D> {
      * @param separator separator to use instead of the default "; "
      * @param format the custom format for components.
      */
-    public Vector3DFormat(final String prefix, final String suffix,
-                         final String separator, final NumberFormat format) {
+    public Vector3DFormat(final String prefix, final String suffix, final String separator, final NumberFormat format) {
         super(prefix, suffix, separator, format);
     }
 
@@ -98,7 +91,7 @@ public class Vector3DFormat extends VectorFormat<Euclidean3D, Vector3D> {
      * @since 1.4
      */
     public static Vector3DFormat getVector3DFormat() {
-        return getVector3DFormat(Locale.getDefault());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -108,7 +101,7 @@ public class Vector3DFormat extends VectorFormat<Euclidean3D, Vector3D> {
      * @since 1.4
      */
     public static Vector3DFormat getVector3DFormat(final Locale locale) {
-        return new Vector3DFormat(CompositeFormat.getDefaultNumberFormat(locale));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -120,10 +113,8 @@ public class Vector3DFormat extends VectorFormat<Euclidean3D, Vector3D> {
      * @return the value passed in as toAppendTo.
      */
     @Override
-    public StringBuffer format(final Vector<Euclidean3D, Vector3D> vector, final StringBuffer toAppendTo,
-                               final FieldPosition pos) {
-        final Vector3D v3 = (Vector3D) vector;
-        return format(toAppendTo, pos, v3.getX(), v3.getY(), v3.getZ());
+    public StringBuffer format(final Vector<Euclidean3D, Vector3D> vector, final StringBuffer toAppendTo, final FieldPosition pos) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -135,14 +126,7 @@ public class Vector3DFormat extends VectorFormat<Euclidean3D, Vector3D> {
      */
     @Override
     public Vector3D parse(final String source) throws MathIllegalStateException {
-        ParsePosition parsePosition = new ParsePosition(0);
-        Vector3D result = parse(source, parsePosition);
-        if (parsePosition.getIndex() == 0) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.CANNOT_PARSE_AS_TYPE,
-                                                source, parsePosition.getErrorIndex(),
-                                                Vector3D.class);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -153,11 +137,6 @@ public class Vector3DFormat extends VectorFormat<Euclidean3D, Vector3D> {
      */
     @Override
     public Vector3D parse(final String source, final ParsePosition pos) {
-        final double[] coordinates = parseCoordinates(3, source, pos);
-        if (coordinates == null) {
-            return null;
-        }
-        return new Vector3D(coordinates[0], coordinates[1], coordinates[2]);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

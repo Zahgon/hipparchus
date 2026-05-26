@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.transform;
 
 import java.io.Serializable;
-
 import org.hipparchus.analysis.FunctionUtils;
 import org.hipparchus.analysis.UnivariateFunction;
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -37,21 +35,24 @@ import org.hipparchus.util.ArithmeticUtils;
  * cannot be inverted directly. Due to a scaling factor it may lead to rational results.
  * As an example, the inverse transform of integer vector (0, 1, 0, 1) is rational
  * vector (1/2, -1/2, 0, 0).
- *
  */
 public class FastHadamardTransformer implements RealTransformer, Serializable {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     static final long serialVersionUID = 20120211L;
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public FastHadamardTransformer() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public FastHadamardTransformer() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
@@ -63,10 +64,7 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      */
     @Override
     public double[] transform(final double[] f, final TransformType type) {
-        if (type == TransformType.FORWARD) {
-            return fht(f);
-        }
-        return TransformUtils.scaleArray(fht(f), 1.0 / f.length);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -79,11 +77,8 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      * @throws MathIllegalArgumentException if the number of sample points is not a power of two
      */
     @Override
-    public double[] transform(final UnivariateFunction f,
-        final double min, final double max, final int n,
-        final TransformType type) {
-
-        return transform(FunctionUtils.sample(f, min, max, n), type);
+    public double[] transform(final UnivariateFunction f, final double min, final double max, final int n, final TransformType type) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -96,7 +91,7 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      * @throws MathIllegalArgumentException if the length of the data array is not a power of two
      */
     public int[] transform(final int[] f) {
-        return fht(f);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -242,45 +237,7 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      * @throws MathIllegalArgumentException if the length of the data array is not a power of two
      */
     protected double[] fht(double[] x) throws MathIllegalArgumentException {
-
-        final int n     = x.length;
-        final int halfN = n / 2;
-
-        if (!ArithmeticUtils.isPowerOfTwo(n)) {
-            throw new MathIllegalArgumentException(LocalizedFFTFormats.NOT_POWER_OF_TWO,
-                    n);
-        }
-
-        /*
-         * Instead of creating a matrix with p+1 columns and n rows, we use two
-         * one dimension arrays which we are used in an alternating way.
-         */
-        double[] yPrevious = new double[n];
-        double[] yCurrent  = x.clone();
-
-        // iterate from left to right (column)
-        for (int j = 1; j < n; j <<= 1) {
-
-            // switch columns
-            final double[] yTmp = yCurrent;
-            yCurrent  = yPrevious;
-            yPrevious = yTmp;
-
-            // iterate from top to bottom (row)
-            for (int i = 0; i < halfN; ++i) {
-                // Dtop: the top part works with addition
-                final int twoI = 2 * i;
-                yCurrent[i] = yPrevious[twoI] + yPrevious[twoI + 1];
-            }
-            for (int i = halfN; i < n; ++i) {
-                // Dbottom: the bottom part works with subtraction
-                final int twoI = 2 * i;
-                yCurrent[i] = yPrevious[twoI - n] - yPrevious[twoI - n + 1];
-            }
-        }
-
-        return yCurrent;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -292,46 +249,6 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      * @throws MathIllegalArgumentException if the length of the data array is not a power of two
      */
     protected int[] fht(int[] x) throws MathIllegalArgumentException {
-
-        final int n     = x.length;
-        final int halfN = n / 2;
-
-        if (!ArithmeticUtils.isPowerOfTwo(n)) {
-            throw new MathIllegalArgumentException(LocalizedFFTFormats.NOT_POWER_OF_TWO,
-                    n);
-        }
-
-        /*
-         * Instead of creating a matrix with p+1 columns and n rows, we use two
-         * one dimension arrays which we are used in an alternating way.
-         */
-        int[] yPrevious = new int[n];
-        int[] yCurrent  = x.clone();
-
-        // iterate from left to right (column)
-        for (int j = 1; j < n; j <<= 1) {
-
-            // switch columns
-            final int[] yTmp = yCurrent;
-            yCurrent  = yPrevious;
-            yPrevious = yTmp;
-
-            // iterate from top to bottom (row)
-            for (int i = 0; i < halfN; ++i) {
-                // Dtop: the top part works with addition
-                final int twoI = 2 * i;
-                yCurrent[i] = yPrevious[twoI] + yPrevious[twoI + 1];
-            }
-            for (int i = halfN; i < n; ++i) {
-                // Dbottom: the bottom part works with subtraction
-                final int twoI = 2 * i;
-                yCurrent[i] = yPrevious[twoI - n] - yPrevious[twoI - n + 1];
-            }
-        }
-
-        // return the last computed output vector y
-        return yCurrent;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

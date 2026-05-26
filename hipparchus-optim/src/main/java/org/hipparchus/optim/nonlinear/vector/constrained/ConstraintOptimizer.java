@@ -20,24 +20,24 @@ import org.hipparchus.exception.MathIllegalStateException;
 import org.hipparchus.optim.BaseMultivariateOptimizer;
 import org.hipparchus.optim.OptimizationData;
 
-
-/** Abstract Constraint Optimizer.
+/**
+ * Abstract Constraint Optimizer.
  * @since 3.1
  */
 public abstract class ConstraintOptimizer extends BaseMultivariateOptimizer<LagrangeSolution> {
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      */
     public ConstraintOptimizer() {
         super(null);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public LagrangeSolution optimize(OptimizationData... optData)
-        throws MathIllegalStateException {
-        // Set up base class and perform computation.
-        return super.optimize(optData);
+    public LagrangeSolution optimize(OptimizationData... optData) throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -41,12 +40,17 @@ import org.hipparchus.util.FastMath;
  * Laguerre's method is global in the sense that it can start with any initial
  * approximation and be able to solve all roots from that point.
  * The algorithm requires a bracketing condition.
- *
  */
 public class LaguerreSolver extends AbstractPolynomialSolver {
-    /** Default absolute accuracy. */
+
+    /**
+     * Default absolute accuracy.
+     */
     private static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
-    /** Complex solver. */
+
+    /**
+     * Complex solver.
+     */
     private final ComplexSolver complexSolver = new ComplexSolver();
 
     /**
@@ -55,6 +59,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
     public LaguerreSolver() {
         this(DEFAULT_ABSOLUTE_ACCURACY);
     }
+
     /**
      * Construct a solver.
      *
@@ -63,16 +68,17 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
     public LaguerreSolver(double absoluteAccuracy) {
         super(absoluteAccuracy);
     }
+
     /**
      * Construct a solver.
      *
      * @param relativeAccuracy Relative accuracy.
      * @param absoluteAccuracy Absolute accuracy.
      */
-    public LaguerreSolver(double relativeAccuracy,
-                          double absoluteAccuracy) {
+    public LaguerreSolver(double relativeAccuracy, double absoluteAccuracy) {
         super(relativeAccuracy, absoluteAccuracy);
     }
+
     /**
      * Construct a solver.
      *
@@ -80,9 +86,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * @param absoluteAccuracy Absolute accuracy.
      * @param functionValueAccuracy Function value accuracy.
      */
-    public LaguerreSolver(double relativeAccuracy,
-                          double absoluteAccuracy,
-                          double functionValueAccuracy) {
+    public LaguerreSolver(double relativeAccuracy, double absoluteAccuracy, double functionValueAccuracy) {
         super(relativeAccuracy, absoluteAccuracy, functionValueAccuracy);
     }
 
@@ -90,45 +94,8 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * {@inheritDoc}
      */
     @Override
-    public double doSolve()
-        throws MathIllegalArgumentException, MathIllegalStateException {
-        final double min = getMin();
-        final double max = getMax();
-        final double initial = getStartValue();
-        final double functionValueAccuracy = getFunctionValueAccuracy();
-
-        verifySequence(min, initial, max);
-
-        // Return the initial guess if it is good enough.
-        final double yInitial = computeObjectiveValue(initial);
-        if (FastMath.abs(yInitial) <= functionValueAccuracy) {
-            return initial;
-        }
-
-        // Return the first endpoint if it is good enough.
-        final double yMin = computeObjectiveValue(min);
-        if (FastMath.abs(yMin) <= functionValueAccuracy) {
-            return min;
-        }
-
-        // Reduce interval if min and initial bracket the root.
-        if (yInitial * yMin < 0) {
-            return laguerre(min, initial);
-        }
-
-        // Return the second endpoint if it is good enough.
-        final double yMax = computeObjectiveValue(max);
-        if (FastMath.abs(yMax) <= functionValueAccuracy) {
-            return max;
-        }
-
-        // Reduce interval if initial and max bracket the root.
-        if (yInitial * yMax < 0) {
-            return laguerre(initial, max);
-        }
-
-        throw new MathIllegalArgumentException(LocalizedCoreFormats.NOT_BRACKETING_INTERVAL,
-                                               min, max, yMin, yMax);
+    public double doSolve() throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -149,7 +116,6 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      */
     private double laguerre(double lo, double hi) {
         final Complex[] c = ComplexUtils.convertToComplex(getCoefficients());
-
         final Complex initial = new Complex(0.5 * (lo + hi), 0);
         final Complex z = complexSolver.solve(c, initial);
         if (complexSolver.isRoot(lo, hi, z)) {
@@ -183,11 +149,8 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * {@code null}.
      * @throws MathIllegalArgumentException if the {@code coefficients} array is empty.
      */
-    public Complex[] solveAllComplex(double[] coefficients,
-                                     double initial)
-        throws MathIllegalArgumentException, NullArgumentException,
-               MathIllegalStateException {
-        return solveAllComplex(coefficients, 100_000, initial);
+    public Complex[] solveAllComplex(double[] coefficients, double initial) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -206,18 +169,8 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * {@code null}.
      * @throws MathIllegalArgumentException if the {@code coefficients} array is empty.
      */
-    public Complex[] solveAllComplex(double[] coefficients,
-                                     int maxEval,
-                                     double initial)
-        throws MathIllegalArgumentException, NullArgumentException,
-               MathIllegalStateException {
-        setup(maxEval,
-              new PolynomialFunction(coefficients),
-              Double.NEGATIVE_INFINITY,
-              Double.POSITIVE_INFINITY,
-              initial);
-        return complexSolver.solveAll(ComplexUtils.convertToComplex(coefficients),
-                                      new Complex(initial, 0d));
+    public Complex[] solveAllComplex(double[] coefficients, int maxEval, double initial) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -235,23 +188,15 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * {@code null}.
      * @throws MathIllegalArgumentException if the {@code coefficients} array is empty.
      */
-    public Complex solveComplex(double[] coefficients,
-                                double initial)
-        throws MathIllegalArgumentException, NullArgumentException,
-               MathIllegalStateException {
-        setup(Integer.MAX_VALUE,
-              new PolynomialFunction(coefficients),
-              Double.NEGATIVE_INFINITY,
-              Double.POSITIVE_INFINITY,
-              initial);
-        return complexSolver.solve(ComplexUtils.convertToComplex(coefficients),
-                                   new Complex(initial, 0d));
+    public Complex solveComplex(double[] coefficients, double initial) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Class for searching all (complex) roots.
      */
     private class ComplexSolver {
+
         /**
          * Check whether the given complex root is actually a real zero
          * in the given interval, within the solver tolerance level.
@@ -262,13 +207,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
          * @return {@code true} if z is a real zero.
          */
         public boolean isRoot(double min, double max, Complex z) {
-            if (isSequence(min, z.getReal(), max)) {
-                final double zAbs = z.norm();
-                double tolerance = FastMath.max(getRelativeAccuracy() * zAbs, getAbsoluteAccuracy());
-                return (FastMath.abs(z.getImaginary()) <= tolerance) ||
-                     (zAbs <= getFunctionValueAccuracy());
-            }
-            return false;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -284,37 +223,8 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
          * {@code null}.
          * @throws MathIllegalArgumentException if the {@code coefficients} array is empty.
          */
-        public Complex[] solveAll(Complex[] coefficients, Complex initial)
-            throws MathIllegalArgumentException, NullArgumentException,
-                   MathIllegalStateException {
-            if (coefficients == null) {
-                throw new NullArgumentException();
-            }
-            final int n = coefficients.length - 1;
-            if (n == 0) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.POLYNOMIAL);
-            }
-            // Coefficients for deflated polynomial.
-            final Complex[] c = new Complex[n + 1];
-            System.arraycopy(coefficients, 0, c, 0, n + 1);
-
-            // Solve individual roots successively.
-            final Complex[] root = new Complex[n];
-            for (int i = 0; i < n; i++) {
-                final Complex[] subarray = new Complex[n - i + 1];
-                System.arraycopy(c, 0, subarray, 0, subarray.length);
-                root[i] = solve(subarray, initial);
-                // Polynomial deflation using synthetic division.
-                Complex newc = c[n - i];
-                Complex oldc;
-                for (int j = n - i - 1; j >= 0; j--) {
-                    oldc = c[j];
-                    c[j] = newc;
-                    newc = oldc.add(newc.multiply(root[i]));
-                }
-            }
-
-            return root;
+        public Complex[] solveAll(Complex[] coefficients, Complex initial) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -330,73 +240,8 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
          * {@code null}.
          * @throws MathIllegalArgumentException if the {@code coefficients} array is empty.
          */
-        public Complex solve(Complex[] coefficients, Complex initial)
-            throws MathIllegalArgumentException, NullArgumentException,
-                   MathIllegalStateException {
-            if (coefficients == null) {
-                throw new NullArgumentException();
-            }
-
-            final int n = coefficients.length - 1;
-            if (n == 0) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.POLYNOMIAL);
-            }
-
-            final double absoluteAccuracy = getAbsoluteAccuracy();
-            final double relativeAccuracy = getRelativeAccuracy();
-            final double functionValueAccuracy = getFunctionValueAccuracy();
-
-            final Complex nC  = new Complex(n, 0);
-            final Complex n1C = new Complex(n - 1, 0);
-
-            Complex z = initial;
-            Complex oldz = new Complex(Double.POSITIVE_INFINITY,
-                                       Double.POSITIVE_INFINITY);
-            while (true) {
-                // Compute pv (polynomial value), dv (derivative value), and
-                // d2v (second derivative value) simultaneously.
-                Complex pv = coefficients[n];
-                Complex dv = Complex.ZERO;
-                Complex d2v = Complex.ZERO;
-                for (int j = n-1; j >= 0; j--) {
-                    d2v = dv.add(z.multiply(d2v));
-                    dv = pv.add(z.multiply(dv));
-                    pv = coefficients[j].add(z.multiply(pv));
-                }
-                d2v = d2v.multiply(new Complex(2.0, 0.0));
-
-                // Check for convergence.
-                final double tolerance = FastMath.max(relativeAccuracy * z.norm(),
-                                                      absoluteAccuracy);
-                if ((z.subtract(oldz)).norm() <= tolerance) {
-                    return z;
-                }
-                if (pv.norm() <= functionValueAccuracy) {
-                    return z;
-                }
-
-                // Now pv != 0, calculate the new approximation.
-                final Complex G = dv.divide(pv);
-                final Complex G2 = G.square();
-                final Complex H = G2.subtract(d2v.divide(pv));
-                final Complex delta = n1C.multiply((nC.multiply(H)).subtract(G2));
-                // Choose a denominator larger in magnitude.
-                final Complex deltaSqrt = delta.sqrt();
-                final Complex dplus = G.add(deltaSqrt);
-                final Complex dminus = G.subtract(deltaSqrt);
-                final Complex denominator = dplus.norm() > dminus.norm() ? dplus : dminus;
-                // Perturb z if denominator is zero, for instance,
-                // p(x) = x^3 + 1, z = 0.
-                if (denominator.isZero()) {
-                    z = z.add(new Complex(absoluteAccuracy, absoluteAccuracy));
-                    oldz = new Complex(Double.POSITIVE_INFINITY,
-                                       Double.POSITIVE_INFINITY);
-                } else {
-                    oldz = z;
-                    z = z.subtract(nC.divide(denominator));
-                }
-                incrementEvaluationCount();
-            }
+        public Complex solve(Complex[] coefficients, Complex initial) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

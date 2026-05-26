@@ -16,7 +16,8 @@
  */
 package org.hipparchus.ode;
 
-/** Simple container pairing a parameter name with a step in order to compute
+/**
+ * Simple container pairing a parameter name with a step in order to compute
  *  the associated Jacobian matrix by finite difference.
  * <p>
  *   Instances of this class are guaranteed to be immutable.
@@ -24,33 +25,39 @@ package org.hipparchus.ode;
  */
 public class ParameterConfiguration {
 
-    /** Parameter name. */
+    /**
+     * Parameter name.
+     */
     private final String parameterName;
 
-    /** Parameter step for finite difference computation. */
+    /**
+     * Parameter step for finite difference computation.
+     */
     private final double hP;
 
-    /** Parameter name and step pair constructor.
+    /**
+     * Parameter name and step pair constructor.
      * @param parameterName parameter name
      * @param hP parameter step
      */
     ParameterConfiguration(final String parameterName, final double hP) {
         this.parameterName = parameterName;
-        this.hP            = hP;
+        this.hP = hP;
     }
 
-    /** Get parameter name.
+    /**
+     * Get parameter name.
      * @return parameterName parameter name
      */
     public String getParameterName() {
-        return parameterName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get parameter step.
+    /**
+     * Get parameter step.
      * @return hP parameter step
      */
     public double getHP() {
-        return hP;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

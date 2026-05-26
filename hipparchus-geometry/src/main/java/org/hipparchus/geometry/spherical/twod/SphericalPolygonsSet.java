@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -27,7 +26,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.IntPredicate;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathIllegalStateException;
@@ -55,16 +53,18 @@ import org.hipparchus.util.FastMath;
 import org.hipparchus.util.MathUtils;
 import org.hipparchus.util.Precision;
 
-/** This class represents a region on the 2-sphere: a set of spherical polygons.
+/**
+ * This class represents a region on the 2-sphere: a set of spherical polygons.
  */
-public class SphericalPolygonsSet
-    extends AbstractRegion<Sphere2D, S2Point, Circle, SubCircle,
-                           Sphere1D, S1Point, LimitAngle, SubLimitAngle> {
+public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, S2Point, Circle, SubCircle, Sphere1D, S1Point, LimitAngle, SubLimitAngle> {
 
-    /** Boundary defined as an array of closed loops start vertices. */
+    /**
+     * Boundary defined as an array of closed loops start vertices.
+     */
     private List<Vertex> loops;
 
-    /** Build a polygons set representing the whole real 2-sphere.
+    /**
+     * Build a polygons set representing the whole real 2-sphere.
      * @param tolerance below which points are consider to be identical
      * @exception MathIllegalArgumentException if tolerance is smaller than {@link
      * Sphere2D#SMALLEST_TOLERANCE}
@@ -74,22 +74,19 @@ public class SphericalPolygonsSet
         Sphere2D.checkTolerance(tolerance);
     }
 
-    /** Build a polygons set representing a hemisphere.
+    /**
+     * Build a polygons set representing a hemisphere.
      * @param pole pole of the hemisphere (the pole is in the inside half)
      * @param tolerance below which points are consider to be identical
      * @exception MathIllegalArgumentException if tolerance is smaller than {@link Sphere2D#SMALLEST_TOLERANCE}
      */
-    public SphericalPolygonsSet(final Vector3D pole, final double tolerance)
-        throws MathIllegalArgumentException {
-        super(new BSPTree<>(new Circle(pole, tolerance).wholeHyperplane(),
-                            new BSPTree<>(Boolean.FALSE),
-                            new BSPTree<>(Boolean.TRUE),
-                            null),
-              tolerance);
+    public SphericalPolygonsSet(final Vector3D pole, final double tolerance) throws MathIllegalArgumentException {
+        super(new BSPTree<>(new Circle(pole, tolerance).wholeHyperplane(), new BSPTree<>(Boolean.FALSE), new BSPTree<>(Boolean.TRUE), null), tolerance);
         Sphere2D.checkTolerance(tolerance);
     }
 
-    /** Build a polygons set representing a regular polygon.
+    /**
+     * Build a polygons set representing a regular polygon.
      * @param center center of the polygon (the center is in the inside half)
      * @param meridian point defining the reference meridian for first polygon vertex
      * @param outsideRadius distance of the vertices to the center
@@ -97,14 +94,12 @@ public class SphericalPolygonsSet
      * @param tolerance below which points are consider to be identical
      * @exception MathIllegalArgumentException if tolerance is smaller than {@link Sphere2D#SMALLEST_TOLERANCE}
      */
-    public SphericalPolygonsSet(final Vector3D center, final Vector3D meridian,
-                                final double outsideRadius, final int n,
-                                final double tolerance)
-        throws MathIllegalArgumentException {
+    public SphericalPolygonsSet(final Vector3D center, final Vector3D meridian, final double outsideRadius, final int n, final double tolerance) throws MathIllegalArgumentException {
         this(tolerance, createRegularPolygonVertices(center, meridian, outsideRadius, n));
     }
 
-    /** Build a polygons set from a BSP tree.
+    /**
+     * Build a polygons set from a BSP tree.
      * <p>The leaf nodes of the BSP tree <em>must</em> have a
      * {@code Boolean} attribute representing the inside status of
      * the corresponding cell (true for inside cells, false for outside
@@ -115,13 +110,13 @@ public class SphericalPolygonsSet
      * @param tolerance below which points are consider to be identical
      * @exception MathIllegalArgumentException if tolerance is smaller than {@link Sphere2D#SMALLEST_TOLERANCE}
      */
-    public SphericalPolygonsSet(final BSPTree<Sphere2D, S2Point, Circle, SubCircle> tree, final double tolerance)
-        throws MathIllegalArgumentException {
+    public SphericalPolygonsSet(final BSPTree<Sphere2D, S2Point, Circle, SubCircle> tree, final double tolerance) throws MathIllegalArgumentException {
         super(tree, tolerance);
         Sphere2D.checkTolerance(tolerance);
     }
 
-    /** Build a polygons set from a Boundary REPresentation (B-rep).
+    /**
+     * Build a polygons set from a Boundary REPresentation (B-rep).
      * <p>The boundary is provided as a collection of {@link
      * SubHyperplane sub-hyperplanes}. Each sub-hyperplane has the
      * interior part of the region on its minus side and the exterior on
@@ -143,13 +138,13 @@ public class SphericalPolygonsSet
      * @param tolerance below which points are consider to be identical
      * @exception MathIllegalArgumentException if tolerance is smaller than {@link Sphere2D#SMALLEST_TOLERANCE}
      */
-    public SphericalPolygonsSet(final Collection<SubCircle> boundary, final double tolerance)
-        throws MathIllegalArgumentException {
+    public SphericalPolygonsSet(final Collection<SubCircle> boundary, final double tolerance) throws MathIllegalArgumentException {
         super(boundary, tolerance);
         Sphere2D.checkTolerance(tolerance);
     }
 
-    /** Build a polygon from a simple list of vertices.
+    /**
+     * Build a polygon from a simple list of vertices.
      * <p>The boundary is provided as a list of points considering to
      * represent the vertices of a simple loop. The interior part of the
      * region is on the left side of this path and the exterior is on its
@@ -193,35 +188,32 @@ public class SphericalPolygonsSet
      * @exception org.hipparchus.exception.MathRuntimeException if {@code vertices}
      * contains only a single vertex or repeated vertices.
      */
-    public SphericalPolygonsSet(final double hyperplaneThickness, final S2Point ... vertices)
-        throws MathIllegalArgumentException {
+    public SphericalPolygonsSet(final double hyperplaneThickness, final S2Point... vertices) throws MathIllegalArgumentException {
         super(verticesToTree(hyperplaneThickness, vertices), hyperplaneThickness);
         Sphere2D.checkTolerance(hyperplaneThickness);
     }
 
-    /** Build the vertices representing a regular polygon.
+    /**
+     * Build the vertices representing a regular polygon.
      * @param center center of the polygon (the center is in the inside half)
      * @param meridian point defining the reference meridian for first polygon vertex
      * @param outsideRadius distance of the vertices to the center
      * @param n number of sides of the polygon
      * @return vertices array
      */
-    private static S2Point[] createRegularPolygonVertices(final Vector3D center, final Vector3D meridian,
-                                                          final double outsideRadius, final int n) {
+    private static S2Point[] createRegularPolygonVertices(final Vector3D center, final Vector3D meridian, final double outsideRadius, final int n) {
         final S2Point[] array = new S2Point[n];
-        final Rotation r0 = new Rotation(Vector3D.crossProduct(center, meridian),
-                                         outsideRadius, RotationConvention.VECTOR_OPERATOR);
+        final Rotation r0 = new Rotation(Vector3D.crossProduct(center, meridian), outsideRadius, RotationConvention.VECTOR_OPERATOR);
         array[0] = new S2Point(r0.applyTo(center));
-
         final Rotation r = new Rotation(center, MathUtils.TWO_PI / n, RotationConvention.VECTOR_OPERATOR);
         for (int i = 1; i < n; ++i) {
             array[i] = new S2Point(r.applyTo(array[i - 1].getVector()));
         }
-
         return array;
     }
 
-    /** Build the BSP tree of a polygons set from a simple list of vertices.
+    /**
+     * Build the BSP tree of a polygons set from a simple list of vertices.
      * <p>The boundary is provided as a list of points considering to
      * represent the vertices of a simple loop. The interior part of the
      * region is on the left side of this path and the exterior is on its
@@ -239,8 +231,7 @@ public class SphericalPolygonsSet
      * @param vertices vertices of the simple loop boundary
      * @return the BSP tree of the input vertices
      */
-    private static BSPTree<Sphere2D, S2Point, Circle, SubCircle>
-        verticesToTree(final double hyperplaneThickness, S2Point ... vertices) {
+    private static BSPTree<Sphere2D, S2Point, Circle, SubCircle> verticesToTree(final double hyperplaneThickness, S2Point... vertices) {
         // thin vertices to those that define distinct circles
         vertices = reduce(hyperplaneThickness, vertices).toArray(new S2Point[0]);
         final int n = vertices.length;
@@ -248,39 +239,27 @@ public class SphericalPolygonsSet
             // the tree represents the whole space
             return new BSPTree<>(Boolean.TRUE);
         }
-
         // build the vertices
         final Vertex[] vArray = new Vertex[n];
         for (int i = 0; i < n; ++i) {
             vArray[i] = new Vertex(vertices[i]);
         }
-
         // build the edges
         final List<Edge> edges = new ArrayList<>(n);
         Vertex end = vArray[n - 1];
         for (int i = 0; i < n; ++i) {
-
             // get the endpoints of the edge
             final Vertex start = end;
             end = vArray[i];
-
             // get the circle supporting the edge
             final Circle circle = new Circle(start.getLocation(), end.getLocation(), hyperplaneThickness);
-
             // create the edge and store it
-            edges.add(new Edge(start, end,
-                               Vector3D.angle(start.getLocation().getVector(),
-                                              end.getLocation().getVector()),
-                               circle));
-
+            edges.add(new Edge(start, end, Vector3D.angle(start.getLocation().getVector(), end.getLocation().getVector()), circle));
         }
-
         // build the tree top-down
         final BSPTree<Sphere2D, S2Point, Circle, SubCircle> tree = new BSPTree<>();
         insertEdges(tree, edges);
-
         return tree;
-
     }
 
     /**
@@ -294,8 +273,7 @@ public class SphericalPolygonsSet
      * @param vertices            to decimate.
      * @return a subset of {@code vertices}.
      */
-    private static List<S2Point> reduce(final double hyperplaneThickness,
-                                        final S2Point[] vertices) {
+    private static List<S2Point> reduce(final double hyperplaneThickness, final S2Point[] vertices) {
         final int n = vertices.length;
         if (n <= 3) {
             // can't reduce to fewer than three points
@@ -320,8 +298,7 @@ public class SphericalPolygonsSet
             }
             for (int k = i + 1; k < n; k++) {
                 final S2Point vertex = vertices[k];
-                if (FastMath.abs(circle.getOffset(vertex)) > hyperplaneThickness ||
-                        arc.getOffset(circle.toSubSpace(vertex)) > 0) {
+                if (FastMath.abs(circle.getOffset(vertex)) > hyperplaneThickness || arc.getOffset(circle.toSubSpace(vertex)) > 0) {
                     // point is not within the thickness or arc, start new edge
                     return false;
                 }
@@ -351,8 +328,7 @@ public class SphericalPolygonsSet
                 final int end = lastFinal < i ? i : i + n;
                 for (int k = lastFinal + 1; k < end; k++) {
                     final S2Point vertex = vertices[k % n];
-                    if (FastMath.abs(circle.getOffset(vertex)) > hyperplaneThickness ||
-                            arc.getOffset(circle.toSubSpace(vertex)) > 0) {
+                    if (FastMath.abs(circle.getOffset(vertex)) > hyperplaneThickness || arc.getOffset(circle.toSubSpace(vertex)) > 0) {
                         // point is not within the thickness or arc, start new edge
                         return false;
                     }
@@ -391,12 +367,9 @@ public class SphericalPolygonsSet
      * otherwise i s.t. predicate.test(i) == true && predicate.test(i + 1) == false.
      * @throws MathIllegalArgumentException if a > b.
      */
-    private static int searchHelper(final IntPredicate predicate,
-                                    final int a,
-                                    final int b) {
+    private static int searchHelper(final IntPredicate predicate, final int a, final int b) {
         if (a > b) {
-            throw new MathIllegalArgumentException(
-                    LocalizedCoreFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT, a, b);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT, a, b);
         }
         // Argument checks and special cases
         if (a == b) {
@@ -405,7 +378,6 @@ public class SphericalPolygonsSet
         if (!predicate.test(a)) {
             return a - 1;
         }
-
         // start with exponential search
         int start = a;
         int end = b;
@@ -419,7 +391,6 @@ public class SphericalPolygonsSet
                 break;
             }
         }
-
         // next binary search
         // copied from Arrays.binarySearch() and modified to work on indices alone
         int low = start;
@@ -444,7 +415,6 @@ public class SphericalPolygonsSet
      *              (excluding edges not belonging to the cell defined by this node)
      */
     private static void insertEdges(final BSPTree<Sphere2D, S2Point, Circle, SubCircle> node, final List<Edge> edges) {
-
         // find an edge with an hyperplane that can be inserted in the node
         int index = 0;
         Edge inserted = null;
@@ -454,7 +424,6 @@ public class SphericalPolygonsSet
                 inserted = null;
             }
         }
-
         if (inserted == null) {
             // no suitable edge was found, the node remains a leaf node
             // we need to set its inside/outside boolean indicator
@@ -466,17 +435,15 @@ public class SphericalPolygonsSet
             }
             return;
         }
-
         // we have split the node by inserting an edge as a cut sub-hyperplane
         // distribute the remaining edges in the two sub-trees
         final List<Edge> outsideList = new ArrayList<>();
-        final List<Edge> insideList  = new ArrayList<>();
+        final List<Edge> insideList = new ArrayList<>();
         for (final Edge edge : edges) {
             if (edge != inserted) {
                 edge.split(inserted.getCircle(), outsideList, insideList);
             }
         }
-
         // recurse through lower levels
         if (!outsideList.isEmpty()) {
             insertEdges(node.getPlus(), outsideList);
@@ -488,77 +455,36 @@ public class SphericalPolygonsSet
         } else {
             node.getMinus().setAttribute(Boolean.TRUE);
         }
-
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SphericalPolygonsSet buildNew(final BSPTree<Sphere2D, S2Point, Circle, SubCircle> tree) {
-        return new SphericalPolygonsSet(tree, getTolerance());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public S2Point getInteriorPoint() {
-
-        final BSPTree<Sphere2D, S2Point, Circle, SubCircle> tree = getTree(false);
-
-        if (tree.getCut() == null) {
-            // full sphere or empty region
-            return ((Boolean) tree.getAttribute()) ? S2Point.PLUS_K : null;
-        }
-        else if (tree.getPlus().getCut() == null && tree.getMinus().getCut() == null) {
-            // half sphere
-            final Vector3D pole     = tree.getCut().getHyperplane().getPole();
-            final Vector3D interior = ((Boolean) tree.getMinus().getAttribute()) ? pole : pole.negate();
-            return new S2Point(interior);
-        }
-        else {
-            // regular case
-            final InteriorPointFinder<Sphere2D, S2Point, Circle, SubCircle> finder =
-                    new InteriorPointFinder<>(S2Point.PLUS_I);
-            tree.visit(finder);
-            final BSPTree.InteriorPoint<Sphere2D, S2Point> interior = finder.getPoint();
-            return interior == null ? null : interior.getPoint();
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalStateException if the tolerance setting does not allow to build
      * a clean non-ambiguous boundary
      */
     @Override
     protected void computeGeometricalProperties() throws MathIllegalStateException {
-
-        final BSPTree<Sphere2D, S2Point, Circle, SubCircle> tree = getTree(true);
-
-        if (tree.getCut() == null) {
-
-            // the instance has a single cell without any boundaries
-
-            if ((Boolean) tree.getAttribute()) {
-                // the instance covers the whole space
-                setSize(4 * FastMath.PI);
-                setBarycenter(new S2Point(0, 0));
-            } else {
-                setSize(0);
-                setBarycenter(S2Point.NaN);
-            }
-
-        } else {
-
-            // the instance has a boundary
-            final PropertiesComputer pc = new PropertiesComputer(getTolerance());
-            tree.visit(pc);
-            setSize(pc.getArea());
-            setBarycenter(pc.getBarycenter());
-
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the boundary loops of the polygon.
+    /**
+     * Get the boundary loops of the polygon.
      * <p>The polygon boundary can be represented as a list of closed loops,
      * each loop being given by exactly one of its vertices. From each loop
      * start vertex, one can follow the loop by finding the outgoing edge,
@@ -582,48 +508,11 @@ public class SphericalPolygonsSet
      * @see Edge
      */
     public List<Vertex> getBoundaryLoops() throws MathIllegalStateException {
-
-        if (loops == null) {
-            if (getTree(false).getCut() == null) {
-                loops = Collections.emptyList();
-            } else {
-
-                // sort the arcs according to their start point
-                final EdgesWithNodeInfoBuilder visitor = new EdgesWithNodeInfoBuilder(getTolerance());
-                getTree(true).visit(visitor);
-                final List<EdgeWithNodeInfo> edges = visitor.getEdges();
-
-                // connect all edges, using topological criteria first
-                // and using Euclidean distance only as a last resort
-                int pending = edges.size();
-                pending -= naturalFollowerConnections(edges);
-                if (pending > 0) {
-                    pending -= splitEdgeConnections(edges);
-                }
-                if (pending > 0) {
-                    pending -= closeVerticesConnections(edges);
-                }
-                if (pending > 0) {
-                    // this should not happen
-                    throw new MathIllegalStateException(LocalizedGeometryFormats.OUTLINE_BOUNDARY_LOOP_OPEN);
-                }
-
-
-                // extract the edges loops
-                loops = new ArrayList<>();
-                for (EdgeWithNodeInfo s = getUnprocessed(edges); s != null; s = getUnprocessed(edges)) {
-                    loops.add(s.getStart());
-                    followLoop(s);
-                }
-
-            }
-        }
-
-        return Collections.unmodifiableList(loops);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Connect the edges using only natural follower information.
+    /**
+     * Connect the edges using only natural follower information.
      * @param edges edges complete edges list
      * @return number of connections performed
      */
@@ -644,7 +533,8 @@ public class SphericalPolygonsSet
         return connected;
     }
 
-    /** Connect the edges resulting from a circle splitting a circular edge.
+    /**
+     * Connect the edges resulting from a circle splitting a circular edge.
      * @param edges edges complete edges list
      * @return number of connections performed
      */
@@ -665,7 +555,8 @@ public class SphericalPolygonsSet
         return connected;
     }
 
-    /** Connect the edges using spherical distance.
+    /**
+     * Connect the edges using spherical distance.
      * <p>
      * This connection heuristic should be used last, as it relies
      * only on a fuzzy distance criterion.
@@ -685,7 +576,7 @@ public class SphericalPolygonsSet
                         final double distance = Vector3D.distance(end, candidateNext.getStart().getLocation().getVector());
                         if (distance < min) {
                             selectedNext = candidateNext;
-                            min          = distance;
+                            min = distance;
                         }
                     }
                 }
@@ -699,7 +590,8 @@ public class SphericalPolygonsSet
         return connected;
     }
 
-    /** Get first unprocessed edge from a list.
+    /**
+     * Get first unprocessed edge from a list.
      * @param edges edges list
      * @return first edge that has not been processed yet
      * or null if all edges have been processed
@@ -713,22 +605,20 @@ public class SphericalPolygonsSet
         return null;
     }
 
-    /** Build the loop containing a edge.
+    /**
+     * Build the loop containing a edge.
      * <p>
      * All edges put in the loop will be marked as processed.
      * </p>
      * @param defining edge used to define the loop
      */
     private void followLoop(final EdgeWithNodeInfo defining) {
-
         defining.setProcessed(true);
-
         // process edges in connection order
         EdgeWithNodeInfo previous = defining;
-        EdgeWithNodeInfo next     = (EdgeWithNodeInfo) defining.getEnd().getOutgoing();
+        EdgeWithNodeInfo next = (EdgeWithNodeInfo) defining.getEnd().getOutgoing();
         while (next != defining) {
             next.setProcessed(true);
-
             // filter out spurious vertices
             if (Vector3D.angle(previous.getCircle().getPole(), next.getCircle().getPole()) <= Precision.EPSILON) {
                 // the vertex between the two edges is a spurious one
@@ -736,15 +626,13 @@ public class SphericalPolygonsSet
                 previous.setNextEdge(next.getEnd().getOutgoing());
                 previous.setLength(previous.getLength() + next.getLength());
             }
-
             previous = next;
-            next     = (EdgeWithNodeInfo) next.getEnd().getOutgoing();
-
+            next = (EdgeWithNodeInfo) next.getEnd().getOutgoing();
         }
-
     }
 
-    /** Get a spherical cap enclosing the polygon.
+    /**
+     * Get a spherical cap enclosing the polygon.
      * <p>
      * This method is intended as a first test to quickly identify points
      * that are guaranteed to be outside of the region, hence performing a full
@@ -792,80 +680,11 @@ public class SphericalPolygonsSet
      * @return a spherical cap enclosing the polygon
      */
     public EnclosingBall<Sphere2D, S2Point> getEnclosingCap() {
-
-        // handle special cases first
-        if (isEmpty()) {
-            return new EnclosingBall<>(S2Point.PLUS_K, Double.NEGATIVE_INFINITY);
-        }
-        if (isFull()) {
-            return new EnclosingBall<>(S2Point.PLUS_K, Double.POSITIVE_INFINITY);
-        }
-
-        // as the polygons is neither empty nor full, it has some boundaries and cut hyperplanes
-        final BSPTree<Sphere2D, S2Point, Circle, SubCircle> root = getTree(false);
-        if (isEmpty(root.getMinus()) && isFull(root.getPlus())) {
-            // the polygon covers an hemisphere, and its boundary is one 2π long edge
-            final Circle circle = root.getCut().getHyperplane();
-            return new EnclosingBall<>(new S2Point(circle.getPole()).negate(), MathUtils.SEMI_PI);
-        }
-        if (isFull(root.getMinus()) && isEmpty(root.getPlus())) {
-            // the polygon covers an hemisphere, and its boundary is one 2π long edge
-            final Circle circle = root.getCut().getHyperplane();
-            return new EnclosingBall<>(new S2Point(circle.getPole()), MathUtils.SEMI_PI);
-        }
-
-        // gather some inside points, to be used by the encloser
-        final List<Vector3D> points = getInsidePoints();
-
-        // extract points from the boundary loops, to be used by the encloser as well
-        final List<Vertex> boundary = getBoundaryLoops();
-        for (final Vertex loopStart : boundary) {
-            int count = 0;
-            for (Vertex v = loopStart; count == 0 || v != loopStart; v = v.getOutgoing().getEnd()) {
-                ++count;
-                points.add(v.getLocation().getVector());
-            }
-        }
-
-        // find the smallest enclosing 3D sphere
-        final SphereGenerator generator = new SphereGenerator();
-        final WelzlEncloser<Euclidean3D, Vector3D> encloser =
-                new WelzlEncloser<>(getTolerance(), generator);
-        EnclosingBall<Euclidean3D, Vector3D> enclosing3D = encloser.enclose(points);
-        final Vector3D[] support3D = enclosing3D.getSupport();
-
-        // convert to 3D sphere to spherical cap
-        final double r = enclosing3D.getRadius();
-        final double h = enclosing3D.getCenter().getNorm();
-        if (h < getTolerance()) {
-            // the 3D sphere is centered on the unit sphere and covers it
-            // fall back to a crude approximation, based only on outside convex cells
-            EnclosingBall<Sphere2D, S2Point> enclosingS2 =
-                    new EnclosingBall<>(S2Point.PLUS_K, Double.POSITIVE_INFINITY);
-            for (Vector3D outsidePoint : getOutsidePoints()) {
-                final S2Point outsideS2 = new S2Point(outsidePoint);
-                final BoundaryProjection<Sphere2D, S2Point> projection = projectToBoundary(outsideS2);
-                if (FastMath.PI - projection.getOffset() < enclosingS2.getRadius()) {
-                    enclosingS2 = new EnclosingBall<>(outsideS2.negate(),
-                                                      FastMath.PI - projection.getOffset(),
-                                                      projection.getProjected());
-                }
-            }
-            return enclosingS2;
-        }
-        final S2Point[] support = new S2Point[support3D.length];
-        for (int i = 0; i < support3D.length; ++i) {
-            support[i] = new S2Point(support3D[i]);
-        }
-
-        return new EnclosingBall<>(new S2Point(enclosing3D.getCenter()),
-                                   FastMath.acos((1 + h * h - r * r) / (2 * h)),
-                                   support);
-
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Gather some inside points.
+    /**
+     * Gather some inside points.
      * @return list of points known to be strictly in all inside convex cells
      */
     private List<Vector3D> getInsidePoints() {
@@ -874,7 +693,8 @@ public class SphericalPolygonsSet
         return pc.getConvexCellsInsidePoints();
     }
 
-    /** Gather some outside points.
+    /**
+     * Gather some outside points.
      * @return list of points known to be strictly in all outside convex cells
      */
     private List<Vector3D> getOutsidePoints() {
@@ -884,5 +704,4 @@ public class SphericalPolygonsSet
         complement.getTree(true).visit(pc);
         return pc.getConvexCellsInsidePoints();
     }
-
 }

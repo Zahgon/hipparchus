@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,9 +21,7 @@
 package org.hipparchus.stat.descriptive.moment;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.NullArgumentException;
-
 
 /**
  * Computes a statistic related to the Third Central Moment.  Specifically,
@@ -53,10 +50,14 @@ import org.hipparchus.exception.NullArgumentException;
  */
 class ThirdMoment extends SecondMoment implements Serializable {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20150412L;
 
-    /** third moment of values that have been added */
+    /**
+     * third moment of values that have been added
+     */
     protected double m3;
 
     /**
@@ -83,36 +84,32 @@ class ThirdMoment extends SecondMoment implements Serializable {
      */
     ThirdMoment(ThirdMoment original) throws NullArgumentException {
         super(original);
-        this.m3     = original.m3;
+        this.m3 = original.m3;
         this.nDevSq = original.nDevSq;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void increment(final double d) {
-        if (n < 1) {
-            m3 = m2 = m1 = 0.0;
-        }
-
-        double prevM2 = m2;
-        super.increment(d);
-        nDevSq = nDev * nDev;
-        double n0 = n;
-        m3 = m3 - 3.0 * nDev * prevM2 + (n0 - 1) * (n0 - 2) * nDevSq * dev;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getResult() {
-        return m3;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
-        super.clear();
-        m3 = Double.NaN;
-        nDevSq = Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -120,13 +117,14 @@ class ThirdMoment extends SecondMoment implements Serializable {
      */
     @Override
     public void aggregate(SecondMoment other) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ThirdMoment copy() {
-        return new ThirdMoment(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

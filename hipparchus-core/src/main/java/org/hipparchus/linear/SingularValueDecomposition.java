@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -55,30 +54,61 @@ import org.hipparchus.util.Precision;
  * @see <a href="http://en.wikipedia.org/wiki/Singular_value_decomposition">Wikipedia</a>
  */
 public class SingularValueDecomposition {
-    /** Relative threshold for small singular values. */
+
+    /**
+     * Relative threshold for small singular values.
+     */
     private static final double EPS = 0x1.0p-52;
-    /** Absolute threshold for small singular values. */
+
+    /**
+     * Absolute threshold for small singular values.
+     */
     private static final double TINY = 0x1.0p-966;
-    /** Computed singular values. */
+
+    /**
+     * Computed singular values.
+     */
     private final double[] singularValues;
-    /** max(row dimension, column dimension). */
+
+    /**
+     * max(row dimension, column dimension).
+     */
     private final int m;
-    /** min(row dimension, column dimension). */
+
+    /**
+     * min(row dimension, column dimension).
+     */
     private final int n;
-    /** Cached value of U matrix. */
+
+    /**
+     * Cached value of U matrix.
+     */
     private final RealMatrix cachedU;
-    /** Cached value of transposed U matrix. */
+
+    /**
+     * Cached value of transposed U matrix.
+     */
     private RealMatrix cachedUt;
-    /** Cached value of S (diagonal) matrix. */
+
+    /**
+     * Cached value of S (diagonal) matrix.
+     */
     private RealMatrix cachedS;
-    /** Cached value of V matrix. */
+
+    /**
+     * Cached value of V matrix.
+     */
     private final RealMatrix cachedV;
-    /** Cached value of transposed V matrix. */
+
+    /**
+     * Cached value of transposed V matrix.
+     */
     private RealMatrix cachedVt;
+
     /**
      * Tolerance value for small singular values, calculated once we have
      * populated "singularValues".
-     **/
+     */
     private final double tol;
 
     /**
@@ -88,8 +118,7 @@ public class SingularValueDecomposition {
      */
     public SingularValueDecomposition(final RealMatrix matrix) {
         final double[][] A;
-
-         // "m" is always the largest dimension.
+        // "m" is always the largest dimension.
         final boolean transposed;
         if (matrix.getRowDimension() < matrix.getColumnDimension()) {
             transposed = true;
@@ -102,7 +131,6 @@ public class SingularValueDecomposition {
             m = matrix.getRowDimension();
             n = matrix.getColumnDimension();
         }
-
         singularValues = new double[n];
         final double[][] U = new double[m][n];
         final double[][] V = new double[n][n];
@@ -133,8 +161,7 @@ public class SingularValueDecomposition {
                 singularValues[k] = -singularValues[k];
             }
             for (int j = k + 1; j < n; j++) {
-                if (k < nct &&
-                    singularValues[k] != 0) {
+                if (k < nct && singularValues[k] != 0) {
                     // Apply the transformation.
                     double t = 0;
                     for (int i = k; i < m; i++) {
@@ -174,8 +201,7 @@ public class SingularValueDecomposition {
                     e[k + 1] += 1;
                 }
                 e[k] = -e[k];
-                if (k + 1 < m &&
-                    e[k] != 0) {
+                if (k + 1 < m && e[k] != 0) {
                     // Apply the transformation.
                     for (int i = k + 1; i < m; i++) {
                         work[i] = 0;
@@ -192,7 +218,6 @@ public class SingularValueDecomposition {
                         }
                     }
                 }
-
                 // Place the transformation in V for subsequent
                 // back multiplication.
                 for (int i = k + 1; i < n; i++) {
@@ -212,7 +237,6 @@ public class SingularValueDecomposition {
             e[nrt] = A[nrt][p - 1];
         }
         e[p - 1] = 0;
-
         // Generate U.
         for (int j = nct; j < n; j++) {
             for (int i = 0; i < m; i++) {
@@ -246,11 +270,9 @@ public class SingularValueDecomposition {
                 U[k][k] = 1;
             }
         }
-
         // Generate V.
         for (int k = n - 1; k >= 0; k--) {
-            if (k < nrt &&
-                e[k] != 0) {
+            if (k < nrt && e[k] != 0) {
                 for (int j = k + 1; j < n; j++) {
                     double t = 0;
                     for (int i = k + 1; i < n; i++) {
@@ -267,7 +289,6 @@ public class SingularValueDecomposition {
             }
             V[k][k] = 1;
         }
-
         // Main iteration loop for the singular values.
         final int pp = p - 1;
         while (p > 0) {
@@ -283,23 +304,19 @@ public class SingularValueDecomposition {
             //              s(k), ..., s(p) are not negligible (qr step).
             // kase = 4     if e(p-1) is negligible (convergence).
             for (k = p - 2; k >= 0; k--) {
-                final double threshold
-                    = TINY + EPS * (FastMath.abs(singularValues[k]) +
-                                    FastMath.abs(singularValues[k + 1]));
-
+                final double threshold = TINY + EPS * (FastMath.abs(singularValues[k]) + FastMath.abs(singularValues[k + 1]));
                 // the following condition is written this way in order
                 // to break out of the loop when NaN occurs, writing it
                 // as "if (FastMath.abs(e[k]) <= threshold)" would loop
                 // indefinitely in case of NaNs because comparison on NaNs
                 // always return false, regardless of what is checked
                 // see issue MATH-947
-                if (!(FastMath.abs(e[k]) > threshold)) { // NOPMD - as explained above, the way this test is written is correct
+                if (!(FastMath.abs(e[k]) > threshold)) {
+                    // NOPMD - as explained above, the way this test is written is correct
                     e[k] = 0;
                     break;
                 }
-
             }
-
             if (k == p - 2) {
                 kase = 4;
             } else {
@@ -308,8 +325,7 @@ public class SingularValueDecomposition {
                     if (ks == k) {
                         break;
                     }
-                    final double t = (ks != p ? FastMath.abs(e[ks]) : 0) +
-                        (ks != k + 1 ? FastMath.abs(e[ks - 1]) : 0);
+                    final double t = (ks != p ? FastMath.abs(e[ks]) : 0) + (ks != k + 1 ? FastMath.abs(e[ks - 1]) : 0);
                     if (FastMath.abs(singularValues[ks]) <= TINY + EPS * t) {
                         singularValues[ks] = 0;
                         break;
@@ -326,157 +342,150 @@ public class SingularValueDecomposition {
             }
             k++;
             // Perform the task indicated by kase.
-            switch (kase) { // NOPMD - breaking this complex algorithm into functions just to keep PMD happy would be artificial
+            switch(// NOPMD - breaking this complex algorithm into functions just to keep PMD happy would be artificial
+            kase) {
                 // Deflate negligible s(p).
-                case 1: {
-                    double f = e[p - 2];
-                    e[p - 2] = 0;
-                    for (int j = p - 2; j >= k; j--) {
-                        double t = FastMath.hypot(singularValues[j], f);
-                        final double cs = singularValues[j] / t;
-                        final double sn = f / t;
-                        singularValues[j] = t;
-                        if (j != k) {
-                            f = -sn * e[j - 1];
-                            e[j - 1] = cs * e[j - 1];
-                        }
-
-                        for (int i = 0; i < n; i++) {
-                            t = cs * V[i][j] + sn * V[i][p - 1];
-                            V[i][p - 1] = -sn * V[i][j] + cs * V[i][p - 1];
-                            V[i][j] = t;
+                case 1:
+                    {
+                        double f = e[p - 2];
+                        e[p - 2] = 0;
+                        for (int j = p - 2; j >= k; j--) {
+                            double t = FastMath.hypot(singularValues[j], f);
+                            final double cs = singularValues[j] / t;
+                            final double sn = f / t;
+                            singularValues[j] = t;
+                            if (j != k) {
+                                f = -sn * e[j - 1];
+                                e[j - 1] = cs * e[j - 1];
+                            }
+                            for (int i = 0; i < n; i++) {
+                                t = cs * V[i][j] + sn * V[i][p - 1];
+                                V[i][p - 1] = -sn * V[i][j] + cs * V[i][p - 1];
+                                V[i][j] = t;
+                            }
                         }
                     }
-                }
-                break;
+                    break;
                 // Split at negligible s(k).
-                case 2: {
-                    double f = e[k - 1];
-                    e[k - 1] = 0;
-                    for (int j = k; j < p; j++) {
-                        double t = FastMath.hypot(singularValues[j], f);
-                        final double cs = singularValues[j] / t;
-                        final double sn = f / t;
-                        singularValues[j] = t;
-                        f = -sn * e[j];
-                        e[j] = cs * e[j];
-
-                        for (int i = 0; i < m; i++) {
-                            t = cs * U[i][j] + sn * U[i][k - 1];
-                            U[i][k - 1] = -sn * U[i][j] + cs * U[i][k - 1];
-                            U[i][j] = t;
-                        }
-                    }
-                }
-                break;
-                // Perform one qr step.
-                case 3: {
-                    // Calculate the shift.
-                    final double maxPm1Pm2 = FastMath.max(FastMath.abs(singularValues[p - 1]),
-                                                          FastMath.abs(singularValues[p - 2]));
-                    final double scale = FastMath.max(FastMath.max(FastMath.max(maxPm1Pm2,
-                                                                                FastMath.abs(e[p - 2])),
-                                                                   FastMath.abs(singularValues[k])),
-                                                      FastMath.abs(e[k]));
-                    final double sp = singularValues[p - 1] / scale;
-                    final double spm1 = singularValues[p - 2] / scale;
-                    final double epm1 = e[p - 2] / scale;
-                    final double sk = singularValues[k] / scale;
-                    final double ek = e[k] / scale;
-                    final double b = ((spm1 + sp) * (spm1 - sp) + epm1 * epm1) / 2.0;
-                    final double c = (sp * epm1) * (sp * epm1);
-                    double shift = 0;
-                    if (b != 0 ||
-                        c != 0) {
-                        shift = FastMath.sqrt(b * b + c);
-                        if (b < 0) {
-                            shift = -shift;
-                        }
-                        shift = c / (b + shift);
-                    }
-                    double f = (sk + sp) * (sk - sp) + shift;
-                    double g = sk * ek;
-                    // Chase zeros.
-                    for (int j = k; j < p - 1; j++) {
-                        double t = FastMath.hypot(f, g);
-                        double cs = f / t;
-                        double sn = g / t;
-                        if (j != k) {
-                            e[j - 1] = t;
-                        }
-                        f = cs * singularValues[j] + sn * e[j];
-                        e[j] = cs * e[j] - sn * singularValues[j];
-                        g = sn * singularValues[j + 1];
-                        singularValues[j + 1] = cs * singularValues[j + 1];
-
-                        for (int i = 0; i < n; i++) {
-                            t = cs * V[i][j] + sn * V[i][j + 1];
-                            V[i][j + 1] = -sn * V[i][j] + cs * V[i][j + 1];
-                            V[i][j] = t;
-                        }
-                        t = FastMath.hypot(f, g);
-                        cs = f / t;
-                        sn = g / t;
-                        singularValues[j] = t;
-                        f = cs * e[j] + sn * singularValues[j + 1];
-                        singularValues[j + 1] = -sn * e[j] + cs * singularValues[j + 1];
-                        g = sn * e[j + 1];
-                        e[j + 1] = cs * e[j + 1];
-                        if (j < m - 1) {
+                case 2:
+                    {
+                        double f = e[k - 1];
+                        e[k - 1] = 0;
+                        for (int j = k; j < p; j++) {
+                            double t = FastMath.hypot(singularValues[j], f);
+                            final double cs = singularValues[j] / t;
+                            final double sn = f / t;
+                            singularValues[j] = t;
+                            f = -sn * e[j];
+                            e[j] = cs * e[j];
                             for (int i = 0; i < m; i++) {
-                                t = cs * U[i][j] + sn * U[i][j + 1];
-                                U[i][j + 1] = -sn * U[i][j] + cs * U[i][j + 1];
+                                t = cs * U[i][j] + sn * U[i][k - 1];
+                                U[i][k - 1] = -sn * U[i][j] + cs * U[i][k - 1];
                                 U[i][j] = t;
                             }
                         }
                     }
-                    e[p - 2] = f;
-                }
-                break;
-                // Convergence.
-                default: {
-                    // Make the singular values positive.
-                    if (singularValues[k] <= 0) {
-                        singularValues[k] = singularValues[k] < 0 ? -singularValues[k] : 0;
-
-                        for (int i = 0; i <= pp; i++) {
-                            V[i][k] = -V[i][k];
+                    break;
+                // Perform one qr step.
+                case 3:
+                    {
+                        // Calculate the shift.
+                        final double maxPm1Pm2 = FastMath.max(FastMath.abs(singularValues[p - 1]), FastMath.abs(singularValues[p - 2]));
+                        final double scale = FastMath.max(FastMath.max(FastMath.max(maxPm1Pm2, FastMath.abs(e[p - 2])), FastMath.abs(singularValues[k])), FastMath.abs(e[k]));
+                        final double sp = singularValues[p - 1] / scale;
+                        final double spm1 = singularValues[p - 2] / scale;
+                        final double epm1 = e[p - 2] / scale;
+                        final double sk = singularValues[k] / scale;
+                        final double ek = e[k] / scale;
+                        final double b = ((spm1 + sp) * (spm1 - sp) + epm1 * epm1) / 2.0;
+                        final double c = (sp * epm1) * (sp * epm1);
+                        double shift = 0;
+                        if (b != 0 || c != 0) {
+                            shift = FastMath.sqrt(b * b + c);
+                            if (b < 0) {
+                                shift = -shift;
+                            }
+                            shift = c / (b + shift);
                         }
-                    }
-                    // Order the singular values.
-                    while (k < pp) {
-                        if (singularValues[k] >= singularValues[k + 1]) {
-                            break;
-                        }
-                        double t = singularValues[k];
-                        singularValues[k] = singularValues[k + 1];
-                        singularValues[k + 1] = t;
-                        if (k < n - 1) {
+                        double f = (sk + sp) * (sk - sp) + shift;
+                        double g = sk * ek;
+                        // Chase zeros.
+                        for (int j = k; j < p - 1; j++) {
+                            double t = FastMath.hypot(f, g);
+                            double cs = f / t;
+                            double sn = g / t;
+                            if (j != k) {
+                                e[j - 1] = t;
+                            }
+                            f = cs * singularValues[j] + sn * e[j];
+                            e[j] = cs * e[j] - sn * singularValues[j];
+                            g = sn * singularValues[j + 1];
+                            singularValues[j + 1] = cs * singularValues[j + 1];
                             for (int i = 0; i < n; i++) {
-                                t = V[i][k + 1];
-                                V[i][k + 1] = V[i][k];
-                                V[i][k] = t;
+                                t = cs * V[i][j] + sn * V[i][j + 1];
+                                V[i][j + 1] = -sn * V[i][j] + cs * V[i][j + 1];
+                                V[i][j] = t;
+                            }
+                            t = FastMath.hypot(f, g);
+                            cs = f / t;
+                            sn = g / t;
+                            singularValues[j] = t;
+                            f = cs * e[j] + sn * singularValues[j + 1];
+                            singularValues[j + 1] = -sn * e[j] + cs * singularValues[j + 1];
+                            g = sn * e[j + 1];
+                            e[j + 1] = cs * e[j + 1];
+                            if (j < m - 1) {
+                                for (int i = 0; i < m; i++) {
+                                    t = cs * U[i][j] + sn * U[i][j + 1];
+                                    U[i][j + 1] = -sn * U[i][j] + cs * U[i][j + 1];
+                                    U[i][j] = t;
+                                }
                             }
                         }
-                        if (k < m - 1) {
-                            for (int i = 0; i < m; i++) {
-                                t = U[i][k + 1];
-                                U[i][k + 1] = U[i][k];
-                                U[i][k] = t;
-                            }
-                        }
-                        k++;
+                        e[p - 2] = f;
                     }
-                    p--;
-                }
-                break;
+                    break;
+                // Convergence.
+                default:
+                    {
+                        // Make the singular values positive.
+                        if (singularValues[k] <= 0) {
+                            singularValues[k] = singularValues[k] < 0 ? -singularValues[k] : 0;
+                            for (int i = 0; i <= pp; i++) {
+                                V[i][k] = -V[i][k];
+                            }
+                        }
+                        // Order the singular values.
+                        while (k < pp) {
+                            if (singularValues[k] >= singularValues[k + 1]) {
+                                break;
+                            }
+                            double t = singularValues[k];
+                            singularValues[k] = singularValues[k + 1];
+                            singularValues[k + 1] = t;
+                            if (k < n - 1) {
+                                for (int i = 0; i < n; i++) {
+                                    t = V[i][k + 1];
+                                    V[i][k + 1] = V[i][k];
+                                    V[i][k] = t;
+                                }
+                            }
+                            if (k < m - 1) {
+                                for (int i = 0; i < m; i++) {
+                                    t = U[i][k + 1];
+                                    U[i][k + 1] = U[i][k];
+                                    U[i][k] = t;
+                                }
+                            }
+                            k++;
+                        }
+                        p--;
+                    }
+                    break;
             }
         }
-
         // Set the small value tolerance used to calculate rank and pseudo-inverse
-        tol = FastMath.max(m * singularValues[0] * EPS,
-                           FastMath.sqrt(Precision.SAFE_MIN));
-
+        tol = FastMath.max(m * singularValues[0] * EPS, FastMath.sqrt(Precision.SAFE_MIN));
         if (!transposed) {
             cachedU = MatrixUtils.createRealMatrix(U);
             cachedV = MatrixUtils.createRealMatrix(V);
@@ -493,9 +502,7 @@ public class SingularValueDecomposition {
      * @see #getUT()
      */
     public RealMatrix getU() {
-        // return the cached matrix
-        return cachedU;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -505,11 +512,7 @@ public class SingularValueDecomposition {
      * @see #getU()
      */
     public RealMatrix getUT() {
-        if (cachedUt == null) {
-            cachedUt = getU().transpose();
-        }
-        // return the cached matrix
-        return cachedUt;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -519,11 +522,7 @@ public class SingularValueDecomposition {
      * @return the &Sigma; matrix
      */
     public RealMatrix getS() {
-        if (cachedS == null) {
-            // cache the matrix for subsequent calls
-            cachedS = MatrixUtils.createRealDiagonalMatrix(singularValues);
-        }
-        return cachedS;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -533,7 +532,7 @@ public class SingularValueDecomposition {
      * @return the diagonal elements of the &Sigma; matrix
      */
     public double[] getSingularValues() {
-        return singularValues.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -543,8 +542,7 @@ public class SingularValueDecomposition {
      * @see #getVT()
      */
     public RealMatrix getV() {
-        // return the cached matrix
-        return cachedV;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -554,11 +552,7 @@ public class SingularValueDecomposition {
      * @see #getV()
      */
     public RealMatrix getVT() {
-        if (cachedVt == null) {
-            cachedVt = getV().transpose();
-        }
-        // return the cached matrix
-        return cachedVt;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -573,31 +567,7 @@ public class SingularValueDecomposition {
      * the largest singular value, meaning all singular values are ignored
      */
     public RealMatrix getCovariance(final double minSingularValue) {
-        // get the number of singular values to consider
-        final int p = singularValues.length;
-        int dimension = 0;
-        while (dimension < p &&
-               singularValues[dimension] >= minSingularValue) {
-            ++dimension;
-        }
-
-        if (dimension == 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.TOO_LARGE_CUTOFF_SINGULAR_VALUE,
-                                                minSingularValue, singularValues[0], true);
-        }
-
-        final double[][] data = new double[dimension][p];
-        getVT().walkInOptimizedOrder(new DefaultRealMatrixPreservingVisitor() {
-            /** {@inheritDoc} */
-            @Override
-            public void visit(final int row, final int column,
-                    final double value) {
-                data[row][column] = value / singularValues[row];
-            }
-        }, 0, dimension - 1, 0, p - 1);
-
-        RealMatrix jv = new Array2DRowRealMatrix(data, false);
-        return jv.transposeMultiply(jv);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -608,7 +578,7 @@ public class SingularValueDecomposition {
      * @return norm
      */
     public double getNorm() {
-        return singularValues[0];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -616,7 +586,7 @@ public class SingularValueDecomposition {
      * @return condition number of the matrix
      */
     public double getConditionNumber() {
-        return singularValues[0] / singularValues[n - 1];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -627,7 +597,7 @@ public class SingularValueDecomposition {
      * @return the inverse of the condition number.
      */
     public double getInverseConditionNumber() {
-        return singularValues[n - 1] / singularValues[0];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -639,13 +609,7 @@ public class SingularValueDecomposition {
      * @return effective numerical matrix rank
      */
     public int getRank() {
-        int r = 0;
-        for (double singularValue : singularValues) {
-            if (singularValue > tol) {
-                r++;
-            }
-        }
-        return r;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -653,14 +617,22 @@ public class SingularValueDecomposition {
      * @return a solver
      */
     public DecompositionSolver getSolver() {
-        return new Solver(singularValues, getUT(), getV(), getRank() == m, tol);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Specialized solver. */
+    /**
+     * Specialized solver.
+     */
     private static class Solver implements DecompositionSolver {
-        /** Pseudo-inverse of the initial matrix. */
+
+        /**
+         * Pseudo-inverse of the initial matrix.
+         */
         private final RealMatrix pseudoInverse;
-        /** Singularity indicator. */
+
+        /**
+         * Singularity indicator.
+         */
         private final boolean nonSingular;
 
         /**
@@ -672,8 +644,7 @@ public class SingularValueDecomposition {
          * @param nonSingular Singularity indicator.
          * @param tol tolerance for singular values
          */
-        private Solver(final double[] singularValues, final RealMatrix uT,
-                       final RealMatrix v, final boolean nonSingular, final double tol) {
+        private Solver(final double[] singularValues, final RealMatrix uT, final RealMatrix v, final boolean nonSingular, final double tol) {
             final double[][] suT = uT.getData();
             for (int i = 0; i < singularValues.length; ++i) {
                 final double a;
@@ -704,7 +675,7 @@ public class SingularValueDecomposition {
          */
         @Override
         public RealVector solve(final RealVector b) {
-            return pseudoInverse.operate(b);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -721,7 +692,7 @@ public class SingularValueDecomposition {
          */
         @Override
         public RealMatrix solve(final RealMatrix b) {
-            return pseudoInverse.multiply(b);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -731,7 +702,7 @@ public class SingularValueDecomposition {
          */
         @Override
         public boolean isNonSingular() {
-            return nonSingular;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -741,20 +712,23 @@ public class SingularValueDecomposition {
          */
         @Override
         public RealMatrix getInverse() {
-            return pseudoInverse;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int getRowDimension() {
-            return pseudoInverse.getColumnDimension();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int getColumnDimension() {
-            return pseudoInverse.getRowDimension();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
 }

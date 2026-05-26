@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -28,7 +27,6 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
-
 import org.hipparchus.Field;
 import org.hipparchus.FieldElement;
 
@@ -44,23 +42,31 @@ import org.hipparchus.FieldElement;
  */
 public class OpenIntToFieldHashMap<T extends FieldElement<T>> extends AbstractOpenIntHashMap implements Serializable {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20240326L;
 
-    /** Field to which the elements belong. */
+    /**
+     * Field to which the elements belong.
+     */
     private final Field<T> field;
 
-    /** Values table. */
+    /**
+     * Values table.
+     */
     private T[] values;
 
-    /** Return value for missing entries. */
+    /**
+     * Return value for missing entries.
+     */
     private final T missingEntries;
 
     /**
      * Build an empty map with default size and using zero for missing entries.
      * @param field field to which the elements belong
      */
-    public OpenIntToFieldHashMap(final Field<T>field) {
+    public OpenIntToFieldHashMap(final Field<T> field) {
         this(field, DEFAULT_EXPECTED_SIZE, field.getZero());
     }
 
@@ -69,7 +75,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> extends AbstractOp
      * @param field field to which the elements belong
      * @param missingEntries value to return when a missing entry is fetched
      */
-    public OpenIntToFieldHashMap(final Field<T>field, final T missingEntries) {
+    public OpenIntToFieldHashMap(final Field<T> field, final T missingEntries) {
         this(field, DEFAULT_EXPECTED_SIZE, missingEntries);
     }
 
@@ -78,7 +84,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> extends AbstractOp
      * @param field field to which the elements belong
      * @param expectedSize expected number of elements in the map
      */
-    public OpenIntToFieldHashMap(final Field<T> field,final int expectedSize) {
+    public OpenIntToFieldHashMap(final Field<T> field, final int expectedSize) {
         this(field, expectedSize, field.getZero());
     }
 
@@ -88,11 +94,10 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> extends AbstractOp
      * @param expectedSize expected number of elements in the map
      * @param missingEntries value to return when a missing entry is fetched
      */
-    public OpenIntToFieldHashMap(final Field<T> field, final int expectedSize,
-                                  final T missingEntries) {
+    public OpenIntToFieldHashMap(final Field<T> field, final int expectedSize, final T missingEntries) {
         super(expectedSize);
-        this.field          = field;
-        this.values         = buildArray(getCapacity());
+        this.field = field;
+        this.values = buildArray(getCapacity());
         this.missingEntries = missingEntries;
     }
 
@@ -114,8 +119,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> extends AbstractOp
      * @return data associated with the key
      */
     public T get(final int key) {
-        final int index = locate(key);
-        return index < 0 ? missingEntries : values[index];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -126,30 +130,23 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> extends AbstractOp
      * @return iterator over the map elements
      */
     public Iterator iterator() {
-        return new Iterator();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        @SuppressWarnings("unchecked")
-        final OpenIntToFieldHashMap<T> that = (OpenIntToFieldHashMap<T>) o;
-        return equalKeys(that) &&
-               equalStates(that) &&
-               field.equals(that.field) &&
-               Arrays.equals(values, that.values);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
-        return keysStatesHashCode() + 67 * field.hashCode() + Arrays.hashCode(values);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -158,15 +155,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> extends AbstractOp
      * @return removed value
      */
     public T remove(final int key) {
-        final int index = locate(key);
-        if (index < 0) {
-            return missingEntries;
-        } else {
-            final T previous = values[index];
-            doRemove(index);
-            values[index] = missingEntries;
-            return previous;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -176,10 +165,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> extends AbstractOp
      * @return previous value associated with the key
      */
     public T put(final int key, final T value) {
-        final InsertionHolder ih = put(key);
-        final T previous = ih.isExisting() ? values[ih.getIndex()] : missingEntries;
-        values[ih.getIndex()] = value;
-        return previous;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -187,24 +173,23 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> extends AbstractOp
      */
     @Override
     protected int growTable(final int oldIndex) {
-        final T[] newValues = buildArray(RESIZE_MULTIPLIER * values.length);
-        final int newIndex  = doGrowTable(oldIndex, (src, dest) -> newValues[dest] = values[src]);
-        values = newValues;
-        return newIndex;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Iterator class for the map. */
+    /**
+     * Iterator class for the map.
+     */
     public class Iterator extends BaseIterator {
 
-        /** Get the value of current entry.
+        /**
+         * Get the value of current entry.
          * @return value of current entry
          * @exception ConcurrentModificationException if the map is modified during iteration
          * @exception NoSuchElementException if there is no element left in the map
          */
         public T value() throws ConcurrentModificationException, NoSuchElementException {
-            return values[getCurrent()];
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
 
     /**
@@ -214,19 +199,19 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> extends AbstractOp
      * @throws ClassNotFoundException if the class corresponding
      * to the serialized object cannot be found
      */
-    private void readObject(final ObjectInputStream stream)
-        throws IOException, ClassNotFoundException {
+    private void readObject(final ObjectInputStream stream) throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
         resetCount();
     }
 
-    /** Build an array of elements.
+    /**
+     * Build an array of elements.
      * @param length size of the array to build
      * @return a new array
      */
-    @SuppressWarnings("unchecked") // field is of type T
+    // field is of type T
+    @SuppressWarnings("unchecked")
     private T[] buildArray(final int length) {
         return (T[]) Array.newInstance(field.getRuntimeClass(), length);
     }
-
 }

@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.linear;
 
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -52,6 +50,7 @@ import org.hipparchus.exception.MathIllegalArgumentException;
  * </dl>
  */
 public interface RealLinearOperator {
+
     /**
      * Returns the dimension of the codomain of this operator.
      *
@@ -74,8 +73,7 @@ public interface RealLinearOperator {
      * @throws MathIllegalArgumentException if the column dimension does not match
      * the size of {@code x}
      */
-    RealVector operate(RealVector x)
-        throws MathIllegalArgumentException;
+    RealVector operate(RealVector x) throws MathIllegalArgumentException;
 
     /**
      * Returns the result of multiplying the transpose of {@code this} operator
@@ -91,9 +89,8 @@ public interface RealLinearOperator {
      * @throws UnsupportedOperationException if this operation is not supported
      * by {@code this} operator
      */
-    default RealVector operateTranspose(final RealVector x)
-        throws MathIllegalArgumentException, UnsupportedOperationException {
-        throw new UnsupportedOperationException();
+    default RealVector operateTranspose(final RealVector x) throws MathIllegalArgumentException, UnsupportedOperationException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -107,6 +104,6 @@ public interface RealLinearOperator {
      * @return {@code false}
      */
     default boolean isTransposable() {
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

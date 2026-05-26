@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -39,7 +38,6 @@ import org.hipparchus.util.MathUtils;
  *     p(x) = a[0] + a[1](x-c[0]) + a[2](x-c[0])(x-c[1]) + ... +
  *            a[n](x-c[0])(x-c[1])...(x-c[n-1])
  * Note that the length of a[] is one more than the length of c[]</p>
- *
  */
 public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFunction, FieldUnivariateFunction {
 
@@ -80,9 +78,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
      * @throws MathIllegalArgumentException if the size difference between
      * {@code a} and {@code c} is not equal to 1.
      */
-    public PolynomialFunctionNewtonForm(double[] a, double[] c)
-        throws MathIllegalArgumentException, NullArgumentException {
-
+    public PolynomialFunctionNewtonForm(double[] a, double[] c) throws MathIllegalArgumentException, NullArgumentException {
         verifyInputArray(a, c);
         this.a = new double[a.length];
         this.c = new double[c.length];
@@ -99,7 +95,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
      */
     @Override
     public double value(double z) {
-       return evaluate(a, c, z);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -107,16 +103,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
      */
     @Override
     public <T extends Derivative<T>> T value(final T t) {
-        verifyInputArray(a, c);
-
-        final int n = c.length;
-        T value = t.getField().getZero().add(a[n]);
-        for (int i = n - 1; i >= 0; i--) {
-            value = t.subtract(c[i]).multiply(value).add(a[i]);
-        }
-
-        return value;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -124,16 +111,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
      */
     @Override
     public <T extends CalculusFieldElement<T>> T value(final T t) {
-        verifyInputArray(a, c);
-
-        final int n = c.length;
-        T value = t.getField().getZero().add(a[n]);
-        for (int i = n - 1; i >= 0; i--) {
-            value = t.subtract(c[i]).multiply(value).add(a[i]);
-        }
-
-        return value;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -142,7 +120,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
      * @return the degree of the polynomial
      */
     public int degree() {
-        return c.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -153,9 +131,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
      * @return a fresh copy of coefficients in Newton form formula
      */
     public double[] getNewtonCoefficients() {
-        double[] out = new double[a.length];
-        System.arraycopy(a, 0, out, 0, a.length);
-        return out;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -166,9 +142,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
      * @return a fresh copy of the centers array.
      */
     public double[] getCenters() {
-        double[] out = new double[c.length];
-        System.arraycopy(c, 0, out, 0, c.length);
-        return out;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -179,12 +153,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
      * @return a fresh copy of the coefficients array.
      */
     public double[] getCoefficients() {
-        if (!coefficientsComputed) {
-            computeCoefficients();
-        }
-        double[] out = new double[coefficients.length];
-        System.arraycopy(coefficients, 0, out, 0, coefficients.length);
-        return out;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -201,17 +170,8 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
      * @throws MathIllegalArgumentException if the size difference between
      * {@code a} and {@code c} is not equal to 1.
      */
-    public static double evaluate(double[] a, double[] c, double z)
-        throws MathIllegalArgumentException, NullArgumentException {
-        verifyInputArray(a, c);
-
-        final int n = c.length;
-        double value = a[n];
-        for (int i = n - 1; i >= 0; i--) {
-            value = a[i] + (z - c[i]) * value;
-        }
-
-        return value;
+    public static double evaluate(double[] a, double[] c, double z) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -219,22 +179,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
      * It also uses nested multiplication but takes O(N^2) time.
      */
     protected void computeCoefficients() {
-        final int n = degree();
-
-        coefficients = new double[n+1];
-        for (int i = 0; i <= n; i++) {
-            coefficients[i] = 0.0;
-        }
-
-        coefficients[0] = a[n];
-        for (int i = n-1; i >= 0; i--) {
-            for (int j = n-i; j > 0; j--) {
-                coefficients[j] = coefficients[j-1] - c[i] * coefficients[j];
-            }
-            coefficients[0] = a[i] - c[i] * coefficients[0];
-        }
-
-        coefficientsComputed = true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -250,17 +195,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
      * @throws MathIllegalArgumentException if the size difference between
      * {@code a} and {@code c} is not equal to 1.
      */
-    protected static void verifyInputArray(double[] a, double[] c)
-        throws MathIllegalArgumentException, NullArgumentException {
-        MathUtils.checkNotNull(a);
-        MathUtils.checkNotNull(c);
-        if (a.length == 0 || c.length == 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
-        }
-        if (a.length != c.length + 1) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.ARRAY_SIZES_SHOULD_HAVE_DIFFERENCE_1,
-                                                 a.length, c.length);
-        }
+    protected static void verifyInputArray(double[] a, double[] c) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

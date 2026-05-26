@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.complex;
 
 import org.hipparchus.CalculusFieldElement;
@@ -37,7 +35,8 @@ public class ComplexUtils {
     /**
      * Default constructor.
      */
-    private ComplexUtils() {}
+    private ComplexUtils() {
+    }
 
     /**
      * Creates a complex number from the given polar representation.
@@ -68,12 +67,7 @@ public class ComplexUtils {
      * @throws MathIllegalArgumentException if {@code r} is negative.
      */
     public static Complex polar2Complex(double r, double theta) throws MathIllegalArgumentException {
-        if (r < 0) {
-            throw new MathIllegalArgumentException(
-                  LocalizedCoreFormats.NEGATIVE_COMPLEX_MODULE, r);
-        }
-        final SinCos sc = FastMath.sinCos(theta);
-        return new Complex(r * sc.cos(), r * sc.sin());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -108,12 +102,7 @@ public class ComplexUtils {
      * @since 2.0
      */
     public static <T extends CalculusFieldElement<T>> FieldComplex<T> polar2Complex(T r, T theta) throws MathIllegalArgumentException {
-        if (r.getReal() < 0) {
-            throw new MathIllegalArgumentException(
-                  LocalizedCoreFormats.NEGATIVE_COMPLEX_MODULE, r);
-        }
-        final FieldSinCos<T> sc = FastMath.sinCos(theta);
-        return new FieldComplex<>(r.multiply(sc.cos()), r.multiply(sc.sin()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -123,12 +112,6 @@ public class ComplexUtils {
      * @return an array of {@code Complex} objects.
      */
     public static Complex[] convertToComplex(double[] real) {
-        final Complex[] c = new Complex[real.length];
-        for (int i = 0; i < real.length; i++) {
-            c[i] = new Complex(real[i], 0);
-        }
-
-        return c;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

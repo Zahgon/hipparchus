@@ -21,8 +21,8 @@ import org.hipparchus.linear.RealMatrix;
 import org.hipparchus.linear.RealVector;
 import org.hipparchus.util.FastMath;
 
-
-/** Augmented Penalty Function.
+/**
+ * Augmented Penalty Function.
  * <p>
  * This class computes the penalty function and its gradient, combining:
  * </p>
@@ -42,52 +42,84 @@ import org.hipparchus.util.FastMath;
  */
 public class MeritFunctionL2 {
 
-    /** Objective function. */
+    /**
+     * Objective function.
+     */
     private final TwiceDifferentiableFunction objective;
 
-    /** Equality constraints (may be null). */
+    /**
+     * Equality constraints (may be null).
+     */
     private final Constraint eqConstraint;
 
-    /** Inequality constraints (may be null). */
+    /**
+     * Inequality constraints (may be null).
+     */
     private final Constraint iqConstraint;
 
-    /** Current point. */
+    /**
+     * Current point.
+     */
     private RealVector x;
 
-    /** Lagrange multipliers. */
+    /**
+     * Lagrange multipliers.
+     */
     private RealVector y;
 
-    /** Search direction. */
-    private RealVector       dx;
+    /**
+     * Search direction.
+     */
+    private RealVector dx;
 
-    /** Multipliers for QP. */
+    /**
+     * Multipliers for QP.
+     */
     private RealVector u;
 
-    /** R vector. */
+    /**
+     * R vector.
+     */
     private final RealVector r;
 
-    /** Gradient of the objective at current point. */
+    /**
+     * Gradient of the objective at current point.
+     */
     private RealVector J;
 
-    /** penalty gradient. */
+    /**
+     * penalty gradient.
+     */
     private double penaltyGradient;
 
-    /** Objective function evaluation. */
+    /**
+     * Objective function evaluation.
+     */
     private double objEval;
 
-    /** Equality evaluation. */
+    /**
+     * Equality evaluation.
+     */
     private RealVector eqEval;
 
-    /** Inequality evaluation. */
+    /**
+     * Inequality evaluation.
+     */
     private RealVector iqEval;
 
-    /** Penalty evaluation. */
+    /**
+     * Penalty evaluation.
+     */
     private double pEval;
 
-    /** Gradient of equality. */
+    /**
+     * Gradient of equality.
+     */
     private RealMatrix JE;
 
-    /** Gradient of inequality. */
+    /**
+     * Gradient of inequality.
+     */
     private RealMatrix JI;
 
     /**
@@ -98,10 +130,7 @@ public class MeritFunctionL2 {
      * @param iqConstraint Inequality constraint (may be null)
      * @param x current point
      */
-    public MeritFunctionL2(final TwiceDifferentiableFunction objective,
-                           final Constraint eqConstraint,
-                           final Constraint iqConstraint,
-                           final RealVector x) {
+    public MeritFunctionL2(final TwiceDifferentiableFunction objective, final Constraint eqConstraint, final Constraint iqConstraint, final RealVector x) {
         this.objective = objective;
         this.eqConstraint = eqConstraint;
         this.iqConstraint = iqConstraint;
@@ -118,7 +147,7 @@ public class MeritFunctionL2 {
         this.dx = new ArrayRealVector(x.getDimension());
         this.y = new ArrayRealVector(m);
         this.u = new ArrayRealVector(m);
-        this.r = new ArrayRealVector(m,1.0);
+        this.r = new ArrayRealVector(m, 1.0);
         this.J = new ArrayRealVector(x.getDimension());
         this.eqEval = new ArrayRealVector(me);
         this.iqEval = new ArrayRealVector(mi);
@@ -126,7 +155,8 @@ public class MeritFunctionL2 {
         this.value(0);
     }
 
-    /** Update internal parameters for next penalty computation.
+    /**
+     * Update internal parameters for next penalty computation.
      * @param newJ Gradient of objective at current x
      * @param newJE Gradient of equality x
      * @param newJI Gradient of inequality at current x
@@ -135,17 +165,8 @@ public class MeritFunctionL2 {
      * @param newDx Search direction from QP
      * @param newU multiplier from QP
      */
-    public void update(final RealVector newJ, final RealMatrix newJE, final RealMatrix newJI,
-                       final RealVector newX, final RealVector newY,
-                       final RealVector newDx, final RealVector newU) {
-        this.J               = newJ;
-        this.JE              = newJE;
-        this.JI              = newJI;
-        this.x               = newX;
-        this.y               = newY;
-        this.dx              = newDx;
-        this.u               = newU;
-        this.penaltyGradient = gradient();
+    public void update(final RealVector newJ, final RealMatrix newJE, final RealMatrix newJI, final RealVector newX, final RealVector newY, final RealVector newDx, final RealVector newU) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -153,7 +174,7 @@ public class MeritFunctionL2 {
      * @return penalty gradient
      */
     double getGradient() {
-        return this.penaltyGradient;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -161,7 +182,7 @@ public class MeritFunctionL2 {
      * @return penalty gradient
      */
     double getObjEval() {
-        return this.objEval;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -169,15 +190,15 @@ public class MeritFunctionL2 {
      * @return penalty gradient
      */
     RealVector getIqEval() {
-        return this.iqEval;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-     /**
+    /**
      * Get Last Equality Constraints Evaluation;
      * @return penalty gradient
      */
     RealVector getEqEval() {
-        return this.eqEval;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -185,7 +206,7 @@ public class MeritFunctionL2 {
      * @return lat penalty evaluation
      */
     double getPenaltyEval() {
-        return this.pEval;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -195,53 +216,7 @@ public class MeritFunctionL2 {
      * @return penalty value
      */
     public double value(double alpha) {
-        RealVector xAlpha = x.add(dx.mapMultiply(alpha));
-        RealVector yAlpha = null;
-        if (y.getDimension() > 0) {
-            yAlpha = y.add(u.subtract(y).mapMultiply(alpha));
-        }
-
-        objEval = this.objective.value(xAlpha);
-        double penalty =objEval;
-
-        int me = 0;
-        if (eqConstraint != null) {
-            me = eqConstraint.dimY();
-            RealVector re = r.getSubVector(0, me);
-            RealVector ye = yAlpha.getSubVector(0, me);
-            eqEval = eqConstraint.value(xAlpha);
-            RealVector g = eqEval.subtract(eqConstraint.getLowerBound());
-
-            RealVector g2 = g.ebeMultiply(g);
-            penalty -= ye.dotProduct(g) - 0.5 * re.dotProduct(g2);
-        }
-
-        int mi = 0;
-        if (iqConstraint != null) {
-            mi = iqConstraint.dimY();
-            RealVector ri = r.getSubVector(me, mi);
-            RealVector yi = yAlpha.getSubVector(me, mi);
-
-            RealVector yk = yAlpha.getSubVector(me, mi);
-
-            iqEval = iqConstraint.value(xAlpha);
-            RealVector gk = iqEval.subtract(iqConstraint.getLowerBound());
-
-            RealVector g = new ArrayRealVector(gk);
-            RealVector mask = new ArrayRealVector(g.getDimension(), 1.0);
-
-            for (int i = 0; i < gk.getDimension(); i++) {
-                if (gk.getEntry(i) > (yk.getEntry(i) / ri.getEntry(i))) {
-                    mask.setEntry(i, 0.0);
-                    penalty -= 0.5 * yi.getEntry(i) * yi.getEntry(i) / ri.getEntry(i);
-                }
-            }
-
-            RealVector g2 = g.ebeMultiply(g.ebeMultiply(mask));
-            penalty -= yi.dotProduct(g.ebeMultiply(mask)) - 0.5 * ri.dotProduct(g2);
-        }
-        pEval = penalty;
-        return penalty;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -257,75 +232,12 @@ public class MeritFunctionL2 {
         }
     }
 
-
-     public RealVector gradX() {
-        RealVector partial = J;
-        int me = 0;
-        int mi;
-
-        if (eqConstraint != null) {
-            me = eqConstraint.dimY();
-            RealVector re = r.getSubVector(0, me);
-            RealVector ye = y.getSubVector(0, me);
-
-            RealVector ge = this.eqEval.subtract(eqConstraint.getLowerBound());
-            RealMatrix jacob = JE;
-            RealVector term = jacob.preMultiply(ye.subtract(ge.ebeMultiply(re)));
-            partial = partial.subtract(term);
-        }
-
-        if (iqConstraint != null) {
-            mi = iqConstraint.dimY();
-
-            RealVector ri = r.getSubVector(me, mi);
-            RealVector yi = y.getSubVector(me, mi);
-            RealVector gi = this.iqEval.subtract(iqConstraint.getLowerBound());
-            RealMatrix jacob = JI;
-            RealVector mask = new ArrayRealVector(mi, 1.0);
-
-            for (int i = 0; i < gi.getDimension(); i++) {
-                if (gi.getEntry(i) > yi.getEntry(i) / ri.getEntry(i)) {
-                    mask.setEntry(i, 0.0);
-                }
-            }
-
-            RealVector term=jacob.preMultiply((yi.subtract(gi.ebeMultiply(ri))).ebeMultiply(mask));
-            partial=partial.subtract(term);
-        }
-
-        return partial;
+    public RealVector gradX() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-
-     public RealVector gradY() {
-
-        int me = 0;
-        int mi;
-        RealVector partial = new ArrayRealVector(y.getDimension());
-        if (eqConstraint != null) {
-            me = eqConstraint.dimY();
-            RealVector g = this.eqEval.subtract(eqConstraint.getLowerBound());
-            partial.setSubVector(0, g.mapMultiply(-1.0));
-        }
-
-        if (iqConstraint != null) {
-            mi = iqConstraint.dimY();
-
-            RealVector ri = r.getSubVector(me, mi);
-            RealVector yi = y.getSubVector(me, mi);
-            RealVector gi = this.iqEval.subtract(iqConstraint.getLowerBound());
-            RealVector viri = new ArrayRealVector(mi, 0.0);
-            for (int i = 0; i < gi.getDimension(); i++) {
-                viri.setEntry(i,
-                              gi.getEntry(i) > yi.getEntry(i) / ri.getEntry(i) ?
-                              -yi.getEntry(i)/ri.getEntry(i) :
-                              -gi.getEntry(i));
-            }
-
-            partial.setSubVector(me, viri);
-        }
-
-        return partial;
+    public RealVector gradY() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -338,63 +250,22 @@ public class MeritFunctionL2 {
      * @param sigmaValue value of the additional variable of QP solution
      * @param iterations current iteration
      */
-     public void updateRj(RealMatrix H, RealVector newY, RealVector newDx, RealVector newU, double sigmaValue, int iterations) {
-        // calculate sigma vector that depends on iterations
-        if (newY.getDimension() == 0) {
-            return;
-        }
-        RealVector sigma = new ArrayRealVector(r.getDimension());
-        for (int i = 0; i < sigma.getDimension(); i++) {
-            final double appoggio = iterations / FastMath.sqrt(r.getEntry(i));
-            sigma.setEntry(i, FastMath.min(1.0, appoggio));
-        }
-
-        int me = 0;
-        int mi = 0;
-        if (this.eqConstraint != null) {
-            me = this.eqConstraint .dimY();
-        }
-        if (this.iqConstraint != null) {
-            mi = this.iqConstraint.dimY();
-        }
-
-        RealVector sigmar = sigma.ebeMultiply(r);
-        //(u-v)^2 or (ru-v)
-        RealVector numerator = ((newU.subtract(newY)).ebeMultiply(newU.subtract(newY))).mapMultiply(2.0 * (mi + me));
-
-        double denominator = newDx.dotProduct(H.operate(newDx)) * (1.0 - sigmaValue);
-        RealVector r1 = new ArrayRealVector(r);
-        if (this.eqConstraint != null) {
-            for (int i = 0; i < me; i++) {
-                r1.setEntry(i,
-                            FastMath.max(sigmar.getEntry(i),
-                                         numerator.getEntry(i) / denominator));
-            }
-        }
-        if (this.iqConstraint != null) {
-            for (int i = 0; i < mi; i++) {
-                r1.setEntry(me + i,
-                            FastMath.max(sigmar.getEntry(me + i),
-                                         numerator.getEntry(me + i) / denominator));
-            }
-        }
-
-        r.setSubVector(0, r1);
+    public void updateRj(RealMatrix H, RealVector newY, RealVector newDx, RealVector newU, double sigmaValue, int iterations) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Reset R vector to unity.
+    /**
+     * Reset R vector to unity.
      */
     public void resetRj() {
-        if (y.getDimension() > 0) {
-            this.r.set(1.0);
-        }
-     }
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-    /** Get search direction.
+    /**
+     * Get search direction.
      * @return search direction
      */
     RealVector getDx() {
-       return  this.dx;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

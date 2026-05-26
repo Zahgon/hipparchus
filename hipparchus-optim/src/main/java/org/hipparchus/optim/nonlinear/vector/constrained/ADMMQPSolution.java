@@ -18,18 +18,24 @@ package org.hipparchus.optim.nonlinear.vector.constrained;
 
 import org.hipparchus.linear.RealVector;
 
-/** Internal Solution for ADMM QP Optimizer.
+/**
+ * Internal Solution for ADMM QP Optimizer.
  * @since 3.1
  */
 public class ADMMQPSolution extends LagrangeSolution {
 
-    /** V-tilde auxiliary variable. */
+    /**
+     * V-tilde auxiliary variable.
+     */
     private final RealVector v;
 
-    /** Z auxiliary variable. */
+    /**
+     * Z auxiliary variable.
+     */
     private final RealVector z;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param x solution
      * @param lambda Lagrange multipliers
      * @param value objective function value
@@ -40,7 +46,8 @@ public class ADMMQPSolution extends LagrangeSolution {
         this.z = null;
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param x solution
      * @param v V-tilde auxiliary variable
      */
@@ -50,7 +57,8 @@ public class ADMMQPSolution extends LagrangeSolution {
         this.z = null;
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param x solution
      * @param v V-tilde auxiliary variable
      * @param y Lagrange multipliers
@@ -62,7 +70,8 @@ public class ADMMQPSolution extends LagrangeSolution {
         this.z = z;
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param x solution
      * @param v V-tilde auxiliary variable
      * @param y Lagrange multipliers
@@ -81,7 +90,7 @@ public class ADMMQPSolution extends LagrangeSolution {
      * @return V tilde auxiliary Variable
      */
     public RealVector getV() {
-        return this.v;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -90,7 +99,6 @@ public class ADMMQPSolution extends LagrangeSolution {
      * @return Z auxiliary Variable
      */
     public RealVector getZ() {
-        return this.z;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

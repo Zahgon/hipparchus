@@ -30,143 +30,114 @@ import org.hipparchus.util.MathUtils;
  */
 public abstract class AbstractSQPOptimizer2 extends ConstraintOptimizer {
 
-    /** Algorithm settings. */
+    /**
+     * Algorithm settings.
+     */
     private SQPOption settings;
 
-    /** Tolerance for symmetric matrix decomposition.
+    /**
+     * Tolerance for symmetric matrix decomposition.
      * @since 4.1
      */
     private MatrixDecompositionTolerance matrixDecompositionTolerance;
 
-    /** Objective function. */
+    /**
+     * Objective function.
+     */
     private TwiceDifferentiableFunction obj;
 
-    /** Equality constraint (may be null). */
+    /**
+     * Equality constraint (may be null).
+     */
     private EqualityConstraint eqConstraint;
 
-    /** Inequality constraint (may be null). */
+    /**
+     * Inequality constraint (may be null).
+     */
     private InequalityConstraint iqConstraint;
 
-    /** Inequality constraint (may be null). */
+    /**
+     * Inequality constraint (may be null).
+     */
     private BoundedConstraint boxConstraint;
 
-    /** Default QPSolver. */
+    /**
+     * Default QPSolver.
+     */
     private QPOptimizer QPSolver = new QPDualActiveSolver();
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      */
     protected AbstractSQPOptimizer2() {
-        this.settings                     = new SQPOption();
+        this.settings = new SQPOption();
         this.matrixDecompositionTolerance = new MatrixDecompositionTolerance(EigenDecompositionSymmetric.DEFAULT_EPSILON);
     }
 
-    /** Getter for settings.
+    /**
+     * Getter for settings.
      * @return settings
      */
     public SQPOption getSettings() {
-        return settings;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Getter for matrix decomposition tolerance.
+    /**
+     * Getter for matrix decomposition tolerance.
      * @return matrix decomposition tolerance
      * @since 4.1
      */
     public MatrixDecompositionTolerance getMatrixDecompositionTolerance() {
-        return matrixDecompositionTolerance;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Getter for objective function.
+    /**
+     * Getter for objective function.
      * @return objective function
      */
     public TwiceDifferentiableFunction getObj() {
-        return obj;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Getter for equality constraint.
+    /**
+     * Getter for equality constraint.
      * @return equality constraint
      */
     public EqualityConstraint getEqConstraint() {
-        return eqConstraint;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Getter for inequality constraint.
+    /**
+     * Getter for inequality constraint.
      * @return inequality constraint
      */
     public InequalityConstraint getIqConstraint() {
-        return iqConstraint;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-     /** Getter for box constraint.
+    /**
+     * Getter for box constraint.
      * @return inequality constraint
      */
     public BoundedConstraint getBoxConstraint() {
-        return boxConstraint;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Getter for QP Solver.
+    /**
+     * Getter for QP Solver.
      * @return QP Solver
      */
     public QPOptimizer getQPSolver() {
-        return QPSolver;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public LagrangeSolution optimize(OptimizationData... optData) {
-        return super.optimize(optData);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void parseOptimizationData(OptimizationData... optData) {
-        super.parseOptimizationData(optData);
-        for (OptimizationData data : optData) {
-
-            if (data instanceof ObjectiveFunction) {
-                obj = (TwiceDifferentiableFunction) ((ObjectiveFunction) data).getObjectiveFunction();
-                continue;
-            }
-
-            if (data instanceof EqualityConstraint) {
-                eqConstraint = (EqualityConstraint) data;
-                continue;
-            }
-            if (data instanceof InequalityConstraint) {
-                iqConstraint = (InequalityConstraint) data;
-                continue;
-            }
-
-            if (data instanceof BoundedConstraint) {
-                boxConstraint = (BoundedConstraint) data;
-                continue;
-            }
-
-            if (data instanceof SQPOption) {
-                settings = (SQPOption) data;
-            }
-
-            if (data instanceof QPOptimizer) {
-                QPSolver = (QPOptimizer) data;
-            }
-
-            if (data instanceof MatrixDecompositionTolerance) {
-                matrixDecompositionTolerance = (MatrixDecompositionTolerance) data;
-            }
-
-        }
-
-        // if we got here, convexObjective exists
-        int n = obj.dim();
-        if (eqConstraint != null) {
-            int nDual = eqConstraint.dimY();
-            if (nDual > n) {
-                throw new MathIllegalArgumentException(LocalizedOptimFormats.CONSTRAINTS_RANK, nDual, n);
-            }
-            int nTest = eqConstraint.dim();
-            if (nDual == 0) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.ZERO_NOT_ALLOWED);
-            }
-            MathUtils.checkDimension(nTest, n);
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

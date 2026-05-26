@@ -14,18 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.complex;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -62,43 +59,80 @@ import org.hipparchus.util.SinhCosh;
  * conforms with IEEE-754 while this class conforms with the standard behavior
  * for Java object types.
  */
-public class Complex implements CalculusFieldElement<Complex>, Comparable<Complex>, Serializable  {
-    /** The square root of -1. A number representing "0.0 + 1.0i". */
+public class Complex implements CalculusFieldElement<Complex>, Comparable<Complex>, Serializable {
+
+    /**
+     * The square root of -1. A number representing "0.0 + 1.0i".
+     */
     public static final Complex I = new Complex(0.0, 1.0);
-    /** The square root of -1. A number representing "0.0 - 1.0i".
+
+    /**
+     * The square root of -1. A number representing "0.0 - 1.0i".
      * @since 1.7
      */
     public static final Complex MINUS_I = new Complex(0.0, -1.0);
+
     // CHECKSTYLE: stop ConstantName
-    /** A complex number representing "NaN + NaNi". */
+    /**
+     * A complex number representing "NaN + NaNi".
+     */
     public static final Complex NaN = new Complex(Double.NaN, Double.NaN);
+
     // CHECKSTYLE: resume ConstantName
-    /** A complex number representing "+INF + INFi" */
+    /**
+     * A complex number representing "+INF + INFi"
+     */
     public static final Complex INF = new Complex(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
-    /** A complex number representing "1.0 + 0.0i". */
+
+    /**
+     * A complex number representing "1.0 + 0.0i".
+     */
     public static final Complex ONE = new Complex(1.0, 0.0);
-    /** A complex number representing "-1.0 + 0.0i".
+
+    /**
+     * A complex number representing "-1.0 + 0.0i".
      * @since 1.7
      */
     public static final Complex MINUS_ONE = new Complex(-1.0, 0.0);
-    /** A complex number representing "0.0 + 0.0i". */
-    public static final Complex ZERO = new Complex(0.0, 0.0);
-    /** A complex number representing "π + 0.0i". */
-    public static final Complex PI   = new Complex(FastMath.PI, 0.0);
 
-    /** A real number representing log(10). */
+    /**
+     * A complex number representing "0.0 + 0.0i".
+     */
+    public static final Complex ZERO = new Complex(0.0, 0.0);
+
+    /**
+     * A complex number representing "π + 0.0i".
+     */
+    public static final Complex PI = new Complex(FastMath.PI, 0.0);
+
+    /**
+     * A real number representing log(10).
+     */
     private static final double LOG10 = 2.302585092994045684;
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20160305L;
 
-    /** The imaginary part. */
+    /**
+     * The imaginary part.
+     */
     private final double imaginary;
-    /** The real part. */
+
+    /**
+     * The real part.
+     */
     private final double real;
-    /** Record whether this complex number is equal to NaN. */
+
+    /**
+     * Record whether this complex number is equal to NaN.
+     */
     private final transient boolean isNaN;
-    /** Record whether this complex number is infinite. */
+
+    /**
+     * Record whether this complex number is infinite.
+     */
     private final transient boolean isInfinite;
 
     /**
@@ -119,10 +153,8 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
     public Complex(double real, double imaginary) {
         this.real = real;
         this.imaginary = imaginary;
-
         isNaN = Double.isNaN(real) || Double.isNaN(imaginary);
-        isInfinite = !isNaN &&
-            (Double.isInfinite(real) || Double.isInfinite(imaginary));
+        isInfinite = !isNaN && (Double.isInfinite(real) || Double.isInfinite(imaginary));
     }
 
     /**
@@ -136,15 +168,15 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex abs() {
-        // we check NaN here because FastMath.hypot checks it after infinity
-        return isNaN ? NaN : createComplex(FastMath.hypot(real, imaginary), 0.0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double norm() {
-        // we check NaN here because FastMath.hypot checks it after infinity
-        return isNaN ? Double.NaN : FastMath.hypot(real, imaginary);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -165,13 +197,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex add(Complex addend) throws NullArgumentException {
-        MathUtils.checkNotNull(addend);
-        if (isNaN || addend.isNaN) {
-            return NaN;
-        }
-
-        return createComplex(real + addend.getRealPart(),
-                             imaginary + addend.getImaginaryPart());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -184,14 +210,10 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex add(double addend) {
-        if (isNaN || Double.isNaN(addend)) {
-            return NaN;
-        }
-
-        return createComplex(real + addend, imaginary);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-     /**
+    /**
      * Returns the conjugate of this complex number.
      * The conjugate of {@code a + bi} is {@code a - bi}.
      * <p>
@@ -206,11 +228,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      * @return the conjugate of this Complex object.
      */
     public Complex conjugate() {
-        if (isNaN) {
-            return NaN;
-        }
-
-        return createComplex(real, -imaginary);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -256,34 +274,8 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      * @throws NullArgumentException if {@code divisor} is {@code null}.
      */
     @Override
-    public Complex divide(Complex divisor)
-        throws NullArgumentException {
-        MathUtils.checkNotNull(divisor);
-        if (isNaN || divisor.isNaN) {
-            return NaN;
-        }
-
-        final double c = divisor.getRealPart();
-        final double d = divisor.getImaginaryPart();
-        if (c == 0.0 && d == 0.0) {
-            return NaN;
-        }
-
-        if (divisor.isInfinite() && !isInfinite()) {
-            return ZERO;
-        }
-
-        if (FastMath.abs(c) < FastMath.abs(d)) {
-            double q = c / d;
-            double denominator = c * q + d;
-            return createComplex((real * q + imaginary) / denominator,
-                                 (imaginary * q - real) / denominator);
-        } else {
-            double q = d / c;
-            double denominator = d * q + c;
-            return createComplex((imaginary * q + real) / denominator,
-                                 (imaginary - real * q) / denominator);
-        }
+    public Complex divide(Complex divisor) throws NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -296,43 +288,15 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex divide(double divisor) {
-        if (isNaN || Double.isNaN(divisor)) {
-            return NaN;
-        }
-        if (divisor == 0d) {
-            return NaN;
-        }
-        if (Double.isInfinite(divisor)) {
-            return !isInfinite() ? ZERO : NaN;
-        }
-        return createComplex(real / divisor,
-                             imaginary  / divisor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Complex reciprocal() {
-        if (isNaN) {
-            return NaN;
-        }
-
-        if (real == 0.0 && imaginary == 0.0) {
-            return INF;
-        }
-
-        if (isInfinite) {
-            return ZERO;
-        }
-
-        if (FastMath.abs(real) < FastMath.abs(imaginary)) {
-            double q = real / imaginary;
-            double scale = 1. / (real * q + imaginary);
-            return createComplex(scale * q, -scale);
-        } else {
-            double q = imaginary / real;
-            double scale = 1. / (imaginary * q + real);
-            return createComplex(scale, -scale * q);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -361,19 +325,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-        if (other instanceof Complex){
-            Complex c = (Complex) other;
-            if (c.isNaN) {
-                return isNaN;
-            } else {
-                return MathUtils.equals(real, c.real) &&
-                       MathUtils.equals(imaginary, c.imaginary);
-            }
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -393,8 +345,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      * @see Precision#equals(double,double,int)
      */
     public static boolean equals(Complex x, Complex y, int maxUlps) {
-        return Precision.equals(x.real, y.real, maxUlps) &&
-               Precision.equals(x.imaginary, y.imaginary, maxUlps);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -406,7 +357,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      * @return {@code true} if the values are equal.
      */
     public static boolean equals(Complex x, Complex y) {
-        return equals(x, y, 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -424,8 +375,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      * @see Precision#equals(double,double,double)
      */
     public static boolean equals(Complex x, Complex y, double eps) {
-        return Precision.equals(x.real, y.real, eps) &&
-               Precision.equals(x.imaginary, y.imaginary, eps);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -442,11 +392,8 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      *
      * @see Precision#equalsWithRelativeTolerance(double,double,double)
      */
-    public static boolean equalsWithRelativeTolerance(Complex x,
-                                                      Complex y,
-                                                      double eps) {
-        return Precision.equalsWithRelativeTolerance(x.real, y.real, eps) &&
-               Precision.equalsWithRelativeTolerance(x.imaginary, y.imaginary, eps);
+    public static boolean equalsWithRelativeTolerance(Complex x, Complex y, double eps) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -458,14 +405,11 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public int hashCode() {
-        if (isNaN) {
-            return 7;
-        }
-        return 37 * (17 * MathUtils.hash(imaginary) +
-            MathUtils.hash(real));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * This implementation considers +0.0 and -0.0 to be equal for both
      * real and imaginary components.
@@ -474,7 +418,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public boolean isZero() {
-        return real == 0.0 && imaginary == 0.0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -483,7 +427,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      * @return the imaginary part.
      */
     public double getImaginary() {
-        return imaginary;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -493,7 +437,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      * @since 2.0
      */
     public double getImaginaryPart() {
-        return imaginary;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -503,13 +447,15 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public double getReal() {
-        return real;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Complex getAddendum() {
-        return new Complex(0, imaginary);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -519,7 +465,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      * @since 2.0
      */
     public double getRealPart() {
-        return real;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -531,23 +477,25 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public boolean isNaN() {
-        return isNaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check whether the instance is real (i.e. imaginary part is zero).
+    /**
+     * Check whether the instance is real (i.e. imaginary part is zero).
      * @return true if imaginary part is zero
      * @since 1.7
      */
     public boolean isReal() {
-        return imaginary == 0.0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check whether the instance is an integer (i.e. imaginary part is zero and real part has no fractional part).
+    /**
+     * Check whether the instance is an integer (i.e. imaginary part is zero and real part has no fractional part).
      * @return true if imaginary part is zero and real part has no fractional part
      * @since 1.7
      */
     public boolean isMathematicalInteger() {
-        return isReal() && Precision.isMathematicalInteger(real);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -561,7 +509,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public boolean isInfinite() {
-        return isInfinite;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -587,21 +535,8 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      * @throws NullArgumentException if {@code factor} is {@code null}.
      */
     @Override
-    public Complex multiply(Complex factor)
-        throws NullArgumentException {
-        MathUtils.checkNotNull(factor);
-        if (isNaN || factor.isNaN) {
-            return NaN;
-        }
-        if (Double.isInfinite(real) ||
-            Double.isInfinite(imaginary) ||
-            Double.isInfinite(factor.real) ||
-            Double.isInfinite(factor.imaginary)) {
-            // we don't use isInfinite() to avoid testing for NaN again
-            return INF;
-        }
-        return createComplex(MathArrays.linearCombination(real, factor.real, -imaginary, factor.imaginary),
-                             MathArrays.linearCombination(real, factor.imaginary, imaginary, factor.real));
+    public Complex multiply(Complex factor) throws NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -614,14 +549,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex multiply(final int factor) {
-        if (isNaN) {
-            return NaN;
-        }
-        if (Double.isInfinite(real) ||
-            Double.isInfinite(imaginary)) {
-            return INF;
-        }
-        return createComplex(real * factor, imaginary * factor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -634,38 +562,33 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex multiply(double factor) {
-        if (isNaN || Double.isNaN(factor)) {
-            return NaN;
-        }
-        if (Double.isInfinite(real) ||
-            Double.isInfinite(imaginary) ||
-            Double.isInfinite(factor)) {
-            // we don't use isInfinite() to avoid testing for NaN again
-            return INF;
-        }
-        return createComplex(real * factor, imaginary * factor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute this * i.
+    /**
+     * Compute this * i.
      * @return this * i
      * @since 2.0
      */
     public Complex multiplyPlusI() {
-        return createComplex(-imaginary, real);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute this *- -i.
+    /**
+     * Compute this *- -i.
      * @return this * i
      * @since 2.0
      */
     public Complex multiplyMinusI() {
-        return createComplex(imaginary, -real);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Complex square() {
-        return multiply(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -677,11 +600,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex negate() {
-        if (isNaN) {
-            return NaN;
-        }
-
-        return createComplex(-real, -imaginary);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -701,15 +620,8 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      * @throws NullArgumentException if {@code subtrahend} is {@code null}.
      */
     @Override
-    public Complex subtract(Complex subtrahend)
-        throws NullArgumentException {
-        MathUtils.checkNotNull(subtrahend);
-        if (isNaN || subtrahend.isNaN) {
-            return NaN;
-        }
-
-        return createComplex(real - subtrahend.getRealPart(),
-                             imaginary - subtrahend.getImaginaryPart());
+    public Complex subtract(Complex subtrahend) throws NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -722,10 +634,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex subtract(double subtrahend) {
-        if (isNaN || Double.isNaN(subtrahend)) {
-            return NaN;
-        }
-        return createComplex(real - subtrahend, imaginary);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -743,11 +652,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex acos() {
-        if (isNaN) {
-            return NaN;
-        }
-
-        return this.add(this.sqrt1z().multiplyPlusI()).log().multiplyMinusI();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -765,11 +670,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex asin() {
-        if (isNaN) {
-            return NaN;
-        }
-
-        return sqrt1z().add(this.multiplyPlusI()).log().multiplyMinusI();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -787,31 +688,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex atan() {
-        if (isNaN) {
-            return NaN;
-        }
-
-        if (real == 0.0) {
-
-            // singularity at ±i
-            if (imaginary * imaginary - 1.0 == 0.0) {
-                return NaN;
-            }
-
-            // branch cut on imaginary axis
-            final Complex tmp = createComplex((1 + imaginary) / (1 - imaginary), 0.0).log().multiplyPlusI().multiply(0.5);
-            return createComplex(FastMath.copySign(tmp.real, real), tmp.imaginary);
-
-        } else if (imaginary == 0.0) {
-            // taking care to preserve the sign of the zero imaginary part
-            return createComplex(FastMath.atan(real), imaginary);
-        } else {
-            // regular formula
-            final Complex n = createComplex(1 + imaginary, -real);
-            final Complex d = createComplex(1 - imaginary,  real);
-            return n.divide(d).log().multiplyPlusI().multiply(0.5);
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -844,13 +721,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex cos() {
-        if (isNaN) {
-            return NaN;
-        }
-
-        final SinCos   scr  = FastMath.sinCos(real);
-        final SinhCosh schi = FastMath.sinhCosh(imaginary);
-        return createComplex(scr.cos() * schi.cosh(), -scr.sin() * schi.sinh());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -885,13 +756,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex cosh() {
-        if (isNaN) {
-            return NaN;
-        }
-
-        final SinhCosh schr = FastMath.sinhCosh(real);
-        final SinCos   sci  = FastMath.sinCos(imaginary);
-        return createComplex(schr.cosh() * sci.cos(), schr.sinh() * sci.sin());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -927,27 +792,16 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex exp() {
-        if (isNaN) {
-            return NaN;
-        }
-
-        final double expReal = FastMath.exp(real);
-        final SinCos sc      = FastMath.sinCos(imaginary);
-        return createComplex(expReal * sc.cos(), expReal * sc.sin());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @since 1.7
      */
     @Override
     public Complex expm1() {
-        if (isNaN) {
-            return NaN;
-        }
-
-        final double expm1Real = FastMath.expm1(real);
-        final SinCos sc        = FastMath.sinCos(imaginary);
-        return createComplex(expm1Real * sc.cos(), expm1Real * sc.sin());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -986,28 +840,25 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex log() {
-        if (isNaN) {
-            return NaN;
-        }
-
-        return createComplex(FastMath.log(FastMath.hypot(real, imaginary)),
-                             FastMath.atan2(imaginary, real));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @since 1.7
      */
     @Override
     public Complex log1p() {
-        return add(1.0).log();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @since 1.7
      */
     @Override
     public Complex log10() {
-        return log().divide(LOG10);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1026,30 +877,9 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      * @throws NullArgumentException if x is {@code null}.
      */
     @Override
-    public Complex pow(Complex x)
-        throws NullArgumentException {
-
-        MathUtils.checkNotNull(x);
-
-        if (x.imaginary == 0.0) {
-            final int nx = (int) FastMath.rint(x.real);
-            if (x.real == nx) {
-                // integer power
-                return pow(nx);
-            } else if (this.imaginary == 0.0) {
-                // check real implementation that handles a bunch of special cases
-                final double realPow = FastMath.pow(this.real, x.real);
-                if (Double.isFinite(realPow)) {
-                    return createComplex(realPow, 0);
-                }
-            }
-        }
-
-        // generic implementation
-        return this.log().multiply(x).exp();
-
+    public Complex pow(Complex x) throws NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     /**
      * Returns of value of this complex number raised to the power of {@code x}.
@@ -1067,56 +897,20 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex pow(double x) {
-
-        final int nx = (int) FastMath.rint(x);
-        if (x == nx) {
-            // integer power
-            return pow(nx);
-        } else if (this.imaginary == 0.0) {
-            // check real implementation that handles a bunch of special cases
-            final double realPow = FastMath.pow(this.real, x);
-            if (Double.isFinite(realPow)) {
-                return createComplex(realPow, 0);
-            }
-        }
-
-        // generic implementation
-        return this.log().multiply(x).exp();
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-     /** {@inheritDoc}
-      * @since 1.7
-      */
+    /**
+     * {@inheritDoc}
+     * @since 1.7
+     */
     @Override
     public Complex pow(final int n) {
-
-        Complex result = ONE;
-        final boolean invert;
-        int p = n;
-        if (p < 0) {
-            invert = true;
-            p = -p;
-        } else {
-            invert = false;
-        }
-
-        // Exponentiate by successive squaring
-        Complex square = this;
-        while (p > 0) {
-            if ((p & 0x1) > 0) {
-                result = result.multiply(square);
-            }
-            square = square.multiply(square);
-            p = p >> 1;
-        }
-
-        return invert ? result.reciprocal() : result;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-     /**
-      * Compute the
+    /**
+     * Compute the
      * <a href="http://mathworld.wolfram.com/Sine.html" TARGET="_top">
      * sine</a>
      * of this complex number.
@@ -1148,49 +942,28 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex sin() {
-        if (isNaN) {
-            return NaN;
-        }
-
-        final SinCos   scr  = FastMath.sinCos(real);
-        final SinhCosh schi = FastMath.sinhCosh(imaginary);
-        return createComplex(scr.sin() * schi.cosh(), scr.cos() * schi.sinh());
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldSinCos<Complex> sinCos() {
-        if (isNaN) {
-            return new FieldSinCos<>(NaN, NaN);
-        }
-
-        final SinCos scr = FastMath.sinCos(real);
-        final SinhCosh schi = FastMath.sinhCosh(imaginary);
-        return new FieldSinCos<>(createComplex(scr.sin() * schi.cosh(),  scr.cos() * schi.sinh()),
-                                 createComplex(scr.cos() * schi.cosh(), -scr.sin() * schi.sinh()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @since 1.7
      */
     @Override
     public Complex atan2(Complex x) {
-
-        // compute r = sqrt(x^2+y^2)
-        final Complex r = x.square().add(multiply(this)).sqrt();
-
-        if (FastMath.copySign(1.0, x.real) >= 0) {
-            // compute atan2(y, x) = 2 atan(y / (r + x))
-            return divide(r.add(x)).atan().twice();
-        } else {
-            // compute atan2(y, x) = +/- pi - 2 atan(y / (r - x))
-            return divide(r.subtract(x)).atan().multiply(-2).add(FastMath.PI);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * Branch cuts are on the real axis, below +1.
      * </p>
@@ -1198,12 +971,11 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex acosh() {
-        final Complex sqrtPlus  = add(1).sqrt();
-        final Complex sqrtMinus = subtract(1).sqrt();
-        return add(sqrtPlus.multiply(sqrtMinus)).log();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * Branch cuts are on the imaginary axis, above +i and below -i.
      * </p>
@@ -1211,10 +983,11 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex asinh() {
-        return add(multiply(this).add(1.0).sqrt()).log();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * Branch cuts are on the real axis, above +1 and below -1.
      * </p>
@@ -1222,9 +995,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex atanh() {
-        final Complex logPlus  = add(1).log();
-        final Complex logMinus = createComplex(1 - real, -imaginary).log();
-        return logPlus.subtract(logMinus).multiply(0.5);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1259,27 +1030,15 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex sinh() {
-        if (isNaN) {
-            return NaN;
-        }
-
-        final SinhCosh schr = FastMath.sinhCosh(real);
-        final SinCos   sci  = FastMath.sinCos(imaginary);
-        return createComplex(schr.sinh() * sci.cos(), schr.cosh() * sci.sin());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldSinhCosh<Complex> sinhCosh() {
-        if (isNaN) {
-            return new FieldSinhCosh<>(NaN, NaN);
-        }
-
-        final SinhCosh schr = FastMath.sinhCosh(real);
-        final SinCos   sci  = FastMath.sinCos(imaginary);
-        return new FieldSinhCosh<>(createComplex(schr.sinh() * sci.cos(), schr.cosh() * sci.sin()),
-                                   createComplex(schr.cosh() * sci.cos(), schr.sinh() * sci.sin()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1320,21 +1079,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex sqrt() {
-        if (isNaN) {
-            return NaN;
-        }
-
-        if (real == 0.0 && imaginary == 0.0) {
-            return ZERO;
-        }
-
-        double t = FastMath.sqrt((FastMath.abs(real) + FastMath.hypot(real, imaginary)) * 0.5);
-        if (FastMath.copySign(1, real) >= 0.0) {
-            return createComplex(t, imaginary / (2.0 * t));
-        } else {
-            return createComplex(FastMath.abs(imaginary) / (2.0 * t),
-                                 FastMath.copySign(t, imaginary));
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1354,11 +1099,11 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      * @return the square root of <code>1 - this<sup>2</sup></code>.
      */
     public Complex sqrt1z() {
-        final Complex t2 = this.square();
-        return createComplex(1 - t2.real, -t2.imaginary).sqrt();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * This implementation compute the principal cube root by using a branch cut along real negative axis.
      * </p>
@@ -1366,12 +1111,11 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex cbrt() {
-        final double magnitude = FastMath.cbrt(norm());
-        final SinCos sc        = FastMath.sinCos(getArgument() / 3);
-        return createComplex(magnitude * sc.cos(), magnitude * sc.sin());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * This implementation compute the principal n<sup>th</sup> root by using a branch cut along real negative axis.
      * </p>
@@ -1379,9 +1123,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex rootN(int n) {
-        final double magnitude = FastMath.pow(norm(), 1.0 / n);
-        final SinCos sc        = FastMath.sinCos(getArgument() / n);
-        return createComplex(magnitude * sc.cos(), magnitude * sc.sin());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1417,22 +1159,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex tan() {
-        if (isNaN || Double.isInfinite(real)) {
-            return NaN;
-        }
-        if (imaginary > 20.0) {
-            return I;
-        }
-        if (imaginary < -20.0) {
-            return MINUS_I;
-        }
-
-        final SinCos sc2r = FastMath.sinCos(2.0 * real);
-        double imaginary2 = 2.0 * imaginary;
-        double d = sc2r.cos() + FastMath.cosh(imaginary2);
-
-        return createComplex(sc2r.sin() / d, FastMath.sinh(imaginary2) / d);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1468,23 +1195,8 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex tanh() {
-        if (isNaN || Double.isInfinite(imaginary)) {
-            return NaN;
-        }
-        if (real > 20.0) {
-            return ONE;
-        }
-        if (real < -20.0) {
-            return MINUS_ONE;
-        }
-        double real2 = 2.0 * real;
-        final SinCos sc2i = FastMath.sinCos(2.0 * imaginary);
-        double d = FastMath.cosh(real2) + sc2i.cos();
-
-        return createComplex(FastMath.sinh(real2) / d, sc2i.sin() / d);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
-
 
     /**
      * Compute the argument of this complex number.
@@ -1504,7 +1216,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      * @return the argument of {@code this}.
      */
     public double getArgument() {
-        return FastMath.atan2(getImaginaryPart(), getRealPart());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1529,40 +1241,7 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      * @throws MathIllegalArgumentException if {@code n <= 0}.
      */
     public List<Complex> nthRoot(int n) throws MathIllegalArgumentException {
-
-        if (n <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.CANNOT_COMPUTE_NTH_ROOT_FOR_NEGATIVE_N,
-                                                   n);
-        }
-
-        final List<Complex> result = new ArrayList<>();
-
-        if (isNaN) {
-            result.add(NaN);
-            return result;
-        }
-        if (isInfinite()) {
-            result.add(INF);
-            return result;
-        }
-
-        // nth root of abs -- faster / more accurate to use a solver here?
-        final double nthRootOfAbs = FastMath.pow(FastMath.hypot(real, imaginary), 1.0 / n);
-
-        // Compute nth roots of complex number with k = 0, 1, ... n-1
-        final double nthPhi = getArgument() / n;
-        final double slice = 2 * FastMath.PI / n;
-        double innerPart = nthPhi;
-        for (int k = 0; k < n ; k++) {
-            // inner part
-            final SinCos scInner = FastMath.sinCos(innerPart);
-            final double realPart = nthRootOfAbs *  scInner.cos();
-            final double imaginaryPart = nthRootOfAbs *  scInner.sin();
-            result.add(createComplex(realPart, imaginaryPart));
-            innerPart += slice;
-        }
-
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1574,9 +1253,8 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      *
      * @see #valueOf(double, double)
      */
-    protected Complex createComplex(double realPart,
-                                    double imaginaryPart) {
-        return new Complex(realPart, imaginaryPart);
+    protected Complex createComplex(double realPart, double imaginaryPart) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1586,13 +1264,8 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      * @param imaginaryPart Imaginary part.
      * @return a Complex instance.
      */
-    public static Complex valueOf(double realPart,
-                                  double imaginaryPart) {
-        if (Double.isNaN(realPart) ||
-            Double.isNaN(imaginaryPart)) {
-            return NaN;
-        }
-        return new Complex(realPart, imaginaryPart);
+    public static Complex valueOf(double realPart, double imaginaryPart) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1602,16 +1275,15 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      * @return a Complex instance.
      */
     public static Complex valueOf(double realPart) {
-        if (Double.isNaN(realPart)) {
-            return NaN;
-        }
-        return new Complex(realPart);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Complex newInstance(double realPart) {
-        return valueOf(realPart);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1622,198 +1294,160 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      * @return A Complex instance with all fields resolved.
      */
     protected final Object readResolve() {
-        return createComplex(real, imaginary);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ComplexField getField() {
-        return ComplexField.getInstance();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "(" + real + ", " + imaginary + ")";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @since 1.7
      */
     @Override
     public Complex scalb(int n) {
-        return createComplex(FastMath.scalb(real, n), FastMath.scalb(imaginary, n));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public Complex ulp() {
-        return createComplex(FastMath.ulp(real), FastMath.ulp(imaginary));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @since 1.7
      */
     @Override
     public Complex hypot(Complex y) {
-        if (isInfinite() || y.isInfinite()) {
-            return INF;
-        } else if (isNaN() || y.isNaN()) {
-            return NaN;
-        } else {
-            return square().add(y.square()).sqrt();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @since 1.7
      */
     @Override
-    public Complex linearCombination(final Complex[] a, final Complex[] b)
-        throws MathIllegalArgumentException {
-        final int n = 2 * a.length;
-        final double[] realA      = new double[n];
-        final double[] realB      = new double[n];
-        final double[] imaginaryA = new double[n];
-        final double[] imaginaryB = new double[n];
-        for (int i = 0; i < a.length; ++i)  {
-            final Complex ai = a[i];
-            final Complex bi = b[i];
-            realA[2 * i    ]      = +ai.real;
-            realA[2 * i + 1]      = -ai.imaginary;
-            realB[2 * i    ]      = +bi.real;
-            realB[2 * i + 1]      = +bi.imaginary;
-            imaginaryA[2 * i    ] = +ai.real;
-            imaginaryA[2 * i + 1] = +ai.imaginary;
-            imaginaryB[2 * i    ] = +bi.imaginary;
-            imaginaryB[2 * i + 1] = +bi.real;
-        }
-        return createComplex(MathArrays.linearCombination(realA,  realB),
-                             MathArrays.linearCombination(imaginaryA, imaginaryB));
+    public Complex linearCombination(final Complex[] a, final Complex[] b) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @since 1.7
      */
     @Override
-    public Complex linearCombination(final double[] a, final Complex[] b)
-        throws MathIllegalArgumentException {
-        final int n = a.length;
-        final double[] realB      = new double[n];
-        final double[] imaginaryB = new double[n];
-        for (int i = 0; i < a.length; ++i)  {
-            final Complex bi = b[i];
-            realB[i]      = +bi.real;
-            imaginaryB[i] = +bi.imaginary;
-        }
-        return createComplex(MathArrays.linearCombination(a,  realB),
-                             MathArrays.linearCombination(a, imaginaryB));
+    public Complex linearCombination(final double[] a, final Complex[] b) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @since 1.7
      */
     @Override
     public Complex linearCombination(final Complex a1, final Complex b1, final Complex a2, final Complex b2) {
-        return createComplex(MathArrays.linearCombination(+a1.real, b1.real,
-                                                          -a1.imaginary, b1.imaginary,
-                                                          +a2.real, b2.real,
-                                                          -a2.imaginary, b2.imaginary),
-                             MathArrays.linearCombination(+a1.real, b1.imaginary,
-                                                          +a1.imaginary, b1.real,
-                                                          +a2.real, b2.imaginary,
-                                                          +a2.imaginary, b2.real));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @since 1.7
      */
     @Override
     public Complex linearCombination(final double a1, final Complex b1, final double a2, final Complex b2) {
-        return createComplex(MathArrays.linearCombination(a1, b1.real,
-                                                          a2, b2.real),
-                             MathArrays.linearCombination(a1, b1.imaginary,
-                                                          a2, b2.imaginary));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @since 1.7
      */
     @Override
-    public Complex linearCombination(final Complex a1, final Complex b1,
-                                     final Complex a2, final Complex b2,
-                                     final Complex a3, final Complex b3) {
-        return linearCombination(new Complex[] { a1, a2, a3 },
-                                 new Complex[] { b1, b2, b3 });
+    public Complex linearCombination(final Complex a1, final Complex b1, final Complex a2, final Complex b2, final Complex a3, final Complex b3) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @since 1.7
      */
     @Override
-    public Complex linearCombination(final double a1, final Complex b1,
-                                     final double a2, final Complex b2,
-                                     final double a3, final Complex b3) {
-        return linearCombination(new double[]  { a1, a2, a3 },
-                                 new Complex[] { b1, b2, b3 });
+    public Complex linearCombination(final double a1, final Complex b1, final double a2, final Complex b2, final double a3, final Complex b3) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @since 1.7
      */
     @Override
-    public Complex linearCombination(final Complex a1, final Complex b1,
-                                     final Complex a2, final Complex b2,
-                                     final Complex a3, final Complex b3,
-                                     final Complex a4, final Complex b4) {
-        return linearCombination(new Complex[] { a1, a2, a3, a4 },
-                                 new Complex[] { b1, b2, b3, b4 });
+    public Complex linearCombination(final Complex a1, final Complex b1, final Complex a2, final Complex b2, final Complex a3, final Complex b3, final Complex a4, final Complex b4) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @since 1.7
      */
     @Override
-    public Complex linearCombination(final double a1, final Complex b1,
-                                     final double a2, final Complex b2,
-                                     final double a3, final Complex b3,
-                                     final double a4, final Complex b4) {
-        return linearCombination(new double[]  { a1, a2, a3, a4 },
-                                 new Complex[] { b1, b2, b3, b4 });
+    public Complex linearCombination(final double a1, final Complex b1, final double a2, final Complex b2, final double a3, final Complex b3, final double a4, final Complex b4) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Complex getPi() {
-        return PI;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @since 1.7
      */
     @Override
     public Complex ceil() {
-        return createComplex(FastMath.ceil(getRealPart()), FastMath.ceil(getImaginaryPart()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @since 1.7
      */
     @Override
     public Complex floor() {
-        return createComplex(FastMath.floor(getRealPart()), FastMath.floor(getImaginaryPart()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @since 1.7
      */
     @Override
     public Complex rint() {
-        return createComplex(FastMath.rint(getRealPart()), FastMath.rint(getImaginaryPart()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * for complex numbers, the integer n corresponding to {@code this.subtract(remainder(a)).divide(a)}
      * is a <a href="https://en.wikipedia.org/wiki/Gaussian_integer">Wikipedia - Gaussian integer</a>.
@@ -1822,10 +1456,11 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex remainder(final double a) {
-        return createComplex(FastMath.IEEEremainder(getRealPart(), a), FastMath.IEEEremainder(getImaginaryPart(), a));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * for complex numbers, the integer n corresponding to {@code this.subtract(remainder(a)).divide(a)}
      * is a <a href="https://en.wikipedia.org/wiki/Gaussian_integer">Wikipedia - Gaussian integer</a>.
@@ -1834,26 +1469,20 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex remainder(final Complex a) {
-        final Complex complexQuotient = divide(a);
-        final double  qRInt           = FastMath.rint(complexQuotient.real);
-        final double  qIInt           = FastMath.rint(complexQuotient.imaginary);
-        return createComplex(real - qRInt * a.real + qIInt * a.imaginary,
-                             imaginary - qRInt * a.imaginary - qIInt * a.real);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @since 2.0
      */
     @Override
     public Complex sign() {
-        if (isNaN() || isZero()) {
-            return this;
-        } else {
-            return this.divide(FastMath.hypot(real, imaginary));
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * The signs of real and imaginary parts are copied independently.
      * </p>
@@ -1861,38 +1490,44 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public Complex copySign(final Complex z) {
-        return createComplex(FastMath.copySign(getRealPart(), z.getRealPart()),
-                             FastMath.copySign(getImaginaryPart(), z.getImaginaryPart()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @since 1.7
      */
     @Override
     public Complex copySign(double r) {
-        return createComplex(FastMath.copySign(getRealPart(), r), FastMath.copySign(getImaginaryPart(), r));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Complex toDegrees() {
-        return createComplex(FastMath.toDegrees(getRealPart()), FastMath.toDegrees(getImaginaryPart()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Complex toRadians() {
-        return createComplex(FastMath.toRadians(getRealPart()), FastMath.toRadians(getImaginaryPart()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSmall(final Complex base, final double relativeThreshold) {
-        return FastMath.abs(getRealPart())      <= FastMath.abs(base.getRealPart()      * relativeThreshold) &&
-               FastMath.abs(getImaginaryPart()) <= FastMath.abs(base.getImaginaryPart() * relativeThreshold);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * Comparison us performed using real ordering as the primary sort order and
      * imaginary ordering as the secondary sort order.
@@ -1901,12 +1536,6 @@ public class Complex implements CalculusFieldElement<Complex>, Comparable<Comple
      */
     @Override
     public int compareTo(final Complex o) {
-        final int cR = Double.compare(getReal(), o.getReal());
-        if (cR == 0) {
-            return Double.compare(getImaginary(),o.getImaginary());
-        } else {
-            return cR;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

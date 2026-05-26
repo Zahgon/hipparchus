@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -30,69 +29,65 @@ import org.hipparchus.util.Pair;
  */
 public class LaguerreRuleFactory extends AbstractRuleFactory {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public LaguerreRuleFactory() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public LaguerreRuleFactory() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected Pair<double[], double[]> computeRule(int numberOfPoints) {
-
-        // find nodes as roots of Laguerre polynomial
-        final double[] points  = findRoots(numberOfPoints, new Laguerre(numberOfPoints)::ratio);
-
-        // compute weights
-        final double[] weights    = new double[numberOfPoints];
-        final int      n1         = numberOfPoints + 1;
-        final long     n1Squared  = n1 * (long) n1;
-        final Laguerre laguerreN1 = new Laguerre(n1);
-        for (int i = 0; i < numberOfPoints; i++) {
-            final double val = laguerreN1.value(points[i]);
-            weights[i] = points[i] / (n1Squared * val * val);
-        }
-
-        return new Pair<>(points, weights);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Laguerre polynomial. */
+    /**
+     * Laguerre polynomial.
+     */
     private static class Laguerre {
 
-        /** Degree. */
+        /**
+         * Degree.
+         */
         private int degree;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          * @param degree polynomial degree
          */
         Laguerre(int degree) {
             this.degree = degree;
         }
 
-        /** Evaluate polynomial.
+        /**
+         * Evaluate polynomial.
          * @param x point at which polynomial must be evaluated
          * @return value of the polynomial
          */
         public double value(final double x) {
-            return lNlNm1(x)[0];
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Compute ratio L(x)/L'(x).
+        /**
+         * Compute ratio L(x)/L'(x).
          * @param x point at which ratio must be computed
          * @return ratio L(x)/L'(x)
          */
         public double ratio(double x) {
-            double[] l = lNlNm1(x);
-            return x * l[0] / (degree * (l[0] - l[1]));
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Compute Lₙ(x) and Lₙ₋₁(x).
+        /**
+         * Compute Lₙ(x) and Lₙ₋₁(x).
          * @param x point at which polynomials are evaluated
          * @return array containing Lₙ(x) at index 0 and Lₙ₋₁(x) at index 1
          */
@@ -106,7 +101,5 @@ public class LaguerreRuleFactory extends AbstractRuleFactory {
             }
             return l;
         }
-
     }
-
 }

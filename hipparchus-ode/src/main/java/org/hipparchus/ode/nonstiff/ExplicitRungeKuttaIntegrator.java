@@ -21,7 +21,6 @@ import org.hipparchus.ode.ODEIntegrator;
 import org.hipparchus.ode.ODEState;
 import org.hipparchus.ode.OrdinaryDifferentialEquation;
 
-
 /**
  * This interface implements the part of Runge-Kutta
  * integrators for Ordinary Differential Equations
@@ -44,7 +43,6 @@ import org.hipparchus.ode.OrdinaryDifferentialEquation;
  * @see EmbeddedRungeKuttaIntegrator
  * @since 3.1
  */
-
 public interface ExplicitRungeKuttaIntegrator extends ButcherArrayProvider, ODEIntegrator {
 
     /**
@@ -53,10 +51,11 @@ public interface ExplicitRungeKuttaIntegrator extends ButcherArrayProvider, ODEI
      * @return number of stages
      */
     default int getNumberOfStages() {
-        return getB().length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Fast computation of a single step of ODE integration.
+    /**
+     * Fast computation of a single step of ODE integration.
      * <p>This method is intended for the limited use case of
      * very fast computation of only one step without using any of the
      * rich features of general integrators that may take some time
@@ -81,24 +80,8 @@ public interface ExplicitRungeKuttaIntegrator extends ButcherArrayProvider, ODEI
      * (can be set to a value smaller than {@code t0} for backward integration)
      * @return state vector at {@code t}
      */
-    default double[] singleStep(final OrdinaryDifferentialEquation equations, final double t0, final double[] y0,
-                                final double t) {
-
-        // create some internal working arrays
-        final int stages       = getNumberOfStages();
-        final double[][] yDotK = new double[stages][];
-
-        // first stage
-        final double h = t - t0;
-        final ExpandableODE expandableODE = new ExpandableODE(equations);
-        yDotK[0] = expandableODE.computeDerivatives(t0, y0);
-
-        // next stages
-        applyInternalButcherWeights(expandableODE, t0, y0, h, getA(), getC(), yDotK);
-
-        // estimate the state at the end of the step
-        return applyExternalButcherWeights(y0, yDotK, h, getB());
-
+    default double[] singleStep(final OrdinaryDifferentialEquation equations, final double t0, final double[] y0, final double t) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -111,45 +94,19 @@ public interface ExplicitRungeKuttaIntegrator extends ButcherArrayProvider, ODEI
      * @param c         times of Butcher array
      * @param yDotK     array where to store result
      */
-    static void applyInternalButcherWeights(final ExpandableODE equations, final double t0, final double[] y0,
-                                            final double h, final double[][] a, final double[] c,
-                                            final double[][] yDotK) {
-        // create some internal working arrays
-        final int stages = c.length + 1;
-        final double[] yTmp = y0.clone();
-
-        for (int k = 1; k < stages; ++k) {
-
-            for (int j = 0; j < y0.length; ++j) {
-                double sum = yDotK[0][j] * a[k - 1][0];
-                for (int l = 1; l < k; ++l) {
-                    sum += yDotK[l][j] * a[k - 1][l];
-                }
-                yTmp[j] = y0[j] + h * sum;
-            }
-
-            yDotK[k] = equations.computeDerivatives(t0 + h * c[k - 1], yTmp);
-        }
+    static void applyInternalButcherWeights(final ExpandableODE equations, final double t0, final double[] y0, final double h, final double[][] a, final double[] c, final double[][] yDotK) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Apply external weights of Butcher array, assuming internal ones have been applied.
+    /**
+     * Apply external weights of Butcher array, assuming internal ones have been applied.
      * @param yDotK output of stages
      * @param y0 initial value of the state vector at t0
      * @param h step size
      * @param b external weights of Butcher array
      * @return state vector
      */
-    static double[] applyExternalButcherWeights(final double[] y0, final double[][] yDotK, final double h,
-                                                final double[] b) {
-        final double[] y = y0.clone();
-        final int stages = b.length;
-        for (int j = 0; j < y0.length; ++j) {
-            double sum = yDotK[0][j] * b[0];
-            for (int l = 1; l < stages; ++l) {
-                sum += yDotK[l][j] * b[l];
-            }
-            y[j] += h * sum;
-        }
-        return y;
+    static double[] applyExternalButcherWeights(final double[] y0, final double[][] yDotK, final double h, final double[] b) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

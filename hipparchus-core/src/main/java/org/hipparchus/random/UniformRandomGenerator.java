@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.random;
 
 import org.hipparchus.util.FastMath;
@@ -34,13 +32,18 @@ import org.hipparchus.util.FastMath;
  */
 public class UniformRandomGenerator implements NormalizedRandomGenerator {
 
-    /** Square root of three. */
+    /**
+     * Square root of three.
+     */
     private static final double SQRT3 = FastMath.sqrt(3.0);
 
-    /** Underlying generator. */
+    /**
+     * Underlying generator.
+     */
     private final RandomGenerator generator;
 
-    /** Create a new generator.
+    /**
+     * Create a new generator.
      * @param generator underlying random generator to use
      */
     public UniformRandomGenerator(RandomGenerator generator) {
@@ -57,7 +60,6 @@ public class UniformRandomGenerator implements NormalizedRandomGenerator {
      */
     @Override
     public double nextNormalizedDouble() {
-        return SQRT3 * (2 * generator.nextDouble() - 1.0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -17,7 +17,6 @@
 package org.hipparchus.analysis.differentiation;
 
 import java.util.Arrays;
-
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.Field;
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -28,7 +27,8 @@ import org.hipparchus.util.FieldSinhCosh;
 import org.hipparchus.util.MathArrays;
 import org.hipparchus.util.MathUtils;
 
-/** Class representing both the value and the differentials of a function.
+/**
+ * Class representing both the value and the differentials of a function.
  * <p>This class is similar to {@link DerivativeStructure} except function
  * parameters and value can be any {@link CalculusFieldElement}.</p>
  * <p>Instances of this class are guaranteed to be immutable.</p>
@@ -37,74 +37,88 @@ import org.hipparchus.util.MathUtils;
  * @see DSCompiler
  * @param <T> the type of the field elements
  */
-public class FieldDerivativeStructure<T extends CalculusFieldElement<T>>
-    implements FieldDerivative<T, FieldDerivativeStructure<T>> {
+public class FieldDerivativeStructure<T extends CalculusFieldElement<T>> implements FieldDerivative<T, FieldDerivativeStructure<T>> {
 
-    /** Factory that built the instance. */
+    /**
+     * Factory that built the instance.
+     */
     private final FDSFactory<T> factory;
 
-    /** Combined array holding all values. */
+    /**
+     * Combined array holding all values.
+     */
     private final T[] data;
 
-    /** Build an instance with all values and derivatives set to 0.
+    /**
+     * Build an instance with all values and derivatives set to 0.
      * @param factory factory that built the instance
      * @param data combined array holding all values
      */
     FieldDerivativeStructure(final FDSFactory<T> factory, final T[] data) {
         this.factory = factory;
-        this.data    = data.clone();
+        this.data = data.clone();
     }
 
-    /** Build an instance with all values and derivatives set to 0.
+    /**
+     * Build an instance with all values and derivatives set to 0.
      * @param factory factory that built the instance
      * @since 1.4
      */
     FieldDerivativeStructure(final FDSFactory<T> factory) {
         this.factory = factory;
-        this.data    = MathArrays.buildArray(factory.getValueField(), factory.getCompiler().getSize());
+        this.data = MathArrays.buildArray(factory.getValueField(), factory.getCompiler().getSize());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldDerivativeStructure<T> newInstance(final double value) {
-        return factory.constant(value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldDerivativeStructure<T> newInstance(final T value) {
-        return factory.constant(value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldDerivativeStructure<T> withValue(final T value) {
-        final FieldDerivativeStructure<T> ds = factory.build();
-        System.arraycopy(data, 1, ds.data, 1, data.length - 1);
-        ds.data[0] = value;
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the factory that built the instance.
+    /**
+     * Get the factory that built the instance.
      * @return factory that built the instance
      */
     public FDSFactory<T> getFactory() {
-        return factory;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getFreeParameters() {
-        return getFactory().getCompiler().getFreeParameters();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getOrder() {
-        return getFactory().getCompiler().getOrder();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set a derivative component.
+    /**
+     * Set a derivative component.
      * <p>
      * This method is package-private (no modifier specified), as it is intended
      * to be used only by Hipparchus classes since it relied on the ordering of
@@ -116,10 +130,11 @@ public class FieldDerivativeStructure<T extends CalculusFieldElement<T>>
      * @since 1.4
      */
     void setDerivativeComponent(final int index, final T value) {
-        data[index] = value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a derivative component.
+    /**
+     * Get a derivative component.
      * <p>
      * This method is package-private (no modifier specified), as it is intended
      * to be used only by Hipparchus classes since it relied on the ordering of
@@ -131,219 +146,184 @@ public class FieldDerivativeStructure<T extends CalculusFieldElement<T>>
      * @since 2.2
      */
     T getDerivativeComponent(final int index) {
-        return data[index];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldDerivativeStructure<T> getAddendum() {
-        final T[] addendum = data.clone();
-        addendum[0] = addendum[0].getField().getZero();
-        return new FieldDerivativeStructure<>(factory, addendum);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the value part of the derivative structure.
+    /**
+     * Get the value part of the derivative structure.
      * @return value part of the derivative structure
      * @see #getPartialDerivative(int...)
      */
     @Override
     public T getValue() {
-        return data[0];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public T getPartialDerivative(final int ... orders)
-        throws MathIllegalArgumentException {
-        return data[factory.getCompiler().getPartialDerivativeIndex(orders)];
+    public T getPartialDerivative(final int... orders) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get all partial derivatives.
+    /**
+     * Get all partial derivatives.
      * @return a fresh copy of partial derivatives, in an array sorted according to
      * {@link DSCompiler#getPartialDerivativeIndex(int...)}
      */
     public T[] getAllDerivatives() {
-        return data.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> add(final double a) {
-        final FieldDerivativeStructure<T> ds = factory.build();
-        System.arraycopy(data, 0, ds.data, 0, data.length);
-        ds.data[0] = ds.data[0].add(a);
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public FieldDerivativeStructure<T> add(final FieldDerivativeStructure<T> a)
-        throws MathIllegalArgumentException {
-        factory.checkCompatibility(a.factory);
-        final FieldDerivativeStructure<T> ds = factory.build();
-        factory.getCompiler().add(data, 0, a.data, 0, ds.data, 0);
-        return ds;
+    public FieldDerivativeStructure<T> add(final FieldDerivativeStructure<T> a) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> subtract(final double a) {
-        final FieldDerivativeStructure<T> ds = factory.build();
-        System.arraycopy(data, 0, ds.data, 0, data.length);
-        ds.data[0] = ds.data[0].subtract(a);
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public FieldDerivativeStructure<T> subtract(final FieldDerivativeStructure<T> a)
-        throws MathIllegalArgumentException {
-        factory.checkCompatibility(a.factory);
-        final FieldDerivativeStructure<T> ds = factory.build();
-        factory.getCompiler().subtract(data, 0, a.data, 0, ds.data, 0);
-        return ds;
+    public FieldDerivativeStructure<T> subtract(final FieldDerivativeStructure<T> a) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** '&times;' operator.
+    /**
+     * '&times;' operator.
      * @param a right hand side parameter of the operator
      * @return this&times;a
      */
     public FieldDerivativeStructure<T> multiply(final T a) {
-        final FieldDerivativeStructure<T> ds = factory.build();
-        for (int i = 0; i < ds.data.length; ++i) {
-            ds.data[i] = data[i].multiply(a);
-        }
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> multiply(final double a) {
-        final FieldDerivativeStructure<T> ds = factory.build();
-        for (int i = 0; i < ds.data.length; ++i) {
-            ds.data[i] = data[i].multiply(a);
-        }
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public FieldDerivativeStructure<T> multiply(final FieldDerivativeStructure<T> a)
-        throws MathIllegalArgumentException {
-        factory.checkCompatibility(a.factory);
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().multiply(data, 0, a.data, 0, result.data, 0);
-        return result;
+    public FieldDerivativeStructure<T> multiply(final FieldDerivativeStructure<T> a) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldDerivativeStructure<T> square() {
-        return multiply(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** '&divide;' operator.
+    /**
+     * '&divide;' operator.
      * @param a right hand side parameter of the operator
      * @return this&divide;a
      */
     public FieldDerivativeStructure<T> divide(final T a) {
-        final FieldDerivativeStructure<T> ds = factory.build();
-        for (int i = 0; i < ds.data.length; ++i) {
-            ds.data[i] = data[i].divide(a);
-        }
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> divide(final double a) {
-        final FieldDerivativeStructure<T> ds = factory.build();
-        for (int i = 0; i < ds.data.length; ++i) {
-            ds.data[i] = data[i].divide(a);
-        }
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public FieldDerivativeStructure<T> divide(final FieldDerivativeStructure<T> a)
-        throws MathIllegalArgumentException {
-        factory.checkCompatibility(a.factory);
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().divide(data, 0, a.data, 0, result.data, 0);
-        return result;
+    public FieldDerivativeStructure<T> divide(final FieldDerivativeStructure<T> a) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** IEEE remainder operator.
+    /**
+     * IEEE remainder operator.
      * @param a right hand side parameter of the operator
      * @return this - n &times; a where n is the closest integer to this/a
      * (the even integer is chosen for n if this/a is halfway between two integers)
      */
     public FieldDerivativeStructure<T> remainder(final T a) {
-        final FieldDerivativeStructure<T> ds = factory.build();
-        System.arraycopy(data, 0, ds.data, 0, data.length);
-        ds.data[0] = data[0].remainder(a);
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldDerivativeStructure<T> remainder(final double a) {
-        final FieldDerivativeStructure<T> ds = factory.build();
-        System.arraycopy(data, 0, ds.data, 0, data.length);
-        ds.data[0] = data[0].remainder(a);
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public FieldDerivativeStructure<T> remainder(final FieldDerivativeStructure<T> a)
-        throws MathIllegalArgumentException {
-        factory.checkCompatibility(a.factory);
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().remainder(data, 0, a.data, 0, result.data, 0);
-        return result;
+    public FieldDerivativeStructure<T> remainder(final FieldDerivativeStructure<T> a) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldDerivativeStructure<T> negate() {
-        final FieldDerivativeStructure<T> ds = factory.build();
-        for (int i = 0; i < ds.data.length; ++i) {
-            ds.data[i] = data[i].negate();
-        }
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> abs() {
-        if (Double.doubleToLongBits(data[0].getReal()) < 0) {
-            // we use the bits representation to also handle -0.0
-            return negate();
-        } else {
-            return this;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -354,92 +334,41 @@ public class FieldDerivativeStructure<T extends CalculusFieldElement<T>>
      * @return the instance with the same sign as the {@code sign} argument
      */
     public FieldDerivativeStructure<T> copySign(final T sign) {
-        long m = Double.doubleToLongBits(data[0].getReal());
-        long s = Double.doubleToLongBits(sign.getReal());
-        if ((m >= 0 && s >= 0) || (m < 0 && s < 0)) { // Sign is currently OK
-            return this;
-        }
-        return negate(); // flip sign
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> copySign(final double sign) {
-        long m = Double.doubleToLongBits(data[0].getReal());
-        long s = Double.doubleToLongBits(sign);
-        if ((m >= 0 && s >= 0) || (m < 0 && s < 0)) { // Sign is currently OK
-            return this;
-        }
-        return negate(); // flip sign
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> copySign(final FieldDerivativeStructure<T> sign) {
-        long m = Double.doubleToLongBits(data[0].getReal());
-        long s = Double.doubleToLongBits(sign.data[0].getReal());
-        if ((m >= 0 && s >= 0) || (m < 0 && s < 0)) { // Sign is currently OK
-            return this;
-        }
-        return negate(); // flip sign
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> scalb(final int n) {
-        final FieldDerivativeStructure<T> ds = factory.build();
-        for (int i = 0; i < ds.data.length; ++i) {
-            ds.data[i] = data[i].scalb(n);
-        }
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public FieldDerivativeStructure<T> hypot(final FieldDerivativeStructure<T> y)
-        throws MathIllegalArgumentException {
-
-        factory.checkCompatibility(y.factory);
-
-        if (data[0].isInfinite() || y.data[0].isInfinite()) {
-            return factory.constant(Double.POSITIVE_INFINITY);
-        } else if (data[0].isNaN() || y.data[0].isNaN()) {
-            return factory.constant(Double.NaN);
-        } else {
-
-            final int expX = getExponent();
-            final int expY = y.getExponent();
-            if (expX > expY + 27) {
-                // y is negligible with respect to x
-                return abs();
-            } else if (expY > expX + 27) {
-                // x is negligible with respect to y
-                return y.abs();
-            } else {
-
-                // find an intermediate scale to avoid both overflow and underflow
-                final int middleExp = (expX + expY) / 2;
-
-                // scale parameters without losing precision
-                final FieldDerivativeStructure<T> scaledX = scalb(-middleExp);
-                final FieldDerivativeStructure<T> scaledY = y.scalb(-middleExp);
-
-                // compute scaled hypotenuse
-                final FieldDerivativeStructure<T> scaledH =
-                        scaledX.multiply(scaledX).add(scaledY.multiply(scaledY)).sqrt();
-
-                // remove scaling
-                return scaledH.scalb(middleExp);
-
-            }
-
-        }
+    public FieldDerivativeStructure<T> hypot(final FieldDerivativeStructure<T> y) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -459,13 +388,12 @@ public class FieldDerivativeStructure<T extends CalculusFieldElement<T>>
      * or orders do not match
      * @param <T> the type of the field elements
      */
-    public static <T extends CalculusFieldElement<T>> FieldDerivativeStructure<T>
-        hypot(final FieldDerivativeStructure<T> x, final FieldDerivativeStructure<T> y)
-        throws MathIllegalArgumentException {
-        return x.hypot(y);
+    public static <T extends CalculusFieldElement<T>> FieldDerivativeStructure<T> hypot(final FieldDerivativeStructure<T> x, final FieldDerivativeStructure<T> y) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute composition of the instance by a univariate function.
+    /**
+     * Compute composition of the instance by a univariate function.
      * @param f array of value and derivatives of the function at
      * the current point (i.e. [f({@link #getValue()}),
      * f'({@link #getValue()}), f''({@link #getValue()})...]).
@@ -474,16 +402,12 @@ public class FieldDerivativeStructure<T extends CalculusFieldElement<T>>
      * in the array is not equal to {@link #getOrder() order} + 1
      */
     @SafeVarargs
-    public final FieldDerivativeStructure<T> compose(final T ... f)
-        throws MathIllegalArgumentException {
-
-        MathUtils.checkDimension(f.length, getOrder() + 1);
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().compose(data, 0, f, result.data, 0);
-        return result;
+    public final FieldDerivativeStructure<T> compose(final T... f) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute composition of the instance by a univariate function.
+    /**
+     * Compute composition of the instance by a univariate function.
      * @param f array of value and derivatives of the function at
      * the current point (i.e. [f({@link #getValue()}),
      * f'({@link #getValue()}), f''({@link #getValue()})...]).
@@ -491,212 +415,186 @@ public class FieldDerivativeStructure<T extends CalculusFieldElement<T>>
      * @exception MathIllegalArgumentException if the number of derivatives
      * in the array is not equal to {@link #getOrder() order} + 1
      */
-    public FieldDerivativeStructure<T> compose(final double ... f)
-        throws MathIllegalArgumentException {
-
-        MathUtils.checkDimension(f.length, getOrder() + 1);
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().compose(data, 0, f, result.data, 0);
-        return result;
+    public FieldDerivativeStructure<T> compose(final double... f) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldDerivativeStructure<T> reciprocal() {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().reciprocal(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> sqrt() {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().sqrt(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> rootN(final int n) {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().rootN(data, 0, n, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Field<FieldDerivativeStructure<T>> getField() {
-        return factory.getDerivativeField();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute a<sup>x</sup> where a is a double and x a {@link FieldDerivativeStructure}
+    /**
+     * Compute a<sup>x</sup> where a is a double and x a {@link FieldDerivativeStructure}
      * @param a number to exponentiate
      * @param x power to apply
      * @param <T> the type of the field elements
      * @return a<sup>x</sup>
      */
     public static <T extends CalculusFieldElement<T>> FieldDerivativeStructure<T> pow(final double a, final FieldDerivativeStructure<T> x) {
-        final FieldDerivativeStructure<T> result = x.factory.build();
-        x.factory.getCompiler().pow(a, x.data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> pow(final double p) {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().pow(data, 0, p, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> pow(final int n) {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().pow(data, 0, n, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public FieldDerivativeStructure<T> pow(final FieldDerivativeStructure<T> e)
-        throws MathIllegalArgumentException {
-        factory.checkCompatibility(e.factory);
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().pow(data, 0, e.data, 0, result.data, 0);
-        return result;
+    public FieldDerivativeStructure<T> pow(final FieldDerivativeStructure<T> e) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> exp() {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().exp(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> expm1() {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().expm1(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> log() {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().log(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> log1p() {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().log1p(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Base 10 logarithm.
+    /**
+     * Base 10 logarithm.
      * @return base 10 logarithm of the instance
      */
     @Override
     public FieldDerivativeStructure<T> log10() {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().log10(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> cos() {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().cos(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> sin() {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().sin(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldSinCos<FieldDerivativeStructure<T>> sinCos() {
-        final FieldDerivativeStructure<T> sin = factory.build();
-        final FieldDerivativeStructure<T> cos = factory.build();
-        factory.getCompiler().sinCos(data, 0, sin.data, 0, cos.data, 0);
-        return new FieldSinCos<>(sin, cos);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> tan() {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().tan(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> acos() {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().acos(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> asin() {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().asin(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> atan() {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().atan(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
-    public FieldDerivativeStructure<T> atan2(final FieldDerivativeStructure<T> x)
-        throws MathIllegalArgumentException {
-        factory.checkCompatibility(x.factory);
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().atan2(data, 0, x.data, 0, result.data, 0);
-        return result;
+    public FieldDerivativeStructure<T> atan2(final FieldDerivativeStructure<T> x) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Two arguments arc tangent operation.
+    /**
+     * Two arguments arc tangent operation.
      * @param y first argument of the arc tangent
      * @param x second argument of the arc tangent
      * @param <T> the type of the field elements
@@ -704,97 +602,84 @@ public class FieldDerivativeStructure<T extends CalculusFieldElement<T>>
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
-    public static <T extends CalculusFieldElement<T>> FieldDerivativeStructure<T> atan2(final FieldDerivativeStructure<T> y,
-                                                                                        final FieldDerivativeStructure<T> x)
-        throws MathIllegalArgumentException {
-        return y.atan2(x);
+    public static <T extends CalculusFieldElement<T>> FieldDerivativeStructure<T> atan2(final FieldDerivativeStructure<T> y, final FieldDerivativeStructure<T> x) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> cosh() {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().cosh(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> sinh() {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().sinh(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldSinhCosh<FieldDerivativeStructure<T>> sinhCosh() {
-        final FieldDerivativeStructure<T> sinh = factory.build();
-        final FieldDerivativeStructure<T> cosh = factory.build();
-        factory.getCompiler().sinhCosh(data, 0, sinh.data, 0, cosh.data, 0);
-        return new FieldSinhCosh<>(sinh, cosh);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> tanh() {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().tanh(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> acosh() {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().acosh(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> asinh() {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().asinh(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> atanh() {
-        final FieldDerivativeStructure<T> result = factory.build();
-        factory.getCompiler().atanh(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldDerivativeStructure<T> toDegrees() {
-        final FieldDerivativeStructure<T> ds = factory.build();
-        for (int i = 0; i < ds.data.length; ++i) {
-            ds.data[i] = data[i].toDegrees();
-        }
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldDerivativeStructure<T> toRadians() {
-        final FieldDerivativeStructure<T> ds = factory.build();
-        for (int i = 0; i < ds.data.length; ++i) {
-            ds.data[i] = data[i].toRadians();
-        }
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Integrate w.r.t. one independent variable.
+    /**
+     * Integrate w.r.t. one independent variable.
      * <p>
      * Rigorously, if the derivatives of a function are known up to
      * order N, the ones of its M-th integral w.r.t. a given variable
@@ -809,42 +694,11 @@ public class FieldDerivativeStructure<T extends CalculusFieldElement<T>>
      * @since 2.2
      */
     public FieldDerivativeStructure<T> integrate(final int varIndex, final int integrationOrder) {
-
-        // Deal first with trivial case
-        if (integrationOrder > getOrder()) {
-            return factory.constant(0.);
-        } else if (integrationOrder == 0) {
-            return factory.build(data);
-        }
-
-        // Call 'inverse' (not rigorously) operation if necessary
-        if (integrationOrder < 0) {
-            return differentiate(varIndex, -integrationOrder);
-        }
-
-        final T[] newData = MathArrays.buildArray(factory.getValueField(), data.length);
-        final DSCompiler dsCompiler = factory.getCompiler();
-        for (int i = 0; i < newData.length; i++) {
-            if (!data[i].isZero()) {
-                final int[] orders = dsCompiler.getPartialDerivativeOrders(i);
-                int sum = 0;
-                for (int order : orders) {
-                    sum += order;
-                }
-                if (sum + integrationOrder <= getOrder()) {
-                    final int saved = orders[varIndex];
-                    orders[varIndex] += integrationOrder;
-                    final int index = dsCompiler.getPartialDerivativeIndex(orders);
-                    orders[varIndex] = saved;
-                    newData[index] = data[i];
-                }
-            }
-        }
-
-        return factory.build(newData);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Differentiate w.r.t. one independent variable.
+    /**
+     * Differentiate w.r.t. one independent variable.
      * <p>
      * Rigorously, if the derivatives of a function are known up to
      * order N, the ones of its M-th derivative w.r.t. a given variable
@@ -859,57 +713,32 @@ public class FieldDerivativeStructure<T extends CalculusFieldElement<T>>
      * @since 2.2
      */
     public FieldDerivativeStructure<T> differentiate(final int varIndex, final int differentiationOrder) {
-
-        // Deal first with trivial case
-        if (differentiationOrder > getOrder()) {
-            return factory.constant(0.);
-        } else if (differentiationOrder == 0) {
-            return factory.build(data);
-        }
-
-        // Call 'inverse' (not rigorously) operation if necessary
-        if (differentiationOrder < 0) {
-            return integrate(varIndex, -differentiationOrder);
-        }
-
-        final T[] newData = MathArrays.buildArray(factory.getValueField(), data.length);
-        final DSCompiler dsCompiler = factory.getCompiler();
-        for (int i = 0; i < newData.length; i++) {
-            if (!data[i].isZero()) {
-                final int[] orders = dsCompiler.getPartialDerivativeOrders(i);
-                if (orders[varIndex] - differentiationOrder >= 0) {
-                    final int saved = orders[varIndex];
-                    orders[varIndex] -= differentiationOrder;
-                    final int index = dsCompiler.getPartialDerivativeIndex(orders);
-                    orders[varIndex] = saved;
-                    newData[index] = data[i];
-                }
-            }
-        }
-
-        return factory.build(newData);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Evaluate Taylor expansion of a derivative structure.
+    /**
+     * Evaluate Taylor expansion of a derivative structure.
      * @param delta parameters offsets (&Delta;x, &Delta;y, ...)
      * @return value of the Taylor expansion at x + &Delta;x, y + &Delta;y, ...
      * @throws MathRuntimeException if factorials becomes too large
      */
     @SafeVarargs
-    public final T taylor(final T ... delta) throws MathRuntimeException {
-        return factory.getCompiler().taylor(data, 0, delta);
+    public final T taylor(final T... delta) throws MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Evaluate Taylor expansion of a derivative structure.
+    /**
+     * Evaluate Taylor expansion of a derivative structure.
      * @param delta parameters offsets (&Delta;x, &Delta;y, ...)
      * @return value of the Taylor expansion at x + &Delta;x, y + &Delta;y, ...
      * @throws MathRuntimeException if factorials becomes too large
      */
-    public T taylor(final double ... delta) throws MathRuntimeException {
-        return factory.getCompiler().taylor(data, 0, delta);
+    public T taylor(final double... delta) throws MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Rebase instance with respect to low level parameter functions.
+    /**
+     * Rebase instance with respect to low level parameter functions.
      * <p>
      * The instance is considered to be a function of {@link #getFreeParameters()
      * n free parameters} up to order {@link #getOrder() o} \(f(p_0, p_1, \ldots p_{n-1})\).
@@ -946,59 +775,17 @@ public class FieldDerivativeStructure<T extends CalculusFieldElement<T>>
      */
     @SuppressWarnings("unchecked")
     public FieldDerivativeStructure<T> rebase(final FieldDerivativeStructure<T>... p) {
-
-        MathUtils.checkDimension(getFreeParameters(), p.length);
-
-        // handle special case of no variables at all
-        if (p.length == 0) {
-            return this;
-        }
-
-        final int pSize = p[0].getFactory().getCompiler().getSize();
-        final T[] pData = MathArrays.buildArray(p[0].getFactory().getValueField(), p.length * pSize);
-        for (int i = 0; i < p.length; ++i) {
-            MathUtils.checkDimension(getOrder(), p[i].getOrder());
-            MathUtils.checkDimension(p[0].getFreeParameters(), p[i].getFreeParameters());
-            System.arraycopy(p[i].data, 0, pData, i * pSize, pSize);
-        }
-
-        final FieldDerivativeStructure<T> result = p[0].factory.build();
-        factory.getCompiler().rebase(data, 0, p[0].factory.getCompiler(), pData, result.data, 0);
-        return result;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public FieldDerivativeStructure<T> linearCombination(final FieldDerivativeStructure<T>[] a,
-                                                         final FieldDerivativeStructure<T>[] b)
-        throws MathIllegalArgumentException {
-
-        // compute an accurate value, taking care of cancellations
-        final T[] aT = MathArrays.buildArray(factory.getValueField(), a.length);
-        for (int i = 0; i < a.length; ++i) {
-            aT[i] = a[i].getValue();
-        }
-        final T[] bT = MathArrays.buildArray(factory.getValueField(), b.length);
-        for (int i = 0; i < b.length; ++i) {
-            bT[i] = b[i].getValue();
-        }
-        final T accurateValue = aT[0].linearCombination(aT, bT);
-
-        // compute a simple value, with all partial derivatives
-        FieldDerivativeStructure<T> simpleValue = a[0].getField().getZero();
-        for (int i = 0; i < a.length; ++i) {
-            simpleValue = simpleValue.add(a[i].multiply(b[i]));
-        }
-
-        // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
-        final T[] all = simpleValue.getAllDerivatives();
-        all[0] = accurateValue;
-        return factory.build(all);
-
+    public FieldDerivativeStructure<T> linearCombination(final FieldDerivativeStructure<T>[] a, final FieldDerivativeStructure<T>[] b) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1008,78 +795,28 @@ public class FieldDerivativeStructure<T extends CalculusFieldElement<T>>
      * @return <code>&Sigma;<sub>i</sub> a<sub>i</sub> b<sub>i</sub></code>.
      * @throws MathIllegalArgumentException if arrays dimensions don't match
      */
-    public FieldDerivativeStructure<T> linearCombination(final T[] a, final FieldDerivativeStructure<T>[] b)
-                    throws MathIllegalArgumentException {
-
-        // compute an accurate value, taking care of cancellations
-        final T[] bT = MathArrays.buildArray(factory.getValueField(), b.length);
-        for (int i = 0; i < b.length; ++i) {
-            bT[i] = b[i].getValue();
-        }
-        final T accurateValue = bT[0].linearCombination(a, bT);
-
-        // compute a simple value, with all partial derivatives
-        FieldDerivativeStructure<T> simpleValue = b[0].getField().getZero();
-        for (int i = 0; i < a.length; ++i) {
-            simpleValue = simpleValue.add(b[i].multiply(a[i]));
-        }
-
-        // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
-        final T[] all = simpleValue.getAllDerivatives();
-        all[0] = accurateValue;
-        return factory.build(all);
-
+    public FieldDerivativeStructure<T> linearCombination(final T[] a, final FieldDerivativeStructure<T>[] b) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public FieldDerivativeStructure<T> linearCombination(final double[] a, final FieldDerivativeStructure<T>[] b)
-        throws MathIllegalArgumentException {
-
-        // compute an accurate value, taking care of cancellations
-        final T[] bT = MathArrays.buildArray(factory.getValueField(), b.length);
-        for (int i = 0; i < b.length; ++i) {
-            bT[i] = b[i].getValue();
-        }
-        final T accurateValue = bT[0].linearCombination(a, bT);
-
-        // compute a simple value, with all partial derivatives
-        FieldDerivativeStructure<T> simpleValue = b[0].getField().getZero();
-        for (int i = 0; i < a.length; ++i) {
-            simpleValue = simpleValue.add(b[i].multiply(a[i]));
-        }
-
-        // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
-        final T[] all = simpleValue.getAllDerivatives();
-        all[0] = accurateValue;
-        return factory.build(all);
-
+    public FieldDerivativeStructure<T> linearCombination(final double[] a, final FieldDerivativeStructure<T>[] b) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public FieldDerivativeStructure<T> linearCombination(final FieldDerivativeStructure<T> a1, final FieldDerivativeStructure<T> b1,
-                                                         final FieldDerivativeStructure<T> a2, final FieldDerivativeStructure<T> b2)
-        throws MathIllegalArgumentException {
-
-        // compute an accurate value, taking care of cancellations
-        final T accurateValue = a1.getValue().linearCombination(a1.getValue(), b1.getValue(),
-                                                                a2.getValue(), b2.getValue());
-
-        // compute a simple value, with all partial derivatives
-        final FieldDerivativeStructure<T> simpleValue = a1.multiply(b1).add(a2.multiply(b2));
-
-        // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
-        final T[] all = simpleValue.getAllDerivatives();
-        all[0] = accurateValue;
-        return factory.build(all);
-
+    public FieldDerivativeStructure<T> linearCombination(final FieldDerivativeStructure<T> a1, final FieldDerivativeStructure<T> b1, final FieldDerivativeStructure<T> a2, final FieldDerivativeStructure<T> b2) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1094,66 +831,28 @@ public class FieldDerivativeStructure<T extends CalculusFieldElement<T>>
      * @see #linearCombination(double, FieldDerivativeStructure, double, FieldDerivativeStructure, double, FieldDerivativeStructure, double, FieldDerivativeStructure)
      * @exception MathIllegalArgumentException if number of free parameters or orders are inconsistent
      */
-    public FieldDerivativeStructure<T> linearCombination(final T a1, final FieldDerivativeStructure<T> b1,
-                                                         final T a2, final FieldDerivativeStructure<T> b2)
-        throws MathIllegalArgumentException {
-
-        factory.checkCompatibility(b1.factory);
-        factory.checkCompatibility(b2.factory);
-
-        final FieldDerivativeStructure<T> ds = factory.build();
-        factory.getCompiler().linearCombination(a1, b1.data, 0,
-                                                a2, b2.data, 0,
-                                                ds.data, 0);
-
-        return ds;
-
+    public FieldDerivativeStructure<T> linearCombination(final T a1, final FieldDerivativeStructure<T> b1, final T a2, final FieldDerivativeStructure<T> b2) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public FieldDerivativeStructure<T> linearCombination(final double a1, final FieldDerivativeStructure<T> b1,
-                                                         final double a2, final FieldDerivativeStructure<T> b2)
-        throws MathIllegalArgumentException {
-
-        factory.checkCompatibility(b1.factory);
-        factory.checkCompatibility(b2.factory);
-
-        final FieldDerivativeStructure<T> ds = factory.build();
-        factory.getCompiler().linearCombination(a1, b1.data, 0,
-                                                a2, b2.data, 0,
-                                                ds.data, 0);
-
-        return ds;
-
+    public FieldDerivativeStructure<T> linearCombination(final double a1, final FieldDerivativeStructure<T> b1, final double a2, final FieldDerivativeStructure<T> b2) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public FieldDerivativeStructure<T> linearCombination(final FieldDerivativeStructure<T> a1, final FieldDerivativeStructure<T> b1,
-                                                         final FieldDerivativeStructure<T> a2, final FieldDerivativeStructure<T> b2,
-                                                         final FieldDerivativeStructure<T> a3, final FieldDerivativeStructure<T> b3)
-        throws MathIllegalArgumentException {
-
-        // compute an accurate value, taking care of cancellations
-        final T accurateValue = a1.getValue().linearCombination(a1.getValue(), b1.getValue(),
-                                                                a2.getValue(), b2.getValue(),
-                                                                a3.getValue(), b3.getValue());
-
-        // compute a simple value, with all partial derivatives
-        final FieldDerivativeStructure<T> simpleValue = a1.multiply(b1).add(a2.multiply(b2)).add(a3.multiply(b3));
-
-        // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
-        final T[] all = simpleValue.getAllDerivatives();
-        all[0] = accurateValue;
-        return factory.build(all);
-
+    public FieldDerivativeStructure<T> linearCombination(final FieldDerivativeStructure<T> a1, final FieldDerivativeStructure<T> b1, final FieldDerivativeStructure<T> a2, final FieldDerivativeStructure<T> b2, final FieldDerivativeStructure<T> a3, final FieldDerivativeStructure<T> b3) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1170,74 +869,28 @@ public class FieldDerivativeStructure<T extends CalculusFieldElement<T>>
      * @see #linearCombination(double, FieldDerivativeStructure, double, FieldDerivativeStructure, double, FieldDerivativeStructure, double, FieldDerivativeStructure)
      * @exception MathIllegalArgumentException if number of free parameters or orders are inconsistent
      */
-    public FieldDerivativeStructure<T> linearCombination(final T a1, final FieldDerivativeStructure<T> b1,
-                                                         final T a2, final FieldDerivativeStructure<T> b2,
-                                                         final T a3, final FieldDerivativeStructure<T> b3)
-        throws MathIllegalArgumentException {
-
-        factory.checkCompatibility(b1.factory);
-        factory.checkCompatibility(b2.factory);
-        factory.checkCompatibility(b3.factory);
-
-        final FieldDerivativeStructure<T> ds = factory.build();
-        factory.getCompiler().linearCombination(a1, b1.data, 0,
-                                                a2, b2.data, 0,
-                                                a3, b3.data, 0,
-                                                ds.data, 0);
-
-        return ds;
-
+    public FieldDerivativeStructure<T> linearCombination(final T a1, final FieldDerivativeStructure<T> b1, final T a2, final FieldDerivativeStructure<T> b2, final T a3, final FieldDerivativeStructure<T> b3) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public FieldDerivativeStructure<T> linearCombination(final double a1, final FieldDerivativeStructure<T> b1,
-                                                         final double a2, final FieldDerivativeStructure<T> b2,
-                                                         final double a3, final FieldDerivativeStructure<T> b3)
-        throws MathIllegalArgumentException {
-
-        factory.checkCompatibility(b1.factory);
-        factory.checkCompatibility(b2.factory);
-        factory.checkCompatibility(b3.factory);
-
-        final FieldDerivativeStructure<T> ds = factory.build();
-        factory.getCompiler().linearCombination(a1, b1.data, 0,
-                                                a2, b2.data, 0,
-                                                a3, b3.data, 0,
-                                                ds.data, 0);
-
-        return ds;
-
+    public FieldDerivativeStructure<T> linearCombination(final double a1, final FieldDerivativeStructure<T> b1, final double a2, final FieldDerivativeStructure<T> b2, final double a3, final FieldDerivativeStructure<T> b3) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public FieldDerivativeStructure<T> linearCombination(final FieldDerivativeStructure<T> a1, final FieldDerivativeStructure<T> b1,
-                                                         final FieldDerivativeStructure<T> a2, final FieldDerivativeStructure<T> b2,
-                                                         final FieldDerivativeStructure<T> a3, final FieldDerivativeStructure<T> b3,
-                                                         final FieldDerivativeStructure<T> a4, final FieldDerivativeStructure<T> b4)
-        throws MathIllegalArgumentException {
-
-        // compute an accurate value, taking care of cancellations
-        final T accurateValue = a1.getValue().linearCombination(a1.getValue(), b1.getValue(),
-                                                                a2.getValue(), b2.getValue(),
-                                                                a3.getValue(), b3.getValue(),
-                                                                a4.getValue(), b4.getValue());
-
-        // compute a simple value, with all partial derivatives
-        final FieldDerivativeStructure<T> simpleValue = a1.multiply(b1).add(a2.multiply(b2)).add(a3.multiply(b3)).add(a4.multiply(b4));
-
-        // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
-        final T[] all = simpleValue.getAllDerivatives();
-        all[0] = accurateValue;
-        return factory.build(all);
-
+    public FieldDerivativeStructure<T> linearCombination(final FieldDerivativeStructure<T> a1, final FieldDerivativeStructure<T> b1, final FieldDerivativeStructure<T> a2, final FieldDerivativeStructure<T> b2, final FieldDerivativeStructure<T> a3, final FieldDerivativeStructure<T> b3, final FieldDerivativeStructure<T> a4, final FieldDerivativeStructure<T> b4) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1257,84 +910,42 @@ public class FieldDerivativeStructure<T extends CalculusFieldElement<T>>
      * @see #linearCombination(double, FieldDerivativeStructure, double, FieldDerivativeStructure, double, FieldDerivativeStructure)
      * @exception MathIllegalArgumentException if number of free parameters or orders are inconsistent
      */
-    public FieldDerivativeStructure<T> linearCombination(final T a1, final FieldDerivativeStructure<T> b1,
-                                                         final T a2, final FieldDerivativeStructure<T> b2,
-                                                         final T a3, final FieldDerivativeStructure<T> b3,
-                                                         final T a4, final FieldDerivativeStructure<T> b4)
-        throws MathIllegalArgumentException {
-
-        factory.checkCompatibility(b1.factory);
-        factory.checkCompatibility(b2.factory);
-        factory.checkCompatibility(b3.factory);
-        factory.checkCompatibility(b4.factory);
-
-        final FieldDerivativeStructure<T> ds = factory.build();
-        factory.getCompiler().linearCombination(a1, b1.data, 0,
-                                                a2, b2.data, 0,
-                                                a3, b3.data, 0,
-                                                a4, b4.data, 0,
-                                                ds.data, 0);
-
-        return ds;
-
+    public FieldDerivativeStructure<T> linearCombination(final T a1, final FieldDerivativeStructure<T> b1, final T a2, final FieldDerivativeStructure<T> b2, final T a3, final FieldDerivativeStructure<T> b3, final T a4, final FieldDerivativeStructure<T> b4) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public FieldDerivativeStructure<T> linearCombination(final double a1, final FieldDerivativeStructure<T> b1,
-                                                         final double a2, final FieldDerivativeStructure<T> b2,
-                                                         final double a3, final FieldDerivativeStructure<T> b3,
-                                                         final double a4, final FieldDerivativeStructure<T> b4)
-        throws MathIllegalArgumentException {
-
-        factory.checkCompatibility(b1.factory);
-        factory.checkCompatibility(b2.factory);
-        factory.checkCompatibility(b3.factory);
-        factory.checkCompatibility(b4.factory);
-
-        final FieldDerivativeStructure<T> ds = factory.build();
-        factory.getCompiler().linearCombination(a1, b1.data, 0,
-                                                a2, b2.data, 0,
-                                                a3, b3.data, 0,
-                                                a4, b4.data, 0,
-                                                ds.data, 0);
-
-        return ds;
-
+    public FieldDerivativeStructure<T> linearCombination(final double a1, final FieldDerivativeStructure<T> b1, final double a2, final FieldDerivativeStructure<T> b2, final double a3, final FieldDerivativeStructure<T> b3, final double a4, final FieldDerivativeStructure<T> b4) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double norm() {
-        double sum = 0.;
-        for (final T derivative: data) {
-            sum += derivative.norm();
-        }
-        return sum;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldDerivativeStructure<T> getPi() {
-        return factory.getDerivativeField().getPi();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSmall(final FieldDerivativeStructure<T> base, final double relativeThreshold) {
-        if (data.length != base.data.length) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   data.length, base.data.length);
-        }
-        boolean ok = true;
-        for (int i = 0; i < data.length && ok; ++i) {
-            ok = data[i].isSmall(base.data[i], relativeThreshold);
-        }
-        return ok;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1348,21 +959,7 @@ public class FieldDerivativeStructure<T extends CalculusFieldElement<T>>
      */
     @Override
     public boolean equals(Object other) {
-
-        if (this == other) {
-            return true;
-        }
-
-        if (other instanceof FieldDerivativeStructure &&
-            ((FieldDerivativeStructure<?>) other).getField().equals(getField())) {
-            final FieldDerivativeStructure<T> rhs = (FieldDerivativeStructure<T>) other;
-            return (getFreeParameters() == rhs.getFreeParameters()) &&
-                   (getOrder() == rhs.getOrder()) &&
-                   MathArrays.equals(data, rhs.data);
-        }
-
-        return false;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1371,7 +968,6 @@ public class FieldDerivativeStructure<T extends CalculusFieldElement<T>>
      */
     @Override
     public int hashCode() {
-        return 227 + 229 * getFreeParameters() + 233 * getOrder() + 239 * Arrays.hashCode(data);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

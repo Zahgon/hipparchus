@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.filtering;
 
 import org.hipparchus.exception.Localizable;
-
 import java.util.Locale;
 
 /**
@@ -41,13 +39,18 @@ import java.util.Locale;
  */
 public enum LocalizedFilterFormats implements Localizable {
 
-    /** PROCESS_AT_LEAST_ONE_MEASUREMENT. */
+    /**
+     * PROCESS_AT_LEAST_ONE_MEASUREMENT.
+     */
     PROCESS_AT_LEAST_ONE_MEASUREMENT("at least one measurement must be processed before smoothing");
 
-    /** Source English format. */
+    /**
+     * Source English format.
+     */
     private final String sourceFormat;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param sourceFormat source English format to use when no
      * localized version is available
      */
@@ -55,17 +58,19 @@ public enum LocalizedFilterFormats implements Localizable {
         this.sourceFormat = sourceFormat;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getSourceString() {
-        return sourceFormat;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getLocalizedString(final Locale locale) {
-        return getLocalizedString("assets/" + LocalizedFilterFormats.class.getName().replaceAll("\\.", "/"),
-                                  name(), locale);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

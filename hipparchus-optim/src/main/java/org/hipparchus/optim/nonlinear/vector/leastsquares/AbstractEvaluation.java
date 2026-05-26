@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -35,7 +34,9 @@ import org.hipparchus.util.FastMath;
  */
 public abstract class AbstractEvaluation implements Evaluation {
 
-    /** number of observations */
+    /**
+     * number of observations
+     */
     private final int observationSize;
 
     /**
@@ -48,55 +49,51 @@ public abstract class AbstractEvaluation implements Evaluation {
         this.observationSize = observationSize;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealMatrix getCovariances(double threshold) {
-        // Set up the Jacobian.
-        final RealMatrix j = this.getJacobian();
-
-        // Compute transpose(J)J.
-        final RealMatrix jTj = j.transposeMultiply(j);
-
-        // Compute the covariances matrix.
-        final DecompositionSolver solver
-                = new QRDecomposition(jTj, threshold).getSolver();
-        return solver.getInverse();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector getSigma(double covarianceSingularityThreshold) {
-        final RealMatrix cov = this.getCovariances(covarianceSingularityThreshold);
-        final int nC = cov.getColumnDimension();
-        final RealVector sig = new ArrayRealVector(nC);
-        for (int i = 0; i < nC; ++i) {
-            sig.setEntry(i, FastMath.sqrt(cov.getEntry(i,i)));
-        }
-        return sig;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getRMS() {
-        return FastMath.sqrt(getReducedChiSquare(1));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getCost() {
-        return FastMath.sqrt(getChiSquare());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getChiSquare() {
-        final ArrayRealVector r = new ArrayRealVector(getResiduals());
-        return r.dotProduct(r);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getReducedChiSquare(int numberOfFittedParameters) {
-        return getChiSquare() / (observationSize - numberOfFittedParameters + 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

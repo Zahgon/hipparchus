@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.fitting;
 
 import java.util.Collection;
-
 import org.hipparchus.analysis.ParametricUnivariateFunction;
 import org.hipparchus.linear.DiagonalMatrix;
 import org.hipparchus.optim.nonlinear.vector.leastsquares.LeastSquaresBuilder;
@@ -30,14 +28,22 @@ import org.hipparchus.optim.nonlinear.vector.leastsquares.LeastSquaresProblem;
 
 /**
  * Fits points to a user-defined {@link ParametricUnivariateFunction function}.
- *
  */
 public class SimpleCurveFitter extends AbstractCurveFitter {
-    /** Function to fit. */
+
+    /**
+     * Function to fit.
+     */
     private final ParametricUnivariateFunction function;
-    /** Initial guess for the parameters. */
+
+    /**
+     * Initial guess for the parameters.
+     */
     private final double[] initialGuess;
-    /** Maximum number of iterations of the optimization algorithm. */
+
+    /**
+     * Maximum number of iterations of the optimization algorithm.
+     */
     private final int maxIter;
 
     /**
@@ -68,9 +74,8 @@ public class SimpleCurveFitter extends AbstractCurveFitter {
      * @see #withStartPoint(double[])
      * @see #withMaxIterations(int)
      */
-    public static SimpleCurveFitter create(ParametricUnivariateFunction f,
-                                           double[] start) {
-        return new SimpleCurveFitter(f, start, Integer.MAX_VALUE);
+    public static SimpleCurveFitter create(ParametricUnivariateFunction f, double[] start) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -79,9 +84,7 @@ public class SimpleCurveFitter extends AbstractCurveFitter {
      * @return a new instance.
      */
     public SimpleCurveFitter withStartPoint(double[] newStart) {
-        return new SimpleCurveFitter(function,
-                                     newStart.clone(),
-                                     maxIter);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -90,38 +93,14 @@ public class SimpleCurveFitter extends AbstractCurveFitter {
      * @return a new instance.
      */
     public SimpleCurveFitter withMaxIterations(int newMaxIter) {
-        return new SimpleCurveFitter(function,
-                                     initialGuess,
-                                     newMaxIter);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected LeastSquaresProblem getProblem(Collection<WeightedObservedPoint> observations) {
-        // Prepare least-squares problem.
-        final int len = observations.size();
-        final double[] target  = new double[len];
-        final double[] weights = new double[len];
-
-        int count = 0;
-        for (WeightedObservedPoint obs : observations) {
-            target[count]  = obs.getY();
-            weights[count] = obs.getWeight();
-            ++count;
-        }
-
-        final AbstractCurveFitter.TheoreticalValuesFunction model
-            = new AbstractCurveFitter.TheoreticalValuesFunction(function,
-                                                                observations);
-
-        // Create an optimizer for fitting the curve to the observed points.
-        return new LeastSquaresBuilder().
-                maxEvaluations(Integer.MAX_VALUE).
-                maxIterations(maxIter).
-                start(initialGuess).
-                target(target).
-                weight(new DiagonalMatrix(weights)).
-                model(model.getModelFunction(), model.getModelFunctionJacobian()).
-                build();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

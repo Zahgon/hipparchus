@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,22 +21,32 @@
 package org.hipparchus.optim.nonlinear.scalar.noderiv;
 
 import java.util.Comparator;
-
 import org.hipparchus.analysis.MultivariateFunction;
 import org.hipparchus.optim.PointValuePair;
 
 /**
  * This class implements the multi-directional direct search method.
- *
  */
 public class MultiDirectionalSimplex extends AbstractSimplex {
-    /** Default value for {@link #khi}: {@value}. */
+
+    /**
+     * Default value for {@link #khi}: {@value}.
+     */
     private static final double DEFAULT_KHI = 2;
-    /** Default value for {@link #gamma}: {@value}. */
+
+    /**
+     * Default value for {@link #gamma}: {@value}.
+     */
     private static final double DEFAULT_GAMMA = 0.5;
-    /** Expansion coefficient. */
+
+    /**
+     * Expansion coefficient.
+     */
     private final double khi;
-    /** Contraction coefficient. */
+
+    /**
+     * Contraction coefficient.
+     */
     private final double gamma;
 
     /**
@@ -70,8 +79,7 @@ public class MultiDirectionalSimplex extends AbstractSimplex {
      * @param khi Expansion coefficient.
      * @param gamma Contraction coefficient.
      */
-    public MultiDirectionalSimplex(final int n,
-                                   final double khi, final double gamma) {
+    public MultiDirectionalSimplex(final int n, final double khi, final double gamma) {
         this(n, 1d, khi, gamma);
     }
 
@@ -85,11 +93,9 @@ public class MultiDirectionalSimplex extends AbstractSimplex {
      * @param khi Expansion coefficient.
      * @param gamma Contraction coefficient.
      */
-    public MultiDirectionalSimplex(final int n, double sideLength,
-                                   final double khi, final double gamma) {
+    public MultiDirectionalSimplex(final int n, double sideLength, final double khi, final double gamma) {
         super(n, sideLength);
-
-        this.khi   = khi;
+        this.khi = khi;
         this.gamma = gamma;
     }
 
@@ -113,11 +119,9 @@ public class MultiDirectionalSimplex extends AbstractSimplex {
      * @param khi Expansion coefficient.
      * @param gamma Contraction coefficient.
      */
-    public MultiDirectionalSimplex(final double[] steps,
-                                   final double khi, final double gamma) {
+    public MultiDirectionalSimplex(final double[] steps, final double khi, final double gamma) {
         super(steps);
-
-        this.khi   = khi;
+        this.khi = khi;
         this.gamma = gamma;
     }
 
@@ -144,41 +148,18 @@ public class MultiDirectionalSimplex extends AbstractSimplex {
      * @throws org.hipparchus.exception.MathIllegalArgumentException
      * if there is a dimension mismatch in the reference simplex.
      */
-    public MultiDirectionalSimplex(final double[][] referenceSimplex,
-                                   final double khi, final double gamma) {
+    public MultiDirectionalSimplex(final double[][] referenceSimplex, final double khi, final double gamma) {
         super(referenceSimplex);
-
-        this.khi   = khi;
+        this.khi = khi;
         this.gamma = gamma;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void iterate(final MultivariateFunction evaluationFunction,
-                        final Comparator<PointValuePair> comparator) {
-        // Save the original simplex.
-        final PointValuePair[] original = getPoints();
-        final PointValuePair best = original[0];
-
-        // Perform a reflection step.
-        final PointValuePair reflected = evaluateNewSimplex(evaluationFunction,
-                                                                original, 1, comparator);
-        if (comparator.compare(reflected, best) < 0) {
-            // Compute the expanded simplex.
-            final PointValuePair[] reflectedSimplex = getPoints();
-            final PointValuePair expanded = evaluateNewSimplex(evaluationFunction,
-                                                                   original, khi, comparator);
-            if (comparator.compare(reflected, expanded) <= 0) {
-                // Keep the reflected simplex.
-                setPoints(reflectedSimplex);
-            }
-            // Keep the expanded simplex.
-            return;
-        }
-
-        // Compute the contracted simplex.
-        evaluateNewSimplex(evaluationFunction, original, gamma, comparator);
-
+    public void iterate(final MultivariateFunction evaluationFunction, final Comparator<PointValuePair> comparator) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -193,10 +174,7 @@ public class MultiDirectionalSimplex extends AbstractSimplex {
      * @throws org.hipparchus.exception.MathIllegalStateException
      * if the maximal number of evaluations is exceeded.
      */
-    private PointValuePair evaluateNewSimplex(final MultivariateFunction evaluationFunction,
-                                                  final PointValuePair[] original,
-                                                  final double coeff,
-                                                  final Comparator<PointValuePair> comparator) {
+    private PointValuePair evaluateNewSimplex(final MultivariateFunction evaluationFunction, final PointValuePair[] original, final double coeff, final Comparator<PointValuePair> comparator) {
         final double[] xSmallest = original[0].getPointRef();
         // Perform a linear transformation on all the simplex points,
         // except the first one.
@@ -210,10 +188,8 @@ public class MultiDirectionalSimplex extends AbstractSimplex {
             }
             setPoint(i, new PointValuePair(xTransformed, Double.NaN, false));
         }
-
         // Evaluate the simplex.
         evaluate(evaluationFunction, comparator);
-
         return getPoint(0);
     }
 }

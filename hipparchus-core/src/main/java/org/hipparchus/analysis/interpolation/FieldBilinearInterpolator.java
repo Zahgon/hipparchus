@@ -24,25 +24,26 @@ import org.hipparchus.exception.MathIllegalArgumentException;
  * @param <T> type of the field elements
  * @since 4.0
  */
-public class FieldBilinearInterpolator<T extends CalculusFieldElement<T>>
-    implements FieldBivariateGridInterpolator<T> {
+public class FieldBilinearInterpolator<T extends CalculusFieldElement<T>> implements FieldBivariateGridInterpolator<T> {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public FieldBilinearInterpolator() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public FieldBilinearInterpolator() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldBilinearInterpolatingFunction<T> interpolate(final T[] xval, final T[] yval, final T[][] fval)
-        throws MathIllegalArgumentException {
-        return new FieldBilinearInterpolatingFunction<>(xval, yval, fval);
+    public FieldBilinearInterpolatingFunction<T> interpolate(final T[] xval, final T[] yval, final T[][] fval) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

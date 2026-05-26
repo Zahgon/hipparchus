@@ -17,87 +17,80 @@
 package org.hipparchus.analysis.differentiation;
 
 import java.util.concurrent.atomic.AtomicReference;
-
 import org.hipparchus.Field;
 import org.hipparchus.util.FastMath;
 
-/** Field for {@link Gradient} instances.
+/**
+ * Field for {@link Gradient} instances.
  * @since 1.7
  */
 public class GradientField implements Field<Gradient> {
 
-    /** Array of all fields created so far. */
+    /**
+     * Array of all fields created so far.
+     */
     private static AtomicReference<GradientField[]> fields = new AtomicReference<>(null);
 
-    /** Zero constant. */
+    /**
+     * Zero constant.
+     */
     private final Gradient zero;
 
-    /** One constant. */
+    /**
+     * One constant.
+     */
     private final Gradient one;
 
-    /** Associated factory for conversions to {@link DerivativeStructure}. */
+    /**
+     * Associated factory for conversions to {@link DerivativeStructure}.
+     */
     private final DSFactory factory;
 
-    /** Private constructor.
+    /**
+     * Private constructor.
      * @param parameters number of free parameters
      */
     private GradientField(final int parameters) {
-        zero    = new Gradient(0.0, new double[parameters]);
-        one     = new Gradient(1.0, new double[parameters]);
+        zero = new Gradient(0.0, new double[parameters]);
+        one = new Gradient(1.0, new double[parameters]);
         factory = new DSFactory(parameters, 1);
     }
 
-    /** Get the field for number of free parameters.
+    /**
+     * Get the field for number of free parameters.
      * @param parameters number of free parameters
      * @return cached field
      */
     public static GradientField getField(int parameters) {
-
-        // get the cached fields
-        final GradientField[] cache = fields.get();
-        if (cache != null && cache.length > parameters && cache[parameters] != null) {
-            // the field has already been created
-            return cache[parameters];
-        }
-
-        // we need to create a new field
-        final int maxParameters = FastMath.max(parameters, cache == null ? 0 : cache.length);
-        final GradientField[] newCache = new GradientField[maxParameters + 1];
-
-        if (cache != null) {
-            // preserve the already created fields
-            System.arraycopy(cache, 0, newCache, 0, cache.length);
-        }
-
-        // create the new field
-        newCache[parameters] = new GradientField(parameters);
-
-        // atomically reset the cached fileds array
-        fields.compareAndSet(cache, newCache);
-
-        return newCache[parameters];
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Gradient getOne() {
-        return one;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Gradient getZero() {
-        return zero;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Class<Gradient> getRuntimeClass() {
-        return Gradient.class;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the factory for converting to {@link DerivativeStructure}.
+    /**
+     * Get the factory for converting to {@link DerivativeStructure}.
      * <p>
      * This factory is used only for conversions. {@code Gradient} by
      * itself does not rely at all on {@link DSFactory}, {@link DSCompiler}
@@ -109,19 +102,22 @@ public class GradientField implements Field<Gradient> {
      * @return factory for conversions
      */
     DSFactory getConversionFactory() {
-        return factory;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(final Object other) {
-        return this == other;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
-        return 0x26ca1af0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

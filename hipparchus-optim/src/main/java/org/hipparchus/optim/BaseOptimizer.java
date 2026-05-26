@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -33,35 +32,42 @@ import org.hipparchus.util.Incrementor;
  *
  * @param <P> Type of the point/value pair returned by the optimization
  * algorithm.
- *
  */
 public abstract class BaseOptimizer<P> {
-    /** Evaluations counter. */
+
+    /**
+     * Evaluations counter.
+     */
     protected Incrementor evaluations;
-    /** Iterations counter. */
+
+    /**
+     * Iterations counter.
+     */
     protected Incrementor iterations;
-    /** Convergence checker. */
+
+    /**
+     * Convergence checker.
+     */
     private final ConvergenceChecker<P> checker;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param checker Convergence checker.
      */
     protected BaseOptimizer(ConvergenceChecker<P> checker) {
         this(checker, 0, Integer.MAX_VALUE);
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param checker Convergence checker.
      * @param maxEval Maximum number of objective function evaluations.
      * @param maxIter Maximum number of algorithm iterations.
      */
-    protected BaseOptimizer(ConvergenceChecker<P> checker,
-                            int maxEval,
-                            int maxIter) {
+    protected BaseOptimizer(ConvergenceChecker<P> checker, int maxEval, int maxIter) {
         this.checker = checker;
-
         evaluations = new Incrementor(maxEval);
-        iterations  = new Incrementor(maxIter);
+        iterations = new Incrementor(maxIter);
     }
 
     /**
@@ -70,7 +76,7 @@ public abstract class BaseOptimizer<P> {
      * @return the maximal number of function evaluations.
      */
     public int getMaxEvaluations() {
-        return evaluations.getMaximalCount();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -82,7 +88,7 @@ public abstract class BaseOptimizer<P> {
      * @return the number of evaluations of the objective function.
      */
     public int getEvaluations() {
-        return evaluations.getCount();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -91,7 +97,7 @@ public abstract class BaseOptimizer<P> {
      * @return the maximal number of iterations.
      */
     public int getMaxIterations() {
-        return iterations.getMaximalCount();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -103,7 +109,7 @@ public abstract class BaseOptimizer<P> {
      * @return the number of evaluations of the objective function.
      */
     public int getIterations() {
-        return iterations.getCount();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -112,7 +118,7 @@ public abstract class BaseOptimizer<P> {
      * @return the object used to check for convergence.
      */
     public ConvergenceChecker<P> getConvergenceChecker() {
-        return checker;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -143,16 +149,8 @@ public abstract class BaseOptimizer<P> {
      * @throws MathIllegalStateException if the maximal number of
      * iterations is exceeded.
      */
-    public P optimize(OptimizationData... optData)
-        throws MathIllegalStateException {
-        // Parse options.
-        parseOptimizationData(optData);
-
-        // Reset counters.
-        evaluations.reset();
-        iterations.reset();
-        // Perform optimization.
-        return doOptimize();
+    public P optimize(OptimizationData... optData) throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -164,13 +162,8 @@ public abstract class BaseOptimizer<P> {
      * @throws MathIllegalStateException if the maximal number of
      * iterations is exceeded.
      */
-    public P optimize()
-        throws MathIllegalStateException {
-        // Reset counters.
-        evaluations.reset();
-        iterations.reset();
-        // Perform optimization.
-        return doOptimize();
+    public P optimize() throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -187,9 +180,8 @@ public abstract class BaseOptimizer<P> {
      * @throws MathIllegalStateException if the allowed evaluations
      * have been exhausted.
      */
-    protected void incrementEvaluationCount()
-        throws MathIllegalStateException {
-        evaluations.increment();
+    protected void incrementEvaluationCount() throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -198,9 +190,8 @@ public abstract class BaseOptimizer<P> {
      * @throws MathIllegalStateException if the allowed iterations
      * have been exhausted.
      */
-    protected void incrementIterationCount()
-        throws MathIllegalStateException {
-        iterations.increment();
+    protected void incrementIterationCount() throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -215,17 +206,6 @@ public abstract class BaseOptimizer<P> {
      * </ul>
      */
     protected void parseOptimizationData(OptimizationData... optData) {
-        // The existing values (as set by the previous call) are reused if
-        // not provided in the argument list.
-        for (OptimizationData data : optData) {
-            if (data instanceof MaxEval) {
-                evaluations = evaluations.withMaximalCount(((MaxEval) data).getMaxEval());
-                continue;
-            }
-            if (data instanceof MaxIter) {
-                iterations = iterations.withMaximalCount(((MaxIter) data).getMaxIter());
-                continue;
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

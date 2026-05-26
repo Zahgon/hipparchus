@@ -21,7 +21,6 @@ import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.util.FastMath;
 import org.hipparchus.util.MathArrays;
-
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -50,61 +49,67 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class FieldGridAxis<T extends CalculusFieldElement<T>> {
 
-    /** All the coordinates of the interpolation points, sorted in increasing order. */
+    /**
+     * All the coordinates of the interpolation points, sorted in increasing order.
+     */
     private final T[] grid;
 
-    /** Number of points required for interpolation. */
+    /**
+     * Number of points required for interpolation.
+     */
     private final int n;
 
-    /** Cached value of last x index. */
+    /**
+     * Cached value of last x index.
+     */
     private final AtomicInteger cache;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param grid coordinates of the interpolation points, sorted in increasing order
      * @param n number of points required for interpolation, i.e. 2 for linear, 3
      * for quadratic...
      * @exception MathIllegalArgumentException if grid size is smaller than {@code n}
      * or if the grid is not sorted in strict increasing order
      */
-    public FieldGridAxis(final T[] grid, final int n)
-        throws MathIllegalArgumentException {
-
+    public FieldGridAxis(final T[] grid, final int n) throws MathIllegalArgumentException {
         // safety checks
         if (grid.length < n) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INSUFFICIENT_DIMENSION,
-                                                   grid.length, n);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.INSUFFICIENT_DIMENSION, grid.length, n);
         }
         MathArrays.checkOrder(grid);
-
-        this.grid  = grid.clone();
-        this.n     = n;
+        this.grid = grid.clone();
+        this.n = n;
         this.cache = new AtomicInteger(0);
-
     }
 
-    /** Get the number of points of the grid.
+    /**
+     * Get the number of points of the grid.
      * @return number of points of the grid
      */
     public int size() {
-        return grid.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the number of points required for interpolation.
+    /**
+     * Get the number of points required for interpolation.
      * @return number of points required for interpolation
      */
     public int getN() {
-        return n;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the interpolation node at specified index.
+    /**
+     * Get the interpolation node at specified index.
      * @param index node index
      * @return coordinate of the node at specified index
      */
     public T node(final int index) {
-        return grid[index];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the index of the first interpolation node for some coordinate along the grid.
+    /**
+     * Get the index of the first interpolation node for some coordinate along the grid.
      * <p>
      * The index return is the one for the lowest interpolation node suitable for
      * {@code t}. This means that if {@code i} is returned the nodes to use for
@@ -155,53 +160,6 @@ public class FieldGridAxis<T extends CalculusFieldElement<T>> {
      * @since 1.4
      */
     public int interpolationIndex(final T t) {
-
-        final int middleOffset = (n - 1) / 2;
-        int iInf = middleOffset;
-        int iSup = grid.length - (n - 1) + middleOffset;
-
-        // first try to simply reuse the cached index,
-        // for faster return in a common case
-        final int    cached = cache.get();
-        final int    middle = cached + middleOffset;
-        final T aMid0  = grid[middle];
-        final T aMid1  = grid[middle + 1];
-        if (t.getReal() < aMid0.getReal()) {
-            if (middle == iInf) {
-                // we are in the unbalanced low area
-                return cached;
-            }
-        } else if (t.getReal() < aMid1.getReal()) {
-            // we are in the balanced middle area
-            return cached;
-        } else {
-            if (middle == iSup - 1) {
-                // we are in the unbalanced high area
-                return cached;
-            }
-        }
-
-        // we need to find a new index
-        T aInf = grid[iInf];
-        T aSup = grid[iSup];
-        while (iSup - iInf > 1) {
-            final int iInterp = (int) ((iInf * (aSup.getReal() - t.getReal()) + iSup * (t.getReal() - aInf.getReal())) / (aSup.getReal() - aInf.getReal()));
-            final int iMed    = FastMath.max(iInf + 1, FastMath.min(iInterp, iSup - 1));
-            if (t.getReal() < grid[iMed].getReal()) {
-                // keeps looking in the lower part of the grid
-                iSup = iMed;
-                aSup = grid[iSup];
-            } else {
-                // keeps looking in the upper part of the grid
-                iInf = iMed;
-                aInf = grid[iInf];
-            }
-        }
-
-       final int newCached = iInf - middleOffset;
-       cache.compareAndSet(cached, newCached);
-       return newCached;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

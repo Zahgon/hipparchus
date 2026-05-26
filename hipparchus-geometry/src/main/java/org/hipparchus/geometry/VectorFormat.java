@@ -14,19 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.geometry;
 
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Locale;
-
 import org.hipparchus.exception.MathIllegalStateException;
 import org.hipparchus.util.CompositeFormat;
 
@@ -47,36 +44,56 @@ import org.hipparchus.util.CompositeFormat;
  * @param <S> Type of the space.
  * @param <V> Type of vector implementing Vector interface.
  */
-public abstract class VectorFormat<S extends Space, V extends Vector<S,V>> {
+public abstract class VectorFormat<S extends Space, V extends Vector<S, V>> {
 
-    /** The default prefix: "{". */
+    /**
+     * The default prefix: "{".
+     */
     public static final String DEFAULT_PREFIX = "{";
 
-    /** The default suffix: "}". */
+    /**
+     * The default suffix: "}".
+     */
     public static final String DEFAULT_SUFFIX = "}";
 
-    /** The default separator: ", ". */
+    /**
+     * The default separator: ", ".
+     */
     public static final String DEFAULT_SEPARATOR = "; ";
 
-    /** Prefix. */
+    /**
+     * Prefix.
+     */
     private final String prefix;
 
-    /** Suffix. */
+    /**
+     * Suffix.
+     */
     private final String suffix;
 
-    /** Separator. */
+    /**
+     * Separator.
+     */
     private final String separator;
 
-    /** Trimmed prefix. */
+    /**
+     * Trimmed prefix.
+     */
     private final String trimmedPrefix;
 
-    /** Trimmed suffix. */
+    /**
+     * Trimmed suffix.
+     */
     private final String trimmedSuffix;
 
-    /** Trimmed separator. */
+    /**
+     * Trimmed separator.
+     */
     private final String trimmedSeparator;
 
-    /** The format used for components. */
+    /**
+     * The format used for components.
+     */
     private final NumberFormat format;
 
     /**
@@ -85,8 +102,7 @@ public abstract class VectorFormat<S extends Space, V extends Vector<S,V>> {
      * "{", "}", and "; " and the default number format for components.</p>
      */
     protected VectorFormat() {
-        this(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_SEPARATOR,
-             CompositeFormat.getDefaultNumberFormat());
+        this(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_SEPARATOR, CompositeFormat.getDefaultNumberFormat());
     }
 
     /**
@@ -103,8 +119,7 @@ public abstract class VectorFormat<S extends Space, V extends Vector<S,V>> {
      * @param suffix suffix to use instead of the default "}"
      * @param separator separator to use instead of the default "; "
      */
-    protected VectorFormat(final String prefix, final String suffix,
-                          final String separator) {
+    protected VectorFormat(final String prefix, final String suffix, final String separator) {
         this(prefix, suffix, separator, CompositeFormat.getDefaultNumberFormat());
     }
 
@@ -116,15 +131,14 @@ public abstract class VectorFormat<S extends Space, V extends Vector<S,V>> {
      * @param separator separator to use instead of the default "; "
      * @param format the custom format for components.
      */
-    protected VectorFormat(final String prefix, final String suffix,
-                          final String separator, final NumberFormat format) {
-        this.prefix      = prefix;
-        this.suffix      = suffix;
-        this.separator   = separator;
-        trimmedPrefix    = prefix.trim();
-        trimmedSuffix    = suffix.trim();
+    protected VectorFormat(final String prefix, final String suffix, final String separator, final NumberFormat format) {
+        this.prefix = prefix;
+        this.suffix = suffix;
+        this.separator = separator;
+        trimmedPrefix = prefix.trim();
+        trimmedSuffix = suffix.trim();
         trimmedSeparator = separator.trim();
-        this.format      = format;
+        this.format = format;
     }
 
     /**
@@ -133,7 +147,7 @@ public abstract class VectorFormat<S extends Space, V extends Vector<S,V>> {
      * @return available point/vector format locales.
      */
     public static Locale[] getAvailableLocales() {
-        return NumberFormat.getAvailableLocales();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -141,7 +155,7 @@ public abstract class VectorFormat<S extends Space, V extends Vector<S,V>> {
      * @return format prefix.
      */
     public String getPrefix() {
-        return prefix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -149,7 +163,7 @@ public abstract class VectorFormat<S extends Space, V extends Vector<S,V>> {
      * @return format suffix.
      */
     public String getSuffix() {
-        return suffix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -157,7 +171,7 @@ public abstract class VectorFormat<S extends Space, V extends Vector<S,V>> {
      * @return format separator.
      */
     public String getSeparator() {
-        return separator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -165,7 +179,7 @@ public abstract class VectorFormat<S extends Space, V extends Vector<S,V>> {
      * @return components format.
      */
     public NumberFormat getFormat() {
-        return format;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -174,7 +188,7 @@ public abstract class VectorFormat<S extends Space, V extends Vector<S,V>> {
      * @return a formatted string.
      */
     public String format(Vector<S, V> vector) {
-        return format(vector, new StringBuffer(), new FieldPosition(0)).toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -185,8 +199,7 @@ public abstract class VectorFormat<S extends Space, V extends Vector<S,V>> {
      *            offsets of the alignment field
      * @return the value passed in as toAppendTo.
      */
-    public abstract StringBuffer format(Vector<S, V> vector,
-                                        StringBuffer toAppendTo, FieldPosition pos);
+    public abstract StringBuffer format(Vector<S, V> vector, StringBuffer toAppendTo, FieldPosition pos);
 
     /**
      * Formats the coordinates of a {@link Vector} to produce a string.
@@ -196,28 +209,8 @@ public abstract class VectorFormat<S extends Space, V extends Vector<S,V>> {
      * @param coordinates coordinates of the object to format.
      * @return the value passed in as toAppendTo.
      */
-    protected StringBuffer format(StringBuffer toAppendTo, FieldPosition pos,
-                                  double ... coordinates) {
-
-        pos.setBeginIndex(0);
-        pos.setEndIndex(0);
-
-        // format prefix
-        toAppendTo.append(prefix);
-
-        // format components
-        for (int i = 0; i < coordinates.length; ++i) {
-            if (i > 0) {
-                toAppendTo.append(separator);
-            }
-            CompositeFormat.formatDouble(coordinates[i], format, toAppendTo, pos);
-        }
-
-        // format suffix
-        toAppendTo.append(suffix);
-
-        return toAppendTo;
-
+    protected StringBuffer format(StringBuffer toAppendTo, FieldPosition pos, double... coordinates) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -245,51 +238,6 @@ public abstract class VectorFormat<S extends Space, V extends Vector<S,V>> {
      * @return coordinates array.
      */
     protected double[] parseCoordinates(int dimension, String source, ParsePosition pos) {
-
-        int initialIndex = pos.getIndex();
-        double[] coordinates = new double[dimension];
-
-        // parse prefix
-        CompositeFormat.parseAndIgnoreWhitespace(source, pos);
-        if (!CompositeFormat.parseFixedstring(source, trimmedPrefix, pos)) {
-            return null; // NOPMD
-        }
-
-        for (int i = 0; i < dimension; ++i) {
-
-            // skip whitespace
-            CompositeFormat.parseAndIgnoreWhitespace(source, pos);
-
-            // parse separator
-            if (i > 0 && !CompositeFormat.parseFixedstring(source, trimmedSeparator, pos)) {
-                return null; // NOPMD
-            }
-
-            // skip whitespace
-            CompositeFormat.parseAndIgnoreWhitespace(source, pos);
-
-            // parse coordinate
-            Number c = CompositeFormat.parseNumber(source, format, pos);
-            if (c == null) {
-                // invalid coordinate
-                // set index back to initial, error index should already be set
-                pos.setIndex(initialIndex);
-                return null; // NOPMD
-            }
-
-            // store coordinate
-            coordinates[i] = c.doubleValue();
-
-        }
-
-        // parse suffix
-        CompositeFormat.parseAndIgnoreWhitespace(source, pos);
-        if (!CompositeFormat.parseFixedstring(source, trimmedSuffix, pos)) {
-            return null; // NOPMD
-        }
-
-        return coordinates;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

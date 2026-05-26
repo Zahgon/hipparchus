@@ -14,16 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.stat.descriptive.moment;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.NullArgumentException;
 import org.hipparchus.stat.StatUtils;
@@ -70,7 +67,9 @@ public class SemiVariance extends AbstractUnivariateStatistic implements Seriali
      */
     public static final Direction DOWNSIDE_VARIANCE = Direction.DOWNSIDE;
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20150412L;
 
     /**
@@ -127,7 +126,7 @@ public class SemiVariance extends AbstractUnivariateStatistic implements Seriali
      * to calculate
      */
     public SemiVariance(final boolean corrected, final Direction direction) {
-        this.biasCorrected     = corrected;
+        this.biasCorrected = corrected;
         this.varianceDirection = direction;
     }
 
@@ -140,14 +139,16 @@ public class SemiVariance extends AbstractUnivariateStatistic implements Seriali
      */
     public SemiVariance(final SemiVariance original) throws NullArgumentException {
         super(original);
-        this.biasCorrected     = original.biasCorrected;
+        this.biasCorrected = original.biasCorrected;
         this.varianceDirection = original.varianceDirection;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SemiVariance copy() {
-        return new SemiVariance(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -163,184 +164,152 @@ public class SemiVariance extends AbstractUnivariateStatistic implements Seriali
      * @return the SemiVariance
      * @throws MathIllegalArgumentException if the parameters are not valid
      */
-     @Override
-     public double evaluate(final double[] values, final int start, final int length)
-         throws MathIllegalArgumentException {
-         double m = StatUtils.mean(values, start, length);
-         return evaluate(values, m, varianceDirection, biasCorrected, start, length);
-     }
+    @Override
+    public double evaluate(final double[] values, final int start, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-     /**
-      * This method calculates {@link SemiVariance} for the entire array against the mean,
-      * using the current value of the biasCorrection instance property.
-      *
-      * @param values the input array
-      * @param direction the {@link Direction} of the semivariance
-      * @return the SemiVariance
-      * @throws MathIllegalArgumentException if values is null
-      */
-     public double evaluate(final double[] values, Direction direction)
-         throws MathIllegalArgumentException {
-         double m = StatUtils.mean(values);
-         return evaluate(values, m, direction, biasCorrected, 0, values.length);
-     }
+    /**
+     * This method calculates {@link SemiVariance} for the entire array against the mean,
+     * using the current value of the biasCorrection instance property.
+     *
+     * @param values the input array
+     * @param direction the {@link Direction} of the semivariance
+     * @return the SemiVariance
+     * @throws MathIllegalArgumentException if values is null
+     */
+    public double evaluate(final double[] values, Direction direction) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-     /**
-      * Returns the {@link SemiVariance} of the designated values against the cutoff,
-      * using instance properties variancDirection and biasCorrection.
-      * <p>
-      * Returns <code>NaN</code> if the array is empty.
-      *
-      * @param values the input array
-      * @param cutoff the reference point
-      * @return the SemiVariance
-      * @throws MathIllegalArgumentException if values is null
-      */
-     public double evaluate(final double[] values, final double cutoff)
-         throws MathIllegalArgumentException {
-         return evaluate(values, cutoff, varianceDirection, biasCorrected, 0, values.length);
-     }
+    /**
+     * Returns the {@link SemiVariance} of the designated values against the cutoff,
+     * using instance properties variancDirection and biasCorrection.
+     * <p>
+     * Returns <code>NaN</code> if the array is empty.
+     *
+     * @param values the input array
+     * @param cutoff the reference point
+     * @return the SemiVariance
+     * @throws MathIllegalArgumentException if values is null
+     */
+    public double evaluate(final double[] values, final double cutoff) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-     /**
-      * Returns the {@link SemiVariance} of the designated values against the cutoff in the
-      * given direction, using the current value of the biasCorrection instance property.
-      * <p>
-      * Returns <code>NaN</code> if the array is empty.
-      *
-      * @param values the input array
-      * @param cutoff the reference point
-      * @param direction the {@link Direction} of the semivariance
-      * @return the SemiVariance
-      * @throws MathIllegalArgumentException if values is null
-      */
-     public double evaluate(final double[] values, final double cutoff, final Direction direction)
-         throws MathIllegalArgumentException {
-         return evaluate(values, cutoff, direction, biasCorrected, 0, values.length);
-     }
+    /**
+     * Returns the {@link SemiVariance} of the designated values against the cutoff in the
+     * given direction, using the current value of the biasCorrection instance property.
+     * <p>
+     * Returns <code>NaN</code> if the array is empty.
+     *
+     * @param values the input array
+     * @param cutoff the reference point
+     * @param direction the {@link Direction} of the semivariance
+     * @return the SemiVariance
+     * @throws MathIllegalArgumentException if values is null
+     */
+    public double evaluate(final double[] values, final double cutoff, final Direction direction) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-     /**
-      * Returns the {@link SemiVariance} of the designated values against the cutoff
-      * in the given direction with the provided bias correction.
-      * <p>
-      * Returns <code>NaN</code> if the array is empty.
-      *
-      * @param values the input array
-      * @param cutoff the reference point
-      * @param direction the {@link Direction} of the semivariance
-      * @param corrected the BiasCorrection flag
-      * @param start index of the first array element to include
-      * @param length the number of elements to include
-      * @return the SemiVariance
-      * @throws MathIllegalArgumentException if the parameters are not valid
-      */
-     public double evaluate(final double[] values, final double cutoff, final Direction direction,
-                            final boolean corrected, final int start, final int length)
-         throws MathIllegalArgumentException {
+    /**
+     * Returns the {@link SemiVariance} of the designated values against the cutoff
+     * in the given direction with the provided bias correction.
+     * <p>
+     * Returns <code>NaN</code> if the array is empty.
+     *
+     * @param values the input array
+     * @param cutoff the reference point
+     * @param direction the {@link Direction} of the semivariance
+     * @param corrected the BiasCorrection flag
+     * @param start index of the first array element to include
+     * @param length the number of elements to include
+     * @return the SemiVariance
+     * @throws MathIllegalArgumentException if the parameters are not valid
+     */
+    public double evaluate(final double[] values, final double cutoff, final Direction direction, final boolean corrected, final int start, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-         MathArrays.verifyValues(values, start, length);
-         if (values.length == 0) {
-             return Double.NaN;
-         } else {
-             if (values.length == 1) {
-                 return 0.0;
-             } else {
+    /**
+     * Returns true iff biasCorrected property is set to true.
+     *
+     * @return the value of biasCorrected.
+     */
+    public boolean isBiasCorrected() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-                 double sumsq = 0.0;
-                 final int end = start + length;
-                 for (int i = start; i < end; i++) {
-                     if (direction.considerObservation(values[i], cutoff)) {
-                         final double dev = values[i] - cutoff;
-                         sumsq += dev * dev;
-                     }
-                 }
+    /**
+     * Returns a copy of this instance with the given biasCorrected setting.
+     *
+     * @param isBiasCorrected new biasCorrected property value
+     * @return a copy of this instance with the given bias correction setting
+     */
+    public SemiVariance withBiasCorrected(boolean isBiasCorrected) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-                 if (corrected) {
-                     return sumsq / (length - 1.0);
-                 } else {
-                     return sumsq / length;
-                 }
-             }
-         }
-     }
+    /**
+     * Returns the varianceDirection property.
+     *
+     * @return the varianceDirection
+     */
+    public Direction getVarianceDirection() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-     /**
-      * Returns true iff biasCorrected property is set to true.
-      *
-      * @return the value of biasCorrected.
-      */
-     public boolean isBiasCorrected() {
-         return biasCorrected;
-     }
+    /**
+     * Returns a copy of this instance with the given direction setting.
+     *
+     * @param direction the direction of the semivariance
+     * @return a copy of this instance with the given direction setting
+     */
+    public SemiVariance withVarianceDirection(Direction direction) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-     /**
-      * Returns a copy of this instance with the given biasCorrected setting.
-      *
-      * @param isBiasCorrected new biasCorrected property value
-      * @return a copy of this instance with the given bias correction setting
-      */
-     public SemiVariance withBiasCorrected(boolean isBiasCorrected) {
-         return new SemiVariance(isBiasCorrected, this.varianceDirection);
-     }
+    /**
+     * The direction of the semivariance - either upside or downside. The direction
+     * is represented by boolean, with true corresponding to UPSIDE semivariance.
+     */
+    public enum Direction {
 
-     /**
-      * Returns the varianceDirection property.
-      *
-      * @return the varianceDirection
-      */
-     public Direction getVarianceDirection () {
-         return varianceDirection;
-     }
+        /**
+         * The UPSIDE Direction is used to specify that the observations above the
+         * cutoff point will be used to calculate SemiVariance
+         */
+        UPSIDE(true),
+        /**
+         * The DOWNSIDE Direction is used to specify that the observations below
+         * the cutoff point will be used to calculate SemiVariance
+         */
+        DOWNSIDE(false);
 
-     /**
-      * Returns a copy of this instance with the given direction setting.
-      *
-      * @param direction the direction of the semivariance
-      * @return a copy of this instance with the given direction setting
-      */
-     public SemiVariance withVarianceDirection(Direction direction) {
-         return new SemiVariance(this.biasCorrected, direction);
-     }
+        /**
+         * boolean value  UPSIDE <-> true
+         */
+        private final boolean direction;
 
-     /**
-      * The direction of the semivariance - either upside or downside. The direction
-      * is represented by boolean, with true corresponding to UPSIDE semivariance.
-      */
-     public enum Direction {
-         /**
-          * The UPSIDE Direction is used to specify that the observations above the
-          * cutoff point will be used to calculate SemiVariance
-          */
-         UPSIDE (true),
+        /**
+         * Create a Direction with the given value.
+         *
+         * @param b boolean value representing the Direction. True corresponds to UPSIDE.
+         */
+        Direction(boolean b) {
+            direction = b;
+        }
 
-         /**
-          * The DOWNSIDE Direction is used to specify that the observations below
-          * the cutoff point will be used to calculate SemiVariance
-          */
-         DOWNSIDE (false);
-
-         /**
-          * boolean value  UPSIDE <-> true
-          */
-         private final boolean direction;
-
-         /**
-          * Create a Direction with the given value.
-          *
-          * @param b boolean value representing the Direction. True corresponds to UPSIDE.
-          */
-         Direction (boolean b) {
-             direction = b;
-         }
-
-         /** Check if observation should be considered.
-          * @param value observation value
-          * @param cutoff cutoff point
-          * @return true if observation should be considered.
-          * @since 1.4
-          */
-         boolean considerObservation(final double value, final double cutoff) {
-             return value > cutoff == direction;
-         }
-
-     }
+        /**
+         * Check if observation should be considered.
+         * @param value observation value
+         * @param cutoff cutoff point
+         * @return true if observation should be considered.
+         * @since 1.4
+         */
+        boolean considerObservation(final double value, final double cutoff) {
+            throw new UnsupportedOperationException("STUB: not implemented");
+        }
+    }
 }

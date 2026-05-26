@@ -21,68 +21,82 @@ import org.hipparchus.special.elliptic.legendre.LegendreEllipticIntegral;
 import org.hipparchus.util.FastMath;
 import org.hipparchus.util.MathUtils;
 
-/** Algorithm for computing the principal Jacobi functions for complex parameter m.
+/**
+ * Algorithm for computing the principal Jacobi functions for complex parameter m.
  * @since 2.0
  */
 class ComplexParameter extends FieldJacobiElliptic<Complex> {
 
-    /** Jacobi θ functions. */
+    /**
+     * Jacobi θ functions.
+     */
     private final FieldJacobiTheta<Complex> jacobiTheta;
 
-    /** Quarter period K. */
+    /**
+     * Quarter period K.
+     */
     private final Complex bigK;
 
-    /** Quarter period iK'. */
+    /**
+     * Quarter period iK'.
+     */
     private final Complex iBigKPrime;
 
-    /** Real periodic factor for K. */
+    /**
+     * Real periodic factor for K.
+     */
     private final double rK;
 
-    /** Imaginary periodic factor for K. */
+    /**
+     * Imaginary periodic factor for K.
+     */
     private final double iK;
 
-    /** Real periodic factor for iK'. */
+    /**
+     * Real periodic factor for iK'.
+     */
     private final double rKPrime;
 
-    /** Imaginary periodic factor for iK'. */
+    /**
+     * Imaginary periodic factor for iK'.
+     */
     private final double iKPrime;
 
-    /** Value of Jacobi θ functions at origin. */
+    /**
+     * Value of Jacobi θ functions at origin.
+     */
     private final FieldTheta<Complex> t0;
 
-    /** Scaling factor. */
+    /**
+     * Scaling factor.
+     */
     private final Complex scaling;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param m parameter of the Jacobi elliptic function
      */
     ComplexParameter(final Complex m) {
-
         super(m);
-
         // compute nome
         final Complex q = LegendreEllipticIntegral.nome(m);
-
         // compute periodic factors such that
         // z = 4 K [rK Re(z) + iK Im(z)] + 4i K' [rK' Re(z) + iK' Im(z)]
-        bigK                 = LegendreEllipticIntegral.bigK(m);
-        iBigKPrime           = LegendreEllipticIntegral.bigKPrime(m).multiplyPlusI();
-        final double inverse = 0.25 /
-                               (bigK.getRealPart()      * iBigKPrime.getImaginaryPart() -
-                                bigK.getImaginaryPart() * iBigKPrime.getRealPart());
-        this.rK              = iBigKPrime.getImaginaryPart() *  inverse;
-        this.iK              = iBigKPrime.getRealPart()      * -inverse;
-        this.rKPrime         = bigK.getImaginaryPart()       * -inverse;
-        this.iKPrime         = bigK.getRealPart()            *  inverse;
-
+        bigK = LegendreEllipticIntegral.bigK(m);
+        iBigKPrime = LegendreEllipticIntegral.bigKPrime(m).multiplyPlusI();
+        final double inverse = 0.25 / (bigK.getRealPart() * iBigKPrime.getImaginaryPart() - bigK.getImaginaryPart() * iBigKPrime.getRealPart());
+        this.rK = iBigKPrime.getImaginaryPart() * inverse;
+        this.iK = iBigKPrime.getRealPart() * -inverse;
+        this.rKPrime = bigK.getImaginaryPart() * -inverse;
+        this.iKPrime = bigK.getRealPart() * inverse;
         // prepare underlying Jacobi θ functions
         this.jacobiTheta = new FieldJacobiTheta<>(q);
-        this.t0          = jacobiTheta.values(m.getField().getZero());
-        this.scaling     = bigK.reciprocal().multiply(MathUtils.SEMI_PI);
-
+        this.t0 = jacobiTheta.values(m.getField().getZero());
+        this.scaling = bigK.reciprocal().multiply(MathUtils.SEMI_PI);
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * The algorithm for evaluating the functions is based on {@link FieldJacobiTheta
      * Jacobi theta functions}.
@@ -90,24 +104,6 @@ class ComplexParameter extends FieldJacobiElliptic<Complex> {
      */
     @Override
     public FieldCopolarN<Complex> valuesN(Complex u) {
-
-        // perform argument reduction
-        final double cK      = rK * u.getRealPart() + iK * u.getImaginaryPart();
-        final double cKPrime = rKPrime * u.getRealPart() + iKPrime * u.getImaginaryPart();
-        final Complex reducedU = u.linearCombination(1.0,                        u,
-                                                    -4 * FastMath.rint(cK),      bigK,
-                                                    -4 * FastMath.rint(cKPrime), iBigKPrime);
-
-        // evaluate Jacobi θ functions at argument
-        final FieldTheta<Complex> tZ = jacobiTheta.values(reducedU.multiply(scaling));
-
-        // convert to Jacobi elliptic functions
-        final Complex sn = t0.theta3().multiply(tZ.theta1()).divide(t0.theta2().multiply(tZ.theta4()));
-        final Complex cn = t0.theta4().multiply(tZ.theta2()).divide(t0.theta2().multiply(tZ.theta4()));
-        final Complex dn = t0.theta4().multiply(tZ.theta3()).divide(t0.theta3().multiply(tZ.theta4()));
-
-        return new FieldCopolarN<>(sn, cn, dn);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

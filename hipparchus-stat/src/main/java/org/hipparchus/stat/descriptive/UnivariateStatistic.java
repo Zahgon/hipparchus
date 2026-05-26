@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -26,11 +25,11 @@ import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.util.MathArrays;
 import org.hipparchus.util.MathUtils;
 
-
 /**
  * Base interface implemented by all statistics.
  */
 public interface UnivariateStatistic extends MathArrays.Function {
+
     /**
      * Returns the result of evaluating the statistic over the input array.
      * <p>
@@ -43,8 +42,7 @@ public interface UnivariateStatistic extends MathArrays.Function {
      */
     @Override
     default double evaluate(double[] values) throws MathIllegalArgumentException {
-        MathUtils.checkNotNull(values, LocalizedCoreFormats.INPUT_ARRAY);
-        return evaluate(values, 0, values.length);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**

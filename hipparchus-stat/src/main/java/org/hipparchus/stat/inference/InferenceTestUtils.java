@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.stat.inference;
 
 import java.util.Collection;
-
 import org.hipparchus.distribution.RealDistribution;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathIllegalStateException;
@@ -33,21 +31,31 @@ import org.hipparchus.stat.descriptive.StatisticalSummary;
  * A collection of static methods to create inference test instances or to
  * perform inference tests.
  */
-public class InferenceTestUtils  {
+public class InferenceTestUtils {
 
-    /** Singleton TTest instance. */
+    /**
+     * Singleton TTest instance.
+     */
     private static final TTest T_TEST = new TTest();
 
-    /** Singleton ChiSquareTest instance. */
+    /**
+     * Singleton ChiSquareTest instance.
+     */
     private static final ChiSquareTest CHI_SQUARE_TEST = new ChiSquareTest();
 
-    /** Singleton OneWayAnova instance. */
+    /**
+     * Singleton OneWayAnova instance.
+     */
     private static final OneWayAnova ONE_WAY_ANANOVA = new OneWayAnova();
 
-    /** Singleton G-Test instance. */
+    /**
+     * Singleton G-Test instance.
+     */
     private static final GTest G_TEST = new GTest();
 
-    /** Singleton K-S test instance */
+    /**
+     * Singleton K-S test instance
+     */
     private static final KolmogorovSmirnovTest KS_TEST = new KolmogorovSmirnovTest();
 
     /**
@@ -91,9 +99,8 @@ public class InferenceTestUtils  {
      * @throws NullArgumentException if the arrays are <code>null</code>
      * @throws MathIllegalArgumentException if the length of the arrays is &lt; 2
      */
-    public static double homoscedasticT(final double[] sample1, final double[] sample2)
-        throws MathIllegalArgumentException, NullArgumentException {
-        return T_TEST.homoscedasticT(sample1, sample2);
+    public static double homoscedasticT(final double[] sample1, final double[] sample2) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -132,10 +139,8 @@ public class InferenceTestUtils  {
      * @throws NullArgumentException if the sample statistics are <code>null</code>
      * @throws MathIllegalArgumentException if the number of samples is &lt; 2
      */
-    public static double homoscedasticT(final StatisticalSummary sampleStats1,
-                                        final StatisticalSummary sampleStats2)
-        throws MathIllegalArgumentException, NullArgumentException {
-        return T_TEST.homoscedasticT(sampleStats1, sampleStats2);
+    public static double homoscedasticT(final StatisticalSummary sampleStats1, final StatisticalSummary sampleStats2) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -192,10 +197,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if <code>alpha</code> is not in the range (0, 0.5]
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public static boolean homoscedasticTTest(final double[] sample1, final double[] sample2,
-                                             final double alpha)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        return T_TEST.homoscedasticTTest(sample1, sample2, alpha);
+    public static boolean homoscedasticTTest(final double[] sample1, final double[] sample2, final double alpha) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -233,9 +236,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if the length of the arrays is &lt; 2
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public static double homoscedasticTTest(final double[] sample1, final double[] sample2)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        return T_TEST.homoscedasticTTest(sample1, sample2);
+    public static double homoscedasticTTest(final double[] sample1, final double[] sample2) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -273,10 +275,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if the number of samples is &lt; 2
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public static double homoscedasticTTest(final StatisticalSummary sampleStats1,
-                                            final StatisticalSummary sampleStats2)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        return T_TEST.homoscedasticTTest(sampleStats1, sampleStats2);
+    public static double homoscedasticTTest(final StatisticalSummary sampleStats1, final StatisticalSummary sampleStats2) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -301,9 +301,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if the length of the arrays is not equal
      * @throws MathIllegalArgumentException if the length of the arrays is &lt; 2
      */
-    public static double pairedT(final double[] sample1, final double[] sample2)
-        throws MathIllegalArgumentException, NullArgumentException {
-        return T_TEST.pairedT(sample1, sample2);
+    public static double pairedT(final double[] sample1, final double[] sample2) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -343,10 +342,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if <code>alpha</code> is not in the range (0, 0.5]
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public static boolean pairedTTest(final double[] sample1, final double[] sample2,
-                                      final double alpha)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        return T_TEST.pairedTTest(sample1, sample2, alpha);
+    public static boolean pairedTTest(final double[] sample1, final double[] sample2, final double alpha) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -386,9 +383,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if the length of the arrays is &lt; 2
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public static double pairedTTest(final double[] sample1, final double[] sample2)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        return T_TEST.pairedTTest(sample1, sample2);
+    public static double pairedTTest(final double[] sample1, final double[] sample2) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -408,9 +404,8 @@ public class InferenceTestUtils  {
      * @throws NullArgumentException if <code>observed</code> is <code>null</code>
      * @throws MathIllegalArgumentException if the length of <code>observed</code> is &lt; 2
      */
-    public static double t(final double mu, final double[] observed)
-        throws MathIllegalArgumentException, NullArgumentException {
-        return T_TEST.t(mu, observed);
+    public static double t(final double mu, final double[] observed) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -431,9 +426,8 @@ public class InferenceTestUtils  {
      * @throws NullArgumentException if <code>sampleStats</code> is <code>null</code>
      * @throws MathIllegalArgumentException if the number of samples is &lt; 2
      */
-    public static double t(final double mu, final StatisticalSummary sampleStats)
-        throws MathIllegalArgumentException, NullArgumentException {
-        return T_TEST.t(mu, sampleStats);
+    public static double t(final double mu, final StatisticalSummary sampleStats) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -466,9 +460,8 @@ public class InferenceTestUtils  {
      * @throws NullArgumentException if the arrays are <code>null</code>
      * @throws MathIllegalArgumentException if the length of the arrays is &lt; 2
      */
-    public static double t(final double[] sample1, final double[] sample2)
-        throws MathIllegalArgumentException, NullArgumentException {
-        return T_TEST.t(sample1, sample2);
+    public static double t(final double[] sample1, final double[] sample2) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -481,7 +474,7 @@ public class InferenceTestUtils  {
      * This statistic can be used to perform a two-sample t-test to compare
      * sample means.</p>
      * <p>
-      * The returned  t-statistic is</p>
+     * The returned  t-statistic is</p>
      * <p>
      * &nbsp;&nbsp; <code>  t = (m1 - m2) / sqrt(var1/n1 + var2/n2)</code>
      * </p><p>
@@ -504,10 +497,8 @@ public class InferenceTestUtils  {
      * @throws NullArgumentException if the sample statistics are <code>null</code>
      * @throws MathIllegalArgumentException if the number of samples is &lt; 2
      */
-    public static double t(final StatisticalSummary sampleStats1,
-                           final StatisticalSummary sampleStats2)
-        throws MathIllegalArgumentException, NullArgumentException {
-        return T_TEST.t(sampleStats1, sampleStats2);
+    public static double t(final StatisticalSummary sampleStats1, final StatisticalSummary sampleStats2) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -548,9 +539,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if <code>alpha</code> is not in the range (0, 0.5]
      * @throws MathIllegalStateException if an error computing the p-value
      */
-    public static boolean tTest(final double mu, final double[] sample, final double alpha)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        return T_TEST.tTest(mu, sample, alpha);
+    public static boolean tTest(final double mu, final double[] sample, final double alpha) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -581,10 +571,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if the length of the array is &lt; 2
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public static double tTest(final double mu, final double[] sample)
-        throws MathIllegalArgumentException, NullArgumentException,
-        MathIllegalStateException {
-        return T_TEST.tTest(mu, sample);
+    public static double tTest(final double mu, final double[] sample) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -626,10 +614,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if <code>alpha</code> is not in the range (0, 0.5]
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public static boolean tTest(final double mu, final StatisticalSummary sampleStats,
-                                final double alpha)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        return T_TEST.tTest(mu, sampleStats, alpha);
+    public static boolean tTest(final double mu, final StatisticalSummary sampleStats, final double alpha) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -662,10 +648,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if the number of samples is &lt; 2
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public static double tTest(final double mu, final StatisticalSummary sampleStats)
-        throws MathIllegalArgumentException, NullArgumentException,
-        MathIllegalStateException {
-        return T_TEST.tTest(mu, sampleStats);
+    public static double tTest(final double mu, final StatisticalSummary sampleStats) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -721,10 +705,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if <code>alpha</code> is not in the range (0, 0.5]
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public static boolean tTest(final double[] sample1, final double[] sample2,
-                                final double alpha)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        return T_TEST.tTest(sample1, sample2, alpha);
+    public static boolean tTest(final double[] sample1, final double[] sample2, final double alpha) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -765,10 +747,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if the length of the arrays is &lt; 2
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public static double tTest(final double[] sample1, final double[] sample2)
-        throws MathIllegalArgumentException, NullArgumentException,
-        MathIllegalStateException {
-        return T_TEST.tTest(sample1, sample2);
+    public static double tTest(final double[] sample1, final double[] sample2) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -827,11 +807,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if <code>alpha</code> is not in the range (0, 0.5]
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public static boolean tTest(final StatisticalSummary sampleStats1,
-                                final StatisticalSummary sampleStats2,
-                                final double alpha)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        return T_TEST.tTest(sampleStats1, sampleStats2, alpha);
+    public static boolean tTest(final StatisticalSummary sampleStats1, final StatisticalSummary sampleStats2, final double alpha) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -870,11 +847,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if the number of samples is &lt; 2
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public static double tTest(final StatisticalSummary sampleStats1,
-                               final StatisticalSummary sampleStats2)
-        throws MathIllegalArgumentException, NullArgumentException,
-        MathIllegalStateException {
-        return T_TEST.tTest(sampleStats1, sampleStats2);
+    public static double tTest(final StatisticalSummary sampleStats1, final StatisticalSummary sampleStats2) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -908,9 +882,8 @@ public class InferenceTestUtils  {
      * not strictly positive
      * @throws MathIllegalArgumentException if the arrays length is less than 2
      */
-    public static double chiSquare(final double[] expected, final long[] observed)
-        throws MathIllegalArgumentException {
-        return CHI_SQUARE_TEST.chiSquare(expected, observed);
+    public static double chiSquare(final double[] expected, final long[] observed) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -940,9 +913,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if the array is not rectangular
      * @throws MathIllegalArgumentException if {@code counts} has negative entries
      */
-    public static double chiSquare(final long[][] counts)
-        throws MathIllegalArgumentException, NullArgumentException {
-        return CHI_SQUARE_TEST.chiSquare(counts);
+    public static double chiSquare(final long[][] counts) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -985,10 +957,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if <code>alpha</code> is not in the range (0, 0.5]
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public static boolean chiSquareTest(final double[] expected, final long[] observed,
-                                        final double alpha)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-        return CHI_SQUARE_TEST.chiSquareTest(expected, observed, alpha);
+    public static boolean chiSquareTest(final double[] expected, final long[] observed, final double alpha) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1027,9 +997,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if the arrays length is less than 2
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public static double chiSquareTest(final double[] expected, final long[] observed)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-        return CHI_SQUARE_TEST.chiSquareTest(expected, observed);
+    public static double chiSquareTest(final double[] expected, final long[] observed) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1071,9 +1040,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if <code>alpha</code> is not in the range (0, 0.5]
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public static boolean chiSquareTest(final long[][] counts, final double alpha)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        return CHI_SQUARE_TEST.chiSquareTest(counts, alpha);
+    public static boolean chiSquareTest(final long[][] counts, final double alpha) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1106,9 +1074,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if {@code counts} has negative entries
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public static double chiSquareTest(final long[][] counts)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        return CHI_SQUARE_TEST.chiSquareTest(counts);
+    public static double chiSquareTest(final long[][] counts) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1154,10 +1121,8 @@ public class InferenceTestUtils  {
      * <code>observed2</code> are zero, or if the count at some index is zero
      * for both arrays
      */
-    public static double chiSquareDataSetsComparison(final long[] observed1,
-                                                     final long[] observed2)
-        throws MathIllegalArgumentException {
-        return CHI_SQUARE_TEST.chiSquareDataSetsComparison(observed1, observed2);
+    public static double chiSquareDataSetsComparison(final long[] observed1, final long[] observed2) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1199,11 +1164,8 @@ public class InferenceTestUtils  {
      * for both arrays
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public static double chiSquareTestDataSetsComparison(final long[] observed1,
-                                                         final long[] observed2)
-        throws MathIllegalArgumentException,
-        MathIllegalStateException {
-        return CHI_SQUARE_TEST.chiSquareTestDataSetsComparison(observed1, observed2);
+    public static double chiSquareTestDataSetsComparison(final long[] observed1, final long[] observed2) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1245,11 +1207,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if <code>alpha</code> is not in the range (0, 0.5]
      * @throws MathIllegalStateException if an error occurs performing the test
      */
-    public static boolean chiSquareTestDataSetsComparison(final long[] observed1,
-                                                          final long[] observed2,
-                                                          final double alpha)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-        return CHI_SQUARE_TEST.chiSquareTestDataSetsComparison(observed1, observed2, alpha);
+    public static boolean chiSquareTestDataSetsComparison(final long[] observed1, final long[] observed2, final double alpha) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1284,9 +1243,8 @@ public class InferenceTestUtils  {
      * array is less than 2 or a contained <code>double[]</code> array does not have
      * at least two values
      */
-    public static double oneWayAnovaFValue(final Collection<double[]> categoryData)
-        throws MathIllegalArgumentException, NullArgumentException {
-        return ONE_WAY_ANANOVA.anovaFValue(categoryData);
+    public static double oneWayAnovaFValue(final Collection<double[]> categoryData) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1321,10 +1279,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalStateException if the p-value can not be computed due to a convergence error
      * @throws MathIllegalStateException if the maximum number of iterations is exceeded
      */
-    public static double oneWayAnovaPValue(final Collection<double[]> categoryData)
-        throws MathIllegalArgumentException, NullArgumentException,
-        MathIllegalStateException {
-        return ONE_WAY_ANANOVA.anovaPValue(categoryData);
+    public static double oneWayAnovaPValue(final Collection<double[]> categoryData) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1363,10 +1319,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalStateException if the p-value can not be computed due to a convergence error
      * @throws MathIllegalStateException if the maximum number of iterations is exceeded
      */
-    public static boolean oneWayAnovaTest(final Collection<double[]> categoryData,
-                                          final double alpha)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        return ONE_WAY_ANANOVA.anovaTest(categoryData, alpha);
+    public static boolean oneWayAnovaTest(final Collection<double[]> categoryData, final double alpha) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1402,9 +1356,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if the array lengths do not match or
      * are less than 2.
      */
-    public static double g(final double[] expected, final long[] observed)
-        throws MathIllegalArgumentException {
-        return G_TEST.g(expected, observed);
+    public static double g(final double[] expected, final long[] observed) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1448,9 +1401,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalStateException if an error occurs computing the
      * p-value.
      */
-    public static double gTest(final double[] expected, final long[] observed)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-        return G_TEST.gTest(expected, observed);
+    public static double gTest(final double[] expected, final long[] observed) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1474,9 +1426,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalStateException if an error occurs computing the
      * p-value.
      */
-    public static double gTestIntrinsic(final double[] expected, final long[] observed)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-        return G_TEST.gTestIntrinsic(expected, observed);
+    public static double gTestIntrinsic(final double[] expected, final long[] observed) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1524,10 +1475,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if alpha is not strictly greater than zero
      * and less than or equal to 0.5
      */
-    public static boolean gTest(final double[] expected, final long[] observed,
-                                final double alpha)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-        return G_TEST.gTest(expected, observed, alpha);
+    public static boolean gTest(final double[] expected, final long[] observed, final double alpha) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1573,10 +1522,8 @@ public class InferenceTestUtils  {
      * {@code observed1} or {@code observed2} are zero, or if the count
      * at the same index is zero for both arrays.
      */
-    public static double gDataSetsComparison(final long[] observed1,
-                                                  final long[] observed2)
-        throws MathIllegalArgumentException {
-        return G_TEST.gDataSetsComparison(observed1, observed2);
+    public static double gDataSetsComparison(final long[] observed1, final long[] observed2) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1607,13 +1554,10 @@ public class InferenceTestUtils  {
      * @param k22 number of times something else occurred (i.e. was neither
      * of these events (notA, notB)
      * @return root log-likelihood ratio
-     *
      */
-    public static double rootLogLikelihoodRatio(final long k11, final long k12, final long k21, final long k22)
-        throws MathIllegalArgumentException {
-        return G_TEST.rootLogLikelihoodRatio(k11, k12, k21, k22);
+    public static double rootLogLikelihoodRatio(final long k11, final long k12, final long k21, final long k22) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     /**
      * <p>Returns the <i>observed significance level</i>, or <a href=
@@ -1655,11 +1599,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalStateException if an error occurs computing the
      * p-value.
      */
-    public static double gTestDataSetsComparison(final long[] observed1,
-                                                        final long[] observed2)
-        throws MathIllegalArgumentException,
-        MathIllegalStateException {
-        return G_TEST.gTestDataSetsComparison(observed1, observed2);
+    public static double gTestDataSetsComparison(final long[] observed1, final long[] observed2) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1705,11 +1646,8 @@ public class InferenceTestUtils  {
      * (0, 0.5]
      * @throws MathIllegalStateException if an error occurs performing the test
      */
-    public static boolean gTestDataSetsComparison(final long[] observed1,
-                                                  final long[] observed2,
-                                                  final double alpha)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-        return G_TEST.gTestDataSetsComparison(observed1, observed2, alpha);
+    public static boolean gTestDataSetsComparison(final long[] observed1, final long[] observed2, final double alpha) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1724,9 +1662,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if {@code data} does not have length at least 2
      * @throws org.hipparchus.exception.NullArgumentException if {@code data} is null
      */
-    public static double kolmogorovSmirnovStatistic(RealDistribution dist, double[] data)
-            throws MathIllegalArgumentException, NullArgumentException {
-        return KS_TEST.kolmogorovSmirnovStatistic(dist, data);
+    public static double kolmogorovSmirnovStatistic(RealDistribution dist, double[] data) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1741,9 +1678,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if {@code data} does not have length at least 2
      * @throws org.hipparchus.exception.NullArgumentException if {@code data} is null
      */
-    public static double kolmogorovSmirnovTest(RealDistribution dist, double[] data)
-            throws MathIllegalArgumentException, NullArgumentException {
-        return KS_TEST.kolmogorovSmirnovTest(dist, data);
+    public static double kolmogorovSmirnovTest(RealDistribution dist, double[] data) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1761,9 +1697,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if {@code data} does not have length at least 2
      * @throws org.hipparchus.exception.NullArgumentException if {@code data} is null
      */
-    public static double kolmogorovSmirnovTest(RealDistribution dist, double[] data, boolean strict)
-            throws MathIllegalArgumentException, NullArgumentException {
-        return KS_TEST.kolmogorovSmirnovTest(dist, data, strict);
+    public static double kolmogorovSmirnovTest(RealDistribution dist, double[] data, boolean strict) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1778,9 +1713,8 @@ public class InferenceTestUtils  {
      * @throws MathIllegalArgumentException if {@code data} does not have length at least 2
      * @throws org.hipparchus.exception.NullArgumentException if {@code data} is null
      */
-    public static boolean kolmogorovSmirnovTest(RealDistribution dist, double[] data, double alpha)
-            throws MathIllegalArgumentException, NullArgumentException {
-        return KS_TEST.kolmogorovSmirnovTest(dist, data, alpha);
+    public static boolean kolmogorovSmirnovTest(RealDistribution dist, double[] data, double alpha) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1797,9 +1731,8 @@ public class InferenceTestUtils  {
      *         least 2
      * @throws org.hipparchus.exception.NullArgumentException if either {@code x} or {@code y} is null
      */
-    public static double kolmogorovSmirnovStatistic(double[] x, double[] y)
-            throws MathIllegalArgumentException, NullArgumentException {
-        return KS_TEST.kolmogorovSmirnovStatistic(x, y);
+    public static double kolmogorovSmirnovStatistic(double[] x, double[] y) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1817,9 +1750,8 @@ public class InferenceTestUtils  {
      *         least 2
      * @throws org.hipparchus.exception.NullArgumentException if either {@code x} or {@code y} is null
      */
-    public static double kolmogorovSmirnovTest(double[] x, double[] y)
-            throws MathIllegalArgumentException, NullArgumentException {
-        return KS_TEST.kolmogorovSmirnovTest(x, y);
+    public static double kolmogorovSmirnovTest(double[] x, double[] y) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1859,9 +1791,8 @@ public class InferenceTestUtils  {
      * @throws org.hipparchus.exception.NullArgumentException if either {@code x} or {@code y} is null
      * @see KolmogorovSmirnovTest#bootstrap(double[], double[], int, boolean)
      */
-    public static double kolmogorovSmirnovTest(double[] x, double[] y, boolean strict)
-            throws MathIllegalArgumentException, NullArgumentException  {
-        return KS_TEST.kolmogorovSmirnovTest(x, y, strict);
+    public static double kolmogorovSmirnovTest(double[] x, double[] y, boolean strict) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1881,7 +1812,7 @@ public class InferenceTestUtils  {
      *         greater than (resp. greater than or equal to) {@code d}
      */
     public static double exactP(double d, int m, int n, boolean strict) {
-        return KS_TEST.exactP(d, n, m, strict);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1903,7 +1834,6 @@ public class InferenceTestUtils  {
      *         \(D_{n,m}\) greater than {@code d}
      */
     public static double approximateP(double d, int n, int m) {
-        return KS_TEST.approximateP(d, n, m);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -34,7 +33,6 @@ import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -44,7 +42,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-
 import org.hipparchus.clustering.CentroidCluster;
 import org.hipparchus.clustering.Clusterable;
 import org.hipparchus.clustering.KMeansPlusPlusClusterer;
@@ -58,92 +55,87 @@ import org.hipparchus.samples.ExampleUtils.ExampleFrame;
 @SuppressWarnings("serial")
 public class ImageClusteringExample {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public ImageClusteringExample() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public ImageClusteringExample() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** Main frame for displaying clusters. */
+    /**
+     * Main frame for displaying clusters.
+     */
     public static class Display extends ExampleFrame {
 
-        /** Reference image. */
+        /**
+         * Reference image.
+         */
         private BufferedImage referenceImage;
 
-        /** Cluster image. */
+        /**
+         * Cluster image.
+         */
         private BufferedImage clusterImage;
 
-        /** Reference raster. */
+        /**
+         * Reference raster.
+         */
         private Raster referenceRaster;
 
-        /** Painter for the clusters. */
+        /**
+         * Painter for the clusters.
+         */
         private ImagePainter painter;
 
-        /** Spinner. */
+        /**
+         * Spinner.
+         */
         private JSpinner clusterSizeSpinner;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          * @throws IOException if image cannot be created
          */
         public Display() throws IOException {
             setTitle("Hipparchus: Image Clustering Example");
             setSize(900, 350);
-
             setLayout(new FlowLayout());
-
             Box bar = Box.createHorizontalBox();
-
             ClassLoader classLoader = ExampleUtils.class.getClassLoader();
-            referenceImage = ExampleUtils.resizeImage(
-                    ImageIO.read(classLoader.getResourceAsStream("ColorfulBird.jpg")),
-                    350,
-                    240,
-                    BufferedImage.TYPE_INT_RGB);
-
+            referenceImage = ExampleUtils.resizeImage(ImageIO.read(classLoader.getResourceAsStream("ColorfulBird.jpg")), 350, 240, BufferedImage.TYPE_INT_RGB);
             referenceRaster = referenceImage.getData();
-
-            clusterImage = new BufferedImage(referenceImage.getWidth(),
-                                             referenceImage.getHeight(),
-                                             BufferedImage.TYPE_INT_RGB);
-
+            clusterImage = new BufferedImage(referenceImage.getWidth(), referenceImage.getHeight(), BufferedImage.TYPE_INT_RGB);
             JLabel picLabel = new JLabel(new ImageIcon(referenceImage));
             bar.add(picLabel);
-
             painter = new ImagePainter(clusterImage.getWidth(), clusterImage.getHeight());
             bar.add(painter);
-
             JPanel controlBox = new JPanel();
             controlBox.setLayout(new GridLayout(5, 1));
             controlBox.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-
             JPanel sizeBox = new JPanel();
             JLabel sizeLabel = new JLabel("Clusters:");
             sizeBox.add(sizeLabel);
-
             SpinnerNumberModel model = new SpinnerNumberModel(3, 2, 10, 1);
             clusterSizeSpinner = new JSpinner(model);
-
             sizeLabel.setLabelFor(clusterSizeSpinner);
             sizeBox.add(clusterSizeSpinner);
             controlBox.add(sizeBox, BorderLayout.NORTH);
-
             JButton startButton = new JButton("Cluster");
             startButton.setActionCommand("cluster");
             controlBox.add(startButton, BorderLayout.CENTER);
-
             bar.add(controlBox);
-
             add(bar);
-
             startButton.addActionListener(e -> clusterImage());
         }
 
-        /** Display clusters.
+        /**
+         * Display clusters.
          */
         private void clusterImage() {
             List<PixelClusterable> pixels = new ArrayList<>();
@@ -152,12 +144,9 @@ public class ImageClusteringExample {
                     pixels.add(new PixelClusterable(col, row));
                 }
             }
-
             int clusterSize = ((Number) clusterSizeSpinner.getValue()).intValue();
-            KMeansPlusPlusClusterer<PixelClusterable> clusterer =
-                    new KMeansPlusPlusClusterer<>(clusterSize);
+            KMeansPlusPlusClusterer<PixelClusterable> clusterer = new KMeansPlusPlusClusterer<>(clusterSize);
             List<CentroidCluster<PixelClusterable>> clusters = clusterer.cluster(pixels);
-
             WritableRaster raster = clusterImage.getRaster();
             for (CentroidCluster<PixelClusterable> cluster : clusters) {
                 double[] color = cluster.getCenter().getPoint();
@@ -165,23 +154,31 @@ public class ImageClusteringExample {
                     raster.setPixel(pixel.x, pixel.y, color);
                 }
             }
-
             Display.this.repaint();
         }
 
-        /** Container for one pixel that can be used in clusters. */
+        /**
+         * Container for one pixel that can be used in clusters.
+         */
         private class PixelClusterable implements Clusterable {
 
-            /** Abscissa. */
+            /**
+             * Abscissa.
+             */
             private final int x;
 
-            /** Ordinate. */
+            /**
+             * Ordinate.
+             */
             private final int y;
 
-            /** Color. */
+            /**
+             * Color.
+             */
             private double[] color;
 
-            /** Simple constructor.
+            /**
+             * Simple constructor.
              * @param x abscissa
              * @param y ordinate
              */
@@ -191,27 +188,32 @@ public class ImageClusteringExample {
                 this.color = null;
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public double[] getPoint() {
-                if (color == null) {
-                    color = referenceRaster.getPixel(x, y, (double[]) null);
-                }
-                return color;
+                throw new UnsupportedOperationException("STUB: not implemented");
             }
-
         }
 
-        /** Painter for clusters. */
+        /**
+         * Painter for clusters.
+         */
         private class ImagePainter extends Component {
 
-            /** Width. */
+            /**
+             * Width.
+             */
             private int width;
 
-            /** Height. */
+            /**
+             * Height.
+             */
             private int height;
 
-            /** Simple constructor.
+            /**
+             * Simple constructor.
              * @param width width
              * @param height height
              */
@@ -220,40 +222,46 @@ public class ImageClusteringExample {
                 this.height = height;
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public Dimension getPreferredSize() {
-                return new Dimension(width, height);
+                throw new UnsupportedOperationException("STUB: not implemented");
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public Dimension getMinimumSize() {
-                return getPreferredSize();
+                throw new UnsupportedOperationException("STUB: not implemented");
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public Dimension getMaximumSize() {
-                return getPreferredSize();
+                throw new UnsupportedOperationException("STUB: not implemented");
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public void paint(Graphics g) {
-                g.drawImage(clusterImage, 0, 0, this);
+                throw new UnsupportedOperationException("STUB: not implemented");
             }
-
         }
-
     }
 
-    /** Program entry point.
+    /**
+     * Program entry point.
      * @param args program arguments (unused here)
      * @throws IOException if display frame cannot be created.
      */
     public static void main(String[] args) throws IOException {
-        ExampleUtils.showExampleFrame(new Display());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

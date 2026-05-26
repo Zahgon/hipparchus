@@ -14,11 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.nonstiff;
 
 import java.util.Arrays;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathIllegalStateException;
 import org.hipparchus.linear.Array2DRowRealMatrix;
@@ -29,7 +27,6 @@ import org.hipparchus.ode.LocalizedODEFormats;
 import org.hipparchus.ode.ODEStateAndDerivative;
 import org.hipparchus.ode.nonstiff.interpolators.AdamsStateInterpolator;
 import org.hipparchus.util.FastMath;
-
 
 /**
  * This class implements implicit Adams-Moulton integrators for Ordinary
@@ -164,11 +161,12 @@ import org.hipparchus.util.FastMath;
  *
  * <p>The P<sup>-1</sup>u vector and the P<sup>-1</sup> A P matrix do not depend on the state,
  * they only depend on k and therefore are precomputed once for all.</p>
- *
  */
 public class AdamsMoultonIntegrator extends AdamsIntegrator {
 
-    /** Name of integration scheme. */
+    /**
+     * Name of integration scheme.
+     */
     public static final String METHOD_NAME = "Adams-Moulton";
 
     /**
@@ -184,13 +182,8 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
      * @param scalRelativeTolerance allowed relative error
      * @exception MathIllegalArgumentException if order is 1 or less
      */
-    public AdamsMoultonIntegrator(final int nSteps,
-                                  final double minStep, final double maxStep,
-                                  final double scalAbsoluteTolerance,
-                                  final double scalRelativeTolerance)
-        throws MathIllegalArgumentException {
-        super(METHOD_NAME, nSteps, nSteps + 1, minStep, maxStep,
-              scalAbsoluteTolerance, scalRelativeTolerance);
+    public AdamsMoultonIntegrator(final int nSteps, final double minStep, final double maxStep, final double scalAbsoluteTolerance, final double scalRelativeTolerance) throws MathIllegalArgumentException {
+        super(METHOD_NAME, nSteps, nSteps + 1, minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
     }
 
     /**
@@ -206,58 +199,28 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
      * @param vecRelativeTolerance allowed relative error
      * @exception IllegalArgumentException if order is 1 or less
      */
-    public AdamsMoultonIntegrator(final int nSteps,
-                                  final double minStep, final double maxStep,
-                                  final double[] vecAbsoluteTolerance,
-                                  final double[] vecRelativeTolerance)
-        throws IllegalArgumentException {
-        super(METHOD_NAME, nSteps, nSteps + 1, minStep, maxStep,
-              vecAbsoluteTolerance, vecRelativeTolerance);
+    public AdamsMoultonIntegrator(final int nSteps, final double minStep, final double maxStep, final double[] vecAbsoluteTolerance, final double[] vecRelativeTolerance) throws IllegalArgumentException {
+        super(METHOD_NAME, nSteps, nSteps + 1, minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected double errorEstimation(final double[] previousState, final double predictedTime,
-                                     final double[] predictedState,
-                                     final double[] predictedScaled,
-                                     final RealMatrix predictedNordsieck) {
-        final double error = predictedNordsieck.walkInOptimizedOrder(new Corrector(previousState, predictedScaled, predictedState));
-        if (Double.isNaN(error)) {
-            throw new MathIllegalStateException(LocalizedODEFormats.NAN_APPEARING_DURING_INTEGRATION,
-                                                predictedTime);
-        }
-        return error;
+    protected double errorEstimation(final double[] previousState, final double predictedTime, final double[] predictedState, final double[] predictedScaled, final RealMatrix predictedNordsieck) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected AdamsStateInterpolator finalizeStep(final double stepSize, final double[] predictedState,
-                                                  final double[] predictedScaled, final Array2DRowRealMatrix predictedNordsieck,
-                                                  final boolean isForward,
-                                                  final ODEStateAndDerivative globalPreviousState,
-                                                  final ODEStateAndDerivative globalCurrentState,
-                                                  final EquationsMapper equationsMapper) {
-
-        final double[] correctedYDot = computeDerivatives(globalCurrentState.getTime(), predictedState);
-
-        // update Nordsieck vector
-        final double[] correctedScaled = new double[predictedState.length];
-        for (int j = 0; j < correctedScaled.length; ++j) {
-            correctedScaled[j] = getStepSize() * correctedYDot[j];
-        }
-        updateHighOrderDerivativesPhase2(predictedScaled, correctedScaled, predictedNordsieck);
-
-        final ODEStateAndDerivative updatedStepEnd =
-                        equationsMapper.mapStateAndDerivative(globalCurrentState.getTime(),
-                                                              predictedState, correctedYDot);
-        return new AdamsStateInterpolator(getStepSize(), updatedStepEnd,
-                                          correctedScaled, predictedNordsieck, isForward,
-                                          getStepStart(), updatedStepEnd,
-                                          equationsMapper);
-
+    protected AdamsStateInterpolator finalizeStep(final double stepSize, final double[] predictedState, final double[] predictedScaled, final Array2DRowRealMatrix predictedNordsieck, final boolean isForward, final ODEStateAndDerivative globalPreviousState, final ODEStateAndDerivative globalCurrentState, final EquationsMapper equationsMapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Corrector for current state in Adams-Moulton method.
+    /**
+     * Corrector for current state in Adams-Moulton method.
      * <p>
      * This visitor implements the Taylor series formula:
      * <pre>
@@ -267,19 +230,28 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
      */
     private class Corrector implements RealMatrixPreservingVisitor {
 
-        /** Previous state. */
+        /**
+         * Previous state.
+         */
         private final double[] previous;
 
-        /** Current scaled first derivative. */
+        /**
+         * Current scaled first derivative.
+         */
         private final double[] scaled;
 
-        /** Current state before correction. */
+        /**
+         * Current state before correction.
+         */
         private final double[] before;
 
-        /** Current state after correction. */
+        /**
+         * Current state after correction.
+         */
         private final double[] after;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          * <p>
          * All arrays will be stored by reference to caller arrays.
          * </p>
@@ -288,27 +260,29 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
          * @param state state to correct (will be overwritten after visit)
          */
         Corrector(final double[] previous, final double[] scaled, final double[] state) {
-            this.previous = previous; // NOPMD - array reference storage is intentional and documented here
-            this.scaled   = scaled;   // NOPMD - array reference storage is intentional and documented here
-            this.after    = state;    // NOPMD - array reference storage is intentional and documented here
-            this.before   = state.clone();
+            // NOPMD - array reference storage is intentional and documented here
+            this.previous = previous;
+            // NOPMD - array reference storage is intentional and documented here
+            this.scaled = scaled;
+            // NOPMD - array reference storage is intentional and documented here
+            this.after = state;
+            this.before = state.clone();
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
-        public void start(int rows, int columns,
-                          int startRow, int endRow, int startColumn, int endColumn) {
-            Arrays.fill(after, 0.0);
+        public void start(int rows, int columns, int startRow, int endRow, int startColumn, int endColumn) {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void visit(int row, int column, double value) {
-            if ((row & 0x1) == 0) {
-                after[column] -= value;
-            } else {
-                after[column] += value;
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -322,21 +296,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
          */
         @Override
         public double end() {
-
-            final StepsizeHelper helper = getStepSizeHelper();
-            double error = 0;
-            for (int i = 0; i < after.length; ++i) {
-                after[i] += previous[i] + scaled[i];
-                if (i < helper.getMainSetDimension()) {
-                    final double tol   = helper.getTolerance(i, FastMath.max(FastMath.abs(previous[i]), FastMath.abs(after[i])));
-                    final double ratio = (after[i] - before[i]) / tol; // (corrected-predicted)/tol
-                    error += ratio * ratio;
-                }
-            }
-
-            return FastMath.sqrt(error / helper.getMainSetDimension());
-
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
-
 }

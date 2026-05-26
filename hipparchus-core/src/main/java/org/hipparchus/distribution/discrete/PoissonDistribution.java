@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -35,15 +34,30 @@ import org.hipparchus.util.MathUtils;
  * @see <a href="http://mathworld.wolfram.com/PoissonDistribution.html">Poisson distribution (MathWorld)</a>
  */
 public class PoissonDistribution extends AbstractIntegerDistribution {
-    /** Default maximum number of iterations for cumulative probability calculations. */
+
+    /**
+     * Default maximum number of iterations for cumulative probability calculations.
+     */
     public static final int DEFAULT_MAX_ITERATIONS = 10000000;
-    /** Default convergence criterion. */
+
+    /**
+     * Default convergence criterion.
+     */
     public static final double DEFAULT_EPSILON = 1e-12;
-    /** Serializable version identifier. */
+
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20160320L;
-    /** Distribution used to compute normal approximation. */
+
+    /**
+     * Distribution used to compute normal approximation.
+     */
     private final NormalDistribution normal;
-    /** Mean of the distribution. */
+
+    /**
+     * Mean of the distribution.
+     */
     private final double mean;
 
     /**
@@ -55,7 +69,9 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      */
     private final int maxIterations;
 
-    /** Convergence criterion for cumulative probability. */
+    /**
+     * Convergence criterion for cumulative probability.
+     */
     private final double epsilon;
 
     /**
@@ -78,15 +94,13 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      * probabilities.
      * @throws MathIllegalArgumentException if {@code p <= 0}.
      */
-    public PoissonDistribution(double p, double epsilon, int maxIterations)
-        throws MathIllegalArgumentException {
+    public PoissonDistribution(double p, double epsilon, int maxIterations) throws MathIllegalArgumentException {
         if (p <= 0) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.MEAN, p);
         }
         mean = p;
         this.epsilon = epsilon;
         this.maxIterations = maxIterations;
-
         // Use the same RNG instance as the parent class.
         normal = new NormalDistribution(p, FastMath.sqrt(p));
     }
@@ -99,8 +113,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      * @param epsilon Convergence criterion for cumulative probabilities.
      * @throws MathIllegalArgumentException if {@code p <= 0}.
      */
-    public PoissonDistribution(double p, double epsilon)
-        throws MathIllegalArgumentException {
+    public PoissonDistribution(double p, double epsilon) throws MathIllegalArgumentException {
         this(p, epsilon, DEFAULT_MAX_ITERATIONS);
     }
 
@@ -121,43 +134,31 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      * @return the mean for the distribution.
      */
     public double getMean() {
-        return mean;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double probability(int x) {
-        final double logProbability = logProbability(x);
-        return logProbability == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logProbability);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double logProbability(int x) {
-        double ret;
-        if (x < 0 || x == Integer.MAX_VALUE) {
-            ret = Double.NEGATIVE_INFINITY;
-        } else if (x == 0) {
-            ret = -mean;
-        } else {
-            ret = -SaddlePointExpansion.getStirlingError(x) -
-                  SaddlePointExpansion.getDeviancePart(x, mean) -
-                  0.5 * FastMath.log(MathUtils.TWO_PI) - 0.5 * FastMath.log(x);
-        }
-        return ret;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double cumulativeProbability(int x) {
-        if (x < 0) {
-            return 0;
-        }
-        if (x == Integer.MAX_VALUE) {
-            return 1;
-        }
-        return Gamma.regularizedGammaQ((double) x + 1, mean, epsilon,
-                                       maxIterations);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -171,9 +172,8 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      * @return the distribution function value calculated using a normal
      * approximation.
      */
-    public double normalApproximateProbability(int x)  {
-        // calculate the probability using half-correction
-        return normal.cumulativeProbability(x + 0.5);
+    public double normalApproximateProbability(int x) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -183,7 +183,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double getNumericalMean() {
-        return getMean();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -193,7 +193,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        return getMean();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -205,7 +205,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public int getSupportLowerBound() {
-        return 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -220,7 +220,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public int getSupportUpperBound() {
-        return Integer.MAX_VALUE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -232,6 +232,6 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

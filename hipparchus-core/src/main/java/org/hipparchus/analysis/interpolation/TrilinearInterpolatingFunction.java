@@ -20,7 +20,6 @@ import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.analysis.FieldTrivariateFunction;
 import org.hipparchus.analysis.TrivariateFunction;
 import org.hipparchus.exception.MathIllegalArgumentException;
-
 import java.io.Serializable;
 
 /**
@@ -71,13 +70,10 @@ public class TrilinearInterpolatingFunction implements TrivariateFunction, Field
      * @throws MathIllegalArgumentException if grid size is smaller than 2
      *                                      or if the grid is not sorted in strict increasing order
      */
-    public TrilinearInterpolatingFunction(final double[] xVal, final double[] yVal, final double[] zVal,
-                                          final double[][][] fVal)
-            throws MathIllegalArgumentException {
+    public TrilinearInterpolatingFunction(final double[] xVal, final double[] yVal, final double[] zVal, final double[][][] fVal) throws MathIllegalArgumentException {
         this.xGrid = new GridAxis(xVal, 2);
         this.yGrid = new GridAxis(yVal, 2);
         this.zGrid = new GridAxis(zVal, 2);
-
         // deep copy of the array
         this.fVal = new double[xVal.length][yVal.length][zVal.length];
         for (int i = 0; i < xVal.length; i++) {
@@ -93,7 +89,7 @@ public class TrilinearInterpolatingFunction implements TrivariateFunction, Field
      * @return lowest grid x coordinate
      */
     public double getXInf() {
-        return xGrid.node(0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -102,7 +98,7 @@ public class TrilinearInterpolatingFunction implements TrivariateFunction, Field
      * @return highest grid x coordinate
      */
     public double getXSup() {
-        return xGrid.node(xGrid.size() - 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -111,7 +107,7 @@ public class TrilinearInterpolatingFunction implements TrivariateFunction, Field
      * @return lowest grid y coordinate
      */
     public double getYInf() {
-        return yGrid.node(0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -120,7 +116,7 @@ public class TrilinearInterpolatingFunction implements TrivariateFunction, Field
      * @return highest grid y coordinate
      */
     public double getYSup() {
-        return yGrid.node(yGrid.size() - 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -129,7 +125,7 @@ public class TrilinearInterpolatingFunction implements TrivariateFunction, Field
      * @return lowest grid z coordinate
      */
     public double getZInf() {
-        return zGrid.node(0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -138,48 +134,15 @@ public class TrilinearInterpolatingFunction implements TrivariateFunction, Field
      * @return highest grid z coordinate
      */
     public double getZSup() {
-        return zGrid.node(zGrid.size() - 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double value(final double x, final double y, final double z) {
-
-        // get the interpolation nodes
-        final int i = xGrid.interpolationIndex(x);
-        final int j = yGrid.interpolationIndex(y);
-        final int k = zGrid.interpolationIndex(z);
-        final double x0 = xGrid.node(i);
-        final double x1 = xGrid.node(i + 1);
-        final double y0 = yGrid.node(j);
-        final double y1 = yGrid.node(j + 1);
-        final double z0 = zGrid.node(k);
-        final double z1 = zGrid.node(k + 1);
-
-        // get the function values at interpolation nodes
-        final double c000 = fVal[i][j][k];
-        final double c100 = fVal[i + 1][j][k];
-        final double c010 = fVal[i][j + 1][k];
-        final double c110 = fVal[i + 1][j + 1][k];
-        final double c001 = fVal[i][j][k + 1];
-        final double c101 = fVal[i + 1][j][k + 1];
-        final double c011 = fVal[i][j + 1][k + 1];
-        final double c111 = fVal[i + 1][j + 1][k + 1];
-
-        // bilinear interpolations on (x, y)
-        final double dx0  = x  - x0;
-        final double dx1  = x1 - x;
-        final double dx10 = x1 - x0;
-        final double dy0  = y  - y0;
-        final double dy1  = y1 - y;
-        final double dy10 = y1 - y0;
-        final double c0 = (dx0 * (dy0 * c110 + dy1 * c100) + dx1 * (dy0 * c010 + dy1 * c000)) / (dx10 * dy10);
-        final double c1 = (dx0 * (dy0 * c111 + dy1 * c101) + dx1 * (dy0 * c011 + dy1 * c001)) / (dx10 * dy10);
-
-        // interpolate along z
-        final double t = (z  - z0) / (z1 - z0);
-        return c0 + t * (c1 - c0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -189,44 +152,6 @@ public class TrilinearInterpolatingFunction implements TrivariateFunction, Field
      */
     @Override
     public <T extends CalculusFieldElement<T>> T value(T x, T y, T z) {
-
-        // get the interpolation nodes
-        final int i = xGrid.interpolationIndex(x.getReal());
-        final int j = yGrid.interpolationIndex(y.getReal());
-        final int k = zGrid.interpolationIndex(z.getReal());
-        final double x0 = xGrid.node(i);
-        final double x1 = xGrid.node(i + 1);
-        final double y0 = yGrid.node(j);
-        final double y1 = yGrid.node(j + 1);
-        final double z0 = zGrid.node(k);
-        final double z1 = zGrid.node(k + 1);
-
-        // get the function values at interpolation nodes
-        final double c000 = fVal[i][j][k];
-        final double c100 = fVal[i + 1][j][k];
-        final double c010 = fVal[i][j + 1][k];
-        final double c110 = fVal[i + 1][j + 1][k];
-        final double c001 = fVal[i][j][k + 1];
-        final double c101 = fVal[i + 1][j][k + 1];
-        final double c011 = fVal[i][j + 1][k + 1];
-        final double c111 = fVal[i + 1][j + 1][k + 1];
-
-        // interpolate
-        final T      dx0  = x.subtract(x0);
-        final T      mdx1 = x.subtract(x1);
-        final double dx10 = x1 - x0;
-        final T      dy0  = y.subtract(y0);
-        final T      mdy1 = y.subtract(y1);
-        final double dy10 = y1 - y0;
-        final T c0 = dy0.multiply(c110).subtract(mdy1.multiply(c100)).multiply(dx0).
-                subtract(dy0.multiply(c010).subtract(mdy1.multiply(c000)).multiply(mdx1)).
-                divide(dx10 * dy10);
-        final T c1 = dy0.multiply(c111).subtract(mdy1.multiply(c101)).multiply(dx0).
-                subtract(dy0.multiply(c011).subtract(mdy1.multiply(c001)).multiply(mdx1)).
-                divide(dx10 * dy10);
-
-        // interpolate along z
-        final T t = z.subtract(z0).divide(z1 - z0);
-        return c0.add(t.multiply(c1.subtract(c0)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

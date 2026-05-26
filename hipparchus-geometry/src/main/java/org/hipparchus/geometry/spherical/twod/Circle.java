@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -38,62 +37,69 @@ import org.hipparchus.util.FastMath;
 import org.hipparchus.util.MathUtils;
 import org.hipparchus.util.SinCos;
 
-/** This class represents an oriented great circle on the 2-sphere.
-
+/**
+ * This class represents an oriented great circle on the 2-sphere.
+ *
  * <p>An oriented circle can be defined by a center point. The circle
  * is the set of points that are in the normal plan the center.</p>
-
+ *
  * <p>Since it is oriented the two spherical caps at its two sides are
  * unambiguously identified as a left cap and a right cap. This can be
  * used to identify the interior and the exterior in a simple way by
  * local properties only when part of a line is used to define part of
  * a spherical polygon boundary.</p>
-
  */
-public class Circle
-        implements Hyperplane<Sphere2D, S2Point, Circle, SubCircle>,
-                   Embedding<Sphere2D, S2Point, Sphere1D, S1Point> {
+public class Circle implements Hyperplane<Sphere2D, S2Point, Circle, SubCircle>, Embedding<Sphere2D, S2Point, Sphere1D, S1Point> {
 
-    /** Pole or circle center. */
+    /**
+     * Pole or circle center.
+     */
     private Vector3D pole;
 
-    /** First axis in the equator plane, origin of the phase angles. */
+    /**
+     * First axis in the equator plane, origin of the phase angles.
+     */
     private Vector3D x;
 
-    /** Second axis in the equator plane, in quadrature with respect to x. */
+    /**
+     * Second axis in the equator plane, in quadrature with respect to x.
+     */
     private Vector3D y;
 
-    /** Tolerance below which close sub-arcs are merged together. */
+    /**
+     * Tolerance below which close sub-arcs are merged together.
+     */
     private final double tolerance;
 
-    /** Build a great circle from its pole.
+    /**
+     * Build a great circle from its pole.
      * <p>The circle is oriented in the trigonometric direction around pole.</p>
      * @param pole circle pole
      * @param tolerance tolerance below which close sub-arcs are merged together
      * @exception MathIllegalArgumentException if tolerance is smaller than {@link Sphere1D#SMALLEST_TOLERANCE}
      */
-    public Circle(final Vector3D pole, final double tolerance)
-        throws MathIllegalArgumentException {
+    public Circle(final Vector3D pole, final double tolerance) throws MathIllegalArgumentException {
         Sphere2D.checkTolerance(tolerance);
         reset(pole);
         this.tolerance = tolerance;
     }
 
-    /** Build a great circle from two non-aligned points.
+    /**
+     * Build a great circle from two non-aligned points.
      * <p>The circle is oriented from first to second point using the path smaller than π.</p>
      * @param first first point contained in the great circle
      * @param second second point contained in the great circle
      * @param tolerance tolerance below which close sub-arcs are merged together
      * @exception MathIllegalArgumentException if tolerance is smaller than {@link Sphere1D#SMALLEST_TOLERANCE}
      */
-    public Circle(final S2Point first, final S2Point second, final double tolerance)
-        throws MathIllegalArgumentException {
+    public Circle(final S2Point first, final S2Point second, final double tolerance) throws MathIllegalArgumentException {
         Sphere2D.checkTolerance(tolerance);
         reset(first.getVector().crossProduct(second.getVector()));
         this.tolerance = tolerance;
     }
 
-    /** Build a circle from its internal components.
+    /**
+     * Build a circle from its internal components.
      * <p>The circle is oriented in the trigonometric direction around center.</p>
      * @param pole circle pole
      * @param x first axis in the equator plane
@@ -101,16 +107,16 @@ public class Circle
      * @param tolerance tolerance below which close sub-arcs are merged together
      * @exception MathIllegalArgumentException if tolerance is smaller than {@link Sphere1D#SMALLEST_TOLERANCE}
      */
-    private Circle(final Vector3D pole, final Vector3D x, final Vector3D y, final double tolerance)
-        throws MathIllegalArgumentException {
+    private Circle(final Vector3D pole, final Vector3D x, final Vector3D y, final double tolerance) throws MathIllegalArgumentException {
         Sphere2D.checkTolerance(tolerance);
-        this.pole      = pole;
-        this.x         = x;
-        this.y         = y;
+        this.pole = pole;
+        this.x = x;
+        this.y = y;
         this.tolerance = tolerance;
     }
 
-    /** Copy constructor.
+    /**
+     * Copy constructor.
      * <p>The created instance is completely independent from the
      * original instance, it is a deep copy.</p>
      * @param circle circle to copy
@@ -119,60 +125,67 @@ public class Circle
         this(circle.pole, circle.x, circle.y, circle.tolerance);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Circle copySelf() {
-        return new Circle(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Reset the instance as if built from a pole.
+    /**
+     * Reset the instance as if built from a pole.
      * <p>The circle is oriented in the trigonometric direction around pole.</p>
      * @param newPole circle pole
      */
     public void reset(final Vector3D newPole) {
-        this.pole = newPole.normalize();
-        this.x    = newPole.orthogonal();
-        this.y    = Vector3D.crossProduct(newPole, x).normalize();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Revert the instance.
+    /**
+     * Revert the instance.
      */
     public void revertSelf() {
-        // x remains the same
-        y    = y.negate();
-        pole = pole.negate();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the reverse of the instance.
+    /**
+     * Get the reverse of the instance.
      * <p>Get a circle with reversed orientation with respect to the
      * instance. A new object is built, the instance is untouched.</p>
      * @return a new circle, with orientation opposite to the instance orientation
      */
     public Circle getReverse() {
-        return new Circle(pole.negate(), x, y.negate(), tolerance);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public S2Point project(S2Point point) {
-        return toSpace(toSubSpace(point));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getTolerance() {
-        return tolerance;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @see #getPhase(Vector3D)
      */
     @Override
     public S1Point toSubSpace(final S2Point point) {
-        return new S1Point(getPhase(point.getVector()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the phase angle of a direction.
+    /**
+     * Get the phase angle of a direction.
      * <p>
      * The direction may not belong to the circle as the
      * phase is computed for the meridian plane between the circle
@@ -183,18 +196,20 @@ public class Circle
      * @see #toSubSpace(S2Point)
      */
     public double getPhase(final Vector3D direction) {
-        return FastMath.PI + FastMath.atan2(-direction.dotProduct(y), -direction.dotProduct(x));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @see #getPointAt(double)
      */
     @Override
     public S2Point toSpace(final S1Point point) {
-        return new S2Point(getPointAt(point.getAlpha()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a circle point from its phase around the circle.
+    /**
+     * Get a circle point from its phase around the circle.
      * @param alpha phase around the circle
      * @return circle point on the sphere
      * @see #toSpace(S1Point)
@@ -202,11 +217,11 @@ public class Circle
      * @see #getYAxis()
      */
     public Vector3D getPointAt(final double alpha) {
-        final SinCos sc = FastMath.sinCos(alpha);
-        return new Vector3D(sc.cos(), x, sc.sin(), y);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the X axis of the circle.
+    /**
+     * Get the X axis of the circle.
      * <p>
      * This method returns the same value as {@link #getPointAt(double)
      * getPointAt(0.0)} but it does not do any computation and always
@@ -218,10 +233,11 @@ public class Circle
      * @see #getPole()
      */
     public Vector3D getXAxis() {
-        return x;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the Y axis of the circle.
+    /**
+     * Get the Y axis of the circle.
      * <p>
      * This method returns the same value as {@link #getPointAt(double)
      * getPointAt(MathUtils.SEMI_PI)} but it does not do any computation and always
@@ -233,10 +249,11 @@ public class Circle
      * @see #getPole()
      */
     public Vector3D getYAxis() {
-        return y;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the pole of the circle.
+    /**
+     * Get the pole of the circle.
      * <p>
      * As the circle is a great circle, the pole does <em>not</em>
      * belong to it.
@@ -246,49 +263,55 @@ public class Circle
      * @see #getYAxis()
      */
     public Vector3D getPole() {
-        return pole;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the arc of the instance that lies inside the other circle.
+    /**
+     * Get the arc of the instance that lies inside the other circle.
      * @param other other circle
      * @return arc of the instance that lies inside the other circle
      */
     public Arc getInsideArc(final Circle other) {
-        final double alpha  = getPhase(other.pole);
-        return new Arc(alpha - MathUtils.SEMI_PI, alpha + MathUtils.SEMI_PI, tolerance);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SubCircle wholeHyperplane() {
-        return new SubCircle(this, new ArcsSet(tolerance));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SubCircle emptyHyperplane() {
-        final RegionFactory<Sphere1D, S1Point, LimitAngle, SubLimitAngle> factory = new RegionFactory<>();
-        return new SubCircle(this, factory.getComplement(new ArcsSet(tolerance)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Build a region covering the whole space.
+    /**
+     * Build a region covering the whole space.
      * @return a region containing the instance (really a {@link
      * SphericalPolygonsSet SphericalPolygonsSet} instance)
      */
     @Override
     public SphericalPolygonsSet wholeSpace() {
-        return new SphericalPolygonsSet(tolerance);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @see #getOffset(Vector3D)
      */
     @Override
     public double getOffset(final S2Point point) {
-        return getOffset(point.getVector());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the offset (oriented distance) of a direction.
+    /**
+     * Get the offset (oriented distance) of a direction.
      * <p>The offset is defined as the angular distance between the
      * circle center and the direction minus the circle radius. It
      * is therefore 0 on the circle, positive for directions outside of
@@ -298,29 +321,31 @@ public class Circle
      * @see #getOffset(S2Point)
      */
     public double getOffset(final Vector3D direction) {
-        return Vector3D.angle(pole, direction) - MathUtils.SEMI_PI;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public S2Point moveToOffset(final S2Point point, final double offset) {
-        final SinCos scOld = FastMath.sinCos(getOffset(point));
-        final SinCos scNew = FastMath.sinCos(offset);
-        final double ratio = scNew.cos() / scOld.cos();
-        return new S2Point(new Vector3D(ratio * scOld.sin() - scNew.sin(), pole,
-                                        ratio, point.getVector()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public S2Point arbitraryPoint() {
-        return new S2Point(pole.orthogonal());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean sameOrientationAs(final Circle other) {
-        return Vector3D.dotProduct(pole, other.pole) >= 0.0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -332,15 +357,11 @@ public class Circle
      * @return an arc of the circle.
      */
     public Arc getArc(final S2Point a, final S2Point b) {
-        final double phaseA = getPhase(a.getVector());
-        double phaseB = getPhase(b.getVector());
-        if (phaseB < phaseA) {
-            phaseB += 2 * FastMath.PI;
-        }
-        return new Arc(phaseA, phaseB, tolerance);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a {@link org.hipparchus.geometry.partitioning.Transform
+    /**
+     * Get a {@link org.hipparchus.geometry.partitioning.Transform
      * Transform} embedding a 3D rotation.
      * @param rotation rotation to use
      * @return a new transform that can be applied to either {@link
@@ -348,47 +369,50 @@ public class Circle
      * org.hipparchus.geometry.partitioning.SubHyperplane
      * SubHyperplane} instances
      */
-    public static Transform<Sphere2D, S2Point, Circle, SubCircle, Sphere1D, S1Point, LimitAngle, SubLimitAngle>
-        getTransform(final Rotation rotation) {
-        return new CircleTransform(rotation);
+    public static Transform<Sphere2D, S2Point, Circle, SubCircle, Sphere1D, S1Point, LimitAngle, SubLimitAngle> getTransform(final Rotation rotation) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Class embedding a 3D rotation. */
-    private static class CircleTransform
-        implements Transform<Sphere2D, S2Point, Circle, SubCircle, Sphere1D, S1Point, LimitAngle, SubLimitAngle> {
+    /**
+     * Class embedding a 3D rotation.
+     */
+    private static class CircleTransform implements Transform<Sphere2D, S2Point, Circle, SubCircle, Sphere1D, S1Point, LimitAngle, SubLimitAngle> {
 
-        /** Underlying rotation. */
+        /**
+         * Underlying rotation.
+         */
         private final Rotation rotation;
 
-        /** Build a transform from a {@code Rotation}.
+        /**
+         * Build a transform from a {@code Rotation}.
          * @param rotation rotation to use
          */
         CircleTransform(final Rotation rotation) {
             this.rotation = rotation;
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public S2Point apply(final S2Point point) {
-            return new S2Point(rotation.applyTo(point.getVector()));
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Circle apply(final Circle circle) {
-            return new Circle(rotation.applyTo(circle.pole),
-                              rotation.applyTo(circle.x),
-                              rotation.applyTo(circle.y),
-                              circle.tolerance);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public SubLimitAngle apply(final SubLimitAngle sub, final Circle original, final Circle transformed) {
-            // as the circle is rotated, the limit angles are rotated too
-            return sub;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
-
 }

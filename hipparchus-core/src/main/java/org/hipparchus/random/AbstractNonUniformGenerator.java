@@ -19,18 +19,18 @@ package org.hipparchus.random;
 /**
  * Base class for generating non-uniform random variates from an underlying uniform generator.
  */
-public abstract class AbstractNonUniformGenerator implements NonUniformGenerator
-{
+public abstract class AbstractNonUniformGenerator implements NonUniformGenerator {
 
-    /** Underlying random generator. */
+    /**
+     * Underlying random generator.
+     */
     private final RandomGenerator random;
 
     /**
      * Simple constructor.
      * @param random underlying random generator
      */
-    public AbstractNonUniformGenerator(final RandomGenerator random)
-    {
+    public AbstractNonUniformGenerator(final RandomGenerator random) {
         this.random = random;
     }
 
@@ -38,18 +38,15 @@ public abstract class AbstractNonUniformGenerator implements NonUniformGenerator
      * Generate next uniform variate.
      * @return next uniform variate between 0 and 1
      */
-    protected double nextUniform()
-    {
-        return random.nextDouble();
+    protected double nextUniform() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Generate next normal variate.
      * @return next normal variate witm mean 0 and standard deviation 1
      */
-    protected double nextNormal()
-    {
-        return random.nextGaussian();
+    protected double nextNormal() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

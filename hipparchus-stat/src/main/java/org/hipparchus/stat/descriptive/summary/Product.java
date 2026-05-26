@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.stat.descriptive.summary;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.NullArgumentException;
 import org.hipparchus.stat.descriptive.AbstractStorelessUnivariateStatistic;
@@ -44,16 +42,21 @@ import org.hipparchus.util.MathUtils;
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.
  */
-public class Product extends AbstractStorelessUnivariateStatistic
-    implements AggregatableStatistic<Product>, WeightedEvaluation, Serializable {
+public class Product extends AbstractStorelessUnivariateStatistic implements AggregatableStatistic<Product>, WeightedEvaluation, Serializable {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20150412L;
 
-    /** The number of values that have been added */
+    /**
+     * The number of values that have been added
+     */
     private long n;
 
-    /** The current Running Product */
+    /**
+     * The current Running Product
+     */
     private double value;
 
     /**
@@ -73,44 +76,48 @@ public class Product extends AbstractStorelessUnivariateStatistic
      */
     public Product(Product original) throws NullArgumentException {
         MathUtils.checkNotNull(original);
-        this.n     = original.n;
+        this.n = original.n;
         this.value = original.value;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void increment(final double d) {
-        value *= d;
-        n++;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getResult() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long getN() {
-        return n;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
-        value = 1;
-        n = 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void aggregate(Product other) {
-        MathUtils.checkNotNull(other);
-        if (other.n > 0) {
-            this.n     += other.n;
-            this.value *= other.value;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -126,16 +133,8 @@ public class Product extends AbstractStorelessUnivariateStatistic
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-        double product = Double.NaN;
-        if (MathArrays.verifyValues(values, begin, length, true)) {
-            product = 1.0;
-            for (int i = begin; i < begin + length; i++) {
-                product *= values[i];
-            }
-        }
-        return product;
+    public double evaluate(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -165,22 +164,15 @@ public class Product extends AbstractStorelessUnivariateStatistic
      * @throws MathIllegalArgumentException if the parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values, final double[] weights,
-                           final int begin, final int length) throws MathIllegalArgumentException {
-        double product = Double.NaN;
-        if (MathArrays.verifyValues(values, weights, begin, length, true)) {
-            product = 1.0;
-            for (int i = begin; i < begin + length; i++) {
-                product *= FastMath.pow(values[i], weights[i]);
-            }
-        }
-        return product;
+    public double evaluate(final double[] values, final double[] weights, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Product copy() {
-        return new Product(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

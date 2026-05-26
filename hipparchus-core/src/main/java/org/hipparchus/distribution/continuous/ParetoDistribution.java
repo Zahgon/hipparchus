@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.distribution.continuous;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -47,12 +45,19 @@ import org.hipparchus.util.FastMath;
  */
 public class ParetoDistribution extends AbstractRealDistribution {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20130424L;
 
-    /** The scale parameter of this distribution. */
+    /**
+     * The scale parameter of this distribution.
+     */
     private final double scale;
-    /** The shape parameter of this distribution. */
+
+    /**
+     * The shape parameter of this distribution.
+     */
     private final double shape;
 
     /**
@@ -69,8 +74,7 @@ public class ParetoDistribution extends AbstractRealDistribution {
      * @param shape the shape parameter of this distribution
      * @throws MathIllegalArgumentException if {@code scale <= 0} or {@code shape <= 0}.
      */
-    public ParetoDistribution(double scale, double shape)
-        throws MathIllegalArgumentException {
+    public ParetoDistribution(double scale, double shape) throws MathIllegalArgumentException {
         this(scale, shape, DEFAULT_SOLVER_ABSOLUTE_ACCURACY);
     }
 
@@ -82,20 +86,14 @@ public class ParetoDistribution extends AbstractRealDistribution {
      * @param inverseCumAccuracy Inverse cumulative probability accuracy.
      * @throws MathIllegalArgumentException if {@code scale <= 0} or {@code shape <= 0}.
      */
-    public ParetoDistribution(double scale,
-                              double shape,
-                              double inverseCumAccuracy)
-        throws MathIllegalArgumentException {
+    public ParetoDistribution(double scale, double shape, double inverseCumAccuracy) throws MathIllegalArgumentException {
         super(inverseCumAccuracy);
-
         if (scale <= 0) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.SCALE, scale);
         }
-
         if (shape <= 0) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.SHAPE, shape);
         }
-
         this.scale = scale;
         this.shape = shape;
     }
@@ -106,7 +104,7 @@ public class ParetoDistribution extends AbstractRealDistribution {
      * @return the scale parameter
      */
     public double getScale() {
-        return scale;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -115,7 +113,7 @@ public class ParetoDistribution extends AbstractRealDistribution {
      * @return the shape parameter
      */
     public double getShape() {
-        return shape;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -130,22 +128,17 @@ public class ParetoDistribution extends AbstractRealDistribution {
      */
     @Override
     public double density(double x) {
-        if (x < scale) {
-            return 0;
-        }
-        return FastMath.pow(scale, shape) / FastMath.pow(x, shape + 1) * shape;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      *
      * See documentation of {@link #density(double)} for computation details.
      */
     @Override
     public double logDensity(double x) {
-        if (x < scale) {
-            return Double.NEGATIVE_INFINITY;
-        }
-        return FastMath.log(scale) * shape - FastMath.log(x) * (shape + 1) + FastMath.log(shape);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -158,11 +151,8 @@ public class ParetoDistribution extends AbstractRealDistribution {
      * </ul>
      */
     @Override
-    public double cumulativeProbability(double x)  {
-        if (x <= scale) {
-            return 0;
-        }
-        return 1 - FastMath.pow(scale / x, shape);
+    public double cumulativeProbability(double x) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -176,10 +166,7 @@ public class ParetoDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalMean() {
-        if (shape <= 1) {
-            return Double.POSITIVE_INFINITY;
-        }
-        return shape * scale / (shape - 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -193,11 +180,7 @@ public class ParetoDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        if (shape <= 2) {
-            return Double.POSITIVE_INFINITY;
-        }
-        double s = shape - 1;
-        return scale * scale * shape / (s * s) / (shape - 2);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -209,7 +192,7 @@ public class ParetoDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportLowerBound() {
-        return scale;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -221,7 +204,7 @@ public class ParetoDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportUpperBound() {
-        return Double.POSITIVE_INFINITY;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -233,6 +216,6 @@ public class ParetoDistribution extends AbstractRealDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.events;
 
 import org.hipparchus.analysis.UnivariateFunction;
@@ -22,50 +21,66 @@ import org.hipparchus.analysis.solvers.BracketedUnivariateSolver;
 import org.hipparchus.analysis.solvers.BracketingNthOrderBrentSolver;
 import org.hipparchus.ode.ODEStateAndDerivative;
 
-/** Base class for #@link {@link ODEEventDetector}.
+/**
+ * Base class for #@link {@link ODEEventDetector}.
  * @param <T> type of the detector
  * @since 3.0
  */
 public abstract class AbstractODEDetector<T extends AbstractODEDetector<T>> implements ODEEventDetector {
 
-    /** Default maximum checking interval (s). */
+    /**
+     * Default maximum checking interval (s).
+     */
     public static final double DEFAULT_MAX_CHECK = 600;
 
-    /** Default convergence threshold (s). */
+    /**
+     * Default convergence threshold (s).
+     */
     public static final double DEFAULT_THRESHOLD = 1.e-6;
 
-    /** Default maximum number of iterations in the event time search. */
+    /**
+     * Default maximum number of iterations in the event time search.
+     */
     public static final int DEFAULT_MAX_ITER = 100;
 
-    /** Max check interval. */
+    /**
+     * Max check interval.
+     */
     private final AdaptableInterval maxCheck;
 
-    /** Maximum number of iterations in the event time search. */
+    /**
+     * Maximum number of iterations in the event time search.
+     */
     private final int maxIter;
 
-    /** Root-finding algorithm to use to detect state events. */
+    /**
+     * Root-finding algorithm to use to detect state events.
+     */
     private final BracketedUnivariateSolver<UnivariateFunction> solver;
 
-    /** Default handler for event overrides. */
+    /**
+     * Default handler for event overrides.
+     */
     private final ODEEventHandler handler;
 
-    /** Propagation direction. */
+    /**
+     * Propagation direction.
+     */
     private boolean forward;
 
-    /** Build a new instance.
+    /**
+     * Build a new instance.
      * @param maxCheck maximum checking interval, must be strictly positive (s)
      * @param maxIter maximum number of iterations in the event time search
      * @param solver root-finding algorithm to use to detect state events
      * @param handler event handler to call at event occurrences
      */
-    protected AbstractODEDetector(final AdaptableInterval maxCheck, final int maxIter,
-                                  final BracketedUnivariateSolver<UnivariateFunction> solver,
-                                  final ODEEventHandler handler) {
-        this.maxCheck  = maxCheck;
-        this.maxIter   = maxIter;
-        this.solver    = solver;
-        this.handler   = handler;
-        this.forward   = true;
+    protected AbstractODEDetector(final AdaptableInterval maxCheck, final int maxIter, final BracketedUnivariateSolver<UnivariateFunction> solver, final ODEEventHandler handler) {
+        this.maxCheck = maxCheck;
+        this.maxIter = maxIter;
+        this.solver = solver;
+        this.handler = handler;
+        this.forward = true;
     }
 
     /**
@@ -77,26 +92,31 @@ public abstract class AbstractODEDetector<T extends AbstractODEDetector<T>> impl
      */
     @Override
     public void init(final ODEStateAndDerivative s0, final double t) {
-        ODEEventDetector.super.init(s0, t);
-        forward = t >= s0.getTime();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AdaptableInterval getMaxCheckInterval() {
-        return maxCheck;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getMaxIterationCount() {
-        return maxIter;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BracketedUnivariateSolver<UnivariateFunction> getSolver() {
-        return solver;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -108,7 +128,7 @@ public abstract class AbstractODEDetector<T extends AbstractODEDetector<T>> impl
      * @return a new detector with updated configuration (the instance is not changed)
      */
     public T withMaxCheck(final double newMaxCheck) {
-        return withMaxCheck(AdaptableInterval.of(newMaxCheck));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -121,7 +141,7 @@ public abstract class AbstractODEDetector<T extends AbstractODEDetector<T>> impl
      * @since 3.0
      */
     public T withMaxCheck(final AdaptableInterval newMaxCheck) {
-        return create(newMaxCheck, getMaxIterationCount(), getSolver(), getHandler());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -133,7 +153,7 @@ public abstract class AbstractODEDetector<T extends AbstractODEDetector<T>> impl
      * @return a new detector with updated configuration (the instance is not changed)
      */
     public T withMaxIter(final int newMaxIter) {
-        return create(getMaxCheckInterval(), newMaxIter, getSolver(), getHandler());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -147,7 +167,7 @@ public abstract class AbstractODEDetector<T extends AbstractODEDetector<T>> impl
      * @see #withSolver(BracketedUnivariateSolver)
      */
     public T withThreshold(final double newThreshold) {
-        return withSolver(new BracketingNthOrderBrentSolver(0, newThreshold, 0, 5));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -160,7 +180,7 @@ public abstract class AbstractODEDetector<T extends AbstractODEDetector<T>> impl
      * @see #withThreshold(double)
      */
     public T withSolver(final BracketedUnivariateSolver<UnivariateFunction> newSolver) {
-        return create(getMaxCheckInterval(), getMaxIterationCount(), newSolver, getHandler());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -172,31 +192,32 @@ public abstract class AbstractODEDetector<T extends AbstractODEDetector<T>> impl
      * @return a new detector with updated configuration (the instance is not changed)
      */
     public T withHandler(final ODEEventHandler newHandler) {
-        return create(getMaxCheckInterval(), getMaxIterationCount(), getSolver(), newHandler);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ODEEventHandler getHandler() {
-        return handler;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Build a new instance.
+    /**
+     * Build a new instance.
      * @param newMaxCheck maximum checking interval
      * @param newmaxIter maximum number of iterations in the event time search
      * @param newSolver root-finding algorithm to use to detect state events
      * @param newHandler event handler to call at event occurrences
      * @return a new instance of the appropriate sub-type
      */
-    protected abstract T create(AdaptableInterval newMaxCheck, int newmaxIter,
-                                BracketedUnivariateSolver<UnivariateFunction> newSolver,
-                                ODEEventHandler newHandler);
+    protected abstract T create(AdaptableInterval newMaxCheck, int newmaxIter, BracketedUnivariateSolver<UnivariateFunction> newSolver, ODEEventHandler newHandler);
 
-    /** Check if the current propagation is forward or backward.
+    /**
+     * Check if the current propagation is forward or backward.
      * @return true if the current propagation is forward
      */
     public boolean isForward() {
-        return forward;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

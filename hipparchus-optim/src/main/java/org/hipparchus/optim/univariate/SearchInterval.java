@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -30,45 +29,49 @@ import org.hipparchus.util.MathUtils;
  * Search interval and (optional) start value.
  * <br>
  * Immutable class.
- *
  */
 public class SearchInterval implements OptimizationData {
-    /** Lower bound. */
+
+    /**
+     * Lower bound.
+     */
     private final double lower;
-    /** Upper bound. */
+
+    /**
+     * Upper bound.
+     */
     private final double upper;
-    /** Start value. */
+
+    /**
+     * Start value.
+     */
     private final double start;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param lo Lower bound.
      * @param hi Upper bound.
      * @param init Start value.
      * @throws MathIllegalArgumentException if {@code lo >= hi}.
      * @throws MathIllegalArgumentException if {@code init < lo} or {@code init > hi}.
      */
-    public SearchInterval(double lo,
-                          double hi,
-                          double init) {
+    public SearchInterval(double lo, double hi, double init) {
         if (lo >= hi) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                   lo, hi);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED, lo, hi);
         }
-
         MathUtils.checkRangeInclusive(init, lo, hi);
-
         lower = lo;
         upper = hi;
         start = init;
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param lo Lower bound.
      * @param hi Upper bound.
      * @throws MathIllegalArgumentException if {@code lo >= hi}.
      */
-    public SearchInterval(double lo,
-                          double hi) {
+    public SearchInterval(double lo, double hi) {
         this(lo, hi, 0.5 * (lo + hi));
     }
 
@@ -78,22 +81,24 @@ public class SearchInterval implements OptimizationData {
      * @return the lower bound.
      */
     public double getMin() {
-        return lower;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     /**
      * Gets the upper bound.
      *
      * @return the upper bound.
      */
     public double getMax() {
-        return upper;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     /**
      * Gets the start value.
      *
      * @return the start value.
      */
     public double getStartValue() {
-        return start;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

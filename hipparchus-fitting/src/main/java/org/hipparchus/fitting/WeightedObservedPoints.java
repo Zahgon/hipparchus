@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -28,17 +27,21 @@ import java.io.Serializable;
 /**
  * Simple container for weighted observed points used
  * in {@link AbstractCurveFitter curve fitting} algorithms.
- *
  */
 public class WeightedObservedPoints implements Serializable {
 
-    /** Serializable version id. */
+    /**
+     * Serializable version id.
+     */
     private static final long serialVersionUID = 20130813L;
 
-    /** Observed points. */
+    /**
+     * Observed points.
+     */
     private final List<WeightedObservedPoint> observations;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @since 3.0
      */
     public WeightedObservedPoints() {
@@ -59,7 +62,7 @@ public class WeightedObservedPoints implements Serializable {
      * @see #toList()
      */
     public void add(double x, double y) {
-        add(1d, x, y);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -75,7 +78,7 @@ public class WeightedObservedPoints implements Serializable {
      * @see #toList()
      */
     public void add(double weight, double x, double y) {
-        observations.add(new WeightedObservedPoint(weight, x, y));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -88,7 +91,7 @@ public class WeightedObservedPoints implements Serializable {
      * @see #toList()
      */
     public void add(WeightedObservedPoint observed) {
-        observations.add(observed);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -108,16 +111,13 @@ public class WeightedObservedPoints implements Serializable {
      * @see #add(WeightedObservedPoint)
      */
     public List<WeightedObservedPoint> toList() {
-        // The copy is necessary to ensure thread-safety because of the
-        // "clear" method (which otherwise would be able to empty the
-        // list of points while it is being used by another thread).
-        return new ArrayList<>(observations);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Removes all observations from this container.
      */
     public void clear() {
-        observations.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

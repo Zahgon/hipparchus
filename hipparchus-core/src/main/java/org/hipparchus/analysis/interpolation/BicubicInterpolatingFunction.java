@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.analysis.interpolation;
 
 import java.util.Arrays;
-
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.analysis.BivariateFunction;
 import org.hipparchus.analysis.FieldBivariateFunction;
@@ -30,50 +28,43 @@ import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.util.MathArrays;
 import org.hipparchus.util.MathUtils;
-
 import static org.hipparchus.util.MathArrays.buildArray;
 
 /**
  * Function that implements the
  * <a href="http://en.wikipedia.org/wiki/Bicubic_interpolation">
  * bicubic spline interpolation</a>.
- *
  */
-public class BicubicInterpolatingFunction
-    implements BivariateFunction, FieldBivariateFunction {
-    /** Number of coefficients. */
+public class BicubicInterpolatingFunction implements BivariateFunction, FieldBivariateFunction {
+
+    /**
+     * Number of coefficients.
+     */
     private static final int NUM_COEFF = 16;
+
     /**
      * Matrix to compute the spline coefficients from the function values
      * and function derivatives values
      */
-    private static final double[][] AINV = {
-        { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-        { 0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0 },
-        { -3,3,0,0,-2,-1,0,0,0,0,0,0,0,0,0,0 },
-        { 2,-2,0,0,1,1,0,0,0,0,0,0,0,0,0,0 },
-        { 0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0 },
-        { 0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0 },
-        { 0,0,0,0,0,0,0,0,-3,3,0,0,-2,-1,0,0 },
-        { 0,0,0,0,0,0,0,0,2,-2,0,0,1,1,0,0 },
-        { -3,0,3,0,0,0,0,0,-2,0,-1,0,0,0,0,0 },
-        { 0,0,0,0,-3,0,3,0,0,0,0,0,-2,0,-1,0 },
-        { 9,-9,-9,9,6,3,-6,-3,6,-6,3,-3,4,2,2,1 },
-        { -6,6,6,-6,-3,-3,3,3,-4,4,-2,2,-2,-2,-1,-1 },
-        { 2,0,-2,0,0,0,0,0,1,0,1,0,0,0,0,0 },
-        { 0,0,0,0,2,0,-2,0,0,0,0,0,1,0,1,0 },
-        { -6,6,6,-6,-4,-2,4,2,-3,3,-3,3,-2,-1,-2,-1 },
-        { 4,-4,-4,4,2,2,-2,-2,2,-2,2,-2,1,1,1,1 }
-    };
+    private static final double[][] AINV = { { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { -3, 3, 0, 0, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 2, -2, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, -3, 3, 0, 0, -2, -1, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 2, -2, 0, 0, 1, 1, 0, 0 }, { -3, 0, 3, 0, 0, 0, 0, 0, -2, 0, -1, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, -3, 0, 3, 0, 0, 0, 0, 0, -2, 0, -1, 0 }, { 9, -9, -9, 9, 6, 3, -6, -3, 6, -6, 3, -3, 4, 2, 2, 1 }, { -6, 6, 6, -6, -3, -3, 3, 3, -4, 4, -2, 2, -2, -2, -1, -1 }, { 2, 0, -2, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 2, 0, -2, 0, 0, 0, 0, 0, 1, 0, 1, 0 }, { -6, 6, 6, -6, -4, -2, 4, 2, -3, 3, -3, 3, -2, -1, -2, -1 }, { 4, -4, -4, 4, 2, 2, -2, -2, 2, -2, 2, -2, 1, 1, 1, 1 } };
 
-    /** Samples x-coordinates */
+    /**
+     * Samples x-coordinates
+     */
     private final double[] xval;
-    /** Samples y-coordinates */
+
+    /**
+     * Samples y-coordinates
+     */
     private final double[] yval;
-    /** Set of cubic splines patching the whole data grid */
+
+    /**
+     * Set of cubic splines patching the whole data grid
+     */
     private final BicubicFunction[][] splines;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param x Sample values of the x-coordinate, in increasing order.
      * @param y Sample values of the y-coordinate, in increasing order.
      * @param f Values of the function on every grid point.
@@ -89,16 +80,9 @@ public class BicubicInterpolatingFunction
      * not strictly increasing.
      * @throws MathIllegalArgumentException if any of the arrays has zero length.
      */
-    public BicubicInterpolatingFunction(double[] x,
-                                        double[] y,
-                                        double[][] f,
-                                        double[][] dFdX,
-                                        double[][] dFdY,
-                                        double[][] d2FdXdY)
-        throws MathIllegalArgumentException {
+    public BicubicInterpolatingFunction(double[] x, double[] y, double[][] f, double[][] dFdX, double[][] dFdY, double[][] d2FdXdY) throws MathIllegalArgumentException {
         final int xLen = x.length;
         final int yLen = y.length;
-
         if (xLen == 0 || yLen == 0 || f.length == 0 || f[0].length == 0) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.NO_DATA);
         }
@@ -108,33 +92,23 @@ public class BicubicInterpolatingFunction
         MathUtils.checkDimension(xLen, d2FdXdY.length);
         MathArrays.checkOrder(x);
         MathArrays.checkOrder(y);
-
         xval = x.clone();
         yval = y.clone();
-
         final int lastI = xLen - 1;
         final int lastJ = yLen - 1;
         splines = new BicubicFunction[lastI][lastJ];
-
         for (int i = 0; i < lastI; i++) {
             MathUtils.checkDimension(f[i].length, yLen);
             MathUtils.checkDimension(dFdX[i].length, yLen);
             MathUtils.checkDimension(dFdY[i].length, yLen);
             MathUtils.checkDimension(d2FdXdY[i].length, yLen);
-
             final int ip1 = i + 1;
             final double xR = xval[ip1] - xval[i];
             for (int j = 0; j < lastJ; j++) {
                 final int jp1 = j + 1;
                 final double yR = yval[jp1] - yval[j];
                 final double xRyR = xR * yR;
-                final double[] beta = {
-                    f[i][j], f[ip1][j], f[i][jp1], f[ip1][jp1],
-                    dFdX[i][j] * xR, dFdX[ip1][j] * xR, dFdX[i][jp1] * xR, dFdX[ip1][jp1] * xR,
-                    dFdY[i][j] * yR, dFdY[ip1][j] * yR, dFdY[i][jp1] * yR, dFdY[ip1][jp1] * yR,
-                    d2FdXdY[i][j] * xRyR, d2FdXdY[ip1][j] * xRyR, d2FdXdY[i][jp1] * xRyR, d2FdXdY[ip1][jp1] * xRyR
-                };
-
+                final double[] beta = { f[i][j], f[ip1][j], f[i][jp1], f[ip1][jp1], dFdX[i][j] * xR, dFdX[ip1][j] * xR, dFdX[i][jp1] * xR, dFdX[ip1][jp1] * xR, dFdY[i][j] * yR, dFdY[ip1][j] * yR, dFdY[i][jp1] * yR, dFdY[ip1][jp1] * yR, d2FdXdY[i][j] * xRyR, d2FdXdY[ip1][j] * xRyR, d2FdXdY[i][jp1] * xRyR, d2FdXdY[ip1][jp1] * xRyR };
                 splines[i][j] = new BicubicFunction(computeSplineCoefficients(beta));
             }
         }
@@ -144,15 +118,8 @@ public class BicubicInterpolatingFunction
      * {@inheritDoc}
      */
     @Override
-    public double value(double x, double y)
-        throws MathIllegalArgumentException {
-        final int i = searchIndex(x, xval);
-        final int j = searchIndex(y, yval);
-
-        final double xN = (x - xval[i]) / (xval[i + 1] - xval[i]);
-        final double yN = (y - yval[j]) / (yval[j + 1] - yval[j]);
-
-        return splines[i][j].value(xN, yN);
+    public double value(double x, double y) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -160,15 +127,8 @@ public class BicubicInterpolatingFunction
      * @since 4.1
      */
     @Override
-    public <T extends CalculusFieldElement<T>> T value(T x, T y)
-            throws MathIllegalArgumentException {
-        final int i = searchIndex(x.getReal(), xval);
-        final int j = searchIndex(y.getReal(), yval);
-
-        final T xN = x.subtract(xval[i]).divide(xval[i + 1] - xval[i]);
-        final T yN = y.subtract(yval[j]).divide(yval[j + 1] - yval[j]);
-
-        return splines[i][j].value(xN, yN);
+    public <T extends CalculusFieldElement<T>> T value(T x, T y) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -179,14 +139,7 @@ public class BicubicInterpolatingFunction
      * @return {@code true} if (x, y) is a valid point.
      */
     public boolean isValidPoint(double x, double y) {
-        if (x < xval[0] ||
-            x > xval[xval.length - 1] ||
-            y < yval[0] ||
-            y > yval[yval.length - 1]) {
-            return false;
-        } else {
-            return true;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -199,13 +152,9 @@ public class BicubicInterpolatingFunction
      */
     private int searchIndex(double c, double[] val) {
         final int r = Arrays.binarySearch(val, c);
-
-        if (r == -1 ||
-            r == -val.length - 1) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.OUT_OF_RANGE_SIMPLE,
-                                                   c, val[0], val[val.length - 1]);
+        if (r == -1 || r == -val.length - 1) {
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.OUT_OF_RANGE_SIMPLE, c, val[0], val[val.length - 1]);
         }
-
         if (r < 0) {
             // "c" in within an interpolation sub-interval: Return the
             // index of the sample at the lower end of the sub-interval.
@@ -217,7 +166,6 @@ public class BicubicInterpolatingFunction
             // of the sample at the lower end of the last sub-interval.
             return last - 1;
         }
-
         // "c" is another sample point.
         return r;
     }
@@ -253,7 +201,6 @@ public class BicubicInterpolatingFunction
      */
     private double[] computeSplineCoefficients(double[] beta) {
         final double[] a = new double[NUM_COEFF];
-
         for (int i = 0; i < NUM_COEFF; i++) {
             double result = 0;
             final double[] row = AINV[i];
@@ -262,7 +209,6 @@ public class BicubicInterpolatingFunction
             }
             a[i] = result;
         }
-
         return a;
     }
 }
@@ -271,9 +217,15 @@ public class BicubicInterpolatingFunction
  * Bicubic function.
  */
 class BicubicFunction implements BivariateFunction, FieldBivariateFunction {
-    /** Number of points. */
+
+    /**
+     * Number of points.
+     */
     private static final short N = 4;
-    /** Coefficients */
+
+    /**
+     * Coefficients
+     */
     private final double[][] a;
 
     /**
@@ -296,18 +248,7 @@ class BicubicFunction implements BivariateFunction, FieldBivariateFunction {
      */
     @Override
     public double value(double x, double y) {
-        MathUtils.checkRangeInclusive(x, 0, 1);
-        MathUtils.checkRangeInclusive(y, 0, 1);
-
-        final double x2 = x * x;
-        final double x3 = x2 * x;
-        final double[] pX = {1, x, x2, x3};
-
-        final double y2 = y * y;
-        final double y3 = y2 * y;
-        final double[] pY = {1, y, y2, y3};
-
-        return apply(pX, pY, a);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -324,7 +265,6 @@ class BicubicFunction implements BivariateFunction, FieldBivariateFunction {
             final double r = MathArrays.linearCombination(coeff[i], pY);
             result += r * pX[i];
         }
-
         return result;
     }
 
@@ -334,26 +274,7 @@ class BicubicFunction implements BivariateFunction, FieldBivariateFunction {
      */
     @Override
     public <T extends CalculusFieldElement<T>> T value(T x, T y) {
-        MathUtils.checkRangeInclusive(x.getReal(), 0, 1);
-        MathUtils.checkRangeInclusive(y.getReal(), 0, 1);
-
-        final T x2 = x.square();
-        final T x3 = x2.multiply(x);
-        final T[] pX = buildArray(x.getField(), 4);
-        pX[0] = x.getField().getOne();
-        pX[1] = x;
-        pX[2] = x2;
-        pX[3] = x3;
-
-        final T y2 = y.multiply(y);
-        final T y3 = y2.multiply(y);
-        final T[] pY = buildArray(y.getField(), 4);
-        pY[0] = y.getField().getOne();
-        pY[1] = y;
-        pY[2] = y2;
-        pY[3] = y3;
-
-        return apply(pX, pY, a);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -371,7 +292,6 @@ class BicubicFunction implements BivariateFunction, FieldBivariateFunction {
             final T r = result.linearCombination(coeff[i], pY);
             result = result.add(r.multiply(pX[i]));
         }
-
         return result;
     }
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -24,7 +23,6 @@ package org.hipparchus;
 import org.hipparchus.exception.MathRuntimeException;
 import org.hipparchus.exception.NullArgumentException;
 
-
 /**
  * Interface representing <a href="http://mathworld.wolfram.com/Field.html">field</a> elements.
  * @param <T> the type of the field elements
@@ -32,19 +30,22 @@ import org.hipparchus.exception.NullArgumentException;
  */
 public interface FieldElement<T extends FieldElement<T>> {
 
-    /** Get the real value of the number.
+    /**
+     * Get the real value of the number.
      * @return real value
      */
     double getReal();
 
-    /** Compute this + a.
+    /**
+     * Compute this + a.
      * @param a element to add
      * @return a new element representing this + a
      * @throws NullArgumentException if {@code a} is {@code null}.
      */
     T add(T a) throws NullArgumentException;
 
-    /** Compute this - a.
+    /**
+     * Compute this - a.
      * @param a element to subtract
      * @return a new element representing this - a
      * @throws NullArgumentException if {@code a} is {@code null}.
@@ -57,7 +58,8 @@ public interface FieldElement<T extends FieldElement<T>> {
      */
     T negate();
 
-    /** Compute n &times; this. Multiplication by an integer number is defined
+    /**
+     * Compute n &times; this. Multiplication by an integer number is defined
      * as the following sum
      * \[
      * n \times \mathrm{this} = \sum_{i=1}^n \mathrm{this}
@@ -67,14 +69,16 @@ public interface FieldElement<T extends FieldElement<T>> {
      */
     T multiply(int n);
 
-    /** Compute this &times; a.
+    /**
+     * Compute this &times; a.
      * @param a element to multiply
      * @return a new element representing this &times; a
      * @throws NullArgumentException if {@code a} is {@code null}.
      */
     T multiply(T a) throws NullArgumentException;
 
-    /** Compute this &divide; a.
+    /**
+     * Compute this &divide; a.
      * @param a element to divide by
      * @return a new element representing this &divide; a
      * @throws NullArgumentException if {@code a} is {@code null}.
@@ -89,12 +93,14 @@ public interface FieldElement<T extends FieldElement<T>> {
      */
     T reciprocal() throws MathRuntimeException;
 
-    /** Get the {@link Field} to which the instance belongs.
+    /**
+     * Get the {@link Field} to which the instance belongs.
      * @return {@link Field} to which the instance belongs
      */
     Field<T> getField();
 
-    /** Check if an element is semantically equal to zero.
+    /**
+     * Check if an element is semantically equal to zero.
      * <p>
      * The default implementation simply calls {@code equals(getField().getZero())}.
      * However, this may need to be overridden in some cases as due to
@@ -108,7 +114,6 @@ public interface FieldElement<T extends FieldElement<T>> {
      * @since 1.8
      */
     default boolean isZero() {
-        return equals(getField().getZero());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

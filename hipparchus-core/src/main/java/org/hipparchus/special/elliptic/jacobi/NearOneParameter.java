@@ -19,7 +19,8 @@ package org.hipparchus.special.elliptic.jacobi;
 import org.hipparchus.util.FastMath;
 import org.hipparchus.util.SinhCosh;
 
-/** Algorithm for computing the principal Jacobi functions for parameters slightly below one.
+/**
+ * Algorithm for computing the principal Jacobi functions for parameters slightly below one.
  * <p>
  * The algorithm for evaluating the functions is based on approximation
  * in terms of hyperbolic functions. It is given in Abramowitz and Stegun,
@@ -29,10 +30,13 @@ import org.hipparchus.util.SinhCosh;
  */
 class NearOneParameter extends JacobiElliptic {
 
-    /** Complementary parameter of the Jacobi elliptic function. */
+    /**
+     * Complementary parameter of the Jacobi elliptic function.
+     */
     private final double m1;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param m parameter of the Jacobi elliptic function (must be one or slightly below one here)
      */
     NearOneParameter(final double m) {
@@ -40,16 +44,11 @@ class NearOneParameter extends JacobiElliptic {
         this.m1 = 1.0 - m;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CopolarN valuesN(final double u) {
-        final SinhCosh sch  = FastMath.sinhCosh(u);
-        final double sech   =  1.0 / sch.cosh();
-        final double t      = sch.sinh() * sech;
-        final double factor = 0.25 * m1 * (sch.sinh() * sch.cosh()  - u) * sech;
-        return new CopolarN(t + factor * sech,  // equation 16.15.1
-                            sech - factor * t,  // equation 16.15.2
-                            sech + factor * t); // equation 16.15.3
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

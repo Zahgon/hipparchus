@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,7 +22,6 @@ package org.hipparchus.stat.inference;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
 import org.hipparchus.distribution.continuous.FDistribution;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathIllegalStateException;
@@ -49,18 +47,19 @@ import org.hipparchus.util.MathUtils;
  *                wg = within groups,
  *                ss = sum squared deviations
  * </pre>
- *
  */
 public class OneWayAnova {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public OneWayAnova() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public OneWayAnova() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
@@ -94,11 +93,8 @@ public class OneWayAnova {
      * array is less than 2 or a contained <code>double[]</code> array does not have
      * at least two values
      */
-    public double anovaFValue(final Collection<double[]> categoryData)
-        throws MathIllegalArgumentException, NullArgumentException {
-
-        return anovaStats(categoryData).F;
-
+    public double anovaFValue(final Collection<double[]> categoryData) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -131,15 +127,8 @@ public class OneWayAnova {
      * @throws MathIllegalStateException if the p-value can not be computed due to a convergence error
      * @throws MathIllegalStateException if the maximum number of iterations is exceeded
      */
-    public double anovaPValue(final Collection<double[]> categoryData)
-        throws MathIllegalArgumentException, NullArgumentException,
-        MathIllegalStateException {
-
-        final AnovaStats a = anovaStats(categoryData);
-        // No try-catch or advertised exception because args are valid
-        final FDistribution fdist = new FDistribution(a.dfbg, a.dfwg);
-        return 1.0 - fdist.cumulativeProbability(a.F);
-
+    public double anovaPValue(final Collection<double[]> categoryData) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -173,15 +162,8 @@ public class OneWayAnova {
      * @throws MathIllegalStateException if the p-value can not be computed due to a convergence error
      * @throws MathIllegalStateException if the maximum number of iterations is exceeded
      */
-    public double anovaPValue(final Collection<StreamingStatistics> categoryData,
-                              final boolean allowOneElementData)
-        throws MathIllegalArgumentException, NullArgumentException,
-        MathIllegalStateException {
-
-        final AnovaStats a = anovaStats(categoryData, allowOneElementData);
-        final FDistribution fdist = new FDistribution(a.dfbg, a.dfwg);
-        return 1.0 - fdist.cumulativeProbability(a.F);
-
+    public double anovaPValue(final Collection<StreamingStatistics> categoryData, final boolean allowOneElementData) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -199,14 +181,9 @@ public class OneWayAnova {
      *             than 2 or a contained <code>double[]</code> array does not
      *             contain at least two values
      */
-    private AnovaStats anovaStats(final Collection<double[]> categoryData)
-        throws MathIllegalArgumentException, NullArgumentException {
-
+    private AnovaStats anovaStats(final Collection<double[]> categoryData) throws MathIllegalArgumentException, NullArgumentException {
         MathUtils.checkNotNull(categoryData);
-
-        final Collection<StreamingStatistics> categoryDataSummaryStatistics =
-                new ArrayList<>(categoryData.size());
-
+        final Collection<StreamingStatistics> categoryDataSummaryStatistics = new ArrayList<>(categoryData.size());
         // convert arrays to SummaryStatistics
         for (final double[] data : categoryData) {
             final StreamingStatistics dataSummaryStatistics = new StreamingStatistics();
@@ -215,9 +192,7 @@ public class OneWayAnova {
                 dataSummaryStatistics.addValue(val);
             }
         }
-
         return anovaStats(categoryDataSummaryStatistics, false);
-
     }
 
     /**
@@ -256,16 +231,8 @@ public class OneWayAnova {
      * @throws MathIllegalStateException if the p-value can not be computed due to a convergence error
      * @throws MathIllegalStateException if the maximum number of iterations is exceeded
      */
-    public boolean anovaTest(final Collection<double[]> categoryData,
-                             final double alpha)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-
-        if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new MathIllegalArgumentException(
-                    LocalizedStatFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
-                    alpha, 0, 0.5);
-        }
-        return anovaPValue(categoryData) < alpha;
+    public boolean anovaTest(final Collection<double[]> categoryData, final double alpha) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -281,57 +248,43 @@ public class OneWayAnova {
      * categories is less than 2 or a contained SummaryStatistics does not contain
      * at least two values
      */
-    private AnovaStats anovaStats(final Collection<StreamingStatistics> categoryData,
-                                  final boolean allowOneElementData)
-        throws MathIllegalArgumentException, NullArgumentException {
-
+    private AnovaStats anovaStats(final Collection<StreamingStatistics> categoryData, final boolean allowOneElementData) throws MathIllegalArgumentException, NullArgumentException {
         MathUtils.checkNotNull(categoryData);
-
         if (!allowOneElementData) {
             // check if we have enough categories
             if (categoryData.size() < 2) {
-                throw new MathIllegalArgumentException(LocalizedStatFormats.TWO_OR_MORE_CATEGORIES_REQUIRED,
-                                                       categoryData.size(), 2);
+                throw new MathIllegalArgumentException(LocalizedStatFormats.TWO_OR_MORE_CATEGORIES_REQUIRED, categoryData.size(), 2);
             }
-
             // check if each category has enough data
             for (final StreamingStatistics array : categoryData) {
                 if (array.getN() <= 1) {
-                    throw new MathIllegalArgumentException(LocalizedStatFormats.TWO_OR_MORE_VALUES_IN_CATEGORY_REQUIRED,
-                                                           (int) array.getN(), 2);
+                    throw new MathIllegalArgumentException(LocalizedStatFormats.TWO_OR_MORE_VALUES_IN_CATEGORY_REQUIRED, (int) array.getN(), 2);
                 }
             }
         }
-
         int dfwg = 0;
         double sswg = 0;
         double totsum = 0;
         double totsumsq = 0;
         int totnum = 0;
-
         for (final StreamingStatistics data : categoryData) {
-
             final double sum = data.getSum();
             final double sumsq = data.getSumOfSquares();
             final int num = (int) data.getN();
             totnum += num;
             totsum += sum;
             totsumsq += sumsq;
-
             dfwg += num - 1;
             final double ss = sumsq - ((sum * sum) / num);
             sswg += ss;
         }
-
         final double sst = totsumsq - ((totsum * totsum) / totnum);
         final double ssbg = sst - sswg;
         final int dfbg = categoryData.size() - 1;
         final double msbg = ssbg / dfbg;
         final double mswg = sswg / dfwg;
         final double F = msbg / mswg;
-
         return new AnovaStats(dfbg, dfwg, F);
-
     }
 
     /**
@@ -340,13 +293,19 @@ public class OneWayAnova {
      */
     private static class AnovaStats {
 
-        /** Degrees of freedom in numerator (between groups). */
+        /**
+         * Degrees of freedom in numerator (between groups).
+         */
         private final int dfbg;
 
-        /** Degrees of freedom in denominator (within groups). */
+        /**
+         * Degrees of freedom in denominator (within groups).
+         */
         private final int dfwg;
 
-        /** Statistic. */
+        /**
+         * Statistic.
+         */
         private final double F;
 
         /**
@@ -361,5 +320,4 @@ public class OneWayAnova {
             this.F = F;
         }
     }
-
 }

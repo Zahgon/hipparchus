@@ -31,7 +31,9 @@ import org.hipparchus.util.MathArrays;
  */
 public class SmoothStepFactory {
 
-    /** Epsilon to check that normalized values are between [0:1]. */
+    /**
+     * Epsilon to check that normalized values are between [0:1].
+     */
     private static final double EPSILON = 1E-10;
 
     /**
@@ -50,7 +52,7 @@ public class SmoothStepFactory {
      * @return clamping smoothstep function
      */
     public static SmoothStepFunction getClamp() {
-        return getGeneralOrder(0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -59,8 +61,7 @@ public class SmoothStepFactory {
      * @return clamping smoothstep function
      */
     public static SmoothStepFunction getQuadratic() {
-        // Use a default double array as it will not matter anyway
-        return new QuadraticSmoothStepFunction(new double[] { 0 });
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -69,7 +70,7 @@ public class SmoothStepFactory {
      * @return cubic smoothstep function
      */
     public static SmoothStepFunction getCubic() {
-        return getGeneralOrder(1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -78,7 +79,7 @@ public class SmoothStepFactory {
      * @return quintic smoothstep function
      */
     public static SmoothStepFunction getQuintic() {
-        return getGeneralOrder(2);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -90,7 +91,7 @@ public class SmoothStepFactory {
      * @return clamping smoothstep function
      */
     public static <T extends CalculusFieldElement<T>> FieldSmoothStepFunction<T> getClamp(final Field<T> field) {
-        return getFieldGeneralOrder(field, 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -102,8 +103,7 @@ public class SmoothStepFactory {
      * @return clamping smoothstep function
      */
     public static <T extends CalculusFieldElement<T>> FieldSmoothStepFunction<T> getQuadratic(final Field<T> field) {
-        final T[] tempArray = MathArrays.buildArray(field, 1);
-        return new FieldQuadraticSmoothStepFunction<>(tempArray);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -115,7 +115,7 @@ public class SmoothStepFactory {
      * @return cubic smoothstep function
      */
     public static <T extends CalculusFieldElement<T>> FieldSmoothStepFunction<T> getCubic(final Field<T> field) {
-        return getFieldGeneralOrder(field, 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -127,7 +127,7 @@ public class SmoothStepFactory {
      * @return quintic smoothstep function
      */
     public static <T extends CalculusFieldElement<T>> FieldSmoothStepFunction<T> getQuintic(final Field<T> field) {
-        return getFieldGeneralOrder(field, 2);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -142,18 +142,7 @@ public class SmoothStepFactory {
      * @return smoothstep function of order <b>2N + 1</b>
      */
     public static SmoothStepFunction getGeneralOrder(final int N) {
-
-        final int twoNPlusOne = 2 * N + 1;
-
-        final double[] coefficients = new double[twoNPlusOne + 1];
-
-        int n = N;
-        for (int i = twoNPlusOne; i > N; i--) {
-            coefficients[i] = pascalTriangle(-N - 1, n) * pascalTriangle(2 * N + 1, N - n);
-            n--;
-        }
-
-        return new SmoothStepFunction(coefficients);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -169,21 +158,8 @@ public class SmoothStepFactory {
      *
      * @return smoothstep function of order <b>2N + 1</b>
      */
-    public static <T extends CalculusFieldElement<T>> FieldSmoothStepFunction<T> getFieldGeneralOrder(final Field<T> field,
-                                                                                                      final int N) {
-
-        final int twoNPlusOne = 2 * N + 1;
-
-        final T[] coefficients = MathArrays.buildArray(field, twoNPlusOne + 1);
-
-        final T one = field.getOne();
-        int     n   = N;
-        for (int i = twoNPlusOne; i > N; i--) {
-            coefficients[i] = one.newInstance(pascalTriangle(-N - 1, n) * pascalTriangle(2 * N + 1, N - n));
-            n--;
-        }
-
-        return new FieldSmoothStepFunction<>(coefficients);
+    public static <T extends CalculusFieldElement<T>> FieldSmoothStepFunction<T> getFieldGeneralOrder(final Field<T> field, final int N) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -195,12 +171,10 @@ public class SmoothStepFactory {
      * @return number of subset {@code k} in global set {@code n}
      */
     private static int pascalTriangle(final int k, final int n) {
-
         int result = 1;
         for (int i = 0; i < n; i++) {
             result *= (k - i) / (i + 1);
         }
-
         return result;
     }
 
@@ -212,10 +186,7 @@ public class SmoothStepFactory {
      * @throws MathIllegalArgumentException if input is not between [0:1]
      */
     public static void checkBetweenZeroAndOneIncluded(final double input) throws MathIllegalArgumentException {
-        if (input < 0 - EPSILON || input > 1 + EPSILON) {
-            throw new MathIllegalArgumentException(
-                    LocalizedCoreFormats.INPUT_EXPECTED_BETWEEN_ZERO_AND_ONE_INCLUDED, input);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -238,7 +209,9 @@ public class SmoothStepFactory {
      */
     public static class SmoothStepFunction extends PolynomialFunction {
 
-        /** Serializable UID. */
+        /**
+         * Serializable UID.
+         */
         private static final long serialVersionUID = 20230113L;
 
         /**
@@ -269,8 +242,7 @@ public class SmoothStepFactory {
          */
         @Override
         public double value(final double xNormalized) {
-            checkBetweenZeroAndOneIncluded(xNormalized);
-            return super.value(xNormalized);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -287,16 +259,8 @@ public class SmoothStepFactory {
          * @throws MathIllegalArgumentException if right edge is greater than left edge
          * @see org.hipparchus.analysis.UnivariateFunction#value(double)
          */
-        public double value(final double leftEdge, final double rightEdge, final double x)
-                throws MathIllegalArgumentException {
-
-            checkInputEdges(leftEdge, rightEdge);
-
-            final double xClamped = clampInput(leftEdge, rightEdge, x);
-
-            final double xNormalized = normalizeInput(leftEdge, rightEdge, xClamped);
-
-            return super.value(xNormalized);
+        public double value(final double leftEdge, final double rightEdge, final double x) throws MathIllegalArgumentException {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -306,10 +270,7 @@ public class SmoothStepFactory {
          * @param rightEdge right edge
          */
         protected void checkInputEdges(final double leftEdge, final double rightEdge) {
-            if (leftEdge > rightEdge) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.RIGHT_EDGE_GREATER_THAN_LEFT_EDGE,
-                                                       leftEdge, rightEdge);
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -322,13 +283,7 @@ public class SmoothStepFactory {
          * @return clamped input
          */
         protected double clampInput(final double leftEdge, final double rightEdge, final double x) {
-            if (x <= leftEdge) {
-                return leftEdge;
-            }
-            if (x >= rightEdge) {
-                return rightEdge;
-            }
-            return x;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -341,7 +296,7 @@ public class SmoothStepFactory {
          * @return normalized input
          */
         protected double normalizeInput(final double leftEdge, final double rightEdge, final double x) {
-            return (x - leftEdge) / (rightEdge - leftEdge);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -355,7 +310,9 @@ public class SmoothStepFactory {
      */
     public static class QuadraticSmoothStepFunction extends SmoothStepFunction {
 
-        /** Serializable UID. */
+        /**
+         * Serializable UID.
+         */
         private static final long serialVersionUID = 20230422L;
 
         /**
@@ -389,16 +346,8 @@ public class SmoothStepFactory {
          * @see org.hipparchus.analysis.UnivariateFunction#value(double)
          */
         @Override
-        public double value(final double leftEdge, final double rightEdge, final double x)
-                throws MathIllegalArgumentException {
-
-            checkInputEdges(leftEdge, rightEdge);
-
-            final double xClamped = clampInput(leftEdge, rightEdge, x);
-
-            final double xNormalized = normalizeInput(leftEdge, rightEdge, xClamped);
-
-            return value(xNormalized);
+        public double value(final double leftEdge, final double rightEdge, final double x) throws MathIllegalArgumentException {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -413,14 +362,7 @@ public class SmoothStepFactory {
          */
         @Override
         public double value(final double xNormalized) {
-            checkBetweenZeroAndOneIncluded(xNormalized);
-
-            if (xNormalized >= 0 && xNormalized <= 0.5) {
-                return 2 * xNormalized * xNormalized;
-            }
-            else {
-                return 4 * xNormalized - 2 * xNormalized * xNormalized - 1;
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -474,8 +416,7 @@ public class SmoothStepFactory {
          */
         @Override
         public T value(final double xNormalized) {
-            checkBetweenZeroAndOneIncluded(xNormalized);
-            return super.value(xNormalized);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -490,8 +431,7 @@ public class SmoothStepFactory {
          */
         @Override
         public T value(final T xNormalized) {
-            checkBetweenZeroAndOneIncluded(xNormalized.getReal());
-            return super.value(xNormalized);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -508,16 +448,8 @@ public class SmoothStepFactory {
          * @throws MathIllegalArgumentException if right edge is greater than left edge
          * @see org.hipparchus.analysis.UnivariateFunction#value(double)
          */
-        public T value(final double leftEdge, final double rightEdge, final T x)
-                throws MathIllegalArgumentException {
-
-            checkInputEdges(leftEdge, rightEdge);
-
-            final T xClamped = clampInput(leftEdge, rightEdge, x);
-
-            final T xNormalized = normalizeInput(leftEdge, rightEdge, xClamped);
-
-            return super.value(xNormalized);
+        public T value(final double leftEdge, final double rightEdge, final T x) throws MathIllegalArgumentException {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -527,10 +459,7 @@ public class SmoothStepFactory {
          * @param rightEdge right edge
          */
         protected void checkInputEdges(final double leftEdge, final double rightEdge) {
-            if (leftEdge > rightEdge) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.RIGHT_EDGE_GREATER_THAN_LEFT_EDGE,
-                                                       leftEdge, rightEdge);
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -543,13 +472,7 @@ public class SmoothStepFactory {
          * @return clamped input
          */
         protected T clampInput(final double leftEdge, final double rightEdge, final T x) {
-            if (x.getReal() <= leftEdge) {
-                return x.getField().getOne().newInstance(leftEdge);
-            }
-            if (x.getReal() >= rightEdge) {
-                return x.getField().getOne().newInstance(rightEdge);
-            }
-            return x;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -562,7 +485,7 @@ public class SmoothStepFactory {
          * @return normalized input
          */
         protected T normalizeInput(final double leftEdge, final double rightEdge, final T x) {
-            return x.subtract(leftEdge).divide(rightEdge - leftEdge);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -576,8 +499,7 @@ public class SmoothStepFactory {
      *
      * @see PolynomialFunction
      */
-    private static class FieldQuadraticSmoothStepFunction<T extends CalculusFieldElement<T>>
-            extends FieldSmoothStepFunction<T> {
+    private static class FieldQuadraticSmoothStepFunction<T extends CalculusFieldElement<T>> extends FieldSmoothStepFunction<T> {
 
         /**
          * Construct a smoothstep with the given coefficients. The first element of the coefficients array is the constant
@@ -610,16 +532,8 @@ public class SmoothStepFactory {
          * @see org.hipparchus.analysis.UnivariateFunction#value(double)
          */
         @Override
-        public T value(final double leftEdge, final double rightEdge, final T x)
-                throws MathIllegalArgumentException {
-
-            checkInputEdges(leftEdge, rightEdge);
-
-            final T xClamped = clampInput(leftEdge, rightEdge, x);
-
-            final T xNormalized = normalizeInput(leftEdge, rightEdge, xClamped);
-
-            return value(xNormalized);
+        public T value(final double leftEdge, final double rightEdge, final T x) throws MathIllegalArgumentException {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -635,17 +549,7 @@ public class SmoothStepFactory {
          */
         @Override
         public T value(final double xNormalized) {
-            checkBetweenZeroAndOneIncluded(xNormalized);
-
-            final Field<T> field = getField();
-            final T        one   = field.getOne();
-
-            if (xNormalized >= 0 && xNormalized <= 0.5) {
-                return one.newInstance(2. * xNormalized * xNormalized);
-            }
-            else {
-                return one.newInstance(4. * xNormalized - 2. * xNormalized * xNormalized - 1.);
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -661,16 +565,7 @@ public class SmoothStepFactory {
          */
         @Override
         public T value(final T xNormalized) {
-            checkBetweenZeroAndOneIncluded(xNormalized.getReal());
-
-            if (xNormalized.getReal() >= 0 && xNormalized.getReal() <= 0.5) {
-                return xNormalized.square().twice();
-            }
-            else {
-                final T one = getField().getOne();
-                return one.linearCombination(4., xNormalized, -2., xNormalized.multiply(xNormalized)).subtract(1.);
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
-
 }

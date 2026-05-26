@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.linear;
 
 /**
@@ -28,36 +26,43 @@ package org.hipparchus.linear;
  * This class is a convenience to create custom visitors without defining all
  * methods. This class provides default implementations that do nothing.
  * </p>
- *
  */
 public class DefaultRealMatrixPreservingVisitor implements RealMatrixPreservingVisitor {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public DefaultRealMatrixPreservingVisitor() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public DefaultRealMatrixPreservingVisitor() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void start(int rows, int columns,
-                      int startRow, int endRow, int startColumn, int endColumn) {
+    public void start(int rows, int columns, int startRow, int endRow, int startColumn, int endColumn) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void visit(int row, int column, double value) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double end() {
-        return 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

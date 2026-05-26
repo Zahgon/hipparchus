@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.ode;
 
 import java.util.Locale;
-
 import org.hipparchus.exception.Localizable;
 
 /**
@@ -41,40 +39,54 @@ import org.hipparchus.exception.Localizable;
  */
 public enum LocalizedODEFormats implements Localizable {
 
-    /** HOLE_BETWEEN_MODELS_TIME_RANGES. */
+    /**
+     * HOLE_BETWEEN_MODELS_TIME_RANGES.
+     */
     HOLE_BETWEEN_MODELS_TIME_RANGES("{0} wide hole between models time ranges"),
-
-    /** INTEGRATION_METHOD_NEEDS_AT_LEAST_TWO_PREVIOUS_POINTS. */
+    /**
+     * INTEGRATION_METHOD_NEEDS_AT_LEAST_TWO_PREVIOUS_POINTS.
+     */
     INTEGRATION_METHOD_NEEDS_AT_LEAST_TWO_PREVIOUS_POINTS("multistep method needs at least {0} previous steps, got {1}"),
-
-    /** MINIMAL_STEPSIZE_REACHED_DURING_INTEGRATION. */
+    /**
+     * MINIMAL_STEPSIZE_REACHED_DURING_INTEGRATION.
+     */
     MINIMAL_STEPSIZE_REACHED_DURING_INTEGRATION("minimal step size ({1,number,0.00E00}) reached, integration needs {0,number,0.00E00}"),
-
-    /** MULTISTEP_STARTER_STOPPED_EARLY. */
+    /**
+     * MULTISTEP_STARTER_STOPPED_EARLY.
+     */
     MULTISTEP_STARTER_STOPPED_EARLY("multistep integrator starter stopped early, maybe too large step size"),
-
-    /** PROPAGATION_DIRECTION_MISMATCH. */
+    /**
+     * PROPAGATION_DIRECTION_MISMATCH.
+     */
     PROPAGATION_DIRECTION_MISMATCH("propagation direction mismatch"),
-
-    /** TOO_SMALL_INTEGRATION_INTERVAL. */
+    /**
+     * TOO_SMALL_INTEGRATION_INTERVAL.
+     */
     TOO_SMALL_INTEGRATION_INTERVAL("too small integration interval: length = {0}"),
-
-    /** UNKNOWN_PARAMETER. */
+    /**
+     * UNKNOWN_PARAMETER.
+     */
     UNKNOWN_PARAMETER("unknown parameter {0}"),
-
-    /** UNMATCHED_ODE_IN_EXPANDED_SET. */
+    /**
+     * UNMATCHED_ODE_IN_EXPANDED_SET.
+     */
     UNMATCHED_ODE_IN_EXPANDED_SET("ode does not match the main ode set in the extended set"),
-
-    /** NAN_APPEARING_DURING_INTEGRATION. */
+    /**
+     * NAN_APPEARING_DURING_INTEGRATION.
+     */
     NAN_APPEARING_DURING_INTEGRATION("NaN appears during integration near time {0}"),
-
-    /** FIND_ROOT. */
+    /**
+     * FIND_ROOT.
+     */
     FIND_ROOT("{0} failed to find root between {1} (g={2,number,0.0##############E0}) and {3} (g={4,number,0.0##############E0})\nLast iteration at {5} (g={6,number,0.0##############E0})");
 
-    /** Source English format. */
+    /**
+     * Source English format.
+     */
     private final String sourceFormat;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param sourceFormat source English format to use when no
      * localized version is available
      */
@@ -82,17 +94,19 @@ public enum LocalizedODEFormats implements Localizable {
         this.sourceFormat = sourceFormat;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getSourceString() {
-        return sourceFormat;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getLocalizedString(final Locale locale) {
-        return getLocalizedString("assets/" + LocalizedODEFormats.class.getName().replaceAll("\\.", "/"),
-                                  name(), locale);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

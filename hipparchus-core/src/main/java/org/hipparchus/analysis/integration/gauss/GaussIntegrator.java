@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -30,12 +29,17 @@ import org.hipparchus.util.Pair;
  * Class that implements the Gaussian rule for
  * {@link #integrate(UnivariateFunction) integrating} a weighted
  * function.
- *
  */
 public class GaussIntegrator {
-    /** Nodes. */
+
+    /**
+     * Nodes.
+     */
     private final double[] points;
-    /** Nodes weights. */
+
+    /**
+     * Nodes weights.
+     */
     private final double[] weights;
 
     /**
@@ -49,13 +53,9 @@ public class GaussIntegrator {
      * sorted in increasing order.
      * @throws MathIllegalArgumentException if points and weights don't have the same length
      */
-    public GaussIntegrator(double[] points,
-                           double[] weights)
-        throws MathIllegalArgumentException {
-
+    public GaussIntegrator(double[] points, double[] weights) throws MathIllegalArgumentException {
         MathArrays.checkEqualLength(points, weights);
         MathArrays.checkOrder(points, MathArrays.OrderDirection.INCREASING, true, true);
-
         this.points = points.clone();
         this.weights = weights.clone();
     }
@@ -70,8 +70,7 @@ public class GaussIntegrator {
      *
      * @see #GaussIntegrator(double[], double[])
      */
-    public GaussIntegrator(Pair<double[], double[]> pointsAndWeights)
-        throws MathIllegalArgumentException {
+    public GaussIntegrator(Pair<double[], double[]> pointsAndWeights) throws MathIllegalArgumentException {
         this(pointsAndWeights.getFirst(), pointsAndWeights.getSecond());
     }
 
@@ -86,25 +85,16 @@ public class GaussIntegrator {
      * @return the integral of the weighted function.
      */
     public double integrate(UnivariateFunction f) {
-        double s = 0;
-        double c = 0;
-        for (int i = 0; i < points.length; i++) {
-            final double x = points[i];
-            final double w = weights[i];
-            final double y = w * f.value(x) - c;
-            final double t = s + y;
-            c = (t - s) - y;
-            s = t;
-        }
-        return s;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the order of the integration rule.
+    /**
+     * Get the order of the integration rule.
      * @return the order of the integration rule (the number of integration
      * points).
      */
     public int getNumberOfPoints() {
-        return points.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -114,7 +104,7 @@ public class GaussIntegrator {
      * @return the integration point.
      */
     public double getPoint(int index) {
-        return points[index];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -124,6 +114,6 @@ public class GaussIntegrator {
      * @return the weight.
      */
     public double getWeight(int index) {
-        return weights[index];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

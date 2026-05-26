@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.linear;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -46,21 +44,40 @@ import org.hipparchus.util.Precision;
  * @see <a href="http://en.wikipedia.org/wiki/Householder_transformation">Householder Transformations</a>
  */
 public class SchurTransformer {
-    /** Maximum allowed iterations for convergence of the transformation. */
+
+    /**
+     * Maximum allowed iterations for convergence of the transformation.
+     */
     private static final int MAX_ITERATIONS = 100;
 
-    /** P matrix. */
+    /**
+     * P matrix.
+     */
     private final double[][] matrixP;
-    /** T matrix. */
+
+    /**
+     * T matrix.
+     */
     private final double[][] matrixT;
-    /** Cached value of P. */
+
+    /**
+     * Cached value of P.
+     */
     private RealMatrix cachedP;
-    /** Cached value of T. */
+
+    /**
+     * Cached value of T.
+     */
     private RealMatrix cachedT;
-    /** Cached value of PT. */
+
+    /**
+     * Cached value of PT.
+     */
     private RealMatrix cachedPt;
 
-    /** Epsilon criteria. */
+    /**
+     * Epsilon criteria.
+     */
     private final double epsilon;
 
     /**
@@ -70,7 +87,9 @@ public class SchurTransformer {
      * @throws MathIllegalArgumentException if the matrix is not square
      */
     public SchurTransformer(final RealMatrix matrix) {
-        /** Epsilon criteria taken from JAMA code (originally was 2^-52). */
+        /**
+         * Epsilon criteria taken from JAMA code (originally was 2^-52).
+         */
         this(matrix, Precision.EPSILON);
     }
 
@@ -84,18 +103,15 @@ public class SchurTransformer {
      */
     public SchurTransformer(final RealMatrix matrix, final double epsilon) {
         if (!matrix.isSquare()) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NON_SQUARE_MATRIX,
-                                                   matrix.getRowDimension(), matrix.getColumnDimension());
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NON_SQUARE_MATRIX, matrix.getRowDimension(), matrix.getColumnDimension());
         }
         this.epsilon = epsilon;
-
         HessenbergTransformer transformer = new HessenbergTransformer(matrix);
         matrixT = transformer.getH().getData();
         matrixP = transformer.getP().getData();
         cachedT = null;
         cachedP = null;
         cachedPt = null;
-
         // transform matrix
         transform();
     }
@@ -107,10 +123,7 @@ public class SchurTransformer {
      * @return the P matrix
      */
     public RealMatrix getP() {
-        if (cachedP == null) {
-            cachedP = MatrixUtils.createRealMatrix(matrixP);
-        }
-        return cachedP;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -120,12 +133,7 @@ public class SchurTransformer {
      * @return the transpose of the P matrix
      */
     public RealMatrix getPT() {
-        if (cachedPt == null) {
-            cachedPt = getP().transpose();
-        }
-
-        // return the cached matrix
-        return cachedPt;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -134,12 +142,7 @@ public class SchurTransformer {
      * @return the T matrix
      */
     public RealMatrix getT() {
-        if (cachedT == null) {
-            cachedT = MatrixUtils.createRealMatrix(matrixT);
-        }
-
-        // return the cached matrix
-        return cachedT;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -148,21 +151,16 @@ public class SchurTransformer {
      */
     private void transform() {
         final int n = matrixT.length;
-
         // compute matrix norm
         final double norm = getNorm();
-
         // shift information
         final ShiftInfo shift = new ShiftInfo();
-
         // Outer loop over eigenvalue index
         int iteration = 0;
         int iu = n - 1;
         while (iu >= 0) {
-
             // Look for single small sub-diagonal element
             final int il = findSmallSubDiagonalElement(iu, norm);
-
             // Check for convergence
             if (il == iu) {
                 // One root found
@@ -175,7 +173,6 @@ public class SchurTransformer {
                 double q = p * p + matrixT[iu][iu - 1] * matrixT[iu - 1][iu];
                 matrixT[iu][iu] += shift.exShift;
                 matrixT[iu - 1][iu - 1] += shift.exShift;
-
                 if (q >= 0) {
                     double z = FastMath.sqrt(FastMath.abs(q));
                     if (p >= 0) {
@@ -190,21 +187,18 @@ public class SchurTransformer {
                     final double r = FastMath.sqrt(p * p + q * q);
                     p /= r;
                     q /= r;
-
                     // Row modification
                     for (int j = iu - 1; j < n; j++) {
                         z = matrixT[iu - 1][j];
                         matrixT[iu - 1][j] = q * z + p * matrixT[iu][j];
                         matrixT[iu][j] = q * matrixT[iu][j] - p * z;
                     }
-
                     // Column modification
                     for (int i = 0; i <= iu; i++) {
                         z = matrixT[i][iu - 1];
                         matrixT[i][iu - 1] = q * z + p * matrixT[i][iu];
                         matrixT[i][iu] = q * matrixT[i][iu] - p * z;
                     }
-
                     // Accumulate transformations
                     for (int i = 0; i <= n - 1; i++) {
                         z = matrixP[i][iu - 1];
@@ -217,17 +211,13 @@ public class SchurTransformer {
             } else {
                 // No convergence yet
                 computeShift(il, iu, iteration, shift);
-
                 // stop transformation after too many iterations
                 ++iteration;
                 if (iteration > MAX_ITERATIONS) {
-                    throw new MathIllegalStateException(LocalizedCoreFormats.CONVERGENCE_FAILED,
-                                                        MAX_ITERATIONS);
+                    throw new MathIllegalStateException(LocalizedCoreFormats.CONVERGENCE_FAILED, MAX_ITERATIONS);
                 }
-
                 // the initial houseHolder vector for the QR step
                 final double[] hVec = new double[3];
-
                 final int im = initQRStep(il, iu, shift, hVec);
                 performDoubleQRStep(il, im, iu, shift, hVec, norm);
             }
@@ -288,7 +278,6 @@ public class SchurTransformer {
             shift.y = matrixT[idx - 1][idx - 1];
             shift.w = matrixT[idx][idx - 1] * matrixT[idx - 1][idx];
         }
-
         // Wilkinson's original ad hoc shift
         if (iteration == 10) {
             shift.exShift += shift.x;
@@ -300,7 +289,6 @@ public class SchurTransformer {
             shift.y = 0.75 * s;
             shift.w = -0.4375 * s * s;
         }
-
         // MATLAB's new ad hoc shift
         if (iteration == 30) {
             double s = (shift.y - shift.x) / 2.0;
@@ -339,22 +327,16 @@ public class SchurTransformer {
             hVec[0] = (r * s - shift.w) / matrixT[im + 1][im] + matrixT[im][im + 1];
             hVec[1] = matrixT[im + 1][im + 1] - z - r - s;
             hVec[2] = matrixT[im + 2][im + 1];
-
             if (im == il) {
                 break;
             }
-
             final double lhs = FastMath.abs(matrixT[im][im - 1]) * (FastMath.abs(hVec[1]) + FastMath.abs(hVec[2]));
-            final double rhs = FastMath.abs(hVec[0]) * (FastMath.abs(matrixT[im - 1][im - 1]) +
-                                                        FastMath.abs(z) +
-                                                        FastMath.abs(matrixT[im + 1][im + 1]));
-
+            final double rhs = FastMath.abs(hVec[0]) * (FastMath.abs(matrixT[im - 1][im - 1]) + FastMath.abs(z) + FastMath.abs(matrixT[im + 1][im + 1]));
             if (lhs < epsilon * rhs) {
                 break;
             }
             im--;
         }
-
         return im;
     }
 
@@ -368,15 +350,11 @@ public class SchurTransformer {
      * @param hVec the initial houseHolder vector
      * @param norm matrix norm
      */
-    private void performDoubleQRStep(final int il, final int im, final int iu,
-                                     final ShiftInfo shift, final double[] hVec,
-                                     final double norm) {
-
+    private void performDoubleQRStep(final int il, final int im, final int iu, final ShiftInfo shift, final double[] hVec, final double norm) {
         final int n = matrixT.length;
         double p = hVec[0];
         double q = hVec[1];
         double r = hVec[2];
-
         for (int k = im; k <= iu - 1; k++) {
             boolean notlast = k != (iu - 1);
             if (k != im) {
@@ -407,7 +385,6 @@ public class SchurTransformer {
                 double z = r / s;
                 q /= p;
                 r /= p;
-
                 // Row modification
                 for (int j = k; j < n; j++) {
                     p = matrixT[k][j] + q * matrixT[k + 1][j];
@@ -418,7 +395,6 @@ public class SchurTransformer {
                     matrixT[k][j] -= p * shift.x;
                     matrixT[k + 1][j] -= p * shift.y;
                 }
-
                 // Column modification
                 for (int i = 0; i <= FastMath.min(iu, k + 3); i++) {
                     p = shift.x * matrixT[i][k] + shift.y * matrixT[i][k + 1];
@@ -429,7 +405,6 @@ public class SchurTransformer {
                     matrixT[i][k] -= p;
                     matrixT[i][k + 1] -= p * q;
                 }
-
                 // Accumulate transformations
                 final int high = matrixT.length - 1;
                 for (int i = 0; i <= high; i++) {
@@ -441,14 +416,15 @@ public class SchurTransformer {
                     matrixP[i][k] -= p;
                     matrixP[i][k + 1] -= p * q;
                 }
-            }  // (s != 0)
-        }  // k loop
-
+            }
+            // (s != 0)
+        }
+        // k loop
         // clean up pollution due to round-off errors
         for (int i = im + 2; i <= iu; i++) {
-            matrixT[i][i-2] = 0.0;
+            matrixT[i][i - 2] = 0.0;
             if (i > im + 2) {
-                matrixT[i][i-3] = 0.0;
+                matrixT[i][i - 3] = 0.0;
             }
         }
     }
@@ -458,17 +434,27 @@ public class SchurTransformer {
      * Contains variable names as present in the original JAMA code.
      */
     private static class ShiftInfo {
+
         // CHECKSTYLE: stop all
-
-        /** x shift info */
+        /**
+         * x shift info
+         */
         double x;
-        /** y shift info */
-        double y;
-        /** w shift info */
-        double w;
-        /** Indicates an exceptional shift. */
-        double exShift;
 
+        /**
+         * y shift info
+         */
+        double y;
+
+        /**
+         * w shift info
+         */
+        double w;
+
+        /**
+         * Indicates an exceptional shift.
+         */
+        double exShift;
         // CHECKSTYLE: resume all
     }
 }

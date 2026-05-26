@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.UUID;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathIllegalStateException;
@@ -85,27 +84,51 @@ import org.hipparchus.util.MathArrays;
  * <p>
  * Note: This implementation is not thread-safe.
  */
-public class RandomPercentile
-    extends AbstractStorelessUnivariateStatistic implements StorelessUnivariateStatistic,
-    AggregatableStatistic<RandomPercentile>, Serializable {
+public class RandomPercentile extends AbstractStorelessUnivariateStatistic implements StorelessUnivariateStatistic, AggregatableStatistic<RandomPercentile>, Serializable {
 
-    /** Default quantile estimation error setting */
+    /**
+     * Default quantile estimation error setting
+     */
     public static final double DEFAULT_EPSILON = 1e-4;
-    /** Serialization version id */
+
+    /**
+     * Serialization version id
+     */
     private static final long serialVersionUID = 1L;
-    /** Storage size of each buffer */
+
+    /**
+     * Storage size of each buffer
+     */
     private final int s;
-    /** Maximum number of buffers minus 1 */
+
+    /**
+     * Maximum number of buffers minus 1
+     */
     private final int h;
-    /** Data structure used to manage buffers */
+
+    /**
+     * Data structure used to manage buffers
+     */
     private final BufferMap bufferMap;
-    /** Bound on the quantile estimation error */
+
+    /**
+     * Bound on the quantile estimation error
+     */
     private final double epsilon;
-    /** Source of random data */
+
+    /**
+     * Source of random data
+     */
     private final RandomGenerator randomGenerator;
-    /** Number of elements consumed from the input data stream */
+
+    /**
+     * Number of elements consumed from the input data stream
+     */
     private long n;
-    /** Buffer currently being filled */
+
+    /**
+     * Buffer currently being filled
+     */
     private Buffer currentBuffer;
 
     /**
@@ -118,11 +141,10 @@ public class RandomPercentile
      */
     public RandomPercentile(double epsilon, RandomGenerator randomGenerator) {
         if (epsilon <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL,
-                                                   epsilon, 0);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL, epsilon, 0);
         }
-        this.h = (int) FastMath.ceil(log2(1/epsilon));
-        this.s = (int) FastMath.ceil(FastMath.sqrt(log2(1/epsilon)) / epsilon);
+        this.h = (int) FastMath.ceil(log2(1 / epsilon));
+        this.s = (int) FastMath.ceil(FastMath.sqrt(log2(1 / epsilon)) / epsilon);
         this.randomGenerator = randomGenerator;
         bufferMap = new BufferMap(h + 1, s, randomGenerator);
         currentBuffer = bufferMap.create(0);
@@ -193,7 +215,7 @@ public class RandomPercentile
 
     @Override
     public long getN() {
-        return n;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -208,15 +230,8 @@ public class RandomPercentile
      * @return estimated percentile
      * @throws MathIllegalArgumentException if percentile is out of the range [0, 100]
      */
-    public double evaluate(final double percentile, final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-        if (MathArrays.verifyValues(values, begin, length)) {
-            RandomPercentile randomPercentile = new RandomPercentile(this.epsilon,
-                                                                     this.randomGenerator);
-            randomPercentile.incrementAll(values, begin, length);
-            return randomPercentile.getResult(percentile);
-        }
-        return Double.NaN;
+    public double evaluate(final double percentile, final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -232,7 +247,7 @@ public class RandomPercentile
      */
     @Override
     public double evaluate(final double[] values, final int begin, final int length) {
-        return evaluate(50d, values, begin, length);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -245,19 +260,17 @@ public class RandomPercentile
      * @throws MathIllegalArgumentException if percentile is out of the range [0, 100]
      */
     public double evaluate(final double percentile, final double[] values) {
-        return evaluate(percentile, values, 0, values.length);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public RandomPercentile copy() {
-        return new RandomPercentile(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void clear() {
-        n = 0;
-        bufferMap.clear();
-        currentBuffer = bufferMap.create(0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -265,8 +278,7 @@ public class RandomPercentile
      */
     @Override
     public double getResult() {
-        return getResult(50d);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -277,77 +289,7 @@ public class RandomPercentile
      * @throws MathIllegalArgumentException if percentile is out of the range [0, 100]
      */
     public double getResult(double percentile) {
-        if (percentile > 100 || percentile < 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.OUT_OF_RANGE,
-                                                   percentile, 0, 100);
-        }
-        // Convert to internal quantile scale
-        final double q = percentile / 100;
-        // First get global min and max to bound search.
-        double min = Double.POSITIVE_INFINITY;
-        double max = Double.NEGATIVE_INFINITY;
-        double bMin;
-        double bMax;
-        for (Buffer buffer : bufferMap) {
-            bMin = buffer.min();
-            if (bMin < min) {
-                min = bMin;
-            }
-            bMax = buffer.max();
-            if (bMax > max) {
-                max = bMax;
-            }
-        }
-
-        // Handle degenerate cases
-        if (Double.compare(q, 0d) == 0 || n == 1) {
-            return min;
-        }
-        if (Double.compare(q, 1) == 0) {
-            return max;
-        }
-        if (n == 0) {
-            return Double.NaN;
-        }
-
-        // See if we have all data in memory and enough free memory to copy.
-        // If so, use Percentile to perform exact computation.
-        if (bufferMap.halfEmpty()) {
-            return new Percentile(percentile).evaluate(bufferMap.levelZeroData());
-        }
-
-        // Compute target rank
-        final double targetRank = q * n;
-
-        // Start with initial guess min + quantile * (max - min).
-        double estimate = min + q * (max - min);
-        double estimateRank = getRank(estimate);
-        double lower;
-        double upper;
-        if (estimateRank > targetRank) {
-            upper = estimate;
-            lower = min;
-        } else if (estimateRank < targetRank) {
-            lower = estimate;
-            upper = max;
-        } else {
-            return estimate;
-        }
-        final double eps = epsilon / 2;
-        final double rankTolerance = eps * n;
-        final double minWidth = eps / n;
-        double intervalWidth = FastMath.abs(upper - lower);
-        while (FastMath.abs(estimateRank - targetRank) > rankTolerance && intervalWidth > minWidth) {
-            if (estimateRank > targetRank) {
-                upper = estimate;
-            } else {
-                lower = estimate;
-            }
-            intervalWidth = upper - lower;
-            estimate = lower + intervalWidth / 2;
-            estimateRank = getRank(estimate);
-        }
-        return estimate;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -358,11 +300,7 @@ public class RandomPercentile
      * @return estimated number of sample values that are strictly less than {@code value}
      */
     public double getRank(double value) {
-        double rankSum = 0;
-        for (Buffer buffer : bufferMap) {
-            rankSum += buffer.rankOf(value) * FastMath.pow(2, buffer.level);
-        }
-        return rankSum;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -374,22 +312,12 @@ public class RandomPercentile
      * @return estimated proportion of sample values that are strictly less than {@code value}
      */
     public double getQuantileRank(double value) {
-        return getRank(value) / getN();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void increment(double d) {
-        n++;
-        if (!currentBuffer.hasCapacity()) { // Need to get a new buffer to fill
-            // First see if we have not yet created all the buffers
-            if (bufferMap.canCreate()) {
-                final int level = (int) Math.ceil(Math.max(0, log2(n/(s * FastMath.pow(2, h - 1)))));
-                currentBuffer = bufferMap.create(level);
-            } else { // All buffers have been created - need to merge to free one
-                currentBuffer = bufferMap.merge();
-            }
-        }
-        currentBuffer.consume(d);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -415,25 +343,55 @@ public class RandomPercentile
      * incremented by the merge. This operation is only used on full buffers.
      */
     private static class Buffer implements Serializable {
-        /** Serialization version id */
+
+        /**
+         * Serialization version id
+         */
         private static final long serialVersionUID = 1L;
-        /** Number of values actually stored in the buffer */
+
+        /**
+         * Number of values actually stored in the buffer
+         */
         private final int size;
-        /** Data sampled from the stream */
+
+        /**
+         * Data sampled from the stream
+         */
         private final double[] data;
-        /** PRNG used for merges and stream sampling */
+
+        /**
+         * PRNG used for merges and stream sampling
+         */
         private final RandomGenerator randomGenerator;
-        /** Level of the buffer */
+
+        /**
+         * Level of the buffer
+         */
         private int level;
-        /** Block size  = 2^level */
+
+        /**
+         * Block size  = 2^level
+         */
         private long blockSize;
-        /** Next location in backing array for stored (taken) value */
+
+        /**
+         * Next location in backing array for stored (taken) value
+         */
         private int next;
-        /** Number of values consumed in current 2^level block of values from the stream */
+
+        /**
+         * Number of values consumed in current 2^level block of values from the stream
+         */
         private long consumed;
-        /** Index of next value to take in current 2^level block */
+
+        /**
+         * Index of next value to take in current 2^level block
+         */
         private long nextToTake;
-        /** ID */
+
+        /**
+         * ID
+         */
         private final UUID id;
 
         /**
@@ -488,21 +446,7 @@ public class RandomPercentile
          * @param value value to consume from the stream
          */
         public void consume(double value) {
-            if (consumed == nextToTake) {
-                data[next] = value;
-                next++;
-            }
-            consumed++;
-            if (consumed == blockSize) {
-                if (next == size) {   // Buffer is full
-                    Arrays.sort(data);
-                } else {              // Reset in-block counter and nextToTake
-                    consumed = 0;
-                    if (blockSize > 1) {
-                        nextToTake = randomGenerator.nextLong(blockSize);
-                    }
-                }
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -523,23 +467,7 @@ public class RandomPercentile
          * have different levels
          */
         public void mergeWith(Buffer other) {
-            // Make sure both this and other are full and have the same level
-            if (this.hasCapacity() || other.hasCapacity() || other.level != this.level) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.INTERNAL_ERROR);
-            }
-            // Randomly select one of the two entries for each slot
-            for (int i = 0; i < size; i++) {
-                if (randomGenerator.nextBoolean()) {
-                    data[i] = other.data[i];
-                }
-            }
-            // Re-sort data
-            Arrays.sort(data);
-            // Bump level of both buffers
-            other.setLevel(level + 1);
-            this.setLevel(level + 1);
-            // Clear the free one (and compute new blocksize)
-            other.clear();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -566,35 +494,14 @@ public class RandomPercentile
          * either buffer is not full or this has level greater than or equal to higher
          */
         public void mergeInto(Buffer higher) {
-            // Check preconditions
-            if (this.size != higher.size || this.hasCapacity() || higher.hasCapacity() ||
-                    this.level >= higher.level) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.INTERNAL_ERROR);
-            }
-            final int levelDifference = higher.level - this.level;
-            int m = 1;
-            for (int i = 0; i < levelDifference; i++) {
-                m *= 2;
-            }
-            // Randomly select one of the two entries for each slot in higher, giving
-            // m-times higher weight to the entries of higher.
-            for (int i = 0; i < size; i++) {
-                // data[i] <-> {0}, higher.data[i] <-> {1, ..., m}
-                if (randomGenerator.nextInt(m + 1) == 0) {
-                    higher.data[i] = data[i];
-                }
-            }
-            // Resort higher's data
-            Arrays.sort(higher.data);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
          * @return true if the buffer has capacity; false if it is full
          */
         public boolean hasCapacity() {
-            // Buffer has capacity if it has not yet set all of its data
-            // values or if it has but still has not finished its last block
-            return next < size || consumed < blockSize;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -603,16 +510,14 @@ public class RandomPercentile
          * @param level new level value
          */
         public void setLevel(int level) {
-            this.level = level;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
          * Clears data, recomputes blockSize and resets consumed and nextToTake.
          */
         public void clear() {
-            consumed = 0;
-            next = 0;
-            computeBlockSize();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -621,9 +526,7 @@ public class RandomPercentile
          * @return possibly unsorted copy of the portion of the buffer that has been filled
          */
         public double[] getData() {
-            final double[] out = new double[next];
-            System.arraycopy(data, 0, out, 0, next);
-            return out;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -633,58 +536,35 @@ public class RandomPercentile
          * @return |{v in data : v < value}|
          */
         public int rankOf(double value) {
-            int ret = 0;
-            if (!hasCapacity()) { // Full sorted buffer, can do binary search
-                ret = Arrays.binarySearch(data, value);
-                if (ret < 0) {
-                    return -ret - 1;
-                } else {
-                    return ret;
-                }
-            } else { // have to count - not sorted yet and can't sort yet
-                for (int i = 0; i < next; i++) {
-                    if (data[i] < value) {
-                        ret++;
-                    }
-                }
-                return ret;
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
          * @return the smallest value held in this buffer
          */
         public double min() {
-            if (!hasCapacity()) {
-                return data[0];
-            } else {
-                return StatUtils.min(getData());
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
          * @return the largest value held in this buffer
          */
         public double max() {
-            if (!hasCapacity()) {
-                return data[data.length - 1];
-            } else {
-                return StatUtils.max(getData());
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
          * @return the level of this buffer
          */
         public int getLevel() {
-            return level;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
          * @return the id
          */
         public UUID getId() {
-            return id;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -704,19 +584,40 @@ public class RandomPercentile
      * Overall capacity is limited by the total number of buffers.
      */
     private static class BufferMap implements Iterable<Buffer>, Serializable {
-        /** Serialization version ID */
+
+        /**
+         * Serialization version ID
+         */
         private static final long serialVersionUID = 1L;
-        /** Total number of buffers that can be created - cap for count */
+
+        /**
+         * Total number of buffers that can be created - cap for count
+         */
         private final int capacity;
-        /** PRNG used in merges */
+
+        /**
+         * PRNG used in merges
+         */
         private final RandomGenerator randomGenerator;
-        /** Total count of all buffers */
+
+        /**
+         * Total count of all buffers
+         */
         private int count;
-        /** Uniform buffer size */
+
+        /**
+         * Uniform buffer size
+         */
         private final int bufferSize;
-        /** Backing store for the buffer map. Keys are levels, values are lists of registered buffers. */
-        private final Map<Integer,List<Buffer>> registry;
-        /** Maximum buffer level */
+
+        /**
+         * Backing store for the buffer map. Keys are levels, values are lists of registered buffers.
+         */
+        private final Map<Integer, List<Buffer>> registry;
+
+        /**
+         * Maximum buffer level
+         */
         private int maxLevel;
 
         /**
@@ -768,17 +669,7 @@ public class RandomPercentile
          * @return an empty buffer or null if a buffer can't be provided
          */
         public Buffer create(int level) {
-            if (!canCreate()) {
-                return null;
-            }
-            count++;
-            Buffer buffer = new Buffer(bufferSize, level, randomGenerator);
-            List<Buffer> bufferList = registry.computeIfAbsent(level, k -> new ArrayList<>());
-            bufferList.add(buffer);
-            if (level > maxLevel) {
-                maxLevel = level;
-            }
-            return buffer;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -787,7 +678,7 @@ public class RandomPercentile
          * @return true if fewer than capacity buffers have been created.
          */
         public boolean canCreate() {
-            return count < capacity;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -803,9 +694,7 @@ public class RandomPercentile
          * available storage has been used
          */
         public boolean halfEmpty() {
-            return count * 2 < capacity &&
-                    registry.size() == 1 &&
-                    registry.containsKey(0);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -814,30 +703,7 @@ public class RandomPercentile
          * @return combined data stored in all level 0 buffers
          */
         public double[] levelZeroData() {
-            List<Buffer> levelZeroBuffers = registry.get(0);
-            // First determine the combined size of the data
-            int length = 0;
-            for (Buffer buffer : levelZeroBuffers) {
-                if (!buffer.hasCapacity()) { // full buffer
-                    length += buffer.size;
-                } else {
-                    length += buffer.next;  // filled amount
-                }
-            }
-            // Copy the data
-            int pos = 0;
-            int currLen;
-            final double[] out = new double[length];
-            for (Buffer buffer : levelZeroBuffers) {
-                if (!buffer.hasCapacity()) {
-                    currLen = buffer.size;
-                } else {
-                    currLen =  buffer.next;
-                }
-                System.arraycopy(buffer.data, 0, out, pos, currLen);
-                pos += currLen;
-            }
-            return out;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -848,50 +714,14 @@ public class RandomPercentile
          * @return free buffer that can accept data
          */
         public Buffer merge() {
-            int l = 0;
-            List<Buffer> mergeCandidates = null;
-            // Find the lowest level containing at least two buffers
-            while (mergeCandidates == null && l <= maxLevel) {
-                final List<Buffer> bufferList = registry.get(l);
-                if (bufferList != null && bufferList.size() > 1) {
-                    mergeCandidates = bufferList;
-                } else {
-                    l++;
-                }
-            }
-            if (mergeCandidates == null) {
-                // Should never happen
-                throw new MathIllegalStateException(LocalizedCoreFormats.INTERNAL_ERROR);
-            }
-            Buffer buffer1 = mergeCandidates.get(0);
-            Buffer buffer2 = mergeCandidates.get(1);
-            // Remove buffers to be merged
-            mergeCandidates.remove(0);
-            mergeCandidates.remove(0);
-            // If these are the last level-l buffers, remove the empty list
-            if (registry.get(l).isEmpty()) {
-                registry.remove(l);
-            }
-            // Merge the buffers
-            buffer1.mergeWith(buffer2);
-            // Now both buffers have level l+1; buffer1 is full and buffer2 is free.
-            // Register both buffers
-            register(buffer1);
-            register(buffer2);
-
-            // Return the free one
-            return buffer2;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
          * Clears the buffer map.
          */
         public void clear() {
-            for (List<Buffer> bufferList : registry.values()) {
-                bufferList.clear();
-            }
-            registry.clear();
-            count = 0;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -900,16 +730,7 @@ public class RandomPercentile
          * @param buffer Buffer to be registered.
          */
         public void register(Buffer buffer) {
-            final int level = buffer.getLevel();
-            List<Buffer> list = registry.get(level);
-            if (list == null) {
-                list = new ArrayList<>();
-                registry.put(level, list);
-                if (level > maxLevel) {
-                    maxLevel = level;
-                }
-            }
-            list.add(buffer);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -919,14 +740,7 @@ public class RandomPercentile
          * @throws IllegalStateException if the buffer is not registered
          */
         public void deRegister(Buffer buffer) {
-            final Iterator<Buffer> iterator = registry.get(buffer.getLevel()).iterator();
-            while (iterator.hasNext()) {
-                if (iterator.next().getId().equals(buffer.getId())) {
-                    iterator.remove();
-                    return;
-                }
-            }
-            throw new MathIllegalStateException(LocalizedCoreFormats.INTERNAL_ERROR);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -935,51 +749,7 @@ public class RandomPercentile
          */
         @Override
         public Iterator<Buffer> iterator() {
-            return new Iterator<Buffer>() {
-
-                /** Outer loop iterator, from level to level. */
-                private final Iterator<Integer> levelIterator = registry.keySet().iterator();
-
-                /** List of buffers at current level. */
-                private List<Buffer> currentList = registry.get(levelIterator.next()); // NOPMD - cannot use local variable in anonymous class
-
-                /** Inner loop iterator, from buffer to buffer. */
-                private Iterator<Buffer> bufferIterator =
-                        currentList == null ? null : currentList.iterator();
-
-                @Override
-                public boolean hasNext() {
-                    if (bufferIterator == null) {
-                        return false;
-                    }
-                    if (bufferIterator.hasNext()) {
-                        return true;
-                    }
-                    // The current level iterator has just finished, try to bump level
-                    if (levelIterator.hasNext()) {
-                        List<Buffer> currentList = registry.get(levelIterator.next());
-                        bufferIterator = currentList.iterator();
-                        return true;
-                    } else {
-                        // Nothing left, signal this by nulling bufferIterator
-                        bufferIterator = null;
-                        return false;
-                    }
-                }
-
-                @Override
-                public Buffer next() {
-                     if (hasNext()) {
-                         return bufferIterator.next();
-                     }
-                     throw new NoSuchElementException();
-                }
-
-                @Override
-                public void remove() {
-                    throw new UnsupportedOperationException();
-                }
-            };
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -990,20 +760,7 @@ public class RandomPercentile
          * @param other other BufferMap to merge in
          */
         public void absorb(BufferMap other) {
-            // Add all of other's buffers to the map - possibly exceeding cap
-            boolean full = true;
-            for (Buffer buffer : other) {
-                if (buffer.hasCapacity()) {
-                    full = false;
-                }
-                register(buffer);
-                count++;
-            }
-            // Now eliminate the excess by merging
-            while (count > capacity || (count == capacity && full)) {
-                mergeUp();
-                count--;
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -1017,37 +774,7 @@ public class RandomPercentile
          * This method is only used when aggregating RandomPercentile instances.
          */
         public void mergeUp() {
-            // Find two minimum-level buffers to merge
-            // Loop depends on two invariants:
-            //   0) iterator goes in level order
-            //   1) there are no empty lists in the registry
-            Iterator<Buffer> bufferIterator = iterator();
-            Buffer first = null;
-            Buffer second = null;
-            while ((first == null || second == null) && bufferIterator.hasNext()) {
-                Buffer buffer = bufferIterator.next();
-                if (!buffer.hasCapacity()) { // Skip not full buffers
-                    if (first == null) {
-                        first = buffer;
-                    } else {
-                        second = buffer;
-                    }
-                }
-            }
-            if (first == null || second == null || first.level > second.level) {
-                throw new MathIllegalStateException(LocalizedCoreFormats.INTERNAL_ERROR);
-            }
-            // Merge first into second and deregister first.
-            // Assumes that first has level <= second (checked above).
-            if (first.getLevel() == second.getLevel()) {
-                deRegister(first);
-                deRegister(second);
-                second.mergeWith(first);
-                register(second);
-            } else {
-                deRegister(first);
-                first.mergeInto(second);
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -1062,94 +789,7 @@ public class RandomPercentile
      * @throws MathIllegalArgumentException if percentile is out of the range [0, 100]
      */
     public double reduce(double percentile, Collection<RandomPercentile> aggregates) {
-        if (percentile > 100 || percentile < 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.OUT_OF_RANGE,
-                                                   percentile, 0, 100);
-        }
-
-        // First see if we can copy all data and just compute exactly.
-        // The following could be improved to verify that all have only level 0 buffers
-        // and the sum of the data sizes is less than 1/2 total capacity.  Here we
-        // just check that each of the aggregates is less than half full.
-        Iterator<RandomPercentile> iterator = aggregates.iterator();
-        boolean small = true;
-        while (small && iterator.hasNext()) {
-            small = iterator.next().bufferMap.halfEmpty();
-        }
-        if (small) {
-            iterator = aggregates.iterator();
-            double[] combined = {};
-            while (iterator.hasNext()) {
-               combined = MathArrays.concatenate(combined, iterator.next().bufferMap.levelZeroData());
-            }
-            final Percentile exactP = new Percentile(percentile);
-            return exactP.evaluate(combined);
-        }
-
-        // Below largely duplicates code in getResult(percentile).
-        // Common binary search code with function parameter should be factored out.
-
-        // Get global max and min to bound binary search and total N
-        double min = Double.POSITIVE_INFINITY;
-        double max = Double.NEGATIVE_INFINITY;
-        double combinedN = 0;
-        iterator = aggregates.iterator();
-        while (iterator.hasNext()) {
-            final RandomPercentile curr = iterator.next();
-            final double curMin = curr.getResult(0);
-            final double curMax = curr.getResult(100);
-            if (curMin < min) {
-                min = curMin;
-            }
-            if (curMax > max) {
-                max = curMax;
-            }
-            combinedN += curr.getN();
-        }
-
-        final double q = percentile / 100;
-        // Handle degenerate cases
-        if (Double.compare(q, 0d) == 0) {
-            return min;
-        }
-        if (Double.compare(q, 1) == 0) {
-            return max;
-        }
-
-        // Compute target rank
-        final double targetRank = q * combinedN;
-
-        // Perform binary search using aggregated rank computation
-        // Start with initial guess min + quantile * (max - min).
-        double estimate = min + q * (max - min);
-        double estimateRank = getAggregateRank(estimate, aggregates);
-        double lower;
-        double upper;
-        if (estimateRank > targetRank) {
-            upper = estimate;
-            lower = min;
-        } else if (estimateRank < targetRank) {
-            lower = estimate;
-            upper = max;
-        } else {
-            return estimate;
-        }
-        final double eps = epsilon / 2;
-        double intervalWidth = FastMath.abs(upper - lower);
-        while (FastMath.abs(estimateRank / combinedN - q) > eps && intervalWidth > eps / combinedN) {
-            if (estimateRank == targetRank) {
-                return estimate;
-            }
-            if (estimateRank > targetRank) {
-                upper = estimate;
-            } else {
-                lower = estimate;
-            }
-            intervalWidth = FastMath.abs(upper - lower);
-            estimate = lower + intervalWidth / 2;
-            estimateRank = getAggregateRank(estimate, aggregates);
-        }
-        return estimate;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1161,11 +801,7 @@ public class RandomPercentile
      * @return estimated number of elements in the combined dataset that are less than value
      */
     public double getAggregateRank(double value, Collection<RandomPercentile> aggregates) {
-        double result = 0;
-        for (RandomPercentile aggregate : aggregates) {
-            result += aggregate.getRank(value);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1179,7 +815,7 @@ public class RandomPercentile
      * @return estimated proportion of combined sample values that are strictly less than {@code value}
      */
     public double getAggregateQuantileRank(double value, Collection<RandomPercentile> aggregates) {
-        return getAggregateRank(value, aggregates) / getAggregateN(aggregates);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1189,11 +825,7 @@ public class RandomPercentile
      * @return total number of values that have been consumed by the aggregates
      */
     public double getAggregateN(Collection<RandomPercentile> aggregates) {
-        double result = 0;
-        for (RandomPercentile aggregate : aggregates) {
-            result += aggregate.getN();
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1210,16 +842,8 @@ public class RandomPercentile
      * @throws IllegalArgumentException if other has different buffer size than this
      */
     @Override
-    public void aggregate(RandomPercentile other)
-        throws NullArgumentException {
-        if (other == null) {
-            throw new NullArgumentException();
-        }
-        if (other.s != s) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INTERNAL_ERROR);
-        }
-        bufferMap.absorb(other.bufferMap);
-        n += other.n;
+    public void aggregate(RandomPercentile other) throws NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1234,16 +858,6 @@ public class RandomPercentile
      * @throws MathIllegalArgumentException if epsilon is not in the interval (0,1)
      */
     public static long maxValuesRetained(double epsilon) {
-        if (epsilon >= 1) {
-            throw new MathIllegalArgumentException(
-                    LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED, epsilon, 1);
-        }
-        if (epsilon <= 0) {
-            throw new MathIllegalArgumentException(
-                    LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED, epsilon, 0);
-        }
-        final long h = (long) FastMath.ceil(log2(1/epsilon));
-        final long s = (long) FastMath.ceil(FastMath.sqrt(log2(1/epsilon)) / epsilon);
-        return (h+1) * s;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

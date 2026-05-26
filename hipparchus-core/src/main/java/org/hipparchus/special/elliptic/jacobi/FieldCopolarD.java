@@ -18,7 +18,8 @@ package org.hipparchus.special.elliptic.jacobi;
 
 import org.hipparchus.CalculusFieldElement;
 
-/** Copolar trio with pole at point d in Glaisher’s Notation.
+/**
+ * Copolar trio with pole at point d in Glaisher’s Notation.
  * <p>
  * This is a container for the three subsidiary Jacobi elliptic functions
  * {@code nd(u|m)}, {@code sd(u|m)}, and {@code cd(u|m)}.
@@ -28,16 +29,23 @@ import org.hipparchus.CalculusFieldElement;
  */
 public class FieldCopolarD<T extends CalculusFieldElement<T>> {
 
-    /** Value of the nd function. */
+    /**
+     * Value of the nd function.
+     */
     private final T nd;
 
-    /** Value of the sd function. */
+    /**
+     * Value of the sd function.
+     */
     private final T sd;
 
-    /** Value of the cd function. */
+    /**
+     * Value of the cd function.
+     */
     private final T cd;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param trioN copolar trio with pole at point n in Glaisher’s Notation
      */
     FieldCopolarD(final FieldCopolarN<T> trioN) {
@@ -46,25 +54,27 @@ public class FieldCopolarD<T extends CalculusFieldElement<T>> {
         this.cd = nd.multiply(trioN.cn());
     }
 
-    /** Get the value of the nd function.
+    /**
+     * Get the value of the nd function.
      * @return nd(u|m)
      */
     public T nd() {
-        return nd;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the value of the sd function.
+    /**
+     * Get the value of the sd function.
      * @return sd(u|m)
      */
     public T sd() {
-        return sd;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the value of the cd function.
+    /**
+     * Get the value of the cd function.
      * @return cd(u|m)
      */
     public T cd() {
-        return cd;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

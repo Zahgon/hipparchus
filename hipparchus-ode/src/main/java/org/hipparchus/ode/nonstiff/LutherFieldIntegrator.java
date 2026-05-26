@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode.nonstiff;
 
 import org.hipparchus.CalculusFieldElement;
@@ -29,17 +27,16 @@ import org.hipparchus.ode.FieldODEStateAndDerivative;
 import org.hipparchus.ode.nonstiff.interpolators.LutherFieldStateInterpolator;
 import org.hipparchus.util.MathArrays;
 
-
 /**
  * This class implements the Luther sixth order Runge-Kutta
  * integrator for Ordinary Differential Equations.
-
+ *
  * <p>
  * This method is described in H. A. Luther 1968 paper <a
  * href="http://www.ams.org/journals/mcom/1968-22-102/S0025-5718-68-99876-1/S0025-5718-68-99876-1.pdf">
  * An explicit Sixth-Order Runge-Kutta Formula</a>.
  * </p>
-
+ *
  * <p>This method is an explicit Runge-Kutta method, its Butcher-array
  * is the following one :</p>
  * <pre>
@@ -62,14 +59,15 @@ import org.hipparchus.util.MathArrays;
  * @see ThreeEighthesFieldIntegrator
  * @param <T> the type of the field elements
  */
+public class LutherFieldIntegrator<T extends CalculusFieldElement<T>> extends FixedStepRungeKuttaFieldIntegrator<T> {
 
-public class LutherFieldIntegrator<T extends CalculusFieldElement<T>>
-    extends FixedStepRungeKuttaFieldIntegrator<T> {
-
-    /** Name of integration scheme. */
+    /**
+     * Name of integration scheme.
+     */
     public static final String METHOD_NAME = LutherIntegrator.METHOD_NAME;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * Build a fourth-order Luther integrator with the given step.
      * @param field field to which the time and state vector elements belong
      * @param step integration step
@@ -78,80 +76,35 @@ public class LutherFieldIntegrator<T extends CalculusFieldElement<T>>
         super(field, METHOD_NAME, step);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[] getC() {
-        final T q = getField().getZero().add(21).sqrt();
-        final T[] c = MathArrays.buildArray(getField(), 6);
-        c[0] = getField().getOne();
-        c[1] = FieldExplicitRungeKuttaIntegrator.fraction(getField(), 1, 2);
-        c[2] = FieldExplicitRungeKuttaIntegrator.fraction(getField(), 2, 3);
-        c[3] = q.subtract(7).divide(-14);
-        c[4] = q.add(7).divide(14);
-        c[5] = getField().getOne();
-        return c;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[][] getA() {
-        final T q = getField().getZero().add(21).sqrt();
-        final T[][] a = MathArrays.buildArray(getField(), 6, -1);
-        for (int i = 0; i < a.length; ++i) {
-            a[i] = MathArrays.buildArray(getField(), i + 1);
-        }
-        a[0][0] = getField().getOne();
-        a[1][0] = FieldExplicitRungeKuttaIntegrator.fraction(getField(), 3,  8);
-        a[1][1] = FieldExplicitRungeKuttaIntegrator.fraction(getField(), 1,  8);
-        a[2][0] = FieldExplicitRungeKuttaIntegrator.fraction(getField(), 8, 27);
-        a[2][1] = FieldExplicitRungeKuttaIntegrator.fraction(getField(), 2, 27);
-        a[2][2] = a[2][0];
-        a[3][0] = q.multiply(   9).add(  -21).divide( 392);
-        a[3][1] = q.multiply(   8).add(  -56).divide( 392);
-        a[3][2] = q.multiply( -48).add(  336).divide( 392);
-        a[3][3] = q.multiply(   3).add(  -63).divide( 392);
-        a[4][0] = q.multiply(-255).add(-1155).divide(1960);
-        a[4][1] = q.multiply( -40).add( -280).divide(1960);
-        a[4][2] = q.multiply(-320)           .divide(1960);
-        a[4][3] = q.multiply( 363).add(   63).divide(1960);
-        a[4][4] = q.multiply( 392).add( 2352).divide(1960);
-        a[5][0] = q.multiply( 105).add(  330).divide( 180);
-        a[5][1] = FieldExplicitRungeKuttaIntegrator.fraction(getField(), 2, 3);
-        a[5][2] = q.multiply( 280).add( -200).divide( 180);
-        a[5][3] = q.multiply(-189).add(  126).divide( 180);
-        a[5][4] = q.multiply(-126).add( -686).divide( 180);
-        a[5][5] = q.multiply( -70).add(  490).divide( 180);
-        return a;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[] getB() {
-
-        final T[] b = MathArrays.buildArray(getField(), 7);
-        b[0] = FieldExplicitRungeKuttaIntegrator.fraction(getField(),  1,  20);
-        b[1] = getField().getZero();
-        b[2] = FieldExplicitRungeKuttaIntegrator.fraction(getField(), 16,  45);
-        b[3] = getField().getZero();
-        b[4] = FieldExplicitRungeKuttaIntegrator.fraction(getField(), 49, 180);
-        b[5] = b[4];
-        b[6] = b[0];
-
-        return b;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected LutherFieldStateInterpolator<T>
-        createInterpolator(final boolean forward, T[][] yDotK,
-                           final FieldODEStateAndDerivative<T> globalPreviousState,
-                           final FieldODEStateAndDerivative<T> globalCurrentState,
-                           final FieldEquationsMapper<T> mapper) {
-        return new LutherFieldStateInterpolator<>(getField(), forward, yDotK,
-                                                  globalPreviousState, globalCurrentState,
-                                                  globalPreviousState, globalCurrentState,
-                                                  mapper);
+    protected LutherFieldStateInterpolator<T> createInterpolator(final boolean forward, T[][] yDotK, final FieldODEStateAndDerivative<T> globalPreviousState, final FieldODEStateAndDerivative<T> globalCurrentState, final FieldEquationsMapper<T> mapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

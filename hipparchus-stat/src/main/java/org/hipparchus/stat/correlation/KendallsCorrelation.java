@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.stat.correlation;
 
 import java.util.Arrays;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.linear.BlockRealMatrix;
 import org.hipparchus.linear.MatrixUtils;
@@ -71,7 +69,9 @@ import org.hipparchus.util.MathArrays;
  */
 public class KendallsCorrelation {
 
-    /** correlation matrix */
+    /**
+     * correlation matrix
+     */
     private final RealMatrix correlationMatrix;
 
     /**
@@ -109,7 +109,7 @@ public class KendallsCorrelation {
      * @return correlation matrix
      */
     public RealMatrix getCorrelationMatrix() {
-        return correlationMatrix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -120,17 +120,7 @@ public class KendallsCorrelation {
      * @return correlation matrix
      */
     public RealMatrix computeCorrelationMatrix(final RealMatrix matrix) {
-        int nVars = matrix.getColumnDimension();
-        RealMatrix outMatrix = new BlockRealMatrix(nVars, nVars);
-        for (int i = 0; i < nVars; i++) {
-            for (int j = 0; j < i; j++) {
-                double corr = correlation(matrix.getColumn(i), matrix.getColumn(j));
-                outMatrix.setEntry(i, j, corr);
-                outMatrix.setEntry(j, i, corr);
-            }
-            outMatrix.setEntry(i, i, 1d);
-        }
-        return outMatrix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -142,7 +132,7 @@ public class KendallsCorrelation {
      * @return correlation matrix
      */
     public RealMatrix computeCorrelationMatrix(final double[][] matrix) {
-       return computeCorrelationMatrix(new BlockRealMatrix(matrix));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -153,105 +143,8 @@ public class KendallsCorrelation {
      * @return Returns Kendall's Tau rank correlation coefficient for the two arrays
      * @throws MathIllegalArgumentException if the arrays lengths do not match
      */
-    public double correlation(final double[] xArray, final double[] yArray)
-            throws MathIllegalArgumentException {
-
-        MathArrays.checkEqualLength(xArray, yArray);
-
-        final int n = xArray.length;
-        final long numPairs = sum(n - 1);
-
-        DoublePair[] pairs = new DoublePair[n];
-        for (int i = 0; i < n; i++) {
-            pairs[i] = new DoublePair(xArray[i], yArray[i]);
-        }
-
-        Arrays.sort(pairs, (p1, p2) -> {
-            int compareKey = Double.compare(p1.getFirst(), p2.getFirst());
-            return compareKey != 0 ? compareKey : Double.compare(p1.getSecond(), p2.getSecond());
-        });
-
-        long tiedXPairs = 0;
-        long tiedXYPairs = 0;
-        long consecutiveXTies = 1;
-        long consecutiveXYTies = 1;
-        DoublePair prev = pairs[0];
-        for (int i = 1; i < n; i++) {
-            final DoublePair curr = pairs[i];
-            if (Double.compare(curr.getFirst(), prev.getFirst()) == 0) {
-                consecutiveXTies++;
-                if (Double.compare(curr.getSecond(), prev.getSecond()) == 0) {
-                    consecutiveXYTies++;
-                } else {
-                    tiedXYPairs += sum(consecutiveXYTies - 1);
-                    consecutiveXYTies = 1;
-                }
-            } else {
-                tiedXPairs += sum(consecutiveXTies - 1);
-                consecutiveXTies = 1;
-                tiedXYPairs += sum(consecutiveXYTies - 1);
-                consecutiveXYTies = 1;
-            }
-            prev = curr;
-        }
-        tiedXPairs += sum(consecutiveXTies - 1);
-        tiedXYPairs += sum(consecutiveXYTies - 1);
-
-        long swaps = 0;
-        DoublePair[] pairsDestination = new DoublePair[n];
-        for (int segmentSize = 1; segmentSize < n; segmentSize <<= 1) {
-            for (int offset = 0; offset < n; offset += 2 * segmentSize) {
-                int i = offset;
-                final int iEnd = FastMath.min(i + segmentSize, n);
-                int j = iEnd;
-                final int jEnd = FastMath.min(j + segmentSize, n);
-
-                int copyLocation = offset;
-                while (i < iEnd || j < jEnd) {
-                    if (i < iEnd) {
-                        if (j < jEnd) {
-                            if (Double.compare(pairs[i].getSecond(), pairs[j].getSecond()) <= 0) {
-                                pairsDestination[copyLocation] = pairs[i];
-                                i++;
-                            } else {
-                                pairsDestination[copyLocation] = pairs[j];
-                                j++;
-                                swaps += iEnd - i;
-                            }
-                        } else {
-                            pairsDestination[copyLocation] = pairs[i];
-                            i++;
-                        }
-                    } else {
-                        pairsDestination[copyLocation] = pairs[j];
-                        j++;
-                    }
-                    copyLocation++;
-                }
-            }
-            final DoublePair[] pairsTemp = pairs;
-            pairs = pairsDestination;
-            pairsDestination = pairsTemp;
-        }
-
-        long tiedYPairs = 0;
-        long consecutiveYTies = 1;
-        prev = pairs[0];
-        for (int i = 1; i < n; i++) {
-            final DoublePair curr = pairs[i];
-            if (Double.compare(curr.getSecond(), prev.getSecond()) == 0) {
-                consecutiveYTies++;
-            } else {
-                tiedYPairs += sum(consecutiveYTies - 1);
-                consecutiveYTies = 1;
-            }
-            prev = curr;
-        }
-        tiedYPairs += sum(consecutiveYTies - 1);
-
-        final long concordantMinusDiscordant = numPairs - tiedXPairs - tiedYPairs + tiedXYPairs - 2 * swaps;
-        final double nonTiedPairsMultiplied = (numPairs - tiedXPairs) * (double) (numPairs - tiedYPairs);
-        return concordantMinusDiscordant / FastMath.sqrt(nonTiedPairsMultiplied);
+    public double correlation(final double[] xArray, final double[] yArray) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -269,9 +162,15 @@ public class KendallsCorrelation {
      * Helper data structure holding a (double, double) pair.
      */
     private static class DoublePair {
-        /** The first value */
+
+        /**
+         * The first value
+         */
         private final double first;
-        /** The second value */
+
+        /**
+         * The second value
+         */
         private final double second;
 
         /**
@@ -283,16 +182,18 @@ public class KendallsCorrelation {
             this.second = second;
         }
 
-        /** @return the first value. */
+        /**
+         * @return the first value.
+         */
         public double getFirst() {
-            return first;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** @return the second value. */
+        /**
+         * @return the second value.
+         */
         public double getSecond() {
-            return second;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
-
 }

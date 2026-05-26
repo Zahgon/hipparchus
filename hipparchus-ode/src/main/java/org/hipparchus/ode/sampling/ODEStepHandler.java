@@ -14,11 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.sampling;
 
 import org.hipparchus.ode.ODEStateAndDerivative;
-
 
 /**
  * This interface represents a handler that should be called after
@@ -36,10 +34,10 @@ import org.hipparchus.ode.ODEStateAndDerivative;
  * @see org.hipparchus.ode.ODEIntegrator
  * @see ODEStateInterpolator
  */
-
 public interface ODEStepHandler {
 
-    /** Initialize step handler at the start of an ODE integration.
+    /**
+     * Initialize step handler at the start of an ODE integration.
      * <p>
      * This method is called once at the start of the integration. It
      * may be used by the step handler to initialize some internal data
@@ -52,7 +50,7 @@ public interface ODEStepHandler {
      * @param finalTime target time for the integration
      */
     default void init(ODEStateAndDerivative initialState, double finalTime) {
-        // nothing by default
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -67,7 +65,7 @@ public interface ODEStepHandler {
      * @since 4.0.3
      */
     default void updateOnStep(ODEStateInterpolator interpolator) {
-        // nothing by default
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -76,7 +74,6 @@ public interface ODEStepHandler {
      * @since 2.0
      */
     default void finish(ODEStateAndDerivative finalState) {
-        // nothing by default
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -16,7 +16,8 @@
  */
 package org.hipparchus.special.elliptic.jacobi;
 
-/** Copolar trio with pole at point s in Glaisher’s Notation.
+/**
+ * Copolar trio with pole at point s in Glaisher’s Notation.
  * <p>
  * This is a container for the three subsidiary Jacobi elliptic functions
  * {@code cs(u|m)}, {@code ds(u|m)} and {@code ns(u|m)}.
@@ -25,43 +26,52 @@ package org.hipparchus.special.elliptic.jacobi;
  */
 public class CopolarS {
 
-    /** Value of the cs function. */
+    /**
+     * Value of the cs function.
+     */
     private final double cs;
 
-    /** Value of the dn function. */
+    /**
+     * Value of the dn function.
+     */
     private final double ds;
 
-    /** Value of the ns function. */
+    /**
+     * Value of the ns function.
+     */
     private final double ns;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param trioN copolar trio with pole at point n in Glaisher’s Notation
      */
     CopolarS(final CopolarN trioN) {
         this.ns = 1.0 / trioN.sn();
-        this.cs = ns  * trioN.cn();
-        this.ds = ns  * trioN.dn();
+        this.cs = ns * trioN.cn();
+        this.ds = ns * trioN.dn();
     }
 
-    /** Get the value of the cs function.
+    /**
+     * Get the value of the cs function.
      * @return cs(u|m)
      */
     public double cs() {
-        return cs;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the value of the ds function.
+    /**
+     * Get the value of the ds function.
      * @return ds(u|m)
      */
     public double ds() {
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the value of the ns function.
+    /**
+     * Get the value of the ns function.
      * @return ns(u|m)
      */
     public double ns() {
-        return ns;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

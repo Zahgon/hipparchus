@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.samples.complex;
 
 import org.hipparchus.complex.Complex;
 import org.hipparchus.util.FastMath;
 import org.hipparchus.util.MathUtils;
 
-/** Base class for domain coloring.
+/**
+ * Base class for domain coloring.
  * <p>All methods have the following features:</p>
  * <ul>
  *   <li>hue represents phase (red for 0, then orange, yellow, green,
@@ -32,37 +32,41 @@ import org.hipparchus.util.MathUtils;
  */
 public abstract class DomainColoring {
 
-    /** Constant saturation. */
+    /**
+     * Constant saturation.
+     */
     private final double saturation;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param saturation constant saturation
      */
     protected DomainColoring(final double saturation) {
         this.saturation = saturation;
     }
 
-    /** Continuous hue.
+    /**
+     * Continuous hue.
      * @param z complex value
      * @return continuous hue
      */
     public double hue(final Complex z) {
-        final double phase =  FastMath.PI + FastMath.atan2(-z.getImaginaryPart(), -z.getRealPart());
-        return phase / MathUtils.TWO_PI;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get saturation for a complex value.
+    /**
+     * Get saturation for a complex value.
      * @param z complex value
      * @return saturation
      */
     public double saturation(Complex z) {
-        return saturation;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get value for a complex value.
+    /**
+     * Get value for a complex value.
      * @param z complex value
      * @return value
      */
     protected abstract double value(Complex z);
-
 }

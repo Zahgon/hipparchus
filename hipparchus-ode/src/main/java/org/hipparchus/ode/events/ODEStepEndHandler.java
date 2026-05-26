@@ -14,20 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.events;
 
 import org.hipparchus.ode.ODEState;
 import org.hipparchus.ode.ODEStateAndDerivative;
 
-/** This interface represents a handler for discrete events triggered
+/**
+ * This interface represents a handler for discrete events triggered
  * during ODE integration at each step end.
  * @see org.hipparchus.ode.events
  * @since 3.0
  */
-public interface ODEStepEndHandler  {
+public interface ODEStepEndHandler {
 
-    /** Initialize step end handler at the start of an ODE integration.
+    /**
+     * Initialize step end handler at the start of an ODE integration.
      * <p>
      * This method is called once at the start of the integration. It
      * may be used by the step end handler to initialize some internal data
@@ -40,11 +41,12 @@ public interface ODEStepEndHandler  {
      * @param finalTime target time for the integration
      */
     default void init(ODEStateAndDerivative initialState, double finalTime) {
-        // nothing by default
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Handle an event and choose what to do next.
-
+    /**
+     * Handle an event and choose what to do next.
+     *
      * <p>This method is called when the integrator has accepted a step
      * ending exactly on step end, just <em>after</em>
      * the step handler itself is called (see below for scheduling). It
@@ -87,7 +89,8 @@ public interface ODEStepEndHandler  {
      */
     Action stepEndOccurred(ODEStateAndDerivative state, boolean forward);
 
-    /** Reset the state prior to continue the integration.
+    /**
+     * Reset the state prior to continue the integration.
      *
      * <p>This method is called after the step handler has returned and
      * before the next step is started, but only when {@link
@@ -103,7 +106,6 @@ public interface ODEStepEndHandler  {
      * be added automatically by the integrator afterwards)
      */
     default ODEState resetState(ODEStateAndDerivative state) {
-        return state;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -19,7 +19,8 @@ package org.hipparchus.special.elliptic.jacobi;
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.util.FastMath;
 
-/** Algorithm for computing the principal Jacobi functions for parameter m greater than 1.
+/**
+ * Algorithm for computing the principal Jacobi functions for parameter m greater than 1.
  * <p>
  * The rules for reciprocal parameter change are given in Abramowitz and Stegun, section 16.11.
  * </p>
@@ -28,30 +29,37 @@ import org.hipparchus.util.FastMath;
  */
 class FieldBigParameter<T extends CalculusFieldElement<T>> extends FieldJacobiElliptic<T> {
 
-    /** Algorithm to use for the positive parameter. */
+    /**
+     * Algorithm to use for the positive parameter.
+     */
     private final FieldJacobiElliptic<T> algorithm;
 
-    /** Input scaling factor. */
+    /**
+     * Input scaling factor.
+     */
     private final T inputScale;
 
-    /** output scaling factor. */
+    /**
+     * output scaling factor.
+     */
     private final T outputScale;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param m parameter of the Jacobi elliptic function (must be greater than 1 here)
      */
     FieldBigParameter(final T m) {
         super(m);
-        algorithm   = JacobiEllipticBuilder.build(m.reciprocal());
-        inputScale  = FastMath.sqrt(m);
+        algorithm = JacobiEllipticBuilder.build(m.reciprocal());
+        inputScale = FastMath.sqrt(m);
         outputScale = inputScale.reciprocal();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldCopolarN<T> valuesN(final T u) {
-        final FieldCopolarN<T> trioN = algorithm.valuesN(u.multiply(inputScale));
-        return new FieldCopolarN<>(outputScale.multiply(trioN.sn()), trioN.dn(), trioN.cn());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

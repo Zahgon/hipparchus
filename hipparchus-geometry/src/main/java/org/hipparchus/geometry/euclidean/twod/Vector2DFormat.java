@@ -14,19 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.geometry.euclidean.twod;
 
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Locale;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalStateException;
 import org.hipparchus.geometry.Vector;
@@ -46,7 +43,6 @@ import org.hipparchus.util.CompositeFormat;
  * <p><b>Note:</b> using "," as a separator may interfere with the grouping separator
  * of the default {@link NumberFormat} for the current locale. Thus it is advised
  * to use a {@link NumberFormat} instance with disabled grouping in such a case.</p>
- *
  */
 public class Vector2DFormat extends VectorFormat<Euclidean2D, Vector2D> {
 
@@ -56,8 +52,7 @@ public class Vector2DFormat extends VectorFormat<Euclidean2D, Vector2D> {
      * "{", "}", and "; " and the default number format for components.</p>
      */
     public Vector2DFormat() {
-        super(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_SEPARATOR,
-              CompositeFormat.getDefaultNumberFormat());
+        super(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_SEPARATOR, CompositeFormat.getDefaultNumberFormat());
     }
 
     /**
@@ -74,8 +69,7 @@ public class Vector2DFormat extends VectorFormat<Euclidean2D, Vector2D> {
      * @param suffix suffix to use instead of the default "}"
      * @param separator separator to use instead of the default "; "
      */
-    public Vector2DFormat(final String prefix, final String suffix,
-                         final String separator) {
+    public Vector2DFormat(final String prefix, final String suffix, final String separator) {
         super(prefix, suffix, separator, CompositeFormat.getDefaultNumberFormat());
     }
 
@@ -87,8 +81,7 @@ public class Vector2DFormat extends VectorFormat<Euclidean2D, Vector2D> {
      * @param separator separator to use instead of the default "; "
      * @param format the custom format for components.
      */
-    public Vector2DFormat(final String prefix, final String suffix,
-                         final String separator, final NumberFormat format) {
+    public Vector2DFormat(final String prefix, final String suffix, final String separator, final NumberFormat format) {
         super(prefix, suffix, separator, format);
     }
 
@@ -98,7 +91,7 @@ public class Vector2DFormat extends VectorFormat<Euclidean2D, Vector2D> {
      * @since 1.4
      */
     public static Vector2DFormat getVector2DFormat() {
-        return getVector2DFormat(Locale.getDefault());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -108,38 +101,30 @@ public class Vector2DFormat extends VectorFormat<Euclidean2D, Vector2D> {
      * @since 1.4
      */
     public static Vector2DFormat getVector2DFormat(final Locale locale) {
-        return new Vector2DFormat(CompositeFormat.getDefaultNumberFormat(locale));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public StringBuffer format(final Vector<Euclidean2D, Vector2D> vector, final StringBuffer toAppendTo,
-                               final FieldPosition pos) {
-        final Vector2D p2 = (Vector2D) vector;
-        return format(toAppendTo, pos, p2.getX(), p2.getY());
+    public StringBuffer format(final Vector<Euclidean2D, Vector2D> vector, final StringBuffer toAppendTo, final FieldPosition pos) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector2D parse(final String source) throws MathIllegalStateException {
-        ParsePosition parsePosition = new ParsePosition(0);
-        Vector2D result = parse(source, parsePosition);
-        if (parsePosition.getIndex() == 0) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.CANNOT_PARSE_AS_TYPE,
-                                                source, parsePosition.getErrorIndex(),
-                                                Vector2D.class);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector2D parse(final String source, final ParsePosition pos) {
-        final double[] coordinates = parseCoordinates(2, source, pos);
-        if (coordinates == null) {
-            return null;
-        }
-        return new Vector2D(coordinates[0], coordinates[1]);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

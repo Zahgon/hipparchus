@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode.nonstiff;
 
 import org.hipparchus.Field;
@@ -31,7 +29,6 @@ import org.hipparchus.ode.FieldEquationsMapper;
 import org.hipparchus.ode.FieldODEStateAndDerivative;
 import org.hipparchus.ode.nonstiff.interpolators.AdamsFieldStateInterpolator;
 import org.hipparchus.util.FastMath;
-
 
 /**
  * This class implements explicit Adams-Bashforth integrators for Ordinary
@@ -160,7 +157,9 @@ import org.hipparchus.util.FastMath;
  */
 public class AdamsBashforthFieldIntegrator<T extends CalculusFieldElement<T>> extends AdamsFieldIntegrator<T> {
 
-    /** Name of integration scheme. */
+    /**
+     * Name of integration scheme.
+     */
     public static final String METHOD_NAME = AdamsBashforthIntegrator.METHOD_NAME;
 
     /**
@@ -177,13 +176,8 @@ public class AdamsBashforthFieldIntegrator<T extends CalculusFieldElement<T>> ex
      * @param scalRelativeTolerance allowed relative error
      * @exception MathIllegalArgumentException if order is 1 or less
      */
-    public AdamsBashforthFieldIntegrator(final Field<T> field, final int nSteps,
-                                         final double minStep, final double maxStep,
-                                         final double scalAbsoluteTolerance,
-                                         final double scalRelativeTolerance)
-        throws MathIllegalArgumentException {
-        super(field, METHOD_NAME, nSteps, nSteps, minStep, maxStep,
-              scalAbsoluteTolerance, scalRelativeTolerance);
+    public AdamsBashforthFieldIntegrator(final Field<T> field, final int nSteps, final double minStep, final double maxStep, final double scalAbsoluteTolerance, final double scalRelativeTolerance) throws MathIllegalArgumentException {
+        super(field, METHOD_NAME, nSteps, nSteps, minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
     }
 
     /**
@@ -200,56 +194,23 @@ public class AdamsBashforthFieldIntegrator<T extends CalculusFieldElement<T>> ex
      * @param vecRelativeTolerance allowed relative error
      * @exception IllegalArgumentException if order is 1 or less
      */
-    public AdamsBashforthFieldIntegrator(final Field<T> field, final int nSteps,
-                                         final double minStep, final double maxStep,
-                                         final double[] vecAbsoluteTolerance,
-                                         final double[] vecRelativeTolerance)
-        throws IllegalArgumentException {
-        super(field, METHOD_NAME, nSteps, nSteps, minStep, maxStep,
-              vecAbsoluteTolerance, vecRelativeTolerance);
+    public AdamsBashforthFieldIntegrator(final Field<T> field, final int nSteps, final double minStep, final double maxStep, final double[] vecAbsoluteTolerance, final double[] vecRelativeTolerance) throws IllegalArgumentException {
+        super(field, METHOD_NAME, nSteps, nSteps, minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected double errorEstimation(final T[] previousState, final T predictedTime,
-                                     final T[] predictedState, final T[] predictedScaled,
-                                     final FieldMatrix<T> predictedNordsieck) {
-
-        final StepsizeHelper helper = getStepSizeHelper();
-        double error = 0;
-        for (int i = 0; i < helper.getMainSetDimension(); ++i) {
-            final double tol = helper.getTolerance(i, FastMath.abs(predictedState[i].getReal()));
-
-            // apply Taylor formula from high order to low order,
-            // for the sake of numerical accuracy
-            double variation = 0;
-            int sign = predictedNordsieck.getRowDimension() % 2 == 0 ? -1 : 1;
-            for (int k = predictedNordsieck.getRowDimension() - 1; k >= 0; --k) {
-                variation += sign * predictedNordsieck.getEntry(k, i).getReal();
-                sign       = -sign;
-            }
-            variation -= predictedScaled[i].getReal();
-
-            final double ratio  = (predictedState[i].getReal() - previousState[i].getReal() + variation) / tol;
-            error              += ratio * ratio;
-
-        }
-
-        return FastMath.sqrt(error / helper.getMainSetDimension());
-
+    protected double errorEstimation(final T[] previousState, final T predictedTime, final T[] predictedState, final T[] predictedScaled, final FieldMatrix<T> predictedNordsieck) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected AdamsFieldStateInterpolator<T> finalizeStep(final T stepSize, final T[] predictedY,
-                                                          final T[] predictedScaled, final Array2DRowFieldMatrix<T> predictedNordsieck,
-                                                          final boolean isForward,
-                                                          final FieldODEStateAndDerivative<T> globalPreviousState,
-                                                          final FieldODEStateAndDerivative<T> globalCurrentState,
-                                                          final FieldEquationsMapper<T> equationsMapper) {
-        return new AdamsFieldStateInterpolator<>(getStepSize(), globalCurrentState,
-                                                 predictedScaled, predictedNordsieck, isForward,
-                                                 getStepStart(), globalCurrentState, equationsMapper);
+    protected AdamsFieldStateInterpolator<T> finalizeStep(final T stepSize, final T[] predictedY, final T[] predictedScaled, final Array2DRowFieldMatrix<T> predictedNordsieck, final boolean isForward, final FieldODEStateAndDerivative<T> globalPreviousState, final FieldODEStateAndDerivative<T> globalCurrentState, final FieldEquationsMapper<T> equationsMapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

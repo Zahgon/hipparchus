@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.analysis.function;
 
 import org.hipparchus.analysis.differentiation.Derivative;
@@ -28,30 +26,35 @@ import org.hipparchus.util.FastMath;
 
 /**
  * Power function.
- *
  */
 public class Power implements UnivariateDifferentiableFunction {
-    /** Power. */
+
+    /**
+     * Power.
+     */
     private final double p;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param p Power.
      */
     public Power(double p) {
         this.p = p;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double value(double x) {
-        return FastMath.pow(x, p);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public <T extends Derivative<T>> T value(T t) {
-        return t.pow(p);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

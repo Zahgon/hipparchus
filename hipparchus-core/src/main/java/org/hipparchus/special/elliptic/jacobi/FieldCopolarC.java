@@ -18,7 +18,8 @@ package org.hipparchus.special.elliptic.jacobi;
 
 import org.hipparchus.CalculusFieldElement;
 
-/** Copolar trio with pole at point c in Glaisher’s Notation.
+/**
+ * Copolar trio with pole at point c in Glaisher’s Notation.
  * <p>
  * This is a container for the three subsidiary Jacobi elliptic functions
  * {@code dc(u|m)}, {@code nc(u|m)}, and {@code sc(u|m)}.
@@ -28,16 +29,23 @@ import org.hipparchus.CalculusFieldElement;
  */
 public class FieldCopolarC<T extends CalculusFieldElement<T>> {
 
-    /** Value of the dc function. */
+    /**
+     * Value of the dc function.
+     */
     private final T dc;
 
-    /** Value of the nc function. */
+    /**
+     * Value of the nc function.
+     */
     private final T nc;
 
-    /** Value of the sc function. */
+    /**
+     * Value of the sc function.
+     */
     private final T sc;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param trioN copolar trio with pole at point n in Glaisher’s Notation
      */
     FieldCopolarC(final FieldCopolarN<T> trioN) {
@@ -46,25 +54,27 @@ public class FieldCopolarC<T extends CalculusFieldElement<T>> {
         this.dc = nc.multiply(trioN.dn());
     }
 
-    /** Get the value of the dc function.
+    /**
+     * Get the value of the dc function.
      * @return dc(u|m)
      */
     public T dc() {
-        return dc;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the value of the nc function.
+    /**
+     * Get the value of the nc function.
      * @return nc(u|m)
      */
     public T nc() {
-        return nc;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the value of the sc function.
+    /**
+     * Get the value of the sc function.
      * @return sc(u|m)
      */
     public T sc() {
-        return sc;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

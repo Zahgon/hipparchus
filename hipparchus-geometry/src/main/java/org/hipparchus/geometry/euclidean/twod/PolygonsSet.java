@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -26,7 +25,6 @@ import java.util.Collection;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.hipparchus.exception.MathIllegalStateException;
 import org.hipparchus.geometry.LocalizedGeometryFormats;
 import org.hipparchus.geometry.euclidean.oned.Euclidean1D;
@@ -45,22 +43,26 @@ import org.hipparchus.geometry.partitioning.SubHyperplane;
 import org.hipparchus.util.FastMath;
 import org.hipparchus.util.Precision;
 
-/** This class represents a 2D region: a set of polygons.
+/**
+ * This class represents a 2D region: a set of polygons.
  */
-public class PolygonsSet
-    extends AbstractRegion<Euclidean2D, Vector2D, Line, SubLine, Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> {
+public class PolygonsSet extends AbstractRegion<Euclidean2D, Vector2D, Line, SubLine, Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> {
 
-    /** Vertices organized as boundary loops. */
+    /**
+     * Vertices organized as boundary loops.
+     */
     private Vector2D[][] vertices;
 
-    /** Build a polygons set representing the whole plane.
+    /**
+     * Build a polygons set representing the whole plane.
      * @param tolerance tolerance below which points are considered identical
      */
     public PolygonsSet(final double tolerance) {
         super(tolerance);
     }
 
-    /** Build a polygons set from a BSP tree.
+    /**
+     * Build a polygons set from a BSP tree.
      * <p>The leaf nodes of the BSP tree <em>must</em> have a
      * {@code Boolean} attribute representing the inside status of
      * the corresponding cell (true for inside cells, false for outside
@@ -84,7 +86,8 @@ public class PolygonsSet
         super(tree, tolerance);
     }
 
-    /** Build a polygons set from a Boundary REPresentation (B-rep).
+    /**
+     * Build a polygons set from a Boundary REPresentation (B-rep).
      * <p>The boundary is provided as a collection of {@link
      * SubHyperplane sub-hyperplanes}. Each sub-hyperplane has the
      * interior part of the region on its minus side and the exterior on
@@ -109,20 +112,20 @@ public class PolygonsSet
         super(boundary, tolerance);
     }
 
-    /** Build a parallellepipedic box.
+    /**
+     * Build a parallellepipedic box.
      * @param xMin low bound along the x direction
      * @param xMax high bound along the x direction
      * @param yMin low bound along the y direction
      * @param yMax high bound along the y direction
      * @param tolerance tolerance below which points are considered identical
      */
-    public PolygonsSet(final double xMin, final double xMax,
-                       final double yMin, final double yMax,
-                       final double tolerance) {
+    public PolygonsSet(final double xMin, final double xMax, final double yMin, final double yMax, final double tolerance) {
         super(boxBoundary(xMin, xMax, yMin, yMax, tolerance), tolerance);
     }
 
-    /** Build a polygon from a simple list of vertices.
+    /**
+     * Build a polygon from a simple list of vertices.
      * <p>The boundary is provided as a list of points considering to
      * represent the vertices of a simple loop. The interior part of the
      * region is on the left side of this path and the exterior is on its
@@ -152,11 +155,12 @@ public class PolygonsSet
      * belong to the hyperplane (which is therefore more a slab)
      * @param vertices vertices of the simple loop boundary
      */
-    public PolygonsSet(final double hyperplaneThickness, final Vector2D ... vertices) {
+    public PolygonsSet(final double hyperplaneThickness, final Vector2D... vertices) {
         super(verticesToTree(hyperplaneThickness, vertices), hyperplaneThickness);
     }
 
-    /** Create a list of hyperplanes representing the boundary of a box.
+    /**
+     * Create a list of hyperplanes representing the boundary of a box.
      * @param xMin low bound along the x direction
      * @param xMax high bound along the x direction
      * @param yMin low bound along the y direction
@@ -164,26 +168,21 @@ public class PolygonsSet
      * @param tolerance tolerance below which points are considered identical
      * @return boundary of the box
      */
-    private static Line[] boxBoundary(final double xMin, final double xMax,
-                                      final double yMin, final double yMax,
-                                      final double tolerance) {
+    private static Line[] boxBoundary(final double xMin, final double xMax, final double yMin, final double yMax, final double tolerance) {
         if ((xMin >= xMax - tolerance) || (yMin >= yMax - tolerance)) {
             // too thin box, build an empty polygons set
-            return null; // NOPMD
+            // NOPMD
+            return null;
         }
         final Vector2D minMin = new Vector2D(xMin, yMin);
         final Vector2D minMax = new Vector2D(xMin, yMax);
         final Vector2D maxMin = new Vector2D(xMax, yMin);
         final Vector2D maxMax = new Vector2D(xMax, yMax);
-        return new Line[] {
-            new Line(minMin, maxMin, tolerance),
-            new Line(maxMin, maxMax, tolerance),
-            new Line(maxMax, minMax, tolerance),
-            new Line(minMax, minMin, tolerance)
-        };
+        return new Line[] { new Line(minMin, maxMin, tolerance), new Line(maxMin, maxMax, tolerance), new Line(maxMax, minMax, tolerance), new Line(minMax, minMin, tolerance) };
     }
 
-    /** Build the BSP tree of a polygons set from a simple list of vertices.
+    /**
+     * Build the BSP tree of a polygons set from a simple list of vertices.
      * <p>The boundary is provided as a list of points considering to
      * represent the vertices of a simple loop. The interior part of the
      * region is on the left side of this path and the exterior is on its
@@ -198,15 +197,12 @@ public class PolygonsSet
      * @param vertices vertices of the simple loop boundary
      * @return the BSP tree of the input vertices
      */
-    private static BSPTree<Euclidean2D, Vector2D, Line, SubLine> verticesToTree(final double hyperplaneThickness,
-                                                                                final Vector2D ... vertices) {
-
+    private static BSPTree<Euclidean2D, Vector2D, Line, SubLine> verticesToTree(final double hyperplaneThickness, final Vector2D... vertices) {
         final int n = vertices.length;
         if (n == 0) {
             // the tree represents the whole space
             return new BSPTree<>(Boolean.TRUE);
         }
-
         // build the vertices
         final Vertex[] vArray = new Vertex[n];
         final Map<Vertex, List<Line>> bindings = new IdentityHashMap<>(n);
@@ -214,33 +210,26 @@ public class PolygonsSet
             vArray[i] = new Vertex(vertices[i]);
             bindings.put(vArray[i], new ArrayList<>());
         }
-
         // build the edges
         List<Edge> edges = new ArrayList<>(n);
         for (int i = 0; i < n; ++i) {
-
             // get the endpoints of the edge
             final Vertex start = vArray[i];
-            final Vertex end   = vArray[(i + 1) % n];
-
+            final Vertex end = vArray[(i + 1) % n];
             // get the line supporting the edge, taking care not to recreate it if it was
             // already created earlier due to another edge being aligned with the current one
             final Line line = supportingLine(start, end, vArray, bindings, hyperplaneThickness);
-
             // create the edge and store it
             edges.add(new Edge(start, end, line));
-
         }
-
         // build the tree top-down
         final BSPTree<Euclidean2D, Vector2D, Line, SubLine> tree = new BSPTree<>();
         insertEdges(hyperplaneThickness, tree, edges);
-
         return tree;
-
     }
 
-    /** Get the supporting line for two vertices.
+    /**
+     * Get the supporting line for two vertices.
      * @param start start vertex of an edge being built
      * @param end end vertex of an edge being built
      * @param vArray array containing all vertices
@@ -249,11 +238,7 @@ public class PolygonsSet
      * belong to the hyperplane (which is therefore more a slab)
      * @return line bound with both start and end and in the proper orientation
      */
-    private static Line supportingLine(final Vertex start, final Vertex end,
-                                       final Vertex[] vArray,
-                                       final Map<Vertex, List<Line>> bindings,
-                                       final double hyperplaneThickness) {
-
+    private static Line supportingLine(final Vertex start, final Vertex end, final Vertex[] vArray, final Map<Vertex, List<Line>> bindings, final double hyperplaneThickness) {
         Line toBeReversed = null;
         for (final Line line1 : bindings.get(start)) {
             for (final Line line2 : bindings.get(end)) {
@@ -270,28 +255,21 @@ public class PolygonsSet
                 }
             }
         }
-
         // we need to create a new circle
-        final Line newLine = (toBeReversed == null) ?
-                             new Line(start.getLocation(), end.getLocation(), hyperplaneThickness) :
-                             toBeReversed.getReverse();
-
+        final Line newLine = (toBeReversed == null) ? new Line(start.getLocation(), end.getLocation(), hyperplaneThickness) : toBeReversed.getReverse();
         bindings.get(start).add(newLine);
         bindings.get(end).add(newLine);
-
         // check if another vertex also happens to be on this line
         for (final Vertex vertex : vArray) {
-            if (vertex != start && vertex != end &&
-                FastMath.abs(newLine.getOffset(vertex.getLocation())) <= hyperplaneThickness) {
+            if (vertex != start && vertex != end && FastMath.abs(newLine.getOffset(vertex.getLocation())) <= hyperplaneThickness) {
                 bindings.get(vertex).add(newLine);
             }
         }
-
         return newLine;
-
     }
 
-    /** Recursively build a tree by inserting cut sub-hyperplanes.
+    /**
+     * Recursively build a tree by inserting cut sub-hyperplanes.
      * @param hyperplaneThickness tolerance below which points are consider to
      * belong to the hyperplane (which is therefore more a slab)
      * @param node current tree node (it is a leaf node at the beginning
@@ -299,13 +277,10 @@ public class PolygonsSet
      * @param edges list of edges to insert in the cell defined by this node
      * (excluding edges not belonging to the cell defined by this node)
      */
-    private static void insertEdges(final double hyperplaneThickness,
-                                    final BSPTree<Euclidean2D, Vector2D, Line, SubLine> node,
-                                    final List<Edge> edges) {
-
+    private static void insertEdges(final double hyperplaneThickness, final BSPTree<Euclidean2D, Vector2D, Line, SubLine> node, final List<Edge> edges) {
         // find an edge with an hyperplane that can be inserted in the node
         int index = 0;
-        Edge inserted =null;
+        Edge inserted = null;
         while (inserted == null && index < edges.size()) {
             inserted = edges.get(index++);
             if (inserted.getNode() == null) {
@@ -318,7 +293,6 @@ public class PolygonsSet
                 inserted = null;
             }
         }
-
         if (inserted == null) {
             // no suitable edge was found, the node remains a leaf node
             // we need to set its inside/outside boolean indicator
@@ -330,20 +304,17 @@ public class PolygonsSet
             }
             return;
         }
-
         // we have split the node by inserting an edge as a cut sub-hyperplane
         // distribute the remaining edges in the two sub-trees
-        final List<Edge> plusList  = new ArrayList<>();
+        final List<Edge> plusList = new ArrayList<>();
         final List<Edge> minusList = new ArrayList<>();
         for (final Edge edge : edges) {
             if (edge != inserted) {
                 final double startOffset = inserted.getLine().getOffset(edge.getStart().getLocation());
-                final double endOffset   = inserted.getLine().getOffset(edge.getEnd().getLocation());
-                Side startSide = (FastMath.abs(startOffset) <= hyperplaneThickness) ?
-                                 Side.HYPER : ((startOffset < 0) ? Side.MINUS : Side.PLUS);
-                Side endSide   = (FastMath.abs(endOffset) <= hyperplaneThickness) ?
-                                 Side.HYPER : ((endOffset < 0) ? Side.MINUS : Side.PLUS);
-                switch (startSide) {
+                final double endOffset = inserted.getLine().getOffset(edge.getEnd().getLocation());
+                Side startSide = (FastMath.abs(startOffset) <= hyperplaneThickness) ? Side.HYPER : ((startOffset < 0) ? Side.MINUS : Side.PLUS);
+                Side endSide = (FastMath.abs(endOffset) <= hyperplaneThickness) ? Side.HYPER : ((endOffset < 0) ? Side.MINUS : Side.PLUS);
+                switch(startSide) {
                     case PLUS:
                         if (endSide == Side.MINUS) {
                             // we need to insert a split point on the hyperplane
@@ -374,10 +345,9 @@ public class PolygonsSet
                 }
             }
         }
-
         // recurse through lower levels
         if (!plusList.isEmpty()) {
-            insertEdges(hyperplaneThickness, node.getPlus(),  plusList);
+            insertEdges(hyperplaneThickness, node.getPlus(), plusList);
         } else {
             node.getPlus().setAttribute(Boolean.FALSE);
         }
@@ -386,22 +356,30 @@ public class PolygonsSet
         } else {
             node.getMinus().setAttribute(Boolean.TRUE);
         }
-
     }
 
-    /** Internal class for holding vertices while they are processed to build a BSP tree. */
+    /**
+     * Internal class for holding vertices while they are processed to build a BSP tree.
+     */
     private static class Vertex {
 
-        /** Vertex location. */
+        /**
+         * Vertex location.
+         */
         private final Vector2D location;
 
-        /** Incoming edge. */
+        /**
+         * Incoming edge.
+         */
         private Edge incoming;
 
-        /** Outgoing edge. */
+        /**
+         * Outgoing edge.
+         */
         private Edge outgoing;
 
-        /** Build a non-processed vertex not owned by any node yet.
+        /**
+         * Build a non-processed vertex not owned by any node yet.
          * @param location vertex location
          */
         Vertex(final Vector2D location) {
@@ -410,14 +388,16 @@ public class PolygonsSet
             this.outgoing = null;
         }
 
-        /** Get Vertex location.
+        /**
+         * Get Vertex location.
          * @return vertex location
          */
         public Vector2D getLocation() {
-            return location;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Set incoming edge.
+        /**
+         * Set incoming edge.
          * <p>
          * The line supporting the incoming edge is automatically bound
          * with the instance.
@@ -425,17 +405,19 @@ public class PolygonsSet
          * @param incoming incoming edge
          */
         public void setIncoming(final Edge incoming) {
-            this.incoming = incoming;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Get incoming edge.
+        /**
+         * Get incoming edge.
          * @return incoming edge
          */
         public Edge getIncoming() {
-            return incoming;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Set outgoing edge.
+        /**
+         * Set outgoing edge.
          * <p>
          * The line supporting the outgoing edge is automatically bound
          * with the instance.
@@ -443,88 +425,102 @@ public class PolygonsSet
          * @param outgoing outgoing edge
          */
         public void setOutgoing(final Edge outgoing) {
-            this.outgoing = outgoing;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Get outgoing edge.
+        /**
+         * Get outgoing edge.
          * @return outgoing edge
          */
         public Edge getOutgoing() {
-            return outgoing;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
 
-    /** Internal class for holding edges while they are processed to build a BSP tree. */
+    /**
+     * Internal class for holding edges while they are processed to build a BSP tree.
+     */
     private static class Edge {
 
-        /** Start vertex. */
+        /**
+         * Start vertex.
+         */
         private final Vertex start;
 
-        /** End vertex. */
+        /**
+         * End vertex.
+         */
         private final Vertex end;
 
-        /** Line supporting the edge. */
+        /**
+         * Line supporting the edge.
+         */
         private final Line line;
 
-        /** Node whose cut hyperplane contains this edge. */
+        /**
+         * Node whose cut hyperplane contains this edge.
+         */
         private BSPTree<Euclidean2D, Vector2D, Line, SubLine> node;
 
-        /** Build an edge not contained in any node yet.
+        /**
+         * Build an edge not contained in any node yet.
          * @param start start vertex
          * @param end end vertex
          * @param line line supporting the edge
          */
         Edge(final Vertex start, final Vertex end, final Line line) {
-
             this.start = start;
-            this.end   = end;
-            this.line  = line;
-            this.node  = null;
-
+            this.end = end;
+            this.line = line;
+            this.node = null;
             // connect the vertices back to the edge
             start.setOutgoing(this);
             end.setIncoming(this);
-
         }
 
-        /** Get start vertex.
+        /**
+         * Get start vertex.
          * @return start vertex
          */
         public Vertex getStart() {
-            return start;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Get end vertex.
+        /**
+         * Get end vertex.
          * @return end vertex
          */
         public Vertex getEnd() {
-            return end;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Get the line supporting this edge.
+        /**
+         * Get the line supporting this edge.
          * @return line supporting this edge
          */
         public Line getLine() {
-            return line;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Set the node whose cut hyperplane contains this edge.
+        /**
+         * Set the node whose cut hyperplane contains this edge.
          * @param node node whose cut hyperplane contains this edge
          */
         public void setNode(final BSPTree<Euclidean2D, Vector2D, Line, SubLine> node) {
-            this.node = node;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Get the node whose cut hyperplane contains this edge.
+        /**
+         * Get the node whose cut hyperplane contains this edge.
          * @return node whose cut hyperplane contains this edge
          * (null if edge has not yet been inserted into the BSP tree)
          */
         public BSPTree<Euclidean2D, Vector2D, Line, SubLine> getNode() {
-            return node;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Split the edge.
+        /**
+         * Split the edge.
          * <p>
          * Once split, this edge is not referenced anymore by the vertices,
          * it is replaced by the two half-edges and an intermediate splitting
@@ -534,88 +530,36 @@ public class PolygonsSet
          * @return split vertex (its incoming and outgoing edges are the two halves)
          */
         public Vertex split(final Line splitLine) {
-            final Vertex splitVertex = new Vertex(line.intersection(splitLine));
-            final Edge startHalf = new Edge(start, splitVertex, line);
-            final Edge endHalf   = new Edge(splitVertex, end, line);
-            startHalf.node = node;
-            endHalf.node   = node;
-            return splitVertex;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public PolygonsSet buildNew(final BSPTree<Euclidean2D, Vector2D, Line, SubLine> tree) {
-        return new PolygonsSet(tree, getTolerance());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector2D getInteriorPoint() {
-        final InteriorPointFinder<Euclidean2D, Vector2D, Line, SubLine> finder =
-                new InteriorPointFinder<>(Vector2D.ZERO);
-        getTree(false).visit(finder);
-        final BSPTree.InteriorPoint<Euclidean2D, Vector2D> interior = finder.getPoint();
-        return interior == null ? null : interior.getPoint();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void computeGeometricalProperties() {
-
-        final Vector2D[][] v = getVertices();
-
-        if (v.length == 0) {
-            final BSPTree<Euclidean2D, Vector2D, Line, SubLine> tree = getTree(false);
-            if (tree.getCut() == null && (Boolean) tree.getAttribute()) {
-                // the instance covers the whole space
-                setSize(Double.POSITIVE_INFINITY);
-                setBarycenter(Vector2D.NaN);
-            } else {
-                setSize(0);
-                setBarycenter(new Vector2D(0, 0));
-            }
-        } else if (v[0][0] == null) {
-            // there is at least one open-loop: the polygon is infinite
-            setSize(Double.POSITIVE_INFINITY);
-            setBarycenter(Vector2D.NaN);
-        } else {
-            // all loops are closed, we compute some integrals around the shape
-
-            double sum  = 0;
-            double sumX = 0;
-            double sumY = 0;
-
-            for (Vector2D[] loop : v) {
-                double x1 = loop[loop.length - 1].getX();
-                double y1 = loop[loop.length - 1].getY();
-                for (final Vector2D point : loop) {
-                    final double x0 = x1;
-                    final double y0 = y1;
-                    x1 = point.getX();
-                    y1 = point.getY();
-                    final double factor = x0 * y1 - y0 * x1;
-                    sum  += factor;
-                    sumX += factor * (x0 + x1);
-                    sumY += factor * (y0 + y1);
-                }
-            }
-
-            if (sum < 0) {
-                // the polygon as a finite outside surrounded by an infinite inside
-                setSize(Double.POSITIVE_INFINITY);
-                setBarycenter(Vector2D.NaN);
-            } else {
-                setSize(sum / 2);
-                setBarycenter(new Vector2D(sumX / (3 * sum), sumY / (3 * sum)));
-            }
-
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the vertices of the polygon.
+    /**
+     * Get the vertices of the polygon.
      * <p>The polygon boundary can be represented as an array of loops,
      * each loop being itself an array of vertices.</p>
      * <p>In order to identify open loops which start and end by
@@ -639,108 +583,11 @@ public class PolygonsSet
      * to be non-null)
      */
     public Vector2D[][] getVertices() {
-        if (vertices == null) {
-            if (getTree(false).getCut() == null) {
-                vertices = new Vector2D[0][];
-            } else {
-
-                // build the unconnected segments
-                final SegmentsBuilder visitor = new SegmentsBuilder(getTolerance());
-                getTree(true).visit(visitor);
-                final List<ConnectableSegment> segments = visitor.getSegments();
-
-                // connect all segments, using topological criteria first
-                // and using Euclidean distance only as a last resort
-                int pending = segments.size();
-                pending -= naturalFollowerConnections(segments);
-                if (pending > 0) {
-                    pending -= splitEdgeConnections(segments);
-                }
-                if (pending > 0) {
-                    pending -= closeVerticesConnections(segments);
-                }
-
-                // create the segment loops
-                final ArrayList<List<Segment>> loops = new ArrayList<>();
-                for (ConnectableSegment s = getUnprocessed(segments); s != null; s = getUnprocessed(segments)) {
-                    final List<Segment> loop = followLoop(s);
-                    if (loop != null && !loop.isEmpty()) {
-                        if (loop.get(0).getStart() == null) {
-                            // this is an open loop, we put it on the front
-                            loops.add(0, loop);
-                            --pending;
-                        } else {
-                            // this is a closed loop, we put it on the back
-                            loops.add(loop);
-                        }
-                    }
-                }
-
-                if (pending != 0) {
-                    // this should not happen
-                    throw new MathIllegalStateException(LocalizedGeometryFormats.OUTLINE_BOUNDARY_LOOP_OPEN);
-                }
-
-                // transform the loops in an array of arrays of points
-                vertices = new Vector2D[loops.size()][];
-                int i = 0;
-
-                for (final List<Segment> loop : loops) {
-                    if (loop.size() < 2) {
-                        // single infinite line
-                        final Line line = loop.get(0).getLine();
-                        vertices[i++] = new Vector2D[] {
-                            null,
-                            line.toSpace(new Vector1D(-Float.MAX_VALUE)),
-                            line.toSpace(new Vector1D(+Float.MAX_VALUE))
-                        };
-                    } else if (loop.get(0).getStart() == null) {
-                        // open loop with at least one real point
-                        final Vector2D[] array = new Vector2D[loop.size() + 3];
-                        int j = 0;
-                        for (Segment segment : loop) {
-
-                            if (j == 0) {
-                                // null point and first dummy point
-                                double x = segment.getLine().toSubSpace(segment.getEnd()).getX();
-                                x -= FastMath.max(1.0, FastMath.abs(x / 2));
-                                array[j++] = null;
-                                array[j++] = segment.getLine().toSpace(new Vector1D(x));
-                            } else {
-
-                                if (j < (array.length - 2)) {
-                                    // current point
-                                    array[j++] = segment.getStart();
-                                }
-
-                                if (j == (array.length - 2)) {
-                                    // last dummy point
-                                    double x = segment.getLine().toSubSpace(segment.getStart()).getX();
-                                    x += FastMath.max(1.0, FastMath.abs(x / 2));
-                                    array[j++] = segment.getLine().toSpace(new Vector1D(x));
-                                }
-                            }
-
-                        }
-                        vertices[i++] = array;
-                    } else {
-                        final Vector2D[] array = new Vector2D[loop.size()];
-                        int j = 0;
-                        for (Segment segment : loop) {
-                            array[j++] = segment.getStart();
-                        }
-                        vertices[i++] = array;
-                    }
-                }
-
-            }
-        }
-
-        return vertices.clone();
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Connect the segments using only natural follower information.
+    /**
+     * Connect the segments using only natural follower information.
      * @param segments segments complete segments list
      * @return number of connections performed
      */
@@ -749,11 +596,9 @@ public class PolygonsSet
         for (final ConnectableSegment segment : segments) {
             if (segment.getNext() == null) {
                 final BSPTree<Euclidean2D, Vector2D, Line, SubLine> node = segment.getNode();
-                final BSPTree<Euclidean2D, Vector2D, Line, SubLine> end  = segment.getEndNode();
+                final BSPTree<Euclidean2D, Vector2D, Line, SubLine> end = segment.getEndNode();
                 for (final ConnectableSegment candidateNext : segments) {
-                    if (candidateNext.getPrevious()  == null &&
-                        candidateNext.getNode()      == end &&
-                        candidateNext.getStartNode() == node) {
+                    if (candidateNext.getPrevious() == null && candidateNext.getNode() == end && candidateNext.getStartNode() == node) {
                         // connect the two segments
                         segment.setNext(candidateNext);
                         candidateNext.setPrevious(segment);
@@ -766,7 +611,8 @@ public class PolygonsSet
         return connected;
     }
 
-    /** Connect the segments resulting from a line splitting a straight edge.
+    /**
+     * Connect the segments resulting from a line splitting a straight edge.
      * @param segments segments complete segments list
      * @return number of connections performed
      */
@@ -775,11 +621,9 @@ public class PolygonsSet
         for (final ConnectableSegment segment : segments) {
             if (segment.getNext() == null) {
                 final Line hyperplane = segment.getNode().getCut().getHyperplane();
-                final BSPTree<Euclidean2D, Vector2D, Line, SubLine> end  = segment.getEndNode();
+                final BSPTree<Euclidean2D, Vector2D, Line, SubLine> end = segment.getEndNode();
                 for (final ConnectableSegment candidateNext : segments) {
-                    if (candidateNext.getPrevious()                      == null &&
-                        candidateNext.getNode().getCut().getHyperplane() == hyperplane &&
-                        candidateNext.getStartNode()                     == end) {
+                    if (candidateNext.getPrevious() == null && candidateNext.getNode().getCut().getHyperplane() == hyperplane && candidateNext.getStartNode() == end) {
                         // connect the two segments
                         segment.setNext(candidateNext);
                         candidateNext.setPrevious(segment);
@@ -792,7 +636,8 @@ public class PolygonsSet
         return connected;
     }
 
-    /** Connect the segments using Euclidean distance.
+    /**
+     * Connect the segments using Euclidean distance.
      * <p>
      * This connection heuristic should be used last, as it relies
      * only on a fuzzy distance criterion.
@@ -812,7 +657,7 @@ public class PolygonsSet
                         final double distance = Vector2D.distance(end, candidateNext.getStart());
                         if (distance < min) {
                             selectedNext = candidateNext;
-                            min          = distance;
+                            min = distance;
                         }
                     }
                 }
@@ -827,7 +672,8 @@ public class PolygonsSet
         return connected;
     }
 
-    /** Get first unprocessed segment from a list.
+    /**
+     * Get first unprocessed segment from a list.
      * @param segments segments list
      * @return first segment that has not been processed yet
      * or null if all segments have been processed
@@ -841,7 +687,8 @@ public class PolygonsSet
         return null;
     }
 
-    /** Build the loop containing a segment.
+    /**
+     * Build the loop containing a segment.
      * <p>
      * The segment put in the loop will be marked as processed.
      * </p>
@@ -850,11 +697,9 @@ public class PolygonsSet
      * degenerated infinitely thin 2 points loop)
      */
     private List<Segment> followLoop(final ConnectableSegment defining) {
-
         final List<Segment> loop = new ArrayList<>();
         loop.add(defining);
         defining.setProcessed(true);
-
         // add segments in connection order
         ConnectableSegment next = defining.getNext();
         while (next != defining && next != null) {
@@ -862,7 +707,6 @@ public class PolygonsSet
             next.setProcessed(true);
             next = next.getNext();
         }
-
         if (next == null) {
             // the loop is open and we have found its end,
             // we need to find its start too
@@ -873,20 +717,19 @@ public class PolygonsSet
                 previous = previous.getPrevious();
             }
         }
-
         // filter out spurious vertices
         filterSpuriousVertices(loop);
-
         if (loop.size() == 2 && loop.get(0).getStart() != null) {
             // this is a degenerated infinitely thin closed loop, we simply ignore it
-            return null; // NOPMD
+            // NOPMD
+            return null;
         } else {
             return loop;
         }
-
     }
 
-    /** Filter out spurious vertices on straight lines (at machine precision).
+    /**
+     * Filter out spurious vertices on straight lines (at machine precision).
      * @param loop segments loop to filter (will be modified in-place)
      */
     private void filterSpuriousVertices(final List<Segment> loop) {
@@ -894,8 +737,7 @@ public class PolygonsSet
             final Segment previous = loop.get(i);
             int j = (i + 1) % loop.size();
             final Segment next = loop.get(j);
-            if (next != null &&
-                Precision.equals(previous.getLine().getAngle(), next.getLine().getAngle(), Precision.EPSILON)) {
+            if (next != null && Precision.equals(previous.getLine().getAngle(), next.getLine().getAngle(), Precision.EPSILON)) {
                 // the vertex between the two edges is a spurious one
                 // replace the two segments by a single one
                 loop.set(j, new Segment(previous.getStart(), next.getEnd(), previous.getLine()));
@@ -904,28 +746,43 @@ public class PolygonsSet
         }
     }
 
-    /** Private extension of Segment allowing connection. */
+    /**
+     * Private extension of Segment allowing connection.
+     */
     private static class ConnectableSegment extends Segment {
 
-        /** Node containing segment. */
+        /**
+         * Node containing segment.
+         */
         private final BSPTree<Euclidean2D, Vector2D, Line, SubLine> node;
 
-        /** Node whose intersection with current node defines start point. */
+        /**
+         * Node whose intersection with current node defines start point.
+         */
         private final BSPTree<Euclidean2D, Vector2D, Line, SubLine> startNode;
 
-        /** Node whose intersection with current node defines end point. */
+        /**
+         * Node whose intersection with current node defines end point.
+         */
         private final BSPTree<Euclidean2D, Vector2D, Line, SubLine> endNode;
 
-        /** Previous segment. */
+        /**
+         * Previous segment.
+         */
         private ConnectableSegment previous;
 
-        /** Next segment. */
+        /**
+         * Next segment.
+         */
         private ConnectableSegment next;
 
-        /** Indicator for completely processed segments. */
+        /**
+         * Indicator for completely processed segments.
+         */
         private boolean processed;
 
-        /** Build a segment.
+        /**
+         * Build a segment.
          * @param start start point of the segment
          * @param end end point of the segment
          * @param line line containing the segment
@@ -933,195 +790,189 @@ public class PolygonsSet
          * @param startNode node whose intersection with current node defines start point
          * @param endNode node whose intersection with current node defines end point
          */
-        ConnectableSegment(final Vector2D start, final Vector2D end, final Line line,
-                           final BSPTree<Euclidean2D, Vector2D, Line, SubLine> node,
-                           final BSPTree<Euclidean2D, Vector2D, Line, SubLine> startNode,
-                           final BSPTree<Euclidean2D, Vector2D, Line, SubLine> endNode) {
+        ConnectableSegment(final Vector2D start, final Vector2D end, final Line line, final BSPTree<Euclidean2D, Vector2D, Line, SubLine> node, final BSPTree<Euclidean2D, Vector2D, Line, SubLine> startNode, final BSPTree<Euclidean2D, Vector2D, Line, SubLine> endNode) {
             super(start, end, line);
-            this.node      = node;
+            this.node = node;
             this.startNode = startNode;
-            this.endNode   = endNode;
-            this.previous  = null;
-            this.next      = null;
+            this.endNode = endNode;
+            this.previous = null;
+            this.next = null;
             this.processed = false;
         }
 
-        /** Get the node containing segment.
+        /**
+         * Get the node containing segment.
          * @return node containing segment
          */
         public BSPTree<Euclidean2D, Vector2D, Line, SubLine> getNode() {
-            return node;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Get the node whose intersection with current node defines start point.
+        /**
+         * Get the node whose intersection with current node defines start point.
          * @return node whose intersection with current node defines start point
          */
         public BSPTree<Euclidean2D, Vector2D, Line, SubLine> getStartNode() {
-            return startNode;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Get the node whose intersection with current node defines end point.
+        /**
+         * Get the node whose intersection with current node defines end point.
          * @return node whose intersection with current node defines end point
          */
         public BSPTree<Euclidean2D, Vector2D, Line, SubLine> getEndNode() {
-            return endNode;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Get the previous segment.
+        /**
+         * Get the previous segment.
          * @return previous segment
          */
         public ConnectableSegment getPrevious() {
-            return previous;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Set the previous segment.
+        /**
+         * Set the previous segment.
          * @param previous previous segment
          */
         public void setPrevious(final ConnectableSegment previous) {
-            this.previous = previous;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Get the next segment.
+        /**
+         * Get the next segment.
          * @return next segment
          */
         public ConnectableSegment getNext() {
-            return next;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Set the next segment.
+        /**
+         * Set the next segment.
          * @param next previous segment
          */
         public void setNext(final ConnectableSegment next) {
-            this.next = next;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Set the processed flag.
+        /**
+         * Set the processed flag.
          * @param processed processed flag to set
          */
         public void setProcessed(final boolean processed) {
-            this.processed = processed;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Check if the segment has been processed.
+        /**
+         * Check if the segment has been processed.
          * @return true if the segment has been processed
          */
         public boolean isProcessed() {
-            return processed;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
 
-    /** Visitor building segments. */
+    /**
+     * Visitor building segments.
+     */
     private static class SegmentsBuilder implements BSPTreeVisitor<Euclidean2D, Vector2D, Line, SubLine> {
 
-        /** Tolerance for close nodes connection. */
+        /**
+         * Tolerance for close nodes connection.
+         */
         private final double tolerance;
 
-        /** Built segments. */
+        /**
+         * Built segments.
+         */
         private final List<ConnectableSegment> segments;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          * @param tolerance tolerance for close nodes connection
          */
         SegmentsBuilder(final double tolerance) {
             this.tolerance = tolerance;
-            this.segments  = new ArrayList<>();
+            this.segments = new ArrayList<>();
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Order visitOrder(final BSPTree<Euclidean2D, Vector2D, Line, SubLine> node) {
-            return Order.MINUS_SUB_PLUS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void visitInternalNode(final BSPTree<Euclidean2D, Vector2D, Line, SubLine> node) {
-            @SuppressWarnings("unchecked")
-            final BoundaryAttribute<Euclidean2D, Vector2D, Line, SubLine> attribute =
-                    (BoundaryAttribute<Euclidean2D, Vector2D, Line, SubLine>) node.getAttribute();
-            final Iterable<BSPTree<Euclidean2D, Vector2D, Line, SubLine>> splitters = attribute.getSplitters();
-            if (attribute.getPlusOutside() != null) {
-                addContribution(attribute.getPlusOutside(), node, splitters, false);
-            }
-            if (attribute.getPlusInside() != null) {
-                addContribution(attribute.getPlusInside(), node, splitters, true);
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void visitLeafNode(final BSPTree<Euclidean2D, Vector2D, Line, SubLine> node) {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Add the contribution of a boundary facet.
+        /**
+         * Add the contribution of a boundary facet.
          * @param sub boundary facet
          * @param node node containing segment
          * @param splitters splitters for the boundary facet
          * @param reversed if true, the facet has the inside on its plus side
          */
-        private void addContribution(final SubLine sub,
-                                     final BSPTree<Euclidean2D, Vector2D, Line, SubLine> node,
-                                     final Iterable<BSPTree<Euclidean2D, Vector2D, Line, SubLine>> splitters,
-                                     final boolean reversed) {
+        private void addContribution(final SubLine sub, final BSPTree<Euclidean2D, Vector2D, Line, SubLine> node, final Iterable<BSPTree<Euclidean2D, Vector2D, Line, SubLine>> splitters, final boolean reversed) {
             final List<Interval> intervals = ((IntervalsSet) sub.getRemainingRegion()).asList();
             for (final Interval i : intervals) {
-
                 // find the 2D points
-                final Vector2D startV = Double.isInfinite(i.getInf()) ?
-                                        null : sub.getHyperplane().toSpace(new Vector1D(i.getInf()));
-                final Vector2D endV   = Double.isInfinite(i.getSup()) ?
-                                        null : sub.getHyperplane().toSpace(new Vector1D(i.getSup()));
-
+                final Vector2D startV = Double.isInfinite(i.getInf()) ? null : sub.getHyperplane().toSpace(new Vector1D(i.getInf()));
+                final Vector2D endV = Double.isInfinite(i.getSup()) ? null : sub.getHyperplane().toSpace(new Vector1D(i.getSup()));
                 // recover the connectivity information
                 final BSPTree<Euclidean2D, Vector2D, Line, SubLine> startN = selectClosest(startV, splitters);
-                final BSPTree<Euclidean2D, Vector2D, Line, SubLine> endN   = selectClosest(endV, splitters);
-
+                final BSPTree<Euclidean2D, Vector2D, Line, SubLine> endN = selectClosest(endV, splitters);
                 if (reversed) {
-                    segments.add(new ConnectableSegment(endV, startV, sub.getHyperplane().getReverse(),
-                                                        node, endN, startN));
+                    segments.add(new ConnectableSegment(endV, startV, sub.getHyperplane().getReverse(), node, endN, startN));
                 } else {
-                    segments.add(new ConnectableSegment(startV, endV, sub.getHyperplane(),
-                                                        node, startN, endN));
+                    segments.add(new ConnectableSegment(startV, endV, sub.getHyperplane(), node, startN, endN));
                 }
-
             }
         }
 
-        /** Select the node whose cut sub-hyperplane is closest to specified point.
+        /**
+         * Select the node whose cut sub-hyperplane is closest to specified point.
          * @param point reference point
          * @param candidates candidate nodes
          * @return node closest to point, or null if no node is closer than tolerance
          */
-        private BSPTree<Euclidean2D, Vector2D, Line, SubLine>
-            selectClosest(final Vector2D point, final Iterable<BSPTree<Euclidean2D, Vector2D, Line, SubLine>> candidates) {
-
+        private BSPTree<Euclidean2D, Vector2D, Line, SubLine> selectClosest(final Vector2D point, final Iterable<BSPTree<Euclidean2D, Vector2D, Line, SubLine>> candidates) {
             if (point == null) {
                 return null;
             }
-
             BSPTree<Euclidean2D, Vector2D, Line, SubLine> selected = null;
-
             double min = Double.POSITIVE_INFINITY;
             for (final BSPTree<Euclidean2D, Vector2D, Line, SubLine> node : candidates) {
                 final double distance = FastMath.abs(node.getCut().getHyperplane().getOffset(point));
                 if (distance < min) {
                     selected = node;
-                    min      = distance;
+                    min = distance;
                 }
             }
-
             return min <= tolerance ? selected : null;
-
         }
 
-        /** Get the segments.
+        /**
+         * Get the segments.
          * @return built segments
          */
         public List<ConnectableSegment> getSegments() {
-            return segments;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
-
 }

@@ -20,7 +20,8 @@ import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.util.FastMath;
 import org.hipparchus.util.FieldSinhCosh;
 
-/** Algorithm for computing the principal Jacobi functions for parameters slightly below one.
+/**
+ * Algorithm for computing the principal Jacobi functions for parameters slightly below one.
  * <p>
  * The algorithm for evaluating the functions is based on approximation
  * in terms of hyperbolic functions. It is given in Abramowitz and Stegun,
@@ -31,10 +32,13 @@ import org.hipparchus.util.FieldSinhCosh;
  */
 class FieldNearOneParameter<T extends CalculusFieldElement<T>> extends FieldJacobiElliptic<T> {
 
-    /** Complementary parameter of the Jacobi elliptic function. */
+    /**
+     * Complementary parameter of the Jacobi elliptic function.
+     */
     private final T m1Fourth;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param m parameter of the Jacobi elliptic function (must be one or slightly below one here)
      */
     FieldNearOneParameter(final T m) {
@@ -42,16 +46,11 @@ class FieldNearOneParameter<T extends CalculusFieldElement<T>> extends FieldJaco
         this.m1Fourth = m.getField().getOne().subtract(m).multiply(0.25);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldCopolarN<T> valuesN(final T u) {
-        final FieldSinhCosh<T> sch    = FastMath.sinhCosh(u);
-        final T                sech   = sch.cosh().reciprocal();
-        final T                t      = sch.sinh().multiply(sech);
-        final T                factor = sch.sinh().multiply(sch.cosh()).subtract(u).multiply(sech).multiply(m1Fourth);
-        return new FieldCopolarN<>(t.add(factor.multiply(sech)),  // equation 16.15.1
-                        sech.subtract(factor.multiply(t)),        // equation 16.15.2
-                        sech.add(factor.multiply(t)));            // equation 16.15.3
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

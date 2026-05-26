@@ -16,17 +16,17 @@
  */
 package org.hipparchus.optim.nonlinear.vector.constrained;
 
-
-
 import org.hipparchus.analysis.MultivariateFunction;
 import org.hipparchus.linear.RealMatrix;
 import org.hipparchus.linear.RealVector;
 import org.hipparchus.linear.ArrayRealVector;
 
-/** A MultivariateFunction that also has a defined gradient and Hessian.
+/**
+ * A MultivariateFunction that also has a defined gradient and Hessian.
  * @since 3.1
  */
 public abstract class TwiceDifferentiableFunction implements MultivariateFunction {
+
     /**
      * Returns the dimensionality of the function domain.
      * If dim() returns (n) then this function expects an n-vector as its input.
@@ -66,7 +66,7 @@ public abstract class TwiceDifferentiableFunction implements MultivariateFunctio
      */
     @Override
     public double value(final double[] x) {
-        return value(new ArrayRealVector(x, false));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -76,7 +76,7 @@ public abstract class TwiceDifferentiableFunction implements MultivariateFunctio
      * @return the gradient of this function at (x)
      */
     public RealVector gradient(final double[] x) {
-        return gradient(new ArrayRealVector(x, false));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -86,6 +86,6 @@ public abstract class TwiceDifferentiableFunction implements MultivariateFunctio
      * @return the Hessian of this function at (x)
      */
     public RealMatrix hessian(final double[] x) {
-        return hessian(new ArrayRealVector(x, false));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

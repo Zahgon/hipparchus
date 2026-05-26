@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.linear;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -71,28 +69,44 @@ import org.hipparchus.util.Precision;
  */
 public class EigenDecompositionSymmetric {
 
-    /** Default epsilon value to use for internal epsilon **/
+    /**
+     * Default epsilon value to use for internal epsilon *
+     */
     public static final double DEFAULT_EPSILON = 1e-12;
 
-    /** Maximum number of iterations accepted in the implicit QL transformation */
+    /**
+     * Maximum number of iterations accepted in the implicit QL transformation
+     */
     private static final byte MAX_ITER = 30;
 
-    /** Internally used epsilon criteria. */
+    /**
+     * Internally used epsilon criteria.
+     */
     private final double epsilon;
 
-    /** Eigenvalues. */
+    /**
+     * Eigenvalues.
+     */
     private double[] eigenvalues;
 
-    /** Eigenvectors. */
+    /**
+     * Eigenvectors.
+     */
     private ArrayRealVector[] eigenvectors;
 
-    /** Cached value of V. */
+    /**
+     * Cached value of V.
+     */
     private RealMatrix cachedV;
 
-    /** Cached value of D. */
+    /**
+     * Cached value of D.
+     */
     private DiagonalMatrix cachedD;
 
-    /** Cached value of Vt. */
+    /**
+     * Cached value of Vt.
+     */
     private RealMatrix cachedVt;
 
     /**
@@ -123,21 +137,12 @@ public class EigenDecompositionSymmetric {
      * results in a matrix with zero norm
      * @since 3.0
      */
-    public EigenDecompositionSymmetric(final RealMatrix matrix,
-                                       final double epsilon, final boolean decreasing)
-        throws MathRuntimeException {
-
+    public EigenDecompositionSymmetric(final RealMatrix matrix, final double epsilon, final boolean decreasing) throws MathRuntimeException {
         this.epsilon = epsilon;
         MatrixUtils.checkSymmetric(matrix, epsilon);
-
         // transform the matrix to tridiagonal
         final TriDiagonalTransformer transformer = new TriDiagonalTransformer(matrix);
-
-        findEigenVectors(transformer.getMainDiagonalRef(),
-                         transformer.getSecondaryDiagonalRef(),
-                         transformer.getQ().getData(),
-                         decreasing);
-
+        findEigenVectors(transformer.getMainDiagonalRef(), transformer.getSecondaryDiagonalRef(), transformer.getQ().getData(), decreasing);
     }
 
     /**
@@ -168,8 +173,7 @@ public class EigenDecompositionSymmetric {
      * @throws MathIllegalStateException if the algorithm fails to converge.
      * @since 3.0
      */
-    public EigenDecompositionSymmetric(final double[] main, final double[] secondary,
-                                       final double epsilon, final boolean decreasing) {
+    public EigenDecompositionSymmetric(final double[] main, final double[] secondary, final double epsilon, final boolean decreasing) {
         this.epsilon = epsilon;
         final int size = main.length;
         final double[][] z = new double[size][size];
@@ -190,16 +194,7 @@ public class EigenDecompositionSymmetric {
      * @return the V matrix.
      */
     public RealMatrix getV() {
-
-        if (cachedV == null) {
-            final int m = eigenvectors.length;
-            cachedV = MatrixUtils.createRealMatrix(m, m);
-            for (int k = 0; k < m; ++k) {
-                cachedV.setColumnVector(k, eigenvectors[k]);
-            }
-        }
-        // return the cached matrix
-        return cachedV;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -208,16 +203,9 @@ public class EigenDecompositionSymmetric {
      * @return the D matrix.
      *
      * @see #getEigenvalues()
-      */
+     */
     public DiagonalMatrix getD() {
-
-        if (cachedD == null) {
-            // cache the matrix for subsequent calls
-            cachedD = new DiagonalMatrix(eigenvalues);
-        }
-
-        return cachedD;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -225,7 +213,9 @@ public class EigenDecompositionSymmetric {
      *
      * @return the epsilon value.
      */
-    public double getEpsilon() { return epsilon; }
+    public double getEpsilon() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
     /**
      * Gets the transpose of the matrix V of the decomposition.
@@ -238,17 +228,7 @@ public class EigenDecompositionSymmetric {
      * @return the transpose of the V matrix.
      */
     public RealMatrix getVT() {
-
-        if (cachedVt == null) {
-            final int m = eigenvectors.length;
-            cachedVt = MatrixUtils.createRealMatrix(m, m);
-            for (int k = 0; k < m; ++k) {
-                cachedVt.setRowVector(k, eigenvectors[k]);
-            }
-        }
-
-        // return the cached matrix
-        return cachedVt;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -260,7 +240,7 @@ public class EigenDecompositionSymmetric {
      * @see #getEigenvalue(int)
      */
     public double[] getEigenvalues() {
-        return eigenvalues.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -274,7 +254,7 @@ public class EigenDecompositionSymmetric {
      * @see #getEigenvalues()
      */
     public double getEigenvalue(final int i) {
-        return eigenvalues[i];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -288,7 +268,7 @@ public class EigenDecompositionSymmetric {
      * @see #getD()
      */
     public RealVector getEigenvector(final int i) {
-        return eigenvectors[i].copy();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -297,11 +277,7 @@ public class EigenDecompositionSymmetric {
      * @return the determinant of the matrix.
      */
     public double getDeterminant() {
-        double determinant = 1;
-        for (double eigenvalue : eigenvalues) {
-            determinant *= eigenvalue;
-        }
-        return determinant;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -313,31 +289,20 @@ public class EigenDecompositionSymmetric {
      * symmetric or not positive definite.
      */
     public RealMatrix getSquareRoot() {
-
-        final double[] sqrtEigenValues = new double[eigenvalues.length];
-        for (int i = 0; i < eigenvalues.length; i++) {
-            final double eigen = eigenvalues[i];
-            if (eigen <= 0) {
-                throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
-            }
-            sqrtEigenValues[i] = FastMath.sqrt(eigen);
-        }
-        final RealMatrix sqrtEigen = MatrixUtils.createRealDiagonalMatrix(sqrtEigenValues);
-        final RealMatrix v = getV();
-        final RealMatrix vT = getVT();
-
-        return v.multiply(sqrtEigen).multiply(vT);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Gets a solver for finding the \(A \times X = B\) solution in exact linear sense.
+    /**
+     * Gets a solver for finding the \(A \times X = B\) solution in exact linear sense.
      * @return a solver
      */
     public DecompositionSolver getSolver() {
-        return new Solver();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Specialized solver. */
+    /**
+     * Specialized solver.
+     */
     private class Solver implements DecompositionSolver {
 
         /**
@@ -355,67 +320,15 @@ public class EigenDecompositionSymmetric {
          */
         @Override
         public RealVector solve(final RealVector b) {
-            if (!isNonSingular()) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.SINGULAR_MATRIX);
-            }
-
-            final int m = eigenvalues.length;
-            if (b.getDimension() != m) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                       b.getDimension(), m);
-            }
-
-            final double[] bp = new double[m];
-            for (int i = 0; i < m; ++i) {
-                final ArrayRealVector v = eigenvectors[i];
-                final double[] vData = v.getDataRef();
-                final double s = v.dotProduct(b) / eigenvalues[i];
-                for (int j = 0; j < m; ++j) {
-                    bp[j] += s * vData[j];
-                }
-            }
-
-            return new ArrayRealVector(bp, false);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public RealMatrix solve(RealMatrix b) {
-
-            if (!isNonSingular()) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.SINGULAR_MATRIX);
-            }
-
-            final int m = eigenvalues.length;
-            if (b.getRowDimension() != m) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                       b.getRowDimension(), m);
-            }
-
-            final int nColB = b.getColumnDimension();
-            final double[][] bp = new double[m][nColB];
-            final double[] tmpCol = new double[m];
-            for (int k = 0; k < nColB; ++k) {
-                for (int i = 0; i < m; ++i) {
-                    tmpCol[i] = b.getEntry(i, k);
-                    bp[i][k]  = 0;
-                }
-                for (int i = 0; i < m; ++i) {
-                    final ArrayRealVector v = eigenvectors[i];
-                    final double[] vData = v.getDataRef();
-                    double s = 0;
-                    for (int j = 0; j < m; ++j) {
-                        s += v.getEntry(j) * tmpCol[j];
-                    }
-                    s /= eigenvalues[i];
-                    for (int j = 0; j < m; ++j) {
-                        bp[j][k] += s * vData[j];
-                    }
-                }
-            }
-
-            return new Array2DRowRealMatrix(bp, false);
-
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -425,24 +338,7 @@ public class EigenDecompositionSymmetric {
          */
         @Override
         public boolean isNonSingular() {
-            double largestEigenvalueNorm = 0.0;
-            // Looping over all values (in case they are not sorted in decreasing
-            // order of their norm).
-            for (double v : eigenvalues) {
-                largestEigenvalueNorm = FastMath.max(largestEigenvalueNorm, FastMath.abs(v));
-            }
-            // Corner case: zero matrix, all exactly 0 eigenvalues
-            if (largestEigenvalueNorm == 0.0) {
-                return false;
-            }
-            for (double eigenvalue : eigenvalues) {
-                // Looking for eigenvalues that are 0, where we consider anything much much smaller
-                // than the largest eigenvalue to be effectively 0.
-                if (Precision.equals(FastMath.abs(eigenvalue) / largestEigenvalueNorm, 0, epsilon)) {
-                    return false;
-                }
-            }
-            return true;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -453,39 +349,24 @@ public class EigenDecompositionSymmetric {
          */
         @Override
         public RealMatrix getInverse() {
-            if (!isNonSingular()) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.SINGULAR_MATRIX);
-            }
-
-            final int m = eigenvalues.length;
-            final double[][] invData = new double[m][m];
-
-            for (int i = 0; i < m; ++i) {
-                final double[] invI = invData[i];
-                for (int j = 0; j < m; ++j) {
-                    double invIJ = 0;
-                    for (int k = 0; k < m; ++k) {
-                        final double[] vK = eigenvectors[k].getDataRef();
-                        invIJ += vK[i] * vK[j] / eigenvalues[k];
-                    }
-                    invI[j] = invIJ;
-                }
-            }
-            return MatrixUtils.createRealMatrix(invData);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int getRowDimension() {
-            return eigenvalues.length;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int getColumnDimension() {
-            return eigenvalues.length;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
 
     /**
@@ -496,9 +377,8 @@ public class EigenDecompositionSymmetric {
      * @param decreasing if true, eigenvalues will be sorted in decreasing order
      * to tridiagonal form.
      */
-    private void findEigenVectors(final double[] main, final double[] secondary,
-                                  final double[][] householderMatrix, final boolean decreasing) {
-        final double[][]z = householderMatrix.clone();
+    private void findEigenVectors(final double[] main, final double[] secondary, final double[][] householderMatrix, final boolean decreasing) {
+        final double[][] z = householderMatrix.clone();
         final int n = main.length;
         eigenvalues = new double[n];
         final double[] e = new double[n];
@@ -508,7 +388,6 @@ public class EigenDecompositionSymmetric {
         }
         eigenvalues[n - 1] = main[n - 1];
         e[n - 1] = 0;
-
         // Determine the largest main and secondary value in absolute term.
         double maxAbsoluteValue = 0;
         for (int i = 0; i < n; i++) {
@@ -521,31 +400,28 @@ public class EigenDecompositionSymmetric {
         }
         // Make null any main and secondary value too small to be significant
         if (maxAbsoluteValue != 0) {
-            for (int i=0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 if (FastMath.abs(eigenvalues[i]) <= Precision.EPSILON * maxAbsoluteValue) {
                     eigenvalues[i] = 0;
                 }
                 if (FastMath.abs(e[i]) <= Precision.EPSILON * maxAbsoluteValue) {
-                    e[i]=0;
+                    e[i] = 0;
                 }
             }
         }
-
         for (int j = 0; j < n; j++) {
             int its = 0;
             int m;
             do {
                 for (m = j; m < n - 1; m++) {
-                    double delta = FastMath.abs(eigenvalues[m]) +
-                        FastMath.abs(eigenvalues[m + 1]);
+                    double delta = FastMath.abs(eigenvalues[m]) + FastMath.abs(eigenvalues[m + 1]);
                     if (FastMath.abs(e[m]) + delta == delta) {
                         break;
                     }
                 }
                 if (m != j) {
                     if (its == MAX_ITER) {
-                        throw new MathIllegalStateException(LocalizedCoreFormats.CONVERGENCE_FAILED,
-                                                            MAX_ITER);
+                        throw new MathIllegalStateException(LocalizedCoreFormats.CONVERGENCE_FAILED, MAX_ITER);
                     }
                     its++;
                     double q = (eigenvalues[j + 1] - eigenvalues[j]) / (2 * e[j]);
@@ -600,7 +476,6 @@ public class EigenDecompositionSymmetric {
                 }
             } while (m != j);
         }
-
         // Sort the eigen values (and vectors) in desired order
         for (int i = 0; i < n; i++) {
             int k = i;
@@ -621,7 +496,6 @@ public class EigenDecompositionSymmetric {
                 }
             }
         }
-
         // Determine the largest eigen value in absolute term.
         maxAbsoluteValue = 0;
         for (int i = 0; i < n; i++) {
@@ -631,7 +505,7 @@ public class EigenDecompositionSymmetric {
         }
         // Make null any eigen value too small to be significant
         if (maxAbsoluteValue != 0.0) {
-            for (int i=0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 if (FastMath.abs(eigenvalues[i]) < Precision.EPSILON * maxAbsoluteValue) {
                     eigenvalues[i] = 0;
                 }
@@ -645,5 +519,4 @@ public class EigenDecompositionSymmetric {
             }
         }
     }
-
 }

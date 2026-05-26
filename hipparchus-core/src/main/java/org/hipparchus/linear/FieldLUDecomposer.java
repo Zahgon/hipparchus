@@ -14,20 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.linear;
 
 import java.util.function.Predicate;
-
 import org.hipparchus.FieldElement;
 
-/** Matrix decomposer using LU-decomposition.
+/**
+ * Matrix decomposer using LU-decomposition.
  * @param <T> the type of the field elements
  * @since 2.2
  */
 public class FieldLUDecomposer<T extends FieldElement<T>> implements FieldMatrixDecomposer<T> {
 
-    /** Checker for zero elements. */
+    /**
+     * Checker for zero elements.
+     */
     private final Predicate<T> zeroChecker;
 
     /**
@@ -38,10 +39,11 @@ public class FieldLUDecomposer<T extends FieldElement<T>> implements FieldMatrix
         this.zeroChecker = zeroChecker;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldDecompositionSolver<T> decompose(final FieldMatrix<T> a) {
-        return new FieldLUDecomposition<>(a, zeroChecker).getSolver();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -29,20 +28,25 @@ import java.util.Arrays;
  * (in one or both directions).
  * <br>
  * Immutable class.
- *
  */
 public class SimpleBounds implements OptimizationData {
-    /** Lower bounds. */
+
+    /**
+     * Lower bounds.
+     */
     private final double[] lower;
-    /** Upper bounds. */
+
+    /**
+     * Upper bounds.
+     */
     private final double[] upper;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param lB Lower bounds.
      * @param uB Upper bounds.
      */
-    public SimpleBounds(double[] lB,
-                        double[] uB) {
+    public SimpleBounds(double[] lB, double[] uB) {
         lower = lB.clone();
         upper = uB.clone();
     }
@@ -53,15 +57,16 @@ public class SimpleBounds implements OptimizationData {
      * @return the lower bounds.
      */
     public double[] getLower() {
-        return lower.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     /**
      * Gets the upper bounds.
      *
      * @return the upper bounds.
      */
     public double[] getUpper() {
-        return upper.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -73,11 +78,6 @@ public class SimpleBounds implements OptimizationData {
      * requires bounds specification.
      */
     public static SimpleBounds unbounded(int dim) {
-        final double[] lB = new double[dim];
-        Arrays.fill(lB, Double.NEGATIVE_INFINITY);
-        final double[] uB = new double[dim];
-        Arrays.fill(uB, Double.POSITIVE_INFINITY);
-
-        return new SimpleBounds(lB, uB);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

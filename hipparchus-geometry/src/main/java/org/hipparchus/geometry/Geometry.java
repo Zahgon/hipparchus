@@ -18,10 +18,10 @@ package org.hipparchus.geometry;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
-
 import java.util.List;
 
-/** Utilities for geometry.
+/**
+ * Utilities for geometry.
  * @since 4.0
  */
 public class Geometry {
@@ -41,20 +41,6 @@ public class Geometry {
      * @return barycenter of the points
      */
     public static <S extends Space, P extends Point<S, P>> P barycenter(final List<P> points) {
-
-        // safety check
-        if (points.isEmpty()) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE, 0);
-        }
-
-        // compute barycenter by moving from point to point
-        P current = points.get(0);
-        for (int i = 1; i < points.size(); i++) {
-            current = points.get(i).moveTowards(current, ((double) i) / (i + 1));
-        }
-
-        return current;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -18,7 +18,8 @@ package org.hipparchus.special.elliptic.jacobi;
 
 import org.hipparchus.util.FastMath;
 
-/** Algorithm for computing the principal Jacobi functions for parameter m greater than 1.
+/**
+ * Algorithm for computing the principal Jacobi functions for parameter m greater than 1.
  * <p>
  * The rules for reciprocal parameter change are given in Abramowitz and Stegun,
  * sections 16.11 and 17.4.15.
@@ -27,30 +28,37 @@ import org.hipparchus.util.FastMath;
  */
 class BigParameter extends JacobiElliptic {
 
-    /** Algorithm to use for the positive parameter. */
+    /**
+     * Algorithm to use for the positive parameter.
+     */
     private final JacobiElliptic algorithm;
 
-    /** Input scaling factor. */
+    /**
+     * Input scaling factor.
+     */
     private final double inputScale;
 
-    /** output scaling factor. */
+    /**
+     * output scaling factor.
+     */
     private final double outputScale;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param m parameter of the Jacobi elliptic function (must be greater than 1 here)
      */
     BigParameter(final double m) {
         super(m);
-        algorithm   = JacobiEllipticBuilder.build(1.0 / m);
-        inputScale  = FastMath.sqrt(m);
+        algorithm = JacobiEllipticBuilder.build(1.0 / m);
+        inputScale = FastMath.sqrt(m);
         outputScale = 1.0 / inputScale;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CopolarN valuesN(final double u) {
-        final CopolarN trioN = algorithm.valuesN(u * inputScale);
-        return new CopolarN(outputScale * trioN.sn(), trioN.dn(), trioN.cn());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

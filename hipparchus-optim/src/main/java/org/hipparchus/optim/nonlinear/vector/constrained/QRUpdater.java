@@ -38,19 +38,29 @@ import org.hipparchus.util.Precision;
  */
 public class QRUpdater {
 
-    /** Inverse of the lower triangular matrix L. */
+    /**
+     * Inverse of the lower triangular matrix L.
+     */
     private RealMatrix J;
 
-    /** Upper triangular R matrix for active constraints. */
+    /**
+     * Upper triangular R matrix for active constraints.
+     */
     private final RealMatrix R;
 
-    /** Number of active constraints. */
+    /**
+     * Number of active constraints.
+     */
     private int iq;
 
-    /** Norm parameter of R, used to detect degeneracy. */
+    /**
+     * Norm parameter of R, used to detect degeneracy.
+     */
     private double RNorm = 1.0;
 
-    /** Dimension of the optimization problem. */
+    /**
+     * Dimension of the optimization problem.
+     */
     private final int n;
 
     /**
@@ -75,54 +85,7 @@ public class QRUpdater {
      *         the problem is degenerate and the constraint cannot be added
      */
     public boolean addConstraint(RealVector d) {
-
-        RealMatrix Jtemp = new Array2DRowRealMatrix(J.getData());
-        RealVector tempD = new ArrayRealVector(d);
-
-        double cc;
-        double ss;
-        double h;
-        double t1;
-        double t2;
-        double xny;
-        for (int j = n - 1; j >= iq + 1; j--) {
-            cc = tempD.getEntry(j - 1);
-            ss = tempD.getEntry(j);
-            h = FastMath.hypot(cc, ss);
-            if (h < Precision.EPSILON) {
-                continue;
-            }
-            tempD.setEntry(j, 0.0);
-            ss /= h;
-            cc /= h;
-            if (cc < 0.0) {
-                cc = -cc;
-                ss = -ss;
-                tempD.setEntry(j - 1, -h);
-            } else {
-                tempD.setEntry(j - 1, h);
-            }
-            xny = ss / (1.0 + cc);
-            for (int k = 0; k < n; k++) {
-                t1 = J.getEntry(k, j - 1);
-                t2 = J.getEntry(k, j);
-                J.setEntry(k, j - 1, t1 * cc + t2 * ss);
-                J.setEntry(k, j, xny * (t1 + J.getEntry(k, j - 1)) - t2);
-            }
-        }
-
-        if (FastMath.abs(tempD.getEntry(iq)) <= Math.ulp(1.0) * RNorm) {
-            J =Jtemp;
-            return false;
-        }
-
-
-        for (int i = 0; i <= iq; i++) {
-            R.setEntry(i, iq, tempD.getEntry(i));
-        }
-        RNorm = FastMath.max(RNorm, FastMath.abs(tempD.getEntry(iq)));
-        iq++;
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -131,46 +94,7 @@ public class QRUpdater {
      * @param constraintIndex index of the constraint to delete
      */
     public void deleteConstraint(int constraintIndex) {
-        if (constraintIndex < 0 || constraintIndex >= iq) {
-            return; //index not found
-        }
-        for (int i = constraintIndex; i < iq - 1; i++) {
-            for (int j = 0; j < n; j++) {
-                R.setEntry(j, i, R.getEntry(j, i + 1));
-            }
-        }
-        for (int j = 0; j < n; j++) {
-            R.setEntry(j, iq - 1, 0.0);
-        }
-        iq--;
-        if (iq == 0) {
-            return;
-        }
-        for (int j = constraintIndex; j < iq; j++) {
-            double cc = R.getEntry(j, j);
-            double ss = R.getEntry(j + 1, j);
-            double h = FastMath.hypot(cc, ss);
-            if (h < Precision.EPSILON) {
-                continue;
-            }
-            R.setEntry(j, j, h);
-            R.setEntry(j + 1, j, 0.0);
-            cc /= h;
-            ss /= h;
-            double xny = ss / (1.0 + cc);
-            for (int k = j + 1; k < iq; k++) {
-                double t1 = R.getEntry(j, k);
-                double t2 = R.getEntry(j + 1, k);
-                R.setEntry(j, k, t1 * cc + t2 * ss);
-                R.setEntry(j + 1, k, xny * (t1 + R.getEntry(j, k)) - t2);
-            }
-            for (int k = 0; k < n; k++) {
-                double t1 = J.getEntry(k, j);
-                double t2 = J.getEntry(k, j + 1);
-                J.setEntry(k, j, t1 * cc + t2 * ss);
-                J.setEntry(k, j + 1, xny * (t1 + J.getEntry(k, j)) - t2);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -179,10 +103,7 @@ public class QRUpdater {
      * @return submatrix of R containing active columns or {@code null} if none
      */
     public RealMatrix getR() {
-        if (iq > 0) {
-            return R.getSubMatrix(0, iq - 1, 0, iq - 1);
-        }
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -191,10 +112,7 @@ public class QRUpdater {
      * @return inverse of the current R or {@code null} if no active constraints
      */
     public RealMatrix getRInv() {
-        if (iq > 0) {
-            return inverseUpperTriangular(getR());
-        }
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -225,7 +143,7 @@ public class QRUpdater {
      * @return current J matrix
      */
     public RealMatrix getJ() {
-        return J;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -234,10 +152,7 @@ public class QRUpdater {
      * @return submatrix of J for inactive columns or {@code null} if fully occupied
      */
     public RealMatrix getJ2() {
-        if (iq == n) {
-            return null;
-        }
-        return J.getSubMatrix(0, n - 1, iq, n - 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -246,6 +161,6 @@ public class QRUpdater {
      * @return count of active constraints
      */
     public int getIq() {
-        return iq;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

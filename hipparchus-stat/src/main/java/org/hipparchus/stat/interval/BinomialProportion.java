@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -44,8 +43,11 @@ public class BinomialProportion {
      */
     private static final NormalDistribution NORMAL_DISTRIBUTION = new NormalDistribution(0, 1);
 
-    /** Utility class, prevent instantiation. */
-    private BinomialProportion() {}
+    /**
+     * Utility class, prevent instantiation.
+     */
+    private BinomialProportion() {
+    }
 
     /**
      * Create an Agresti-Coull binomial confidence interval for the true
@@ -74,28 +76,8 @@ public class BinomialProportion {
      * @throws MathIllegalArgumentException if {@code probabilityOfSuccess} is not in the interval [0, 1].
      * @throws MathIllegalArgumentException if {@code confidenceLevel} is not in the interval (0, 1).
      */
-    public static ConfidenceInterval getAgrestiCoullInterval(int numberOfTrials,
-                                                             double probabilityOfSuccess,
-                                                             double confidenceLevel)
-        throws MathIllegalArgumentException {
-
-        checkParameters(numberOfTrials, probabilityOfSuccess, confidenceLevel);
-
-        final int numberOfSuccesses = (int) (numberOfTrials * probabilityOfSuccess);
-
-        final double alpha = (1.0 - confidenceLevel) / 2;
-        final double z = NORMAL_DISTRIBUTION.inverseCumulativeProbability(1 - alpha);
-        final double zSquared = FastMath.pow(z, 2);
-        final double modifiedNumberOfTrials = numberOfTrials + zSquared;
-        final double modifiedSuccessesRatio = (1.0 / modifiedNumberOfTrials) *
-                                              (numberOfSuccesses + 0.5 * zSquared);
-        final double difference = z * FastMath.sqrt(1.0 / modifiedNumberOfTrials *
-                                                    modifiedSuccessesRatio *
-                                                    (1 - modifiedSuccessesRatio));
-
-        return new ConfidenceInterval(modifiedSuccessesRatio - difference,
-                                      modifiedSuccessesRatio + difference,
-                                      confidenceLevel);
+    public static ConfidenceInterval getAgrestiCoullInterval(int numberOfTrials, double probabilityOfSuccess, double confidenceLevel) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -125,40 +107,8 @@ public class BinomialProportion {
      * @throws MathIllegalArgumentException if {@code probabilityOfSuccess} is not in the interval [0, 1].
      * @throws MathIllegalArgumentException if {@code confidenceLevel} is not in the interval (0, 1).
      */
-    public static ConfidenceInterval getClopperPearsonInterval(int numberOfTrials,
-                                                               double probabilityOfSuccess,
-                                                               double confidenceLevel)
-        throws MathIllegalArgumentException {
-
-        checkParameters(numberOfTrials, probabilityOfSuccess, confidenceLevel);
-
-        double lowerBound = 0;
-        double upperBound = 0;
-        final int numberOfSuccesses = (int) (numberOfTrials * probabilityOfSuccess);
-
-        if (numberOfSuccesses > 0) {
-            final double alpha = (1.0 - confidenceLevel) / 2.0;
-
-            final FDistribution distributionLowerBound =
-                    new FDistribution(2 * (numberOfTrials - numberOfSuccesses + 1),
-                                      2 * numberOfSuccesses);
-
-            final double fValueLowerBound =
-                    distributionLowerBound.inverseCumulativeProbability(1 - alpha);
-            lowerBound = numberOfSuccesses /
-                         (numberOfSuccesses + (numberOfTrials - numberOfSuccesses + 1) * fValueLowerBound);
-
-            final FDistribution distributionUpperBound =
-                    new FDistribution(2 * (numberOfSuccesses + 1),
-                                      2 * (numberOfTrials - numberOfSuccesses));
-
-            final double fValueUpperBound =
-                    distributionUpperBound.inverseCumulativeProbability(1 - alpha);
-            upperBound = (numberOfSuccesses + 1) * fValueUpperBound /
-                         (numberOfTrials - numberOfSuccesses + (numberOfSuccesses + 1) * fValueUpperBound);
-        }
-
-        return new ConfidenceInterval(lowerBound, upperBound, confidenceLevel);
+    public static ConfidenceInterval getClopperPearsonInterval(int numberOfTrials, double probabilityOfSuccess, double confidenceLevel) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -188,19 +138,8 @@ public class BinomialProportion {
      * @throws MathIllegalArgumentException if {@code probabilityOfSuccess} is not in the interval [0, 1].
      * @throws MathIllegalArgumentException if {@code confidenceLevel} is not in the interval (0, 1).
      */
-    public static ConfidenceInterval getNormalApproximationInterval(int numberOfTrials,
-                                                                    double probabilityOfSuccess,
-                                                                    double confidenceLevel)
-        throws MathIllegalArgumentException {
-
-        checkParameters(numberOfTrials, probabilityOfSuccess, confidenceLevel);
-
-        final double mean = probabilityOfSuccess;
-        final double alpha = (1.0 - confidenceLevel) / 2;
-
-        final double difference = NORMAL_DISTRIBUTION.inverseCumulativeProbability(1 - alpha) *
-                                  FastMath.sqrt(1.0 / numberOfTrials * mean * (1 - mean));
-        return new ConfidenceInterval(mean - difference, mean + difference, confidenceLevel);
+    public static ConfidenceInterval getNormalApproximationInterval(int numberOfTrials, double probabilityOfSuccess, double confidenceLevel) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -230,27 +169,8 @@ public class BinomialProportion {
      * @throws MathIllegalArgumentException if {@code probabilityOfSuccess} is not in the interval [0, 1].
      * @throws MathIllegalArgumentException if {@code confidenceLevel} is not in the interval (0, 1).
      */
-    public static ConfidenceInterval getWilsonScoreInterval(int numberOfTrials,
-                                                            double probabilityOfSuccess,
-                                                            double confidenceLevel)
-        throws MathIllegalArgumentException {
-
-        checkParameters(numberOfTrials, probabilityOfSuccess, confidenceLevel);
-
-        final double alpha = (1.0 - confidenceLevel) / 2;
-        final double z = NORMAL_DISTRIBUTION.inverseCumulativeProbability(1 - alpha);
-        final double zSquared = FastMath.pow(z, 2);
-        final double mean = probabilityOfSuccess;
-
-        final double factor = 1.0 / (1 + (1.0 / numberOfTrials) * zSquared);
-        final double modifiedSuccessRatio = mean + (1.0 / (2 * numberOfTrials)) * zSquared;
-        final double difference =
-                z * FastMath.sqrt(1.0 / numberOfTrials * mean * (1 - mean) +
-                                  (1.0 / (4 * FastMath.pow(numberOfTrials, 2)) * zSquared));
-
-        final double lowerBound = factor * (modifiedSuccessRatio - difference);
-        final double upperBound = factor * (modifiedSuccessRatio + difference);
-        return new ConfidenceInterval(lowerBound, upperBound, confidenceLevel);
+    public static ConfidenceInterval getWilsonScoreInterval(int numberOfTrials, double probabilityOfSuccess, double confidenceLevel) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -263,18 +183,13 @@ public class BinomialProportion {
      * @throws MathIllegalArgumentException if {@code probabilityOfSuccess is not in the interval [0, 1]}.
      * @throws MathIllegalArgumentException if {@code confidenceLevel} is not in the interval (0, 1)}.
      */
-    private static void checkParameters(int numberOfTrials,
-                                        double probabilityOfSuccess,
-                                        double confidenceLevel) {
+    private static void checkParameters(int numberOfTrials, double probabilityOfSuccess, double confidenceLevel) {
         if (numberOfTrials <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_TRIALS,
-                                                   numberOfTrials);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_TRIALS, numberOfTrials);
         }
         MathUtils.checkRangeInclusive(probabilityOfSuccess, 0, 1);
         if (confidenceLevel <= 0 || confidenceLevel >= 1) {
-            throw new MathIllegalArgumentException(LocalizedStatFormats.OUT_OF_BOUNDS_CONFIDENCE_LEVEL,
-                                                   confidenceLevel, 0, 1);
+            throw new MathIllegalArgumentException(LocalizedStatFormats.OUT_OF_BOUNDS_CONFIDENCE_LEVEL, confidenceLevel, 0, 1);
         }
     }
-
 }

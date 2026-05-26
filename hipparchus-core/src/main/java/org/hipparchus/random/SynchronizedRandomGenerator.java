@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -30,7 +29,9 @@ package org.hipparchus.random;
  */
 public class SynchronizedRandomGenerator implements RandomGenerator {
 
-    /** Object to which all calls will be delegated. */
+    /**
+     * Object to which all calls will be delegated.
+     */
     private final RandomGenerator wrapped;
 
     /**
@@ -46,108 +47,107 @@ public class SynchronizedRandomGenerator implements RandomGenerator {
         wrapped = rng;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSeed(int seed) {
-        synchronized (wrapped) {
-            wrapped.setSeed(seed);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSeed(int[] seed) {
-        synchronized (wrapped) {
-            wrapped.setSeed(seed);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSeed(long seed) {
-        synchronized (wrapped) {
-            wrapped.setSeed(seed);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void nextBytes(byte[] bytes) {
-        synchronized (wrapped) {
-            wrapped.nextBytes(bytes);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void nextBytes(byte[] bytes, int offset, int len) {
-        synchronized (wrapped) {
-            wrapped.nextBytes(bytes, offset, len);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int nextInt() {
-        synchronized (wrapped) {
-            return wrapped.nextInt();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int nextInt(int n) {
-        synchronized (wrapped) {
-            return wrapped.nextInt(n);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long nextLong() {
-        synchronized (wrapped) {
-            return wrapped.nextLong();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long nextLong(long n) {
-        synchronized (wrapped) {
-            return wrapped.nextLong(n);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean nextBoolean() {
-        synchronized (wrapped) {
-            return wrapped.nextBoolean();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public float nextFloat() {
-        synchronized (wrapped) {
-            return wrapped.nextFloat();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double nextDouble() {
-        synchronized (wrapped) {
-            return wrapped.nextDouble();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double nextGaussian() {
-        synchronized (wrapped) {
-            return wrapped.nextGaussian();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

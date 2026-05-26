@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -29,83 +28,104 @@ import java.util.Locale;
  */
 public class MathRuntimeException extends RuntimeException implements LocalizedException {
 
-    /** Serializable version Id. */
+    /**
+     * Serializable version Id.
+     */
     private static final long serialVersionUID = 20160217L;
 
-    /** URL for reporting problems for internal errors. */
+    /**
+     * URL for reporting problems for internal errors.
+     */
     private static final String REPORT_URL = "https://github.com/Hipparchus-Math/hipparchus/issues";
 
-    /** Format specifier (to be translated). */
+    /**
+     * Format specifier (to be translated).
+     */
     private final Localizable specifier;
 
-    /** Parts to insert in the format (no translation). */
+    /**
+     * Parts to insert in the format (no translation).
+     */
     private final Object[] parts;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param specifier format specifier (to be translated).
      * @param parts parts to insert in the format (no translation).
      */
-    public MathRuntimeException(final Localizable specifier, final Object ... parts) {
+    public MathRuntimeException(final Localizable specifier, final Object... parts) {
         this.specifier = specifier;
-        this.parts     = (parts == null) ? new Object[0] : parts.clone();
+        this.parts = (parts == null) ? new Object[0] : parts.clone();
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param cause root cause.
      * @param specifier format specifier (to be translated).
      * @param parts parts to insert in the format (no translation).
      */
-    public MathRuntimeException(final Throwable cause, final Localizable specifier,
-                                final Object ... parts) {
+    public MathRuntimeException(final Throwable cause, final Localizable specifier, final Object... parts) {
         super(cause);
         this.specifier = specifier;
-        this.parts     = (parts == null) ? new Object[0] : parts.clone();
+        this.parts = (parts == null) ? new Object[0] : parts.clone();
     }
 
-    /** Create an exception for an internal error.
+    /**
+     * Create an exception for an internal error.
      * @return a new runtime exception indicating an internal error
      */
     public static MathRuntimeException createInternalError() {
-        return new MathRuntimeException(LocalizedCoreFormats.INTERNAL_ERROR, REPORT_URL);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Create an exception for an internal error.
+    /**
+     * Create an exception for an internal error.
      * @param cause root cause
      * @return a new runtime exception, indicating an internal error and wrapping the
      * given throwable
      */
     public static MathRuntimeException createInternalError(final Throwable cause) {
-        return new MathRuntimeException(cause, LocalizedCoreFormats.INTERNAL_ERROR, REPORT_URL);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getMessage(final Locale locale) {
-        return buildMessage(locale);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getMessage() {
-        return getMessage(Locale.US);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getLocalizedMessage() {
-        return getMessage(Locale.getDefault());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Localizable getSpecifier() {
-        return specifier;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object[] getParts() {
-        return parts.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -113,7 +133,8 @@ public class MathRuntimeException extends RuntimeException implements LocalizedE
      * @param locale Locale in which the message should be translated
      * @return a message string
      */
-    @SuppressWarnings("PMD.AvoidCatchingGenericException") // catching Exception is intentional here
+    // catching Exception is intentional here
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     private String buildMessage(final Locale locale) {
         if (specifier == null) {
             return "";
@@ -127,5 +148,4 @@ public class MathRuntimeException extends RuntimeException implements LocalizedE
         }
         // CHECKSTYLE: resume IllegalCatch
     }
-
 }

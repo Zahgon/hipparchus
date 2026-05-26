@@ -14,22 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.analysis.polynomials;
 
-
-/** Class for handling Jacobi polynomials keys.
+/**
+ * Class for handling Jacobi polynomials keys.
  * @since 3.1
  */
 public class JacobiKey {
 
-    /** First exponent. */
+    /**
+     * First exponent.
+     */
     private final int v;
 
-    /** Second exponent. */
+    /**
+     * Second exponent.
+     */
     private final int w;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param v first exponent
      * @param w second exponent
      */
@@ -38,26 +42,22 @@ public class JacobiKey {
         this.w = w;
     }
 
-    /** Get hash code.
+    /**
+     * Get hash code.
      * @return hash code
      */
     @Override
     public int hashCode() {
-        return (v << 16) ^ w;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check if the instance represent the same key as another instance.
+    /**
+     * Check if the instance represent the same key as another instance.
      * @param key other key
      * @return true if the instance and the other key refer to the same polynomial
      */
     @Override
     public boolean equals(final Object key) {
-
-        if (!(key instanceof JacobiKey)) {
-            return false;
-        }
-
-        final JacobiKey otherK = (JacobiKey) key;
-        return (v == otherK.v) && (w == otherK.w);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

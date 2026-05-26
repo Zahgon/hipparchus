@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -36,25 +35,40 @@ import org.hipparchus.random.RandomVectorGenerator;
  *
  * @param <P> Type of the point/value pair returned by the optimization
  * algorithm.
- *
  */
-public abstract class BaseMultiStartMultivariateOptimizer<P>
-    extends BaseMultivariateOptimizer<P> {
-    /** Underlying classical optimizer. */
+public abstract class BaseMultiStartMultivariateOptimizer<P> extends BaseMultivariateOptimizer<P> {
+
+    /**
+     * Underlying classical optimizer.
+     */
     private final BaseMultivariateOptimizer<P> optimizer;
-    /** Number of evaluations already performed for all starts. */
+
+    /**
+     * Number of evaluations already performed for all starts.
+     */
     private int totalEvaluations;
-    /** Number of starts to go. */
+
+    /**
+     * Number of starts to go.
+     */
     private int starts;
-    /** Random generator for multi-start. */
+
+    /**
+     * Random generator for multi-start.
+     */
     private RandomVectorGenerator generator;
-    /** Optimization data. */
+
+    /**
+     * Optimization data.
+     */
     private OptimizationData[] optimData;
+
     /**
      * Location in {@link #optimData} where the updated maximum
      * number of evaluations will be stored.
      */
     private int maxEvalIndex = -1;
+
     /**
      * Location in {@link #optimData} where the updated start value
      * will be stored.
@@ -79,24 +93,22 @@ public abstract class BaseMultiStartMultivariateOptimizer<P>
      * @param generator Random vector generator to use for restarts.
      * @throws MathIllegalArgumentException if {@code starts < 1}.
      */
-    protected BaseMultiStartMultivariateOptimizer(final BaseMultivariateOptimizer<P> optimizer, final int starts,
-                                                  final RandomVectorGenerator generator) {
+    protected BaseMultiStartMultivariateOptimizer(final BaseMultivariateOptimizer<P> optimizer, final int starts, final RandomVectorGenerator generator) {
         super(optimizer.getConvergenceChecker());
-
         if (starts < 1) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL,
-                                                   starts, 1);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL, starts, 1);
         }
-
         this.optimizer = optimizer;
         this.starts = starts;
         this.generator = generator;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getEvaluations() {
-        return totalEvaluations;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -132,94 +144,15 @@ public abstract class BaseMultiStartMultivariateOptimizer<P>
      */
     @Override
     public P optimize(OptimizationData... optData) {
-        // Store arguments in order to pass them to the internal optimizer.
-       optimData = optData.clone();
-        // Set up base class and perform computations.
-        return super.optimize(optData);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected P doOptimize() {
-        // Remove all instances of "MaxEval" and "InitialGuess" from the
-        // array that will be passed to the internal optimizer.
-        // The former is to enforce smaller numbers of allowed evaluations
-        // (according to how many have been used up already), and the latter
-        // to impose a different start value for each start.
-        for (int i = 0; i < optimData.length; i++) {
-            if (optimData[i] instanceof MaxEval) {
-                optimData[i] = null;
-                maxEvalIndex = i;
-            }
-            if (optimData[i] instanceof InitialGuess) {
-                optimData[i] = null;
-                initialGuessIndex = i;
-                continue;
-            }
-        }
-        if (maxEvalIndex == -1) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.ILLEGAL_STATE);
-        }
-        if (initialGuessIndex == -1) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.ILLEGAL_STATE);
-        }
-
-        RuntimeException lastException = null;
-        totalEvaluations = 0;
-        clear();
-
-        final int maxEval = getMaxEvaluations();
-        final double[] min = getLowerBound();
-        final double[] max = getUpperBound();
-        final double[] startPoint = getStartPoint();
-
-        // Multi-start loop.
-        for (int i = 0; i < starts; i++) {
-            // CHECKSTYLE: stop IllegalCatch
-            try {
-                // Decrease number of allowed evaluations.
-                optimData[maxEvalIndex] = new MaxEval(maxEval - totalEvaluations);
-                // New start value.
-                double[] s = null;
-                if (i == 0) {
-                    s = startPoint;
-                } else {
-                    int attempts = 0;
-                    while (s == null) {
-                        if (attempts >= getMaxEvaluations()) {
-                            throw new MathIllegalStateException(LocalizedCoreFormats.MAX_COUNT_EXCEEDED,
-                                                                getMaxEvaluations());
-                        }
-                        s = generator.nextVector();
-                        for (int k = 0; s != null && k < s.length; ++k) {
-                            if ((min != null && s[k] < min[k]) || (max != null && s[k] > max[k])) {
-                                // reject the vector
-                                s = null;
-                            }
-                        }
-                        ++attempts;
-                    }
-                }
-                optimData[initialGuessIndex] = new InitialGuess(s);
-                // Optimize.
-                final P result = optimizer.optimize(optimData);
-                store(result);
-            } catch (RuntimeException mue) { // NOPMD - caching a RuntimeException is intentional here, it will be rethrown later
-                lastException = mue;
-            }
-            // CHECKSTYLE: resume IllegalCatch
-
-            totalEvaluations += optimizer.getEvaluations();
-        }
-
-        final P[] optima = getOptima();
-        if (optima.length == 0) {
-            // All runs failed.
-            throw lastException; // Cannot be null if starts >= 1.
-        }
-
-        // Return the best optimum.
-        return optima[0];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -228,6 +161,7 @@ public abstract class BaseMultiStartMultivariateOptimizer<P>
      * @param optimum Result of an optimization run.
      */
     protected abstract void store(P optimum);
+
     /**
      * Method that will called in order to clear all stored optima.
      */

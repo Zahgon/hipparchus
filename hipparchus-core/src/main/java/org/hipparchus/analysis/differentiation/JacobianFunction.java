@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,7 +22,8 @@ package org.hipparchus.analysis.differentiation;
 
 import org.hipparchus.analysis.MultivariateMatrixFunction;
 
-/** Class representing the Jacobian of a multivariate vector function.
+/**
+ * Class representing the Jacobian of a multivariate vector function.
  * <p>
  * The rows iterate on the model functions while the columns iterate on the parameters; thus,
  * the numbers of rows is equal to the dimension of the underlying function vector
@@ -33,43 +33,24 @@ import org.hipparchus.analysis.MultivariateMatrixFunction;
  */
 public class JacobianFunction implements MultivariateMatrixFunction {
 
-    /** Underlying vector-valued function. */
+    /**
+     * Underlying vector-valued function.
+     */
     private final MultivariateDifferentiableVectorFunction f;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param f underlying vector-valued function
      */
     public JacobianFunction(final MultivariateDifferentiableVectorFunction f) {
         this.f = f;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[][] value(double[] point) {
-
-        // set up parameters
-        final DSFactory factory = new DSFactory(point.length, 1);
-        final DerivativeStructure[] dsX = new DerivativeStructure[point.length];
-        for (int i = 0; i < point.length; ++i) {
-            dsX[i] = factory.variable(i, point[i]);
-        }
-
-        // compute the derivatives
-        final DerivativeStructure[] dsY = f.value(dsX);
-
-        // extract the Jacobian
-        final double[][] y = new double[dsY.length][point.length];
-        final int[] orders = new int[point.length];
-        for (int i = 0; i < dsY.length; ++i) {
-            for (int j = 0; j < point.length; ++j) {
-                orders[j] = 1;
-                y[i][j] = dsY[i].getPartialDerivative(orders);
-                orders[j] = 0;
-            }
-        }
-
-        return y;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

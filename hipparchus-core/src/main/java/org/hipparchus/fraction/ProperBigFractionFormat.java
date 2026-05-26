@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -25,7 +24,6 @@ import java.math.BigInteger;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.util.MathUtils;
 
@@ -39,10 +37,14 @@ import org.hipparchus.util.MathUtils;
  */
 public class ProperBigFractionFormat extends BigFractionFormat {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20160323L;
 
-    /** The format used for the whole number. */
+    /**
+     * The format used for the whole number.
+     */
     private final NumberFormat wholeFormat;
 
     /**
@@ -60,7 +62,7 @@ public class ProperBigFractionFormat extends BigFractionFormat {
      * @throws org.hipparchus.exception.NullArgumentException if the provided format is null.
      */
     public ProperBigFractionFormat(final NumberFormat format) {
-        this(format, (NumberFormat)format.clone(), (NumberFormat)format.clone());
+        this(format, (NumberFormat) format.clone(), (NumberFormat) format.clone());
     }
 
     /**
@@ -71,11 +73,8 @@ public class ProperBigFractionFormat extends BigFractionFormat {
      * @param denominatorFormat the custom format for the denominator.
      * @throws org.hipparchus.exception.NullArgumentException if either provided format is null.
      */
-    public ProperBigFractionFormat(final NumberFormat wholeFormat,
-                                   final NumberFormat numeratorFormat,
-                                   final NumberFormat denominatorFormat) {
+    public ProperBigFractionFormat(final NumberFormat wholeFormat, final NumberFormat numeratorFormat, final NumberFormat denominatorFormat) {
         super(numeratorFormat, denominatorFormat);
-
         MathUtils.checkNotNull(wholeFormat, LocalizedCoreFormats.WHOLE_FORMAT);
         this.wholeFormat = wholeFormat;
     }
@@ -91,30 +90,8 @@ public class ProperBigFractionFormat extends BigFractionFormat {
      * @return the value passed in as toAppendTo.
      */
     @Override
-    public StringBuffer format(final BigFraction fraction,
-                               final StringBuffer toAppendTo,
-                               final FieldPosition pos) {
-
-        pos.setBeginIndex(0);
-        pos.setEndIndex(0);
-
-        BigInteger num = fraction.getNumerator();
-        BigInteger den = fraction.getDenominator();
-        BigInteger whole = num.divide(den);
-        num = num.remainder(den);
-
-        if (!BigInteger.ZERO.equals(whole)) {
-            getWholeFormat().format(whole, toAppendTo, pos);
-            toAppendTo.append(' ');
-            if (num.compareTo(BigInteger.ZERO) < 0) {
-                num = num.negate();
-            }
-        }
-        getNumeratorFormat().format(num, toAppendTo, pos);
-        toAppendTo.append(" / ");
-        getDenominatorFormat().format(den, toAppendTo, pos);
-
-        return toAppendTo;
+    public StringBuffer format(final BigFraction fraction, final StringBuffer toAppendTo, final FieldPosition pos) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -122,7 +99,7 @@ public class ProperBigFractionFormat extends BigFractionFormat {
      * @return the whole format.
      */
     public NumberFormat getWholeFormat() {
-        return wholeFormat;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -139,95 +116,6 @@ public class ProperBigFractionFormat extends BigFractionFormat {
      */
     @Override
     public BigFraction parse(final String source, final ParsePosition pos) {
-        // try to parse improper BigFraction
-        BigFraction ret = super.parse(source, pos);
-        if (ret != null) {
-            return ret;
-        }
-
-        final int initialIndex = pos.getIndex();
-
-        // parse whitespace
-        parseAndIgnoreWhitespace(source, pos);
-
-        // parse whole
-        BigInteger whole = parseNextBigInteger(source, pos);
-        if (whole == null) {
-            // invalid integer number
-            // set index back to initial, error index should already be set
-            // character examined.
-            pos.setIndex(initialIndex);
-            return null;
-        }
-
-        // parse whitespace
-        parseAndIgnoreWhitespace(source, pos);
-
-        // parse numerator
-        BigInteger num = parseNextBigInteger(source, pos);
-        if (num == null) {
-            // invalid integer number
-            // set index back to initial, error index should already be set
-            // character examined.
-            pos.setIndex(initialIndex);
-            return null;
-        }
-
-        if (num.compareTo(BigInteger.ZERO) < 0) {
-            // minus signs should be leading, invalid expression
-            pos.setIndex(initialIndex);
-            return null;
-        }
-
-        // parse '/'
-        final int startIndex = pos.getIndex();
-        final char c = parseNextCharacter(source, pos);
-        switch (c) {
-        case 0 :
-            // no '/'
-            // return num as a BigFraction
-            return new BigFraction(num);
-        case '/' :
-            // found '/', continue parsing denominator
-            break;
-        default :
-            // invalid '/'
-            // set index back to initial, error index should be the last
-            // character examined.
-            pos.setIndex(initialIndex);
-            pos.setErrorIndex(startIndex);
-            return null;
-        }
-
-        // parse whitespace
-        parseAndIgnoreWhitespace(source, pos);
-
-        // parse denominator
-        final BigInteger den = parseNextBigInteger(source, pos);
-        if (den == null) {
-            // invalid integer number
-            // set index back to initial, error index should already be set
-            // character examined.
-            pos.setIndex(initialIndex);
-            return null;
-        }
-
-        if (den.compareTo(BigInteger.ZERO) < 0) {
-            // minus signs must be leading, invalid
-            pos.setIndex(initialIndex);
-            return null;
-        }
-
-        boolean wholeIsNeg = whole.compareTo(BigInteger.ZERO) < 0;
-        if (wholeIsNeg) {
-            whole = whole.negate();
-        }
-        num = whole.multiply(den).add(num);
-        if (wholeIsNeg) {
-            num = num.negate();
-        }
-
-        return new BigFraction(num, den);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -18,7 +18,8 @@ package org.hipparchus.optim;
 
 import java.util.List;
 
-/** Multiplexer for {@link ConvergenceChecker}, checking <em>all</em> the checkers converged.
+/**
+ * Multiplexer for {@link ConvergenceChecker}, checking <em>all</em> the checkers converged.
  * <p>
  * The checkers are checked in the order of the initial list and the check loop
  * is interrupted as soon as one checker fails to converge (that is the remaining
@@ -29,10 +30,13 @@ import java.util.List;
  */
 public class ConvergenceCheckerAndMultiplexer<P> implements ConvergenceChecker<P> {
 
-    /** Underlying checkers. */
+    /**
+     * Underlying checkers.
+     */
     private final List<ConvergenceChecker<P>> checkers;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param checkers checkers to use, convergence is reached when
      * <em>all</em> checkers have converged
      */
@@ -40,10 +44,11 @@ public class ConvergenceCheckerAndMultiplexer<P> implements ConvergenceChecker<P
         this.checkers = checkers;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean converged(final int iteration, final P previous, final P current) {
-        return checkers.stream().allMatch(checker -> checker.converged(iteration, previous, current));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

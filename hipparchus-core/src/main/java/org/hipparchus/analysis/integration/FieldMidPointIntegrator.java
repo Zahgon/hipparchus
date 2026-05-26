@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -40,7 +39,9 @@ import org.hipparchus.util.FastMath;
  */
 public class FieldMidPointIntegrator<T extends CalculusFieldElement<T>> extends BaseAbstractFieldUnivariateIntegrator<T> {
 
-    /** Maximum number of iterations for midpoint. */
+    /**
+     * Maximum number of iterations for midpoint.
+     */
     public static final int MIDPOINT_MAX_ITERATIONS_COUNT = 64;
 
     /**
@@ -58,16 +59,10 @@ public class FieldMidPointIntegrator<T extends CalculusFieldElement<T>> extends 
      * @exception MathIllegalArgumentException if maximal number of iterations
      * is greater than {@link #MIDPOINT_MAX_ITERATIONS_COUNT}
      */
-    public FieldMidPointIntegrator(final Field<T> field,
-                                   final double relativeAccuracy,
-                                   final double absoluteAccuracy,
-                                   final int minimalIterationCount,
-                                   final int maximalIterationCount)
-        throws MathIllegalArgumentException {
+    public FieldMidPointIntegrator(final Field<T> field, final double relativeAccuracy, final double absoluteAccuracy, final int minimalIterationCount, final int maximalIterationCount) throws MathIllegalArgumentException {
         super(field, relativeAccuracy, absoluteAccuracy, minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > MIDPOINT_MAX_ITERATIONS_COUNT) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                   maximalIterationCount, MIDPOINT_MAX_ITERATIONS_COUNT);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED, maximalIterationCount, MIDPOINT_MAX_ITERATIONS_COUNT);
         }
     }
 
@@ -84,14 +79,10 @@ public class FieldMidPointIntegrator<T extends CalculusFieldElement<T>> extends 
      * @exception MathIllegalArgumentException if maximal number of iterations
      * is greater than {@link #MIDPOINT_MAX_ITERATIONS_COUNT}
      */
-    public FieldMidPointIntegrator(final Field<T> field,
-                                   final int minimalIterationCount,
-                                   final int maximalIterationCount)
-        throws MathIllegalArgumentException {
+    public FieldMidPointIntegrator(final Field<T> field, final int minimalIterationCount, final int maximalIterationCount) throws MathIllegalArgumentException {
         super(field, minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > MIDPOINT_MAX_ITERATIONS_COUNT) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                   maximalIterationCount, MIDPOINT_MAX_ITERATIONS_COUNT);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED, maximalIterationCount, MIDPOINT_MAX_ITERATIONS_COUNT);
         }
     }
 
@@ -123,19 +114,12 @@ public class FieldMidPointIntegrator<T extends CalculusFieldElement<T>> extends 
      * @throws MathIllegalStateException if the maximal number of evaluations
      * is exceeded.
      */
-    private T stage(final int n,
-                    T previousStageResult,
-                    T min,
-                    T diffMaxMin)
-        throws MathIllegalStateException {
-
+    private T stage(final int n, T previousStageResult, T min, T diffMaxMin) throws MathIllegalStateException {
         // number of new points in this stage
         final long np = 1L << (n - 1);
         T sum = getField().getZero();
-
         // spacing between adjacent new points
         final T spacing = diffMaxMin.divide(np);
-
         // the first new point
         T x = min.add(spacing.multiply(0.5));
         for (long i = 0; i < np; i++) {
@@ -146,32 +130,11 @@ public class FieldMidPointIntegrator<T extends CalculusFieldElement<T>> extends 
         return previousStageResult.add(sum.multiply(spacing)).multiply(0.5);
     }
 
-
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected T doIntegrate()
-        throws MathIllegalArgumentException, MathIllegalStateException {
-
-        final T min = getMin();
-        final T diff = getMax().subtract(min);
-        final T midPoint = min.add(diff.multiply(0.5));
-
-        T oldt = diff.multiply(computeObjectiveValue(midPoint));
-
-        while (true) {
-            iterations.increment();
-            final int i = iterations.getCount();
-            final T t = stage(i, oldt, min, diff);
-            if (i >= getMinimalIterationCount()) {
-                final double delta  = FastMath.abs(t.subtract(oldt)).getReal();
-                final double rLimit = FastMath.abs(oldt).add(FastMath.abs(t)).multiply(0.5 * getRelativeAccuracy()).getReal();
-                if ((delta <= rLimit) || (delta <= getAbsoluteAccuracy())) {
-                    return t;
-                }
-            }
-            oldt = t;
-        }
-
+    protected T doIntegrate() throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

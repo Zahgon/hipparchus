@@ -19,7 +19,8 @@ package org.hipparchus.special.elliptic.jacobi;
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.util.FastMath;
 
-/** Algorithm for computing the principal Jacobi functions for negative parameter m.
+/**
+ * Algorithm for computing the principal Jacobi functions for negative parameter m.
  * <p>
  * The rules for negative parameter change are given in Abramowitz and Stegun, section 16.10.
  * </p>
@@ -28,31 +29,38 @@ import org.hipparchus.util.FastMath;
  */
 class FieldNegativeParameter<T extends CalculusFieldElement<T>> extends FieldJacobiElliptic<T> {
 
-    /** Algorithm to use for the positive parameter. */
+    /**
+     * Algorithm to use for the positive parameter.
+     */
     private final FieldJacobiElliptic<T> algorithm;
 
-    /** Input scaling factor. */
+    /**
+     * Input scaling factor.
+     */
     private final T inputScale;
 
-    /** output scaling factor. */
+    /**
+     * output scaling factor.
+     */
     private final T outputScale;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param m parameter of the Jacobi elliptic function (must be negative here)
      */
     FieldNegativeParameter(final T m) {
         super(m);
         final T omM = m.getField().getOne().subtract(m);
-        algorithm   = JacobiEllipticBuilder.build(m.negate().divide(omM));
-        inputScale  = FastMath.sqrt(omM);
+        algorithm = JacobiEllipticBuilder.build(m.negate().divide(omM));
+        inputScale = FastMath.sqrt(omM);
         outputScale = inputScale.reciprocal();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldCopolarN<T> valuesN(final T u) {
-        final FieldCopolarD<T> trioD = new FieldCopolarD<>(algorithm.valuesN(u.multiply(inputScale)));
-        return new FieldCopolarN<>(outputScale.multiply(trioD.sd()), trioD.cd(), trioD.nd());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

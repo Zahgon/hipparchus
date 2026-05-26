@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -41,16 +40,19 @@ import org.hipparchus.util.MathUtils;
  * but provided by one sample, or when the hypothesis under test is that the two
  * samples come from the same underlying distribution.
  */
-public class GTest { // NOPMD - this is not a Junit test class, PMD false positive here
+public class // NOPMD - this is not a Junit test class, PMD false positive here
+GTest {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public GTest() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public GTest() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
@@ -87,37 +89,8 @@ public class GTest { // NOPMD - this is not a Junit test class, PMD false positi
      * @throws MathIllegalArgumentException if the array lengths do not match or
      * are less than 2.
      */
-    public double g(final double[] expected, final long[] observed)
-            throws MathIllegalArgumentException {
-
-        if (expected.length < 2) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   expected.length, 2);
-        }
-        MathUtils.checkDimension(expected.length, observed.length);
-        MathArrays.checkPositive(expected);
-        MathArrays.checkNonNegative(observed);
-
-        double sumExpected = 0d;
-        double sumObserved = 0d;
-        for (int i = 0; i < observed.length; i++) {
-            sumExpected += expected[i];
-            sumObserved += observed[i];
-        }
-        double ratio = 1d;
-        boolean rescale = false;
-        if (FastMath.abs(sumExpected - sumObserved) > 10E-6) {
-            ratio = sumObserved / sumExpected;
-            rescale = true;
-        }
-        double sum = 0d;
-        for (int i = 0; i < observed.length; i++) {
-            final double dev = rescale ?
-                    FastMath.log(observed[i] / (ratio * expected[i])) :
-                        FastMath.log(observed[i] / expected[i]);
-            sum += (observed[i]) * dev;
-        }
-        return 2d * sum;
+    public double g(final double[] expected, final long[] observed) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -161,12 +134,8 @@ public class GTest { // NOPMD - this is not a Junit test class, PMD false positi
      * @throws MathIllegalStateException if an error occurs computing the
      * p-value.
      */
-    public double gTest(final double[] expected, final long[] observed)
-            throws MathIllegalArgumentException, MathIllegalStateException {
-
-        final ChiSquaredDistribution distribution =
-                new ChiSquaredDistribution(expected.length - 1.0);
-        return 1.0 - distribution.cumulativeProbability(g(expected, observed));
+    public double gTest(final double[] expected, final long[] observed) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -190,12 +159,8 @@ public class GTest { // NOPMD - this is not a Junit test class, PMD false positi
      * @throws MathIllegalStateException if an error occurs computing the
      * p-value.
      */
-    public double gTestIntrinsic(final double[] expected, final long[] observed)
-            throws MathIllegalArgumentException, MathIllegalStateException {
-
-        final ChiSquaredDistribution distribution =
-                new ChiSquaredDistribution(expected.length - 2.0);
-        return 1.0 - distribution.cumulativeProbability(g(expected, observed));
+    public double gTestIntrinsic(final double[] expected, final long[] observed) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -243,15 +208,8 @@ public class GTest { // NOPMD - this is not a Junit test class, PMD false positi
      * @throws MathIllegalArgumentException if alpha is not strictly greater than zero
      * and less than or equal to 0.5
      */
-    public boolean gTest(final double[] expected, final long[] observed,
-            final double alpha)
-            throws MathIllegalArgumentException, MathIllegalStateException {
-
-        if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new MathIllegalArgumentException(LocalizedStatFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
-                    alpha, 0, 0.5);
-        }
-        return gTest(expected, observed) < alpha;
+    public boolean gTest(final double[] expected, final long[] observed, final double alpha) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -264,7 +222,6 @@ public class GTest { // NOPMD - this is not a Junit test class, PMD false positi
      * @param k 2 Dimensional Matrix of long values (for ex. the counts of a
      * trials)
      * @return Shannon Entropy of the given Matrix
-     *
      */
     private double entropy(final long[][] k) {
         double h = 0d;
@@ -294,7 +251,6 @@ public class GTest { // NOPMD - this is not a Junit test class, PMD false positi
      *
      * @param k Vector (for ex. Row Sums of a trials)
      * @return Shannon Entropy of the given Vector
-     *
      */
     private double entropy(final long[] k) {
         double h = 0d;
@@ -354,46 +310,8 @@ public class GTest { // NOPMD - this is not a Junit test class, PMD false positi
      * {@code observed1} or {@code observed2} are zero, or if the count
      * at the same index is zero for both arrays.
      */
-    public double gDataSetsComparison(final long[] observed1, final long[] observed2)
-            throws MathIllegalArgumentException {
-
-        // Make sure lengths are same
-        if (observed1.length < 2) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   observed1.length, 2);
-        }
-        MathUtils.checkDimension(observed1.length, observed2.length);
-
-        // Ensure non-negative counts
-        MathArrays.checkNonNegative(observed1);
-        MathArrays.checkNonNegative(observed2);
-
-        // Compute and compare count sums
-        long countSum1 = 0;
-        long countSum2 = 0;
-
-        // Compute and compare count sums
-        final long[] collSums = new long[observed1.length];
-        final long[][] k = new long[2][observed1.length];
-
-        for (int i = 0; i < observed1.length; i++) {
-            if (observed1[i] == 0 && observed2[i] == 0) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.OBSERVED_COUNTS_BOTTH_ZERO_FOR_ENTRY, i);
-            } else {
-                countSum1 += observed1[i];
-                countSum2 += observed2[i];
-                collSums[i] = observed1[i] + observed2[i];
-                k[0][i] = observed1[i];
-                k[1][i] = observed2[i];
-            }
-        }
-        // Ensure neither sample is uniformly 0
-        if (countSum1 == 0 || countSum2 == 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.ZERO_NOT_ALLOWED);
-        }
-        final long[] rowSums = {countSum1, countSum2};
-        final double sum = countSum1 + countSum2;
-        return 2 * sum * (entropy(rowSums) + entropy(collSums) - entropy(k));
+    public double gDataSetsComparison(final long[] observed1, final long[] observed2) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -424,17 +342,9 @@ public class GTest { // NOPMD - this is not a Junit test class, PMD false positi
      * @param k22 number of times something else occurred (i.e. was neither
      * of these events (notA, notB)
      * @return root log-likelihood ratio
-     *
      */
-    public double rootLogLikelihoodRatio(final long k11, long k12,
-            final long k21, final long k22) {
-        final double llr = gDataSetsComparison(
-                new long[]{k11, k12}, new long[]{k21, k22});
-        double sqrt = FastMath.sqrt(llr);
-        if ((double) k11 / (k11 + k12) < (double) k21 / (k21 + k22)) {
-            sqrt = -sqrt;
-        }
-        return sqrt;
+    public double rootLogLikelihoodRatio(final long k11, long k12, final long k21, final long k22) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -477,15 +387,8 @@ public class GTest { // NOPMD - this is not a Junit test class, PMD false positi
      * @throws MathIllegalStateException if an error occurs computing the
      * p-value.
      */
-    public double gTestDataSetsComparison(final long[] observed1,
-            final long[] observed2)
-            throws MathIllegalArgumentException,
-            MathIllegalStateException {
-
-        final ChiSquaredDistribution distribution =
-                new ChiSquaredDistribution((double) observed1.length - 1);
-        return 1 - distribution.cumulativeProbability(
-                gDataSetsComparison(observed1, observed2));
+    public double gTestDataSetsComparison(final long[] observed1, final long[] observed2) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -531,16 +434,7 @@ public class GTest { // NOPMD - this is not a Junit test class, PMD false positi
      * (0, 0.5]
      * @throws MathIllegalStateException if an error occurs performing the test
      */
-    public boolean gTestDataSetsComparison(
-            final long[] observed1,
-            final long[] observed2,
-            final double alpha)
-            throws MathIllegalArgumentException, MathIllegalStateException {
-
-        if (alpha <= 0 || alpha > 0.5) {
-            throw new MathIllegalArgumentException(
-                    LocalizedStatFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL, alpha, 0, 0.5);
-        }
-        return gTestDataSetsComparison(observed1, observed2) < alpha;
+    public boolean gTestDataSetsComparison(final long[] observed1, final long[] observed2, final double alpha) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

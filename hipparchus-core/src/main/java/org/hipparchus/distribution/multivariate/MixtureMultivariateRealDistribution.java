@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,7 +22,6 @@ package org.hipparchus.distribution.multivariate;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hipparchus.distribution.MultivariateRealDistribution;
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -38,11 +36,16 @@ import org.hipparchus.util.Pair;
  *
  * @param <T> Type of the mixture components.
  */
-public class MixtureMultivariateRealDistribution<T extends MultivariateRealDistribution>
-    extends AbstractMultivariateRealDistribution {
-    /** Normalized weight of each mixture component. */
+public class MixtureMultivariateRealDistribution<T extends MultivariateRealDistribution> extends AbstractMultivariateRealDistribution {
+
+    /**
+     * Normalized weight of each mixture component.
+     */
     private final double[] weight;
-    /** Mixture components. */
+
+    /**
+     * Mixture components.
+     */
     private final List<T> distribution;
 
     /**
@@ -72,29 +75,24 @@ public class MixtureMultivariateRealDistribution<T extends MultivariateRealDistr
      * @throws MathIllegalArgumentException if not all components have the same
      * number of variables.
      */
-    public MixtureMultivariateRealDistribution(RandomGenerator rng,
-                                               List<Pair<Double, T>> components) {
+    public MixtureMultivariateRealDistribution(RandomGenerator rng, List<Pair<Double, T>> components) {
         super(rng, components.get(0).getSecond().getDimension());
-
         final int numComp = components.size();
         final int dim = getDimension();
         double weightSum = 0;
         for (final Pair<Double, T> comp : components) {
             if (comp.getSecond().getDimension() != dim) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                        comp.getSecond().getDimension(), dim);
+                throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH, comp.getSecond().getDimension(), dim);
             }
             if (comp.getFirst() < 0) {
                 throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL, comp.getFirst(), 0);
             }
             weightSum += comp.getFirst();
         }
-
         // Check for overflow.
         if (Double.isInfinite(weightSum)) {
             throw new MathRuntimeException(LocalizedCoreFormats.OVERFLOW);
         }
-
         // Store each distribution and its normalized weight.
         distribution = new ArrayList<>();
         weight = new double[numComp];
@@ -105,57 +103,28 @@ public class MixtureMultivariateRealDistribution<T extends MultivariateRealDistr
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double density(final double[] values) {
-        double p = 0;
-        for (int i = 0; i < weight.length; i++) {
-            p += weight[i] * distribution.get(i).density(values);
-        }
-        return p;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[] sample() {
-        // Sampled values.
-        double[] vals = null;
-
-        // Determine which component to sample from.
-        final double randomValue = random.nextDouble();
-        double sum = 0;
-
-        for (int i = 0; i < weight.length; i++) {
-            sum += weight[i];
-            if (randomValue <= sum) {
-                // pick model i
-                vals = distribution.get(i).sample();
-                break;
-            }
-        }
-
-        if (vals == null) {
-            // This should never happen, but it ensures we won't return a null in
-            // case the loop above has some floating point inequality problem on
-            // the final iteration.
-            vals = distribution.get(weight.length - 1).sample();
-        }
-
-        return vals;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void reseedRandomGenerator(long seed) {
-        // Seed needs to be propagated to underlying components
-        // in order to maintain consistency between runs.
-        super.reseedRandomGenerator(seed);
-
-        for (int i = 0; i < distribution.size(); i++) {
-            // Make each component's seed different in order to avoid
-            // using the same sequence of random numbers.
-            distribution.get(i).reseedRandomGenerator(i + 1 + seed);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -164,12 +133,6 @@ public class MixtureMultivariateRealDistribution<T extends MultivariateRealDistr
      * @return the component distributions and associated weights.
      */
     public List<Pair<Double, T>> getComponents() {
-        final List<Pair<Double, T>> list = new ArrayList<>(weight.length);
-
-        for (int i = 0; i < weight.length; i++) {
-            list.add(new Pair<>(weight[i], distribution.get(i)));
-        }
-
-        return list;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

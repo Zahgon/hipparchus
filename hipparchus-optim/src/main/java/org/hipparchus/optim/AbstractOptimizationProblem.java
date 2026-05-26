@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -30,14 +29,21 @@ import org.hipparchus.util.Incrementor;
  *
  * @param <P> Type of the point/value pair returned by the optimization algorithm.
  */
-public abstract class AbstractOptimizationProblem<P>
-        implements OptimizationProblem<P> {
+public abstract class AbstractOptimizationProblem<P> implements OptimizationProblem<P> {
 
-    /** max evaluations */
+    /**
+     * max evaluations
+     */
     private final int maxEvaluations;
-    /** max iterations */
+
+    /**
+     * max iterations
+     */
     private final int maxIterations;
-    /** Convergence checker. */
+
+    /**
+     * Convergence checker.
+     */
     private final ConvergenceChecker<P> checker;
 
     /**
@@ -47,29 +53,33 @@ public abstract class AbstractOptimizationProblem<P>
      * @param maxIterations  the number of allowed iterations.
      * @param checker        the convergence checker.
      */
-    protected AbstractOptimizationProblem(final int maxEvaluations,
-                                          final int maxIterations,
-                                          final ConvergenceChecker<P> checker) {
+    protected AbstractOptimizationProblem(final int maxEvaluations, final int maxIterations, final ConvergenceChecker<P> checker) {
         this.maxEvaluations = maxEvaluations;
         this.maxIterations = maxIterations;
         this.checker = checker;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Incrementor getEvaluationCounter() {
-        return new Incrementor(this.maxEvaluations);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Incrementor getIterationCounter() {
-        return new Incrementor(this.maxIterations);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ConvergenceChecker<P> getConvergenceChecker() {
-        return checker;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

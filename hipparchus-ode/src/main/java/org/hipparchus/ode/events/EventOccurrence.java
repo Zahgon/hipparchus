@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.events;
 
 import org.hipparchus.ode.ODEState;
@@ -26,11 +25,19 @@ import org.hipparchus.ode.ODEState;
  */
 public class EventOccurrence {
 
-    /** User requested action. */
+    /**
+     * User requested action.
+     */
     private final Action action;
-    /** New state for a reset action. */
+
+    /**
+     * New state for a reset action.
+     */
     private final ODEState newState;
-    /** The time to stop propagation if the action is a stop event. */
+
+    /**
+     * The time to stop propagation if the action is a stop event.
+     */
     private final double stopTime;
 
     /**
@@ -42,9 +49,7 @@ public class EventOccurrence {
      * @param stopTime to stop propagation if the action is {@link Action#STOP}. Used
      *                 to move the stop time to just after the root.
      */
-    public EventOccurrence(final Action action,
-                           final ODEState newState,
-                           final double stopTime) {
+    public EventOccurrence(final Action action, final ODEState newState, final double stopTime) {
         this.action = action;
         this.newState = newState;
         this.stopTime = stopTime;
@@ -56,7 +61,7 @@ public class EventOccurrence {
      * @return the action.
      */
     public Action getAction() {
-        return action;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -65,7 +70,7 @@ public class EventOccurrence {
      * @return the new state.
      */
     public ODEState getNewState() {
-        return newState;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -74,7 +79,6 @@ public class EventOccurrence {
      * @return when to stop propagation.
      */
     public double getStopTime() {
-        return stopTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

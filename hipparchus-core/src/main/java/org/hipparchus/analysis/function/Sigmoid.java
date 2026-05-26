@@ -14,16 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.analysis.function;
 
 import java.util.Arrays;
-
 import org.hipparchus.analysis.ParametricUnivariateFunction;
 import org.hipparchus.analysis.differentiation.Derivative;
 import org.hipparchus.analysis.differentiation.UnivariateDifferentiableFunction;
@@ -38,12 +35,17 @@ import org.hipparchus.util.MathUtils;
  * It is the inverse of the {@link Logit logit} function.
  * A more flexible version, the generalised logistic, is implemented
  * by the {@link Logistic} class.
- *
  */
 public class Sigmoid implements UnivariateDifferentiableFunction {
-    /** Lower asymptote. */
+
+    /**
+     * Lower asymptote.
+     */
     private final double lo;
-    /** Higher asymptote. */
+
+    /**
+     * Higher asymptote.
+     */
     private final double hi;
 
     /**
@@ -60,16 +62,17 @@ public class Sigmoid implements UnivariateDifferentiableFunction {
      * @param lo Lower asymptote.
      * @param hi Higher asymptote.
      */
-    public Sigmoid(double lo,
-                   double hi) {
+    public Sigmoid(double lo, double hi) {
         this.lo = lo;
         this.hi = hi;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double value(double x) {
-        return value(x, lo, hi);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -83,14 +86,16 @@ public class Sigmoid implements UnivariateDifferentiableFunction {
      */
     public static class Parametric implements ParametricUnivariateFunction {
 
-        /** Empty constructor.
+        /**
+         * Empty constructor.
          * <p>
          * This constructor is not strictly necessary, but it prevents spurious
          * javadoc warnings with JDK 18 and later.
          * </p>
          * @since 3.0
          */
-        public Parametric() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+        public Parametric() {
+            // NOPMD - unnecessary constructor added intentionally to make javadoc happy
             // nothing to do
         }
 
@@ -105,10 +110,8 @@ public class Sigmoid implements UnivariateDifferentiableFunction {
          * not 2.
          */
         @Override
-        public double value(double x, double ... param)
-            throws MathIllegalArgumentException, NullArgumentException {
-            validateParameters(param);
-            return Sigmoid.value(x, param[0], param[1]);
+        public double value(double x, double... param) throws MathIllegalArgumentException, NullArgumentException {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -125,13 +128,8 @@ public class Sigmoid implements UnivariateDifferentiableFunction {
          * not 2.
          */
         @Override
-        public double[] gradient(double x, double ... param)
-            throws MathIllegalArgumentException, NullArgumentException {
-            validateParameters(param);
-
-            final double invExp1 = 1 / (1 + FastMath.exp(-x));
-
-            return new double[] { 1 - invExp1, invExp1 };
+        public double[] gradient(double x, double... param) throws MathIllegalArgumentException, NullArgumentException {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -144,8 +142,7 @@ public class Sigmoid implements UnivariateDifferentiableFunction {
          * @throws MathIllegalArgumentException if the size of {@code param} is
          * not 2.
          */
-        private void validateParameters(double[] param)
-            throws MathIllegalArgumentException, NullArgumentException {
+        private void validateParameters(double[] param) throws MathIllegalArgumentException, NullArgumentException {
             MathUtils.checkNotNull(param);
             MathUtils.checkDimension(param.length, 2);
         }
@@ -157,64 +154,15 @@ public class Sigmoid implements UnivariateDifferentiableFunction {
      * @param hi Higher asymptote.
      * @return the value of the sigmoid function at {@code x}.
      */
-    private static double value(double x,
-                                double lo,
-                                double hi) {
+    private static double value(double x, double lo, double hi) {
         return lo + (hi - lo) / (1 + FastMath.exp(-x));
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
-    public <T extends Derivative<T>> T value(T t)
-        throws MathIllegalArgumentException {
-
-        double[] f = new double[t.getOrder() + 1];
-        final double exp = FastMath.exp(-t.getValue());
-        if (Double.isInfinite(exp)) {
-
-            // special handling near lower boundary, to avoid NaN
-            f[0] = lo;
-            Arrays.fill(f, 1, f.length, 0.0);
-
-        } else {
-
-            // the nth order derivative of sigmoid has the form:
-            // dn(sigmoid(x)/dxn = P_n(exp(-x)) / (1+exp(-x))^(n+1)
-            // where P_n(t) is a degree n polynomial with normalized higher term
-            // P_0(t) = 1, P_1(t) = t, P_2(t) = t^2 - t, P_3(t) = t^3 - 4 t^2 + t...
-            // the general recurrence relation for P_n is:
-            // P_n(x) = n t P_(n-1)(t) - t (1 + t) P_(n-1)'(t)
-            final double[] p = new double[f.length];
-
-            final double inv   = 1 / (1 + exp);
-            double coeff = hi - lo;
-            for (int n = 0; n < f.length; ++n) {
-
-                // update and evaluate polynomial P_n(t)
-                double v = 0;
-                p[n] = 1;
-                for (int k = n; k >= 0; --k) {
-                    v = v * exp + p[k];
-                    if (k > 1) {
-                        p[k - 1] = (n - k + 2) * p[k - 2] - (k - 1) * p[k - 1];
-                    } else {
-                        p[0] = 0;
-                    }
-                }
-
-                coeff *= inv;
-                f[n]   = coeff * v;
-
-            }
-
-            // fix function value
-            f[0] += lo;
-
-        }
-
-        return t.compose(f);
-
+    public <T extends Derivative<T>> T value(T t) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.analysis.function;
 
 import org.hipparchus.analysis.differentiation.Derivative;
@@ -27,30 +25,35 @@ import org.hipparchus.analysis.differentiation.UnivariateDifferentiableFunction;
 
 /**
  * Constant function.
- *
  */
 public class Constant implements UnivariateDifferentiableFunction {
-    /** Constant. */
+
+    /**
+     * Constant.
+     */
     private final double c;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param c Constant.
      */
     public Constant(double c) {
         this.c = c;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double value(double x) {
-        return c;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public <T extends Derivative<T>> T value(T t) {
-        return t.getField().getZero().add(c);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

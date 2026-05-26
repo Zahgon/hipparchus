@@ -29,13 +29,19 @@ import java.util.stream.Collectors;
  */
 public class RansacFitterOutputs<M> {
 
-    /** Mathematical model fitter used by RANSAC algorithm. */
+    /**
+     * Mathematical model fitter used by RANSAC algorithm.
+     */
     private final IModelFitter<M> fitter;
 
-    /** Best model parameters. */
+    /**
+     * Best model parameters.
+     */
     private final Optional<M> bestModel;
 
-    /** List of points used to determine the best model parameters. */
+    /**
+     * List of points used to determine the best model parameters.
+     */
     private final List<Fittable> bestInliers;
 
     /**
@@ -55,7 +61,7 @@ public class RansacFitterOutputs<M> {
      * @return the best model parameters
      */
     public Optional<M> getBestModel() {
-        return bestModel;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -63,7 +69,7 @@ public class RansacFitterOutputs<M> {
      * @return the list of points used to determine the best model parameters
      */
     public List<Fittable> getBestInliers() {
-        return new ArrayList<>(bestInliers);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -74,7 +80,6 @@ public class RansacFitterOutputs<M> {
      *         (can be empty if the all points are above the threshold or if no best model has been found)
      */
     public List<Fittable> filterPointsBelowThreshold(final List<Fittable> points, final double threshold) {
-        return bestModel.map(model -> points.stream().filter(point -> fitter.computeModelError(model, point) < threshold).collect(Collectors.toList()))
-                        .orElse(Collections.emptyList());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

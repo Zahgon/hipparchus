@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -35,16 +34,19 @@ import org.hipparchus.util.MathUtils;
  *
  * @see <a href="http://en.wikipedia.org/wiki/Binomial_test">Binomial test (Wikipedia)</a>
  */
-public class BinomialTest { // NOPMD - this is not a Junit test class, PMD false positive here
+public class // NOPMD - this is not a Junit test class, PMD false positive here
+BinomialTest {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public BinomialTest() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public BinomialTest() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
@@ -71,10 +73,8 @@ public class BinomialTest { // NOPMD - this is not a Junit test class, PMD false
      * if {@code alternateHypothesis} is null.
      * @see AlternativeHypothesis
      */
-    public boolean binomialTest(int numberOfTrials, int numberOfSuccesses, double probability,
-                                AlternativeHypothesis alternativeHypothesis, double alpha) {
-        double pValue = binomialTest(numberOfTrials, numberOfSuccesses, probability, alternativeHypothesis);
-        return pValue < alpha;
+    public boolean binomialTest(int numberOfTrials, int numberOfSuccesses, double probability, AlternativeHypothesis alternativeHypothesis, double alpha) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -111,61 +111,7 @@ public class BinomialTest { // NOPMD - this is not a Junit test class, PMD false
      * if {@code alternateHypothesis} is null.
      * @see AlternativeHypothesis
      */
-    public double binomialTest(int numberOfTrials, int numberOfSuccesses, double probability,
-                               AlternativeHypothesis alternativeHypothesis) {
-        if (numberOfTrials < 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL, numberOfTrials, 0);
-        }
-        if (numberOfSuccesses < 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL, numberOfSuccesses, 0);
-        }
-        MathUtils.checkRangeInclusive(probability, 0, 1);
-        if (numberOfTrials < numberOfSuccesses) {
-            throw new MathIllegalArgumentException(
-                LocalizedCoreFormats.BINOMIAL_INVALID_PARAMETERS_ORDER,
-                numberOfTrials, numberOfSuccesses);
-        }
-        MathUtils.checkNotNull(alternativeHypothesis);
-
-        final BinomialDistribution distribution = new BinomialDistribution(numberOfTrials, probability);
-        switch (alternativeHypothesis) {
-        case GREATER_THAN:
-            return 1 - distribution.cumulativeProbability(numberOfSuccesses - 1);
-        case LESS_THAN:
-            return distribution.cumulativeProbability(numberOfSuccesses);
-        case TWO_SIDED:
-            int criticalValueLow = 0;
-            int criticalValueHigh = numberOfTrials;
-            double pTotal = 0;
-
-            while (true) {
-                final double pLow = distribution.probability(criticalValueLow);
-                final double pHigh = distribution.probability(criticalValueHigh);
-
-                if (pLow == pHigh) {
-                    if (criticalValueLow == criticalValueHigh) { // One side can't move
-                        pTotal += pLow;
-                    } else {
-                        pTotal += 2 * pLow;
-                    }
-                    criticalValueLow++;
-                    criticalValueHigh--;
-                } else if (pLow < pHigh) {
-                    pTotal += pLow;
-                    criticalValueLow++;
-                } else {
-                    pTotal += pHigh;
-                    criticalValueHigh--;
-                }
-
-                if (criticalValueLow > numberOfSuccesses || criticalValueHigh < numberOfSuccesses) {
-                    break;
-                }
-            }
-            return pTotal;
-        default:
-            // this should never happen
-            throw MathRuntimeException.createInternalError();
-        }
+    public double binomialTest(int numberOfTrials, int numberOfSuccesses, double probability, AlternativeHypothesis alternativeHypothesis) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

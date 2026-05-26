@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,53 +22,59 @@ package org.hipparchus.geometry.euclidean.threed;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.geometry.euclidean.oned.Interval;
 import org.hipparchus.geometry.euclidean.oned.IntervalsSet;
 import org.hipparchus.geometry.euclidean.oned.Vector1D;
 import org.hipparchus.geometry.partitioning.Region.Location;
 
-/** This class represents a subset of a {@link Line}.
+/**
+ * This class represents a subset of a {@link Line}.
  */
 public class SubLine {
 
-    /** Underlying line. */
+    /**
+     * Underlying line.
+     */
     private final Line line;
 
-    /** Remaining region of the hyperplane. */
+    /**
+     * Remaining region of the hyperplane.
+     */
     private final IntervalsSet remainingRegion;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param line underlying line
      * @param remainingRegion remaining region of the line
      */
     public SubLine(final Line line, final IntervalsSet remainingRegion) {
-        this.line            = line;
+        this.line = line;
         this.remainingRegion = remainingRegion;
     }
 
-    /** Create a sub-line from two endpoints.
+    /**
+     * Create a sub-line from two endpoints.
      * @param start start point
      * @param end end point
      * @param tolerance tolerance below which points are considered identical
      * @exception MathIllegalArgumentException if the points are equal
      */
-    public SubLine(final Vector3D start, final Vector3D end, final double tolerance)
-        throws MathIllegalArgumentException {
+    public SubLine(final Vector3D start, final Vector3D end, final double tolerance) throws MathIllegalArgumentException {
         this(new Line(start, end, tolerance), buildIntervalSet(start, end, tolerance));
     }
 
-    /** Create a sub-line from a segment.
+    /**
+     * Create a sub-line from a segment.
      * @param segment single segment forming the sub-line
      * @exception MathIllegalArgumentException if the segment endpoints are equal
      */
     public SubLine(final Segment segment) throws MathIllegalArgumentException {
-        this(segment.getLine(),
-             buildIntervalSet(segment.getStart(), segment.getEnd(), segment.getLine().getTolerance()));
+        this(segment.getLine(), buildIntervalSet(segment.getStart(), segment.getEnd(), segment.getLine().getTolerance()));
     }
 
-    /** Get the endpoints of the sub-line.
+    /**
+     * Get the endpoints of the sub-line.
      * <p>
      * A subline may be any arbitrary number of disjoints segments, so the endpoints
      * are provided as a list of endpoint pairs. Each element of the list represents
@@ -84,21 +89,11 @@ public class SubLine {
      * @return list of segments endpoints
      */
     public List<Segment> getSegments() {
-
-        final List<Interval> list = remainingRegion.asList();
-        final List<Segment> segments = new ArrayList<>(list.size());
-
-        for (final Interval interval : list) {
-            final Vector3D start = line.toSpace(new Vector1D(interval.getInf()));
-            final Vector3D end   = line.toSpace(new Vector1D(interval.getSup()));
-            segments.add(new Segment(start, end, line));
-        }
-
-        return segments;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the intersection of the instance and another sub-line.
+    /**
+     * Get the intersection of the instance and another sub-line.
      * <p>
      * This method is related to the {@link Line#intersection(Line)
      * intersection} method in the {@link Line Line} class, but in addition
@@ -113,38 +108,19 @@ public class SubLine {
      * @return the intersection point if there is one, null if the sub-lines don't intersect
      */
     public Vector3D intersection(final SubLine subLine, final boolean includeEndPoints) {
-
-        // compute the intersection on infinite line
-        Vector3D v1D = line.intersection(subLine.line);
-        if (v1D == null) {
-            return null;
-        }
-
-        // check location of point with respect to first sub-line
-        Location loc1 = remainingRegion.checkPoint(line.toSubSpace(v1D));
-
-        // check location of point with respect to second sub-line
-        Location loc2 = subLine.remainingRegion.checkPoint(subLine.line.toSubSpace(v1D));
-
-        if (includeEndPoints) {
-            return ((loc1 != Location.OUTSIDE) && (loc2 != Location.OUTSIDE)) ? v1D : null;
-        } else {
-            return ((loc1 == Location.INSIDE) && (loc2 == Location.INSIDE)) ? v1D : null;
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Build an interval set from two points.
+    /**
+     * Build an interval set from two points.
      * @param start start point
      * @param end end point
      * @return an interval set
      * @param tolerance tolerance below which points are considered identical
      * @exception MathIllegalArgumentException if the points are equal
      */
-    private static IntervalsSet buildIntervalSet(final Vector3D start, final Vector3D end, final double tolerance)
-        throws MathIllegalArgumentException {
+    private static IntervalsSet buildIntervalSet(final Vector3D start, final Vector3D end, final double tolerance) throws MathIllegalArgumentException {
         final Line line = new Line(start, end, tolerance);
         return new IntervalsSet(line.toSubSpace(start).getX(), line.toSubSpace(end).getX(), tolerance);
     }
-
 }

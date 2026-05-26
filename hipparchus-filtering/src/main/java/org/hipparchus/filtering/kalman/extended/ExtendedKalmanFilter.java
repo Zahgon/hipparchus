@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.filtering.kalman.extended;
 
 import org.hipparchus.exception.MathRuntimeException;
@@ -32,47 +31,27 @@ import org.hipparchus.linear.RealVector;
  */
 public class ExtendedKalmanFilter<T extends Measurement> extends AbstractKalmanFilter<T> {
 
-    /** Process to be estimated. */
+    /**
+     * Process to be estimated.
+     */
     private final NonLinearProcess<T> process;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param decomposer decomposer to use for the correction phase
      * @param process non-linear process to estimate
      * @param initialState initial state
      */
-    public ExtendedKalmanFilter(final MatrixDecomposer decomposer,
-                                final NonLinearProcess<T> process,
-                                final ProcessEstimate initialState) {
+    public ExtendedKalmanFilter(final MatrixDecomposer decomposer, final NonLinearProcess<T> process, final ProcessEstimate initialState) {
         super(decomposer, initialState);
         this.process = process;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ProcessEstimate estimationStep(final T measurement)
-        throws MathRuntimeException {
-
-        // prediction phase
-        final NonLinearEvolution evolution = process.getEvolution(getCorrected().getTime(),
-                                                                  getCorrected().getState(),
-                                                                  measurement);
-
-        final RealMatrix stm = evolution.getStateTransitionMatrix();
-        predict(evolution.getCurrentTime(), evolution.getCurrentState(),
-                stm, evolution.getProcessNoiseMatrix());
-
-        // correction phase
-        final RealMatrix h          = evolution.getMeasurementJacobian();
-        final RealMatrix s          = computeInnovationCovarianceMatrix(measurement.getCovariance(), h);
-        final RealVector innovation = (h == null) ? null : process.getInnovation(measurement, evolution, s);
-        correct(measurement, stm, innovation, h, s);
-
-        if (getObserver() != null) {
-            getObserver().updatePerformed(this);
-        }
-
-        return getCorrected();
-
+    public ProcessEstimate estimationStep(final T measurement) throws MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

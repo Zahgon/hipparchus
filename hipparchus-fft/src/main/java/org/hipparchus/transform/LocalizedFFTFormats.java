@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.transform;
 
 import java.util.Locale;
-
 import org.hipparchus.exception.Localizable;
 
 /**
@@ -41,22 +39,30 @@ import org.hipparchus.exception.Localizable;
  */
 public enum LocalizedFFTFormats implements Localizable {
 
-    /** FIRST_ELEMENT_NOT_ZERO. */
+    /**
+     * FIRST_ELEMENT_NOT_ZERO.
+     */
     FIRST_ELEMENT_NOT_ZERO("first element is not 0: {0}"),
-
-    /** NOT_POWER_OF_TWO. */
+    /**
+     * NOT_POWER_OF_TWO.
+     */
     NOT_POWER_OF_TWO("{0} is not a power of 2"),
-
-    /** NOT_POWER_OF_TWO_CONSIDER_PADDING. */
+    /**
+     * NOT_POWER_OF_TWO_CONSIDER_PADDING.
+     */
     NOT_POWER_OF_TWO_CONSIDER_PADDING("{0} is not a power of 2, consider padding for fix"),
-
-    /** NOT_POWER_OF_TWO_PLUS_ONE. */
+    /**
+     * NOT_POWER_OF_TWO_PLUS_ONE.
+     */
     NOT_POWER_OF_TWO_PLUS_ONE("{0} is not a power of 2 plus one");
 
-    /** Source English format. */
+    /**
+     * Source English format.
+     */
     private final String sourceFormat;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param sourceFormat source English format to use when no
      * localized version is available
      */
@@ -64,17 +70,19 @@ public enum LocalizedFFTFormats implements Localizable {
         this.sourceFormat = sourceFormat;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getSourceString() {
-        return sourceFormat;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getLocalizedString(final Locale locale) {
-        return getLocalizedString("assets/" + LocalizedFFTFormats.class.getName().replaceAll("\\.", "/"),
-                                  name(), locale);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

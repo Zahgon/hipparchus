@@ -19,7 +19,6 @@ package org.hipparchus.analysis.interpolation;
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.util.FastMath;
-
 import java.util.function.ToDoubleFunction;
 
 /**
@@ -62,13 +61,18 @@ import java.util.function.ToDoubleFunction;
  */
 public class AxisChecker<T> {
 
-    /** Coordinate extractor. */
+    /**
+     * Coordinate extractor.
+     */
     private final ToDoubleFunction<T> extractor;
 
-    /** Tolerance below which extracted coordinates are considered equal. */
+    /**
+     * Tolerance below which extracted coordinates are considered equal.
+     */
     private final double tolerance;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param extractor coordinate extractor
      * @param tolerance tolerance below which extracted coordinates are considered equal
      */
@@ -77,7 +81,8 @@ public class AxisChecker<T> {
         this.tolerance = tolerance;
     }
 
-    /** Check grid data for regularity (i.e., regular sampling, no missing points,
+    /**
+     * Check grid data for regularity (i.e., regular sampling, no missing points,
      * same number of points at all coordinates…).
      * <p>
      * The check for one axis performs two passes over the full grid data.
@@ -86,52 +91,6 @@ public class AxisChecker<T> {
      * @return regular sampling for the axis configured at construction
      */
     public RegularIndexer checkGridData(final Iterable<T> gridData) {
-
-        // first pass, extract statistics
-        double currentMin = Double.POSITIVE_INFINITY;
-        double currentMax = Double.NEGATIVE_INFINITY;
-        int    minCount   = 0;
-        int    size       = 0;
-        for (final T t : gridData) {
-            final double coordinate = extractor.applyAsDouble(t);
-            if (Double.isNaN(coordinate)) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.NAN_ELEMENT_AT_INDEX, size);
-            }
-            ++size;
-            if (coordinate < currentMin - tolerance) {
-                // this is a new minimum, we reset counter
-                currentMin = coordinate;
-                minCount   = 1;
-            } else if (coordinate - currentMin < tolerance) {
-                // we found again an already known minimum, update the count
-                ++minCount;
-            }
-            currentMax = FastMath.max(currentMax, coordinate);
-        }
-
-        // store global indexing data
-        final RegularIndexer regularIndexer = new RegularIndexer(currentMin, currentMax, size / minCount);
-
-        // second pass, check grid data is regular
-        final int[] count = new int[regularIndexer.getN()];
-        for (final T t : gridData) {
-            final double coordinate = extractor.applyAsDouble(t);
-            final int    index      = regularIndexer.index(coordinate);
-            final double expected   = regularIndexer.coordinate(index);
-            if (FastMath.abs(coordinate - expected) > tolerance) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.MISALIGNED_GRID_POINT,
-                                                       index, expected, coordinate - expected);
-            }
-            count[index]++;
-        }
-        for (int i = 0; i < regularIndexer.getN(); i++) {
-            if (count[i] != minCount) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.IRREGULAR_GRID, minCount, i, count[i]);
-            }
-        }
-
-        return regularIndexer;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

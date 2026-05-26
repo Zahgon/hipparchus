@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.util;
 
 import org.hipparchus.linear.ArrayRealVector;
@@ -34,22 +33,34 @@ import org.hipparchus.linear.RealVector;
  */
 public class MerweUnscentedTransform extends AbstractUnscentedTransform {
 
-    /** Default value for alpha (0.5, see reference). */
+    /**
+     * Default value for alpha (0.5, see reference).
+     */
     public static final double DEFAULT_ALPHA = 0.5;
 
-    /** Default value for beta (2.0, see reference). */
+    /**
+     * Default value for beta (2.0, see reference).
+     */
     public static final double DEFAULT_BETA = 2.0;
 
-    /** Default value for kappa, (0.0, see reference). */
+    /**
+     * Default value for kappa, (0.0, see reference).
+     */
     public static final double DEFAULT_KAPPA = 0.0;
 
-    /** Weights for covariance matrix. */
+    /**
+     * Weights for covariance matrix.
+     */
     private final RealVector wc;
 
-    /** Weights for mean state. */
+    /**
+     * Weights for mean state.
+     */
     private final RealVector wm;
 
-    /** Factor applied to the covariance matrix during the unscented transform (lambda + process state size). */
+    /**
+     * Factor applied to the covariance matrix during the unscented transform (lambda + process state size).
+     */
     private final double factor;
 
     /**
@@ -77,22 +88,16 @@ public class MerweUnscentedTransform extends AbstractUnscentedTransform {
      * @param kappa secondary scaling factor
      *        (usually set to 0.0)
      */
-    public MerweUnscentedTransform(final int stateDim, final double alpha,
-                                   final double beta, final double kappa) {
-
+    public MerweUnscentedTransform(final int stateDim, final double alpha, final double beta, final double kappa) {
         // Call super constructor
         super(stateDim);
-
         // lambda = alpha² + (n + kappa) - n (see Eq. 15)
         final double lambda = alpha * alpha * (stateDim + kappa) - stateDim;
-
         // Initialize multiplication factor for covariance matrix
         this.factor = stateDim + lambda;
-
         // Initialize vectors weights
         wm = new ArrayRealVector(2 * stateDim + 1);
         wc = new ArrayRealVector(2 * stateDim + 1);
-
         // Computation of unscented kalman filter weights (See Eq. 15)
         wm.setEntry(0, lambda / factor);
         wc.setEntry(0, lambda / factor + (1.0 - alpha * alpha + beta));
@@ -101,25 +106,29 @@ public class MerweUnscentedTransform extends AbstractUnscentedTransform {
             wm.setEntry(i, w);
             wc.setEntry(i, w);
         }
-
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector getWc() {
-        return wc;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector getWm() {
-        return wm;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected double getMultiplicationFactor() {
-        return factor;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -26,29 +25,32 @@ import org.hipparchus.util.MathArrays;
 
 /**
  * Calculates the L<sub>1</sub> (sum of abs) distance between two points.
- *
  */
 public class ManhattanDistance implements DistanceMeasure {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = -9108154600539125566L;
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public ManhattanDistance() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public ManhattanDistance() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double compute(double[] a, double[] b)
-    throws MathIllegalArgumentException {
-        return MathArrays.distance1(a, b);
+    public double compute(double[] a, double[] b) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

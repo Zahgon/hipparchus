@@ -14,13 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
 package org.hipparchus.util;
-
 
 import java.util.Objects;
 
@@ -35,9 +33,15 @@ import java.util.Objects;
  * @param <V> Value type.
  */
 public class Pair<K, V> {
-    /** Key. */
+
+    /**
+     * Key.
+     */
     private final K key;
-    /** Value. */
+
+    /**
+     * Value.
+     */
     private final V value;
 
     /**
@@ -67,7 +71,7 @@ public class Pair<K, V> {
      * @return the key (first element of the pair).
      */
     public K getKey() {
-        return key;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -76,7 +80,7 @@ public class Pair<K, V> {
      * @return the value (second element of the pair).
      */
     public V getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -85,7 +89,7 @@ public class Pair<K, V> {
      * @return the first element of the pair.
      */
     public K getFirst() {
-        return key;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -94,7 +98,7 @@ public class Pair<K, V> {
      * @return the second element of the pair.
      */
     public V getSecond() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -106,15 +110,7 @@ public class Pair<K, V> {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Pair)) {
-            return false;
-        }
-        Pair<?, ?> other = (Pair<?, ?>) o;
-        return (Objects.equals(key, other.key)) &&
-               (Objects.equals(value, other.value));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -124,18 +120,15 @@ public class Pair<K, V> {
      */
     @Override
     public int hashCode() {
-        int result = key == null ? 0 : key.hashCode();
-
-        final int h = value == null ? 0 : value.hashCode();
-        result = 37 * result + h ^ (h >>> 16);
-
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "[" + getKey() + ", " + getValue() + "]";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -149,6 +142,6 @@ public class Pair<K, V> {
      * @return a new {@code Pair} containing {@code k} and {@code v}.
      */
     public static <K, V> Pair<K, V> create(K k, V v) {
-        return new Pair<>(k, v);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

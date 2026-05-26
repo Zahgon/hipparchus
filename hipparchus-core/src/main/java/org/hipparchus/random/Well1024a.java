@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -37,22 +36,34 @@ package org.hipparchus.random;
  */
 public class Well1024a extends AbstractWell {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20150223L;
 
-    /** Number of bits in the pool. */
+    /**
+     * Number of bits in the pool.
+     */
     private static final int K = 1024;
 
-    /** First parameter of the algorithm. */
+    /**
+     * First parameter of the algorithm.
+     */
     private static final int M1 = 3;
 
-    /** Second parameter of the algorithm. */
+    /**
+     * Second parameter of the algorithm.
+     */
     private static final int M2 = 24;
 
-    /** Third parameter of the algorithm. */
+    /**
+     * Third parameter of the algorithm.
+     */
     private static final int M3 = 10;
 
-    /** The indirection index table. */
+    /**
+     * The indirection index table.
+     */
     private static final IndexTable TABLE = new IndexTable(K, M1, M2, M3);
 
     /**
@@ -89,28 +100,11 @@ public class Well1024a extends AbstractWell {
         super(K, seed);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int nextInt() {
-
-        final int indexRm1 = TABLE.getIndexPred(index);
-
-        final int v0       = v[index];
-        final int vM1      = v[TABLE.getIndexM1(index)];
-        final int vM2      = v[TABLE.getIndexM2(index)];
-        final int vM3      = v[TABLE.getIndexM3(index)];
-
-        final int z0 = v[indexRm1];
-        final int z1 = v0  ^ (vM1 ^ (vM1 >>> 8));
-        final int z2 = (vM2 ^ (vM2 << 19)) ^ (vM3 ^ (vM3 << 14));
-        final int z3 = z1      ^ z2;
-        final int z4 = (z0 ^ (z0 << 11)) ^ (z1 ^ (z1 << 7)) ^ (z2 ^ (z2 << 13));
-
-        v[index]     = z3;
-        v[indexRm1]  = z4;
-        index        = indexRm1;
-
-        return z4;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

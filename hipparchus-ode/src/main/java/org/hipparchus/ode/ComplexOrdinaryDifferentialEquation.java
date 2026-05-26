@@ -14,26 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode;
 
 import org.hipparchus.complex.Complex;
 
-/** This interface represents a first order differential equations set for {@link Complex complex state}.
+/**
+ * This interface represents a first order differential equations set for {@link Complex complex state}.
  *
  * @see OrdinaryDifferentialEquation
  * @see ComplexODEConverter
  * @since 1.4
- *
  */
 public interface ComplexOrdinaryDifferentialEquation {
 
-    /** Get the dimension of the problem.
+    /**
+     * Get the dimension of the problem.
      * @return dimension of the problem
      */
     int getDimension();
 
-    /** Initialize equations at the start of an ODE integration.
+    /**
+     * Initialize equations at the start of an ODE integration.
      * <p>
      * This method is called once at the start of the integration. It
      * may be used by the equations to initialize some internal data
@@ -47,14 +48,14 @@ public interface ComplexOrdinaryDifferentialEquation {
      * @param finalTime target time for the integration
      */
     default void init(double t0, Complex[] y0, double finalTime) {
-        // do nothing by default
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the current time derivative of the state vector.
+    /**
+     * Get the current time derivative of the state vector.
      * @param t current value of the independent <I>time</I> variable
      * @param y array containing the current value of the state vector
      * @return time derivative of the state vector
      */
     Complex[] computeDerivatives(double t, Complex[] y);
-
 }

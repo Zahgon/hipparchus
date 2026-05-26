@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -24,7 +23,6 @@ package org.hipparchus.optim.nonlinear.scalar;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.NullArgumentException;
 import org.hipparchus.optim.BaseMultiStartMultivariateOptimizer;
@@ -36,13 +34,17 @@ import org.hipparchus.random.RandomVectorGenerator;
  * This class wraps an optimizer in order to use it several times in
  * turn with different starting points (trying to avoid being trapped
  * in a local extremum when looking for a global one).
- *
  */
-public class MultiStartMultivariateOptimizer
-    extends BaseMultiStartMultivariateOptimizer<PointValuePair> {
-    /** Underlying optimizer. */
+public class MultiStartMultivariateOptimizer extends BaseMultiStartMultivariateOptimizer<PointValuePair> {
+
+    /**
+     * Underlying optimizer.
+     */
     private final MultivariateOptimizer optimizer;
-    /** Found optima. */
+
+    /**
+     * Found optima.
+     */
     private final List<PointValuePair> optima;
 
     /**
@@ -57,13 +59,10 @@ public class MultiStartMultivariateOptimizer
      * is {@code null}.
      * @throws MathIllegalArgumentException if {@code starts < 1}.
      */
-    public MultiStartMultivariateOptimizer(final MultivariateOptimizer optimizer,
-                                           final int starts,
-                                           final RandomVectorGenerator generator)
-        throws MathIllegalArgumentException, NullArgumentException {
+    public MultiStartMultivariateOptimizer(final MultivariateOptimizer optimizer, final int starts, final RandomVectorGenerator generator) throws MathIllegalArgumentException, NullArgumentException {
         super(optimizer, starts, generator);
         this.optimizer = optimizer;
-        this.optima   = new ArrayList<>();
+        this.optima = new ArrayList<>();
     }
 
     /**
@@ -71,8 +70,7 @@ public class MultiStartMultivariateOptimizer
      */
     @Override
     public PointValuePair[] getOptima() {
-        optima.sort(getPairComparator());
-        return optima.toArray(new PointValuePair[0]);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -80,7 +78,7 @@ public class MultiStartMultivariateOptimizer
      */
     @Override
     protected void store(PointValuePair optimum) {
-        optima.add(optimum);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -88,7 +86,7 @@ public class MultiStartMultivariateOptimizer
      */
     @Override
     protected void clear() {
-        optima.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -96,19 +94,13 @@ public class MultiStartMultivariateOptimizer
      */
     private Comparator<PointValuePair> getPairComparator() {
         return new Comparator<PointValuePair>() {
-            /** {@inheritDoc} */
+
+            /**
+             * {@inheritDoc}
+             */
             @Override
-            public int compare(final PointValuePair o1,
-                               final PointValuePair o2) {
-                if (o1 == null) {
-                    return (o2 == null) ? 0 : 1;
-                } else if (o2 == null) {
-                    return -1;
-                }
-                final double v1 = o1.getValue();
-                final double v2 = o2.getValue();
-                return (optimizer.getGoalType() == GoalType.MINIMIZE) ?
-                    Double.compare(v1, v2) : Double.compare(v2, v1);
+            public int compare(final PointValuePair o1, final PointValuePair o2) {
+                throw new UnsupportedOperationException("STUB: not implemented");
             }
         };
     }

@@ -34,114 +34,89 @@ import org.hipparchus.util.MathUtils;
 @Deprecated
 public abstract class AbstractSQPOptimizer extends ConstraintOptimizer {
 
-    /** Algorithm settings. */
+    /**
+     * Algorithm settings.
+     */
     private SQPOption settings;
 
-    /** Tolerance for symmetric matrix decomposition.
+    /**
+     * Tolerance for symmetric matrix decomposition.
      * @since 4.1
      */
     private MatrixDecompositionTolerance matrixDecompositionTolerance;
 
-    /** Objective function. */
+    /**
+     * Objective function.
+     */
     private TwiceDifferentiableFunction obj;
 
-    /** Equality constraint (may be null). */
+    /**
+     * Equality constraint (may be null).
+     */
     private EqualityConstraint eqConstraint;
 
-    /** Inequality constraint (may be null). */
+    /**
+     * Inequality constraint (may be null).
+     */
     private InequalityConstraint iqConstraint;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      */
     protected AbstractSQPOptimizer() {
-        this.settings                     = new SQPOption();
+        this.settings = new SQPOption();
         this.matrixDecompositionTolerance = new MatrixDecompositionTolerance(EigenDecompositionSymmetric.DEFAULT_EPSILON);
     }
 
-    /** Getter for settings.
+    /**
+     * Getter for settings.
      * @return settings
      */
     public SQPOption getSettings() {
-        return settings;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Getter for matrix decomposition tolerance.
+    /**
+     * Getter for matrix decomposition tolerance.
      * @return matrix decomposition tolerance
      * @since 4.1
      */
     public MatrixDecompositionTolerance getMatrixDecompositionTolerance() {
-        return matrixDecompositionTolerance;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Getter for objective function.
+    /**
+     * Getter for objective function.
      * @return objective function
      */
     public TwiceDifferentiableFunction getObj() {
-        return obj;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Getter for equality constraint.
+    /**
+     * Getter for equality constraint.
      * @return equality constraint
      */
     public EqualityConstraint getEqConstraint() {
-        return eqConstraint;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Getter for inequality constraint.
+    /**
+     * Getter for inequality constraint.
      * @return inequality constraint
      */
     public InequalityConstraint getIqConstraint() {
-        return iqConstraint;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public LagrangeSolution optimize(OptimizationData... optData) {
-        return super.optimize(optData);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected void parseOptimizationData(OptimizationData... optData) {
-        super.parseOptimizationData(optData);
-        for (OptimizationData data : optData) {
-
-            if (data instanceof ObjectiveFunction) {
-                obj = (TwiceDifferentiableFunction) ((ObjectiveFunction) data).getObjectiveFunction();
-                continue;
-            }
-
-            if (data instanceof EqualityConstraint) {
-                eqConstraint = (EqualityConstraint) data;
-                continue;
-            }
-            if (data instanceof InequalityConstraint) {
-                iqConstraint = (InequalityConstraint) data;
-                continue;
-            }
-
-            if (data instanceof SQPOption) {
-                settings = (SQPOption) data;
-            }
-
-            if (data instanceof MatrixDecompositionTolerance) {
-                matrixDecompositionTolerance = (MatrixDecompositionTolerance) data;
-            }
-
-        }
-
-        // if we got here, convexObjective exists
-        int n = obj.dim();
-        if (eqConstraint != null) {
-            int nDual = eqConstraint.dimY();
-            if (nDual >= n) {
-                throw new MathIllegalArgumentException(LocalizedOptimFormats.CONSTRAINTS_RANK, nDual, n);
-            }
-            int nTest = eqConstraint.dim();
-            if (nDual == 0) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.ZERO_NOT_ALLOWED);
-            }
-            MathUtils.checkDimension(nTest, n);
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -153,35 +128,7 @@ public abstract class AbstractSQPOptimizer extends ConstraintOptimizer {
      * @param y value of y
      * @return Lagrangian
      */
-    protected RealVector lagrangianGradX(final RealVector currentGrad, final RealMatrix jacobConstraint,
-                                         final RealVector x, final RealVector y) {
-
-        int me = 0;
-        int mi;
-        RealVector partial = currentGrad.copy();
-        if (getEqConstraint() != null) {
-            me = getEqConstraint().dimY();
-
-            RealVector ye = y.getSubVector(0, me);
-            RealMatrix jacobe = jacobConstraint.getSubMatrix(0, me - 1, 0, x.getDimension() - 1);
-
-            RealVector firstTerm = jacobe.transpose().operate(ye);
-
-            // partial = partial.subtract(firstTerm).add(jacobe.transpose().operate(ge).mapMultiply(rho));
-            partial = partial.subtract(firstTerm);
-        }
-
-        if (getIqConstraint() != null) {
-            mi = getIqConstraint().dimY();
-
-            RealVector yi = y.getSubVector(me, mi);
-            RealMatrix jacobi = jacobConstraint.getSubMatrix(me, me + mi - 1, 0, x.getDimension() - 1);
-
-            RealVector firstTerm = jacobi.transpose().operate(yi);
-
-            partial = partial.subtract(firstTerm);
-        }
-        return partial;
+    protected RealVector lagrangianGradX(final RealVector currentGrad, final RealMatrix jacobConstraint, final RealVector x, final RealVector y) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

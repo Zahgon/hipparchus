@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -28,11 +27,12 @@ import org.hipparchus.util.IterationEvent;
 /**
  * This is the base class for all events occurring during the iterations of a
  * {@link IterativeLinearSolver}.
- *
  */
-public abstract class IterativeLinearSolverEvent
-    extends IterationEvent {
-    /** Serialization identifier. */
+public abstract class IterativeLinearSolverEvent extends IterationEvent {
+
+    /**
+     * Serialization identifier.
+     */
     private static final long serialVersionUID = 20120129L;
 
     /**
@@ -94,7 +94,7 @@ public abstract class IterativeLinearSolverEvent
      * @return the updated residual, r
      */
     public RealVector getResidual() {
-        throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -115,6 +115,6 @@ public abstract class IterativeLinearSolverEvent
      * {@link MathRuntimeException}
      */
     public boolean providesResidual() {
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

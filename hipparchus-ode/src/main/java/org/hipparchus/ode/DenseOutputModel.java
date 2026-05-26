@@ -14,18 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathIllegalStateException;
@@ -88,39 +85,52 @@ import org.hipparchus.util.FastMath;
  * @see ODEStepHandler
  * @see ODEStateInterpolator
  */
-
 public class DenseOutputModel implements ODEStepHandler, Serializable {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20160328L;
 
-    /** Initial integration time. */
+    /**
+     * Initial integration time.
+     */
     private double initialTime;
 
-    /** Final integration time. */
+    /**
+     * Final integration time.
+     */
     private double finalTime;
 
-    /** Integration direction indicator. */
+    /**
+     * Integration direction indicator.
+     */
     private boolean forward;
 
-    /** Current interpolator index. */
+    /**
+     * Current interpolator index.
+     */
     private int index;
 
-    /** Steps table. */
+    /**
+     * Steps table.
+     */
     private List<ODEStateInterpolator> steps;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * Build an empty continuous output model.
      */
     public DenseOutputModel() {
-        steps       = new ArrayList<>();
+        steps = new ArrayList<>();
         initialTime = Double.NaN;
-        finalTime   = Double.NaN;
-        forward     = true;
-        index       = 0;
+        finalTime = Double.NaN;
+        forward = true;
+        index = 0;
     }
 
-    /** Append another model at the end of the instance.
+    /**
+     * Append another model at the end of the instance.
      * @param model model to add at the end of the instance
      * @exception MathIllegalArgumentException if the model to append is not
      * compatible with the instance (dimension of the state vector,
@@ -128,87 +138,44 @@ public class DenseOutputModel implements ODEStepHandler, Serializable {
      * @exception MathIllegalStateException if the number of functions evaluations is exceeded
      * during step finalization
      */
-    public void append(final DenseOutputModel model)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-
-        if (model.steps.isEmpty()) {
-            return;
-        }
-
-        if (steps.isEmpty()) {
-            initialTime = model.initialTime;
-            forward     = model.forward;
-        } else {
-
-            final ODEStateAndDerivative s1 = steps.get(0).getPreviousState();
-            final ODEStateAndDerivative s2 = model.steps.get(0).getPreviousState();
-            checkDimensionsEquality(s1.getPrimaryStateDimension(), s2.getPrimaryStateDimension());
-            checkDimensionsEquality(s1.getNumberOfSecondaryStates(), s2.getNumberOfSecondaryStates());
-            for (int i = 0; i < s1.getNumberOfSecondaryStates(); ++i) {
-                checkDimensionsEquality(s1.getSecondaryStateDimension(i), s2.getSecondaryStateDimension(i));
-            }
-
-            if (forward ^ model.forward) {
-                throw new MathIllegalArgumentException(LocalizedODEFormats.PROPAGATION_DIRECTION_MISMATCH);
-            }
-
-            final ODEStateInterpolator lastInterpolator = steps.get(index);
-            final double current  = lastInterpolator.getCurrentState().getTime();
-            final double previous = lastInterpolator.getPreviousState().getTime();
-            final double step = current - previous;
-            final double gap = model.getInitialTime() - current;
-            if (FastMath.abs(gap) > 1.0e-3 * FastMath.abs(step)) {
-                throw new MathIllegalArgumentException(LocalizedODEFormats.HOLE_BETWEEN_MODELS_TIME_RANGES,
-                                                       FastMath.abs(gap));
-            }
-
-        }
-
-        steps.addAll(model.steps);
-
-        index = steps.size() - 1;
-        finalTime = (steps.get(index)).getCurrentState().getTime();
-
+    public void append(final DenseOutputModel model) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check dimensions equality.
+    /**
+     * Check dimensions equality.
      * @param d1 first dimension
      * @param d2 second dimansion
      * @exception MathIllegalArgumentException if dimensions do not match
      */
-    private void checkDimensionsEquality(final int d1, final int d2)
-        throws MathIllegalArgumentException {
+    private void checkDimensionsEquality(final int d1, final int d2) throws MathIllegalArgumentException {
         if (d1 != d2) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   d2, d1);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH, d2, d1);
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void init(final ODEStateAndDerivative initialState, final double targetTime) {
-        initialTime    = initialState.getTime();
-        this.finalTime = targetTime;
-        forward        = true;
-        index          = 0;
-        steps.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handleStep(final ODEStateInterpolator interpolator) {
-        if (steps.isEmpty()) {
-            initialTime = interpolator.getPreviousState().getTime();
-            forward     = interpolator.isForward();
-        }
-        steps.add(interpolator);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void finish(final ODEStateAndDerivative finalState) {
-        finalTime = finalState.getTime();
-        index     = steps.size() - 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -216,7 +183,7 @@ public class DenseOutputModel implements ODEStepHandler, Serializable {
      * @return initial integration time
      */
     public double getInitialTime() {
-        return initialTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -224,7 +191,7 @@ public class DenseOutputModel implements ODEStepHandler, Serializable {
      * @return final integration time
      */
     public double getFinalTime() {
-        return finalTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -233,91 +200,11 @@ public class DenseOutputModel implements ODEStepHandler, Serializable {
      * @return state at interpolated time
      */
     public ODEStateAndDerivative getInterpolatedState(final double time) {
-
-        // initialize the search with the complete steps table
-        int iMin = 0;
-        final ODEStateInterpolator sMin = steps.get(iMin);
-        double tMin = 0.5 * (sMin.getPreviousState().getTime() + sMin.getCurrentState().getTime());
-
-        int iMax = steps.size() - 1;
-        final ODEStateInterpolator sMax = steps.get(iMax);
-        double tMax = 0.5 * (sMax.getPreviousState().getTime() + sMax.getCurrentState().getTime());
-
-        // handle points outside of the integration interval
-        // or in the first and last step
-        if (locatePoint(time, sMin) <= 0) {
-            index = iMin;
-            return sMin.getInterpolatedState(time);
-        }
-        if (locatePoint(time, sMax) >= 0) {
-            index = iMax;
-            return sMax.getInterpolatedState(time);
-        }
-
-        // reduction of the table slice size
-        while (iMax - iMin > 5) {
-
-            // use the last estimated index as the splitting index
-            final ODEStateInterpolator si = steps.get(index);
-            final int location = locatePoint(time, si);
-            if (location < 0) {
-                iMax = index;
-                tMax = 0.5 * (si.getPreviousState().getTime() + si.getCurrentState().getTime());
-            } else if (location > 0) {
-                iMin = index;
-                tMin = 0.5 * (si.getPreviousState().getTime() + si.getCurrentState().getTime());
-            } else {
-                // we have found the target step, no need to continue searching
-                return si.getInterpolatedState(time);
-            }
-
-            // compute a new estimate of the index in the reduced table slice
-            final int iMed = (iMin + iMax) / 2;
-            final ODEStateInterpolator sMed = steps.get(iMed);
-            final double tMed = 0.5 * (sMed.getPreviousState().getTime() + sMed.getCurrentState().getTime());
-
-            if ((FastMath.abs(tMed - tMin) < 1e-6) || (FastMath.abs(tMax - tMed) < 1e-6)) {
-                // too close to the bounds, we estimate using a simple dichotomy
-                index = iMed;
-            } else {
-                // estimate the index using a reverse quadratic polynom
-                // (reverse means we have i = P(t), thus allowing to simply
-                // compute index = P(time) rather than solving a quadratic equation)
-                final double d12 = tMax - tMed;
-                final double d23 = tMed - tMin;
-                final double d13 = tMax - tMin;
-                final double dt1 = time - tMax;
-                final double dt2 = time - tMed;
-                final double dt3 = time - tMin;
-                final double iLagrange = ((dt2 * dt3 * d23) * iMax -
-                                (dt1 * dt3 * d13) * iMed +
-                                (dt1 * dt2 * d12) * iMin) /
-                                (d12 * d23 * d13);
-                index = (int) FastMath.rint(iLagrange);
-            }
-
-            // force the next size reduction to be at least one tenth
-            final int low  = FastMath.max(iMin + 1, (9 * iMin + iMax) / 10);
-            final int high = FastMath.min(iMax - 1, (iMin + 9 * iMax) / 10);
-            if (index < low) {
-                index = low;
-            } else if (index > high) {
-                index = high;
-            }
-
-        }
-
-        // now the table slice is very small, we perform an iterative search
-        index = iMin;
-        while ((index <= iMax) && (locatePoint(time, steps.get(index)) > 0)) {
-            ++index;
-        }
-
-        return steps.get(index).getInterpolatedState(time);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compare a step interval and a double.
+    /**
+     * Compare a step interval and a double.
      * @param time point to locate
      * @param interval step interval
      * @return -1 if the double is before the interval, 0 if it is in
@@ -342,5 +229,4 @@ public class DenseOutputModel implements ODEStepHandler, Serializable {
             return 0;
         }
     }
-
 }

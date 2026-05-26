@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.samples.complex;
 
 import org.hipparchus.complex.Complex;
 import org.hipparchus.util.FastMath;
 
-/** Domain coloring enhancing modules changes.
+/**
+ * Domain coloring enhancing modules changes.
  * <p>
  * Value represents module but uses a sawtooth function.
  * </p>
@@ -31,18 +31,19 @@ import org.hipparchus.util.FastMath;
  */
 public class SawToothModuleValue extends DomainColoring {
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param saturation constant saturation
      */
     protected SawToothModuleValue(final double saturation) {
         super(saturation);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double value(final Complex z) {
-        final double module = z.norm();
-        return FastMath.log(module) / FastMath.log(2.0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

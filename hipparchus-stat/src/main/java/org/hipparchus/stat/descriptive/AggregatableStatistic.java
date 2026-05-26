@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.stat.descriptive;
 
 import org.hipparchus.exception.NullArgumentException;
@@ -53,10 +52,7 @@ public interface AggregatableStatistic<T> {
      */
     @SuppressWarnings("unchecked")
     default void aggregate(T... others) {
-        MathUtils.checkNotNull(others);
-        for (T other : others) {
-            aggregate(other);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -71,10 +67,6 @@ public interface AggregatableStatistic<T> {
      * @throws NullArgumentException if either others or any instance is null
      */
     default void aggregate(Iterable<T> others) {
-        MathUtils.checkNotNull(others);
-        for (T other : others) {
-            aggregate(other);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

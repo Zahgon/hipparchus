@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode;
 
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -64,30 +62,45 @@ import org.hipparchus.util.FastMath;
  */
 public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
 
-    /** First scaled derivative (h y'). */
+    /**
+     * First scaled derivative (h y').
+     */
     protected double[] scaled;
 
-    /** Nordsieck matrix of the higher scaled derivatives.
+    /**
+     * Nordsieck matrix of the higher scaled derivatives.
      * <p>(h<sup>2</sup>/2 y'', h<sup>3</sup>/6 y''' ..., h<sup>k</sup>/k! y<sup>(k)</sup>)</p>
      */
     protected Array2DRowRealMatrix nordsieck;
 
-    /** Starter integrator. */
+    /**
+     * Starter integrator.
+     */
     private ODEIntegrator starter;
 
-    /** Number of steps of the multistep method (excluding the one being computed). */
+    /**
+     * Number of steps of the multistep method (excluding the one being computed).
+     */
     private final int nSteps;
 
-    /** Stepsize control exponent. */
+    /**
+     * Stepsize control exponent.
+     */
     private double exp;
 
-    /** Safety factor for stepsize control. */
+    /**
+     * Safety factor for stepsize control.
+     */
     private double safety;
 
-    /** Minimal reduction factor for stepsize control. */
+    /**
+     * Minimal reduction factor for stepsize control.
+     */
     private double minReduction;
 
-    /** Maximal growth factor for stepsize control. */
+    /**
+     * Maximal growth factor for stepsize control.
+     */
     private double maxGrowth;
 
     /**
@@ -110,32 +123,18 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
      * @param scalRelativeTolerance allowed relative error
      * @exception MathIllegalArgumentException if number of steps is smaller than 2
      */
-    protected MultistepIntegrator(final String name, final int nSteps,
-                                  final int order,
-                                  final double minStep, final double maxStep,
-                                  final double scalAbsoluteTolerance,
-                                  final double scalRelativeTolerance)
-        throws MathIllegalArgumentException {
-
+    protected MultistepIntegrator(final String name, final int nSteps, final int order, final double minStep, final double maxStep, final double scalAbsoluteTolerance, final double scalRelativeTolerance) throws MathIllegalArgumentException {
         super(name, minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
-
         if (nSteps < 2) {
-            throw new MathIllegalArgumentException(LocalizedODEFormats.INTEGRATION_METHOD_NEEDS_AT_LEAST_TWO_PREVIOUS_POINTS,
-                                                   nSteps, 2, true);
+            throw new MathIllegalArgumentException(LocalizedODEFormats.INTEGRATION_METHOD_NEEDS_AT_LEAST_TWO_PREVIOUS_POINTS, nSteps, 2, true);
         }
-
-        starter = new DormandPrince853Integrator(minStep, maxStep,
-                                                 scalAbsoluteTolerance,
-                                                 scalRelativeTolerance);
+        starter = new DormandPrince853Integrator(minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
         this.nSteps = nSteps;
-
         exp = -1.0 / order;
-
         // set the default values of the algorithm control parameters
         setSafety(0.9);
         setMinReduction(0.2);
         setMaxGrowth(FastMath.pow(2.0, -exp));
-
     }
 
     /**
@@ -157,30 +156,18 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
      * @param vecAbsoluteTolerance allowed absolute error
      * @param vecRelativeTolerance allowed relative error
      */
-    protected MultistepIntegrator(final String name, final int nSteps,
-                                  final int order,
-                                  final double minStep, final double maxStep,
-                                  final double[] vecAbsoluteTolerance,
-                                  final double[] vecRelativeTolerance) {
+    protected MultistepIntegrator(final String name, final int nSteps, final int order, final double minStep, final double maxStep, final double[] vecAbsoluteTolerance, final double[] vecRelativeTolerance) {
         super(name, minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
-
         if (nSteps < 2) {
-            throw new MathIllegalArgumentException(LocalizedODEFormats.INTEGRATION_METHOD_NEEDS_AT_LEAST_TWO_PREVIOUS_POINTS,
-                                                   nSteps, 2, true);
+            throw new MathIllegalArgumentException(LocalizedODEFormats.INTEGRATION_METHOD_NEEDS_AT_LEAST_TWO_PREVIOUS_POINTS, nSteps, 2, true);
         }
-
-        starter = new DormandPrince853Integrator(minStep, maxStep,
-                                                 vecAbsoluteTolerance,
-                                                 vecRelativeTolerance);
+        starter = new DormandPrince853Integrator(minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
         this.nSteps = nSteps;
-
         exp = -1.0 / order;
-
         // set the default values of the algorithm control parameters
         setSafety(0.9);
         setMinReduction(0.2);
         setMaxGrowth(FastMath.pow(2.0, -exp));
-
     }
 
     /**
@@ -188,7 +175,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
      * @return starter integrator
      */
     public ODEIntegrator getStarterIntegrator() {
-        return starter;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -199,10 +186,11 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
      * @param starterIntegrator starter integrator
      */
     public void setStarterIntegrator(ODEIntegrator starterIntegrator) {
-        this.starter = starterIntegrator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Start the integration.
+    /**
+     * Start the integration.
      * <p>This method computes one step using the underlying starter integrator,
      * and initializes the Nordsieck vector at step start. The starter integrator
      * purpose is only to establish initial conditions, it does not really change
@@ -220,39 +208,12 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
      * @exception MathIllegalStateException if the number of functions evaluations is exceeded
      * @exception MathIllegalArgumentException if the location of an event cannot be bracketed
      */
-    protected void start(final ExpandableODE equations, final ODEState initialState, final double finalTime)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-
-        // make sure NO user events nor user step handlers are triggered,
-        // this is the task of the top level integrator, not the task of the starter integrator
-        starter.clearEventDetectors();
-        starter.clearStepHandlers();
-
-        // set up one specific step handler to extract initial Nordsieck vector
-        starter.addStepHandler(new NordsieckInitializer((nSteps + 3) / 2));
-
-        // start integration, expecting a InitializationCompletedMarkerException
-        try {
-
-            starter.integrate(getEquations(), initialState, finalTime);
-
-            // we should not reach this step
-            throw new MathIllegalStateException(LocalizedODEFormats.MULTISTEP_STARTER_STOPPED_EARLY);
-
-        } catch (InitializationCompletedMarkerException icme) { // NOPMD
-            // this is the expected nominal interruption of the start integrator
-
-            // count the evaluations used by the starter
-            getEvaluationsCounter().increment(starter.getEvaluations());
-
-        }
-
-        // remove the specific step handler
-        starter.clearStepHandlers();
-
+    protected void start(final ExpandableODE equations, final ODEState initialState, final double finalTime) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Initialize the high order scaled derivatives at step start.
+    /**
+     * Initialize the high order scaled derivatives at step start.
      * @param h step size to use for scaling
      * @param t first steps times
      * @param y first steps states
@@ -262,174 +223,146 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
      */
     protected abstract Array2DRowRealMatrix initializeHighOrderDerivatives(double h, double[] t, double[][] y, double[][] yDot);
 
-    /** Get the minimal reduction factor for stepsize control.
+    /**
+     * Get the minimal reduction factor for stepsize control.
      * @return minimal reduction factor
      */
     public double getMinReduction() {
-        return minReduction;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set the minimal reduction factor for stepsize control.
+    /**
+     * Set the minimal reduction factor for stepsize control.
      * @param minReduction minimal reduction factor
      */
     public void setMinReduction(final double minReduction) {
-        this.minReduction = minReduction;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the maximal growth factor for stepsize control.
+    /**
+     * Get the maximal growth factor for stepsize control.
      * @return maximal growth factor
      */
     public double getMaxGrowth() {
-        return maxGrowth;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set the maximal growth factor for stepsize control.
+    /**
+     * Set the maximal growth factor for stepsize control.
      * @param maxGrowth maximal growth factor
      */
     public void setMaxGrowth(final double maxGrowth) {
-        this.maxGrowth = maxGrowth;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the safety factor for stepsize control.
+    /**
+     * Get the safety factor for stepsize control.
      * @return safety factor
      */
     public double getSafety() {
-      return safety;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set the safety factor for stepsize control.
+    /**
+     * Set the safety factor for stepsize control.
      * @param safety safety factor
      */
     public void setSafety(final double safety) {
-      this.safety = safety;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the number of steps of the multistep method (excluding the one being computed).
+    /**
+     * Get the number of steps of the multistep method (excluding the one being computed).
      * @return number of steps of the multistep method (excluding the one being computed)
      */
     public int getNSteps() {
-      return nSteps;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Rescale the instance.
+    /**
+     * Rescale the instance.
      * <p>Since the scaled and Nordsieck arrays are shared with the caller,
      * this method has the side effect of rescaling this arrays in the caller too.</p>
      * @param newStepSize new step size to use in the scaled and Nordsieck arrays
      */
     protected void rescale(final double newStepSize) {
-
-        final double ratio = newStepSize / getStepSize();
-        for (int i = 0; i < scaled.length; ++i) {
-            scaled[i] = scaled[i] * ratio;
-        }
-
-        final double[][] nData = nordsieck.getDataRef();
-        double power = ratio;
-        for (double[] nDatum : nData) {
-            power = power * ratio;
-            final double[] nDataI = nDatum;
-            for (int j = 0; j < nDataI.length; ++j) {
-                nDataI[j] = nDataI[j] * power;
-            }
-        }
-
-        setStepSize(newStepSize);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute step grow/shrink factor according to normalized error.
+    /**
+     * Compute step grow/shrink factor according to normalized error.
      * @param error normalized error of the current step
      * @return grow/shrink factor for next step
      */
     protected double computeStepGrowShrinkFactor(final double error) {
-        return FastMath.min(maxGrowth, FastMath.max(minReduction, safety * FastMath.pow(error, exp)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Specialized step handler storing the first step. */
+    /**
+     * Specialized step handler storing the first step.
+     */
     private class NordsieckInitializer implements ODEStepHandler {
 
-        /** Steps counter. */
+        /**
+         * Steps counter.
+         */
         private int count;
 
-        /** Start of the integration. */
+        /**
+         * Start of the integration.
+         */
         private ODEStateAndDerivative savedStart;
 
-        /** First steps times. */
+        /**
+         * First steps times.
+         */
         private final double[] t;
 
-        /** First steps states. */
+        /**
+         * First steps states.
+         */
         private final double[][] y;
 
-        /** First steps derivatives. */
+        /**
+         * First steps derivatives.
+         */
         private final double[][] yDot;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          * @param nbStartPoints number of start points (including the initial point)
          */
         NordsieckInitializer(final int nbStartPoints) {
-            this.count  = 0;
-            this.t      = new double[nbStartPoints];
-            this.y      = new double[nbStartPoints][];
-            this.yDot   = new double[nbStartPoints][];
+            this.count = 0;
+            this.t = new double[nbStartPoints];
+            this.y = new double[nbStartPoints][];
+            this.yDot = new double[nbStartPoints][];
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void handleStep(ODEStateInterpolator interpolator) {
-
-            if (count == 0) {
-                // first step, we need to store also the point at the beginning of the step
-                savedStart   = interpolator.getPreviousState();
-                t[0]    = savedStart.getTime();
-                y[0]    = savedStart.getCompleteState();
-                yDot[0] = savedStart.getCompleteDerivative();
-            }
-
-            // store the point at the end of the step
-            ++count;
-            final ODEStateAndDerivative curr = interpolator.getCurrentState();
-            t[count]    = curr.getTime();
-            y[count]    = curr.getCompleteState();
-            yDot[count] = curr.getCompleteDerivative();
-
-            if (count == t.length - 1) {
-
-                // this was the last point we needed, we can compute the derivatives
-                setStepStart(savedStart);
-                final double rawStep = (t[t.length - 1] - t[0]) / (t.length - 1);
-                setStepSize(getStepSizeHelper().filterStep(rawStep, rawStep >= 0, true));
-
-                // first scaled derivative
-                scaled = yDot[0].clone();
-                for (int j = 0; j < scaled.length; ++j) {
-                    scaled[j] *= getStepSize();
-                }
-
-                // higher order derivatives
-                nordsieck = initializeHighOrderDerivatives(getStepSize(), t, y, yDot);
-
-                // stop the integrator now that all needed steps have been handled
-                throw new InitializationCompletedMarkerException();
-
-            }
-
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
 
-    /** Marker exception used ONLY to stop the starter integrator after first step. */
-    private static class InitializationCompletedMarkerException
-        extends RuntimeException {
+    /**
+     * Marker exception used ONLY to stop the starter integrator after first step.
+     */
+    private static class InitializationCompletedMarkerException extends RuntimeException {
 
-        /** Serializable version identifier. */
+        /**
+         * Serializable version identifier.
+         */
         private static final long serialVersionUID = -1914085471038046418L;
 
-        /** Simple constructor. */
+        /**
+         * Simple constructor.
+         */
         InitializationCompletedMarkerException() {
             super((Throwable) null);
         }
-
     }
-
 }
-

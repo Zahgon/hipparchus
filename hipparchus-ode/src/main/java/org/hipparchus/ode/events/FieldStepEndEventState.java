@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.events;
 
 import org.hipparchus.CalculusFieldElement;
@@ -22,23 +21,31 @@ import org.hipparchus.ode.FieldODEState;
 import org.hipparchus.ode.FieldODEStateAndDerivative;
 import org.hipparchus.ode.sampling.FieldODEStateInterpolator;
 
-/** This class handles the state for one {@link ODEEventHandler
+/**
+ * This class handles the state for one {@link ODEEventHandler
  * event handler} that triggers at step end.
  * @since 3.0
  * @param <T> the type of the field elements
  */
 public class FieldStepEndEventState<T extends CalculusFieldElement<T>> implements FieldEventState<T> {
 
-    /** Step end handler. */
+    /**
+     * Step end handler.
+     */
     private final FieldODEStepEndHandler<T> handler;
 
-    /** Time at step end. */
+    /**
+     * Time at step end.
+     */
     private T stepEnd;
 
-    /** Integration direction. */
+    /**
+     * Integration direction.
+     */
     private boolean forward;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param handler step end handler
      */
     public FieldStepEndEventState(final FieldODEStepEndHandler<T> handler) {
@@ -46,54 +53,51 @@ public class FieldStepEndEventState<T extends CalculusFieldElement<T>> implement
         this.stepEnd = null;
     }
 
-    /** Get the underlying step end handler.
+    /**
+     * Get the underlying step end handler.
      * @return underlying step end handler
      */
     public FieldODEStepEndHandler<T> getHandler() {
-        return handler;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void init(final FieldODEStateAndDerivative<T> s0, final T t) {
-        forward = t.subtract(s0.getTime()).getReal() >= 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set the step end.
+    /**
+     * Set the step end.
      * @param stepEnd step end
      */
     public void setStepEnd(final T stepEnd) {
-        this.stepEnd = stepEnd;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean evaluateStep(final FieldODEStateInterpolator<T> interpolator) {
-        return stepEnd != null && stepEnd.subtract(interpolator.getCurrentState().getTime()).isZero();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T getEventTime() {
-        return stepEnd;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldEventOccurrence<T> doEvent(final FieldODEStateAndDerivative<T> state) {
-
-        final Action action = handler.stepEndOccurred(state, forward);
-        final FieldODEState<T> newState;
-        if (action == Action.RESET_STATE) {
-            newState = handler.resetState(state);
-        } else {
-            newState = state;
-        }
-
-        final FieldEventOccurrence<T> occurrence = new FieldEventOccurrence<>(action, newState, stepEnd);
-        setStepEnd(null);
-        return occurrence;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

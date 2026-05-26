@@ -14,25 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.optim;
 
 /**
  * Starting point (first guess) of the optimization procedure.
  * <br>
  * Immutable class.
- *
  */
 public class InitialGuess implements OptimizationData {
-    /** Initial guess. */
+
+    /**
+     * Initial guess.
+     */
     private final double[] init;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param startPoint Initial guess.
      */
     public InitialGuess(double[] startPoint) {
@@ -45,6 +46,6 @@ public class InitialGuess implements OptimizationData {
      * @return the initial guess.
      */
     public double[] getInitialGuess() {
-        return init.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

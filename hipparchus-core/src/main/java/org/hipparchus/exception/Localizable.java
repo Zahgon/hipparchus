@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -28,9 +27,9 @@ import java.util.ResourceBundle;
 
 /**
  * Interface for localizable strings.
- *
  */
 public interface Localizable extends Serializable {
+
     /**
      * Gets the source (non-localized) string.
      *
@@ -57,32 +56,6 @@ public interface Localizable extends Serializable {
      * localized version is available.
      */
     default String getLocalizedString(final String baseName, final String key, final Locale locale) {
-
-        try {
-            ResourceBundle bundle;
-            try {
-                bundle = ResourceBundle.getBundle(baseName, locale, new UTF8Control());
-            } catch (UnsupportedOperationException uoe) {
-                // fix for Java 9+ on module path
-                // (see issue https://github.com/Hipparchus-Math/hipparchus/issues/392)
-                bundle = ResourceBundle.getBundle(baseName, locale);
-            }
-
-            if (bundle.getLocale().getLanguage().equals(locale.getLanguage())) {
-                final String translated = bundle.getString(key);
-                if (!(translated.isEmpty() || translated.toLowerCase(locale).contains("missing translation"))) {
-                    // the value of the resource is the translated format
-                    return translated;
-                }
-            }
-        } catch (MissingResourceException mre) { // NOPMD
-            // do nothing here
-        }
-
-        // either the locale is not supported or the resource is not translated, or
-        // it is unknown: don't translate and fall back to using the source format
-        return getSourceString();
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

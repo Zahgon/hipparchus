@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -28,7 +27,6 @@ public interface LeastSquaresOptimizer {
 
     /**
      * Solve the non-linear least squares problem.
-     *
      *
      * @param leastSquaresProblem the problem definition, including model function and
      *                            convergence criteria.
@@ -67,12 +65,8 @@ public interface LeastSquaresOptimizer {
          * @param iterations  number of iterations of the algorithm
          * @return a new optimum based on the given data.
          */
-        static Optimum of(final LeastSquaresProblem.Evaluation value,
-                          final int evaluations,
-                          final int iterations) {
-            return new OptimumImpl(value, evaluations, iterations);
+        static Optimum of(final LeastSquaresProblem.Evaluation value, final int evaluations, final int iterations) {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
-
 }

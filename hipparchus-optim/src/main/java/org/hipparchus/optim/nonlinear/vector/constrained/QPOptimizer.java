@@ -16,14 +16,14 @@
  */
 package org.hipparchus.optim.nonlinear.vector.constrained;
 
-/** Quadratic programming Optimizater.
+/**
+ * Quadratic programming Optimizater.
  * @since 3.1
  */
 public class QPOptimizer extends ConstraintOptimizer {
 
     @Override
     protected LagrangeSolution doOptimize() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

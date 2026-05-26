@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.geometry.spherical.twod;
 
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
 import org.hipparchus.geometry.partitioning.BSPTree;
 
-/** Specialized version of {@link Edge} with tree node information.
+/**
+ * Specialized version of {@link Edge} with tree node information.
  * <p>
  * The tree nodes information is used to set up connection between
  * edges (i.e. combine the end vertex of an edge and the start vertex
@@ -31,19 +31,28 @@ import org.hipparchus.geometry.partitioning.BSPTree;
  */
 class EdgeWithNodeInfo extends Edge {
 
-    /** Node containing edge. */
+    /**
+     * Node containing edge.
+     */
     private final BSPTree<Sphere2D, S2Point, Circle, SubCircle> node;
 
-    /** Node whose intersection with current node defines start point. */
+    /**
+     * Node whose intersection with current node defines start point.
+     */
     private final BSPTree<Sphere2D, S2Point, Circle, SubCircle> startNode;
 
-    /** Node whose intersection with current node defines end point. */
+    /**
+     * Node whose intersection with current node defines end point.
+     */
     private final BSPTree<Sphere2D, S2Point, Circle, SubCircle> endNode;
 
-    /** Indicator for completely processed edge. */
+    /**
+     * Indicator for completely processed edge.
+     */
     private boolean processed;
 
-    /** Build an edge.
+    /**
+     * Build an edge.
      * @param start start point
      * @param end end point
      * @param length length of the arc (it can be greater than π)
@@ -52,56 +61,47 @@ class EdgeWithNodeInfo extends Edge {
      * @param startNode node whose intersection with current node defines start point
      * @param endNode node whose intersection with current node defines end point
      */
-    EdgeWithNodeInfo(final Vertex start, final Vertex end,
-                     final double length, final Circle circle,
-                     final BSPTree<Sphere2D, S2Point, Circle, SubCircle> node,
-                     final BSPTree<Sphere2D, S2Point, Circle, SubCircle> startNode,
-                     final BSPTree<Sphere2D, S2Point, Circle, SubCircle> endNode) {
+    EdgeWithNodeInfo(final Vertex start, final Vertex end, final double length, final Circle circle, final BSPTree<Sphere2D, S2Point, Circle, SubCircle> node, final BSPTree<Sphere2D, S2Point, Circle, SubCircle> startNode, final BSPTree<Sphere2D, S2Point, Circle, SubCircle> endNode) {
         super(start, end, length, circle);
-        this.node      = node;
+        this.node = node;
         this.startNode = startNode;
-        this.endNode   = endNode;
+        this.endNode = endNode;
         this.processed = false;
     }
 
-    /** Check if two edges follow each other naturally.
+    /**
+     * Check if two edges follow each other naturally.
      * @param previous candidate previous edge
      * @param next candidate next edge
      * @return true if {@code edge} is a natural follower for instance
      */
     public static boolean areNaturalFollowers(final EdgeWithNodeInfo previous, final EdgeWithNodeInfo next) {
-        return next.getStart().getIncoming() == null &&
-               previous.endNode              == next.node &&
-               previous.node                 == next.startNode &&
-               Vector3D.dotProduct(previous.getEnd().getLocation().getVector(),
-                                   next.getStart().getLocation().getVector()) > 0.0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check if two edges result from a single edged having been split by a circle.
+    /**
+     * Check if two edges result from a single edged having been split by a circle.
      * @param previous candidate previous edge
      * @param next candidate next edge
      * @return true if {@code edge} is a natural follower for instance
      */
     public static boolean resultFromASplit(final EdgeWithNodeInfo previous, final EdgeWithNodeInfo next) {
-        return next.getStart().getIncoming()          == null &&
-               previous.node.getCut().getHyperplane() == next.node.getCut().getHyperplane() &&
-               previous.endNode                       == next.startNode &&
-               Vector3D.dotProduct(previous.getEnd().getLocation().getVector(),
-                                   next.getStart().getLocation().getVector()) > 0.0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set the processed flag.
+    /**
+     * Set the processed flag.
      * @param processed processed flag to set
      */
     public void setProcessed(final boolean processed) {
-        this.processed = processed;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check if the edge has been processed.
+    /**
+     * Check if the edge has been processed.
      * @return true if the edge has been processed
      */
     public boolean isProcessed() {
-        return processed;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

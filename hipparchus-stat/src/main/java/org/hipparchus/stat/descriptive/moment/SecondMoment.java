@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.stat.descriptive.moment;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.NullArgumentException;
 import org.hipparchus.stat.descriptive.AggregatableStatistic;
 
@@ -50,13 +48,16 @@ import org.hipparchus.stat.descriptive.AggregatableStatistic;
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.
  */
-public class SecondMoment extends FirstMoment
-    implements AggregatableStatistic<SecondMoment>, Serializable {
+public class SecondMoment extends FirstMoment implements AggregatableStatistic<SecondMoment>, Serializable {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20150412L;
 
-    /** Second moment of values that have been added */
+    /**
+     * Second moment of values that have been added
+     */
     protected double m2;
 
     /**
@@ -78,47 +79,43 @@ public class SecondMoment extends FirstMoment
         this.m2 = original.m2;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void increment(final double d) {
-        if (n < 1) {
-            m1 = m2 = 0.0;
-        }
-        super.increment(d);
-        m2 += ((double) n - 1) * dev * nDev;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
-        super.clear();
-        m2 = Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getResult() {
-        return m2;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void aggregate(SecondMoment other) {
-        if (other.n > 0) {
-            final double oldN = n;
-            super.aggregate(other);
-            if (oldN == 0) {
-                m2 = other.m2;
-            } else {
-                m2 += other.m2 + (other.n * oldN) / n * dev * dev;
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SecondMoment copy() {
-        return new SecondMoment(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

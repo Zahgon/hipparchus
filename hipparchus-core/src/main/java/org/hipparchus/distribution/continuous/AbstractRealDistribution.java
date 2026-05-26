@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.distribution.continuous;
 
 import java.io.Serializable;
-
 import org.hipparchus.analysis.UnivariateFunction;
 import org.hipparchus.analysis.solvers.UnivariateSolverUtils;
 import org.hipparchus.distribution.RealDistribution;
@@ -37,18 +35,25 @@ import org.hipparchus.util.MathUtils;
  * Default implementations are provided for some of the methods
  * that do not vary from distribution to distribution.
  */
-public abstract class AbstractRealDistribution
-    implements RealDistribution, Serializable {
+public abstract class AbstractRealDistribution implements RealDistribution, Serializable {
 
-    /** Default absolute accuracy for inverse cumulative computation. */
+    /**
+     * Default absolute accuracy for inverse cumulative computation.
+     */
     protected static final double DEFAULT_SOLVER_ABSOLUTE_ACCURACY = 1e-9;
-    /** Serializable version identifier */
+
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20160320L;
 
-    /** Inverse cumulative probability accuracy. */
+    /**
+     * Inverse cumulative probability accuracy.
+     */
     private final double solverAbsoluteAccuracy;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param solverAbsoluteAccuracy the absolute accuracy to use when
      * computing the inverse cumulative probability.
      */
@@ -77,13 +82,8 @@ public abstract class AbstractRealDistribution
      * {@code P(x0 < X <= x1) = P(X <= x1) - P(X <= x0)}
      */
     @Override
-    public double probability(double x0,
-                              double x1) throws MathIllegalArgumentException {
-        if (x0 > x1) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
-                                                   x0, x1, true);
-        }
-        return cumulativeProbability(x1) - cumulativeProbability(x0);
+    public double probability(double x0, double x1) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -97,108 +97,7 @@ public abstract class AbstractRealDistribution
      */
     @Override
     public double inverseCumulativeProbability(final double p) throws MathIllegalArgumentException {
-        /*
-         * IMPLEMENTATION NOTES
-         * --------------------
-         * Where applicable, use is made of the one-sided Chebyshev inequality
-         * to bracket the root. This inequality states that
-         * P(X - mu >= k * sig) <= 1 / (1 + k^2),
-         * mu: mean, sig: standard deviation. Equivalently
-         * 1 - P(X < mu + k * sig) <= 1 / (1 + k^2),
-         * F(mu + k * sig) >= k^2 / (1 + k^2).
-         *
-         * For k = sqrt(p / (1 - p)), we find
-         * F(mu + k * sig) >= p,
-         * and (mu + k * sig) is an upper-bound for the root.
-         *
-         * Then, introducing Y = -X, mean(Y) = -mu, sd(Y) = sig, and
-         * P(Y >= -mu + k * sig) <= 1 / (1 + k^2),
-         * P(-X >= -mu + k * sig) <= 1 / (1 + k^2),
-         * P(X <= mu - k * sig) <= 1 / (1 + k^2),
-         * F(mu - k * sig) <= 1 / (1 + k^2).
-         *
-         * For k = sqrt((1 - p) / p), we find
-         * F(mu - k * sig) <= p,
-         * and (mu - k * sig) is a lower-bound for the root.
-         *
-         * In cases where the Chebyshev inequality does not apply, geometric
-         * progressions 1, 2, 4, ... and -1, -2, -4, ... are used to bracket
-         * the root.
-         */
-
-        MathUtils.checkRangeInclusive(p, 0, 1);
-
-        double lowerBound = getSupportLowerBound();
-        if (p == 0.0) {
-            return lowerBound;
-        }
-
-        double upperBound = getSupportUpperBound();
-        if (p == 1.0) {
-            return upperBound;
-        }
-
-        final double mu = getNumericalMean();
-        final double sig = FastMath.sqrt(getNumericalVariance());
-        final boolean chebyshevApplies;
-        chebyshevApplies = !(Double.isInfinite(mu) || Double.isNaN(mu) ||
-                             Double.isInfinite(sig) || Double.isNaN(sig));
-
-        if (lowerBound == Double.NEGATIVE_INFINITY) {
-            if (chebyshevApplies) {
-                lowerBound = mu - sig * FastMath.sqrt((1. - p) / p);
-            } else {
-                lowerBound = -1.0;
-                while (cumulativeProbability(lowerBound) >= p) {
-                    lowerBound *= 2.0;
-                }
-            }
-        }
-
-        if (upperBound == Double.POSITIVE_INFINITY) {
-            if (chebyshevApplies) {
-                upperBound = mu + sig * FastMath.sqrt(p / (1. - p));
-            } else {
-                upperBound = 1.0;
-                while (cumulativeProbability(upperBound) < p) {
-                    upperBound *= 2.0;
-                }
-            }
-        }
-
-        final UnivariateFunction toSolve = new UnivariateFunction() {
-            /** {@inheritDoc} */
-            @Override
-            public double value(final double x) {
-                return cumulativeProbability(x) - p;
-            }
-        };
-
-        double x = UnivariateSolverUtils.solve(toSolve,
-                                               lowerBound,
-                                               upperBound,
-                                               getSolverAbsoluteAccuracy());
-
-        if (!isSupportConnected()) {
-            /* Test for plateau. */
-            final double dx = getSolverAbsoluteAccuracy();
-            if (x - dx >= getSupportLowerBound()) {
-                double px = cumulativeProbability(x);
-                if (cumulativeProbability(x - dx) == px) {
-                    upperBound = x;
-                    while (upperBound - lowerBound > dx) {
-                        final double midPoint = 0.5 * (lowerBound + upperBound);
-                        if (cumulativeProbability(midPoint) < px) {
-                            lowerBound = midPoint;
-                        } else {
-                            upperBound = midPoint;
-                        }
-                    }
-                    return upperBound;
-                }
-            }
-        }
-        return x;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -209,7 +108,7 @@ public abstract class AbstractRealDistribution
      * @return the maximum absolute error in inverse cumulative probability estimates
      */
     protected double getSolverAbsoluteAccuracy() {
-        return solverAbsoluteAccuracy;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -219,7 +118,6 @@ public abstract class AbstractRealDistribution
      */
     @Override
     public double logDensity(double x) {
-        return FastMath.log(density(x));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }
-

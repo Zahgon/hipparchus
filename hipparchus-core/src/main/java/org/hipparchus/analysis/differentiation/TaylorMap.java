@@ -23,7 +23,8 @@ import org.hipparchus.linear.MatrixUtils;
 import org.hipparchus.linear.RealMatrix;
 import org.hipparchus.util.MathUtils;
 
-/** Container for a Taylor map.
+/**
+ * Container for a Taylor map.
  * <p>
  * A Taylor map is a set of n {@link DerivativeStructure}
  * \((f_1, f_2, \ldots, f_n)\) depending on m parameters \((p_1, p_2, \ldots, p_m)\),
@@ -33,13 +34,18 @@ import org.hipparchus.util.MathUtils;
  */
 public class TaylorMap implements DifferentialAlgebra {
 
-    /** Evaluation point. */
+    /**
+     * Evaluation point.
+     */
     private final double[] point;
 
-    /** Mapping functions. */
+    /**
+     * Mapping functions.
+     */
     private final DerivativeStructure[] functions;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * <p>
      * The number of number of parameters and derivation orders of all
      * functions must match.
@@ -49,14 +55,12 @@ public class TaylorMap implements DifferentialAlgebra {
      */
     public TaylorMap(final double[] point, final DerivativeStructure[] functions) {
         if (point == null || point.length == 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE,
-                                                   point == null ? 0 : point.length);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE, point == null ? 0 : point.length);
         }
         if (functions == null || functions.length == 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE,
-                                                   functions == null ? 0 : functions.length);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE, functions == null ? 0 : functions.length);
         }
-        this.point     = point.clone();
+        this.point = point.clone();
         this.functions = functions.clone();
         final DSFactory factory0 = functions[0].getFactory();
         MathUtils.checkDimension(point.length, factory0.getCompiler().getFreeParameters());
@@ -65,7 +69,8 @@ public class TaylorMap implements DifferentialAlgebra {
         }
     }
 
-    /** Constructor for identity map.
+    /**
+     * Constructor for identity map.
      * <p>
      * The identity is considered to be evaluated at origin.
      * </p>
@@ -81,50 +86,59 @@ public class TaylorMap implements DifferentialAlgebra {
         }
     }
 
-    /** Build an empty map evaluated at origin.
+    /**
+     * Build an empty map evaluated at origin.
      * @param parameters number of free parameters
      * @param nbFunctions number of functions
      */
     private TaylorMap(final int parameters, final int nbFunctions) {
-        this.point     = new double[parameters];
+        this.point = new double[parameters];
         this.functions = new DerivativeStructure[nbFunctions];
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getFreeParameters() {
-        return point.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getOrder() {
-        return functions[0].getOrder();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the number of functions of the map.
+    /**
+     * Get the number of functions of the map.
      * @return number of functions of the map
      */
     public int getNbFunctions() {
-        return functions.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the point at which map is evaluated.
+    /**
+     * Get the point at which map is evaluated.
      * @return point at which map is evaluated
      */
     public double[] getPoint() {
-        return point.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a function from the map.
+    /**
+     * Get a function from the map.
      * @param i index of the function (must be between 0 included and {@link #getNbFunctions()} excluded
      * @return function at index i
      */
     public DerivativeStructure getFunction(final int i) {
-        return functions[i];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Subtract two maps.
+    /**
+     * Subtract two maps.
      * @param map map to subtract from instance
      * @return this - map
      */
@@ -136,37 +150,26 @@ public class TaylorMap implements DifferentialAlgebra {
         return result;
     }
 
-    /** Evaluate Taylor expansion of the map at some offset.
+    /**
+     * Evaluate Taylor expansion of the map at some offset.
      * @param deltaP parameters offsets \((\Delta p_1, \Delta p_2, \ldots, \Delta p_n)\)
      * @return value of the Taylor expansion at \((p_1 + \Delta p_1, p_2 + \Delta p_2, \ldots, p_n + \Delta p_n)\)
      */
     public double[] value(final double... deltaP) {
-        final double[] value = new double[functions.length];
-        for (int i = 0; i < functions.length; ++i) {
-            value[i] = functions[i].taylor(deltaP);
-        }
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compose the instance with another Taylor map as \(\mathrm{this} \circ \mathrm{other}\).
+    /**
+     * Compose the instance with another Taylor map as \(\mathrm{this} \circ \mathrm{other}\).
      * @param other map with which instance must be composed
      * @return composed map \(\mathrm{this} \circ \mathrm{other}\)
      */
     public TaylorMap compose(final TaylorMap other) {
-
-        // safety check
-        MathUtils.checkDimension(getFreeParameters(), other.getNbFunctions());
-
-        final DerivativeStructure[] composed = new DerivativeStructure[functions.length];
-        for (int i = 0; i < functions.length; ++i) {
-            composed[i] = functions[i].rebase(other.functions);
-        }
-
-        return new TaylorMap(other.point, composed);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Invert the instance.
+    /**
+     * Invert the instance.
      * <p>
      * Consider {@link #value(double[]) Taylor expansion} of the map with
      * small parameters offsets \((\Delta p_1, \Delta p_2, \ldots, \Delta p_n)\)
@@ -185,64 +188,6 @@ public class TaylorMap implements DifferentialAlgebra {
      * by Martin Berz</a>
      */
     public TaylorMap invert(final MatrixDecomposer decomposer) {
-
-        final DSFactory  factory  = functions[0].getFactory();
-        final DSCompiler compiler = factory.getCompiler();
-        final int        n        = functions.length;
-
-        // safety check
-        MathUtils.checkDimension(n, functions[0].getFreeParameters());
-
-        // set up an indirection array between linear terms and complete derivatives arrays
-        final int[] indirection    = new int[n];
-        int linearIndex = 0;
-        for (int k = 1; linearIndex < n; ++k) {
-            if (compiler.getPartialDerivativeOrdersSum(k) == 1) {
-                indirection[linearIndex++] = k;
-            }
-        }
-
-        // separate linear and non-linear terms
-        final RealMatrix linear      = MatrixUtils.createRealMatrix(n, n);
-        final TaylorMap  nonLinearTM = new TaylorMap(n, n);
-        for (int i = 0; i < n; ++i) {
-            nonLinearTM.functions[i] = factory.build(functions[i].getAllDerivatives());
-            nonLinearTM.functions[i].setDerivativeComponent(0, 0.0);
-            for (int j = 0; j < n; ++j) {
-                final int k = indirection[j];
-                linear.setEntry(i, j, functions[i].getDerivativeComponent(k));
-                nonLinearTM.functions[i].setDerivativeComponent(k, 0.0);
-            }
-        }
-
-        // invert the linear part
-        final RealMatrix linearInvert = decomposer.decompose(linear).getInverse();
-
-        // convert the invert of linear part back to a Taylor map
-        final TaylorMap  linearInvertTM = new TaylorMap(n, n);
-        for (int i = 0; i < n; ++i) {
-            linearInvertTM.functions[i] = new DerivativeStructure(factory);
-            for (int j = 0; j < n; ++j) {
-                linearInvertTM.functions[i].setDerivativeComponent(indirection[j], linearInvert.getEntry(i, j));
-            }
-        }
-
-        // perform fixed-point evaluation of the inverse
-        // adding one derivation order at each iteration
-        final TaylorMap identity = new TaylorMap(n, compiler.getOrder(), n);
-        TaylorMap invertTM = linearInvertTM;
-        for (int k = 1; k < compiler.getOrder(); ++k) {
-            invertTM = linearInvertTM.compose(identity.subtract(nonLinearTM.compose(invertTM)));
-        }
-
-        // set the constants
-        for (int i = 0; i < n; ++i) {
-            invertTM.point[i] = functions[i].getValue();
-            invertTM.functions[i].setDerivativeComponent(0, point[i]);
-        }
-
-        return invertTM;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

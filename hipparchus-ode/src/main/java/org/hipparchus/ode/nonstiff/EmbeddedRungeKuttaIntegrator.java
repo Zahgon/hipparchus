@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.nonstiff;
 
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -58,38 +57,51 @@ import org.hipparchus.util.FastMath;
  * the step is rejected after the error estimation phase, no
  * evaluation is saved. For an <i>fsal</i> method, we have cs = 1 and
  * asi = bi for all i.</p>
- *
  */
+public abstract class EmbeddedRungeKuttaIntegrator extends AdaptiveStepsizeIntegrator implements ExplicitRungeKuttaIntegrator {
 
-public abstract class EmbeddedRungeKuttaIntegrator
-    extends AdaptiveStepsizeIntegrator
-    implements ExplicitRungeKuttaIntegrator {
-
-    /** Index of the pre-computed derivative for <i>fsal</i> methods. */
+    /**
+     * Index of the pre-computed derivative for <i>fsal</i> methods.
+     */
     private final int fsal;
 
-    /** Time steps from Butcher array (without the first zero). */
+    /**
+     * Time steps from Butcher array (without the first zero).
+     */
     private final double[] c;
 
-    /** Internal weights from Butcher array (without the first empty row). */
+    /**
+     * Internal weights from Butcher array (without the first empty row).
+     */
     private final double[][] a;
 
-    /** External weights for the high order method from Butcher array. */
+    /**
+     * External weights for the high order method from Butcher array.
+     */
     private final double[] b;
 
-    /** Stepsize control exponent. */
+    /**
+     * Stepsize control exponent.
+     */
     private final double exp;
 
-    /** Safety factor for stepsize control. */
+    /**
+     * Safety factor for stepsize control.
+     */
     private double safety;
 
-    /** Minimal reduction factor for stepsize control. */
+    /**
+     * Minimal reduction factor for stepsize control.
+     */
     private double minReduction;
 
-    /** Maximal growth factor for stepsize control. */
+    /**
+     * Maximal growth factor for stepsize control.
+     */
     private double maxGrowth;
 
-    /** Build a Runge-Kutta integrator with the given Butcher array.
+    /**
+     * Build a Runge-Kutta integrator with the given Butcher array.
      * @param name name of the method
      * @param fsal index of the pre-computed derivative for <i>fsal</i> methods
      * or -1 if method is not <i>fsal</i>
@@ -102,28 +114,21 @@ public abstract class EmbeddedRungeKuttaIntegrator
      * @param scalAbsoluteTolerance allowed absolute error
      * @param scalRelativeTolerance allowed relative error
      */
-    protected EmbeddedRungeKuttaIntegrator(final String name, final int fsal,
-                                           final double minStep, final double maxStep,
-                                           final double scalAbsoluteTolerance,
-                                           final double scalRelativeTolerance) {
-
+    protected EmbeddedRungeKuttaIntegrator(final String name, final int fsal, final double minStep, final double maxStep, final double scalAbsoluteTolerance, final double scalRelativeTolerance) {
         super(name, minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
-
         this.fsal = fsal;
-        this.c    = getC();
-        this.a    = getA();
-        this.b    = getB();
-
+        this.c = getC();
+        this.a = getA();
+        this.b = getB();
         exp = -1.0 / getOrder();
-
         // set the default values of the algorithm control parameters
         setSafety(0.9);
         setMinReduction(0.2);
         setMaxGrowth(10.0);
-
     }
 
-    /** Build a Runge-Kutta integrator with the given Butcher array.
+    /**
+     * Build a Runge-Kutta integrator with the given Butcher array.
      * @param name name of the method
      * @param fsal index of the pre-computed derivative for <i>fsal</i> methods
      * or -1 if method is not <i>fsal</i>
@@ -134,28 +139,21 @@ public abstract class EmbeddedRungeKuttaIntegrator
      * @param vecAbsoluteTolerance allowed absolute error
      * @param vecRelativeTolerance allowed relative error
      */
-    protected EmbeddedRungeKuttaIntegrator(final String name, final int fsal,
-                                           final double   minStep, final double maxStep,
-                                           final double[] vecAbsoluteTolerance,
-                                           final double[] vecRelativeTolerance) {
-
+    protected EmbeddedRungeKuttaIntegrator(final String name, final int fsal, final double minStep, final double maxStep, final double[] vecAbsoluteTolerance, final double[] vecRelativeTolerance) {
         super(name, minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
-
         this.fsal = fsal;
-        this.c    = getC();
-        this.a    = getA();
-        this.b    = getB();
-
+        this.c = getC();
+        this.a = getA();
+        this.b = getB();
         exp = -1.0 / getOrder();
-
         // set the default values of the algorithm control parameters
         setSafety(0.9);
         setMinReduction(0.2);
         setMaxGrowth(10.0);
-
     }
 
-    /** Create an interpolator.
+    /**
+     * Create an interpolator.
      * @param forward integration direction indicator
      * @param yDotK slopes at the intermediate points
      * @param globalPreviousState start of the global step
@@ -163,173 +161,77 @@ public abstract class EmbeddedRungeKuttaIntegrator
      * @param mapper equations mapper for the all equations
      * @return external weights for the high order method from Butcher array
      */
-    protected abstract RungeKuttaStateInterpolator createInterpolator(boolean forward, double[][] yDotK,
-                                                                      ODEStateAndDerivative globalPreviousState,
-                                                                      ODEStateAndDerivative globalCurrentState,
-                                                                      EquationsMapper mapper);
-    /** Get the order of the method.
+    protected abstract RungeKuttaStateInterpolator createInterpolator(boolean forward, double[][] yDotK, ODEStateAndDerivative globalPreviousState, ODEStateAndDerivative globalCurrentState, EquationsMapper mapper);
+
+    /**
+     * Get the order of the method.
      * @return order of the method
      */
     public abstract int getOrder();
 
-    /** Get the safety factor for stepsize control.
+    /**
+     * Get the safety factor for stepsize control.
      * @return safety factor
      */
     public double getSafety() {
-        return safety;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set the safety factor for stepsize control.
+    /**
+     * Set the safety factor for stepsize control.
      * @param safety safety factor
      */
     public void setSafety(final double safety) {
-        this.safety = safety;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ODEStateAndDerivative integrate(final ExpandableODE equations,
-                                           final ODEState initialState, final double finalTime)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-
-        sanityChecks(initialState, finalTime);
-        setStepStart(initIntegration(equations, initialState, finalTime));
-        final boolean forward = finalTime > initialState.getTime();
-
-        // create some internal working arrays
-        final int        stages  = c.length + 1;
-        final double[][] yDotK   = new double[stages][];
-        double[]   yTmp    = new double[equations.getMapper().getTotalDimension()];
-
-        // set up integration control objects
-        double  hNew      = 0;
-        boolean firstTime = true;
-
-        // main integration loop
-        setIsLastStep(false);
-        do {
-
-            // iterate over step size, ensuring local normalized error is smaller than 1
-            double error = 10;
-            while (error >= 1.0) {
-
-                // first stage
-                final double[] y = getStepStart().getCompleteState();
-                yDotK[0] = getStepStart().getCompleteDerivative();
-
-                if (firstTime) {
-                    final StepsizeHelper helper = getStepSizeHelper();
-                    final double[] scale = new double[helper.getMainSetDimension()];
-                    for (int i = 0; i < scale.length; ++i) {
-                        scale[i] = helper.getTolerance(i, FastMath.abs(y[i]));
-                    }
-                    hNew = initializeStep(forward, getOrder(), scale, getStepStart());
-                    firstTime = false;
-                }
-
-                setStepSize(hNew);
-                if (forward) {
-                    if (getStepStart().getTime() + getStepSize() >= finalTime) {
-                        setStepSize(finalTime - getStepStart().getTime());
-                    }
-                } else {
-                    if (getStepStart().getTime() + getStepSize() <= finalTime) {
-                        setStepSize(finalTime - getStepStart().getTime());
-                    }
-                }
-
-                // next stages
-                ExplicitRungeKuttaIntegrator.applyInternalButcherWeights(getEquations(), getStepStart().getTime(), y,
-                        getStepSize(), a, c, yDotK);
-                yTmp = ExplicitRungeKuttaIntegrator.applyExternalButcherWeights(y, yDotK, getStepSize(), b);
-
-                incrementEvaluations(stages - 1);
-
-                // estimate the error at the end of the step
-                error = estimateError(yDotK, y, yTmp, getStepSize());
-                if (Double.isNaN(error)) {
-                    throw new MathIllegalStateException(LocalizedODEFormats.NAN_APPEARING_DURING_INTEGRATION,
-                                                        getStepStart().getTime() + getStepSize());
-                }
-                if (error >= 1.0) {
-                    // reject the step and attempt to reduce error by stepsize control
-                    final double factor =
-                                    FastMath.min(maxGrowth,
-                                                 FastMath.max(minReduction, safety * FastMath.pow(error, exp)));
-                    hNew = getStepSizeHelper().filterStep(getStepSize() * factor, forward, false);
-                }
-
-            }
-            final double   stepEnd = getStepStart().getTime() + getStepSize();
-            final double[] yDotTmp = (fsal >= 0) ? yDotK[fsal] : computeDerivatives(stepEnd, yTmp);
-            final ODEStateAndDerivative stateTmp = equations.getMapper().mapStateAndDerivative(stepEnd, yTmp, yDotTmp);
-
-            // local error is small enough: accept the step, trigger events and step handlers
-            setStepStart(acceptStep(createInterpolator(forward, yDotK, getStepStart(), stateTmp, equations.getMapper()), finalTime));
-
-            if (!isLastStep()) {
-
-                // stepsize control for next step
-                final double factor =
-                                FastMath.min(maxGrowth, FastMath.max(minReduction, safety * FastMath.pow(error, exp)));
-                final double  scaledH    = getStepSize() * factor;
-                final double  nextT      = getStepStart().getTime() + scaledH;
-                final boolean nextIsLast = forward ? (nextT >= finalTime) : (nextT <= finalTime);
-                hNew = getStepSizeHelper().filterStep(scaledH, forward, nextIsLast);
-
-                final double  filteredNextT      = getStepStart().getTime() + hNew;
-                final boolean filteredNextIsLast = forward ? (filteredNextT >= finalTime) : (filteredNextT <= finalTime);
-                if (filteredNextIsLast) {
-                    hNew = finalTime - getStepStart().getTime();
-                }
-
-            }
-
-        } while (!isLastStep());
-
-        final ODEStateAndDerivative finalState = getStepStart();
-        resetInternalState();
-        return finalState;
-
+    public ODEStateAndDerivative integrate(final ExpandableODE equations, final ODEState initialState, final double finalTime) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the minimal reduction factor for stepsize control.
+    /**
+     * Get the minimal reduction factor for stepsize control.
      * @return minimal reduction factor
      */
     public double getMinReduction() {
-        return minReduction;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set the minimal reduction factor for stepsize control.
+    /**
+     * Set the minimal reduction factor for stepsize control.
      * @param minReduction minimal reduction factor
      */
     public void setMinReduction(final double minReduction) {
-        this.minReduction = minReduction;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the maximal growth factor for stepsize control.
+    /**
+     * Get the maximal growth factor for stepsize control.
      * @return maximal growth factor
      */
     public double getMaxGrowth() {
-        return maxGrowth;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set the maximal growth factor for stepsize control.
+    /**
+     * Set the maximal growth factor for stepsize control.
      * @param maxGrowth maximal growth factor
      */
     public void setMaxGrowth(final double maxGrowth) {
-        this.maxGrowth = maxGrowth;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the error ratio.
+    /**
+     * Compute the error ratio.
      * @param yDotK derivatives computed during the first stages
      * @param y0 estimate of the step at the start of the step
      * @param y1 estimate of the step at the end of the step
      * @param h  current step
      * @return error ratio, greater than 1 if step should be rejected
      */
-    protected abstract double estimateError(double[][] yDotK,
-                                            double[] y0, double[] y1,
-                                            double h);
-
+    protected abstract double estimateError(double[][] yDotK, double[] y0, double[] y1, double h);
 }

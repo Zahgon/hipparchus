@@ -17,7 +17,6 @@
 package org.hipparchus.linear;
 
 import java.lang.reflect.Array;
-
 import org.hipparchus.complex.Complex;
 import org.hipparchus.complex.ComplexField;
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -81,31 +80,62 @@ import org.hipparchus.util.Precision;
  * see: <a href="https://en.wikipedia.org/wiki/Inverse_iteration">Inverse iteration</a>
  * <a href="https://en.wikiversity.org/wiki/Shifted_inverse_iteration">Shifted inverse iteration</a>
  * <a href="https://www.robots.ox.ac.uk/~sjrob/Teaching/EngComp/ecl4.pdf">Computation of matrix eigenvalues and eigenvectors</a>
- *
  */
 public class ComplexEigenDecomposition {
 
-    /** Default threshold below which eigenvectors are considered equal. */
+    /**
+     * Default threshold below which eigenvectors are considered equal.
+     */
     public static final double DEFAULT_EIGENVECTORS_EQUALITY = 1.0e-5;
-    /** Default value to use for internal epsilon. */
+
+    /**
+     * Default value to use for internal epsilon.
+     */
     public static final double DEFAULT_EPSILON = 1e-12;
-    /** Internally used epsilon criteria for final AV=VD check. */
+
+    /**
+     * Internally used epsilon criteria for final AV=VD check.
+     */
     public static final double DEFAULT_EPSILON_AV_VD_CHECK = 1e-6;
-    /** Maximum number of inverse iterations. */
+
+    /**
+     * Maximum number of inverse iterations.
+     */
     private static final int MAX_ITER = 10;
-    /** complex eigenvalues. */
+
+    /**
+     * complex eigenvalues.
+     */
     private Complex[] eigenvalues;
-    /** Eigenvectors. */
+
+    /**
+     * Eigenvectors.
+     */
     private FieldVector<Complex>[] eigenvectors;
-    /** Cached value of V. */
+
+    /**
+     * Cached value of V.
+     */
     private FieldMatrix<Complex> V;
-    /** Cached value of D. */
+
+    /**
+     * Cached value of D.
+     */
     private FieldMatrix<Complex> D;
-    /** Internally used threshold below which eigenvectors are considered equal. */
+
+    /**
+     * Internally used threshold below which eigenvectors are considered equal.
+     */
     private final double eigenVectorsEquality;
-    /** Internally used epsilon criteria. */
+
+    /**
+     * Internally used epsilon criteria.
+     */
     private final double epsilon;
-    /** Internally used epsilon criteria for final AV=VD check. */
+
+    /**
+     * Internally used epsilon criteria for final AV=VD check.
+     */
     private final double epsilonAVVDCheck;
 
     /**
@@ -118,8 +148,7 @@ public class ComplexEigenDecomposition {
      *            real matrix.
      */
     public ComplexEigenDecomposition(final RealMatrix matrix) {
-        this(matrix, DEFAULT_EIGENVECTORS_EQUALITY,
-             DEFAULT_EPSILON, DEFAULT_EPSILON_AV_VD_CHECK);
+        this(matrix, DEFAULT_EIGENVECTORS_EQUALITY, DEFAULT_EPSILON, DEFAULT_EPSILON_AV_VD_CHECK);
     }
 
     /**
@@ -138,32 +167,25 @@ public class ComplexEigenDecomposition {
      * @param epsilonAVVDCheck Epsilon criteria for final AV=VD check
      * @since 1.8
      */
-    public ComplexEigenDecomposition(final RealMatrix matrix, final double eigenVectorsEquality,
-                                     final double epsilon, final double epsilonAVVDCheck) {
-
+    public ComplexEigenDecomposition(final RealMatrix matrix, final double eigenVectorsEquality, final double epsilon, final double epsilonAVVDCheck) {
         if (!matrix.isSquare()) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NON_SQUARE_MATRIX,
-                                                   matrix.getRowDimension(), matrix.getColumnDimension());
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NON_SQUARE_MATRIX, matrix.getRowDimension(), matrix.getColumnDimension());
         }
         this.eigenVectorsEquality = eigenVectorsEquality;
-        this.epsilon              = epsilon;
-        this.epsilonAVVDCheck     = epsilonAVVDCheck;
-
+        this.epsilon = epsilon;
+        this.epsilonAVVDCheck = epsilonAVVDCheck;
         // computing the eigen values
         findEigenValues(matrix);
         // computing the eigen vectors
         findEigenVectors(convertToFieldComplex(matrix));
-
         // V
         final int m = eigenvectors.length;
         V = MatrixUtils.createFieldMatrix(ComplexField.getInstance(), m, m);
         for (int k = 0; k < m; ++k) {
             V.setColumnVector(k, eigenvectors[k]);
         }
-
         // D
         D = MatrixUtils.createFieldDiagonalMatrix(eigenvalues);
-
         checkDefinition(matrix);
     }
 
@@ -173,7 +195,7 @@ public class ComplexEigenDecomposition {
      * @return eigen values.
      */
     public Complex[] getEigenvalues() {
-        return eigenvalues.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -184,10 +206,11 @@ public class ComplexEigenDecomposition {
      * @return eigen vector.
      */
     public FieldVector<Complex> getEigenvector(final int i) {
-        return eigenvectors[i].copy();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Reset eigenvalues and eigen vectors from matrices.
+    /**
+     * Reset eigenvalues and eigen vectors from matrices.
      * <p>
      * This method is intended to be called by sub-classes (mainly {@link OrderedComplexEigenDecomposition})
      * that reorder the matrices elements. It rebuild the eigenvalues and eigen vectors arrays
@@ -196,14 +219,7 @@ public class ComplexEigenDecomposition {
      * @since 2.1
      */
     protected void matricesToEigenArrays() {
-        for (int i = 0; i < eigenvalues.length; ++i) {
-            eigenvalues[i] = D.getEntry(i, i);
-        }
-        for (int i = 0; i < eigenvectors.length; ++i) {
-            for (int j = 0; j < eigenvectors[i].getDimension(); ++j) {
-                eigenvectors[i].setEntry(j, V.getEntry(j, i));
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -212,12 +228,7 @@ public class ComplexEigenDecomposition {
      * @return true if there are complex eigen values.
      */
     public boolean hasComplexEigenvalues() {
-        for (Complex eigenvalue : eigenvalues) {
-            if (!Precision.equals(eigenvalue.getImaginary(), 0.0, epsilon)) {
-                return true;
-            }
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -226,11 +237,7 @@ public class ComplexEigenDecomposition {
      * @return the determinant.
      */
     public double getDeterminant() {
-        Complex determinant = new Complex(1, 0);
-        for (Complex lambda : eigenvalues) {
-            determinant = determinant.multiply(lambda);
-        }
-        return determinant.getReal();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -239,7 +246,7 @@ public class ComplexEigenDecomposition {
      * @return V.
      */
     public FieldMatrix<Complex> getV() {
-        return V;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -248,7 +255,7 @@ public class ComplexEigenDecomposition {
      * @return D.
      */
     public FieldMatrix<Complex> getD() {
-        return D;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -257,7 +264,7 @@ public class ComplexEigenDecomposition {
      * @return VT.
      */
     public FieldMatrix<Complex> getVT() {
-        return V.transpose();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -267,24 +274,7 @@ public class ComplexEigenDecomposition {
      *            real matrix to compute eigen values.
      */
     protected void findEigenValues(final RealMatrix matrix) {
-        final SchurTransformer schurTransform = new SchurTransformer(matrix);
-        final double[][] matT = schurTransform.getT().getData();
-
-        eigenvalues = new Complex[matT.length];
-
-        for (int i = 0; i < eigenvalues.length; i++) {
-            if (i == (eigenvalues.length - 1) || Precision.equals(matT[i + 1][i], 0.0, epsilon)) {
-                eigenvalues[i] = new Complex(matT[i][i]);
-            } else {
-                final double x = matT[i + 1][i + 1];
-                final double p = 0.5 * (matT[i][i] - x);
-                final double z = FastMath.sqrt(FastMath.abs(p * p + matT[i + 1][i] * matT[i][i + 1]));
-                eigenvalues[i] = new Complex(x + p, z);
-                eigenvalues[i + 1] = new Complex(x + p, -z);
-                i++;
-            }
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -295,95 +285,20 @@ public class ComplexEigenDecomposition {
      */
     @SuppressWarnings("unchecked")
     protected void findEigenVectors(final FieldMatrix<Complex> matrix) {
-        // number of eigen values/vectors
-        int n = eigenvalues.length;
-
-        // eigen vectors
-        eigenvectors = (FieldVector<Complex>[]) Array.newInstance(FieldVector.class, n);
-
-        // computing eigen vector based on eigen values and inverse iteration
-        for (int i = 0; i < eigenvalues.length; i++) {
-
-            // shifted non-singular matrix matrix A-(λ+ε)I that is close to the singular matrix A-λI
-            Complex mu = eigenvalues[i].add(epsilon);
-            final FieldMatrix<Complex> shifted = matrix.copy();
-            for (int k = 0; k < matrix.getColumnDimension(); ++k) {
-                shifted.setEntry(k, k, shifted.getEntry(k, k).subtract(mu));
-            }
-
-            // solver for linear system (A - (λ+ε)I) Bₖ₊₁ = Bₖ
-            FieldDecompositionSolver<Complex> solver = new FieldQRDecomposition<>(shifted).getSolver();
-
-            // loop over possible start vectors
-            for (int p = 0; eigenvectors[i] == null && p < matrix.getColumnDimension(); ++p) {
-
-                // find a vector to start iterations
-                FieldVector<Complex> b = findStart(p);
-
-                if (getNorm(b).norm() > Precision.SAFE_MIN) {
-                    // start vector is a good candidate for inverse iteration
-
-                    // perform inverse iteration
-                    double delta = Double.POSITIVE_INFINITY;
-                    for (int k = 0; delta > epsilon && k < MAX_ITER; k++) {
-
-                        // solve (A - (λ+ε)) Bₖ₊₁ = Bₖ
-                        final FieldVector<Complex> bNext = solver.solve(b);
-
-                        // normalize according to L∞ norm
-                        normalize(bNext);
-
-                        // compute convergence criterion, comparing Bₖ and both ±Bₖ₊₁
-                        // as iterations sometimes flip between two opposite vectors
-                        delta = separation(b, bNext);
-
-                        // prepare next iteration
-                        b = bNext;
-
-                    }
-
-                    // check we have not found again an already known vector
-                    for (int j = 0; b != null && j < i; ++j) {
-                        if (separation(eigenvectors[j], b) <= eigenVectorsEquality) {
-                            // the selected start vector leads us to found a known vector again,
-                            // we must try another start
-                            b = null;
-                        }
-                    }
-                    eigenvectors[i] = b;
-
-                }
-            }
-
-            if (eigenvectors[i] == null) {
-                // for consistency with Wolfram langage
-                // https://reference.wolfram.com/language/ref/Eigenvectors.html
-                // we add zero vectors when the geometric multiplicity of the eigenvalue
-                // is smaller than its algebraic multiplicity (hence the regular eigenvector
-                // matrix should be non-square). With these additional null vectors, the
-                // eigenvectors matrix becomes square
-                eigenvectors[i] = MatrixUtils.createFieldVector(ComplexField.getInstance(), n);
-            }
-
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Find a start vector orthogonal to all already found normalized eigenvectors.
+    /**
+     * Find a start vector orthogonal to all already found normalized eigenvectors.
      * @param index index of the vector
      * @return start vector
      */
     private FieldVector<Complex> findStart(final int index) {
-
         // create vector
-        final FieldVector<Complex> start =
-                        MatrixUtils.createFieldVector(ComplexField.getInstance(),
-                                                      eigenvalues.length);
-
+        final FieldVector<Complex> start = MatrixUtils.createFieldVector(ComplexField.getInstance(), eigenvalues.length);
         // initialize with a canonical vector
         start.setEntry(index, Complex.ONE);
-
         return start;
-
     }
 
     /**
@@ -394,11 +309,11 @@ public class ComplexEigenDecomposition {
      * @return L∞ norm.
      */
     private Complex getNorm(FieldVector<Complex> vector) {
-        double  normR = 0;
+        double normR = 0;
         Complex normC = Complex.ZERO;
         for (int i = 0; i < vector.getDimension(); i++) {
             final Complex ci = vector.getEntry(i);
-            final double  ni = FastMath.hypot(ci.getReal(), ci.getImaginary());
+            final double ni = FastMath.hypot(ci.getReal(), ci.getImaginary());
             if (ni > normR) {
                 normR = ni;
                 normC = ci;
@@ -407,7 +322,8 @@ public class ComplexEigenDecomposition {
         return normC;
     }
 
-    /** Normalize a vector with respect to L∞ norm.
+    /**
+     * Normalize a vector with respect to L∞ norm.
      * @param v vector to normalized
      */
     private void normalize(final FieldVector<Complex> v) {
@@ -417,23 +333,20 @@ public class ComplexEigenDecomposition {
         }
     }
 
-    /** Compute the separation between two normalized vectors (which may be in opposite directions).
+    /**
+     * Compute the separation between two normalized vectors (which may be in opposite directions).
      * @param v1 first normalized vector
      * @param v2 second normalized vector
      * @return min (|v1 - v2|, |v1+v2|)
      */
     private double separation(final FieldVector<Complex> v1, final FieldVector<Complex> v2) {
-        double deltaPlus  = 0;
+        double deltaPlus = 0;
         double deltaMinus = 0;
         for (int j = 0; j < v1.getDimension(); ++j) {
             final Complex bCurrj = v1.getEntry(j);
             final Complex bNextj = v2.getEntry(j);
-            deltaPlus  = FastMath.max(deltaPlus,
-                                      FastMath.hypot(bNextj.getReal()      + bCurrj.getReal(),
-                                                     bNextj.getImaginary() + bCurrj.getImaginary()));
-            deltaMinus = FastMath.max(deltaMinus,
-                                      FastMath.hypot(bNextj.getReal()      - bCurrj.getReal(),
-                                                     bNextj.getImaginary() - bCurrj.getImaginary()));
+            deltaPlus = FastMath.max(deltaPlus, FastMath.hypot(bNextj.getReal() + bCurrj.getReal(), bNextj.getImaginary() + bCurrj.getImaginary()));
+            deltaMinus = FastMath.max(deltaMinus, FastMath.hypot(bNextj.getReal() - bCurrj.getReal(), bNextj.getImaginary() - bCurrj.getImaginary()));
         }
         return FastMath.min(deltaPlus, deltaMinus);
     }
@@ -445,18 +358,7 @@ public class ComplexEigenDecomposition {
      *            matrix to be decomposed.
      */
     protected void checkDefinition(final RealMatrix matrix) {
-        FieldMatrix<Complex> matrixC = convertToFieldComplex(matrix);
-
-        // checking definition of the decomposition
-        // testing A*V = V*D
-        FieldMatrix<Complex> AV = matrixC.multiply(getV());
-        FieldMatrix<Complex> VD = getV().multiply(getD());
-        if (!equalsWithPrecision(AV, VD, epsilonAVVDCheck)) {
-            throw new MathRuntimeException(LocalizedCoreFormats.FAILED_DECOMPOSITION,
-                                           matrix.getRowDimension(), matrix.getColumnDimension());
-
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -469,8 +371,7 @@ public class ComplexEigenDecomposition {
      * @return true is matrices entries are equal within tolerance,
      * false otherwise
      */
-    private boolean equalsWithPrecision(final FieldMatrix<Complex> matrix1,
-                                        final FieldMatrix<Complex> matrix2, final double tolerance) {
+    private boolean equalsWithPrecision(final FieldMatrix<Complex> matrix1, final FieldMatrix<Complex> matrix2, final double tolerance) {
         boolean toRet = true;
         for (int i = 0; i < matrix1.getRowDimension(); i++) {
             for (int j = 0; j < matrix1.getColumnDimension(); j++) {
@@ -493,9 +394,7 @@ public class ComplexEigenDecomposition {
      * @return complex matrix.
      */
     private FieldMatrix<Complex> convertToFieldComplex(RealMatrix matrix) {
-        final FieldMatrix<Complex> toRet =
-                        MatrixUtils.createFieldIdentityMatrix(ComplexField.getInstance(),
-                                                              matrix.getRowDimension());
+        final FieldMatrix<Complex> toRet = MatrixUtils.createFieldIdentityMatrix(ComplexField.getInstance(), matrix.getRowDimension());
         for (int i = 0; i < toRet.getRowDimension(); i++) {
             for (int j = 0; j < toRet.getColumnDimension(); j++) {
                 toRet.setEntry(i, j, new Complex(matrix.getEntry(i, j)));

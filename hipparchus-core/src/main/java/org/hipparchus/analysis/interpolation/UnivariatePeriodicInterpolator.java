@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -34,17 +33,27 @@ import org.hipparchus.util.MathUtils;
  * outside of the range can be passed to the interpolation function: They will
  * be wrapped into the initial range before being passed to the class that
  * actually computes the interpolation.
- *
  */
-public class UnivariatePeriodicInterpolator
-    implements UnivariateInterpolator {
-    /** Default number of extension points of the samples array. */
+public class UnivariatePeriodicInterpolator implements UnivariateInterpolator {
+
+    /**
+     * Default number of extension points of the samples array.
+     */
     public static final int DEFAULT_EXTEND = 5;
-    /** Interpolator. */
+
+    /**
+     * Interpolator.
+     */
     private final UnivariateInterpolator interpolator;
-    /** Period. */
+
+    /**
+     * Period.
+     */
     private final double period;
-    /** Number of extension points. */
+
+    /**
+     * Number of extension points.
+     */
     private final int extend;
 
     /**
@@ -58,9 +67,7 @@ public class UnivariatePeriodicInterpolator
      * number of sample points which the original {@code interpolator} needs
      * on each side of the interpolated point.
      */
-    public UnivariatePeriodicInterpolator(UnivariateInterpolator interpolator,
-                                          double period,
-                                          int extend) {
+    public UnivariatePeriodicInterpolator(UnivariateInterpolator interpolator, double period, int extend) {
         this.interpolator = interpolator;
         this.period = period;
         this.extend = extend;
@@ -74,8 +81,7 @@ public class UnivariatePeriodicInterpolator
      * @param interpolator Interpolator.
      * @param period Period.
      */
-    public UnivariatePeriodicInterpolator(UnivariateInterpolator interpolator,
-                                          double period) {
+    public UnivariatePeriodicInterpolator(UnivariateInterpolator interpolator, double period) {
         this(interpolator, period, DEFAULT_EXTEND);
     }
 
@@ -86,46 +92,7 @@ public class UnivariatePeriodicInterpolator
      * is larger than the size of {@code xval}.
      */
     @Override
-    public UnivariateFunction interpolate(double[] xval,
-                                          double[] yval)
-        throws MathIllegalArgumentException {
-        if (xval.length < extend) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL,
-                                                   xval.length, extend);
-        }
-
-        MathArrays.checkOrder(xval);
-        final double offset = xval[0];
-
-        final int len = xval.length + extend * 2;
-        final double[] x = new double[len];
-        final double[] y = new double[len];
-        for (int i = 0; i < xval.length; i++) {
-            final int index = i + extend;
-            x[index] = MathUtils.reduce(xval[i], period, offset);
-            y[index] = yval[i];
-        }
-
-        // Wrap to enable interpolation at the boundaries.
-        for (int i = 0; i < extend; i++) {
-            int index = xval.length - extend + i;
-            x[i] = MathUtils.reduce(xval[index], period, offset) - period;
-            y[i] = yval[index];
-
-            index = len - extend + i;
-            x[index] = MathUtils.reduce(xval[i], period, offset) + period;
-            y[index] = yval[i];
-        }
-
-        MathArrays.sortInPlace(x, y);
-
-        final UnivariateFunction f = interpolator.interpolate(x, y);
-        return new UnivariateFunction() {
-            /** {@inheritDoc} */
-            @Override
-            public double value(final double x) throws MathIllegalArgumentException {
-                return f.value(MathUtils.reduce(x, period, offset));
-            }
-        };
+    public UnivariateFunction interpolate(double[] xval, double[] yval) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

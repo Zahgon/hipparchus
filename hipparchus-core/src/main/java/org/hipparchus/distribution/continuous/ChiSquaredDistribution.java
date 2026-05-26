@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -28,9 +27,15 @@ package org.hipparchus.distribution.continuous;
  * @see <a href="http://mathworld.wolfram.com/Chi-SquaredDistribution.html">Chi-squared Distribution (MathWorld)</a>
  */
 public class ChiSquaredDistribution extends AbstractRealDistribution {
-    /** Serializable version identifier */
+
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20160320L;
-    /** Internal Gamma distribution. */
+
+    /**
+     * Internal Gamma distribution.
+     */
     private final GammaDistribution gamma;
 
     /**
@@ -51,10 +56,8 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
      * cumulative probability estimates (defaults to
      * {@link #DEFAULT_SOLVER_ABSOLUTE_ACCURACY}).
      */
-    public ChiSquaredDistribution(double degreesOfFreedom,
-                                  double inverseCumAccuracy) {
+    public ChiSquaredDistribution(double degreesOfFreedom, double inverseCumAccuracy) {
         super(inverseCumAccuracy);
-
         gamma = new GammaDistribution(degreesOfFreedom / 2, 2);
     }
 
@@ -64,25 +67,31 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
      * @return the degrees of freedom.
      */
     public double getDegreesOfFreedom() {
-        return gamma.getShape() * 2.0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double density(double x) {
-        return gamma.density(x);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} **/
+    /**
+     * {@inheritDoc} *
+     */
     @Override
     public double logDensity(double x) {
-        return gamma.logDensity(x);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double cumulativeProbability(double x)  {
-        return gamma.cumulativeProbability(x);
+    public double cumulativeProbability(double x) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -92,7 +101,7 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalMean() {
-        return getDegreesOfFreedom();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -102,7 +111,7 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        return 2 * getDegreesOfFreedom();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -115,7 +124,7 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportLowerBound() {
-        return 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -128,7 +137,7 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportUpperBound() {
-        return Double.POSITIVE_INFINITY;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -140,6 +149,6 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

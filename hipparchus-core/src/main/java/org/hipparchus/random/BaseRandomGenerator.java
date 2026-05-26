@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.random;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -32,80 +30,49 @@ import org.hipparchus.util.SinCos;
  */
 abstract class BaseRandomGenerator implements RandomGenerator {
 
-    /** Next gaussian. */
+    /**
+     * Next gaussian.
+     */
     private double nextGaussian = Double.NaN;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSeed(int seed) {
-        setSeed(new int[] { seed });
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSeed(long seed) {
-        setSeed(new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffL) });
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int nextInt(int n) throws IllegalArgumentException {
-        if (n <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
-                                                   n, 0);
-        }
-
-        if ((n & -n) == n) {
-            return (int) ((n * (long) (nextInt() >>> 1)) >> 31);
-        }
-        int bits;
-        int val;
-        do {
-            bits = nextInt() >>> 1;
-            val = bits % n;
-        } while (bits - val + (n - 1) < 0);
-        return val;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long nextLong(long n) {
-        if (n <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
-                                                   n, 0);
-        }
-
-        long bits;
-        long val;
-        do {
-            bits = nextLong() >>> 1;
-            val  = bits % n;
-        } while (bits - val + (n - 1) < 0);
-        return val;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double nextGaussian() {
-
-        final double random;
-        if (Double.isNaN(nextGaussian)) {
-            // generate a new pair of gaussian numbers
-            final double x = nextDouble();
-            final double y = nextDouble();
-            final double alpha = 2 * FastMath.PI * x;
-            final double r     = FastMath.sqrt(-2 * FastMath.log(y));
-            final SinCos scAlpha = FastMath.sinCos(alpha);
-            random       = r * scAlpha.cos();
-            nextGaussian = r * scAlpha.sin();
-        } else {
-            // use the second element of the pair already generated
-            random = nextGaussian;
-            nextGaussian = Double.NaN;
-        }
-
-        return random;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -113,13 +80,14 @@ abstract class BaseRandomGenerator implements RandomGenerator {
      * {@link #nextGaussian()}.
      */
     protected void clearCache() {
-        nextGaussian = Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return getClass().getName();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

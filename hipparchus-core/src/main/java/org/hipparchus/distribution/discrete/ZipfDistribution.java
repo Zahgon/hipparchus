@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.distribution.discrete;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -49,21 +47,45 @@ import org.hipparchus.util.FastMath;
  * @see <a href="https://en.wikipedia.org/wiki/Harmonic_number#Generalized_harmonic_numbers">Generalized harmonic numbers</a>
  */
 public class ZipfDistribution extends AbstractIntegerDistribution {
-    /** Serializable version identifier. */
+
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20150501L;
-    /** Number of elements. */
+
+    /**
+     * Number of elements.
+     */
     private final int numberOfElements;
-    /** Exponent parameter of the distribution. */
+
+    /**
+     * Exponent parameter of the distribution.
+     */
     private final double exponent;
-    /** Cached values of the nth generalized harmonic. */
+
+    /**
+     * Cached values of the nth generalized harmonic.
+     */
     private final double nthHarmonic;
-    /** Cached numerical mean */
+
+    /**
+     * Cached numerical mean
+     */
     private double numericalMean = Double.NaN;
-    /** Whether or not the numerical mean has been calculated */
+
+    /**
+     * Whether or not the numerical mean has been calculated
+     */
     private boolean numericalMeanIsCalculated;
-    /** Cached numerical variance */
+
+    /**
+     * Cached numerical variance
+     */
     private double numericalVariance = Double.NaN;
-    /** Whether or not the numerical variance has been calculated */
+
+    /**
+     * Whether or not the numerical variance has been calculated
+     */
     private boolean numericalVarianceIsCalculated;
 
     /**
@@ -75,17 +97,13 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
      * @exception MathIllegalArgumentException if {@code numberOfElements <= 0}
      * or {@code exponent <= 0}.
      */
-    public ZipfDistribution(final int numberOfElements, final double exponent)
-        throws MathIllegalArgumentException {
+    public ZipfDistribution(final int numberOfElements, final double exponent) throws MathIllegalArgumentException {
         if (numberOfElements <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSION,
-                                                   numberOfElements);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSION, numberOfElements);
         }
         if (exponent <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.EXPONENT,
-                                                   exponent);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.EXPONENT, exponent);
         }
-
         this.numberOfElements = numberOfElements;
         this.exponent = exponent;
         this.nthHarmonic = generalizedHarmonic(numberOfElements, exponent);
@@ -97,7 +115,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
      * @return the number of elements
      */
     public int getNumberOfElements() {
-        return numberOfElements;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -106,39 +124,31 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
      * @return the exponent
      */
     public double getExponent() {
-        return exponent;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double probability(final int x) {
-        if (x <= 0 || x > numberOfElements) {
-            return 0.0;
-        }
-
-        return (1.0 / FastMath.pow(x, exponent)) / nthHarmonic;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double logProbability(int x) {
-        if (x <= 0 || x > numberOfElements) {
-            return Double.NEGATIVE_INFINITY;
-        }
-
-        return -FastMath.log(x) * exponent - FastMath.log(nthHarmonic);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double cumulativeProbability(final int x) {
-        if (x <= 0) {
-            return 0.0;
-        } else if (x >= numberOfElements) {
-            return 1.0;
-        }
-
-        return generalizedHarmonic(x, exponent) / nthHarmonic;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -153,11 +163,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double getNumericalMean() {
-        if (!numericalMeanIsCalculated) {
-            numericalMean = calculateNumericalMean();
-            numericalMeanIsCalculated = true;
-        }
-        return numericalMean;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -166,13 +172,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
      * @return the mean of this distribution
      */
     protected double calculateNumericalMean() {
-        final int N = getNumberOfElements();
-        final double s = getExponent();
-
-        final double Hs1 = generalizedHarmonic(N, s - 1);
-        final double Hs = nthHarmonic;
-
-        return Hs1 / Hs;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -188,11 +188,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        if (!numericalVarianceIsCalculated) {
-            numericalVariance = calculateNumericalVariance();
-            numericalVarianceIsCalculated = true;
-        }
-        return numericalVariance;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -201,14 +197,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
      * @return the variance of this distribution
      */
     protected double calculateNumericalVariance() {
-        final int N = getNumberOfElements();
-        final double s = getExponent();
-
-        final double Hs2 = generalizedHarmonic(N, s - 2);
-        final double Hs1 = generalizedHarmonic(N, s - 1);
-        final double Hs = nthHarmonic;
-
-        return (Hs2 / Hs) - ((Hs1 * Hs1) / (Hs * Hs));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -237,7 +226,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public int getSupportLowerBound() {
-        return 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -249,7 +238,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public int getSupportUpperBound() {
-        return getNumberOfElements();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -261,6 +250,6 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

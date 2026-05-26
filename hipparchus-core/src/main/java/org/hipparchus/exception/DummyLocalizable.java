@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -25,39 +24,48 @@ import java.util.Locale;
 
 /**
  * Dummy implementation of the {@link Localizable} interface, without localization.
- *
  */
 public class DummyLocalizable implements Localizable {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 8843275624471387299L;
 
-    /** Source string. */
+    /**
+     * Source string.
+     */
     private final String source;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param source source text
      */
     public DummyLocalizable(final String source) {
         this.source = source;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getSourceString() {
-        return source;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getLocalizedString(Locale locale) {
-        return source;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return source;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

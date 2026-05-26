@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.nonstiff;
 
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -57,17 +56,16 @@ import org.hipparchus.util.FastMath;
  * <p>(where n is the main set dimension) then the step is accepted,
  * otherwise the step is rejected and a new attempt is made with a new
  * stepsize.</p>
- *
- *
  */
+public abstract class AdaptiveStepsizeIntegrator extends AbstractIntegrator {
 
-public abstract class AdaptiveStepsizeIntegrator
-    extends AbstractIntegrator {
-
-    /** Helper for step size control. */
+    /**
+     * Helper for step size control.
+     */
     private StepsizeHelper stepsizeHelper;
 
-    /** Build an integrator with the given stepsize bounds.
+    /**
+     * Build an integrator with the given stepsize bounds.
      * The default step handler does nothing.
      * @param name name of the method
      * @param minStep minimal step (sign is irrelevant, regardless of
@@ -79,16 +77,14 @@ public abstract class AdaptiveStepsizeIntegrator
      * @param scalAbsoluteTolerance allowed absolute error
      * @param scalRelativeTolerance allowed relative error
      */
-    protected AdaptiveStepsizeIntegrator(final String name,
-                                      final double minStep, final double maxStep,
-                                      final double scalAbsoluteTolerance,
-                                      final double scalRelativeTolerance) {
+    protected AdaptiveStepsizeIntegrator(final String name, final double minStep, final double maxStep, final double scalAbsoluteTolerance, final double scalRelativeTolerance) {
         super(name);
         stepsizeHelper = new StepsizeHelper(minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
         resetInternalState();
     }
 
-    /** Build an integrator with the given stepsize bounds.
+    /**
+     * Build an integrator with the given stepsize bounds.
      * The default step handler does nothing.
      * @param name name of the method
      * @param minStep minimal step (sign is irrelevant, regardless of
@@ -100,16 +96,14 @@ public abstract class AdaptiveStepsizeIntegrator
      * @param vecAbsoluteTolerance allowed absolute error
      * @param vecRelativeTolerance allowed relative error
      */
-    protected AdaptiveStepsizeIntegrator(final String name,
-                                      final double minStep, final double maxStep,
-                                      final double[] vecAbsoluteTolerance,
-                                      final double[] vecRelativeTolerance) {
+    protected AdaptiveStepsizeIntegrator(final String name, final double minStep, final double maxStep, final double[] vecAbsoluteTolerance, final double[] vecRelativeTolerance) {
         super(name);
         stepsizeHelper = new StepsizeHelper(minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
         resetInternalState();
     }
 
-    /** Set the adaptive step size control parameters.
+    /**
+     * Set the adaptive step size control parameters.
      * <p>
      * A side effect of this method is to also reset the initial
      * step so it will be automatically computed by the integrator
@@ -123,13 +117,12 @@ public abstract class AdaptiveStepsizeIntegrator
      * @param absoluteTolerance allowed absolute error
      * @param relativeTolerance allowed relative error
      */
-    public void setStepSizeControl(final double minimalStep, final double maximalStep,
-                                   final double absoluteTolerance,
-                                   final double relativeTolerance) {
-        stepsizeHelper = new StepsizeHelper(minimalStep, maximalStep, absoluteTolerance, relativeTolerance);
+    public void setStepSizeControl(final double minimalStep, final double maximalStep, final double absoluteTolerance, final double relativeTolerance) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set the adaptive step size control parameters.
+    /**
+     * Set the adaptive step size control parameters.
      * <p>
      * A side effect of this method is to also reset the initial
      * step so it will be automatically computed by the integrator
@@ -143,21 +136,21 @@ public abstract class AdaptiveStepsizeIntegrator
      * @param absoluteTolerance allowed absolute error
      * @param relativeTolerance allowed relative error
      */
-    public void setStepSizeControl(final double minimalStep, final double maximalStep,
-                                   final double[] absoluteTolerance,
-                                   final double[] relativeTolerance) {
-        stepsizeHelper = new StepsizeHelper(minimalStep, maximalStep, absoluteTolerance, relativeTolerance);
+    public void setStepSizeControl(final double minimalStep, final double maximalStep, final double[] absoluteTolerance, final double[] relativeTolerance) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the stepsize helper.
+    /**
+     * Get the stepsize helper.
      * @return stepsize helper
      * @since 2.0
      */
     protected StepsizeHelper getStepSizeHelper() {
-        return stepsizeHelper;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set the initial step size.
+    /**
+     * Set the initial step size.
      * <p>This method allows the user to specify an initial positive
      * step size instead of letting the integrator guess it by
      * itself. If this method is not called before integration is
@@ -169,18 +162,19 @@ public abstract class AdaptiveStepsizeIntegrator
      * ignore the value and compute the initial step size by itself)
      */
     public void setInitialStepSize(final double initialStepSize) {
-        stepsizeHelper.setInitialStepSize(initialStepSize);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected void sanityChecks(final ODEState initialState, final double t)
-                    throws MathIllegalArgumentException {
-        super.sanityChecks(initialState, t);
-        stepsizeHelper.setMainSetDimension(initialState.getPrimaryStateDimension());
+    protected void sanityChecks(final ODEState initialState, final double t) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Initialize the integration step.
+    /**
+     * Initialize the integration step.
      * @param forward forward integration indicator
      * @param order order of the method
      * @param scale scaling vector for the state vector (can be shorter than state vector)
@@ -189,92 +183,30 @@ public abstract class AdaptiveStepsizeIntegrator
      * @exception MathIllegalStateException if the number of functions evaluations is exceeded
      * @exception MathIllegalArgumentException if arrays dimensions do not match equations settings
      */
-    public double initializeStep(final boolean forward, final int order, final double[] scale,
-                                 final ODEStateAndDerivative state0)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-
-        if (stepsizeHelper.getInitialStep() > 0) {
-            // use the user provided value
-            return forward ? stepsizeHelper.getInitialStep() : -stepsizeHelper.getInitialStep();
-        }
-
-        // very rough first guess : h = 0.01 * ||y/scale|| / ||y'/scale||
-        // this guess will be used to perform an Euler step
-        final double[] y0    = state0.getCompleteState();
-        final double[] yDot0 = state0.getCompleteDerivative();
-        double yOnScale2 = 0;
-        double yDotOnScale2 = 0;
-        for (int j = 0; j < scale.length; ++j) {
-            final double ratio    = y0[j] / scale[j];
-            yOnScale2            += ratio * ratio;
-            final double ratioDot = yDot0[j] / scale[j];
-            yDotOnScale2         += ratioDot * ratioDot;
-        }
-
-        double h = ((yOnScale2 < 1.0e-10) || (yDotOnScale2 < 1.0e-10)) ?
-                   1.0e-6 : (0.01 * FastMath.sqrt(yOnScale2 / yDotOnScale2));
-        if (h > getMaxStep()) {
-            h = getMaxStep();
-        }
-        if (! forward) {
-            h = -h;
-        }
-
-        // perform an Euler step using the preceding rough guess
-        final double[] y1 = new double[y0.length];
-        for (int j = 0; j < y0.length; ++j) {
-            y1[j] = y0[j] + h * yDot0[j];
-        }
-        final double[] yDot1 = computeDerivatives(state0.getTime() + h, y1);
-
-        // estimate the second derivative of the solution
-        double yDDotOnScale = 0;
-        for (int j = 0; j < scale.length; ++j) {
-            final double ratioDotDot = (yDot1[j] - yDot0[j]) / scale[j];
-            yDDotOnScale += ratioDotDot * ratioDotDot;
-        }
-        yDDotOnScale = FastMath.sqrt(yDDotOnScale) / h;
-
-        // step size is computed such that
-        // h^order * max (||y'/tol||, ||y''/tol||) = 0.01
-        final double maxInv2 = FastMath.max(FastMath.sqrt(yDotOnScale2), yDDotOnScale);
-        final double h1 = (maxInv2 < 1.0e-15) ?
-                           FastMath.max(1.0e-6, 0.001 * FastMath.abs(h)) :
-                           FastMath.pow(0.01 / maxInv2, 1.0 / order);
-        h = FastMath.min(100.0 * FastMath.abs(h), h1);
-        h = FastMath.max(h, 1.0e-12 * FastMath.abs(state0.getTime()));  // avoids cancellation when computing t1 - t0
-        if (h < getMinStep()) {
-            h = getMinStep();
-        }
-        if (h > getMaxStep()) {
-            h = getMaxStep();
-        }
-        if (! forward) {
-            h = -h;
-        }
-
-        return h;
-
+    public double initializeStep(final boolean forward, final int order, final double[] scale, final ODEStateAndDerivative state0) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Reset internal state to dummy values. */
+    /**
+     * Reset internal state to dummy values.
+     */
     protected void resetInternalState() {
-        setStepStart(null);
-        setStepSize(stepsizeHelper.getDummyStepsize());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the minimal step.
+    /**
+     * Get the minimal step.
      * @return minimal step
      */
     public double getMinStep() {
-        return stepsizeHelper.getMinStep();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the maximal step.
+    /**
+     * Get the maximal step.
      * @return maximal step
      */
     public double getMaxStep() {
-        return stepsizeHelper.getMaxStep();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

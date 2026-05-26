@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -31,32 +30,47 @@ import org.hipparchus.util.Pair;
  */
 public class GaussIntegratorFactory {
 
-    /** Number of digits for Legendre high precision. */
+    /**
+     * Number of digits for Legendre high precision.
+     */
     public static final int DEFAULT_DECIMAL_DIGITS = 40;
 
-    /** Generator of Gauss-Legendre integrators. */
+    /**
+     * Generator of Gauss-Legendre integrators.
+     */
     private final RuleFactory legendre;
-    /** Generator of Gauss-Legendre integrators. */
+
+    /**
+     * Generator of Gauss-Legendre integrators.
+     */
     private final RuleFactory legendreHighPrecision;
-    /** Generator of Gauss-Hermite integrators. */
+
+    /**
+     * Generator of Gauss-Hermite integrators.
+     */
     private final RuleFactory hermite;
-    /** Generator of Gauss-Laguerre integrators. */
+
+    /**
+     * Generator of Gauss-Laguerre integrators.
+     */
     private final RuleFactory laguerre;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      */
     public GaussIntegratorFactory() {
         this(DEFAULT_DECIMAL_DIGITS);
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param decimalDigits minimum number of decimal digits for {@link #legendreHighPrecision(int)}
      */
     public GaussIntegratorFactory(final int decimalDigits) {
-        legendre              = new LegendreRuleFactory();
+        legendre = new LegendreRuleFactory();
         legendreHighPrecision = new ConvertingRuleFactory<>(new FieldLegendreRuleFactory<>(new DfpField(decimalDigits)));
-        hermite               = new HermiteRuleFactory();
-        laguerre              = new LaguerreRuleFactory();
+        hermite = new HermiteRuleFactory();
+        laguerre = new LaguerreRuleFactory();
     }
 
     /**
@@ -74,7 +88,7 @@ public class GaussIntegratorFactory {
      * @return a Gauss-Legendre integrator.
      */
     public GaussIntegrator laguerre(int numberOfPoints) {
-        return new GaussIntegrator(laguerre.getRule(numberOfPoints));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -88,7 +102,7 @@ public class GaussIntegratorFactory {
      * @return a Gauss-Legendre integrator.
      */
     public GaussIntegrator legendre(int numberOfPoints) {
-        return new GaussIntegrator(legendre.getRule(numberOfPoints));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -103,12 +117,8 @@ public class GaussIntegratorFactory {
      * @return a Gauss-Legendre integrator.
      * @throws MathIllegalArgumentException if number of points is not positive
      */
-    public GaussIntegrator legendre(int numberOfPoints,
-                                    double lowerBound,
-                                    double upperBound)
-        throws MathIllegalArgumentException {
-        return new GaussIntegrator(transform(legendre.getRule(numberOfPoints),
-                                             lowerBound, upperBound));
+    public GaussIntegrator legendre(int numberOfPoints, double lowerBound, double upperBound) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -122,9 +132,8 @@ public class GaussIntegratorFactory {
      * @return a Gauss-Legendre integrator.
      * @throws MathIllegalArgumentException if number of points is not positive
      */
-    public GaussIntegrator legendreHighPrecision(int numberOfPoints)
-        throws MathIllegalArgumentException {
-        return new GaussIntegrator(legendreHighPrecision.getRule(numberOfPoints));
+    public GaussIntegrator legendreHighPrecision(int numberOfPoints) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -138,12 +147,8 @@ public class GaussIntegratorFactory {
      * @return a Gauss-Legendre integrator.
      * @throws MathIllegalArgumentException if number of points is not positive
      */
-    public GaussIntegrator legendreHighPrecision(int numberOfPoints,
-                                                 double lowerBound,
-                                                 double upperBound)
-        throws MathIllegalArgumentException {
-        return new GaussIntegrator(transform(legendreHighPrecision.getRule(numberOfPoints),
-                                             lowerBound, upperBound));
+    public GaussIntegrator legendreHighPrecision(int numberOfPoints, double lowerBound, double upperBound) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -161,7 +166,7 @@ public class GaussIntegratorFactory {
      * @return a Gauss-Hermite integrator.
      */
     public SymmetricGaussIntegrator hermite(int numberOfPoints) {
-        return new SymmetricGaussIntegrator(hermite.getRule(numberOfPoints));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -177,17 +182,13 @@ public class GaussIntegratorFactory {
     private Pair<double[], double[]> transform(Pair<double[], double[]> rule, double a, double b) {
         final double[] points = rule.getFirst();
         final double[] weights = rule.getSecond();
-
         // Scaling
         final double scale = (b - a) / 2;
         final double shift = a + scale;
-
         for (int i = 0; i < points.length; i++) {
             points[i] = points[i] * scale + shift;
             weights[i] *= scale;
         }
-
         return new Pair<>(points, weights);
     }
-
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,36 +22,42 @@ package org.hipparchus.geometry.partitioning;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hipparchus.exception.MathRuntimeException;
 import org.hipparchus.geometry.Point;
 import org.hipparchus.geometry.Space;
 
-/** Cut sub-hyperplanes characterization with respect to inside/outside cells.
+/**
+ * Cut sub-hyperplanes characterization with respect to inside/outside cells.
  * @see BoundaryBuilder
  * @param <S> Type of the space.
  * @param <P> Type of the points in space.
  * @param <H> Type of the hyperplane.
  * @param <I> Type of the sub-hyperplane.
  */
-class Characterization<S extends Space,
-                       P extends Point<S, P>,
-                       H extends Hyperplane<S, P, H, I>,
-                       I extends SubHyperplane<S, P, H, I>> {
+class Characterization<S extends Space, P extends Point<S, P>, H extends Hyperplane<S, P, H, I>, I extends SubHyperplane<S, P, H, I>> {
 
-    /** Part of the cut sub-hyperplane that touch outside cells. */
+    /**
+     * Part of the cut sub-hyperplane that touch outside cells.
+     */
     private I outsideTouching;
 
-    /** Part of the cut sub-hyperplane that touch inside cells. */
+    /**
+     * Part of the cut sub-hyperplane that touch inside cells.
+     */
     private I insideTouching;
 
-    /** Nodes that were used to split the outside touching part. */
+    /**
+     * Nodes that were used to split the outside touching part.
+     */
     private final NodesSet<S, P, H, I> outsideSplitters;
 
-    /** Nodes that were used to split the inside touching part. */
+    /**
+     * Nodes that were used to split the inside touching part.
+     */
     private final NodesSet<S, P, H, I> insideSplitters;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * <p>Characterization consists in splitting the specified
      * sub-hyperplane into several parts lying in inside and outside
      * cells of the tree. The principle is to compute characterization
@@ -65,14 +70,15 @@ class Characterization<S extends Space,
      * @param sub sub-hyperplane to characterize
      */
     Characterization(final BSPTree<S, P, H, I> node, final I sub) {
-        outsideTouching  = null;
-        insideTouching   = null;
+        outsideTouching = null;
+        insideTouching = null;
         outsideSplitters = new NodesSet<>();
-        insideSplitters  = new NodesSet<>();
+        insideSplitters = new NodesSet<>();
         characterize(node, sub, new ArrayList<>());
     }
 
-    /** Filter the parts of an hyperplane belonging to the boundary.
+    /**
+     * Filter the parts of an hyperplane belonging to the boundary.
      * <p>The filtering consist in splitting the specified
      * sub-hyperplane into several parts lying in inside and outside
      * cells of the tree. The principle is to call this method twice for
@@ -85,8 +91,7 @@ class Characterization<S extends Space,
      * @param sub sub-hyperplane to characterize
      * @param splitters nodes that did split the current one
      */
-    private void characterize(final BSPTree<S, P, H, I> node, final I sub,
-                              final List<BSPTree<S, P, H, I>> splitters) {
+    private void characterize(final BSPTree<S, P, H, I> node, final I sub, final List<BSPTree<S, P, H, I>> splitters) {
         if (node.getCut() == null) {
             // we have reached a leaf node
             final boolean inside = (Boolean) node.getAttribute();
@@ -98,27 +103,28 @@ class Characterization<S extends Space,
         } else {
             final H hyperplane = node.getCut().getHyperplane();
             final SubHyperplane.SplitSubHyperplane<S, P, H, I> split = sub.split(hyperplane);
-            switch (split.getSide()) {
-            case PLUS:
-                characterize(node.getPlus(),  sub, splitters);
-                break;
-            case MINUS:
-                characterize(node.getMinus(), sub, splitters);
-                break;
-            case BOTH:
-                splitters.add(node);
-                characterize(node.getPlus(),  split.getPlus(),  splitters);
-                characterize(node.getMinus(), split.getMinus(), splitters);
-                splitters.remove(splitters.size() - 1);
-                break;
-            default:
-                // this should not happen
-                throw MathRuntimeException.createInternalError();
+            switch(split.getSide()) {
+                case PLUS:
+                    characterize(node.getPlus(), sub, splitters);
+                    break;
+                case MINUS:
+                    characterize(node.getMinus(), sub, splitters);
+                    break;
+                case BOTH:
+                    splitters.add(node);
+                    characterize(node.getPlus(), split.getPlus(), splitters);
+                    characterize(node.getMinus(), split.getMinus(), splitters);
+                    splitters.remove(splitters.size() - 1);
+                    break;
+                default:
+                    // this should not happen
+                    throw MathRuntimeException.createInternalError();
             }
         }
     }
 
-    /** Add a part of the cut sub-hyperplane known to touch an outside cell.
+    /**
+     * Add a part of the cut sub-hyperplane known to touch an outside cell.
      * @param sub part of the cut sub-hyperplane known to touch an outside cell
      * @param splitters sub-hyperplanes that did split the current one
      */
@@ -131,7 +137,8 @@ class Characterization<S extends Space,
         outsideSplitters.addAll(splitters);
     }
 
-    /** Add a part of the cut sub-hyperplane known to touch an inside cell.
+    /**
+     * Add a part of the cut sub-hyperplane known to touch an inside cell.
      * @param sub part of the cut sub-hyperplane known to touch an inside cell
      * @param splitters sub-hyperplanes that did split the current one
      */
@@ -144,22 +151,25 @@ class Characterization<S extends Space,
         insideSplitters.addAll(splitters);
     }
 
-    /** Check if the cut sub-hyperplane touches outside cells.
+    /**
+     * Check if the cut sub-hyperplane touches outside cells.
      * @return true if the cut sub-hyperplane touches outside cells
      */
     public boolean touchOutside() {
-        return outsideTouching != null && !outsideTouching.isEmpty();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get all the parts of the cut sub-hyperplane known to touch outside cells.
+    /**
+     * Get all the parts of the cut sub-hyperplane known to touch outside cells.
      * @return parts of the cut sub-hyperplane known to touch outside cells
      * (may be null or empty)
      */
     public I outsideTouching() {
-        return outsideTouching;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the nodes that were used to split the outside touching part.
+    /**
+     * Get the nodes that were used to split the outside touching part.
      * <p>
      * Splitting nodes are internal nodes (i.e. they have a non-null
      * cut sub-hyperplane).
@@ -167,25 +177,28 @@ class Characterization<S extends Space,
      * @return nodes that were used to split the outside touching part
      */
     public NodesSet<S, P, H, I> getOutsideSplitters() {
-        return outsideSplitters;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check if the cut sub-hyperplane touches inside cells.
+    /**
+     * Check if the cut sub-hyperplane touches inside cells.
      * @return true if the cut sub-hyperplane touches inside cells
      */
     public boolean touchInside() {
-        return insideTouching != null && !insideTouching.isEmpty();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get all the parts of the cut sub-hyperplane known to touch inside cells.
+    /**
+     * Get all the parts of the cut sub-hyperplane known to touch inside cells.
      * @return parts of the cut sub-hyperplane known to touch inside cells
      * (may be null or empty)
      */
     public I insideTouching() {
-        return insideTouching;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the nodes that were used to split the inside touching part.
+    /**
+     * Get the nodes that were used to split the inside touching part.
      * <p>
      * Splitting nodes are internal nodes (i.e. they have a non-null
      * cut sub-hyperplane).
@@ -193,7 +206,6 @@ class Characterization<S extends Space,
      * @return nodes that were used to split the inside touching part
      */
     public NodesSet<S, P, H, I> getInsideSplitters() {
-        return insideSplitters;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

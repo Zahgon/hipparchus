@@ -32,13 +32,14 @@ import org.hipparchus.Field;
 @FunctionalInterface
 public interface FieldUnivariateFunction {
 
-    /** Convert to a {@link CalculusFieldUnivariateFunction} with a specific type.
+    /**
+     * Convert to a {@link CalculusFieldUnivariateFunction} with a specific type.
      * @param <T> the type of the field elements
      * @param field field for the argument and value
      * @return converted function
      */
     default <T extends CalculusFieldElement<T>> CalculusFieldUnivariateFunction<T> toCalculusFieldUnivariateFunction(Field<T> field) {
-        return this::value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -55,5 +56,4 @@ public interface FieldUnivariateFunction {
      * the method.
      */
     <T extends CalculusFieldElement<T>> T value(T x);
-
 }

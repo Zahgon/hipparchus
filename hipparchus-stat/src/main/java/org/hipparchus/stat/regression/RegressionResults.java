@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,43 +22,79 @@ package org.hipparchus.stat.regression;
 
 import java.io.Serializable;
 import java.util.Arrays;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.util.FastMath;
 import org.hipparchus.util.MathUtils;
 
 /**
  * Results of a Multiple Linear Regression model fit.
- *
  */
 public class RegressionResults implements Serializable {
 
-    /** INDEX of Sum of Squared Errors */
+    /**
+     * INDEX of Sum of Squared Errors
+     */
     private static final int SSE_IDX = 0;
-    /** INDEX of Sum of Squares of Model */
+
+    /**
+     * INDEX of Sum of Squares of Model
+     */
     private static final int SST_IDX = 1;
-    /** INDEX of R-Squared of regression */
+
+    /**
+     * INDEX of R-Squared of regression
+     */
     private static final int RSQ_IDX = 2;
-    /** INDEX of Mean Squared Error */
+
+    /**
+     * INDEX of Mean Squared Error
+     */
     private static final int MSE_IDX = 3;
-    /** INDEX of Adjusted R Squared */
+
+    /**
+     * INDEX of Adjusted R Squared
+     */
     private static final int ADJRSQ_IDX = 4;
-    /** UID */
+
+    /**
+     * UID
+     */
     private static final long serialVersionUID = 1l;
-    /** regression slope parameters */
+
+    /**
+     * regression slope parameters
+     */
     private final double[] parameters;
-    /** variance covariance matrix of parameters */
+
+    /**
+     * variance covariance matrix of parameters
+     */
     private final double[][] varCovData;
-    /** boolean flag for variance covariance matrix in symm compressed storage */
+
+    /**
+     * boolean flag for variance covariance matrix in symm compressed storage
+     */
     private final boolean isSymmetricVCD;
-    /** rank of the solution */
+
+    /**
+     * rank of the solution
+     */
     @SuppressWarnings("unused")
     private final int rank;
-    /** number of observations on which results are based */
+
+    /**
+     * number of observations on which results are based
+     */
     private final long nobs;
-    /** boolean flag indicator of whether a constant was included*/
+
+    /**
+     * boolean flag indicator of whether a constant was included
+     */
     private final boolean containsConstant;
-    /** array storing global results, SSE, MSE, RSQ, adjRSQ */
+
+    /**
+     * array storing global results, SSE, MSE, RSQ, adjRSQ
+     */
     private final double[] globalFitInfo;
 
     /**
@@ -94,13 +129,7 @@ public class RegressionResults implements Serializable {
      * @param copyData if true a deep copy of all input data is made, if false only references
      * are copied and the RegressionResults become mutable
      */
-    public RegressionResults(
-            final double[] parameters, final double[][] varcov,
-            final boolean isSymmetricCompressed,
-            final long nobs, final int rank,
-            final double sumy, final double sumysq, final double sse,
-            final boolean containsConstant,
-            final boolean copyData) {
+    public RegressionResults(final double[] parameters, final double[][] varcov, final boolean isSymmetricCompressed, final long nobs, final int rank, final double sumy, final double sumysq, final double sse, final boolean containsConstant, final boolean copyData) {
         if (copyData) {
             this.parameters = parameters.clone();
             this.varCovData = new double[varcov.length][];
@@ -108,8 +137,10 @@ public class RegressionResults implements Serializable {
                 this.varCovData[i] = varcov[i].clone();
             }
         } else {
-            this.parameters = parameters; // NOPMD - storing a reference to the array is controlled by a user-supplied parameter
-            this.varCovData = varcov; // NOPMD - storing a reference to the array is controlled by a user-supplied parameter
+            // NOPMD - storing a reference to the array is controlled by a user-supplied parameter
+            this.parameters = parameters;
+            // NOPMD - storing a reference to the array is controlled by a user-supplied parameter
+            this.varCovData = varcov;
         }
         this.isSymmetricVCD = isSymmetricCompressed;
         this.nobs = nobs;
@@ -117,16 +148,12 @@ public class RegressionResults implements Serializable {
         this.containsConstant = containsConstant;
         this.globalFitInfo = new double[5];
         Arrays.fill(this.globalFitInfo, Double.NaN);
-
         if (rank > 0) {
-            this.globalFitInfo[SST_IDX] = containsConstant ?
-                    (sumysq - sumy * sumy / nobs) : sumysq;
+            this.globalFitInfo[SST_IDX] = containsConstant ? (sumysq - sumy * sumy / nobs) : sumysq;
         }
-
         this.globalFitInfo[SSE_IDX] = sse;
         this.globalFitInfo[MSE_IDX] = this.globalFitInfo[SSE_IDX] / (nobs - rank);
         this.globalFitInfo[RSQ_IDX] = 1.0 - this.globalFitInfo[SSE_IDX] / this.globalFitInfo[SST_IDX];
-
         if (!containsConstant) {
             this.globalFitInfo[ADJRSQ_IDX] = 1.0 - (1.0 - this.globalFitInfo[RSQ_IDX]) * (((double) nobs) / (nobs - rank));
         } else {
@@ -146,11 +173,7 @@ public class RegressionResults implements Serializable {
      * {@code [0, number of parameters)}.
      */
     public double getParameterEstimate(int index) throws MathIllegalArgumentException {
-        if (parameters == null) {
-            return Double.NaN;
-        }
-        MathUtils.checkRangeInclusive(index, 0, this.parameters.length - 1);
-        return this.parameters[index];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -164,10 +187,7 @@ public class RegressionResults implements Serializable {
      * @return array of parameter estimates, null if no estimation occurred
      */
     public double[] getParameterEstimates() {
-        if (this.parameters == null) {
-            return null; // NOPMD
-        }
-        return parameters.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -181,15 +201,7 @@ public class RegressionResults implements Serializable {
      * {@code [0, number of parameters)}.
      */
     public double getStdErrorOfEstimate(int index) throws MathIllegalArgumentException {
-        if (parameters == null) {
-            return Double.NaN;
-        }
-        MathUtils.checkRangeInclusive(index, 0, this.parameters.length - 1);
-        double var = this.getVcvElement(index, index);
-        if (!Double.isNaN(var) && var > Double.MIN_VALUE) {
-            return FastMath.sqrt(var);
-        }
-        return Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -204,19 +216,7 @@ public class RegressionResults implements Serializable {
      *  null if no estimation occurred
      */
     public double[] getStdErrorOfEstimates() {
-        if (parameters == null) {
-            return null; // NOPMD
-        }
-        double[] se = new double[this.parameters.length];
-        for (int i = 0; i < this.parameters.length; i++) {
-            double var = this.getVcvElement(i, i);
-            if (!Double.isNaN(var) && var > Double.MIN_VALUE) {
-                se[i] = FastMath.sqrt(var);
-                continue;
-            }
-            se[i] = Double.NaN;
-        }
-        return se;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -232,12 +232,7 @@ public class RegressionResults implements Serializable {
      * interval {@code [0, number of parameters)}.
      */
     public double getCovarianceOfParameters(int i, int j) throws MathIllegalArgumentException {
-        if (parameters == null) {
-            return Double.NaN;
-        }
-        MathUtils.checkRangeInclusive(i, 0, this.parameters.length - 1);
-        MathUtils.checkRangeInclusive(j, 0, this.parameters.length - 1);
-        return this.getVcvElement(i, j);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -249,10 +244,7 @@ public class RegressionResults implements Serializable {
      * @return number of regressors, -1 if not estimated
      */
     public int getNumberOfParameters() {
-        if (this.parameters == null) {
-            return -1;
-        }
-        return this.parameters.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -261,7 +253,7 @@ public class RegressionResults implements Serializable {
      * @return Number of observations, -1 if an error condition prevents estimation
      */
     public long getN() {
-        return this.nobs;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -275,7 +267,7 @@ public class RegressionResults implements Serializable {
      * @return sum of squared deviations of y values
      */
     public double getTotalSumSquares() {
-        return this.globalFitInfo[SST_IDX];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -295,7 +287,7 @@ public class RegressionResults implements Serializable {
      * @return sum of squared deviations of predicted y values
      */
     public double getRegressionSumSquares() {
-        return this.globalFitInfo[SST_IDX] - this.globalFitInfo[SSE_IDX];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -318,7 +310,7 @@ public class RegressionResults implements Serializable {
      * @return sum of squared errors associated with the regression model
      */
     public double getErrorSumSquares() {
-        return this.globalFitInfo[ SSE_IDX];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -332,7 +324,7 @@ public class RegressionResults implements Serializable {
      * @return sum of squared deviations of y values
      */
     public double getMeanSquareError() {
-        return this.globalFitInfo[ MSE_IDX];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -351,7 +343,7 @@ public class RegressionResults implements Serializable {
      * @return r-square, a double in the interval [0, 1]
      */
     public double getRSquared() {
-        return this.globalFitInfo[ RSQ_IDX];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -370,7 +362,7 @@ public class RegressionResults implements Serializable {
      * @return adjusted R-Squared statistic
      */
     public double getAdjustedRSquared() {
-        return this.globalFitInfo[ ADJRSQ_IDX];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -380,7 +372,7 @@ public class RegressionResults implements Serializable {
      * @return true if the model has an intercept term
      */
     public boolean hasIntercept() {
-        return this.containsConstant;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -401,7 +393,8 @@ public class RegressionResults implements Serializable {
                 } else {
                     return varCovData[j][i];
                 }
-            } else {//could be in single array
+            } else {
+                //could be in single array
                 if (i > j) {
                     return varCovData[0][(i + 1) * i / 2 + j];
                 } else {

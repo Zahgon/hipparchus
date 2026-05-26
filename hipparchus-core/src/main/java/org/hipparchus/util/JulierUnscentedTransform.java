@@ -19,7 +19,8 @@ package org.hipparchus.util;
 import org.hipparchus.linear.ArrayRealVector;
 import org.hipparchus.linear.RealVector;
 
-/** Unscented transform as defined by Julier and Uhlmann.
+/**
+ * Unscented transform as defined by Julier and Uhlmann.
  * <p>
  * The unscented transform uses three parameters: alpha, beta and kappa.
  * Alpha determines the spread of the sigma points around the process state,
@@ -34,16 +35,24 @@ import org.hipparchus.linear.RealVector;
  */
 public class JulierUnscentedTransform extends AbstractUnscentedTransform {
 
-    /** Default value for kappa, (0.0, see reference). */
+    /**
+     * Default value for kappa, (0.0, see reference).
+     */
     public static final double DEFAULT_KAPPA = 0;
 
-    /** Weights for covariance matrix. */
+    /**
+     * Weights for covariance matrix.
+     */
     private final RealVector wc;
 
-    /** Weights for mean state. */
+    /**
+     * Weights for mean state.
+     */
     private final RealVector wm;
 
-    /** Factor applied to the covariance matrix during the unscented transform (lambda + process state size). */
+    /**
+     * Factor applied to the covariance matrix during the unscented transform (lambda + process state size).
+     */
     private final double factor;
 
     /**
@@ -65,43 +74,42 @@ public class JulierUnscentedTransform extends AbstractUnscentedTransform {
      * @param kappa fscaling factor
      */
     public JulierUnscentedTransform(final int stateDim, final double kappa) {
-
         // Call super constructor
         super(stateDim);
-
         // Initialize multiplication factor for covariance matrix
         this.factor = stateDim + kappa;
-
         // Initialize vectors weights
         wm = new ArrayRealVector(2 * stateDim + 1);
-
         // Computation of unscented kalman filter weights (See Eq. 12)
         wm.setEntry(0, kappa / factor);
         for (int i = 1; i <= 2 * stateDim; i++) {
             wm.setEntry(i, 1.0 / (2.0 * factor));
         }
-
         // For the Julier unscented transform, there is no difference between covariance and state weights
         wc = wm;
-
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector getWc() {
-        return wc;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector getWm() {
-        return wm;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected double getMultiplicationFactor() {
-        return factor;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

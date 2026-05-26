@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -66,19 +65,32 @@ import org.hipparchus.util.MathUtils;
  * </p>
  *
  * @see MultivariateFunctionMappingAdapter
- *
  */
-public class MultivariateFunctionPenaltyAdapter
-    implements MultivariateFunction {
-    /** Underlying bounded function. */
+public class MultivariateFunctionPenaltyAdapter implements MultivariateFunction {
+
+    /**
+     * Underlying bounded function.
+     */
     private final MultivariateFunction bounded;
-    /** Lower bounds. */
+
+    /**
+     * Lower bounds.
+     */
     private final double[] lower;
-    /** Upper bounds. */
+
+    /**
+     * Upper bounds.
+     */
     private final double[] upper;
-    /** Penalty offset. */
+
+    /**
+     * Penalty offset.
+     */
     private final double offset;
-    /** Penalty scales. */
+
+    /**
+     * Penalty scales.
+     */
     private final double[] scale;
 
     /**
@@ -124,34 +136,28 @@ public class MultivariateFunctionPenaltyAdapter
      * scales are not consistent, either according to dimension or to bounadary
      * values
      */
-    public MultivariateFunctionPenaltyAdapter(final MultivariateFunction bounded,
-                                              final double[] lower, final double[] upper,
-                                              final double offset, final double[] scale) {
-
+    public MultivariateFunctionPenaltyAdapter(final MultivariateFunction bounded, final double[] lower, final double[] upper, final double offset, final double[] scale) {
         // safety checks
         MathUtils.checkNotNull(lower);
         MathUtils.checkNotNull(upper);
         MathUtils.checkNotNull(scale);
         if (lower.length != upper.length) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   lower.length, upper.length);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH, lower.length, upper.length);
         }
         if (lower.length != scale.length) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   lower.length, scale.length);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH, lower.length, scale.length);
         }
         for (int i = 0; i < lower.length; ++i) {
-            if (!(upper[i] >= lower[i])) { // NOPMD - the test is written in such a way it also fails for NaN
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL,
-                                                       upper[i], lower[i]);
+            if (!(upper[i] >= lower[i])) {
+                // NOPMD - the test is written in such a way it also fails for NaN
+                throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL, upper[i], lower[i]);
             }
         }
-
         this.bounded = bounded;
-        this.lower   = lower.clone();
-        this.upper   = upper.clone();
-        this.offset  = offset;
-        this.scale   = scale.clone();
+        this.lower = lower.clone();
+        this.upper = upper.clone();
+        this.offset = offset;
+        this.scale = scale.clone();
     }
 
     /**
@@ -167,28 +173,6 @@ public class MultivariateFunctionPenaltyAdapter
      */
     @Override
     public double value(double[] point) {
-
-        for (int i = 0; i < scale.length; ++i) {
-            if ((point[i] < lower[i]) || (point[i] > upper[i])) {
-                // bound violation starting at this component
-                double sum = 0;
-                for (int j = i; j < scale.length; ++j) {
-                    final double overshoot;
-                    if (point[j] < lower[j]) {
-                        overshoot = scale[j] * (lower[j] - point[j]);
-                    } else if (point[j] > upper[j]) {
-                        overshoot = scale[j] * (point[j] - upper[j]);
-                    } else {
-                        overshoot = 0;
-                    }
-                    sum += FastMath.sqrt(overshoot);
-                }
-                return offset + sum;
-            }
-        }
-
-        // all boundaries are fulfilled, we are in the expected
-        // domain of the underlying function
-        return bounded.value(point);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

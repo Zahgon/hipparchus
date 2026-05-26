@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -45,34 +44,37 @@ import org.hipparchus.linear.RealVector;
  */
 public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegression {
 
-    /** Covariance matrix. */
+    /**
+     * Covariance matrix.
+     */
     private RealMatrix Omega;
 
-    /** Inverse of covariance matrix. */
+    /**
+     * Inverse of covariance matrix.
+     */
     private RealMatrix OmegaInverse;
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public GLSMultipleLinearRegression() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public GLSMultipleLinearRegression() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** Replace sample data, overriding any previous sample.
+    /**
+     * Replace sample data, overriding any previous sample.
      * @param y y values of the sample
      * @param x x values of the sample
      * @param covariance array representing the covariance matrix
      */
     public void newSampleData(double[] y, double[][] x, double[][] covariance) {
-        validateSampleData(x, y);
-        newYSampleData(y);
-        newXSampleData(x);
-        validateCovarianceData(x, covariance);
-        newCovarianceData(covariance);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -80,9 +82,8 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      *
      * @param omega the [n,n] array representing the covariance
      */
-    protected void newCovarianceData(double[][] omega){
-        this.Omega = new Array2DRowRealMatrix(omega);
-        this.OmegaInverse = null;
+    protected void newCovarianceData(double[][] omega) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -91,10 +92,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * @return inverse of the covariance
      */
     protected RealMatrix getOmegaInverse() {
-        if (OmegaInverse == null) {
-            OmegaInverse = new LUDecomposition(Omega).getSolver().getInverse();
-        }
-        return OmegaInverse;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -106,11 +104,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     @Override
     protected RealVector calculateBeta() {
-        RealMatrix OI = getOmegaInverse();
-        RealMatrix XT = getX().transpose();
-        RealMatrix XTOIX = XT.multiply(OI).multiply(getX());
-        RealMatrix inverse = new LUDecomposition(XTOIX).getSolver().getInverse();
-        return inverse.multiply(XT).multiply(OI).operate(getY());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -122,11 +116,8 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     @Override
     protected RealMatrix calculateBetaVariance() {
-        RealMatrix OI = getOmegaInverse();
-        RealMatrix XTOIX = getX().transposeMultiply(OI).multiply(getX());
-        return new LUDecomposition(XTOIX).getSolver().getInverse();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     /**
      * Calculates the estimated variance of the error term using the formula
@@ -140,10 +131,6 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     @Override
     protected double calculateErrorVariance() {
-        RealVector residuals = calculateResiduals();
-        double t = residuals.dotProduct(getOmegaInverse().operate(residuals));
-        return t / (getX().getRowDimension() - getX().getColumnDimension());
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

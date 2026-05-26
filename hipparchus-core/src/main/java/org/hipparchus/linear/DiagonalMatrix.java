@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.linear;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.NullArgumentException;
@@ -32,13 +30,17 @@ import org.hipparchus.util.Precision;
 
 /**
  * Implementation of a diagonal matrix.
- *
  */
-public class DiagonalMatrix extends AbstractRealMatrix
-    implements Serializable {
-    /** Serializable version identifier. */
+public class DiagonalMatrix extends AbstractRealMatrix implements Serializable {
+
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20121229L;
-    /** Entries of the diagonal. */
+
+    /**
+     * Entries of the diagonal.
+     */
     private final double[] data;
 
     /**
@@ -48,8 +50,7 @@ public class DiagonalMatrix extends AbstractRealMatrix
      * @throws MathIllegalArgumentException if the dimension is
      * not positive.
      */
-    public DiagonalMatrix(final int dimension)
-        throws MathIllegalArgumentException {
+    public DiagonalMatrix(final int dimension) throws MathIllegalArgumentException {
         super(dimension, dimension);
         data = new double[dimension];
     }
@@ -79,8 +80,7 @@ public class DiagonalMatrix extends AbstractRealMatrix
      * otherwise it will be referenced.
      * @exception NullArgumentException if d is null
      */
-    public DiagonalMatrix(final double[] d, final boolean copyArray)
-        throws NullArgumentException {
+    public DiagonalMatrix(final double[] d, final boolean copyArray) throws NullArgumentException {
         MathUtils.checkNotNull(d);
         data = copyArray ? d.clone() : d;
     }
@@ -91,21 +91,16 @@ public class DiagonalMatrix extends AbstractRealMatrix
      * @throws MathIllegalArgumentException if the requested dimensions are not equal.
      */
     @Override
-    public RealMatrix createMatrix(final int rowDimension,
-                                   final int columnDimension)
-        throws MathIllegalArgumentException {
-        if (rowDimension != columnDimension) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   rowDimension, columnDimension);
-        }
-
-        return new DiagonalMatrix(rowDimension);
+    public RealMatrix createMatrix(final int rowDimension, final int columnDimension) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealMatrix copy() {
-        return new DiagonalMatrix(data);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -116,18 +111,8 @@ public class DiagonalMatrix extends AbstractRealMatrix
      * @throws MathIllegalArgumentException if {@code m} is not the same
      * size as {@code this}.
      */
-    public DiagonalMatrix add(final DiagonalMatrix m)
-        throws MathIllegalArgumentException {
-        // Safety check.
-        MatrixUtils.checkAdditionCompatible(this, m);
-
-        final int dim = getRowDimension();
-        final double[] outData = new double[dim];
-        for (int i = 0; i < dim; i++) {
-            outData[i] = data[i] + m.data[i];
-        }
-
-        return new DiagonalMatrix(outData, false);
+    public DiagonalMatrix add(final DiagonalMatrix m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -138,17 +123,8 @@ public class DiagonalMatrix extends AbstractRealMatrix
      * @throws MathIllegalArgumentException if {@code m} is not the same
      * size as {@code this}.
      */
-    public DiagonalMatrix subtract(final DiagonalMatrix m)
-        throws MathIllegalArgumentException {
-        MatrixUtils.checkSubtractionCompatible(this, m);
-
-        final int dim = getRowDimension();
-        final double[] outData = new double[dim];
-        for (int i = 0; i < dim; i++) {
-            outData[i] = data[i] - m.data[i];
-        }
-
-        return new DiagonalMatrix(outData, false);
+    public DiagonalMatrix subtract(final DiagonalMatrix m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -159,37 +135,16 @@ public class DiagonalMatrix extends AbstractRealMatrix
      * @throws MathIllegalArgumentException if
      * {@code columnDimension(this) != rowDimension(m)}
      */
-    public DiagonalMatrix multiply(final DiagonalMatrix m)
-        throws MathIllegalArgumentException {
-        MatrixUtils.checkMultiplicationCompatible(this, m);
-
-        final int dim = getRowDimension();
-        final double[] outData = new double[dim];
-        for (int i = 0; i < dim; i++) {
-            outData[i] = data[i] * m.data[i];
-        }
-
-        return new DiagonalMatrix(outData, false);
+    public DiagonalMatrix multiply(final DiagonalMatrix m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public RealMatrix multiply(final RealMatrix m)
-        throws MathIllegalArgumentException {
-        if (m instanceof DiagonalMatrix) {
-            return multiply((DiagonalMatrix) m);
-        } else {
-            MatrixUtils.checkMultiplicationCompatible(this, m);
-            final RealMatrix product = m.createMatrix(m.getRowDimension(), m.getColumnDimension());
-            product.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor() {
-                /** {@inheritDoc} */
-                @Override
-                public double visit(int row, int column, double value) {
-                    return data[row] * m.getEntry(row, column);
-                }
-            });
-            return product;
-        }
+    public RealMatrix multiply(final RealMatrix m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -200,30 +155,16 @@ public class DiagonalMatrix extends AbstractRealMatrix
      * {@code columnDimension(this) != columnDimension(m)}
      * @since 1.3
      */
-    public DiagonalMatrix multiplyTransposed(final DiagonalMatrix m)
-        throws MathIllegalArgumentException {
-        // transposition is no-op for diagonal matrices
-        return multiply(m);
+    public DiagonalMatrix multiplyTransposed(final DiagonalMatrix m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public RealMatrix multiplyTransposed(final RealMatrix m)
-        throws MathIllegalArgumentException {
-        if (m instanceof DiagonalMatrix) {
-            return multiplyTransposed((DiagonalMatrix) m);
-        } else {
-            MatrixUtils.checkSameColumnDimension(this, m);
-            final RealMatrix product = m.createMatrix(m.getColumnDimension(), m.getRowDimension());
-            product.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor() {
-                /** {@inheritDoc} */
-                @Override
-                public double visit(int row, int column, double value) {
-                    return data[row] * m.getEntry(column, row);
-                }
-            });
-            return product;
-        }
+    public RealMatrix multiplyTransposed(final RealMatrix m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -234,34 +175,24 @@ public class DiagonalMatrix extends AbstractRealMatrix
      * {@code columnDimension(this) != columnDimension(m)}
      * @since 1.3
      */
-    public DiagonalMatrix transposeMultiply(final DiagonalMatrix m)
-        throws MathIllegalArgumentException {
-        // transposition is no-op for diagonal matrices
-        return multiply(m);
+    public DiagonalMatrix transposeMultiply(final DiagonalMatrix m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealMatrix transposeMultiply(final RealMatrix m) {
-        if (m instanceof DiagonalMatrix) {
-            return transposeMultiply((DiagonalMatrix) m);
-        } else {
-            // transposition is no-op for diagonal matrices
-            return multiply(m);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[][] getData() {
-        final int dim = getRowDimension();
-        final double[][] out = new double[dim][dim];
-
-        for (int i = 0; i < dim; i++) {
-            out[i][i] = data[i];
-        }
-
-        return out;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -270,106 +201,91 @@ public class DiagonalMatrix extends AbstractRealMatrix
      * @return 1-dimensional array of entries.
      */
     public double[] getDataRef() {
-        return data; // NOPMD - returning an internal array is intentional and documented here
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double getEntry(final int row, final int column)
-        throws MathIllegalArgumentException {
-        MatrixUtils.checkMatrixIndex(this, row, column);
-        return row == column ? data[row] : 0;
+    public double getEntry(final int row, final int column) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @throws MathIllegalArgumentException if {@code row != column} and value is non-zero.
      */
     @Override
-    public void setEntry(final int row, final int column, final double value)
-        throws MathIllegalArgumentException {
-        if (row == column) {
-            MatrixUtils.checkRowIndex(this, row);
-            data[row] = value;
-        } else {
-            ensureZero(value);
-        }
+    public void setEntry(final int row, final int column, final double value) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @throws MathIllegalArgumentException if {@code row != column} and increment is non-zero.
      */
     @Override
-    public void addToEntry(final int row,
-                           final int column,
-                           final double increment)
-        throws MathIllegalArgumentException {
-        if (row == column) {
-            MatrixUtils.checkRowIndex(this, row);
-            data[row] += increment;
-        } else {
-            ensureZero(increment);
-        }
+    public void addToEntry(final int row, final int column, final double increment) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void multiplyEntry(final int row,
-                              final int column,
-                              final double factor)
-        throws MathIllegalArgumentException {
-        // we don't care about non-diagonal elements for multiplication
-        if (row == column) {
-            MatrixUtils.checkRowIndex(this, row);
-            data[row] *= factor;
-        }
+    public void multiplyEntry(final int row, final int column, final double factor) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getRowDimension() {
-        return data.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getColumnDimension() {
-        return data.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double[] operate(final double[] v)
-        throws MathIllegalArgumentException {
-        return multiply(new DiagonalMatrix(v, false)).getDataRef();
+    public double[] operate(final double[] v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double[] preMultiply(final double[] v)
-        throws MathIllegalArgumentException {
-        return operate(v);
+    public double[] preMultiply(final double[] v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector preMultiply(final RealVector v) throws MathIllegalArgumentException {
-        final double[] vectorData;
-        if (v instanceof ArrayRealVector) {
-            vectorData = ((ArrayRealVector) v).getDataRef();
-        } else {
-            vectorData = v.toArray();
-        }
-        return MatrixUtils.createRealVector(preMultiply(vectorData));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Ensure a value is zero.
+    /**
+     * Ensure a value is zero.
      * @param value value to check
      * @exception MathIllegalArgumentException if value is not zero
      */
     private void ensureZero(final double value) throws MathIllegalArgumentException {
         if (!Precision.equals(0.0, value, 1)) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE,
-                                                   FastMath.abs(value), 0);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE, FastMath.abs(value), 0);
         }
     }
 
@@ -383,7 +299,7 @@ public class DiagonalMatrix extends AbstractRealMatrix
      * @throws MathIllegalArgumentException if the matrix is singular
      */
     public DiagonalMatrix inverse() throws MathIllegalArgumentException {
-        return inverse(0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -394,29 +310,17 @@ public class DiagonalMatrix extends AbstractRealMatrix
      * @throws MathIllegalArgumentException if the matrix is singular
      */
     public DiagonalMatrix inverse(double threshold) throws MathIllegalArgumentException {
-        if (isSingular(threshold)) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.SINGULAR_MATRIX);
-        }
-
-        final double[] result = new double[data.length];
-        for (int i = 0; i < data.length; i++) {
-            result[i] = 1.0 / data[i];
-        }
-        return new DiagonalMatrix(result, false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Returns whether this diagonal matrix is singular, i.e. any diagonal entry
+    /**
+     * Returns whether this diagonal matrix is singular, i.e. any diagonal entry
      * is equal to {@code 0} within the given threshold.
      *
      * @param threshold Singularity threshold.
      * @return {@code true} if the matrix is singular, {@code false} otherwise
      */
     public boolean isSingular(double threshold) {
-        for (double datum : data) {
-            if (Precision.equals(datum, 0.0, threshold)) {
-                return true;
-            }
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

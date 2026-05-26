@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,7 +22,6 @@ package org.hipparchus.linear;
 
 import java.io.Serializable;
 import java.util.Arrays;
-
 import org.hipparchus.Field;
 import org.hipparchus.FieldElement;
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -38,13 +36,20 @@ import org.hipparchus.util.MathUtils;
  * @param <T> the type of the field elements
  */
 public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<T>, Serializable {
-    /** Serializable version identifier. */
+
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 7648186910365927050L;
 
-    /** Entries of the vector. */
+    /**
+     * Entries of the vector.
+     */
     private T[] data;
 
-    /** Field to which the elements belong. */
+    /**
+     * Field to which the elements belong.
+     */
     private final Field<T> field;
 
     /**
@@ -69,7 +74,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      */
     public ArrayFieldVector(Field<T> field, int size) {
         this.field = field;
-        this.data  = MathArrays.buildArray(field, size);
+        this.data = MathArrays.buildArray(field, size);
     }
 
     /**
@@ -95,8 +100,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws MathIllegalArgumentException if {@code d} is empty.
      * @see #ArrayFieldVector(Field, FieldElement[])
      */
-    public ArrayFieldVector(T[] d)
-            throws MathIllegalArgumentException, NullArgumentException {
+    public ArrayFieldVector(T[] d) throws MathIllegalArgumentException, NullArgumentException {
         MathUtils.checkNotNull(d);
         try {
             field = d[0].getField();
@@ -114,8 +118,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws NullArgumentException if {@code d} is {@code null}.
      * @see #ArrayFieldVector(FieldElement[])
      */
-    public ArrayFieldVector(Field<T> field, T[] d)
-            throws NullArgumentException {
+    public ArrayFieldVector(Field<T> field, T[] d) throws NullArgumentException {
         MathUtils.checkNotNull(d);
         this.field = field;
         data = d.clone();
@@ -142,8 +145,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @see #ArrayFieldVector(FieldElement[])
      * @see #ArrayFieldVector(Field, FieldElement[], boolean)
      */
-    public ArrayFieldVector(T[] d, boolean copyArray)
-            throws MathIllegalArgumentException, NullArgumentException {
+    public ArrayFieldVector(T[] d, boolean copyArray) throws MathIllegalArgumentException, NullArgumentException {
         MathUtils.checkNotNull(d);
         if (d.length == 0) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
@@ -167,11 +169,10 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws NullArgumentException if {@code d} is {@code null}.
      * @see #ArrayFieldVector(FieldElement[], boolean)
      */
-    public ArrayFieldVector(Field<T> field, T[] d, boolean copyArray)
-            throws NullArgumentException {
+    public ArrayFieldVector(Field<T> field, T[] d, boolean copyArray) throws NullArgumentException {
         MathUtils.checkNotNull(d);
         this.field = field;
-        data = copyArray ? d.clone() :  d;
+        data = copyArray ? d.clone() : d;
     }
 
     /**
@@ -184,12 +185,10 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws MathIllegalArgumentException if the size of {@code d} is less
      * than {@code pos + size}.
      */
-    public ArrayFieldVector(T[] d, int pos, int size)
-            throws MathIllegalArgumentException, NullArgumentException {
+    public ArrayFieldVector(T[] d, int pos, int size) throws MathIllegalArgumentException, NullArgumentException {
         MathUtils.checkNotNull(d);
         if (d.length < pos + size) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE,
-                                                   pos + size, d.length);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE, pos + size, d.length);
         }
         field = d[0].getField();
         data = MathArrays.buildArray(field, size);
@@ -207,12 +206,10 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws MathIllegalArgumentException if the size of {@code d} is less
      * than {@code pos + size}.
      */
-    public ArrayFieldVector(Field<T> field, T[] d, int pos, int size)
-            throws MathIllegalArgumentException, NullArgumentException {
+    public ArrayFieldVector(Field<T> field, T[] d, int pos, int size) throws MathIllegalArgumentException, NullArgumentException {
         MathUtils.checkNotNull(d);
         if (d.length < pos + size) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE,
-                                                   pos + size, d.length);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE, pos + size, d.length);
         }
         this.field = field;
         data = MathArrays.buildArray(field, size);
@@ -225,8 +222,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @param v Vector to copy.
      * @throws NullArgumentException if {@code v} is {@code null}.
      */
-    public ArrayFieldVector(FieldVector<T> v)
-            throws NullArgumentException {
+    public ArrayFieldVector(FieldVector<T> v) throws NullArgumentException {
         MathUtils.checkNotNull(v);
         field = v.getField();
         data = MathArrays.buildArray(field, v.getDimension());
@@ -241,8 +237,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @param v Vector to copy.
      * @throws NullArgumentException if {@code v} is {@code null}.
      */
-    public ArrayFieldVector(ArrayFieldVector<T> v)
-            throws NullArgumentException {
+    public ArrayFieldVector(ArrayFieldVector<T> v) throws NullArgumentException {
         MathUtils.checkNotNull(v);
         field = v.getField();
         data = v.data.clone();
@@ -256,8 +251,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * a shallow copy
      * @throws NullArgumentException if {@code v} is {@code null}.
      */
-    public ArrayFieldVector(ArrayFieldVector<T> v, boolean deep)
-            throws NullArgumentException {
+    public ArrayFieldVector(ArrayFieldVector<T> v, boolean deep) throws NullArgumentException {
         MathUtils.checkNotNull(v);
         field = v.getField();
         data = deep ? v.data.clone() : v.data;
@@ -271,15 +265,12 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws NullArgumentException if {@code v1} or {@code v2} is
      * {@code null}.
      */
-    public ArrayFieldVector(FieldVector<T> v1, FieldVector<T> v2)
-            throws NullArgumentException {
+    public ArrayFieldVector(FieldVector<T> v1, FieldVector<T> v2) throws NullArgumentException {
         MathUtils.checkNotNull(v1);
         MathUtils.checkNotNull(v2);
         field = v1.getField();
-        final T[] v1Data =
-                (v1 instanceof ArrayFieldVector) ? ((ArrayFieldVector<T>) v1).data : v1.toArray();
-        final T[] v2Data =
-                (v2 instanceof ArrayFieldVector) ? ((ArrayFieldVector<T>) v2).data : v2.toArray();
+        final T[] v1Data = (v1 instanceof ArrayFieldVector) ? ((ArrayFieldVector<T>) v1).data : v1.toArray();
+        final T[] v2Data = (v2 instanceof ArrayFieldVector) ? ((ArrayFieldVector<T>) v2).data : v2.toArray();
         data = MathArrays.buildArray(field, v1Data.length + v2Data.length);
         System.arraycopy(v1Data, 0, data, 0, v1Data.length);
         System.arraycopy(v2Data, 0, data, v1Data.length, v2Data.length);
@@ -293,13 +284,11 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws NullArgumentException if {@code v1} or {@code v2} is
      * {@code null}.
      */
-    public ArrayFieldVector(FieldVector<T> v1, T[] v2)
-            throws NullArgumentException {
+    public ArrayFieldVector(FieldVector<T> v1, T[] v2) throws NullArgumentException {
         MathUtils.checkNotNull(v1);
         MathUtils.checkNotNull(v2);
         field = v1.getField();
-        final T[] v1Data =
-                (v1 instanceof ArrayFieldVector) ? ((ArrayFieldVector<T>) v1).data : v1.toArray();
+        final T[] v1Data = (v1 instanceof ArrayFieldVector) ? ((ArrayFieldVector<T>) v1).data : v1.toArray();
         data = MathArrays.buildArray(field, v1Data.length + v2.length);
         System.arraycopy(v1Data, 0, data, 0, v1Data.length);
         System.arraycopy(v2, 0, data, v1Data.length, v2.length);
@@ -313,13 +302,11 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws NullArgumentException if {@code v1} or {@code v2} is
      * {@code null}.
      */
-    public ArrayFieldVector(T[] v1, FieldVector<T> v2)
-            throws NullArgumentException {
+    public ArrayFieldVector(T[] v1, FieldVector<T> v2) throws NullArgumentException {
         MathUtils.checkNotNull(v1);
         MathUtils.checkNotNull(v2);
         field = v2.getField();
-        final T[] v2Data =
-                (v2 instanceof ArrayFieldVector) ? ((ArrayFieldVector<T>) v2).data : v2.toArray();
+        final T[] v2Data = (v2 instanceof ArrayFieldVector) ? ((ArrayFieldVector<T>) v2).data : v2.toArray();
         data = MathArrays.buildArray(field, v1.length + v2Data.length);
         System.arraycopy(v1, 0, data, 0, v1.length);
         System.arraycopy(v2Data, 0, data, v1.length, v2Data.length);
@@ -340,8 +327,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws MathIllegalArgumentException if both arrays are empty.
      * @see #ArrayFieldVector(Field, FieldElement[], FieldElement[])
      */
-    public ArrayFieldVector(T[] v1, T[] v2)
-            throws MathIllegalArgumentException, NullArgumentException {
+    public ArrayFieldVector(T[] v1, T[] v2) throws MathIllegalArgumentException, NullArgumentException {
         MathUtils.checkNotNull(v1);
         MathUtils.checkNotNull(v2);
         if (v1.length + v2.length == 0) {
@@ -364,8 +350,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws MathIllegalArgumentException if both arrays are empty.
      * @see #ArrayFieldVector(FieldElement[], FieldElement[])
      */
-    public ArrayFieldVector(Field<T> field, T[] v1, T[] v2)
-            throws MathIllegalArgumentException, NullArgumentException {
+    public ArrayFieldVector(Field<T> field, T[] v1, T[] v2) throws MathIllegalArgumentException, NullArgumentException {
         MathUtils.checkNotNull(v1);
         MathUtils.checkNotNull(v2);
         if (v1.length + v2.length == 0) {
@@ -377,32 +362,28 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         this.field = field;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Field<T> getField() {
-        return field;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldVector<T> copy() {
-        return new ArrayFieldVector<>(this, true);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldVector<T> add(FieldVector<T> v)
-        throws MathIllegalArgumentException {
-        if (v instanceof ArrayFieldVector) {
-            return add((ArrayFieldVector<T>) v);
-        } else {
-            checkVectorDimensions(v);
-            T[] out = MathArrays.buildArray(field, data.length);
-            for (int i = 0; i < data.length; i++) {
-                out[i] = data[i].add(v.getEntry(i));
-            }
-            return new ArrayFieldVector<>(field, out, false);
-        }
+    public FieldVector<T> add(FieldVector<T> v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -412,30 +393,16 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws MathIllegalArgumentException if {@code v} is not the same size as
      * {@code this}
      */
-    public ArrayFieldVector<T> add(ArrayFieldVector<T> v)
-        throws MathIllegalArgumentException {
-        checkVectorDimensions(v.data.length);
-        T[] out = MathArrays.buildArray(field, data.length);
-        for (int i = 0; i < data.length; i++) {
-            out[i] = data[i].add(v.data[i]);
-        }
-        return new ArrayFieldVector<>(field, out, false);
+    public ArrayFieldVector<T> add(ArrayFieldVector<T> v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldVector<T> subtract(FieldVector<T> v)
-        throws MathIllegalArgumentException {
-        if (v instanceof ArrayFieldVector) {
-            return subtract((ArrayFieldVector<T>) v);
-        } else {
-            checkVectorDimensions(v);
-            T[] out = MathArrays.buildArray(field, data.length);
-            for (int i = 0; i < data.length; i++) {
-                out[i] = data[i].subtract(v.getEntry(i));
-            }
-            return new ArrayFieldVector<>(field, out, false);
-        }
+    public FieldVector<T> subtract(FieldVector<T> v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -445,139 +412,96 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws MathIllegalArgumentException if {@code v} is not the same size as
      * {@code this}
      */
-    public ArrayFieldVector<T> subtract(ArrayFieldVector<T> v)
-        throws MathIllegalArgumentException {
-        checkVectorDimensions(v.data.length);
-        T[] out = MathArrays.buildArray(field, data.length);
-        for (int i = 0; i < data.length; i++) {
-            out[i] = data[i].subtract(v.data[i]);
-        }
-        return new ArrayFieldVector<>(field, out, false);
+    public ArrayFieldVector<T> subtract(ArrayFieldVector<T> v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldVector<T> mapAdd(T d) throws NullArgumentException {
-        T[] out = MathArrays.buildArray(field, data.length);
-        for (int i = 0; i < data.length; i++) {
-            out[i] = data[i].add(d);
-        }
-        return new ArrayFieldVector<>(field, out, false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldVector<T> mapAddToSelf(T d) throws NullArgumentException {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = data[i].add(d);
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldVector<T> mapSubtract(T d) throws NullArgumentException {
-        T[] out = MathArrays.buildArray(field, data.length);
-        for (int i = 0; i < data.length; i++) {
-            out[i] = data[i].subtract(d);
-        }
-        return new ArrayFieldVector<>(field, out, false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldVector<T> mapSubtractToSelf(T d) throws NullArgumentException {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = data[i].subtract(d);
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldVector<T> mapMultiply(T d) throws NullArgumentException {
-        T[] out = MathArrays.buildArray(field, data.length);
-        for (int i = 0; i < data.length; i++) {
-            out[i] = data[i].multiply(d);
-        }
-        return new ArrayFieldVector<>(field, out, false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldVector<T> mapMultiplyToSelf(T d) throws NullArgumentException {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = data[i].multiply(d);
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldVector<T> mapDivide(T d)
-        throws NullArgumentException, MathRuntimeException {
-        MathUtils.checkNotNull(d);
-        T[] out = MathArrays.buildArray(field, data.length);
-        for (int i = 0; i < data.length; i++) {
-            out[i] = data[i].divide(d);
-        }
-        return new ArrayFieldVector<>(field, out, false);
+    public FieldVector<T> mapDivide(T d) throws NullArgumentException, MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldVector<T> mapDivideToSelf(T d)
-        throws NullArgumentException, MathRuntimeException {
-        MathUtils.checkNotNull(d);
-        for (int i = 0; i < data.length; i++) {
-            data[i] = data[i].divide(d);
-        }
-        return this;
+    public FieldVector<T> mapDivideToSelf(T d) throws NullArgumentException, MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldVector<T> mapInv() throws MathRuntimeException {
-        T[] out = MathArrays.buildArray(field, data.length);
-        final T one = field.getOne();
-        for (int i = 0; i < data.length; i++) {
-            try {
-                out[i] = one.divide(data[i]);
-            } catch (final MathRuntimeException e) {
-                throw new MathRuntimeException(e, LocalizedCoreFormats.INDEX, i);
-            }
-        }
-        return new ArrayFieldVector<>(field, out, false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldVector<T> mapInvToSelf() throws MathRuntimeException {
-        final T one = field.getOne();
-        for (int i = 0; i < data.length; i++) {
-            try {
-                data[i] = one.divide(data[i]);
-            } catch (final MathRuntimeException e) {
-                throw new MathRuntimeException(e, LocalizedCoreFormats.INDEX, i);
-            }
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldVector<T> ebeMultiply(FieldVector<T> v)
-        throws MathIllegalArgumentException {
-        if (v instanceof ArrayFieldVector) {
-            return ebeMultiply((ArrayFieldVector<T>) v);
-        } else {
-            checkVectorDimensions(v);
-            T[] out = MathArrays.buildArray(field, data.length);
-            for (int i = 0; i < data.length; i++) {
-                out[i] = data[i].multiply(v.getEntry(i));
-            }
-            return new ArrayFieldVector<>(field, out, false);
-        }
+    public FieldVector<T> ebeMultiply(FieldVector<T> v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -587,34 +511,16 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws MathIllegalArgumentException if {@code v} is not the same size as
      * {@code this}
      */
-    public ArrayFieldVector<T> ebeMultiply(ArrayFieldVector<T> v)
-        throws MathIllegalArgumentException {
-        checkVectorDimensions(v.data.length);
-        T[] out = MathArrays.buildArray(field, data.length);
-        for (int i = 0; i < data.length; i++) {
-            out[i] = data[i].multiply(v.data[i]);
-        }
-        return new ArrayFieldVector<>(field, out, false);
+    public ArrayFieldVector<T> ebeMultiply(ArrayFieldVector<T> v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldVector<T> ebeDivide(FieldVector<T> v)
-        throws MathRuntimeException {
-        if (v instanceof ArrayFieldVector) {
-            return ebeDivide((ArrayFieldVector<T>) v);
-        } else {
-            checkVectorDimensions(v);
-            T[] out = MathArrays.buildArray(field, data.length);
-            for (int i = 0; i < data.length; i++) {
-                try {
-                    out[i] = data[i].divide(v.getEntry(i));
-                } catch (final MathRuntimeException e) {
-                    throw new MathRuntimeException(e, LocalizedCoreFormats.INDEX, i);
-                }
-            }
-            return new ArrayFieldVector<>(field, out, false);
-        }
+    public FieldVector<T> ebeDivide(FieldVector<T> v) throws MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -625,18 +531,8 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * {@code this}
      * @throws MathRuntimeException if one entry of {@code v} is zero.
      */
-    public ArrayFieldVector<T> ebeDivide(ArrayFieldVector<T> v)
-        throws MathIllegalArgumentException, MathRuntimeException {
-        checkVectorDimensions(v.data.length);
-        T[] out = MathArrays.buildArray(field, data.length);
-        for (int i = 0; i < data.length; i++) {
-            try {
-                out[i] = data[i].divide(v.data[i]);
-            } catch (final MathRuntimeException e) {
-                throw new MathRuntimeException(e, LocalizedCoreFormats.INDEX, i);
-            }
-        }
-        return new ArrayFieldVector<>(field, out, false);
+    public ArrayFieldVector<T> ebeDivide(ArrayFieldVector<T> v) throws MathIllegalArgumentException, MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -645,23 +541,15 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @return array of entries
      */
     public T[] getDataRef() {
-        return data; // NOPMD - returning an internal array is intentional and documented here
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public T dotProduct(FieldVector<T> v)
-        throws MathIllegalArgumentException {
-        if (v instanceof ArrayFieldVector) {
-            return dotProduct((ArrayFieldVector<T>) v);
-        } else {
-            checkVectorDimensions(v);
-            T dot = field.getZero();
-            for (int i = 0; i < data.length; i++) {
-                dot = dot.add(data[i].multiply(v.getEntry(i)));
-            }
-            return dot;
-        }
+    public T dotProduct(FieldVector<T> v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -671,51 +559,36 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws MathIllegalArgumentException if {@code v} is not the same size as
      * {@code this}
      */
-    public T dotProduct(ArrayFieldVector<T> v)
-        throws MathIllegalArgumentException {
-        checkVectorDimensions(v.data.length);
-        T dot = field.getZero();
-        for (int i = 0; i < data.length; i++) {
-            dot = dot.add(data[i].multiply(v.data[i]));
-        }
-        return dot;
+    public T dotProduct(ArrayFieldVector<T> v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldVector<T> projection(FieldVector<T> v)
-        throws MathRuntimeException {
-        return v.mapMultiply(dotProduct(v).divide(v.dotProduct(v)));
+    public FieldVector<T> projection(FieldVector<T> v) throws MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Find the orthogonal projection of this vector onto another vector.
+    /**
+     * Find the orthogonal projection of this vector onto another vector.
      * @param v vector onto which {@code this} must be projected
      * @return projection of {@code this} onto {@code v}
      * @throws MathIllegalArgumentException if {@code v} is not the same size as
      * {@code this}
      * @throws MathRuntimeException if {@code v} is the null vector.
      */
-    public ArrayFieldVector<T> projection(ArrayFieldVector<T> v)
-        throws MathIllegalArgumentException, MathRuntimeException {
-        return (ArrayFieldVector<T>) v.mapMultiply(dotProduct(v).divide(v.dotProduct(v)));
+    public ArrayFieldVector<T> projection(ArrayFieldVector<T> v) throws MathIllegalArgumentException, MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldMatrix<T> outerProduct(FieldVector<T> v) {
-        if (v instanceof ArrayFieldVector) {
-            return outerProduct((ArrayFieldVector<T>) v);
-        } else {
-            final int m = data.length;
-            final int n = v.getDimension();
-            final FieldMatrix<T> out = new Array2DRowFieldMatrix<>(field, m, n);
-            for (int i = 0; i < m; i++) {
-                for (int j = 0; j < n; j++) {
-                    out.setEntry(i, j, data[i].multiply(v.getEntry(j)));
-                }
-            }
-            return out;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -724,37 +597,31 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @return the matrix outer product between instance and v
      */
     public FieldMatrix<T> outerProduct(ArrayFieldVector<T> v) {
-        final int m = data.length;
-        final int n = v.data.length;
-        final FieldMatrix<T> out = new Array2DRowFieldMatrix<>(field, m, n);
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                out.setEntry(i, j, data[i].multiply(v.data[j]));
-            }
-        }
-        return out;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T getEntry(int index) {
-        return data[index];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getDimension() {
-        return data.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldVector<T> append(FieldVector<T> v) {
-        if (v instanceof ArrayFieldVector) {
-            return append((ArrayFieldVector<T>) v);
-        } else {
-            return new ArrayFieldVector<>(this, new ArrayFieldVector<>(v));
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -763,60 +630,39 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @return a new vector
      */
     public ArrayFieldVector<T> append(ArrayFieldVector<T> v) {
-        return new ArrayFieldVector<>(this, v);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldVector<T> append(T in) {
-        final T[] out = MathArrays.buildArray(field, data.length + 1);
-        System.arraycopy(data, 0, out, 0, data.length);
-        out[data.length] = in;
-        return new ArrayFieldVector<>(field, out, false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldVector<T> getSubVector(int index, int n)
-        throws MathIllegalArgumentException {
-        if (n < 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE, n);
-        }
-        ArrayFieldVector<T> out = new ArrayFieldVector<>(field, n);
-        try {
-            System.arraycopy(data, index, out.data, 0, n);
-        } catch (IndexOutOfBoundsException e) {
-            checkIndex(index);
-            checkIndex(index + n - 1);
-        }
-        return out;
+    public FieldVector<T> getSubVector(int index, int n) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setEntry(int index, T value) {
-        try {
-            data[index] = value;
-        } catch (IndexOutOfBoundsException e) {
-            checkIndex(index);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSubVector(int index, FieldVector<T> v) throws MathIllegalArgumentException {
-        try {
-            if (v instanceof ArrayFieldVector) {
-                set(index, (ArrayFieldVector<T>) v);
-            } else {
-                for (int i = index; i < index + v.getDimension(); ++i) {
-                    data[i] = v.getEntry(i-index);
-                }
-            }
-        } catch (IndexOutOfBoundsException e) {
-            checkIndex(index);
-            checkIndex(index + v.getDimension() - 1);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -827,24 +673,23 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws MathIllegalArgumentException if the index is invalid.
      */
     public void set(int index, ArrayFieldVector<T> v) throws MathIllegalArgumentException {
-        try {
-            System.arraycopy(v.data, 0, data, index, v.data.length);
-        } catch (IndexOutOfBoundsException e) {
-            checkIndex(index);
-            checkIndex(index + v.data.length - 1);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void set(T value) {
-        Arrays.fill(data, value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public T[] toArray(){
-        return data.clone();
+    public T[] toArray() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -853,9 +698,8 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @exception MathIllegalArgumentException if the vectors do not
      * have the same dimensions
      */
-    protected void checkVectorDimensions(FieldVector<T> v)
-        throws MathIllegalArgumentException {
-        checkVectorDimensions(v.getDimension());
+    protected void checkVectorDimensions(FieldVector<T> v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -865,12 +709,8 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws MathIllegalArgumentException if the dimension is not equal to the
      * size of {@code this} vector.
      */
-    protected void checkVectorDimensions(int n)
-        throws MathIllegalArgumentException {
-        if (data.length != n) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   data.length, n);
-        }
+    protected void checkVectorDimensions(int n) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -883,12 +723,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * at the end of the walk
      */
     public T walkInDefaultOrder(final FieldVectorPreservingVisitor<T> visitor) {
-        final int dim = getDimension();
-        visitor.start(dim, 0, dim - 1);
-        for (int i = 0; i < dim; i++) {
-            visitor.visit(i, getEntry(i));
-        }
-        return visitor.end();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -903,15 +738,8 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws MathIllegalArgumentException if {@code end < start}.
      * @throws MathIllegalArgumentException if the indices are not valid.
      */
-    public T walkInDefaultOrder(final FieldVectorPreservingVisitor<T> visitor,
-                                final int start, final int end)
-        throws MathIllegalArgumentException {
-        checkIndices(start, end);
-        visitor.start(getDimension(), start, end);
-        for (int i = start; i <= end; i++) {
-            visitor.visit(i, getEntry(i));
-        }
-        return visitor.end();
+    public T walkInDefaultOrder(final FieldVectorPreservingVisitor<T> visitor, final int start, final int end) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -926,7 +754,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * at the end of the walk
      */
     public T walkInOptimizedOrder(final FieldVectorPreservingVisitor<T> visitor) {
-        return walkInDefaultOrder(visitor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -943,10 +771,8 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws MathIllegalArgumentException if {@code end < start}.
      * @throws MathIllegalArgumentException if the indices are not valid.
      */
-    public T walkInOptimizedOrder(final FieldVectorPreservingVisitor<T> visitor,
-                                  final int start, final int end)
-        throws MathIllegalArgumentException {
-        return walkInDefaultOrder(visitor, start, end);
+    public T walkInOptimizedOrder(final FieldVectorPreservingVisitor<T> visitor, final int start, final int end) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -959,12 +785,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * at the end of the walk
      */
     public T walkInDefaultOrder(final FieldVectorChangingVisitor<T> visitor) {
-        final int dim = getDimension();
-        visitor.start(dim, 0, dim - 1);
-        for (int i = 0; i < dim; i++) {
-            setEntry(i, visitor.visit(i, getEntry(i)));
-        }
-        return visitor.end();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -979,15 +800,8 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws MathIllegalArgumentException if {@code end < start}.
      * @throws MathIllegalArgumentException if the indices are not valid.
      */
-    public T walkInDefaultOrder(final FieldVectorChangingVisitor<T> visitor,
-                                final int start, final int end)
-        throws MathIllegalArgumentException {
-        checkIndices(start, end);
-        visitor.start(getDimension(), start, end);
-        for (int i = start; i <= end; i++) {
-            setEntry(i, visitor.visit(i, getEntry(i)));
-        }
-        return visitor.end();
+    public T walkInDefaultOrder(final FieldVectorChangingVisitor<T> visitor, final int start, final int end) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1002,7 +816,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * at the end of the walk
      */
     public T walkInOptimizedOrder(final FieldVectorChangingVisitor<T> visitor) {
-        return walkInDefaultOrder(visitor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1019,26 +833,17 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws MathIllegalArgumentException if {@code end < start}.
      * @throws MathIllegalArgumentException if the indices are not valid.
      */
-    public T walkInOptimizedOrder(final FieldVectorChangingVisitor<T> visitor,
-                                  final int start, final int end)
-        throws MathIllegalArgumentException {
-        return walkInDefaultOrder(visitor, start, end);
+    public T walkInOptimizedOrder(final FieldVectorChangingVisitor<T> visitor, final int start, final int end) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    /** {@inheritDoc}
+
+    /**
+     * {@inheritDoc}
      * @since 2.0
      */
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append('{');
-        for (int i = 0; i < data.length; ++i) {
-            if (i > 0) {
-                builder.append("; ");
-            }
-            builder.append(data[i].toString());
-        }
-        builder.append('}');
-        return builder.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1050,30 +855,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      */
     @Override
     public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-        if (other == null) {
-            return false;
-        }
-
-        try {
-            @SuppressWarnings("unchecked") // May fail, but we ignore ClassCastException
-            FieldVector<T> rhs = (FieldVector<T>) other;
-            if (data.length != rhs.getDimension()) {
-                return false;
-            }
-
-            for (int i = 0; i < data.length; ++i) {
-                if (!data[i].equals(rhs.getEntry(i))) {
-                    return false;
-                }
-            }
-            return true;
-        } catch (ClassCastException ex) {
-            // ignore exception
-            return false;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1083,11 +865,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      */
     @Override
     public int hashCode() {
-        int h = 3542;
-        for (final T a : data) {
-            h ^= a.hashCode();
-        }
-        return h;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1098,8 +876,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      */
     private void checkIndex(final int index) throws MathIllegalArgumentException {
         if (index < 0 || index >= getDimension()) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INDEX,
-                                          index, 0, getDimension() - 1);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.INDEX, index, 0, getDimension() - 1);
         }
     }
 
@@ -1111,21 +888,16 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws MathIllegalArgumentException if {@code start} of {@code end} are not valid
      * @throws MathIllegalArgumentException if {@code end < start}
      */
-    private void checkIndices(final int start, final int end)
-        throws MathIllegalArgumentException {
+    private void checkIndices(final int start, final int end) throws MathIllegalArgumentException {
         final int dim = getDimension();
         if ((start < 0) || (start >= dim)) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INDEX, start, 0,
-                                          dim - 1);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.INDEX, start, 0, dim - 1);
         }
         if ((end < 0) || (end >= dim)) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INDEX, end, 0,
-                                          dim - 1);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.INDEX, end, 0, dim - 1);
         }
         if (end < start) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INITIAL_ROW_AFTER_FINAL_ROW,
-                                                end, start, false);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.INITIAL_ROW_AFTER_FINAL_ROW, end, start, false);
         }
     }
-
 }

@@ -30,19 +30,26 @@ import org.hipparchus.util.MathArrays;
  * @param <T> Type of the field elements.
  * @since 4.1
  */
-public class FieldTrilinearInterpolatingFunction<T extends CalculusFieldElement<T>>
-    implements CalculusFieldTrivariateFunction<T>
-{
-    /** Grid along the x axis. */
+public class FieldTrilinearInterpolatingFunction<T extends CalculusFieldElement<T>> implements CalculusFieldTrivariateFunction<T> {
+
+    /**
+     * Grid along the x axis.
+     */
     private final FieldGridAxis<T> xGrid;
 
-    /** Grid along the y axis. */
+    /**
+     * Grid along the y axis.
+     */
     private final FieldGridAxis<T> yGrid;
 
-    /** Grid along the z axis. */
+    /**
+     * Grid along the z axis.
+     */
     private final FieldGridAxis<T> zGrid;
 
-    /** Values of the interpolation points on all the grid knots */
+    /**
+     * Values of the interpolation points on all the grid knots
+     */
     private final T[][][] fVal;
 
     /**
@@ -58,13 +65,11 @@ public class FieldTrilinearInterpolatingFunction<T extends CalculusFieldElement<
      * @exception MathIllegalArgumentException if grid size is smaller than 2
      * or if the grid is not sorted in strict increasing order
      */
-    public FieldTrilinearInterpolatingFunction(final T[] xVal, final T[] yVal, final T[] zVal, final T[][][] fVal)
-        throws MathIllegalArgumentException {
+    public FieldTrilinearInterpolatingFunction(final T[] xVal, final T[] yVal, final T[] zVal, final T[][][] fVal) throws MathIllegalArgumentException {
         final Field<T> field = fVal[0][0][0].getField();
         this.xGrid = new FieldGridAxis<>(xVal, 2);
         this.yGrid = new FieldGridAxis<>(yVal, 2);
         this.zGrid = new FieldGridAxis<>(zVal, 2);
-
         this.fVal = MathArrays.buildArray(field, xVal.length, yVal.length, zVal.length);
         for (int i = 0; i < xVal.length; i++) {
             for (int j = 0; j < yVal.length; j++) {
@@ -79,7 +84,7 @@ public class FieldTrilinearInterpolatingFunction<T extends CalculusFieldElement<
      * @return lowest grid x coordinate
      */
     public T getXInf() {
-        return xGrid.node(0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -88,7 +93,7 @@ public class FieldTrilinearInterpolatingFunction<T extends CalculusFieldElement<
      * @return highest grid x coordinate
      */
     public T getXSup() {
-        return xGrid.node(xGrid.size() - 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -97,7 +102,7 @@ public class FieldTrilinearInterpolatingFunction<T extends CalculusFieldElement<
      * @return lowest grid y coordinate
      */
     public T getYInf() {
-        return yGrid.node(0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -106,7 +111,7 @@ public class FieldTrilinearInterpolatingFunction<T extends CalculusFieldElement<
      * @return highest grid y coordinate
      */
     public T getYSup() {
-        return yGrid.node(yGrid.size() - 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -115,7 +120,7 @@ public class FieldTrilinearInterpolatingFunction<T extends CalculusFieldElement<
      * @return lowest grid z coordinate
      */
     public T getZInf() {
-        return zGrid.node(0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -124,53 +129,14 @@ public class FieldTrilinearInterpolatingFunction<T extends CalculusFieldElement<
      * @return highest grid z coordinate
      */
     public T getZSup() {
-        return zGrid.node(zGrid.size() - 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T value(T x, T y, T z) {
-        // get the interpolation nodes
-        final int i = xGrid.interpolationIndex(x);
-        final int j = yGrid.interpolationIndex(y);
-        final int k = zGrid.interpolationIndex(z);
-        final T x0  = xGrid.node(i);
-        final T x1  = xGrid.node(i + 1);
-        final T y0  = yGrid.node(j);
-        final T y1  = yGrid.node(j + 1);
-        final T z0  = zGrid.node(k);
-        final T z1  = zGrid.node(k + 1);
-
-        // get the function values at interpolation nodes
-        final T c000 = fVal[i][j][k];
-        final T c100 = fVal[i + 1][j][k];
-        final T c010 = fVal[i][j + 1][k];
-        final T c110 = fVal[i + 1][j + 1][k];
-        final T c001 = fVal[i][j][k + 1];
-        final T c101 = fVal[i + 1][j][k + 1];
-        final T c011 = fVal[i][j + 1][k + 1];
-        final T c111 = fVal[i + 1][j + 1][k + 1];
-
-        // interpolate
-        final T dx0      = x.subtract(x0);
-        final T dx1      = x1.subtract(x);
-        final T dx10     = x1.subtract(x0);
-        final T dy0      = y.subtract(y0);
-        final T dy1      = y1.subtract(y);
-        final T dy10     = y1.subtract(y0);
-        final T dx10dy10 = dx10.multiply(dy10);
-        final T c0 = dy0.multiply(c110).add(dy1.multiply(c100)).multiply(dx0).
-                add(dy0.multiply(c010).add(dy1.multiply(c000)).multiply(dx1)).
-                divide(dx10dy10);
-        final T c1 = dy0.multiply(c111).add(dy1.multiply(c101)).multiply(dx0).
-                add(dy0.multiply(c011).add(dy1.multiply(c001)).multiply(dx1)).
-                divide(dx10dy10);
-
-        // interpolate along z
-        final T dz0  = z.subtract(z0);
-        final T dz10 = z1.subtract(z0);
-        final T dc10 = c1.subtract(c0);
-
-        return c0.add(dz0.divide(dz10).multiply(dc10));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -36,22 +36,25 @@ import org.hipparchus.util.MathArrays;
  * @since 4.0
  * @param <T> type of the field elements
  */
-public class FieldPolynomialFunctionLagrangeForm<T extends CalculusFieldElement<T>>
-        implements CalculusFieldUnivariateFunction<T> {
+public class FieldPolynomialFunctionLagrangeForm<T extends CalculusFieldElement<T>> implements CalculusFieldUnivariateFunction<T> {
+
     /**
      * The coefficients of the polynomial, ordered by degree -- i.e.
      * coefficients[0] is the constant term and coefficients[n] is the
      * coefficient of x^n where n is the degree of the polynomial.
      */
     private T[] coefficients;
+
     /**
      * Interpolating points (abscissas).
      */
     private final T[] x;
+
     /**
      * Function values at interpolating points.
      */
     private final T[] y;
+
     /**
      * Whether the polynomial coefficients are available.
      */
@@ -70,12 +73,10 @@ public class FieldPolynomialFunctionLagrangeForm<T extends CalculusFieldElement<
      * @throws MathIllegalArgumentException if two abscissae have the same value.
      * @throws MathIllegalArgumentException if the abscissae are not sorted.
      */
-    public FieldPolynomialFunctionLagrangeForm(final T[] x, final T[] y)
-        throws MathIllegalArgumentException {
+    public FieldPolynomialFunctionLagrangeForm(final T[] x, final T[] y) throws MathIllegalArgumentException {
         this.x = x.clone();
         this.y = y.clone();
         coefficientsComputed = false;
-
         MathArrays.checkEqualLength(x, y);
         if (x.length < 2) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.WRONG_NUMBER_OF_POINTS, 2, x.length, true);
@@ -97,43 +98,7 @@ public class FieldPolynomialFunctionLagrangeForm<T extends CalculusFieldElement<
      */
     @Override
     public T value(final T z) {
-        int nearest = 0;
-        final int n = x.length;
-        final T[] c = y.clone();
-        final T[] d = c.clone();
-        double minDist = Double.POSITIVE_INFINITY;
-        for (int i = 0; i < n; i++) {
-            // find out the abscissa closest to z
-            final double dist = FastMath.abs(z.subtract(x[i])).getReal();
-            if (dist < minDist) {
-                nearest = i;
-                minDist = dist;
-            }
-        }
-
-        // initial approximation to the function value at z
-        T value = y[nearest];
-
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j < n-i; j++) {
-                final T tc = x[j].subtract(z);
-                final T td = x[i+j].subtract(z);
-                final T divider = x[j].subtract(x[i+j]);
-                // update the difference arrays
-                final T w = (c[j+1].subtract(d[j])).divide(divider);
-                c[j] = tc.multiply(w);
-                d[j] = td.multiply(w);
-            }
-            // sum up the difference terms to get the final value
-            if (nearest < 0.5*(n-i+1)) {
-                value = value.add(c[nearest]);    // fork down
-            } else {
-                nearest--;
-                value = value.add(d[nearest]);    // fork up
-            }
-        }
-
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -142,7 +107,7 @@ public class FieldPolynomialFunctionLagrangeForm<T extends CalculusFieldElement<
      * @return the degree of the polynomial
      */
     public int degree() {
-        return x.length - 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -153,7 +118,7 @@ public class FieldPolynomialFunctionLagrangeForm<T extends CalculusFieldElement<
      * @return a fresh copy of the interpolating points array
      */
     public T[] getInterpolatingPoints() {
-        return x.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -164,7 +129,7 @@ public class FieldPolynomialFunctionLagrangeForm<T extends CalculusFieldElement<
      * @return a fresh copy of the interpolating values array
      */
     public T[] getInterpolatingValues() {
-        return y.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -178,10 +143,7 @@ public class FieldPolynomialFunctionLagrangeForm<T extends CalculusFieldElement<
      * @return a fresh copy of the coefficients array
      */
     public T[] getCoefficients() {
-        if (!coefficientsComputed) {
-            computeCoefficients();
-        }
-        return coefficients.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -191,42 +153,6 @@ public class FieldPolynomialFunctionLagrangeForm<T extends CalculusFieldElement<
      * and only when it is necessary.
      */
     protected void computeCoefficients() {
-        final int n = degree() + 1;
-        final Field<T> field = x[0].getField();
-        coefficients = MathArrays.buildArray(field, n);
-
-        // c[] are the coefficients of P(x) = (x-x[0])(x-x[1])...(x-x[n-1])
-        final T[] c = MathArrays.buildArray(field, n + 1);
-        c[0] = field.getOne();
-        for (int i = 0; i < n; i++) {
-            for (int j = i; j > 0; j--) {
-                c[j] = c[j-1].subtract(c[j].multiply(x[i]));
-            }
-            c[0] = c[0].multiply(x[i].negate());
-            c[i+1] = field.getOne();
-        }
-
-        final T[] tc = MathArrays.buildArray(field, n);
-        for (int i = 0; i < n; i++) {
-            // d = (x[i]-x[0])...(x[i]-x[i-1])(x[i]-x[i+1])...(x[i]-x[n-1])
-            T d = field.getOne();
-            for (int j = 0; j < n; j++) {
-                if (i != j) {
-                    d = d.multiply(x[i].subtract(x[j]));
-                }
-            }
-            final T t = y[i].divide(d);
-            // Lagrange polynomial is the sum of n terms, each of which is a
-            // polynomial of degree n-1. tc[] are the coefficients of the i-th
-            // numerator Pi(x) = (x-x[0])...(x-x[i-1])(x-x[i+1])...(x-x[n-1]).
-            tc[n-1] = c[n];     // actually c[n] = 1
-            coefficients[n-1] = coefficients[n-1].add(t.multiply(tc[n-1]));
-            for (int j = n-2; j >= 0; j--) {
-                tc[j] = c[j+1].add(tc[j+1].multiply(x[i]));
-                coefficients[j] = coefficients[j].add(t.multiply(tc[j]));
-            }
-        }
-
-        coefficientsComputed = true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

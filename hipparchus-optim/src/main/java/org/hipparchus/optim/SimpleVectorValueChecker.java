@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.optim;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -38,10 +36,9 @@ import org.hipparchus.util.FastMath;
  * The {@link #converged(int,PointVectorValuePair,PointVectorValuePair) converged}
  * method will also return {@code true} if the number of iterations has been set
  * (see {@link #SimpleVectorValueChecker(double,double,int) this constructor}).
- *
  */
-public class SimpleVectorValueChecker
-    extends AbstractConvergenceChecker<PointVectorValuePair> {
+public class SimpleVectorValueChecker extends AbstractConvergenceChecker<PointVectorValuePair> {
+
     /**
      * If {@link #maxIterationCount} is set to this value, the number of
      * iterations will never cause
@@ -49,6 +46,7 @@ public class SimpleVectorValueChecker
      * to return {@code true}.
      */
     private static final int ITERATION_CHECK_DISABLED = -1;
+
     /**
      * Number of iterations after which the
      * {@link #converged(int,PointVectorValuePair,PointVectorValuePair)} method
@@ -66,8 +64,7 @@ public class SimpleVectorValueChecker
      * @param relativeThreshold relative tolerance threshold
      * @param absoluteThreshold absolute tolerance threshold
      */
-    public SimpleVectorValueChecker(final double relativeThreshold,
-                                    final double absoluteThreshold) {
+    public SimpleVectorValueChecker(final double relativeThreshold, final double absoluteThreshold) {
         super(relativeThreshold, absoluteThreshold);
         maxIterationCount = ITERATION_CHECK_DISABLED;
     }
@@ -84,16 +81,11 @@ public class SimpleVectorValueChecker
      * @param absoluteThreshold Absolute tolerance threshold.
      * @param maxIter Maximum iteration count.
      * @throws MathIllegalArgumentException if {@code maxIter <= 0}.
-     *
      */
-    public SimpleVectorValueChecker(final double relativeThreshold,
-                                    final double absoluteThreshold,
-                                    final int maxIter) {
+    public SimpleVectorValueChecker(final double relativeThreshold, final double absoluteThreshold, final int maxIter) {
         super(relativeThreshold, absoluteThreshold);
-
         if (maxIter <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
-                                                   maxIter, 0);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED, maxIter, 0);
         }
         maxIterationCount = maxIter;
     }
@@ -115,25 +107,7 @@ public class SimpleVectorValueChecker
      * @return {@code true} if the arguments satify the convergence criterion.
      */
     @Override
-    public boolean converged(final int iteration,
-                             final PointVectorValuePair previous,
-                             final PointVectorValuePair current) {
-        if (maxIterationCount != ITERATION_CHECK_DISABLED && iteration >= maxIterationCount) {
-            return true;
-        }
-
-        final double[] p = previous.getValueRef();
-        final double[] c = current.getValueRef();
-        for (int i = 0; i < p.length; ++i) {
-            final double pi         = p[i];
-            final double ci         = c[i];
-            final double difference = FastMath.abs(pi - ci);
-            final double size       = FastMath.max(FastMath.abs(pi), FastMath.abs(ci));
-            if (difference > size * getRelativeThreshold() &&
-                difference > getAbsoluteThreshold()) {
-                return false;
-            }
-        }
-        return true;
+    public boolean converged(final int iteration, final PointVectorValuePair previous, final PointVectorValuePair current) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

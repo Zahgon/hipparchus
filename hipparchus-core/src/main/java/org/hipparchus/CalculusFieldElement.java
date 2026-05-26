@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -36,7 +35,8 @@ import org.hipparchus.util.MathArrays;
  */
 public interface CalculusFieldElement<T extends FieldElement<T>> extends FieldElement<T> {
 
-    /** Get the addendum to the real value of the number.
+    /**
+     * Get the addendum to the real value of the number.
      * <p>
      * The addendum is considered to be the part that when added back to
      * the {@link #getReal() real part} recovers the instance. This means
@@ -56,7 +56,8 @@ public interface CalculusFieldElement<T extends FieldElement<T>> extends FieldEl
      */
     T getAddendum();
 
-    /** Get the Archimedes constant π.
+    /**
+     * Get the Archimedes constant π.
      * <p>
      * Archimedes constant is the ratio of a circle's circumference to its diameter.
      * </p>
@@ -64,57 +65,66 @@ public interface CalculusFieldElement<T extends FieldElement<T>> extends FieldEl
      * @since 2.0
      */
     default T getPi() {
-        return newInstance(FastMath.PI);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Create an instance corresponding to a constant real value.
+    /**
+     * Create an instance corresponding to a constant real value.
      * @param value constant real value
      * @return instance corresponding to a constant real value
      */
     T newInstance(double value);
 
-    /** '+' operator.
+    /**
+     * '+' operator.
      * @param a right hand side parameter of the operator
      * @return this+a
      */
     default T add(double a) {
-        return add(newInstance(a));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** '-' operator.
+    /**
+     * '-' operator.
      * @param a right hand side parameter of the operator
      * @return this-a
      */
     default T subtract(double a) {
-        return subtract(newInstance(a));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T subtract(T a) {
-        return add(a.negate());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** '&times;' operator.
+    /**
+     * '&times;' operator.
      * @param a right hand side parameter of the operator
      * @return this&times;a
      */
     default T multiply(double a) {
-        return multiply(newInstance(a));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T multiply(int n) {
-        return multiply((double) n);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** '&divide;' operator.
+    /**
+     * '&divide;' operator.
      * @param a right hand side parameter of the operator
      * @return this&divide;a
      */
     default T divide(double a) {
-        return divide(newInstance(a));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -126,7 +136,7 @@ public interface CalculusFieldElement<T extends FieldElement<T>> extends FieldEl
      * @return exponent for the instance, without bias
      */
     default int getExponent() {
-        return FastMath.getExponent(getReal());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -142,7 +152,7 @@ public interface CalculusFieldElement<T extends FieldElement<T>> extends FieldEl
      * @since 2.0
      */
     default T ulp() {
-        return newInstance(FastMath.ulp(getReal()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -159,151 +169,173 @@ public interface CalculusFieldElement<T extends FieldElement<T>> extends FieldEl
      * @return sqrt(<i>this</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)
      * @exception MathIllegalArgumentException if number of free parameters or orders are inconsistent
      */
-    T hypot(T y)
-        throws MathIllegalArgumentException;
+    T hypot(T y) throws MathIllegalArgumentException;
 
-    /** Compute this divided by two.
+    /**
+     * Compute this divided by two.
      * @return a new element representing it halved
      * @since 4.1
      */
     default T half() {
-        return divide(2);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute this &times; two.
+    /**
+     * Compute this &times; two.
      * @return a new element representing it doubled
      * @since 4.1
      */
     default T twice() {
-        return multiply(2);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T divide(T a) {
-        return multiply(a.reciprocal());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Square root.
+    /**
+     * Square root.
      * @return square root of the instance
      */
     default T sqrt() {
-        return rootN(2);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Cubic root.
+    /**
+     * Cubic root.
      * @return cubic root of the instance
      */
     default T cbrt() {
-        return rootN(3);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** N<sup>th</sup> root.
+    /**
+     * N<sup>th</sup> root.
      * @param n order of the root
      * @return n<sup>th</sup> root of the instance
      */
     default T rootN(int n) {
-        return pow(1. / n);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute this &times; this.
+    /**
+     * Compute this &times; this.
      * @return a new element representing this &times; this
      * @since 3.1
      */
     default T square() {
-        return pow(2);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Power operation.
+    /**
+     * Power operation.
      * @param p power to apply
      * @return this<sup>p</sup>
      */
     default T pow(double p) {
-        return pow(newInstance(p));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Integer power operation.
+    /**
+     * Integer power operation.
      * @param n power to apply
      * @return this<sup>n</sup>
      */
     default T pow(int n) {
-        return pow((double) n);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Power operation.
+    /**
+     * Power operation.
      * @param e exponent
      * @return this<sup>e</sup>
      * @exception MathIllegalArgumentException if number of free parameters or orders are inconsistent
      */
-    T pow(T e)
-        throws MathIllegalArgumentException;
+    T pow(T e) throws MathIllegalArgumentException;
 
-    /** Exponential.
+    /**
+     * Exponential.
      * @return exponential of the instance
      */
     T exp();
 
-    /** Exponential minus 1.
+    /**
+     * Exponential minus 1.
      * @return exponential minus one of the instance
      */
     T expm1();
 
-    /** Natural logarithm.
+    /**
+     * Natural logarithm.
      * @return logarithm of the instance
      */
     T log();
 
-    /** Shifted natural logarithm.
+    /**
+     * Shifted natural logarithm.
      * @return logarithm of one plus the instance
      */
     T log1p();
 
-    /** Base 10 logarithm.
+    /**
+     * Base 10 logarithm.
      * @return base 10 logarithm of the instance
      */
     T log10();
 
-    /** Cosine operation.
+    /**
+     * Cosine operation.
      * @return cos(this)
      */
     T cos();
 
-    /** Sine operation.
+    /**
+     * Sine operation.
      * @return sin(this)
      */
     T sin();
 
-    /** Combined Sine and Cosine operation.
+    /**
+     * Combined Sine and Cosine operation.
      * @return [sin(this), cos(this)]
      * @since 1.4
      */
     default FieldSinCos<T> sinCos() {
-        return new FieldSinCos<>(sin(), cos());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Tangent operation.
+    /**
+     * Tangent operation.
      * @return tan(this)
      */
     default T tan() {
-        return sin().divide(cos());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Arc cosine operation.
+    /**
+     * Arc cosine operation.
      * @return acos(this)
      */
     T acos();
 
-    /** Arc sine operation.
+    /**
+     * Arc sine operation.
      * @return asin(this)
      */
     T asin();
 
-    /** Arc tangent operation.
+    /**
+     * Arc tangent operation.
      * @return atan(this)
      */
     T atan();
 
-    /** Two arguments arc tangent operation.
+    /**
+     * Two arguments arc tangent operation.
      * <p>
      * Beware of the order or arguments! As this is based on a
      * two-arguments functions, in order to be consistent with
@@ -321,61 +353,69 @@ public interface CalculusFieldElement<T extends FieldElement<T>> extends FieldEl
      * @return atan2(this, x)
      * @exception MathIllegalArgumentException if number of free parameters or orders are inconsistent
      */
-    T atan2(T x)
-        throws MathIllegalArgumentException;
+    T atan2(T x) throws MathIllegalArgumentException;
 
-    /** Hyperbolic cosine operation.
+    /**
+     * Hyperbolic cosine operation.
      * @return cosh(this)
      */
     T cosh();
 
-    /** Hyperbolic sine operation.
+    /**
+     * Hyperbolic sine operation.
      * @return sinh(this)
      */
     T sinh();
 
-    /** Combined hyperbolic sine and cosine operation.
+    /**
+     * Combined hyperbolic sine and cosine operation.
      * @return [sinh(this), cosh(this)]
      * @since 2.0
      */
     default FieldSinhCosh<T> sinhCosh() {
-        return new FieldSinhCosh<>(sinh(), cosh());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Hyperbolic tangent operation.
+    /**
+     * Hyperbolic tangent operation.
      * @return tanh(this)
      */
     default T tanh() {
-        return sinh().divide(cosh());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Inverse hyperbolic cosine operation.
+    /**
+     * Inverse hyperbolic cosine operation.
      * @return acosh(this)
      */
     T acosh();
 
-    /** Inverse hyperbolic sine operation.
+    /**
+     * Inverse hyperbolic sine operation.
      * @return asin(this)
      */
     T asinh();
 
-    /** Inverse hyperbolic  tangent operation.
+    /**
+     * Inverse hyperbolic  tangent operation.
      * @return atanh(this)
      */
     T atanh();
 
-    /** Convert radians to degrees, with error of less than 0.5 ULP
+    /**
+     * Convert radians to degrees, with error of less than 0.5 ULP
      *  @return instance converted into degrees
      */
     default T toDegrees() {
-        return multiply(FastMath.toDegrees(1.));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Convert degrees to radians, with error of less than 0.5 ULP
+    /**
+     * Convert degrees to radians, with error of less than 0.5 ULP
      *  @return instance converted into radians
      */
     default T toRadians() {
-        return multiply(FastMath.toRadians(1.));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -385,8 +425,7 @@ public interface CalculusFieldElement<T extends FieldElement<T>> extends FieldEl
      * @return <code>&Sigma;<sub>i</sub> a<sub>i</sub> b<sub>i</sub></code>.
      * @throws MathIllegalArgumentException if arrays dimensions don't match
      */
-    T linearCombination(T[] a, T[] b)
-        throws MathIllegalArgumentException;
+    T linearCombination(T[] a, T[] b) throws MathIllegalArgumentException;
 
     /**
      * Compute a linear combination.
@@ -396,11 +435,7 @@ public interface CalculusFieldElement<T extends FieldElement<T>> extends FieldEl
      * @throws MathIllegalArgumentException if arrays dimensions don't match
      */
     default T linearCombination(double[] a, T[] b) throws MathIllegalArgumentException {
-        final T[] newInstances = MathArrays.buildArray(getField(), a.length);
-        for (int i = 0; i < a.length; i++) {
-            newInstances[i] = newInstance(a[i]);
-        }
-        return linearCombination(newInstances, b);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -428,7 +463,7 @@ public interface CalculusFieldElement<T extends FieldElement<T>> extends FieldEl
      * @see #linearCombination(double, FieldElement, double, FieldElement, double, FieldElement, double, FieldElement)
      */
     default T linearCombination(double a1, T b1, double a2, T b2) {
-        return linearCombination(newInstance(a1), b1, newInstance(a2), b2);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -460,7 +495,7 @@ public interface CalculusFieldElement<T extends FieldElement<T>> extends FieldEl
      * @see #linearCombination(double, FieldElement, double, FieldElement, double, FieldElement, double, FieldElement)
      */
     default T linearCombination(double a1, T b1, double a2, T b2, double a3, T b3) {
-        return linearCombination(newInstance(a1), b1, newInstance(a2), b2, newInstance(a3), b3);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -498,51 +533,56 @@ public interface CalculusFieldElement<T extends FieldElement<T>> extends FieldEl
      * @see #linearCombination(double, FieldElement, double, FieldElement, double, FieldElement)
      */
     default T linearCombination(double a1, T b1, double a2, T b2, double a3, T b3, double a4, T b4) {
-        return linearCombination(newInstance(a1), b1, newInstance(a2), b2, newInstance(a3), b3,
-                newInstance(a4), b4);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the smallest whole number larger than instance.
+    /**
+     * Get the smallest whole number larger than instance.
      * @return ceil(this)
      */
     default T ceil() {
-        return newInstance(FastMath.ceil(getReal()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the largest whole number smaller than instance.
+    /**
+     * Get the largest whole number smaller than instance.
      * @return floor(this)
      */
     default T floor() {
-        return newInstance(FastMath.floor(getReal()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the whole number that is the nearest to the instance, or the even one if x is exactly half way between two integers.
+    /**
+     * Get the whole number that is the nearest to the instance, or the even one if x is exactly half way between two integers.
      * @return a double number r such that r is an integer r - 0.5 &le; this &le; r + 0.5
      */
     default T rint() {
-        return newInstance(FastMath.rint(getReal()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** IEEE remainder operator.
+    /**
+     * IEEE remainder operator.
      * @param a right hand side parameter of the operator
      * @return this - n &times; a where n is the closest integer to this/a
      */
     T remainder(double a);
 
-    /** IEEE remainder operator.
+    /**
+     * IEEE remainder operator.
      * @param a right hand side parameter of the operator
      * @return this - n &times; a where n is the closest integer to this/a
      */
     T remainder(T a);
 
-    /** Compute the sign of the instance.
+    /**
+     * Compute the sign of the instance.
      * The sign is -1 for negative numbers, +1 for positive numbers and 0 otherwise,
      * for Complex number, it is extended on the unit circle (equivalent to z/|z|,
      * with special handling for 0 and NaN)
      * @return -1.0, -0.0, +0.0, +1.0 or NaN depending on sign of a
      */
     default T sign() {
-        return newInstance(FastMath.signum(getReal()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -562,7 +602,7 @@ public interface CalculusFieldElement<T extends FieldElement<T>> extends FieldEl
      * @return the instance with the same sign as the {@code sign} argument
      */
     default T copySign(double sign) {
-        return copySign(newInstance(sign));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -570,7 +610,7 @@ public interface CalculusFieldElement<T extends FieldElement<T>> extends FieldEl
      * @return true if the instance is infinite
      */
     default boolean isInfinite() {
-        return Double.isInfinite(getReal());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -579,7 +619,7 @@ public interface CalculusFieldElement<T extends FieldElement<T>> extends FieldEl
      * @since 2.0
      */
     default boolean isFinite() {
-        return Double.isFinite(getReal());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -587,18 +627,20 @@ public interface CalculusFieldElement<T extends FieldElement<T>> extends FieldEl
      * @return true if the instance is Not a Number
      */
     default boolean isNaN() {
-        return Double.isNaN(getReal());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** norm.
+    /**
+     * norm.
      * @return norm(this)
      * @since 2.0
      */
     default double norm() {
-        return abs().getReal();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check if instance is small with respect to reference.
+    /**
+     * Check if instance is small with respect to reference.
      * <p>
      * This check is mainly intended for checking convergence of iterative
      * algorithms. The idea is that {@code this + base} is <em>close enough</em>
@@ -611,19 +653,20 @@ public interface CalculusFieldElement<T extends FieldElement<T>> extends FieldEl
      * @since 5.0
      */
     default boolean isSmall(final T base, final double relativeThreshold) {
-        return FastMath.abs(getReal()) <= FastMath.abs(base.getReal() * relativeThreshold);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** absolute value.
+    /**
+     * absolute value.
      * @return abs(this)
      */
     T abs();
 
-    /** Get the closest long to instance real value.
+    /**
+     * Get the closest long to instance real value.
      * @return closest long to {@link #getReal()}
      */
     default long round() {
-        return FastMath.round(getReal());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode.nonstiff;
 
 import org.hipparchus.CalculusFieldElement;
@@ -50,13 +48,15 @@ import org.hipparchus.util.MathArrays;
  *
  * @param <T> the type of the field elements
  */
-
 public class MidpointFieldIntegrator<T extends CalculusFieldElement<T>> extends FixedStepRungeKuttaFieldIntegrator<T> {
 
-    /** Name of integration scheme. */
+    /**
+     * Name of integration scheme.
+     */
     public static final String METHOD_NAME = MidpointIntegrator.METHOD_NAME;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * Build a midpoint integrator with the given step.
      * @param field field to which the time and state vector elements belong
      * @param step integration step
@@ -65,40 +65,35 @@ public class MidpointFieldIntegrator<T extends CalculusFieldElement<T>> extends 
         super(field, METHOD_NAME, step);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[] getC() {
-        final T[] c = MathArrays.buildArray(getField(), 1);
-        c[0] = getField().getOne().newInstance(0.5);
-        return c;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[][] getA() {
-        final T[][] a = MathArrays.buildArray(getField(), 1, 1);
-        a[0][0] = FieldExplicitRungeKuttaIntegrator.fraction(getField(), 1, 2);
-        return a;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[] getB() {
-        final T[] b = MathArrays.buildArray(getField(), 2);
-        b[0] = getField().getZero();
-        b[1] = getField().getOne();
-        return b;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected MidpointFieldStateInterpolator<T>
-        createInterpolator(final boolean forward, T[][] yDotK,
-                           final FieldODEStateAndDerivative<T> globalPreviousState,
-                           final FieldODEStateAndDerivative<T> globalCurrentState,
-                           final FieldEquationsMapper<T> mapper) {
-        return new MidpointFieldStateInterpolator<>(getField(), forward, yDotK, globalPreviousState, globalCurrentState,
-                                                    globalPreviousState, globalCurrentState, mapper);
+    protected MidpointFieldStateInterpolator<T> createInterpolator(final boolean forward, T[][] yDotK, final FieldODEStateAndDerivative<T> globalPreviousState, final FieldODEStateAndDerivative<T> globalCurrentState, final FieldEquationsMapper<T> mapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

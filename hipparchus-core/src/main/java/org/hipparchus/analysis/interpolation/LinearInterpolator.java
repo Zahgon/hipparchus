@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.analysis.interpolation;
 
 import java.lang.reflect.Array;
-
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.analysis.polynomials.FieldPolynomialFunction;
 import org.hipparchus.analysis.polynomials.FieldPolynomialSplineFunction;
@@ -35,18 +33,19 @@ import org.hipparchus.util.MathUtils;
 
 /**
  * Implements a linear function for interpolation of real univariate functions.
- *
  */
 public class LinearInterpolator implements UnivariateInterpolator, FieldUnivariateInterpolator {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public LinearInterpolator() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public LinearInterpolator() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
@@ -64,37 +63,8 @@ public class LinearInterpolator implements UnivariateInterpolator, FieldUnivaria
      * than 2.
      */
     @Override
-    public PolynomialSplineFunction interpolate(double[] x, double[] y)
-        throws MathIllegalArgumentException {
-        MathUtils.checkNotNull(x);
-        MathUtils.checkNotNull(y);
-        MathArrays.checkEqualLength(x, y);
-
-        if (x.length < 2) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_POINTS,
-                                                x.length, 2, true);
-        }
-
-        // Number of intervals.  The number of data points is n + 1.
-        int n = x.length - 1;
-
-        MathArrays.checkOrder(x);
-
-        // Slope of the lines between the datapoints.
-        final double[] m = new double[n];
-        for (int i = 0; i < n; i++) {
-            m[i] = (y[i + 1] - y[i]) / (x[i + 1] - x[i]);
-        }
-
-        final PolynomialFunction[] polynomials = new PolynomialFunction[n];
-        final double[] coefficients = new double[2];
-        for (int i = 0; i < n; i++) {
-            coefficients[0] = y[i];
-            coefficients[1] = m[i];
-            polynomials[i] = new PolynomialFunction(coefficients);
-        }
-
-        return new PolynomialSplineFunction(x, polynomials);
+    public PolynomialSplineFunction interpolate(double[] x, double[] y) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -113,39 +83,7 @@ public class LinearInterpolator implements UnivariateInterpolator, FieldUnivaria
      * @since 1.5
      */
     @Override
-    public <T extends CalculusFieldElement<T>> FieldPolynomialSplineFunction<T> interpolate(final T[] x, final T[] y)
-        throws MathIllegalArgumentException {
-        MathUtils.checkNotNull(x);
-        MathUtils.checkNotNull(y);
-        MathArrays.checkEqualLength(x, y);
-
-        if (x.length < 2) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_POINTS,
-                                                x.length, 2, true);
-        }
-
-        // Number of intervals.  The number of data points is n + 1.
-        int n = x.length - 1;
-
-        MathArrays.checkOrder(x);
-
-        // Slope of the lines between the datapoints.
-        final T[] m = MathArrays.buildArray(x[0].getField(), n);
-        for (int i = 0; i < n; i++) {
-            m[i] = y[i + 1].subtract(y[i]).divide(x[i + 1].subtract(x[i]));
-        }
-
-        @SuppressWarnings("unchecked")
-        final FieldPolynomialFunction<T>[] polynomials =
-                        (FieldPolynomialFunction<T>[]) Array.newInstance(FieldPolynomialFunction.class, n);
-        final T[] coefficients = MathArrays.buildArray(x[0].getField(), 2);
-        for (int i = 0; i < n; i++) {
-            coefficients[0] = y[i];
-            coefficients[1] = m[i];
-            polynomials[i] = new FieldPolynomialFunction<>(coefficients);
-        }
-
-        return new FieldPolynomialSplineFunction<>(x, polynomials);
+    public <T extends CalculusFieldElement<T>> FieldPolynomialSplineFunction<T> interpolate(final T[] x, final T[] y) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

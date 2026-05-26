@@ -32,71 +32,61 @@ import org.hipparchus.util.Pair;
  */
 public class FieldLaguerreRuleFactory<T extends CalculusFieldElement<T>> extends FieldAbstractRuleFactory<T> {
 
-    /** Simple constructor
+    /**
+     * Simple constructor
      * @param field field to which rule coefficients belong
      */
     public FieldLaguerreRuleFactory(final Field<T> field) {
         super(field);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Pair<T[], T[]> computeRule(int numberOfPoints)
-        throws MathIllegalArgumentException {
-
-        final Field<T> field = getField();
-
-        // find nodes as roots of Laguerre polynomial
-        final Laguerre<T> p      =  new Laguerre<>(numberOfPoints);
-        final T[]      points = findRoots(numberOfPoints, p::ratio);
-
-        // compute weights
-        final T[] weights = MathArrays.buildArray(field, numberOfPoints);
-        final int      n1         = numberOfPoints + 1;
-        final long     n1Squared  = n1 * (long) n1;
-        final Laguerre<T> laguerreN1 = new Laguerre<>(n1);
-        for (int i = 0; i < numberOfPoints; i++) {
-            final T y = laguerreN1.value(points[i]);
-            weights[i] = points[i].divide(y.square().multiply(n1Squared));
-        }
-
-        return new Pair<>(points, weights);
-
+    public Pair<T[], T[]> computeRule(int numberOfPoints) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Laguerre polynomial.
+    /**
+     * Laguerre polynomial.
      * @param <T> Type of the field elements.
      */
     private static class Laguerre<T extends CalculusFieldElement<T>> {
 
-        /** Degree. */
+        /**
+         * Degree.
+         */
         private int degree;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          * @param degree polynomial degree
          */
         Laguerre(int degree) {
             this.degree = degree;
         }
 
-        /** Evaluate polynomial.
+        /**
+         * Evaluate polynomial.
          * @param x point at which polynomial must be evaluated
          * @return value of the polynomial
          */
         public T value(final T x) {
-            return lNlNm1(x)[0];
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Compute ratio L(x)/L'(x).
+        /**
+         * Compute ratio L(x)/L'(x).
          * @param x point at which ratio must be computed
          * @return ratio L(x)/L'(x)
          */
         public T ratio(T x) {
-            T[] l = lNlNm1(x);
-            return x.multiply(l[0]).divide(l[0].subtract(l[1]).multiply(degree));
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Compute Lₙ(x) and Lₙ₋₁(x).
+        /**
+         * Compute Lₙ(x) and Lₙ₋₁(x).
          * @param x point at which polynomials are evaluated
          * @return array containing Lₙ(x) at index 0 and Lₙ₋₁(x) at index 1
          */
@@ -112,7 +102,5 @@ public class FieldLaguerreRuleFactory<T extends CalculusFieldElement<T>> extends
             }
             return l;
         }
-
     }
-
 }

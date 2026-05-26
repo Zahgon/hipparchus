@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.distribution.continuous;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -34,13 +32,25 @@ import org.hipparchus.util.MathUtils;
  * Triangular distribution (Wikipedia)</a>
  */
 public class TriangularDistribution extends AbstractRealDistribution {
-    /** Serializable version identifier. */
+
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20120112L;
-    /** Lower limit of this distribution (inclusive). */
+
+    /**
+     * Lower limit of this distribution (inclusive).
+     */
     private final double a;
-    /** Upper limit of this distribution (inclusive). */
+
+    /**
+     * Upper limit of this distribution (inclusive).
+     */
     private final double b;
-    /** Mode of this distribution. */
+
+    /**
+     * Mode of this distribution.
+     */
     private final double c;
 
     /**
@@ -53,23 +63,16 @@ public class TriangularDistribution extends AbstractRealDistribution {
      * @throws MathIllegalArgumentException if {@code a >= b} or if {@code c > b}.
      * @throws MathIllegalArgumentException if {@code c < a}.
      */
-    public TriangularDistribution(double a, double c, double b)
-        throws MathIllegalArgumentException {
-
+    public TriangularDistribution(double a, double c, double b) throws MathIllegalArgumentException {
         if (a >= b) {
-            throw new MathIllegalArgumentException(
-                            LocalizedCoreFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
-                            a, b, false);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND, a, b, false);
         }
         if (c < a) {
-            throw new MathIllegalArgumentException(
-                    LocalizedCoreFormats.NUMBER_TOO_SMALL, c, a, true);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL, c, a, true);
         }
         if (c > b) {
-            throw new MathIllegalArgumentException(
-                    LocalizedCoreFormats.NUMBER_TOO_LARGE, c, b, true);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE, c, b, true);
         }
-
         this.a = a;
         this.c = c;
         this.b = b;
@@ -81,7 +84,7 @@ public class TriangularDistribution extends AbstractRealDistribution {
      * @return the mode {@code c} of this distribution
      */
     public double getMode() {
-        return c;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -98,23 +101,7 @@ public class TriangularDistribution extends AbstractRealDistribution {
      */
     @Override
     public double density(double x) {
-        if (x < a) {
-            return 0;
-        }
-        if (a <= x && x < c) {
-            double divident = 2 * (x - a);
-            double divisor = (b - a) * (c - a);
-            return divident / divisor;
-        }
-        if (x == c) {
-            return 2 / (b - a);
-        }
-        if (c < x && x <= b) {
-            double divident = 2 * (b - x);
-            double divisor = (b - a) * (b - c);
-            return divident / divisor;
-        }
-        return 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -131,24 +118,8 @@ public class TriangularDistribution extends AbstractRealDistribution {
      * </ul>
      */
     @Override
-    public double cumulativeProbability(double x)  {
-        if (x < a) {
-            return 0;
-        }
-        if (a <= x && x < c) {
-            double divident = (x - a) * (x - a);
-            double divisor = (b - a) * (c - a);
-            return divident / divisor;
-        }
-        if (x == c) {
-            return (c - a) / (b - a);
-        }
-        if (c < x && x <= b) {
-            double divident = (b - x) * (b - x);
-            double divisor = (b - a) * (b - c);
-            return 1 - (divident / divisor);
-        }
-        return 1;
+    public double cumulativeProbability(double x) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -159,7 +130,7 @@ public class TriangularDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalMean() {
-        return (a + b + c) / 3;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -170,7 +141,7 @@ public class TriangularDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        return (a * a + b * b + c * c - a * b - a * c - b * c) / 18;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -183,7 +154,7 @@ public class TriangularDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportLowerBound() {
-        return a;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -196,7 +167,7 @@ public class TriangularDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportUpperBound() {
-        return b;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -208,24 +179,14 @@ public class TriangularDistribution extends AbstractRealDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double inverseCumulativeProbability(double p)
-        throws MathIllegalArgumentException {
-        MathUtils.checkRangeInclusive(p, 0, 1);
-
-        if (p == 0) {
-            return a;
-        }
-        if (p == 1) {
-            return b;
-        }
-        if (p < (c - a) / (b - a)) {
-            return a + FastMath.sqrt(p * (b - a) * (c - a));
-        }
-        return b - FastMath.sqrt((1 - p) * (b - a) * (b - c));
+    public double inverseCumulativeProbability(double p) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -22,220 +22,168 @@ import org.hipparchus.linear.RealMatrix;
 import org.hipparchus.linear.RealVector;
 import org.hipparchus.util.FastMath;
 
-/** TBD.
+/**
+ * TBD.
  * @since 3.1
  */
 public class ADMMQPModifiedRuizEquilibrium {
 
-    /** Minimum scaling value. */
+    /**
+     * Minimum scaling value.
+     */
     private static final double MIN_SCALING = 1.0e-6;
 
-    /** Maximum scaling value. */
+    /**
+     * Maximum scaling value.
+     */
     private static final double MAX_SCALING = 1.0e+6;
 
-    /** Square matrix of weights for quadratic terms. */
+    /**
+     * Square matrix of weights for quadratic terms.
+     */
     private final RealMatrix H;
 
-    /** Vector of weights for linear terms. */
+    /**
+     * Vector of weights for linear terms.
+     */
     private final RealVector q;
 
-    /** Constraints coefficients matrix. */
+    /**
+     * Constraints coefficients matrix.
+     */
     private final RealMatrix A;
 
-    /** TBC. */
+    /**
+     * TBC.
+     */
     private RealMatrix D;
 
-    /** TBC. */
+    /**
+     * TBC.
+     */
     private RealMatrix E;
 
-    /** TBC. */
+    /**
+     * TBC.
+     */
     private double c;
 
-    /** Inverse of D. */
+    /**
+     * Inverse of D.
+     */
     private RealMatrix Dinv;
 
-    /** Inverse of E. */
+    /**
+     * Inverse of E.
+     */
     private RealMatrix Einv;
 
-    /** Inverse of c. */
+    /**
+     * Inverse of c.
+     */
     private double cinv;
 
-    /** Simple constructor
+    /**
+     * Simple constructor
      * @param H square matrix of weights for quadratic terms
      * @param A constraints coefficients matrix
      * @param q vector of weights for linear terms
      */
     public ADMMQPModifiedRuizEquilibrium(RealMatrix H, RealMatrix A, RealVector q) {
-        this.H  = H;
-        this.A  = A;
-        this.q  = q;
+        this.H = H;
+        this.A = A;
+        this.q = q;
     }
 
-    /** Normalize matrices.
+    /**
+     * Normalize matrices.
      * @param epsilon TBD
      * @param maxIteration TBD
      */
     public void normalize(double epsilon, int maxIteration) {
-
-        int iteration = 0;
-        this.c = 1.0;
-        RealVector gammaD = new ArrayRealVector(H.getRowDimension());
-        RealVector gammaE = new ArrayRealVector(A.getRowDimension());
-
-        double lambda;
-        RealVector q1 = q.copy();
-        RealMatrix H1 = H.copy();
-        RealMatrix A1 = A.copy();
-        RealMatrix diagD;
-        RealMatrix diagE;
-        RealMatrix SD = MatrixUtils.createRealIdentityMatrix(H.getRowDimension());
-        RealMatrix SE = MatrixUtils.createRealIdentityMatrix(A.getRowDimension());
-        RealVector H1norm = new ArrayRealVector(H1.getColumnDimension());
-        while (iteration < maxIteration) {
-       // while (1.0 - gamma.getLInfNorm() > epsilon && iteration < maxIteration) {
-
-            for (int i = 0; i < H1.getColumnDimension(); i++) {
-                double norma = (new ArrayRealVector(H1.getColumn(i), A1.getColumn(i))).getLInfNorm();
-                gammaD.setEntry(i, norma);
-            }
-
-            for (int i = 0; i < A1.getRowDimension(); i++) {
-                double norma = A1.getRowVector(i).getLInfNorm();
-                gammaE.setEntry(i, norma);
-            }
-
-            gammaD = limitScaling(gammaD);
-            gammaE = limitScaling(gammaE);
-
-            for (int i = 0; i < gammaD.getDimension(); i++) {
-                gammaD.setEntry(i, 1.0 / FastMath.sqrt(gammaD.getEntry(i)));
-            }
-
-            for (int i = 0; i < gammaE.getDimension(); i++) {
-                gammaE.setEntry(i, 1.0 / FastMath.sqrt(gammaE.getEntry(i)));
-            }
-
-            diagD = MatrixUtils.createRealDiagonalMatrix(gammaD.toArray());
-            diagE = MatrixUtils.createRealDiagonalMatrix(gammaE.toArray());
-
-            H1 = diagD.multiply(H1.copy()).multiply(diagD.copy());
-            q1 = diagD.operate(q1.copy());
-            A1 = diagE.multiply(A1.copy()).multiply(diagD.copy());
-
-            for (int i = 0; i < H1.getRowDimension(); i++) {
-                double norma = (new ArrayRealVector(H1.getRow(i))).getLInfNorm();
-                H1norm.setEntry(i, norma);
-            }
-            double qnorm = q1.getLInfNorm();
-            if (qnorm == 0) {
-                qnorm = 1.0;
-            }
-            qnorm = limitScaling(new ArrayRealVector(1, qnorm)).getEntry(0);
-            double mean = 0;
-            for (int i = 0; i < H1norm.getDimension(); i++) {
-                mean+=H1norm.getEntry(i) / H1norm.getDimension();
-            }
-
-            lambda = 1.0 / limitScaling(new ArrayRealVector(1, FastMath.max(mean, qnorm))).getEntry(0);
-
-            H1 = H1.copy().scalarMultiply(lambda);
-            q1 = q1.copy().mapMultiply(lambda);
-            c *= lambda;
-            SD = diagD.multiply(SD.copy());
-            SE = diagE.multiply(SE.copy());
-            iteration += 1;
-        }
-        this.E    = SE.copy();
-        this.D    = SD.copy();
-        this.Einv = MatrixUtils.inverse(SE);
-        this.Dinv = MatrixUtils.inverse(SD);
-        this.cinv = 1.0 / c;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get scaled square matrix of weights for quadratic terms.
+    /**
+     * Get scaled square matrix of weights for quadratic terms.
      * @return scaled square matrix of weights for quadratic terms
      */
     public RealMatrix getScaledH() {
-        return D.multiply(H).multiply(D).scalarMultiply(c);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get scaled constraints coefficients matrix.
+    /**
+     * Get scaled constraints coefficients matrix.
      * @return scaled constraints coefficients matrix
      */
     public RealMatrix getScaledA() {
-        return E.multiply(A).multiply(D);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get scaled vector of weights for linear terms.
+    /**
+     * Get scaled vector of weights for linear terms.
      * @return scaled vector of weights for linear terms
      */
     public RealVector getScaledQ() {
-        return D.operate(q.mapMultiply(c));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get scaled upper bound
+    /**
+     * Get scaled upper bound
      * @param lb1 unscaled lower bound
      * @return scaled lower bound
      */
     public RealVector getScaledLUb(RealVector lb1) {
-        RealVector scaledLUb = new ArrayRealVector(lb1.getDimension());
-        for (int i = 0; i < lb1.getDimension(); i++) {
-            if (lb1.getEntry(i) != Double.POSITIVE_INFINITY) {
-                scaledLUb.setEntry(i, E.getEntry(i, i) * lb1.getEntry(i));
-            } else {
-                scaledLUb.setEntry(i, Double.POSITIVE_INFINITY);
-            }
-        }
-        return scaledLUb;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Unscale solution vector.
+    /**
+     * Unscale solution vector.
      * @param x scaled solution vector
      * @return unscaled solution vector
      */
     public RealVector unscaleX(RealVector x) {
-        return D.operate(x);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Unscale Y vector.
+    /**
+     * Unscale Y vector.
      * @param y scaled Y vector
      * @return unscaled Y vector
      */
     public RealVector unscaleY(RealVector y) {
-        return E.operate(y).mapMultiply(cinv);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Unscale Z vector.
+    /**
+     * Unscale Z vector.
      * @param z scaled Z vector
      * @return unscaled Z vector
      */
     public RealVector unscaleZ(RealVector z) {
-        return Einv.operate(z);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Scale solution vector.
+    /**
+     * Scale solution vector.
      * @param x unscaled solution vector
      * @return scaled solution vector
      */
     RealVector scaleX(RealVector x) {
-        return Dinv.operate(x);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Limit scaling.
+    /**
+     * Limit scaling.
      * @param v vector to limit
      * @return rescaled vector, taking scaling limits into account
      */
     private RealVector limitScaling(RealVector v) {
-
         RealVector result = new ArrayRealVector(v.getDimension());
         for (int i = 0; i < v.getDimension(); i++) {
-            result.setEntry(i,  v.getEntry(i) < MIN_SCALING ? 1.0 : v.getEntry(i));
-            result.setEntry(i,  v.getEntry(i) > MAX_SCALING ? MAX_SCALING : v.getEntry(i));
+            result.setEntry(i, v.getEntry(i) < MIN_SCALING ? 1.0 : v.getEntry(i));
+            result.setEntry(i, v.getEntry(i) > MAX_SCALING ? MAX_SCALING : v.getEntry(i));
         }
-
         return result;
-
     }
-
 }

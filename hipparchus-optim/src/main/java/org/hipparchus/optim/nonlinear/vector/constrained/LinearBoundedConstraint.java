@@ -16,22 +16,25 @@
  */
 package org.hipparchus.optim.nonlinear.vector.constrained;
 
-
 import org.hipparchus.linear.Array2DRowRealMatrix;
 import org.hipparchus.linear.ArrayRealVector;
 import org.hipparchus.linear.RealMatrix;
 import org.hipparchus.linear.RealVector;
 import org.hipparchus.optim.OptimizationData;
 
-/** A set of linear inequality constraints expressed as ub&gt;Ax&gt;lb.
+/**
+ * A set of linear inequality constraints expressed as ub&gt;Ax&gt;lb.
  * @since 3.1
  */
 public class LinearBoundedConstraint extends BoundedConstraint implements OptimizationData {
 
-    /** The corresponding set of individual linear constraint functions. */
+    /**
+     * The corresponding set of individual linear constraint functions.
+     */
     private final RealMatrix a;
 
-    /** Construct a set of linear inequality constraints from Ax &lt; B
+    /**
+     * Construct a set of linear inequality constraints from Ax &lt; B
      * @param a A matrix linear coefficient vectors
      * @param lower lower bound
      * @param upper upper bound
@@ -41,7 +44,8 @@ public class LinearBoundedConstraint extends BoundedConstraint implements Optimi
         this.a = a;
     }
 
-    /** Construct a set of linear inequality constraints from Ax &lt; B
+    /**
+     * Construct a set of linear inequality constraints from Ax &lt; B
      * @param a A matrix linear coefficient vectors
      * @param lower lower bound
      * @param upper upper bound
@@ -50,28 +54,35 @@ public class LinearBoundedConstraint extends BoundedConstraint implements Optimi
         this(new Array2DRowRealMatrix(a), new ArrayRealVector(lower), new ArrayRealVector(upper));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[] value(final double[] x) {
-        return this.a.operate(x);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int dim() {
-        return a.getColumnDimension();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector value(final RealVector x) {
-        return a.operate(x);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealMatrix jacobian(final RealVector x) {
-        return a.copy();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

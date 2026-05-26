@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,7 +22,6 @@ package org.hipparchus.stat.inference;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hipparchus.distribution.continuous.NormalDistribution;
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -43,9 +41,12 @@ import org.hipparchus.util.MathArrays;
  * the R implementation of wilcox.test and corresponds to the "wilcox"
  * zero_method configurable in scipy.stats.wilcoxon.
  */
-public class WilcoxonSignedRankTest { // NOPMD - this is not a Junit test class, PMD false positive here
+public class // NOPMD - this is not a Junit test class, PMD false positive here
+WilcoxonSignedRankTest {
 
-    /** Ranking algorithm. */
+    /**
+     * Ranking algorithm.
+     */
     private final NaturalRanking naturalRanking;
 
     /**
@@ -53,8 +54,7 @@ public class WilcoxonSignedRankTest { // NOPMD - this is not a Junit test class,
      * average of applicable ranks.
      */
     public WilcoxonSignedRankTest() {
-        naturalRanking = new NaturalRanking(NaNStrategy.FIXED,
-                                            TiesStrategy.AVERAGE);
+        naturalRanking = new NaturalRanking(NaNStrategy.FIXED, TiesStrategy.AVERAGE);
     }
 
     /**
@@ -64,8 +64,7 @@ public class WilcoxonSignedRankTest { // NOPMD - this is not a Junit test class,
      *        Double.NaN's
      * @param tiesStrategy specifies the strategy that should be used for ties
      */
-    public WilcoxonSignedRankTest(final NaNStrategy nanStrategy,
-                                  final TiesStrategy tiesStrategy) {
+    public WilcoxonSignedRankTest(final NaNStrategy nanStrategy, final TiesStrategy tiesStrategy) {
         naturalRanking = new NaturalRanking(nanStrategy, tiesStrategy);
     }
 
@@ -84,9 +83,7 @@ public class WilcoxonSignedRankTest { // NOPMD - this is not a Junit test class,
      * @throws MathIllegalArgumentException if all pairs are tied (i.e., if no
      *         data remains when tied pairs have been removed.
      */
-    private int ensureDataConformance(final double[] x, final double[] y)
-        throws MathIllegalArgumentException, NullArgumentException {
-
+    private int ensureDataConformance(final double[] x, final double[] y) throws MathIllegalArgumentException, NullArgumentException {
         if (x == null || y == null) {
             throw new NullArgumentException();
         }
@@ -136,23 +133,17 @@ public class WilcoxonSignedRankTest { // NOPMD - this is not a Junit test class,
      * @throws NullArgumentException if {@code z} is {@code null}
      * @throws MathIllegalArgumentException if {@code z} is zero-length.
      */
-    private double[] calculateAbsoluteDifferences(final double[] z)
-        throws MathIllegalArgumentException, NullArgumentException {
-
+    private double[] calculateAbsoluteDifferences(final double[] z) throws MathIllegalArgumentException, NullArgumentException {
         if (z == null) {
             throw new NullArgumentException();
         }
-
         if (z.length == 0) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.NO_DATA);
         }
-
         final double[] zAbs = new double[z.length];
-
         for (int i = 0; i < z.length; ++i) {
             zAbs[i] = FastMath.abs(z[i]);
         }
-
         return zAbs;
     }
 
@@ -190,28 +181,8 @@ public class WilcoxonSignedRankTest { // NOPMD - this is not a Junit test class,
      * @throws MathIllegalArgumentException if {@code x} and {@code y} do not
      *         have the same length.
      */
-    public double wilcoxonSignedRank(final double[] x, final double[] y)
-        throws MathIllegalArgumentException, NullArgumentException {
-
-        ensureDataConformance(x, y);
-
-        final double[] z = calculateDifferences(x, y);
-        final double[] zAbs = calculateAbsoluteDifferences(z);
-
-        final double[] ranks = naturalRanking.rank(zAbs);
-
-        double Wplus = 0;
-
-        for (int i = 0; i < z.length; ++i) {
-            if (z[i] > 0) {
-                Wplus += ranks[i];
-            }
-        }
-
-        final int n = z.length;
-        final double Wminus = ((n * (n + 1)) / 2.0) - Wplus;
-
-        return FastMath.max(Wplus, Wminus);
+    public double wilcoxonSignedRank(final double[] x, final double[] y) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -228,21 +199,17 @@ public class WilcoxonSignedRankTest { // NOPMD - this is not a Junit test class,
         int largerRankSums = 0;
         for (int i = 0; i < m; ++i) {
             int rankSum = 0;
-
             // Generate all possible rank sums
             for (int j = 0; j < n; ++j) {
-
                 // (i >> j) & 1 extract i's j-th bit from the right
                 if (((i >> j) & 1) == 1) {
                     rankSum += j + 1;
                 }
             }
-
             if (rankSum >= stat) {
                 ++largerRankSums;
             }
         }
-
         /*
          * largerRankSums / m gives the one-sided p-value, so it's multiplied
          * with 2 to get the two-sided p-value
@@ -260,19 +227,15 @@ public class WilcoxonSignedRankTest { // NOPMD - this is not a Junit test class,
      * @return two-sided asymptotic p-value
      */
     private double calculateAsymptoticPValue(final double stat, final int n) {
-
         final double ES = n * (n + 1) / 4.0;
-
         /*
          * Same as (but saves computations): final double VarW = ((double) (N *
          * (N + 1) * (2*N + 1))) / 24;
          */
         final double VarS = ES * ((2 * n + 1) / 6.0);
-
         double z = stat - ES;
         final double t = FastMath.signum(z);
         z = (z - t * 0.5) / FastMath.sqrt(VarS);
-
         // want 2-sided tail probability, so make sure z < 0
         if (z > 0) {
             z = -z;
@@ -331,25 +294,7 @@ public class WilcoxonSignedRankTest { // NOPMD - this is not a Junit test class,
      * @throws MathIllegalStateException if the maximum number of iterations is
      *         exceeded
      */
-    public double wilcoxonSignedRankTest(final double[] x, final double[] y,
-                                         final boolean exactPValue)
-        throws MathIllegalArgumentException, NullArgumentException,
-        MathIllegalStateException {
-
-        final int nTies = ensureDataConformance(x, y);
-
-        final int n = x.length - nTies;
-        final double stat = wilcoxonSignedRank(x, y);
-
-        if (exactPValue && n > 30) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE,
-                                                   n, 30);
-        }
-
-        if (exactPValue) {
-            return calculateExactPValue(stat, n);
-        } else {
-            return calculateAsymptoticPValue(stat, n);
-        }
+    public double wilcoxonSignedRankTest(final double[] x, final double[] y, final boolean exactPValue) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

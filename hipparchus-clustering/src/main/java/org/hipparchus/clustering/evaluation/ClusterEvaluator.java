@@ -14,16 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.clustering.evaluation;
 
 import java.util.List;
-
 import org.hipparchus.clustering.CentroidCluster;
 import org.hipparchus.clustering.Cluster;
 import org.hipparchus.clustering.Clusterable;
@@ -38,7 +35,9 @@ import org.hipparchus.clustering.distance.EuclideanDistance;
  */
 public abstract class ClusterEvaluator<T extends Clusterable> {
 
-    /** The distance measure to use when evaluating the cluster. */
+    /**
+     * The distance measure to use when evaluating the cluster.
+     */
     private final DistanceMeasure measure;
 
     /**
@@ -76,7 +75,7 @@ public abstract class ClusterEvaluator<T extends Clusterable> {
      * @return {@code true} if the first score is considered to be better, {@code false} otherwise
      */
     public boolean isBetterScore(double score1, double score2) {
-        return score1 < score2;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -88,7 +87,7 @@ public abstract class ClusterEvaluator<T extends Clusterable> {
      * @return the distance between the two clusterables
      */
     protected double distance(final Clusterable p1, final Clusterable p2) {
-        return measure.compute(p1.getPoint(), p2.getPoint());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -99,28 +98,6 @@ public abstract class ClusterEvaluator<T extends Clusterable> {
      * or {@code null} if the cluster does not contain any points
      */
     protected Clusterable centroidOf(final Cluster<T> cluster) {
-        final List<T> points = cluster.getPoints();
-        if (points.isEmpty()) {
-            return null;
-        }
-
-        // in case the cluster is of type CentroidCluster, no need to compute the centroid
-        if (cluster instanceof CentroidCluster) {
-            return ((CentroidCluster<T>) cluster).getCenter();
-        }
-
-        final int dimension = points.get(0).getPoint().length;
-        final double[] centroid = new double[dimension];
-        for (final T p : points) {
-            final double[] point = p.getPoint();
-            for (int i = 0; i < centroid.length; i++) {
-                centroid[i] += point[i];
-            }
-        }
-        for (int i = 0; i < centroid.length; i++) {
-            centroid[i] /= points.size();
-        }
-        return new DoublePoint(centroid);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

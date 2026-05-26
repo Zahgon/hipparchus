@@ -17,13 +17,13 @@
 package org.hipparchus.analysis.differentiation;
 
 import java.io.Serializable;
-
 import org.hipparchus.Field;
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.util.FastMath;
 
-/** Factory for {@link DerivativeStructure}.
+/**
+ * Factory for {@link DerivativeStructure}.
  * <p>This class is a factory for {@link DerivativeStructure} instances.</p>
  * <p>Instances of this class are guaranteed to be immutable.</p>
  * @see DerivativeStructure
@@ -31,42 +31,50 @@ import org.hipparchus.util.FastMath;
  */
 public class DSFactory implements Serializable {
 
-    /** Serializable UID. */
+    /**
+     * Serializable UID.
+     */
     private static final long serialVersionUID = 20161222L;
 
-    /** Compiler for the current dimensions. */
+    /**
+     * Compiler for the current dimensions.
+     */
     private final transient DSCompiler compiler;
 
-    /** Field the {@link DerivativeStructure} instances belong to. */
+    /**
+     * Field the {@link DerivativeStructure} instances belong to.
+     */
     private final transient DSField derivativeField;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param parameters number of free parameters
      * @param order derivation order
      */
     public DSFactory(final int parameters, final int order) {
-        this.compiler        = DSCompiler.getCompiler(parameters, order);
+        this.compiler = DSCompiler.getCompiler(parameters, order);
         this.derivativeField = new DSField(constant(0.0), constant(1.0), constant(FastMath.PI));
     }
 
-    /** Get the {@link Field} the {@link DerivativeStructure} instances belong to.
+    /**
+     * Get the {@link Field} the {@link DerivativeStructure} instances belong to.
      * @return {@link Field} the {@link DerivativeStructure} instances belong to
      */
     public DSField getDerivativeField() {
-        return derivativeField;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Build a {@link DerivativeStructure} representing a constant value.
+    /**
+     * Build a {@link DerivativeStructure} representing a constant value.
      * @param value value of the constant
      * @return a {@link DerivativeStructure} representing a constant value
      */
     public DerivativeStructure constant(double value) {
-        final DerivativeStructure ds = new DerivativeStructure(this);
-        ds.setDerivativeComponent(0, value);
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Build a {@link DerivativeStructure} representing a variable.
+    /**
+     * Build a {@link DerivativeStructure} representing a variable.
      * <p>Instances built using this method are considered
      * to be the free variables with respect to which differentials
      * are computed. As such, their differential with respect to
@@ -78,27 +86,12 @@ public class DSFactory implements Serializable {
      * equal to {@link #getCompiler()}.{@link DSCompiler#getFreeParameters() getFreeParameters()}.
      * @return a {@link DerivativeStructure} representing a variable
      */
-    public DerivativeStructure variable(final int index, final double value)
-        throws MathIllegalArgumentException {
-
-        if (index >= getCompiler().getFreeParameters()) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                   index, getCompiler().getFreeParameters());
-        }
-
-        final DerivativeStructure ds = new DerivativeStructure(this);
-        ds.setDerivativeComponent(0, value);
-
-        if (getCompiler().getOrder() > 0) {
-            // the derivative of the variable with respect to itself is 1.
-            ds.setDerivativeComponent(DSCompiler.getCompiler(index, getCompiler().getOrder()).getSize(), 1.0);
-        }
-
-        return ds;
-
+    public DerivativeStructure variable(final int index, final double value) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Build a {@link DerivativeStructure} from all its derivatives.
+    /**
+     * Build a {@link DerivativeStructure} from all its derivatives.
      * @param derivatives derivatives sorted according to
      * {@link DSCompiler#getPartialDerivativeIndex(int...)}
      * @return a {@link DerivativeStructure} with specified derivatives
@@ -108,39 +101,34 @@ public class DSFactory implements Serializable {
      * @see DerivativeStructure#getAllDerivatives()
      */
     @SafeVarargs
-    public final DerivativeStructure build(final double ... derivatives)
-        throws MathIllegalArgumentException {
-
-        if (derivatives.length != compiler.getSize()) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   derivatives.length, compiler.getSize());
-        }
-
-        return new DerivativeStructure(this, derivatives);
-
+    public final DerivativeStructure build(final double... derivatives) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Build a {@link DerivativeStructure} with an uninitialized array.
+    /**
+     * Build a {@link DerivativeStructure} with an uninitialized array.
      * <p>This method is intended only for DerivativeStructure internal use.</p>
      * @return a {@link DerivativeStructure} with an uninitialized array
      */
     DerivativeStructure build() {
-        return new DerivativeStructure(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the compiler for the current dimensions.
+    /**
+     * Get the compiler for the current dimensions.
      * @return compiler for the current dimensions
      */
     public DSCompiler getCompiler() {
-        return compiler;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check rules set compatibility.
+    /**
+     * Check rules set compatibility.
      * @param factory other factory field to check against instance
      * @exception MathIllegalArgumentException if number of free parameters or orders are inconsistent
      */
     void checkCompatibility(final DSFactory factory) throws MathIllegalArgumentException {
-        compiler.checkCompatibility(factory.compiler);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -151,77 +139,97 @@ public class DSFactory implements Serializable {
         return new DataTransferObject(compiler.getFreeParameters(), compiler.getOrder());
     }
 
-    /** Internal class used only for serialization. */
+    /**
+     * Internal class used only for serialization.
+     */
     private static class DataTransferObject implements Serializable {
 
-        /** Serializable UID. */
+        /**
+         * Serializable UID.
+         */
         private static final long serialVersionUID = 20161222L;
 
-        /** Number of variables.
+        /**
+         * Number of variables.
          * @serial
          */
         private final int variables;
 
-        /** Derivation order.
+        /**
+         * Derivation order.
          * @serial
          */
         private final int order;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          * @param variables number of variables
          * @param order derivation order
          */
         DataTransferObject(final int variables, final int order) {
             this.variables = variables;
-            this.order     = order;
+            this.order = order;
         }
 
-        /** Replace the deserialized data transfer object with a {@link DSFactory}.
+        /**
+         * Replace the deserialized data transfer object with a {@link DSFactory}.
          * @return replacement {@link DSFactory}
          */
         private Object readResolve() {
             return new DSFactory(variables, order);
         }
-
     }
 
-    /** Field for {link DerivativeStructure} instances.
+    /**
+     * Field for {link DerivativeStructure} instances.
      */
     public static class DSField implements Field<DerivativeStructure> {
 
-        /** Constant function evaluating to 0.0. */
+        /**
+         * Constant function evaluating to 0.0.
+         */
         private final DerivativeStructure zero;
 
-        /** Constant function evaluating to 1.0. */
+        /**
+         * Constant function evaluating to 1.0.
+         */
         private final DerivativeStructure one;
 
-        /** Constant function evaluating to π. */
+        /**
+         * Constant function evaluating to π.
+         */
         private final DerivativeStructure pi;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          * @param zero constant function evaluating to 0.0
          * @param one constant function evaluating to 1.0
          * @param pi constant function evaluating to π
          */
         DSField(final DerivativeStructure zero, final DerivativeStructure one, final DerivativeStructure pi) {
             this.zero = zero;
-            this.one  = one;
-            this.pi   = pi;
+            this.one = one;
+            this.pi = pi;
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public DerivativeStructure getZero() {
-            return zero;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public DerivativeStructure getOne() {
-            return one;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Get the Archimedes constant π.
+        /**
+         * Get the Archimedes constant π.
          * <p>
          * Archimedes constant is the ratio of a circle's circumference to its diameter.
          * </p>
@@ -229,36 +237,31 @@ public class DSFactory implements Serializable {
          * @since 2.0
          */
         public DerivativeStructure getPi() {
-            return pi;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Class<DerivativeStructure> getRuntimeClass() {
-            return DerivativeStructure.class;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean equals(final Object other) {
-            if (this == other) {
-                return true;
-            } else if (other instanceof DSField) {
-                DSFactory lhsFactory = zero.getFactory();
-                DSFactory rhsFactory = ((DSField) other).zero.getFactory();
-                return lhsFactory.compiler == rhsFactory.compiler;
-            } else {
-                return false;
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int hashCode() {
-            final DSCompiler compiler = zero.getFactory().getCompiler();
-            return 0x9943b886 ^ (compiler.getFreeParameters() << 16 & compiler.getOrder());
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
-
 }

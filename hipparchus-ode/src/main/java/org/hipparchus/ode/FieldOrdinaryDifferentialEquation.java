@@ -14,17 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode;
 
 import org.hipparchus.CalculusFieldElement;
 
-/** This interface represents a first order differential equations set.
+/**
+ * This interface represents a first order differential equations set.
  *
  * <p>This interface should be implemented by all real first order
  * differential equation problems before they can be handled by the
@@ -48,15 +47,16 @@ import org.hipparchus.CalculusFieldElement;
  *
  * @param <T> the type of the field elements
  */
-
 public interface FieldOrdinaryDifferentialEquation<T extends CalculusFieldElement<T>> {
 
-    /** Get the dimension of the problem.
+    /**
+     * Get the dimension of the problem.
      * @return dimension of the problem
      */
     int getDimension();
 
-    /** Initialize equations at the start of an ODE integration.
+    /**
+     * Initialize equations at the start of an ODE integration.
      * <p>
      * This method is called once at the start of the integration. It
      * may be used by the equations to initialize some internal data
@@ -70,14 +70,14 @@ public interface FieldOrdinaryDifferentialEquation<T extends CalculusFieldElemen
      * @param finalTime target time for the integration
      */
     default void init(T t0, T[] y0, T finalTime) {
-        // do nothing by default
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the current time derivative of the state vector.
+    /**
+     * Get the current time derivative of the state vector.
      * @param t current value of the independent <I>time</I> variable
      * @param y array containing the current value of the state vector
      * @return time derivative of the state vector
      */
     T[] computeDerivatives(T t, T[] y);
-
 }

@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.distribution.discrete;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -33,15 +31,30 @@ import org.hipparchus.util.FastMath;
  * @see <a href="http://mathworld.wolfram.com/HypergeometricDistribution.html">Hypergeometric distribution (MathWorld)</a>
  */
 public class HypergeometricDistribution extends AbstractIntegerDistribution {
-    /** Serializable version identifier. */
+
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20160320L;
-    /** The number of successes in the population. */
+
+    /**
+     * The number of successes in the population.
+     */
     private final int numberOfSuccesses;
-    /** The population size. */
+
+    /**
+     * The population size.
+     */
     private final int populationSize;
-    /** The sample size. */
+
+    /**
+     * The sample size.
+     */
     private final int sampleSize;
-    /** Cached numerical variance */
+
+    /**
+     * Cached numerical variance
+     */
     private final double numericalVariance;
 
     /**
@@ -56,51 +69,34 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      * @throws MathIllegalArgumentException if {@code numberOfSuccesses > populationSize},
      * or {@code sampleSize > populationSize}.
      */
-    public HypergeometricDistribution(int populationSize, int numberOfSuccesses, int sampleSize)
-        throws MathIllegalArgumentException {
+    public HypergeometricDistribution(int populationSize, int numberOfSuccesses, int sampleSize) throws MathIllegalArgumentException {
         if (populationSize <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.POPULATION_SIZE,
-                                                   populationSize);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.POPULATION_SIZE, populationSize);
         }
         if (numberOfSuccesses < 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_SUCCESSES,
-                                                   numberOfSuccesses);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_SUCCESSES, numberOfSuccesses);
         }
         if (sampleSize < 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_SAMPLES,
-                                                   sampleSize);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_SAMPLES, sampleSize);
         }
-
         if (numberOfSuccesses > populationSize) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_SUCCESS_LARGER_THAN_POPULATION_SIZE,
-                                                   numberOfSuccesses, populationSize, true);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_SUCCESS_LARGER_THAN_POPULATION_SIZE, numberOfSuccesses, populationSize, true);
         }
         if (sampleSize > populationSize) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.SAMPLE_SIZE_LARGER_THAN_POPULATION_SIZE,
-                                                   sampleSize, populationSize, true);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.SAMPLE_SIZE_LARGER_THAN_POPULATION_SIZE, sampleSize, populationSize, true);
         }
-
         this.numberOfSuccesses = numberOfSuccesses;
         this.populationSize = populationSize;
         this.sampleSize = sampleSize;
         this.numericalVariance = calculateNumericalVariance();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double cumulativeProbability(int x) {
-        double ret;
-
-        int[] domain = getDomain(populationSize, numberOfSuccesses, sampleSize);
-        if (x < domain[0]) {
-            ret = 0.0;
-        } else if (x >= domain[1]) {
-            ret = 1.0;
-        } else {
-            ret = innerCumulativeProbability(domain[0], x, 1);
-        }
-
-        return ret;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -135,7 +131,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      * @return the number of successes.
      */
     public int getNumberOfSuccesses() {
-        return numberOfSuccesses;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -144,7 +140,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      * @return the population size.
      */
     public int getPopulationSize() {
-        return populationSize;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -153,7 +149,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      * @return the sample size.
      */
     public int getSampleSize() {
-        return sampleSize;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -168,31 +164,20 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
         return FastMath.min(k, m);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double probability(int x) {
-        final double logProbability = logProbability(x);
-        return logProbability == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logProbability);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double logProbability(int x) {
-        double ret;
-
-        int[] domain = getDomain(populationSize, numberOfSuccesses, sampleSize);
-        if (x < domain[0] || x > domain[1]) {
-            ret = Double.NEGATIVE_INFINITY;
-        } else {
-            double p = ((double) sampleSize) / populationSize;
-            double q = ((double) (populationSize - sampleSize)) / populationSize;
-            double p1 = SaddlePointExpansion.logBinomialProbability(x, numberOfSuccesses, p, q);
-            double p2 = SaddlePointExpansion.logBinomialProbability(sampleSize - x, populationSize - numberOfSuccesses, p, q);
-            double p3 = SaddlePointExpansion.logBinomialProbability(sampleSize, populationSize, p, q);
-            ret = p1 + p2 - p3;
-        }
-
-        return ret;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -202,18 +187,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      * @return the upper tail CDF for this distribution.
      */
     public double upperCumulativeProbability(int x) {
-        double ret;
-
-        final int[] domain = getDomain(populationSize, numberOfSuccesses, sampleSize);
-        if (x <= domain[0]) {
-            ret = 1.0;
-        } else if (x > domain[1]) {
-            ret = 0.0;
-        } else {
-            ret = innerCumulativeProbability(domain[1], x, -1);
-        }
-
-        return ret;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -246,7 +220,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double getNumericalMean() {
-        return getSampleSize() * (getNumberOfSuccesses() / (double) getPopulationSize());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -258,7 +232,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        return numericalVariance;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -284,8 +258,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public int getSupportLowerBound() {
-        return FastMath.max(0,
-                            getSampleSize() + getNumberOfSuccesses() - getPopulationSize());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -298,7 +271,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public int getSupportUpperBound() {
-        return FastMath.min(getNumberOfSuccesses(), getSampleSize());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -310,6 +283,6 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

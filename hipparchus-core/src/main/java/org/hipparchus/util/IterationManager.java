@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,7 +22,6 @@ package org.hipparchus.util;
 
 import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import org.hipparchus.exception.MathIllegalStateException;
 
 /**
@@ -34,10 +32,14 @@ import org.hipparchus.exception.MathIllegalStateException;
  */
 public class IterationManager {
 
-    /** Keeps a count of the number of iterations. */
+    /**
+     * Keeps a count of the number of iterations.
+     */
     private final Incrementor iterations;
 
-    /** The collection of all listeners attached to this iterative algorithm. */
+    /**
+     * The collection of all listeners attached to this iterative algorithm.
+     */
     private final Collection<IterationListener> listeners;
 
     /**
@@ -47,7 +49,7 @@ public class IterationManager {
      */
     public IterationManager(final int maxIterations) {
         this.iterations = new Incrementor(maxIterations);
-        this.listeners  = new CopyOnWriteArrayList<>();
+        this.listeners = new CopyOnWriteArrayList<>();
     }
 
     /**
@@ -58,8 +60,7 @@ public class IterationManager {
      * iterations has been reached
      * @throws org.hipparchus.exception.NullArgumentException if {@code callBack} is {@code null}
      */
-    public IterationManager(final int maxIterations,
-                            final Incrementor.MaxCountExceededCallback callBack) {
+    public IterationManager(final int maxIterations, final Incrementor.MaxCountExceededCallback callBack) {
         this.iterations = new Incrementor(maxIterations, callBack);
         this.listeners = new CopyOnWriteArrayList<>();
     }
@@ -70,7 +71,7 @@ public class IterationManager {
      * @param listener A {@code IterationListener} object.
      */
     public void addIterationListener(final IterationListener listener) {
-        listeners.add(listener);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -80,9 +81,7 @@ public class IterationManager {
      * @param e The {@link IterationEvent} object.
      */
     public void fireInitializationEvent(final IterationEvent e) {
-        for (IterationListener l : listeners) {
-            l.initializationPerformed(e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -92,9 +91,7 @@ public class IterationManager {
      * @param e The {@link IterationEvent} object.
      */
     public void fireIterationPerformedEvent(final IterationEvent e) {
-        for (IterationListener l : listeners) {
-            l.iterationPerformed(e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -104,9 +101,7 @@ public class IterationManager {
      * @param e The {@link IterationEvent} object.
      */
     public void fireIterationStartedEvent(final IterationEvent e) {
-        for (IterationListener l : listeners) {
-            l.iterationStarted(e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -116,9 +111,7 @@ public class IterationManager {
      * @param e The {@link IterationEvent} object.
      */
     public void fireTerminationEvent(final IterationEvent e) {
-        for (IterationListener l : listeners) {
-            l.terminationPerformed(e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -128,7 +121,7 @@ public class IterationManager {
      * @return the number of iterations.
      */
     public int getIterations() {
-        return iterations.getCount();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -137,7 +130,7 @@ public class IterationManager {
      * @return the maximum number of iterations.
      */
     public int getMaxIterations() {
-        return iterations.getMaximalCount();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -148,9 +141,8 @@ public class IterationManager {
      * @throws MathIllegalStateException if the maximum number of iterations is
      * reached.
      */
-    public void incrementIterationCount()
-        throws MathIllegalStateException {
-        iterations.increment();
+    public void incrementIterationCount() throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -162,7 +154,7 @@ public class IterationManager {
      * @param listener The {@link IterationListener} to be removed.
      */
     public void removeIterationListener(final IterationListener listener) {
-        listeners.remove(listener);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -170,6 +162,6 @@ public class IterationManager {
      * initial phase.
      */
     public void resetIterationCount() {
-        iterations.reset();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

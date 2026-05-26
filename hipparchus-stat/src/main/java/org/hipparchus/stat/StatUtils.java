@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,7 +22,6 @@ package org.hipparchus.stat;
 
 import java.util.Arrays;
 import java.util.List;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.stat.descriptive.DescriptiveStatistics;
@@ -47,34 +45,54 @@ import org.hipparchus.util.MathUtils;
  */
 public final class StatUtils {
 
-    /** sum */
+    /**
+     * sum
+     */
     private static final UnivariateStatistic SUM = new Sum();
 
-    /** sumSq */
+    /**
+     * sumSq
+     */
     private static final UnivariateStatistic SUM_OF_SQUARES = new SumOfSquares();
 
-    /** prod */
+    /**
+     * prod
+     */
     private static final UnivariateStatistic PRODUCT = new Product();
 
-    /** sumLog */
+    /**
+     * sumLog
+     */
     private static final UnivariateStatistic SUM_OF_LOGS = new SumOfLogs();
 
-    /** min */
+    /**
+     * min
+     */
     private static final UnivariateStatistic MIN = new Min();
 
-    /** max */
+    /**
+     * max
+     */
     private static final UnivariateStatistic MAX = new Max();
 
-    /** mean */
+    /**
+     * mean
+     */
     private static final UnivariateStatistic MEAN = new Mean();
 
-    /** variance */
+    /**
+     * variance
+     */
     private static final Variance VARIANCE = new Variance();
 
-    /** percentile */
+    /**
+     * percentile
+     */
     private static final Percentile PERCENTILE = new Percentile();
 
-    /** geometric mean */
+    /**
+     * geometric mean
+     */
     private static final GeometricMean GEOMETRIC_MEAN = new GeometricMean();
 
     /**
@@ -94,7 +112,7 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null
      */
     public static double sum(final double... values) throws MathIllegalArgumentException {
-        return SUM.evaluate(values);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -110,9 +128,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
-    public static double sum(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-        return SUM.evaluate(values, begin, length);
+    public static double sum(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -126,7 +143,7 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null
      */
     public static double sumSq(final double... values) throws MathIllegalArgumentException {
-        return SUM_OF_SQUARES.evaluate(values);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -143,9 +160,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
-    public static double sumSq(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-        return SUM_OF_SQUARES.evaluate(values, begin, length);
+    public static double sumSq(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -159,7 +175,7 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null
      */
     public static double product(final double... values) throws MathIllegalArgumentException {
-        return PRODUCT.evaluate(values);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -176,9 +192,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
-    public static double product(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-        return PRODUCT.evaluate(values, begin, length);
+    public static double product(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -194,7 +209,7 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null
      */
     public static double sumLog(final double... values) throws MathIllegalArgumentException {
-        return SUM_OF_LOGS.evaluate(values);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -213,9 +228,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null or the array index
      * parameters are not valid
      */
-    public static double sumLog(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-        return SUM_OF_LOGS.evaluate(values, begin, length);
+    public static double sumLog(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -232,7 +246,7 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null
      */
     public static double mean(final double... values) throws MathIllegalArgumentException {
-        return MEAN.evaluate(values);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -252,9 +266,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null or the array index
      * parameters are not valid
      */
-    public static double mean(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-        return MEAN.evaluate(values, begin, length);
+    public static double mean(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -271,7 +284,7 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null
      */
     public static double geometricMean(final double... values) throws MathIllegalArgumentException {
-        return GEOMETRIC_MEAN.evaluate(values);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -291,9 +304,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
-    public static double geometricMean(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-        return GEOMETRIC_MEAN.evaluate(values, begin, length);
+    public static double geometricMean(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -316,7 +328,7 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null
      */
     public static double variance(final double... values) throws MathIllegalArgumentException {
-        return VARIANCE.evaluate(values);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -343,9 +355,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
-    public static double variance(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-        return VARIANCE.evaluate(values, begin, length);
+    public static double variance(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -378,9 +389,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
-    public static double variance(final double[] values, final double mean, final int begin, final int length)
-        throws MathIllegalArgumentException {
-        return VARIANCE.evaluate(values, mean, begin, length);
+    public static double variance(final double[] values, final double mean, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -410,7 +420,7 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null
      */
     public static double variance(final double[] values, final double mean) throws MathIllegalArgumentException {
-        return VARIANCE.evaluate(values, mean);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -430,7 +440,7 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null
      */
     public static double populationVariance(final double... values) throws MathIllegalArgumentException {
-        return new Variance(false).evaluate(values);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -454,9 +464,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
-    public static double populationVariance(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-        return new Variance(false).evaluate(values, begin, length);
+    public static double populationVariance(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -486,10 +495,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
-    public static double populationVariance(final double[] values, final double mean,
-                                            final int begin, final int length)
-        throws MathIllegalArgumentException {
-        return new Variance(false).evaluate(values, mean, begin, length);
+    public static double populationVariance(final double[] values, final double mean, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -513,9 +520,8 @@ public final class StatUtils {
      * @return the population variance of the values or Double.NaN if the array is empty
      * @throws MathIllegalArgumentException if the array is null
      */
-    public static double populationVariance(final double[] values, final double mean)
-        throws MathIllegalArgumentException {
-        return new Variance(false).evaluate(values, mean);
+    public static double populationVariance(final double[] values, final double mean) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -536,7 +542,7 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null
      */
     public static double max(final double... values) throws MathIllegalArgumentException {
-        return MAX.evaluate(values);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -560,9 +566,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
-    public static double max(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-        return MAX.evaluate(values, begin, length);
+    public static double max(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -583,7 +588,7 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null
      */
     public static double min(final double... values) throws MathIllegalArgumentException {
-        return MIN.evaluate(values);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -607,9 +612,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
-    public static double min(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-        return MIN.evaluate(values, begin, length);
+    public static double min(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -634,7 +638,7 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if <code>values</code> is null or p is invalid
      */
     public static double percentile(final double[] values, final double p) throws MathIllegalArgumentException {
-        return PERCENTILE.evaluate(values,p);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -662,9 +666,8 @@ public final class StatUtils {
      * @return the percentile value
      * @throws MathIllegalArgumentException if the parameters are not valid or the input array is null
      */
-    public static double percentile(final double[] values, final int begin, final int length, final double p)
-        throws MathIllegalArgumentException {
-        return PERCENTILE.evaluate(values, begin, length, p);
+    public static double percentile(final double[] values, final int begin, final int length, final double p) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -677,19 +680,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the arrays do not have the same (positive) length.
      * @throws MathIllegalArgumentException if the sample arrays are empty.
      */
-    public static double sumDifference(final double[] sample1, final double[] sample2)
-        throws MathIllegalArgumentException {
-
-        int n = sample1.length;
-        MathArrays.checkEqualLength(sample1, sample2);
-        if (n <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INSUFFICIENT_DIMENSION);
-        }
-        double result = 0;
-        for (int i = 0; i < n; i++) {
-            result += sample1[i] - sample2[i];
-        }
-        return result;
+    public static double sumDifference(final double[] sample1, final double[] sample2) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -702,9 +694,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the arrays do not have the same (positive) length.
      * @throws MathIllegalArgumentException if the sample arrays are empty.
      */
-    public static double meanDifference(final double[] sample1, final double[] sample2)
-        throws MathIllegalArgumentException {
-        return sumDifference(sample1, sample2) / sample1.length;
+    public static double meanDifference(final double[] sample1, final double[] sample2) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -719,23 +710,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the arrays length is less than 2.
      * @see #meanDifference(double[],double[])
      */
-    public static double varianceDifference(final double[] sample1, final double[] sample2, double meanDifference)
-        throws MathIllegalArgumentException {
-
-        double sum1 = 0d;
-        double sum2 = 0d;
-        int n = sample1.length;
-        MathArrays.checkEqualLength(sample1, sample2);
-        if (n < 2) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL,
-                                                   n, 2);
-        }
-        for (int i = 0; i < n; i++) {
-            final double diff = sample1[i] - sample2[i];
-            sum1 += (diff - meanDifference) *(diff - meanDifference);
-            sum2 += diff - meanDifference;
-        }
-        return (sum1 - (sum2 * sum2 / n)) / (n - 1);
+    public static double varianceDifference(final double[] sample1, final double[] sample2, double meanDifference) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -745,25 +721,7 @@ public final class StatUtils {
      * @return normalized (standardized) sample.
      */
     public static double[] normalize(final double... sample) {
-        DescriptiveStatistics stats = new DescriptiveStatistics();
-
-        // Add the data from the series to stats
-        for (double v : sample) {
-            stats.addValue(v);
-        }
-
-        // Compute mean and standard deviation
-        double mean = stats.getMean();
-        double standardDeviation = stats.getStandardDeviation();
-
-        // initialize the standardizedSample, which has the same length as the sample
-        double[] standardizedSample = new double[sample.length];
-
-        for (int i = 0; i < sample.length; i++) {
-            // z = (x- mean)/standardDeviation
-            standardizedSample[i] = (sample[i] - mean) / standardDeviation;
-        }
-        return standardizedSample;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -787,8 +745,7 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the indices are invalid or the array is null
      */
     public static double[] mode(double... sample) throws MathIllegalArgumentException {
-        MathUtils.checkNotNull(sample, LocalizedCoreFormats.INPUT_ARRAY);
-        return getMode(sample, 0, sample.length);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -814,17 +771,7 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the indices are invalid or the array is null
      */
     public static double[] mode(double[] sample, final int begin, final int length) {
-        MathUtils.checkNotNull(sample, LocalizedCoreFormats.INPUT_ARRAY);
-
-        if (begin < 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.START_POSITION, begin);
-        }
-
-        if (length < 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.LENGTH, length);
-        }
-
-        return getMode(sample, begin, length);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -838,16 +785,9 @@ public final class StatUtils {
     private static double[] getMode(double[] values, final int begin, final int length) {
         // Add the values to the frequency table
         Frequency<Double> freq = new Frequency<>();
-
-        Arrays.stream(values, begin, begin + length)
-              .filter(d -> !Double.isNaN(d))
-              .forEach(freq::addValue);
-
+        Arrays.stream(values, begin, begin + length).filter(d -> !Double.isNaN(d)).forEach(freq::addValue);
         List<Double> list = freq.getMode();
         // Convert the list to an array of primitive double
-        return list.stream()
-                   .mapToDouble(Double::doubleValue)
-                   .toArray();
+        return list.stream().mapToDouble(Double::doubleValue).toArray();
     }
-
 }

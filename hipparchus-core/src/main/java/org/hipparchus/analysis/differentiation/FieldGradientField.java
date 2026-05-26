@@ -19,93 +19,86 @@ package org.hipparchus.analysis.differentiation;
 import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.Field;
 import org.hipparchus.util.MathArrays;
 
-/** Field for {@link Gradient} instances.
+/**
+ * Field for {@link Gradient} instances.
  * @param <T> the type of the function parameters and value
  * @since 1.7
  */
 public class FieldGradientField<T extends CalculusFieldElement<T>> implements Field<FieldGradient<T>> {
 
-    /** Cached fields. */
+    /**
+     * Cached fields.
+     */
     private static final Map<Field<?>, FieldGradientField<?>[]> CACHE = new HashMap<>();
 
-    /** Zero constant. */
+    /**
+     * Zero constant.
+     */
     private final FieldGradient<T> zero;
 
-    /** One constant. */
+    /**
+     * One constant.
+     */
     private final FieldGradient<T> one;
 
-    /** Associated factory for conversions to {@link DerivativeStructure}. */
+    /**
+     * Associated factory for conversions to {@link DerivativeStructure}.
+     */
     private final FDSFactory<T> factory;
 
-    /** Private constructor.
+    /**
+     * Private constructor.
      * @param valueField field for the function parameters and value
      * @param parameters number of free parameters
      */
     private FieldGradientField(final Field<T> valueField, final int parameters) {
-        zero    = new FieldGradient<>(valueField.getZero(), MathArrays.buildArray(valueField, parameters));
-        one     = new FieldGradient<>(valueField.getOne(), MathArrays.buildArray(valueField, parameters));
+        zero = new FieldGradient<>(valueField.getZero(), MathArrays.buildArray(valueField, parameters));
+        one = new FieldGradient<>(valueField.getOne(), MathArrays.buildArray(valueField, parameters));
         factory = new FDSFactory<>(valueField, parameters, 1);
     }
 
-    /** Get the field for number of free parameters.
+    /**
+     * Get the field for number of free parameters.
      * @param valueField field for the function parameters and value
      * @param parameters number of free parameters
      * @param <T> the type of the function parameters and value
      * @return cached field
      */
     public static <T extends CalculusFieldElement<T>> FieldGradientField<T> getField(final Field<T> valueField, final int parameters) {
-
-        FieldGradientField<?>[] cachedFields;
-        synchronized (CACHE) {
-            cachedFields = CACHE.get(valueField);
-            if (cachedFields == null || cachedFields.length <= parameters) {
-                FieldGradientField<?>[] newCachedFields =
-                                (FieldGradientField<?>[]) Array.newInstance(FieldGradientField.class, parameters + 1);
-                if (cachedFields != null) {
-                    // preserve the already created fields
-                    System.arraycopy(cachedFields, 0, newCachedFields, 0, cachedFields.length);
-                }
-                cachedFields = newCachedFields;
-                CACHE.put(valueField, cachedFields);
-            }
-        }
-
-        if (cachedFields[parameters] == null) {
-            // we need to create a new field
-            cachedFields[parameters] = new FieldGradientField<>(valueField, parameters);
-        }
-
-        @SuppressWarnings("unchecked")
-        final FieldGradientField<T> tCached = (FieldGradientField<T>) cachedFields[parameters];
-        return tCached;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldGradient<T>  getOne() {
-        return one;
+    public FieldGradient<T> getOne() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldGradient<T>  getZero() {
-        return zero;
+    public FieldGradient<T> getZero() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
     @Override
     public Class<FieldGradient<T>> getRuntimeClass() {
-        return (Class<FieldGradient<T>>) getZero().getClass();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the factory for converting to {@link DerivativeStructure}.
+    /**
+     * Get the factory for converting to {@link DerivativeStructure}.
      * <p>
      * This factory is used only for conversions. {@code Gradient} by
      * itself does not rely at all on {@link DSFactory}, {@link DSCompiler}
@@ -117,19 +110,22 @@ public class FieldGradientField<T extends CalculusFieldElement<T>> implements Fi
      * @return factory for conversions
      */
     FDSFactory<T> getConversionFactory() {
-        return factory;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(final Object other) {
-        return this == other;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
-        return 0xcd3e92ee;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

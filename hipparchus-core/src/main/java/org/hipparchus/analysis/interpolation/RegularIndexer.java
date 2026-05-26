@@ -26,59 +26,73 @@ import org.hipparchus.util.MathUtils;
  */
 public class RegularIndexer {
 
-    /** Minimum value. */
+    /**
+     * Minimum value.
+     */
     private final double min;
 
-    /** Maximum value. */
+    /**
+     * Maximum value.
+     */
     private final double max;
 
-    /** Number of points (including min and max). */
+    /**
+     * Number of points (including min and max).
+     */
     private final int n;
 
-    /** Step size. */
+    /**
+     * Step size.
+     */
     private final double step;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param min minimum value
      * @param max maximum value
      * @param n number of points (including min and max)
      */
     public RegularIndexer(final double min, final double max, final int n) {
-        this.min  = min;
-        this.max  = max;
-        this.n    = n;
+        this.min = min;
+        this.max = max;
+        this.n = n;
         this.step = (max - min) / (n - 1);
     }
 
-    /** Get the minimum coordinate.
+    /**
+     * Get the minimum coordinate.
      * @return minimum coordinate
      */
     public double getMin() {
-        return min;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the maximum coordinate.
+    /**
+     * Get the maximum coordinate.
      * @return maximum coordinate
      */
     public double getMax() {
-        return max;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the number of different coordinates.
+    /**
+     * Get the number of different coordinates.
      * @return number of different coordinates (including {@link #getMin()} and {@link #getMax()})
      */
     public int getN() {
-        return n;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the step size between two successive coordinates.
+    /**
+     * Get the step size between two successive coordinates.
      * @return step size between two successive coordinates
      */
     public double getStep() {
-        return step;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get index corresponding to coordinate.
+    /**
+     * Get index corresponding to coordinate.
      * <p>
      * The method rounds to the closest index, so it may be called with
      * {@code coordinate} slightly overshooting nominal range. If called
@@ -92,21 +106,15 @@ public class RegularIndexer {
      * @return index corresponding to coordinate (i.e. {@code 0} for {@code min}, {@code n-1} for {@code max})
      */
     public int index(final double coordinate) {
-        final int index = (int) FastMath.rint((coordinate - min) / step);
-        MathUtils.checkRangeInclusive(index, 0, n - 1);
-        return index;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get coordinates corresponding to index.
+    /**
+     * Get coordinates corresponding to index.
      * @param index index
      * @return coordinate (i.e. {@code min} for {@code 0}, {@code max} for {@code n-1})
      */
     public double coordinate(final int index) {
-        MathUtils.checkRangeInclusive(index, 0, n - 1);
-        // we count from the closest end to avoid numerical noise
-        return index < n / 2 ?
-               min + index * step :
-               max - (n - 1 - index) * step;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

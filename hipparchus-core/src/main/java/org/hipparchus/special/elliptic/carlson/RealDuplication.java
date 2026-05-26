@@ -18,7 +18,8 @@ package org.hipparchus.special.elliptic.carlson;
 
 import org.hipparchus.util.FastMath;
 
-/** Duplication algorithm for Carlson symmetric forms.
+/**
+ * Duplication algorithm for Carlson symmetric forms.
  * <p>
  * The algorithms are described in B. C. Carlson 1995 paper
  * "Numerical computation of real or complex elliptic integrals", with
@@ -32,43 +33,49 @@ import org.hipparchus.util.FastMath;
  */
 abstract class RealDuplication {
 
-    /** Max number of iterations. */
+    /**
+     * Max number of iterations.
+     */
     private static final int M_MAX = 16;
 
-    /** Symmetric variables of the integral, plus mean point. */
+    /**
+     * Symmetric variables of the integral, plus mean point.
+     */
     private final double[] initialVA;
 
-    /** Convergence criterion. */
+    /**
+     * Convergence criterion.
+     */
     private final double q;
 
-    /** Constructor.
+    /**
+     * Constructor.
      * @param v symmetric variables of the integral
      */
     RealDuplication(final double... v) {
-
         final int n = v.length;
         initialVA = new double[n + 1];
         System.arraycopy(v, 0, initialVA, 0, n);
         initialMeanPoint(initialVA);
-
         double max = 0;
         final double a0 = initialVA[n];
         for (final double vi : v) {
             max = FastMath.max(max, FastMath.abs(a0 - vi));
         }
         this.q = convergenceCriterion(FastMath.ulp(1.0), max);
-
     }
 
-    /** Get the i<sup>th</sup> symmetric variable.
+    /**
+     * Get the i<sup>th</sup> symmetric variable.
      * @param i index of the variable
      * @return i<sup>th</sup> symmetric variable
      */
     protected double getVi(final int i) {
-        return initialVA[i];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute initial mean point.
+    /**
+     * Compute initial mean point.
      * <p>
      * The initial mean point is put as the last array element
      * </>
@@ -76,14 +83,16 @@ abstract class RealDuplication {
      */
     protected abstract void initialMeanPoint(double[] va);
 
-    /** Compute convergence criterion.
+    /**
+     * Compute convergence criterion.
      * @param r relative tolerance
      * @param max max(|a0-v[i]|)
      * @return convergence criterion
      */
     protected abstract double convergenceCriterion(double r, double max);
 
-    /** Update reduced variables in place.
+    /**
+     * Update reduced variables in place.
      * <ul>
      *  <li>vₘ₊₁|i] ← (vₘ[i] + λₘ) / 4</li>
      *  <li>aₘ₊₁ ← (aₘ + λₘ) / 4</li>
@@ -95,7 +104,8 @@ abstract class RealDuplication {
      */
     protected abstract void update(int m, double[] vaM, double[] sqrtM, double fourM);
 
-    /** Evaluate integral.
+    /**
+     * Evaluate integral.
      * @param va0 initial symmetric variables and mean point of the integral
      * @param aM reduced mean point
      * @param fourM 4<sup>m</sup>
@@ -103,36 +113,11 @@ abstract class RealDuplication {
      */
     protected abstract double evaluate(double[] va0, double aM, double fourM);
 
-    /** Compute Carlson elliptic integral.
+    /**
+     * Compute Carlson elliptic integral.
      * @return Carlson elliptic integral
      */
     public double integral() {
-
-        // duplication iterations
-        final int       n    = initialVA.length - 1;
-        final double[] vaM   = initialVA.clone();
-        final double[] sqrtM = new double[n];
-        double         fourM = 1.0;
-        for (int m = 0; m < M_MAX; ++m) {
-
-            if (m > 0 && q < fourM * FastMath.abs(vaM[n])) {
-                // convergence reached
-                break;
-            }
-
-            // apply duplication once more
-            // (we know that {Field}Complex.sqrt() returns the root with nonnegative real part)
-            for (int i = 0; i < n; ++i) {
-                sqrtM[i] = FastMath.sqrt(vaM[i]);
-            }
-            update(m, vaM, sqrtM, fourM);
-
-            fourM *= 4;
-
-        }
-
-        return evaluate(initialVA, vaM[n], fourM);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

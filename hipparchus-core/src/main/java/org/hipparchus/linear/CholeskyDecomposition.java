@@ -14,18 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.linear;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.util.FastMath;
-
 
 /**
  * Calculates the Cholesky decomposition of a matrix.
@@ -50,21 +47,32 @@ import org.hipparchus.util.FastMath;
  * @see <a href="http://en.wikipedia.org/wiki/Cholesky_decomposition">Wikipedia</a>
  */
 public class CholeskyDecomposition {
+
     /**
      * Default threshold above which off-diagonal elements are considered too different
      * and matrix not symmetric.
      */
     public static final double DEFAULT_RELATIVE_SYMMETRY_THRESHOLD = 1.0e-15;
+
     /**
      * Default threshold below which diagonal elements are considered null
      * and matrix not positive definite.
      */
     public static final double DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD = 1.0e-10;
-    /** Row-oriented storage for L<sup>T</sup> matrix data. */
+
+    /**
+     * Row-oriented storage for L<sup>T</sup> matrix data.
+     */
     private final double[][] lTData;
-    /** Cached value of L. */
+
+    /**
+     * Cached value of L.
+     */
     private RealMatrix cachedL;
-    /** Cached value of LT. */
+
+    /**
+     * Cached value of LT.
+     */
     private RealMatrix cachedLT;
 
     /**
@@ -86,8 +94,7 @@ public class CholeskyDecomposition {
      * @see #DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD
      */
     public CholeskyDecomposition(final RealMatrix matrix) {
-        this(matrix, DEFAULT_RELATIVE_SYMMETRY_THRESHOLD,
-             DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD);
+        this(matrix, DEFAULT_RELATIVE_SYMMETRY_THRESHOLD, DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD);
     }
 
     /**
@@ -105,51 +112,38 @@ public class CholeskyDecomposition {
      * @see #DEFAULT_RELATIVE_SYMMETRY_THRESHOLD
      * @see #DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD
      */
-    public CholeskyDecomposition(final RealMatrix matrix,
-                                 final double relativeSymmetryThreshold,
-                                 final double absolutePositivityThreshold) {
+    public CholeskyDecomposition(final RealMatrix matrix, final double relativeSymmetryThreshold, final double absolutePositivityThreshold) {
         if (!matrix.isSquare()) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NON_SQUARE_MATRIX,
-                                                   matrix.getRowDimension(), matrix.getColumnDimension());
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NON_SQUARE_MATRIX, matrix.getRowDimension(), matrix.getColumnDimension());
         }
-
         final int order = matrix.getRowDimension();
-        lTData   = matrix.getData();
-        cachedL  = null;
+        lTData = matrix.getData();
+        cachedL = null;
         cachedLT = null;
-
         // check the matrix before transformation
         for (int i = 0; i < order; ++i) {
             final double[] lI = lTData[i];
-
             // check off-diagonal elements (and reset them to 0)
             for (int j = i + 1; j < order; ++j) {
                 final double[] lJ = lTData[j];
                 final double lIJ = lI[j];
                 final double lJI = lJ[i];
-                final double maxDelta =
-                    relativeSymmetryThreshold * FastMath.max(FastMath.abs(lIJ), FastMath.abs(lJI));
+                final double maxDelta = relativeSymmetryThreshold * FastMath.max(FastMath.abs(lIJ), FastMath.abs(lJI));
                 if (FastMath.abs(lIJ - lJI) > maxDelta) {
-                    throw new MathIllegalArgumentException(LocalizedCoreFormats.NON_SYMMETRIC_MATRIX,
-                                                           i, j, relativeSymmetryThreshold);
+                    throw new MathIllegalArgumentException(LocalizedCoreFormats.NON_SYMMETRIC_MATRIX, i, j, relativeSymmetryThreshold);
                 }
                 lJ[i] = 0;
-           }
+            }
         }
-
         // transform the matrix
         for (int i = 0; i < order; ++i) {
-
             final double[] ltI = lTData[i];
-
             // check diagonal element
             if (ltI[i] <= absolutePositivityThreshold) {
                 throw new MathIllegalArgumentException(LocalizedCoreFormats.NOT_POSITIVE_DEFINITE_MATRIX);
             }
-
             ltI[i] = FastMath.sqrt(ltI[i]);
             final double inverse = 1.0 / ltI[i];
-
             for (int q = order - 1; q > i; --q) {
                 ltI[q] *= inverse;
                 final double[] ltQ = lTData[q];
@@ -166,10 +160,7 @@ public class CholeskyDecomposition {
      * @return the L matrix
      */
     public RealMatrix getL() {
-        if (cachedL == null) {
-            cachedL = getLT().transpose();
-        }
-        return cachedL;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -178,13 +169,7 @@ public class CholeskyDecomposition {
      * @return the transpose of the matrix L of the decomposition
      */
     public RealMatrix getLT() {
-
-        if (cachedLT == null) {
-            cachedLT = MatrixUtils.createRealMatrix(lTData);
-        }
-
-        // return the cached matrix
-        return cachedLT;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -192,12 +177,7 @@ public class CholeskyDecomposition {
      * @return determinant of the matrix
      */
     public double getDeterminant() {
-        double determinant = 1.0;
-        for (int i = 0; i < lTData.length; ++i) {
-            double lTii = lTData[i][i];
-            determinant *= lTii * lTii;
-        }
-        return determinant;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -205,98 +185,36 @@ public class CholeskyDecomposition {
      * @return a solver
      */
     public DecompositionSolver getSolver() {
-        return new Solver();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Specialized solver. */
+    /**
+     * Specialized solver.
+     */
     private class Solver implements DecompositionSolver {
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean isNonSingular() {
-            // if we get this far, the matrix was positive definite, hence non-singular
-            return true;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public RealVector solve(final RealVector b) {
-            final int m = lTData.length;
-            if (b.getDimension() != m) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                       b.getDimension(), m);
-            }
-
-            final double[] x = b.toArray();
-
-            // Solve LY = b
-            for (int j = 0; j < m; j++) {
-                final double[] lJ = lTData[j];
-                x[j] /= lJ[j];
-                final double xJ = x[j];
-                for (int i = j + 1; i < m; i++) {
-                    x[i] -= xJ * lJ[i];
-                }
-            }
-
-            // Solve LTX = Y
-            for (int j = m - 1; j >= 0; j--) {
-                x[j] /= lTData[j][j];
-                final double xJ = x[j];
-                for (int i = 0; i < j; i++) {
-                    x[i] -= xJ * lTData[i][j];
-                }
-            }
-
-            return new ArrayRealVector(x, false);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public RealMatrix solve(RealMatrix b) {
-            final int m = lTData.length;
-            if (b.getRowDimension() != m) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                       b.getRowDimension(), m);
-            }
-
-            final int nColB = b.getColumnDimension();
-            final double[][] x = b.getData();
-
-            // Solve LY = b
-            for (int j = 0; j < m; j++) {
-                final double[] lJ = lTData[j];
-                final double lJJ = lJ[j];
-                final double[] xJ = x[j];
-                for (int k = 0; k < nColB; ++k) {
-                    xJ[k] /= lJJ;
-                }
-                for (int i = j + 1; i < m; i++) {
-                    final double[] xI = x[i];
-                    final double lJI = lJ[i];
-                    for (int k = 0; k < nColB; ++k) {
-                        xI[k] -= xJ[k] * lJI;
-                    }
-                }
-            }
-
-            // Solve LTX = Y
-            for (int j = m - 1; j >= 0; j--) {
-                final double lJJ = lTData[j][j];
-                final double[] xJ = x[j];
-                for (int k = 0; k < nColB; ++k) {
-                    xJ[k] /= lJJ;
-                }
-                for (int i = 0; i < j; i++) {
-                    final double[] xI = x[i];
-                    final double lIJ = lTData[i][j];
-                    for (int k = 0; k < nColB; ++k) {
-                        xI[k] -= xJ[k] * lIJ;
-                    }
-                }
-            }
-
-            return new Array2DRowRealMatrix(x);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -306,21 +224,23 @@ public class CholeskyDecomposition {
          */
         @Override
         public RealMatrix getInverse() {
-            return solve(MatrixUtils.createRealIdentityMatrix(lTData.length));
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int getRowDimension() {
-            return lTData.length;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int getColumnDimension() {
-            return lTData[0].length;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
-
 }

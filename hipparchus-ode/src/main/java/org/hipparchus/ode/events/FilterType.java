@@ -14,23 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode.events;
 
 import org.hipparchus.exception.MathRuntimeException;
 
-/** Enumerate for {@link EventSlopeFilter filtering events}.
- *
+/**
+ * Enumerate for {@link EventSlopeFilter filtering events}.
  */
-
 public enum FilterType {
 
-    /** Constant for triggering only decreasing events.
+    /**
+     * Constant for triggering only decreasing events.
      * <p>When this filter is used, the wrapped {@link ODEEventHandler
      * event handler} {@link ODEEventHandler#eventOccurred(org.hipparchus.ode.ODEStateAndDerivative,
      * ODEEventDetector, boolean) eventOccurred} method will be called <em>only</em> with
@@ -38,13 +36,16 @@ public enum FilterType {
      */
     TRIGGER_ONLY_DECREASING_EVENTS {
 
-        /**  {@inheritDoc} */
+        /**
+         *  {@inheritDoc}
+         */
         @Override
         protected boolean isTriggeredOnIncreasing() {
-            return false;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc}
+        /**
+         * {@inheritDoc}
          * <p>
          * states scheduling for computing h(t,y) as an altered version of g(t, y)
          * <ul>
@@ -91,124 +92,13 @@ public enum FilterType {
          * </p>
          */
         @Override
-        protected  Transformer selectTransformer(final Transformer previous,
-                                                 final double g, final boolean forward) {
-            if (forward) {
-                switch (previous) {
-                    case UNINITIALIZED :
-                        // we are initializing the first point
-                        if (g > 0) {
-                            // initialize as if previous root (i.e. backward one) was an ignored increasing event
-                            return Transformer.MAX;
-                        } else if (g < 0) {
-                            // initialize as if previous root (i.e. backward one) was a triggered decreasing event
-                            return Transformer.PLUS;
-                        } else {
-                            // we are exactly at a root, we don't know if it is an increasing
-                            // or a decreasing event, we remain in uninitialized state
-                            return Transformer.UNINITIALIZED;
-                        }
-                    case PLUS  :
-                        if (g >= 0) {
-                            // we have crossed the zero line on an ignored increasing event,
-                            // we must change the transformer
-                            return Transformer.MIN;
-                        } else {
-                            // we are still in the same status
-                            return previous;
-                        }
-                    case MINUS :
-                        if (g >= 0) {
-                            // we have crossed the zero line on an ignored increasing event,
-                            // we must change the transformer
-                            return Transformer.MAX;
-                        } else {
-                            // we are still in the same status
-                            return previous;
-                        }
-                    case MIN   :
-                        if (g <= 0) {
-                            // we have crossed the zero line on a triggered decreasing event,
-                            // we must change the transformer
-                            return Transformer.MINUS;
-                        } else {
-                            // we are still in the same status
-                            return previous;
-                        }
-                    case MAX   :
-                        if (g <= 0) {
-                            // we have crossed the zero line on a triggered decreasing event,
-                            // we must change the transformer
-                            return Transformer.PLUS;
-                        } else {
-                            // we are still in the same status
-                            return previous;
-                        }
-                    default    :
-                        // this should never happen
-                        throw MathRuntimeException.createInternalError();
-                }
-            } else {
-                switch (previous) {
-                    case UNINITIALIZED :
-                        // we are initializing the first point
-                        if (g > 0) {
-                            // initialize as if previous root (i.e. forward one) was a triggered decreasing event
-                            return Transformer.MINUS;
-                        } else if (g < 0) {
-                            // initialize as if previous root (i.e. forward one) was an ignored increasing event
-                            return Transformer.MIN;
-                        } else {
-                            // we are exactly at a root, we don't know if it is an increasing
-                            // or a decreasing event, we remain in uninitialized state
-                            return Transformer.UNINITIALIZED;
-                        }
-                    case PLUS  :
-                        if (g <= 0) {
-                            // we have crossed the zero line on an ignored increasing event,
-                            // we must change the transformer
-                            return Transformer.MAX;
-                        } else {
-                            // we are still in the same status
-                            return previous;
-                        }
-                    case MINUS :
-                        if (g <= 0) {
-                            // we have crossed the zero line on an ignored increasing event,
-                            // we must change the transformer
-                            return Transformer.MIN;
-                        } else {
-                            // we are still in the same status
-                            return previous;
-                        }
-                    case MIN   :
-                        if (g >= 0) {
-                            // we have crossed the zero line on a triggered decreasing event,
-                            // we must change the transformer
-                            return Transformer.PLUS;
-                        } else {
-                            // we are still in the same status
-                            return previous;
-                        }
-                    case MAX   :
-                        if (g >= 0) {
-                            // we have crossed the zero line on a triggered decreasing event,
-                            // we must change the transformer
-                            return Transformer.MINUS;
-                        } else {
-                            // we are still in the same status
-                            return previous;
-                        }
-                    default    :
-                        // this should never happen
-                        throw MathRuntimeException.createInternalError();
-                }
-            }
+        protected Transformer selectTransformer(final Transformer previous, final double g, final boolean forward) {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
-    },
-
-    /** Constant for triggering only increasing events.
+    }
+    ,
+    /**
+     * Constant for triggering only increasing events.
      * <p>When this filter is used, the wrapped {@link ODEEventHandler
      * event handler} {@link ODEEventHandler#eventOccurred(org.hipparchus.ode.ODEStateAndDerivative,
      * ODEEventDetector, boolean) eventOccurred} method will be called <em>only</em> with
@@ -216,13 +106,16 @@ public enum FilterType {
      */
     TRIGGER_ONLY_INCREASING_EVENTS {
 
-        /**  {@inheritDoc} */
+        /**
+         *  {@inheritDoc}
+         */
         @Override
         protected boolean isTriggeredOnIncreasing() {
-            return true;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc}
+        /**
+         * {@inheritDoc}
          * <p>
          * states scheduling for computing h(t,y) as an altered version of g(t, y)
          * <ul>
@@ -269,136 +162,25 @@ public enum FilterType {
          * </p>
          */
         @Override
-        protected  Transformer selectTransformer(final Transformer previous,
-                                                 final double g, final boolean forward) {
-            if (forward) {
-                switch (previous) {
-                    case UNINITIALIZED :
-                        // we are initializing the first point
-                        if (g > 0) {
-                            // initialize as if previous root (i.e. backward one) was a triggered increasing event
-                            return Transformer.PLUS;
-                        } else if (g < 0) {
-                            // initialize as if previous root (i.e. backward one) was an ignored decreasing event
-                            return Transformer.MIN;
-                        } else {
-                            // we are exactly at a root, we don't know if it is an increasing
-                            // or a decreasing event, we remain in uninitialized state
-                            return Transformer.UNINITIALIZED;
-                        }
-                    case PLUS  :
-                        if (g <= 0) {
-                            // we have crossed the zero line on an ignored decreasing event,
-                            // we must change the transformer
-                            return Transformer.MAX;
-                        } else {
-                            // we are still in the same status
-                            return previous;
-                        }
-                    case MINUS :
-                        if (g <= 0) {
-                            // we have crossed the zero line on an ignored decreasing event,
-                            // we must change the transformer
-                            return Transformer.MIN;
-                        } else {
-                            // we are still in the same status
-                            return previous;
-                        }
-                    case MIN   :
-                        if (g >= 0) {
-                            // we have crossed the zero line on a triggered increasing event,
-                            // we must change the transformer
-                            return Transformer.PLUS;
-                        } else {
-                            // we are still in the same status
-                            return previous;
-                        }
-                    case MAX   :
-                        if (g >= 0) {
-                            // we have crossed the zero line on a triggered increasing event,
-                            // we must change the transformer
-                            return Transformer.MINUS;
-                        } else {
-                            // we are still in the same status
-                            return previous;
-                        }
-                    default    :
-                        // this should never happen
-                        throw MathRuntimeException.createInternalError();
-                }
-            } else {
-                switch (previous) {
-                    case UNINITIALIZED :
-                        // we are initializing the first point
-                        if (g > 0) {
-                            // initialize as if previous root (i.e. forward one) was an ignored decreasing event
-                            return Transformer.MAX;
-                        } else if (g < 0) {
-                            // initialize as if previous root (i.e. forward one) was a triggered increasing event
-                            return Transformer.MINUS;
-                        } else {
-                            // we are exactly at a root, we don't know if it is an increasing
-                            // or a decreasing event, we remain in uninitialized state
-                            return Transformer.UNINITIALIZED;
-                        }
-                    case PLUS  :
-                        if (g >= 0) {
-                            // we have crossed the zero line on an ignored decreasing event,
-                            // we must change the transformer
-                            return Transformer.MIN;
-                        } else {
-                            // we are still in the same status
-                            return previous;
-                        }
-                    case MINUS :
-                        if (g >= 0) {
-                            // we have crossed the zero line on an ignored decreasing event,
-                            // we must change the transformer
-                            return Transformer.MAX;
-                        } else {
-                            // we are still in the same status
-                            return previous;
-                        }
-                    case MIN   :
-                        if (g <= 0) {
-                            // we have crossed the zero line on a triggered increasing event,
-                            // we must change the transformer
-                            return Transformer.MINUS;
-                        } else {
-                            // we are still in the same status
-                            return previous;
-                        }
-                    case MAX   :
-                        if (g <= 0) {
-                            // we have crossed the zero line on a triggered increasing event,
-                            // we must change the transformer
-                            return Transformer.PLUS;
-                        } else {
-                            // we are still in the same status
-                            return previous;
-                        }
-                    default    :
-                        // this should never happen
-                        throw MathRuntimeException.createInternalError();
-                }
-            }
+        protected Transformer selectTransformer(final Transformer previous, final double g, final boolean forward) {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
+    }
+    ;
 
-    };
-
-    /** Check if triggered events are increasing events.
+    /**
+     * Check if triggered events are increasing events.
      * @return true if triggered events are increasing events
      */
     protected abstract boolean isTriggeredOnIncreasing();
 
-    /** Get next function transformer in the specified direction.
+    /**
+     * Get next function transformer in the specified direction.
      * @param previous transformer active on the previous point with respect
      * to integration direction (may be null if no previous point is known)
      * @param g current value of the g function
      * @param forward true if integration goes forward
      * @return next transformer transformer
      */
-    protected abstract Transformer selectTransformer(Transformer previous,
-                                                     double g, boolean forward);
-
+    protected abstract Transformer selectTransformer(Transformer previous, double g, boolean forward);
 }

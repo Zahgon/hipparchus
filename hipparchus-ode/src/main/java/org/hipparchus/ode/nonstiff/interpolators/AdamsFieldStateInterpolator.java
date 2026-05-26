@@ -14,16 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode.nonstiff.interpolators;
 
 import java.util.Arrays;
-
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.linear.Array2DRowFieldMatrix;
 import org.hipparchus.ode.FieldEquationsMapper;
@@ -43,13 +40,15 @@ import org.hipparchus.util.MathArrays;
  * @see AdamsMoultonFieldIntegrator
  * @param <T> the type of the field elements
  */
-
 public class AdamsFieldStateInterpolator<T extends CalculusFieldElement<T>> extends AbstractFieldODEStateInterpolator<T> {
 
-    /** Step size used in the first scaled derivative and Nordsieck vector. */
+    /**
+     * Step size used in the first scaled derivative and Nordsieck vector.
+     */
     private T scalingH;
 
-    /** Reference state.
+    /**
+     * Reference state.
      * <p>Sometimes, the reference state is the same as globalPreviousState,
      * sometimes it is the same as globalCurrentState, so we use a separate
      * field to avoid any confusion.
@@ -57,13 +56,18 @@ public class AdamsFieldStateInterpolator<T extends CalculusFieldElement<T>> exte
      */
     private final FieldODEStateAndDerivative<T> reference;
 
-    /** First scaled derivative. */
+    /**
+     * First scaled derivative.
+     */
     private final T[] scaled;
 
-    /** Nordsieck vector. */
+    /**
+     * Nordsieck vector.
+     */
     private final Array2DRowFieldMatrix<T> nordsieck;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param stepSize step size used in the scaled and Nordsieck arrays
      * @param reference reference state from which Taylor expansion are estimated
      * @param scaled first scaled derivative
@@ -73,17 +77,12 @@ public class AdamsFieldStateInterpolator<T extends CalculusFieldElement<T>> exte
      * @param globalCurrentState end of the global step
      * @param equationsMapper mapper for ODE equations primary and secondary components
      */
-    public AdamsFieldStateInterpolator(final T stepSize, final FieldODEStateAndDerivative<T> reference,
-                                       final T[] scaled, final Array2DRowFieldMatrix<T> nordsieck,
-                                       final boolean isForward,
-                                       final FieldODEStateAndDerivative<T> globalPreviousState,
-                                       final FieldODEStateAndDerivative<T> globalCurrentState,
-                                       final FieldEquationsMapper<T> equationsMapper) {
-        this(stepSize, reference, scaled, nordsieck, isForward, globalPreviousState, globalCurrentState,
-                globalPreviousState, globalCurrentState, equationsMapper);
+    public AdamsFieldStateInterpolator(final T stepSize, final FieldODEStateAndDerivative<T> reference, final T[] scaled, final Array2DRowFieldMatrix<T> nordsieck, final boolean isForward, final FieldODEStateAndDerivative<T> globalPreviousState, final FieldODEStateAndDerivative<T> globalCurrentState, final FieldEquationsMapper<T> equationsMapper) {
+        this(stepSize, reference, scaled, nordsieck, isForward, globalPreviousState, globalCurrentState, globalPreviousState, globalCurrentState, equationsMapper);
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param stepSize step size used in the scaled and Nordsieck arrays
      * @param reference reference state from which Taylor expansion are estimated
      * @param scaled first scaled derivative
@@ -95,23 +94,16 @@ public class AdamsFieldStateInterpolator<T extends CalculusFieldElement<T>> exte
      * @param softCurrentState end of the restricted step
      * @param equationsMapper mapper for ODE equations primary and secondary components
      */
-    private AdamsFieldStateInterpolator(final T stepSize, final FieldODEStateAndDerivative<T> reference,
-                                        final T[] scaled, final Array2DRowFieldMatrix<T> nordsieck,
-                                        final boolean isForward,
-                                        final FieldODEStateAndDerivative<T> globalPreviousState,
-                                        final FieldODEStateAndDerivative<T> globalCurrentState,
-                                        final FieldODEStateAndDerivative<T> softPreviousState,
-                                        final FieldODEStateAndDerivative<T> softCurrentState,
-                                        final FieldEquationsMapper<T> equationsMapper) {
-        super(isForward, globalPreviousState, globalCurrentState,
-              softPreviousState, softCurrentState, equationsMapper);
-        this.scalingH  = stepSize;
+    private AdamsFieldStateInterpolator(final T stepSize, final FieldODEStateAndDerivative<T> reference, final T[] scaled, final Array2DRowFieldMatrix<T> nordsieck, final boolean isForward, final FieldODEStateAndDerivative<T> globalPreviousState, final FieldODEStateAndDerivative<T> globalCurrentState, final FieldODEStateAndDerivative<T> softPreviousState, final FieldODEStateAndDerivative<T> softCurrentState, final FieldEquationsMapper<T> equationsMapper) {
+        super(isForward, globalPreviousState, globalCurrentState, softPreviousState, softCurrentState, equationsMapper);
+        this.scalingH = stepSize;
         this.reference = reference;
-        this.scaled    = scaled.clone();
+        this.scaled = scaled.clone();
         this.nordsieck = new Array2DRowFieldMatrix<>(nordsieck.getData(), false);
     }
 
-    /** Create a new instance.
+    /**
+     * Create a new instance.
      * @param newForward integration direction indicator
      * @param newGlobalPreviousState start of the global step
      * @param newGlobalCurrentState end of the global step
@@ -121,43 +113,36 @@ public class AdamsFieldStateInterpolator<T extends CalculusFieldElement<T>> exte
      * @return a new instance
      */
     @Override
-    protected AdamsFieldStateInterpolator<T> create(boolean newForward,
-                                                    FieldODEStateAndDerivative<T> newGlobalPreviousState,
-                                                    FieldODEStateAndDerivative<T> newGlobalCurrentState,
-                                                    FieldODEStateAndDerivative<T> newSoftPreviousState,
-                                                    FieldODEStateAndDerivative<T> newSoftCurrentState,
-                                                    FieldEquationsMapper<T> newMapper) {
-        return new AdamsFieldStateInterpolator<>(scalingH, reference, scaled, nordsieck,
-                                                  newForward,
-                                                  newGlobalPreviousState, newGlobalCurrentState,
-                                                  newSoftPreviousState, newSoftCurrentState,
-                                                  newMapper);
-
+    protected AdamsFieldStateInterpolator<T> create(boolean newForward, FieldODEStateAndDerivative<T> newGlobalPreviousState, FieldODEStateAndDerivative<T> newGlobalCurrentState, FieldODEStateAndDerivative<T> newSoftPreviousState, FieldODEStateAndDerivative<T> newSoftCurrentState, FieldEquationsMapper<T> newMapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the first scaled derivative.
+    /**
+     * Get the first scaled derivative.
      * @return first scaled derivative
      */
     public T[] getScaled() {
-        return scaled.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the Nordsieck vector.
+    /**
+     * Get the Nordsieck vector.
      * @return Nordsieck vector
      */
     public Array2DRowFieldMatrix<T> getNordsieck() {
-        return new Array2DRowFieldMatrix<>(nordsieck.getData());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(final FieldEquationsMapper<T> equationsMapper,
-                                                                                   final T time, final T theta,
-                                                                                   final T thetaH, final T oneMinusThetaH) {
-        return taylor(equationsMapper, reference, time, scalingH, scaled, nordsieck);
+    protected FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(final FieldEquationsMapper<T> equationsMapper, final T time, final T theta, final T thetaH, final T oneMinusThetaH) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Estimate state by applying Taylor formula.
+    /**
+     * Estimate state by applying Taylor formula.
      * @param equationsMapper mapper for ODE equations primary and secondary components
      * @param reference reference state
      * @param time time at which state must be estimated
@@ -167,44 +152,7 @@ public class AdamsFieldStateInterpolator<T extends CalculusFieldElement<T>> exte
      * @return estimated state
      * @param <S> the type of the field elements
      */
-    public static <S extends CalculusFieldElement<S>> FieldODEStateAndDerivative<S> taylor(final FieldEquationsMapper<S> equationsMapper,
-                                                                                           final FieldODEStateAndDerivative<S> reference,
-                                                                                           final S time, final S stepSize,
-                                                                                           final S[] scaled,
-                                                                                           final Array2DRowFieldMatrix<S> nordsieck) {
-
-        final S x = time.subtract(reference.getTime());
-        final S normalizedAbscissa = x.divide(stepSize);
-
-        S[] stateVariation = MathArrays.buildArray(time.getField(), scaled.length);
-        Arrays.fill(stateVariation, time.getField().getZero());
-        S[] estimatedDerivatives = MathArrays.buildArray(time.getField(), scaled.length);
-        Arrays.fill(estimatedDerivatives, time.getField().getZero());
-
-        // apply Taylor formula from high order to low order,
-        // for the sake of numerical accuracy
-        final S[][] nData = nordsieck.getDataRef();
-        for (int i = nData.length - 1; i >= 0; --i) {
-            final int order = i + 2;
-            final S[] nDataI = nData[i];
-            final S power = normalizedAbscissa.pow(order);
-            for (int j = 0; j < nDataI.length; ++j) {
-                final S d = nDataI[j].multiply(power);
-                stateVariation[j]          = stateVariation[j].add(d);
-                estimatedDerivatives[j] = estimatedDerivatives[j].add(d.multiply(order));
-            }
-        }
-
-        S[] estimatedState = reference.getCompleteState();
-        for (int j = 0; j < stateVariation.length; ++j) {
-            stateVariation[j] = stateVariation[j].add(scaled[j].multiply(normalizedAbscissa));
-            estimatedState[j] = estimatedState[j].add(stateVariation[j]);
-            estimatedDerivatives[j] =
-                estimatedDerivatives[j].add(scaled[j].multiply(normalizedAbscissa)).divide(x);
-        }
-
-        return equationsMapper.mapStateAndDerivative(time, estimatedState, estimatedDerivatives);
-
+    public static <S extends CalculusFieldElement<S>> FieldODEStateAndDerivative<S> taylor(final FieldEquationsMapper<S> equationsMapper, final FieldODEStateAndDerivative<S> reference, final S time, final S stepSize, final S[] scaled, final Array2DRowFieldMatrix<S> nordsieck) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

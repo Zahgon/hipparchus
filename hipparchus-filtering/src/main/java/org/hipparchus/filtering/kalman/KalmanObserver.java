@@ -16,7 +16,8 @@
  */
 package org.hipparchus.filtering.kalman;
 
-/** Observer for Kalman filter recursions.
+/**
+ * Observer for Kalman filter recursions.
  * <p>
  * This interface is intended to be implemented by users to monitor
  * the progress of the Kalman filter estimator during estimation.
@@ -24,12 +25,16 @@ package org.hipparchus.filtering.kalman;
  */
 public interface KalmanObserver {
 
-    /** Callback for initialisation of observer.
+    /**
+     * Callback for initialisation of observer.
      * @param estimate estimate calculated by a Kalman filter
      */
-    default void init(KalmanEstimate estimate) {}
+    default void init(KalmanEstimate estimate) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-    /** Notification callback after each Kalman filter measurement update.
+    /**
+     * Notification callback after each Kalman filter measurement update.
      * @param estimate estimate calculated by a Kalman filter
      */
     void updatePerformed(KalmanEstimate estimate);

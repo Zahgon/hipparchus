@@ -14,26 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode.events;
 
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.util.FastMath;
 import org.hipparchus.util.Precision;
 
-
-/** Transformer for {@link ODEEventDetector#g(org.hipparchus.ode.ODEStateAndDerivative) g functions}.
+/**
+ * Transformer for {@link ODEEventDetector#g(org.hipparchus.ode.ODEStateAndDerivative) g functions}.
  * @see EventSlopeFilter
  * @see FilterType
  */
 enum Transformer {
 
-    /** Transformer computing transformed = 0.
+    /**
+     * Transformer computing transformed = 0.
      * <p>
      * This transformer is used when we initialize the filter, until we get at
      * least one non-zero value to select the proper transformer.
@@ -41,21 +40,25 @@ enum Transformer {
      */
     UNINITIALIZED {
 
-        /**  {@inheritDoc} */
+        /**
+         *  {@inheritDoc}
+         */
         @Override
         protected double transformed(final double g) {
-            return 0;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /**  {@inheritDoc} */
+        /**
+         *  {@inheritDoc}
+         */
         @Override
         protected <T extends CalculusFieldElement<T>> T transformed(final T g) {
-            return g.getField().getZero();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
-    },
-
-    /** Transformer computing transformed = g.
+    }
+    ,
+    /**
+     * Transformer computing transformed = g.
      * <p>
      * When this transformer is applied, the roots of the original function
      * are preserved, with the same {@code increasing/decreasing} status.
@@ -63,21 +66,25 @@ enum Transformer {
      */
     PLUS {
 
-        /**  {@inheritDoc} */
+        /**
+         *  {@inheritDoc}
+         */
         @Override
         protected double transformed(final double g) {
-            return g;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /**  {@inheritDoc} */
+        /**
+         *  {@inheritDoc}
+         */
         @Override
         protected <T extends CalculusFieldElement<T>> T transformed(final T g) {
-            return g;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
-    },
-
-    /** Transformer computing transformed = -g.
+    }
+    ,
+    /**
+     * Transformer computing transformed = -g.
      * <p>
      * When this transformer is applied, the roots of the original function
      * are preserved, with reversed {@code increasing/decreasing} status.
@@ -85,21 +92,25 @@ enum Transformer {
      */
     MINUS {
 
-        /**  {@inheritDoc} */
+        /**
+         *  {@inheritDoc}
+         */
         @Override
         protected double transformed(final double g) {
-            return -g;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /**  {@inheritDoc} */
+        /**
+         *  {@inheritDoc}
+         */
         @Override
         protected <T extends CalculusFieldElement<T>> T transformed(final T g) {
-            return g.negate();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
-    },
-
-    /** Transformer computing transformed = min(-{@link Precision#SAFE_MIN}, -g, +g).
+    }
+    ,
+    /**
+     * Transformer computing transformed = min(-{@link Precision#SAFE_MIN}, -g, +g).
      * <p>
      * When this transformer is applied, the transformed function is
      * guaranteed to be always strictly negative (i.e. there are no roots).
@@ -107,21 +118,25 @@ enum Transformer {
      */
     MIN {
 
-        /**  {@inheritDoc} */
+        /**
+         *  {@inheritDoc}
+         */
         @Override
         protected double transformed(final double g) {
-            return FastMath.min(FastMath.min(-g, +g), -Precision.SAFE_MIN);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /**  {@inheritDoc} */
+        /**
+         *  {@inheritDoc}
+         */
         @Override
         protected <T extends CalculusFieldElement<T>> T transformed(final T g) {
-            return FastMath.min(FastMath.min(g.negate(), g), -Precision.SAFE_MIN);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
-    },
-
-    /** Transformer computing transformed = max(+{@link Precision#SAFE_MIN}, -g, +g).
+    }
+    ,
+    /**
+     * Transformer computing transformed = max(+{@link Precision#SAFE_MIN}, -g, +g).
      * <p>
      * When this transformer is applied, the transformed function is
      * guaranteed to be always strictly positive (i.e. there are no roots).
@@ -129,32 +144,37 @@ enum Transformer {
      */
     MAX {
 
-        /**  {@inheritDoc} */
+        /**
+         *  {@inheritDoc}
+         */
         @Override
         protected double transformed(final double g) {
-            return FastMath.max(FastMath.max(-g, +g), Precision.SAFE_MIN);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /**  {@inheritDoc} */
+        /**
+         *  {@inheritDoc}
+         */
         @Override
         protected <T extends CalculusFieldElement<T>> T transformed(final T g) {
-            return FastMath.max(FastMath.max(g.negate(), g), Precision.SAFE_MIN);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
+    }
+    ;
 
-    };
-
-    /** Transform value of function g.
+    /**
+     * Transform value of function g.
      * @param g raw value of function g
      * @return transformed value of function g
      */
     protected abstract double transformed(double g);
 
-    /** Transform value of function g.
+    /**
+     * Transform value of function g.
      * @param g raw value of function g
      * @return transformed value of function g
      * @param <T> the type of the field elements
      * @since 2.0
      */
     protected abstract <T extends CalculusFieldElement<T>> T transformed(T g);
-
 }

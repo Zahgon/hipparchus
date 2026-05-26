@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,14 +21,12 @@
 package org.hipparchus.stat.descriptive.moment;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.NullArgumentException;
 import org.hipparchus.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.hipparchus.util.FastMath;
 import org.hipparchus.util.MathArrays;
 import org.hipparchus.util.MathUtils;
-
 
 /**
  * Computes the Kurtosis of the available values.
@@ -51,12 +48,16 @@ import org.hipparchus.util.MathUtils;
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.
  */
-public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements Serializable {
+public class Kurtosis extends AbstractStorelessUnivariateStatistic implements Serializable {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20150412L;
 
-    /**Fourth Moment on which this statistic is based */
+    /**
+     * Fourth Moment on which this statistic is based
+     */
     protected final FourthMoment moment;
 
     /**
@@ -71,7 +72,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
      * Construct a Kurtosis.
      */
     public Kurtosis() {
-        moment    = new FourthMoment();
+        moment = new FourthMoment();
         incMoment = true;
     }
 
@@ -82,7 +83,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
      */
     public Kurtosis(final FourthMoment m4) {
         this.moment = m4;
-        incMoment   = false;
+        incMoment = false;
     }
 
     /**
@@ -94,7 +95,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
      */
     public Kurtosis(Kurtosis original) throws NullArgumentException {
         MathUtils.checkNotNull(original);
-        this.moment    = original.moment.copy();
+        this.moment = original.moment.copy();
         this.incMoment = original.incMoment;
     }
 
@@ -106,46 +107,34 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
      */
     @Override
     public void increment(final double d) {
-        if (incMoment) {
-            moment.increment(d);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getResult() {
-        double kurtosis = Double.NaN;
-        if (moment.getN() > 3) {
-            double variance = moment.m2 / (moment.n - 1);
-                if (moment.n <= 3 || variance < 10E-20) {
-                    kurtosis = 0.0;
-                } else {
-                    double n = moment.n;
-                    kurtosis =
-                        (n * (n + 1) * moment.getResult() -
-                                3 * moment.m2 * moment.m2 * (n - 1)) /
-                                ((n - 1) * (n -2) * (n -3) * variance * variance);
-                }
-        }
-        return kurtosis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
-        if (incMoment) {
-            moment.clear();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long getN() {
-        return moment.getN();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /* UnvariateStatistic Approach  */
-
     /**
      * Returns the kurtosis of the entries in the specified portion of the
      * input array.
@@ -162,45 +151,15 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
      * index parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-
-        // Initialize the kurtosis
-        double kurt = Double.NaN;
-
-        if (MathArrays.verifyValues(values, begin, length) && length > 3) {
-            // Compute the mean and standard deviation
-            Variance variance = new Variance();
-            variance.incrementAll(values, begin, length);
-            double mean = variance.moment.m1;
-            double stdDev = FastMath.sqrt(variance.getResult());
-
-            // Sum the ^4 of the distance from the mean divided by the
-            // standard deviation
-            double accum3 = 0.0;
-            for (int i = begin; i < begin + length; i++) {
-                accum3 += FastMath.pow(values[i] - mean, 4.0);
-            }
-            accum3 /= FastMath.pow(stdDev, 4.0d);
-
-            // Get N
-            double n0 = length;
-
-            double coefficientOne =
-                (n0 * (n0 + 1)) / ((n0 - 1) * (n0 - 2) * (n0 - 3));
-            double termTwo =
-                (3 * FastMath.pow(n0 - 1, 2.0)) / ((n0 - 2) * (n0 - 3));
-
-            // Calculate kurtosis
-            kurt = (coefficientOne * accum3) - termTwo;
-        }
-        return kurt;
+    public double evaluate(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Kurtosis copy() {
-        return new Kurtosis(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

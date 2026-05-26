@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -24,59 +23,59 @@ package org.hipparchus.geometry.euclidean.oned;
 import org.hipparchus.geometry.partitioning.AbstractSubHyperplane;
 import org.hipparchus.geometry.partitioning.Region;
 
-/** This class represents sub-hyperplane for {@link OrientedPoint}.
+/**
+ * This class represents sub-hyperplane for {@link OrientedPoint}.
  * <p>An hyperplane in 1D is a simple point, its orientation being a
  * boolean.</p>
  */
-public class SubOrientedPoint
-    extends AbstractSubHyperplane<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint,
-                                  Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> {
+public class SubOrientedPoint extends AbstractSubHyperplane<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint, Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> {
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param hyperplane underlying hyperplane
      * @param remainingRegion remaining region of the hyperplane
      */
-    public SubOrientedPoint(final OrientedPoint hyperplane,
-                            final Region<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> remainingRegion) {
+    public SubOrientedPoint(final OrientedPoint hyperplane, final Region<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> remainingRegion) {
         super(hyperplane, remainingRegion);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getSize() {
-        return 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isEmpty() {
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected SubOrientedPoint buildNew(final OrientedPoint hyperplane,
-                                        final Region<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> remainingRegion) {
-        return new SubOrientedPoint(hyperplane, remainingRegion);
+    protected SubOrientedPoint buildNew(final OrientedPoint hyperplane, final Region<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> remainingRegion) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector1D getInteriorPoint() {
-        return getHyperplane().getLocation();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SplitSubHyperplane<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> split(final OrientedPoint hyperplane) {
-        final double global = hyperplane.getOffset(getHyperplane().getLocation());
-        if (global < -hyperplane.getTolerance()) {
-            return new SplitSubHyperplane<>(null, this);
-        } else if (global > hyperplane.getTolerance()) {
-            return new SplitSubHyperplane<>(this, null);
-        } else {
-            return new SplitSubHyperplane<>(null, null);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

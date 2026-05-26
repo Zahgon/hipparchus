@@ -14,19 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.geometry.euclidean.oned;
 
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Locale;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalStateException;
 import org.hipparchus.geometry.Vector;
@@ -46,7 +43,6 @@ import org.hipparchus.util.CompositeFormat;
  * <p><b>Note:</b> using "," as a separator may interfere with the grouping separator
  * of the default {@link NumberFormat} for the current locale. Thus it is advised
  * to use a {@link NumberFormat} instance with disabled grouping in such a case.</p>
- *
  */
 public class Vector1DFormat extends VectorFormat<Euclidean1D, Vector1D> {
 
@@ -56,8 +52,7 @@ public class Vector1DFormat extends VectorFormat<Euclidean1D, Vector1D> {
      * "{", "}", and "; " and the default number format for components.</p>
      */
     public Vector1DFormat() {
-        super(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_SEPARATOR,
-              CompositeFormat.getDefaultNumberFormat());
+        super(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_SEPARATOR, CompositeFormat.getDefaultNumberFormat());
     }
 
     /**
@@ -84,8 +79,7 @@ public class Vector1DFormat extends VectorFormat<Euclidean1D, Vector1D> {
      * @param suffix suffix to use instead of the default "}"
      * @param format the custom format for components.
      */
-    public Vector1DFormat(final String prefix, final String suffix,
-                         final NumberFormat format) {
+    public Vector1DFormat(final String prefix, final String suffix, final NumberFormat format) {
         super(prefix, suffix, DEFAULT_SEPARATOR, format);
     }
 
@@ -95,7 +89,7 @@ public class Vector1DFormat extends VectorFormat<Euclidean1D, Vector1D> {
      * @since 1.4
      */
     public static Vector1DFormat getVector1DFormat() {
-        return getVector1DFormat(Locale.getDefault());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -105,38 +99,30 @@ public class Vector1DFormat extends VectorFormat<Euclidean1D, Vector1D> {
      * @since 1.4
      */
     public static Vector1DFormat getVector1DFormat(final Locale locale) {
-        return new Vector1DFormat(CompositeFormat.getDefaultNumberFormat(locale));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public StringBuffer format(final Vector<Euclidean1D, Vector1D> vector, final StringBuffer toAppendTo,
-                               final FieldPosition pos) {
-        final Vector1D p1 = (Vector1D) vector;
-        return format(toAppendTo, pos, p1.getX());
+    public StringBuffer format(final Vector<Euclidean1D, Vector1D> vector, final StringBuffer toAppendTo, final FieldPosition pos) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector1D parse(final String source) throws MathIllegalStateException {
-        ParsePosition parsePosition = new ParsePosition(0);
-        Vector1D result = parse(source, parsePosition);
-        if (parsePosition.getIndex() == 0) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.CANNOT_PARSE_AS_TYPE,
-                                                source, parsePosition.getErrorIndex(),
-                                                Vector1D.class);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector1D parse(final String source, final ParsePosition pos) {
-        final double[] coordinates = parseCoordinates(1, source, pos);
-        if (coordinates == null) {
-            return null;
-        }
-        return new Vector1D(coordinates[0]);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

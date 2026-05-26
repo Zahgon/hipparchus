@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -31,17 +30,27 @@ import org.hipparchus.random.UnitSphereRandomVectorGenerator;
  * Interpolator that implements the algorithm described in
  * <em>William Dudziak</em>'s
  * <a href="http://www.dudziak.com/microsphere.pdf">MS thesis</a>.
- *
  */
-public class MicrosphereProjectionInterpolator
-    implements MultivariateInterpolator {
-    /** Brightness exponent. */
+public class MicrosphereProjectionInterpolator implements MultivariateInterpolator {
+
+    /**
+     * Brightness exponent.
+     */
     private final double exponent;
-    /** Microsphere. */
+
+    /**
+     * Microsphere.
+     */
     private final InterpolatingMicrosphere microsphere;
-    /** Whether to share the sphere. */
+
+    /**
+     * Whether to share the sphere.
+     */
     private final boolean sharedSphere;
-    /** Tolerance value below which no interpolation is necessary. */
+
+    /**
+     * Tolerance value below which no interpolation is necessary.
+     */
     private final double noInterpolationTolerance;
 
     /**
@@ -72,23 +81,8 @@ public class MicrosphereProjectionInterpolator
      * @throws org.hipparchus.exception.MathIllegalArgumentException if
      * {@code maxDarkFraction} does not belong to the interval {@code [0, 1]}.
      */
-    public MicrosphereProjectionInterpolator(int dimension,
-                                             int elements,
-                                             double maxDarkFraction,
-                                             double darkThreshold,
-                                             double background,
-                                             double exponent,
-                                             boolean sharedSphere,
-                                             double noInterpolationTolerance) {
-        this(new InterpolatingMicrosphere(dimension,
-                                          elements,
-                                          maxDarkFraction,
-                                          darkThreshold,
-                                          background,
-                                          new UnitSphereRandomVectorGenerator(dimension)),
-             exponent,
-             sharedSphere,
-             noInterpolationTolerance);
+    public MicrosphereProjectionInterpolator(int dimension, int elements, double maxDarkFraction, double darkThreshold, double background, double exponent, boolean sharedSphere, double noInterpolationTolerance) {
+        this(new InterpolatingMicrosphere(dimension, elements, maxDarkFraction, darkThreshold, background, new UnitSphereRandomVectorGenerator(dimension)), exponent, sharedSphere, noInterpolationTolerance);
     }
 
     /**
@@ -106,15 +100,10 @@ public class MicrosphereProjectionInterpolator
      * will be returned).
      * @throws MathIllegalArgumentException if {@code exponent < 0}.
      */
-    public MicrosphereProjectionInterpolator(InterpolatingMicrosphere microsphere,
-                                             double exponent,
-                                             boolean sharedSphere,
-                                             double noInterpolationTolerance)
-        throws MathIllegalArgumentException {
+    public MicrosphereProjectionInterpolator(InterpolatingMicrosphere microsphere, double exponent, boolean sharedSphere, double noInterpolationTolerance) throws MathIllegalArgumentException {
         if (exponent < 0) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL, exponent, 0);
         }
-
         this.microsphere = microsphere;
         this.exponent = exponent;
         this.sharedSphere = sharedSphere;
@@ -128,42 +117,7 @@ public class MicrosphereProjectionInterpolator
      * given samples does not match the space dimension of the microsphere.
      */
     @Override
-    public MultivariateFunction interpolate(final double[][] xval,
-                                            final double[] yval)
-        throws MathIllegalArgumentException, NullArgumentException {
-        if (xval == null ||
-            yval == null) {
-            throw new NullArgumentException();
-        }
-        if (xval.length == 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NO_DATA);
-        }
-        if (xval.length != yval.length) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   xval.length, yval.length);
-        }
-        if (xval[0] == null) {
-            throw new NullArgumentException();
-        }
-        final int dimension = microsphere.getDimension();
-        if (dimension != xval[0].length) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   xval[0].length, dimension);
-        }
-
-        // Microsphere copy.
-        final InterpolatingMicrosphere m = sharedSphere ? microsphere : microsphere.copy();
-
-        return new MultivariateFunction() {
-            /** {inheritDoc} */
-            @Override
-            public double value(double[] point) {
-                return m.value(point,
-                               xval,
-                               yval,
-                               exponent,
-                               noInterpolationTolerance);
-            }
-        };
+    public MultivariateFunction interpolate(final double[][] xval, final double[] yval) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -33,16 +33,16 @@ public class TrilinearInterpolator implements TrivariateGridInterpolator {
      * </p>
      * @since 4.1
      */
-    public TrilinearInterpolator() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public TrilinearInterpolator() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public TrilinearInterpolatingFunction interpolate(final double[] xval, final double[] yval, final double[] zval,
-                                                      final double[][][] fval)
-        throws MathIllegalArgumentException {
-        return new TrilinearInterpolatingFunction(xval, yval, zval, fval);
+    public TrilinearInterpolatingFunction interpolate(final double[] xval, final double[] yval, final double[] zval, final double[][][] fval) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

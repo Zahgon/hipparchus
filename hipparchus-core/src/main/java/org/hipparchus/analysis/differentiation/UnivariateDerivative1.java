@@ -22,7 +22,8 @@ import org.hipparchus.util.FastMath;
 import org.hipparchus.util.MathArrays;
 import org.hipparchus.util.MathUtils;
 
-/** Class representing both the value and the differentials of a function.
+/**
+ * Class representing both the value and the differentials of a function.
  * <p>This class is a stripped-down version of {@link DerivativeStructure}
  * with only one {@link DerivativeStructure#getFreeParameters() free parameter}
  * and {@link DerivativeStructure#getOrder() derivation order} also limited to one.
@@ -48,24 +49,31 @@ import org.hipparchus.util.MathUtils;
  * @see FieldGradient
  * @since 1.7
  */
-public class UnivariateDerivative1 extends UnivariateDerivative<UnivariateDerivative1>
-        implements Derivative1<UnivariateDerivative1> {
+public class UnivariateDerivative1 extends UnivariateDerivative<UnivariateDerivative1> implements Derivative1<UnivariateDerivative1> {
 
-    /** The constant value of π as a {@code UnivariateDerivative1}.
+    /**
+     * The constant value of π as a {@code UnivariateDerivative1}.
      * @since 2.0
      */
     public static final UnivariateDerivative1 PI = new UnivariateDerivative1(FastMath.PI, 0.0);
 
-    /** Serializable UID. */
+    /**
+     * Serializable UID.
+     */
     private static final long serialVersionUID = 20200519L;
 
-    /** Value of the function. */
+    /**
+     * Value of the function.
+     */
     private final double f0;
 
-    /** First derivative of the function. */
+    /**
+     * First derivative of the function.
+     */
     private final double f1;
 
-    /** Build an instance with values and derivative.
+    /**
+     * Build an instance with values and derivative.
      * @param f0 value of the function
      * @param f1 first derivative of the function
      */
@@ -74,7 +82,8 @@ public class UnivariateDerivative1 extends UnivariateDerivative<UnivariateDeriva
         this.f1 = f1;
     }
 
-    /** Build an instance from a {@link DerivativeStructure}.
+    /**
+     * Build an instance from a {@link DerivativeStructure}.
      * @param ds derivative structure
      * @exception MathIllegalArgumentException if either {@code ds} parameters
      * is not 1 or {@code ds} order is not 1
@@ -86,434 +95,340 @@ public class UnivariateDerivative1 extends UnivariateDerivative<UnivariateDeriva
         this.f1 = ds.getPartialDerivative(1);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 newInstance(final double value) {
-        return new UnivariateDerivative1(value, 0.0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 withValue(final double value) {
-        return new UnivariateDerivative1(value, f1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 getAddendum() {
-        return new UnivariateDerivative1(0, f1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getValue() {
-        return f0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getDerivative(final int n) {
-        switch (n) {
-            case 0 :
-                return f0;
-            case 1 :
-                return f1;
-            default :
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.DERIVATION_ORDER_NOT_ALLOWED, n);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the first derivative.
+    /**
+     * Get the first derivative.
      * @return first derivative
      * @see #getValue()
      */
     public double getFirstDerivative() {
-        return f1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DerivativeStructure toDerivativeStructure() {
-        return getField().getConversionFactory().build(f0, f1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 add(final UnivariateDerivative1 a) {
-        return new UnivariateDerivative1(f0 + a.f0, f1 + a.f1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 subtract(final UnivariateDerivative1 a) {
-        return new UnivariateDerivative1(f0 - a.f0, f1 - a.f1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 multiply(final int n) {
-        return new UnivariateDerivative1(f0 * n, f1 * n);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 multiply(final double a) {
-        return new UnivariateDerivative1(f0 * a, f1 * a);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 multiply(final UnivariateDerivative1 a) {
-        return new UnivariateDerivative1(f0 * a.f0,
-                                         MathArrays.linearCombination(f1, a.f0, f0, a.f1));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 divide(final double a) {
-        final double inv1 = 1.0 / a;
-        return new UnivariateDerivative1(f0 * inv1, f1 * inv1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 divide(final UnivariateDerivative1 a) {
-        final double inv1 = 1.0 / a.f0;
-        final double inv2 = inv1 * inv1;
-        return new UnivariateDerivative1(f0 * inv1,
-                                         MathArrays.linearCombination(f1, a.f0, -f0, a.f1) * inv2);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 remainder(final UnivariateDerivative1 a) {
-
-        // compute k such that lhs % rhs = lhs - k rhs
-        final double rem = FastMath.IEEEremainder(f0, a.f0);
-        final double k   = FastMath.rint((f0 - rem) / a.f0);
-
-        return new UnivariateDerivative1(rem, f1 - k * a.f1);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 negate() {
-        return new UnivariateDerivative1(-f0, -f1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 abs() {
-        if (Double.doubleToLongBits(f0) < 0) {
-            // we use the bits representation to also handle -0.0
-            return negate();
-        } else {
-            return this;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 copySign(final UnivariateDerivative1 sign) {
-        long m = Double.doubleToLongBits(f0);
-        long s = Double.doubleToLongBits(sign.f0);
-        if ((m >= 0 && s >= 0) || (m < 0 && s < 0)) { // Sign is currently OK
-            return this;
-        }
-        return negate(); // flip sign
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 copySign(final double sign) {
-        long m = Double.doubleToLongBits(f0);
-        long s = Double.doubleToLongBits(sign);
-        if ((m >= 0 && s >= 0) || (m < 0 && s < 0)) { // Sign is currently OK
-            return this;
-        }
-        return negate(); // flip sign
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 scalb(final int n) {
-        return new UnivariateDerivative1(FastMath.scalb(f0, n), FastMath.scalb(f1, n));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 hypot(final UnivariateDerivative1 y) {
-
-        if (Double.isInfinite(f0) || Double.isInfinite(y.f0)) {
-            return new UnivariateDerivative1(Double.POSITIVE_INFINITY, 0.0);
-        } else if (Double.isNaN(f0) || Double.isNaN(y.f0)) {
-            return new UnivariateDerivative1(Double.NaN, 0.0);
-        } else {
-
-            final int expX = getExponent();
-            final int expY = y.getExponent();
-            if (expX > expY + 27) {
-                // y is negligible with respect to x
-                return abs();
-            } else if (expY > expX + 27) {
-                // x is negligible with respect to y
-                return y.abs();
-            } else {
-
-                // find an intermediate scale to avoid both overflow and underflow
-                final int middleExp = (expX + expY) / 2;
-
-                // scale parameters without losing precision
-                final UnivariateDerivative1 scaledX = scalb(-middleExp);
-                final UnivariateDerivative1 scaledY = y.scalb(-middleExp);
-
-                // compute scaled hypotenuse
-                final UnivariateDerivative1 scaledH =
-                        scaledX.multiply(scaledX).add(scaledY.multiply(scaledY)).sqrt();
-
-                // remove scaling
-                return scaledH.scalb(middleExp);
-
-            }
-
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 compose(final double... f) {
-        MathUtils.checkDimension(f.length, getOrder() + 1);
-        return compose(f[0], f[1]);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 compose(final double ff0, final double ff1) {
-        return new UnivariateDerivative1(ff0, this.f1 * ff1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1Field getField() {
-        return UnivariateDerivative1Field.getInstance();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute a<sup>x</sup> where a is a double and x a {@link UnivariateDerivative1}
+    /**
+     * Compute a<sup>x</sup> where a is a double and x a {@link UnivariateDerivative1}
      * @param a number to exponentiate
      * @param x power to apply
      * @return a<sup>x</sup>
      */
     public static UnivariateDerivative1 pow(final double a, final UnivariateDerivative1 x) {
-        if (a == 0) {
-            return x.getField().getZero();
-        } else {
-            final double aX = FastMath.pow(a, x.f0);
-            return new UnivariateDerivative1(aX, FastMath.log(a) * aX * x.f1);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 pow(final double p) {
-        if (p == 0) {
-            return getField().getOne();
-        } else {
-            final double f0Pm1 = FastMath.pow(f0, p - 1);
-            return compose(f0Pm1 * f0, p * f0Pm1);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 pow(final int n) {
-        if (n == 0) {
-            return getField().getOne();
-        } else {
-            final double f0Nm1 = FastMath.pow(f0, n - 1);
-            return compose(f0Nm1 * f0, n * f0Nm1);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 atan2(final UnivariateDerivative1 x) {
-        final double inv = 1.0 / (f0 * f0 + x.f0 * x.f0);
-        return new UnivariateDerivative1(FastMath.atan2(f0, x.f0),
-                                         MathArrays.linearCombination(x.f0, f1, -x.f1, f0) * inv);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 toDegrees() {
-        return new UnivariateDerivative1(FastMath.toDegrees(f0), FastMath.toDegrees(f1));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 toRadians() {
-        return new UnivariateDerivative1(FastMath.toRadians(f0), FastMath.toRadians(f1));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Evaluate Taylor expansion a univariate derivative.
+    /**
+     * Evaluate Taylor expansion a univariate derivative.
      * @param delta parameter offset Δx
      * @return value of the Taylor expansion at x + Δx
      */
     public double taylor(final double delta) {
-        return f0 + delta * f1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 linearCombination(final UnivariateDerivative1[] a, final UnivariateDerivative1[] b) {
-
-        // extract values and first derivatives
-        final int      n  = a.length;
-        final double[] a0 = new double[n];
-        final double[] b0 = new double[n];
-        final double[] a1 = new double[2 * n];
-        final double[] b1 = new double[2 * n];
-        for (int i = 0; i < n; ++i) {
-            final UnivariateDerivative1 ai = a[i];
-            final UnivariateDerivative1 bi = b[i];
-            a0[i]         = ai.f0;
-            b0[i]         = bi.f0;
-            a1[2 * i]     = ai.f0;
-            a1[2 * i + 1] = ai.f1;
-            b1[2 * i]     = bi.f1;
-            b1[2 * i + 1] = bi.f0;
-        }
-
-        return new UnivariateDerivative1(MathArrays.linearCombination(a0, b0),
-                                         MathArrays.linearCombination(a1, b1));
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 linearCombination(final double[] a, final UnivariateDerivative1[] b) {
-
-        // extract values and first derivatives
-        final int      n  = b.length;
-        final double[] b0 = new double[n];
-        final double[] b1 = new double[n];
-        for (int i = 0; i < n; ++i) {
-            b0[i] = b[i].f0;
-            b1[i] = b[i].f1;
-        }
-
-        return new UnivariateDerivative1(MathArrays.linearCombination(a, b0),
-                                         MathArrays.linearCombination(a, b1));
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public UnivariateDerivative1 linearCombination(final UnivariateDerivative1 a1, final UnivariateDerivative1 b1,
-                                                   final UnivariateDerivative1 a2, final UnivariateDerivative1 b2) {
-        return new UnivariateDerivative1(MathArrays.linearCombination(a1.f0, b1.f0,
-                                                                      a2.f0, b2.f0),
-                                         MathArrays.linearCombination(a1.f0, b1.f1,
-                                                                      a1.f1, b1.f0,
-                                                                      a2.f0, b2.f1,
-                                                                      a2.f1, b2.f0));
+    public UnivariateDerivative1 linearCombination(final UnivariateDerivative1 a1, final UnivariateDerivative1 b1, final UnivariateDerivative1 a2, final UnivariateDerivative1 b2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public UnivariateDerivative1 linearCombination(final double a1, final UnivariateDerivative1 b1,
-                                                   final double a2, final UnivariateDerivative1 b2) {
-        return new UnivariateDerivative1(MathArrays.linearCombination(a1, b1.f0,
-                                                                      a2, b2.f0),
-                                         MathArrays.linearCombination(a1, b1.f1,
-                                                                      a2, b2.f1));
+    public UnivariateDerivative1 linearCombination(final double a1, final UnivariateDerivative1 b1, final double a2, final UnivariateDerivative1 b2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public UnivariateDerivative1 linearCombination(final UnivariateDerivative1 a1, final UnivariateDerivative1 b1,
-                                                   final UnivariateDerivative1 a2, final UnivariateDerivative1 b2,
-                                                   final UnivariateDerivative1 a3, final UnivariateDerivative1 b3) {
-        return new UnivariateDerivative1(MathArrays.linearCombination(a1.f0, b1.f0,
-                                                                      a2.f0, b2.f0,
-                                                                      a3.f0, b3.f0),
-                                         MathArrays.linearCombination(new double[] {
-                                                                          a1.f0, a1.f1,
-                                                                          a2.f0, a2.f1,
-                                                                          a3.f0, a3.f1
-                                                                      }, new double[] {
-                                                                          b1.f1, b1.f0,
-                                                                          b2.f1, b2.f0,
-                                                                          b3.f1, b3.f0
-                                                                      }));
+    public UnivariateDerivative1 linearCombination(final UnivariateDerivative1 a1, final UnivariateDerivative1 b1, final UnivariateDerivative1 a2, final UnivariateDerivative1 b2, final UnivariateDerivative1 a3, final UnivariateDerivative1 b3) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public UnivariateDerivative1 linearCombination(final double a1, final UnivariateDerivative1 b1,
-                                                   final double a2, final UnivariateDerivative1 b2,
-                                                   final double a3, final UnivariateDerivative1 b3) {
-        return new UnivariateDerivative1(MathArrays.linearCombination(a1, b1.f0,
-                                                                      a2, b2.f0,
-                                                                      a3, b3.f0),
-                                         MathArrays.linearCombination(a1, b1.f1,
-                                                                      a2, b2.f1,
-                                                                      a3, b3.f1));
+    public UnivariateDerivative1 linearCombination(final double a1, final UnivariateDerivative1 b1, final double a2, final UnivariateDerivative1 b2, final double a3, final UnivariateDerivative1 b3) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public UnivariateDerivative1 linearCombination(final UnivariateDerivative1 a1, final UnivariateDerivative1 b1,
-                                                   final UnivariateDerivative1 a2, final UnivariateDerivative1 b2,
-                                                   final UnivariateDerivative1 a3, final UnivariateDerivative1 b3,
-                                                   final UnivariateDerivative1 a4, final UnivariateDerivative1 b4) {
-        return new UnivariateDerivative1(MathArrays.linearCombination(a1.f0, b1.f0,
-                                                                      a2.f0, b2.f0,
-                                                                      a3.f0, b3.f0,
-                                                                      a4.f0, b4.f0),
-                                         MathArrays.linearCombination(new double[] {
-                                                                          a1.f0, a1.f1,
-                                                                          a2.f0, a2.f1,
-                                                                          a3.f0, a3.f1,
-                                                                          a4.f0, a4.f1
-                                                                      }, new double[] {
-                                                                          b1.f1, b1.f0,
-                                                                          b2.f1, b2.f0,
-                                                                          b3.f1, b3.f0,
-                                                                          b4.f1, b4.f0
-                                                                      }));
+    public UnivariateDerivative1 linearCombination(final UnivariateDerivative1 a1, final UnivariateDerivative1 b1, final UnivariateDerivative1 a2, final UnivariateDerivative1 b2, final UnivariateDerivative1 a3, final UnivariateDerivative1 b3, final UnivariateDerivative1 a4, final UnivariateDerivative1 b4) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public UnivariateDerivative1 linearCombination(final double a1, final UnivariateDerivative1 b1,
-                                                   final double a2, final UnivariateDerivative1 b2,
-                                                   final double a3, final UnivariateDerivative1 b3,
-                                                   final double a4, final UnivariateDerivative1 b4) {
-        return new UnivariateDerivative1(MathArrays.linearCombination(a1, b1.f0,
-                                                                      a2, b2.f0,
-                                                                      a3, b3.f0,
-                                                                      a4, b4.f0),
-                                         MathArrays.linearCombination(a1, b1.f1,
-                                                                      a2, b2.f1,
-                                                                      a3, b3.f1,
-                                                                      a4, b4.f1));
+    public UnivariateDerivative1 linearCombination(final double a1, final UnivariateDerivative1 b1, final double a2, final UnivariateDerivative1 b2, final double a3, final UnivariateDerivative1 b3, final double a4, final UnivariateDerivative1 b4) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative1 getPi() {
-        return PI;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSmall(final UnivariateDerivative1 base, final double relativeThreshold) {
-        return FastMath.abs(f0) <= FastMath.abs(base.f0 * relativeThreshold) &&
-               FastMath.abs(f1) <= FastMath.abs(base.f1 * relativeThreshold);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Test for the equality of two univariate derivatives.
+    /**
+     * Test for the equality of two univariate derivatives.
      * <p>
      * univariate derivatives are considered equal if they have the same derivatives.
      * </p>
@@ -522,29 +437,20 @@ public class UnivariateDerivative1 extends UnivariateDerivative<UnivariateDeriva
      */
     @Override
     public boolean equals(Object other) {
-
-        if (this == other) {
-            return true;
-        }
-
-        if (other instanceof UnivariateDerivative1) {
-            final UnivariateDerivative1 rhs = (UnivariateDerivative1) other;
-            return f0 == rhs.f0 && f1 == rhs.f1;
-        }
-
-        return false;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a hashCode for the univariate derivative.
+    /**
+     * Get a hashCode for the univariate derivative.
      * @return a hash code value for this object
      */
     @Override
     public int hashCode() {
-        return 453 - 19 * Double.hashCode(f0) + 37 * Double.hashCode(f1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * Comparison performed considering that derivatives are intrinsically linked to monomials in the corresponding
      * Taylor expansion and that the higher the degree, the smaller the term.
@@ -553,12 +459,6 @@ public class UnivariateDerivative1 extends UnivariateDerivative<UnivariateDeriva
      */
     @Override
     public int compareTo(final UnivariateDerivative1 o) {
-        final int cF0 = Double.compare(f0, o.getReal());
-        if (cF0 == 0) {
-            return Double.compare(f1, o.getFirstDerivative());
-        } else {
-            return cF0;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

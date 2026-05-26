@@ -29,39 +29,24 @@ import org.hipparchus.util.Pair;
  */
 public class ConvertingRuleFactory<T extends FieldElement<T>> extends AbstractRuleFactory {
 
-    /** Underlying field-based factory. */
+    /**
+     * Underlying field-based factory.
+     */
     private final FieldRuleFactory<T> fieldFactory;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param fieldFactory field-based factory to convert
      */
     public ConvertingRuleFactory(final FieldRuleFactory<T> fieldFactory) {
         this.fieldFactory = fieldFactory;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected Pair<double[], double[]> computeRule(final int numberOfPoints)
-        throws MathIllegalArgumentException {
-
-        // get the field-based rule
-        Pair<T[], T[]> rule = fieldFactory.getRule(numberOfPoints);
-
-        // convert the nodes and weights
-        final T[] pT = rule.getFirst();
-        final T[] wT = rule.getSecond();
-
-        final int len = pT.length;
-        final double[] pD = new double[len];
-        final double[] wD = new double[len];
-
-        for (int i = 0; i < len; i++) {
-            pD[i] = pT[i].getReal();
-            wD[i] = wT[i].getReal();
-        }
-
-        return new Pair<>(pD, wD);
-
+    protected Pair<double[], double[]> computeRule(final int numberOfPoints) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

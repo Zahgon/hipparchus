@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,7 +22,6 @@ package org.hipparchus.random;
 
 import java.io.Serializable;
 import java.util.Random;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.util.MathUtils;
@@ -34,10 +32,14 @@ import org.hipparchus.util.MathUtils;
  */
 public class JDKRandomGenerator extends IntRandomGenerator implements Serializable {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20151227L;
 
-    /** JDK's RNG. */
+    /**
+     * JDK's RNG.
+     */
     private final Random delegate;
 
     /**
@@ -68,75 +70,92 @@ public class JDKRandomGenerator extends IntRandomGenerator implements Serializab
         delegate = random;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSeed(int seed) {
-        delegate.setSeed(seed);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSeed(long seed) {
-        delegate.setSeed(seed);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSeed(int[] seed) {
-        delegate.setSeed(convertToLong(seed));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void nextBytes(byte[] bytes) {
-        delegate.nextBytes(bytes);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int nextInt() {
-        return delegate.nextInt();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long nextLong() {
-        return delegate.nextLong();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean nextBoolean() {
-        return delegate.nextBoolean();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public float nextFloat() {
-        return delegate.nextFloat();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double nextDouble() {
-        return delegate.nextDouble();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double nextGaussian() {
-        return delegate.nextGaussian();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int nextInt(int n) {
-        try {
-            return delegate.nextInt(n);
-        } catch (IllegalArgumentException e) {
-            throw new MathIllegalArgumentException(e, LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
-                                                   n, 0);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -149,13 +168,10 @@ public class JDKRandomGenerator extends IntRandomGenerator implements Serializab
         // The following number is the largest prime that fits
         // in 32 bits (i.e. 2^32 - 5).
         final long prime = 4294967291l;
-
         long combined = 0l;
         for (int s : seed) {
             combined = combined * prime + s;
         }
-
         return combined;
     }
-
 }

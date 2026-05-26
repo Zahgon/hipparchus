@@ -14,16 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.geometry.euclidean.threed;
 
 import java.io.Serializable;
-
 import org.hipparchus.geometry.Space;
 import org.hipparchus.geometry.euclidean.twod.Euclidean2D;
 
@@ -32,49 +29,61 @@ import org.hipparchus.geometry.euclidean.twod.Euclidean2D;
  */
 public class Euclidean3D implements Serializable, Space {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 6249091865814886817L;
 
-    /** Private constructor for the singleton.
+    /**
+     * Private constructor for the singleton.
      */
     private Euclidean3D() {
     }
 
-    /** Get the unique instance.
+    /**
+     * Get the unique instance.
      * @return the unique instance
      */
     public static Euclidean3D getInstance() {
-        return LazyHolder.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getDimension() {
-        return 3;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Euclidean2D getSubSpace() {
-        return Euclidean2D.getInstance();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // CHECKSTYLE: stop HideUtilityClassConstructor
-    /** Holder for the instance.
+    /**
+     * Holder for the instance.
      * <p>We use here the Initialization On Demand Holder Idiom.</p>
      */
     private static class LazyHolder {
-        /** Cached field instance. */
+
+        /**
+         * Cached field instance.
+         */
         private static final Euclidean3D INSTANCE = new Euclidean3D();
     }
-    // CHECKSTYLE: resume HideUtilityClassConstructor
 
-    /** Handle deserialization of the singleton.
+    // CHECKSTYLE: resume HideUtilityClassConstructor
+    /**
+     * Handle deserialization of the singleton.
      * @return the singleton instance
      */
     private Object readResolve() {
         // return the singleton instance
         return LazyHolder.INSTANCE;
     }
-
 }

@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.events;
 
 import org.hipparchus.analysis.UnivariateFunction;
 import org.hipparchus.analysis.solvers.BracketedUnivariateSolver;
 import org.hipparchus.ode.ODEStateAndDerivative;
 
-/** This interface represents a detector for discrete events triggered
+/**
+ * This interface represents a detector for discrete events triggered
  * during ODE integration.
  *
  * <p>Some events can be triggered at discrete times as an ODE problem
@@ -59,29 +59,34 @@ import org.hipparchus.ode.ODEStateAndDerivative;
  * @see org.hipparchus.ode.events
  * @since 3.0
  */
-public interface ODEEventDetector  {
+public interface ODEEventDetector {
 
-    /** Get the maximal time interval between events handler checks.
+    /**
+     * Get the maximal time interval between events handler checks.
      * @return maximal time interval between events handler checks
      */
     AdaptableInterval getMaxCheckInterval();
 
-    /** Get the upper limit in the iteration count for event localization.
+    /**
+     * Get the upper limit in the iteration count for event localization.
      * @return upper limit in the iteration count for event localization
      */
     int getMaxIterationCount();
 
-    /** Get the root-finding algorithm to use to detect state events.
+    /**
+     * Get the root-finding algorithm to use to detect state events.
      * @return root-finding algorithm to use to detect state events
      */
     BracketedUnivariateSolver<UnivariateFunction> getSolver();
 
-    /** Get the underlying event handler.
+    /**
+     * Get the underlying event handler.
      * @return underlying event handler
      */
     ODEEventHandler getHandler();
 
-    /** Initialize event detector at the start of an ODE integration.
+    /**
+     * Initialize event detector at the start of an ODE integration.
      * <p>
      * This method is called once at the start of the integration. It
      * may be used by the event detector to initialize some internal data
@@ -94,10 +99,11 @@ public interface ODEEventDetector  {
      * @param finalTime target time for the integration
      */
     default void init(ODEStateAndDerivative initialState, double finalTime) {
-        getHandler().init(initialState, finalTime, this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Reset event detector during integration.
+    /**
+     * Reset event detector during integration.
      * <p>
      * This method is called during integration if the derivatives or the state variables themselves are reset.
      * </p>
@@ -109,11 +115,12 @@ public interface ODEEventDetector  {
      * @since 4.0
      */
     default void reset(ODEStateAndDerivative intermediateState, double finalTime) {
-        // nothing by default
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the value of the switching function.
-
+    /**
+     * Compute the value of the switching function.
+     *
      * <p>The discrete events are generated when the sign of this
      * switching function changes. The integrator will take care to change
      * the stepsize in such a way these events occur exactly at step boundaries.
@@ -158,5 +165,4 @@ public interface ODEEventDetector  {
      * @see org.hipparchus.ode.events
      */
     double g(ODEStateAndDerivative state);
-
 }

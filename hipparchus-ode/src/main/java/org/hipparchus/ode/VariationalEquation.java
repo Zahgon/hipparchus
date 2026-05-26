@@ -17,7 +17,6 @@
 package org.hipparchus.ode;
 
 import java.lang.reflect.Array;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathIllegalStateException;
@@ -77,23 +76,31 @@ import org.hipparchus.exception.MathIllegalStateException;
  * @see OrdinaryDifferentialEquation
  * @see NamedParameterJacobianProvider
  * @see ParametersController
- *
  */
 public class VariationalEquation {
 
-    /** ODE with Jacobian computation skill. */
+    /**
+     * ODE with Jacobian computation skill.
+     */
     private final ODEJacobiansProvider jode;
 
-    /** Expandable first order differential equation. */
+    /**
+     * Expandable first order differential equation.
+     */
     private final ExpandableODE expandable;
 
-    /** Index of the instance in the expandable set. */
+    /**
+     * Index of the instance in the expandable set.
+     */
     private final int index;
 
-    /** State and parameters Jacobian matrices in a row. */
+    /**
+     * State and parameters Jacobian matrices in a row.
+     */
     private double[] matricesData;
 
-    /** Build variational equation using finite differences for local
+    /**
+     * Build variational equation using finite differences for local
      * partial derivatives.
      * @param expandable expandable set into which variational equations should be registered
      * @param ode base ordinary differential equation for which Jacobians
@@ -104,15 +111,12 @@ public class VariationalEquation {
      * @exception MismatchedEquations if the primary set of the expandable set does
      * not match the {@code ode}
      */
-    public VariationalEquation(final ExpandableODE expandable,
-                               final OrdinaryDifferentialEquation ode, final double[] hY,
-                               final ParametersController controller,
-                               final ParameterConfiguration ... paramsAndSteps)
-        throws MismatchedEquations {
+    public VariationalEquation(final ExpandableODE expandable, final OrdinaryDifferentialEquation ode, final double[] hY, final ParametersController controller, final ParameterConfiguration... paramsAndSteps) throws MismatchedEquations {
         this(expandable, new ParameterJacobianWrapper(ode, hY, controller, paramsAndSteps));
     }
 
-    /** Build variational equation using analytical local partial derivatives.
+    /**
+     * Build variational equation using analytical local partial derivatives.
      * <p>
      * Parameters must belong to the supported ones given by {@link
      * Parameterizable#getParametersNames()}, so the primary set of differential
@@ -125,10 +129,7 @@ public class VariationalEquation {
      * @exception MismatchedEquations if the primary set of the expandable set does
      * not match the {@code ode}
      */
-    public VariationalEquation(final ExpandableODE expandable,
-                               final ODEJacobiansProvider jode)
-        throws MismatchedEquations {
-
+    public VariationalEquation(final ExpandableODE expandable, final ODEJacobiansProvider jode) throws MismatchedEquations {
         // safety checks
         final OrdinaryDifferentialEquation ode;
         if (jode instanceof ParameterJacobianWrapper) {
@@ -139,21 +140,19 @@ public class VariationalEquation {
         if (expandable.getPrimary() != ode) {
             throw new MismatchedEquations();
         }
-
-        this.jode       = jode;
+        this.jode = jode;
         this.expandable = expandable;
-        this.index      = expandable.addSecondaryEquations(new JacobiansSecondaryODE());
-
+        this.index = expandable.addSecondaryEquations(new JacobiansSecondaryODE());
         // set the default initial state Jacobian to the identity
         // and the default initial parameters Jacobian to the null matrix
         matricesData = new double[(jode.getDimension() + jode.getParametersNames().size()) * jode.getDimension()];
         for (int i = 0; i < jode.getDimension(); ++i) {
             matricesData[i * (jode.getDimension() + 1)] = 1.0;
         }
-
     }
 
-    /** Set the initial value of the Jacobian matrix with respect to state.
+    /**
+     * Set the initial value of the Jacobian matrix with respect to state.
      * <p>
      * If this method is not called, the initial value of the Jacobian
      * matrix with respect to state is set to identity.
@@ -164,23 +163,12 @@ public class VariationalEquation {
      * @param dYdY0 initial Jacobian matrix w.r.t. state
      * @exception MathIllegalArgumentException if matrix dimensions are incorrect
      */
-    public void setInitialMainStateJacobian(final double[][] dYdY0)
-        throws MathIllegalArgumentException {
-
-        // Check dimensions
-        checkDimension(jode.getDimension(), dYdY0);
-        checkDimension(jode.getDimension(), dYdY0[0]);
-
-        // store the matrix in row major order as a single dimension array
-        int i = 0;
-        for (final double[] row : dYdY0) {
-            System.arraycopy(row, 0, matricesData, i, jode.getDimension());
-            i += jode.getDimension();
-        }
-
+    public void setInitialMainStateJacobian(final double[][] dYdY0) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set the initial value of a column of the Jacobian matrix with respect to one parameter.
+    /**
+     * Set the initial value of a column of the Jacobian matrix with respect to one parameter.
      * <p>
      * If this method is not called for some parameter, the initial value of
      * the column of the Jacobian matrix with respect to this parameter is set to zero.
@@ -193,27 +181,12 @@ public class VariationalEquation {
      * @exception MathIllegalArgumentException if a parameter is not supported
      * @throws MathIllegalArgumentException if the column vector does not match state dimension
      */
-    public void setInitialParameterJacobian(final String pName, final double[] dYdP)
-        throws MathIllegalArgumentException {
-
-        // Check dimensions
-        checkDimension(jode.getDimension(), dYdP);
-
-        // store the column in a global single dimension array
-        int i = jode.getDimension() * jode.getDimension();
-        for (final String knownParameter : jode.getParametersNames()) {
-            if (pName.equals(knownParameter)) {
-                System.arraycopy(dYdP, 0, matricesData, i, jode.getDimension());
-                return;
-            }
-            i += jode.getDimension();
-        }
-
-        throw new MathIllegalArgumentException(LocalizedODEFormats.UNKNOWN_PARAMETER, pName);
-
+    public void setInitialParameterJacobian(final String pName, final double[] dYdP) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set up initial state.
+    /**
+     * Set up initial state.
      * <p>
      * This method inserts the initial Jacobian matrices data into
      * an {@link ODEState ODE state} by overriding the additional
@@ -230,137 +203,61 @@ public class VariationalEquation {
      * @return a new instance of initial state, with the initial Jacobians
      * matrices properly initialized
      */
-    public ODEState setUpInitialState(final ODEState initialState) { // NOPMD - PMD false positive
-
-        // insert the matrices data into secondary states
-        final double[][] secondary = new double[expandable.getMapper().getNumberOfEquations() - 1][];
-        for (int i = 0; i < initialState.getNumberOfSecondaryStates(); ++i) {
-            if (i + 1 != index) {
-                secondary[i] = initialState.getSecondaryState(i + 1);
-            }
-        }
-        secondary[index - 1] = matricesData;
-
-        // create an updated initial state
-        return new ODEState(initialState.getTime(), initialState.getPrimaryState(), secondary);
-
+    public ODEState setUpInitialState(final ODEState initialState) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Extract the Jacobian matrix with respect to state.
+    /**
+     * Extract the Jacobian matrix with respect to state.
      * @param state state from which to extract Jacobian matrix
      * @return Jacobian matrix dY/dY0 with respect to state.
      */
     public double[][] extractMainSetJacobian(final ODEState state) {
-
-        // get current state for this set of equations from the expandable fode
-        final double[] p = state.getSecondaryState(index);
-
-        final double[][] dYdY0 = new double[jode.getDimension()][jode.getDimension()];
-        int j = 0;
-        for (int i = 0; i < jode.getDimension(); i++) {
-            System.arraycopy(p, j, dYdY0[i], 0, jode.getDimension());
-            j += jode.getDimension();
-        }
-
-        return dYdY0;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Extract the Jacobian matrix with respect to one parameter.
+    /**
+     * Extract the Jacobian matrix with respect to one parameter.
      * @param state state from which to extract Jacobian matrix
      * @param pName name of the parameter for the computed Jacobian matrix
      * @return Jacobian matrix dY/dP with respect to the named parameter
      */
     public double[] extractParameterJacobian(final ODEState state, final String pName) {
-
-        // get current state for this set of equations from the expandable fode
-        final double[] p = state.getSecondaryState(index);
-
-        final double[] dYdP = new double[jode.getDimension()];
-        int i = jode.getDimension() * jode.getDimension();
-        for (final String knownParameter : jode.getParametersNames()) {
-            if (pName.equals(knownParameter)) {
-                System.arraycopy(p, i, dYdP, 0, jode.getDimension());
-                break;
-            }
-            i += jode.getDimension();
-        }
-
-        return dYdP;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check array dimensions.
+    /**
+     * Check array dimensions.
      * @param expected expected dimension
      * @param array (may be null if expected is 0)
      * @throws MathIllegalArgumentException if the array dimension does not match the expected one
      */
-    private void checkDimension(final int expected, final Object array)
-        throws MathIllegalArgumentException {
+    private void checkDimension(final int expected, final Object array) throws MathIllegalArgumentException {
         int arrayDimension = (array == null) ? 0 : Array.getLength(array);
         if (arrayDimension != expected) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   arrayDimension, expected);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH, arrayDimension, expected);
         }
     }
 
-    /** Local implementation of secondary equations. */
+    /**
+     * Local implementation of secondary equations.
+     */
     private class JacobiansSecondaryODE implements SecondaryODE {
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int getDimension() {
-            return jode.getDimension() * (jode.getDimension() + jode.getParametersNames().size());
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
-        public double[] computeDerivatives(final double t, final double[] y, final double[] yDot,
-                                           final double[] z)
-            throws MathIllegalArgumentException, MathIllegalStateException {
-
-            final double[] zDot = new double[z.length];
-
-            // variational equations:
-            // from d[dy/dt]/dy0 and d[dy/dt]/dp to d[dy/dy0]/dt and d[dy/dp]/dt
-
-            // compute Jacobian matrix with respect to primary state
-            double[][] dFdY = jode.computeMainStateJacobian(t, y, yDot);
-
-            // Dispatch Jacobian matrix in the compound secondary state vector
-            for (int i = 0; i < jode.getDimension(); ++i) {
-                final double[] dFdYi = dFdY[i];
-                for (int j = 0; j < jode.getDimension(); ++j) {
-                    double s = 0;
-                    final int startIndex = j;
-                    int zIndex = startIndex;
-                    for (int l = 0; l < jode.getDimension(); ++l) {
-                        s += dFdYi[l] * z[zIndex];
-                        zIndex += jode.getDimension();
-                    }
-                    zDot[startIndex + i * jode.getDimension()] = s;
-                }
-            }
-
-            // compute Jacobian matrices with respect to parameters
-            int startIndex = jode.getDimension() * jode.getDimension();
-            for (final String name : jode.getParametersNames()) {
-                final double[] dFdP = jode.computeParameterJacobian(t, y, yDot, name);
-                for (int i = 0; i < jode.getDimension(); ++i) {
-                    final double[] dFdYi = dFdY[i];
-                    int zIndex = startIndex;
-                    double s = dFdP[i];
-                    for (int l = 0; l < jode.getDimension(); ++l) {
-                        s += dFdYi[l] * z[zIndex];
-                        zIndex++;
-                    }
-                    zDot[startIndex + i] = s;
-                }
-                startIndex += jode.getDimension();
-            }
-
-            return zDot;
-
+        public double[] computeDerivatives(final double t, final double[] y, final double[] yDot, final double[] z) throws MathIllegalArgumentException, MathIllegalStateException {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -369,15 +266,16 @@ public class VariationalEquation {
      */
     public static class MismatchedEquations extends MathIllegalArgumentException {
 
-        /** Serializable UID. */
+        /**
+         * Serializable UID.
+         */
         private static final long serialVersionUID = 20120902L;
 
-        /** Simple constructor. */
+        /**
+         * Simple constructor.
+         */
         public MismatchedEquations() {
             super(LocalizedODEFormats.UNMATCHED_ODE_IN_EXPANDED_SET);
         }
-
     }
-
 }
-

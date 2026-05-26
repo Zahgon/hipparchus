@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -29,50 +28,55 @@ import org.hipparchus.random.RandomGenerator;
 /**
  * Base class for multivariate probability distributions.
  */
-public abstract class AbstractMultivariateRealDistribution
-    implements MultivariateRealDistribution {
-    /** RNG instance used to generate samples from the distribution. */
+public abstract class AbstractMultivariateRealDistribution implements MultivariateRealDistribution {
+
+    /**
+     * RNG instance used to generate samples from the distribution.
+     */
     protected final RandomGenerator random;
-    /** The number of dimensions or columns in the multivariate distribution. */
+
+    /**
+     * The number of dimensions or columns in the multivariate distribution.
+     */
     private final int dimension;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param rng Random number generator.
      * @param n Number of dimensions.
      */
-    protected AbstractMultivariateRealDistribution(RandomGenerator rng,
-                                                   int n) {
+    protected AbstractMultivariateRealDistribution(RandomGenerator rng, int n) {
         random = rng;
         dimension = n;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void reseedRandomGenerator(long seed) {
-        random.setSeed(seed);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getDimension() {
-        return dimension;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public abstract double[] sample();
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[][] sample(final int sampleSize) {
-        if (sampleSize <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_SAMPLES,
-                                                   sampleSize);
-        }
-        final double[][] out = new double[sampleSize][dimension];
-        for (int i = 0; i < sampleSize; i++) {
-            out[i] = sample();
-        }
-        return out;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

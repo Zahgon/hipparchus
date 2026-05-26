@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -32,18 +31,26 @@ import org.hipparchus.exception.MathIllegalArgumentException;
  *
  * @param <P> Type of the point/value pair returned by the optimization
  * algorithm.
- *
  */
-public abstract class BaseMultivariateOptimizer<P>
-    extends BaseOptimizer<P> {
-    /** Initial guess. */
+public abstract class BaseMultivariateOptimizer<P> extends BaseOptimizer<P> {
+
+    /**
+     * Initial guess.
+     */
     private double[] start;
-    /** Lower bounds. */
+
+    /**
+     * Lower bounds.
+     */
     private double[] lowerBound;
-    /** Upper bounds. */
+
+    /**
+     * Upper bounds.
+     */
     private double[] upperBound;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param checker Convergence checker.
      */
     protected BaseMultivariateOptimizer(ConvergenceChecker<P> checker) {
@@ -64,8 +71,7 @@ public abstract class BaseMultivariateOptimizer<P>
      */
     @Override
     public P optimize(OptimizationData... optData) {
-        // Perform optimization.
-        return super.optimize(optData);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -80,26 +86,7 @@ public abstract class BaseMultivariateOptimizer<P>
      */
     @Override
     protected void parseOptimizationData(OptimizationData... optData) {
-        // Allow base class to register its own data.
-        super.parseOptimizationData(optData);
-
-        // The existing values (as set by the previous call) are reused if
-        // not provided in the argument list.
-        for (OptimizationData data : optData) {
-            if (data instanceof InitialGuess) {
-                start = ((InitialGuess) data).getInitialGuess();
-                continue;
-            }
-            if (data instanceof SimpleBounds) {
-                final SimpleBounds bounds = (SimpleBounds) data;
-                lowerBound = bounds.getLower();
-                upperBound = bounds.getUpper();
-                continue;
-            }
-        }
-
-        // Check input consistency.
-        checkParameters();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -108,19 +95,23 @@ public abstract class BaseMultivariateOptimizer<P>
      * @return the initial guess, or {@code null} if not set.
      */
     public double[] getStartPoint() {
-        return start == null ? null : start.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    /** Get lower bounds.
+
+    /**
+     * Get lower bounds.
      * @return the lower bounds, or {@code null} if not set.
      */
     public double[] getLowerBound() {
-        return lowerBound == null ? null : lowerBound.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    /** Get upper bounds.
+
+    /**
+     * Get upper bounds.
      * @return the upper bounds, or {@code null} if not set.
      */
     public double[] getUpperBound() {
-        return upperBound == null ? null : upperBound.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -131,29 +122,25 @@ public abstract class BaseMultivariateOptimizer<P>
             final int dim = start.length;
             if (lowerBound != null) {
                 if (lowerBound.length != dim) {
-                    throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                           lowerBound.length, dim);
+                    throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH, lowerBound.length, dim);
                 }
                 for (int i = 0; i < dim; i++) {
                     final double v = start[i];
                     final double lo = lowerBound[i];
                     if (v < lo) {
-                        throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL,
-                                                               v, lo);
+                        throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL, v, lo);
                     }
                 }
             }
             if (upperBound != null) {
                 if (upperBound.length != dim) {
-                    throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                           upperBound.length, dim);
+                    throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH, upperBound.length, dim);
                 }
                 for (int i = 0; i < dim; i++) {
                     final double v = start[i];
                     final double hi = upperBound[i];
                     if (v > hi) {
-                        throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE,
-                                                               v, hi);
+                        throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE, v, hi);
                     }
                 }
             }

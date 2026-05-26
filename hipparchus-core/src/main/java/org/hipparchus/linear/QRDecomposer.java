@@ -14,15 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.linear;
 
-/** Matrix decomposer using QR-decomposition.
+/**
+ * Matrix decomposer using QR-decomposition.
  * @since 1.3
  */
 public class QRDecomposer implements MatrixDecomposer {
 
-    /** Threshold under which a matrix is considered singular. */
+    /**
+     * Threshold under which a matrix is considered singular.
+     */
     private final double singularityThreshold;
 
     /**
@@ -34,10 +36,11 @@ public class QRDecomposer implements MatrixDecomposer {
         this.singularityThreshold = singularityThreshold;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DecompositionSolver decompose(final RealMatrix a) {
-        return new QRDecomposition(a, singularityThreshold).getSolver();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

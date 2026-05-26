@@ -14,17 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.linear;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 import org.hipparchus.analysis.FunctionUtils;
 import org.hipparchus.analysis.UnivariateFunction;
 import org.hipparchus.analysis.function.Add;
@@ -54,18 +51,19 @@ import org.hipparchus.util.FastMath;
  * <pre>
  *   RealVector result = v.mapAddToSelf(3.4).mapToSelf(new Tan()).mapToSelf(new Power(2.3));
  * </pre>
- *
  */
 public abstract class RealVector {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    protected RealVector() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    protected RealVector() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
@@ -94,8 +92,7 @@ public abstract class RealVector {
      * @throws MathIllegalArgumentException if the index is not valid.
      * @see #getEntry(int)
      */
-    public abstract void setEntry(int index, double value)
-        throws MathIllegalArgumentException;
+    public abstract void setEntry(int index, double value) throws MathIllegalArgumentException;
 
     /**
      * Change an entry at the specified index.
@@ -104,9 +101,8 @@ public abstract class RealVector {
      * @param increment Value to add to the vector entry.
      * @throws MathIllegalArgumentException if the index is not valid.
      */
-    public void addToEntry(int index, double increment)
-        throws MathIllegalArgumentException {
-        setEntry(index, getEntry(index) + increment);
+    public void addToEntry(int index, double increment) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -134,8 +130,7 @@ public abstract class RealVector {
      * @throws MathIllegalArgumentException if the index is not valid.
      * @throws MathIllegalArgumentException if the number of elements is not positive.
      */
-    public abstract RealVector getSubVector(int index, int n)
-        throws MathIllegalArgumentException;
+    public abstract RealVector getSubVector(int index, int n) throws MathIllegalArgumentException;
 
     /**
      * Set a sequence of consecutive elements.
@@ -144,8 +139,7 @@ public abstract class RealVector {
      * @param v vector containing the values to set.
      * @throws MathIllegalArgumentException if the index is not valid.
      */
-    public abstract void setSubVector(int index, RealVector v)
-        throws MathIllegalArgumentException;
+    public abstract void setSubVector(int index, RealVector v) throws MathIllegalArgumentException;
 
     /**
      * Check whether any coordinate of this vector is {@code NaN}.
@@ -170,9 +164,8 @@ public abstract class RealVector {
      * @throws MathIllegalArgumentException if the vectors do not
      * have the same dimension.
      */
-    protected void checkVectorDimensions(RealVector v)
-        throws MathIllegalArgumentException {
-        checkVectorDimensions(v.getDimension());
+    protected void checkVectorDimensions(RealVector v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -182,13 +175,8 @@ public abstract class RealVector {
      * @throws MathIllegalArgumentException if the dimension is
      * inconsistent with the vector size.
      */
-    protected void checkVectorDimensions(int n)
-        throws MathIllegalArgumentException {
-        int d = getDimension();
-        if (d != n) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   d, n);
-        }
+    protected void checkVectorDimensions(int n) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -198,11 +186,7 @@ public abstract class RealVector {
      * @exception MathIllegalArgumentException if {@code index} is not valid.
      */
     protected void checkIndex(final int index) throws MathIllegalArgumentException {
-        if (index < 0 ||
-            index >= getDimension()) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INDEX,
-                                          index, 0, getDimension() - 1);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -213,22 +197,8 @@ public abstract class RealVector {
      * @throws MathIllegalArgumentException if {@code start} of {@code end} are not valid
      * @throws MathIllegalArgumentException if {@code end < start}
      */
-    protected void checkIndices(final int start, final int end)
-        throws MathIllegalArgumentException {
-        final int dim = getDimension();
-        if ((start < 0) || (start >= dim)) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INDEX, start, 0,
-                                          dim - 1);
-        }
-        if ((end < 0) || (end >= dim)) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INDEX, end, 0,
-                                          dim - 1);
-        }
-        if (end < start) {
-            // TODO Use more specific error message
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INITIAL_ROW_AFTER_FINAL_ROW,
-                                                end, start, false);
-        }
+    protected void checkIndices(final int start, final int end) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -241,15 +211,7 @@ public abstract class RealVector {
      * {@code this} vector.
      */
     public RealVector add(RealVector v) throws MathIllegalArgumentException {
-        checkVectorDimensions(v);
-        RealVector result = v.copy();
-        Iterator<Entry> it = iterator();
-        while (it.hasNext()) {
-            final Entry e = it.next();
-            final int index = e.getIndex();
-            result.setEntry(index, e.getValue() + result.getEntry(index));
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -262,15 +224,7 @@ public abstract class RealVector {
      * {@code this} vector.
      */
     public RealVector subtract(RealVector v) throws MathIllegalArgumentException {
-        checkVectorDimensions(v);
-        RealVector result = v.mapMultiply(-1d);
-        Iterator<Entry> it = iterator();
-        while (it.hasNext()) {
-            final Entry e = it.next();
-            final int index = e.getIndex();
-            result.setEntry(index, e.getValue() + result.getEntry(index));
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -281,7 +235,7 @@ public abstract class RealVector {
      * @return {@code this} + {@code d}.
      */
     public RealVector mapAdd(double d) {
-        return copy().mapAddToSelf(d);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -292,10 +246,7 @@ public abstract class RealVector {
      * @return {@code this}.
      */
     public RealVector mapAddToSelf(double d) {
-        if (d != 0) {
-            return mapToSelf(FunctionUtils.fix2ndArgument(new Add(), d));
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -314,13 +265,7 @@ public abstract class RealVector {
      * {@code this} vector.
      */
     public double dotProduct(RealVector v) throws MathIllegalArgumentException {
-        checkVectorDimensions(v);
-        double d = 0;
-        final int n = getDimension();
-        for (int i = 0; i < n; i++) {
-            d += getEntry(i) * v.getEntry(i);
-        }
-        return d;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -334,16 +279,8 @@ public abstract class RealVector {
      * @throws MathIllegalArgumentException if the dimensions of {@code this} and
      * {@code v} do not match
      */
-    public double cosine(RealVector v) throws MathIllegalArgumentException,
-        MathRuntimeException {
-        final double norm = getNorm();
-        final double vNorm = v.getNorm();
-
-        if (norm == 0 ||
-            vNorm == 0) {
-            throw new MathRuntimeException(LocalizedCoreFormats.ZERO_NORM);
-        }
-        return dotProduct(v) / (norm * vNorm);
+    public double cosine(RealVector v) throws MathIllegalArgumentException, MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -354,8 +291,7 @@ public abstract class RealVector {
      * @throws MathIllegalArgumentException if {@code v} is not the same size as
      * {@code this} vector.
      */
-    public abstract RealVector ebeDivide(RealVector v)
-        throws MathIllegalArgumentException;
+    public abstract RealVector ebeDivide(RealVector v) throws MathIllegalArgumentException;
 
     /**
      * Element-by-element multiplication.
@@ -365,8 +301,7 @@ public abstract class RealVector {
      * @throws MathIllegalArgumentException if {@code v} is not the same size as
      * {@code this} vector.
      */
-    public abstract RealVector ebeMultiply(RealVector v)
-        throws MathIllegalArgumentException;
+    public abstract RealVector ebeMultiply(RealVector v) throws MathIllegalArgumentException;
 
     /**
      * Distance between two vectors.
@@ -383,15 +318,7 @@ public abstract class RealVector {
      * @see #getNorm()
      */
     public double getDistance(RealVector v) throws MathIllegalArgumentException {
-        checkVectorDimensions(v);
-        double d = 0;
-        Iterator<Entry> it = iterator();
-        while (it.hasNext()) {
-            final Entry e = it.next();
-            final double diff = e.getValue() - v.getEntry(e.getIndex());
-            d += diff * diff;
-        }
-        return FastMath.sqrt(d);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -405,14 +332,7 @@ public abstract class RealVector {
      * @see #getDistance(RealVector)
      */
     public double getNorm() {
-        double sum = 0;
-        Iterator<Entry> it = iterator();
-        while (it.hasNext()) {
-            final Entry e = it.next();
-            final double value = e.getValue();
-            sum += value * value;
-        }
-        return FastMath.sqrt(sum);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -426,13 +346,7 @@ public abstract class RealVector {
      * @see #getL1Distance(RealVector)
      */
     public double getL1Norm() {
-        double norm = 0;
-        Iterator<Entry> it = iterator();
-        while (it.hasNext()) {
-            final Entry e = it.next();
-            norm += FastMath.abs(e.getValue());
-        }
-        return norm;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -446,13 +360,7 @@ public abstract class RealVector {
      * @see #getLInfDistance(RealVector)
      */
     public double getLInfNorm() {
-        double norm = 0;
-        Iterator<Entry> it = iterator();
-        while (it.hasNext()) {
-            final Entry e = it.next();
-            norm = FastMath.max(norm, FastMath.abs(e.getValue()));
-        }
-        return norm;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -466,16 +374,8 @@ public abstract class RealVector {
      * @throws MathIllegalArgumentException if {@code v} is not the same size as
      * {@code this} vector.
      */
-    public double getL1Distance(RealVector v)
-        throws MathIllegalArgumentException {
-        checkVectorDimensions(v);
-        double d = 0;
-        Iterator<Entry> it = iterator();
-        while (it.hasNext()) {
-            final Entry e = it.next();
-            d += FastMath.abs(e.getValue() - v.getEntry(e.getIndex()));
-        }
-        return d;
+    public double getL1Distance(RealVector v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -492,16 +392,8 @@ public abstract class RealVector {
      * @see #getL1Distance(RealVector)
      * @see #getLInfNorm()
      */
-    public double getLInfDistance(RealVector v)
-        throws MathIllegalArgumentException {
-        checkVectorDimensions(v);
-        double d = 0;
-        Iterator<Entry> it = iterator();
-        while (it.hasNext()) {
-            final Entry e = it.next();
-            d = FastMath.max(FastMath.abs(e.getValue() - v.getEntry(e.getIndex())), d);
-        }
-        return d;
+    public double getLInfDistance(RealVector v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -511,17 +403,7 @@ public abstract class RealVector {
      * or all entries are {@code NaN}.
      */
     public int getMinIndex() {
-        int minIndex    = -1;
-        double minValue = Double.POSITIVE_INFINITY;
-        Iterator<Entry> iterator = iterator();
-        while (iterator.hasNext()) {
-            final Entry entry = iterator.next();
-            if (entry.getValue() <= minValue) {
-                minIndex = entry.getIndex();
-                minValue = entry.getValue();
-            }
-        }
-        return minIndex;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -531,8 +413,7 @@ public abstract class RealVector {
      * entries are {@code NaN}.
      */
     public double getMinValue() {
-        final int minIndex = getMinIndex();
-        return minIndex < 0 ? Double.NaN : getEntry(minIndex);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -542,17 +423,7 @@ public abstract class RealVector {
      * or all entries are {@code NaN}
      */
     public int getMaxIndex() {
-        int maxIndex    = -1;
-        double maxValue = Double.NEGATIVE_INFINITY;
-        Iterator<Entry> iterator = iterator();
-        while (iterator.hasNext()) {
-            final Entry entry = iterator.next();
-            if (entry.getValue() >= maxValue) {
-                maxIndex = entry.getIndex();
-                maxValue = entry.getValue();
-            }
-        }
-        return maxIndex;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -562,10 +433,8 @@ public abstract class RealVector {
      * entries are {@code NaN}.
      */
     public double getMaxValue() {
-        final int maxIndex = getMaxIndex();
-        return maxIndex < 0 ? Double.NaN : getEntry(maxIndex);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     /**
      * Multiply each entry by the argument. Returns a new vector.
@@ -575,7 +444,7 @@ public abstract class RealVector {
      * @return {@code this} * {@code d}.
      */
     public RealVector mapMultiply(double d) {
-        return copy().mapMultiplyToSelf(d);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -585,8 +454,8 @@ public abstract class RealVector {
      * @param d Multiplication factor.
      * @return {@code this}.
      */
-    public RealVector mapMultiplyToSelf(double d){
-        return mapToSelf(FunctionUtils.fix2ndArgument(new Multiply(), d));
+    public RealVector mapMultiplyToSelf(double d) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -597,7 +466,7 @@ public abstract class RealVector {
      * @return {@code this} - {@code d}.
      */
     public RealVector mapSubtract(double d) {
-        return copy().mapSubtractToSelf(d);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -607,8 +476,8 @@ public abstract class RealVector {
      * @param d Value to be subtracted.
      * @return {@code this}.
      */
-    public RealVector mapSubtractToSelf(double d){
-        return mapAddToSelf(-d);
+    public RealVector mapSubtractToSelf(double d) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -619,7 +488,7 @@ public abstract class RealVector {
      * @return {@code this} / {@code d}.
      */
     public RealVector mapDivide(double d) {
-        return copy().mapDivideToSelf(d);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -629,8 +498,8 @@ public abstract class RealVector {
      * @param d Value to divide by.
      * @return {@code this}.
      */
-    public RealVector mapDivideToSelf(double d){
-        return mapToSelf(FunctionUtils.fix2ndArgument(new Divide(), d));
+    public RealVector mapDivideToSelf(double d) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -640,20 +509,7 @@ public abstract class RealVector {
      * @return the matrix outer product between this instance and {@code v}.
      */
     public RealMatrix outerProduct(RealVector v) {
-        final int m = this.getDimension();
-        final int n = v.getDimension();
-        final RealMatrix product;
-        if (v instanceof SparseRealVector || this instanceof SparseRealVector) {
-            product = new OpenMapRealMatrix(m, n);
-        } else {
-            product = new Array2DRowRealMatrix(m, n);
-        }
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                product.setEntry(i, j, this.getEntry(i) * v.getEntry(j));
-            }
-        }
-        return product;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -666,13 +522,8 @@ public abstract class RealVector {
      * @throws MathRuntimeException if {@code this} or {@code v} is the null
      * vector
      */
-    public RealVector projection(final RealVector v)
-        throws MathIllegalArgumentException, MathRuntimeException {
-        final double norm2 = v.dotProduct(v);
-        if (norm2 == 0.0) {
-            throw new MathRuntimeException(LocalizedCoreFormats.ZERO_NORM);
-        }
-        return v.mapMultiply(dotProduct(v) / norm2);
+    public RealVector projection(final RealVector v) throws MathIllegalArgumentException, MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -681,11 +532,7 @@ public abstract class RealVector {
      * @param value Single value to set for all elements.
      */
     public void set(double value) {
-        Iterator<Entry> it = iterator();
-        while (it.hasNext()) {
-            final Entry e = it.next();
-            e.setValue(value);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -696,12 +543,7 @@ public abstract class RealVector {
      * @return an array containing a copy of the vector elements.
      */
     public double[] toArray() {
-        int dim = getDimension();
-        double[] values = new double[dim];
-        for (int i = 0; i < dim; i++) {
-            values[i] = getEntry(i);
-        }
-        return values;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -712,11 +554,7 @@ public abstract class RealVector {
      * @throws MathRuntimeException if the norm is zero.
      */
     public RealVector unitVector() throws MathRuntimeException {
-        final double norm = getNorm();
-        if (norm == 0) {
-            throw new MathRuntimeException(LocalizedCoreFormats.ZERO_NORM);
-        }
-        return mapDivide(norm);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -726,11 +564,7 @@ public abstract class RealVector {
      * @throws MathRuntimeException if the norm is zero.
      */
     public void unitize() throws MathRuntimeException {
-        final double norm = getNorm();
-        if (norm == 0) {
-            throw new MathRuntimeException(LocalizedCoreFormats.ZERO_NORM);
-        }
-        mapDivideToSelf(getNorm());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -746,7 +580,7 @@ public abstract class RealVector {
      * @return a sparse iterator.
      */
     public Iterator<Entry> sparseIterator() {
-        return new SparseEntryIterator();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -760,42 +594,7 @@ public abstract class RealVector {
      * @return a dense iterator.
      */
     public Iterator<Entry> iterator() {
-        final int dim = getDimension();
-        return new Iterator<Entry>() {
-
-            /** Current index. */
-            private int i;
-
-            /** Current entry. */
-            private Entry e = new Entry();
-
-            /** {@inheritDoc} */
-            @Override
-            public boolean hasNext() {
-                return i < dim;
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public Entry next() {
-                if (i < dim) {
-                    e.setIndex(i++);
-                    return e;
-                } else {
-                    throw new NoSuchElementException();
-                }
-            }
-
-            /**
-             * {@inheritDoc}
-             *
-             * @throws MathRuntimeException in all circumstances.
-             */
-            @Override
-            public void remove() throws MathRuntimeException {
-                throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
-            }
-        };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -809,7 +608,7 @@ public abstract class RealVector {
      * @return a new vector.
      */
     public RealVector map(UnivariateFunction function) {
-        return copy().mapToSelf(function);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -826,12 +625,7 @@ public abstract class RealVector {
      * @return a reference to this vector.
      */
     public RealVector mapToSelf(UnivariateFunction function) {
-        Iterator<Entry> it = iterator();
-        while (it.hasNext()) {
-            final Entry e = it.next();
-            e.setValue(function.value(e.getValue()));
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -847,9 +641,8 @@ public abstract class RealVector {
      * @throws MathIllegalArgumentException if {@code y} is not the same size as
      * {@code this} vector.
      */
-    public RealVector combine(double a, double b, RealVector y)
-        throws MathIllegalArgumentException {
-        return copy().combineToSelf(a, b, y);
+    public RealVector combine(double a, double b, RealVector y) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -864,15 +657,8 @@ public abstract class RealVector {
      * @throws MathIllegalArgumentException if {@code y} is not the same size as
      * {@code this} vector.
      */
-    public RealVector combineToSelf(double a, double b, RealVector y)
-        throws MathIllegalArgumentException {
-        checkVectorDimensions(y);
-        for (int i = 0; i < getDimension(); i++) {
-            final double xi = getEntry(i);
-            final double yi = y.getEntry(i);
-            setEntry(i, a * xi + b * yi);
-        }
-        return this;
+    public RealVector combineToSelf(double a, double b, RealVector y) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -885,12 +671,7 @@ public abstract class RealVector {
      * at the end of the walk
      */
     public double walkInDefaultOrder(final RealVectorPreservingVisitor visitor) {
-        final int dim = getDimension();
-        visitor.start(dim, 0, dim - 1);
-        for (int i = 0; i < dim; i++) {
-            visitor.visit(i, getEntry(i));
-        }
-        return visitor.end();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -905,15 +686,8 @@ public abstract class RealVector {
      * @throws MathIllegalArgumentException if {@code end < start}.
      * @throws MathIllegalArgumentException if the indices are not valid.
      */
-    public double walkInDefaultOrder(final RealVectorPreservingVisitor visitor,
-                                     final int start, final int end)
-        throws MathIllegalArgumentException {
-        checkIndices(start, end);
-        visitor.start(getDimension(), start, end);
-        for (int i = start; i <= end; i++) {
-            visitor.visit(i, getEntry(i));
-        }
-        return visitor.end();
+    public double walkInDefaultOrder(final RealVectorPreservingVisitor visitor, final int start, final int end) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -928,7 +702,7 @@ public abstract class RealVector {
      * at the end of the walk
      */
     public double walkInOptimizedOrder(final RealVectorPreservingVisitor visitor) {
-        return walkInDefaultOrder(visitor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -945,10 +719,8 @@ public abstract class RealVector {
      * @throws MathIllegalArgumentException if {@code end < start}.
      * @throws MathIllegalArgumentException if the indices are not valid.
      */
-    public double walkInOptimizedOrder(final RealVectorPreservingVisitor visitor,
-                                       final int start, final int end)
-        throws MathIllegalArgumentException {
-        return walkInDefaultOrder(visitor, start, end);
+    public double walkInOptimizedOrder(final RealVectorPreservingVisitor visitor, final int start, final int end) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -961,12 +733,7 @@ public abstract class RealVector {
      * at the end of the walk
      */
     public double walkInDefaultOrder(final RealVectorChangingVisitor visitor) {
-        final int dim = getDimension();
-        visitor.start(dim, 0, dim - 1);
-        for (int i = 0; i < dim; i++) {
-            setEntry(i, visitor.visit(i, getEntry(i)));
-        }
-        return visitor.end();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -981,15 +748,8 @@ public abstract class RealVector {
      * @throws MathIllegalArgumentException if {@code end < start}.
      * @throws MathIllegalArgumentException if the indices are not valid.
      */
-    public double walkInDefaultOrder(final RealVectorChangingVisitor visitor,
-                              final int start, final int end)
-        throws MathIllegalArgumentException {
-        checkIndices(start, end);
-        visitor.start(getDimension(), start, end);
-        for (int i = start; i <= end; i++) {
-            setEntry(i, visitor.visit(i, getEntry(i)));
-        }
-        return visitor.end();
+    public double walkInDefaultOrder(final RealVectorChangingVisitor visitor, final int start, final int end) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1004,7 +764,7 @@ public abstract class RealVector {
      * at the end of the walk
      */
     public double walkInOptimizedOrder(final RealVectorChangingVisitor visitor) {
-        return walkInDefaultOrder(visitor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1021,18 +781,23 @@ public abstract class RealVector {
      * @throws MathIllegalArgumentException if {@code end < start}.
      * @throws MathIllegalArgumentException if the indices are not valid.
      */
-    public double walkInOptimizedOrder(final RealVectorChangingVisitor visitor,
-                                       final int start, final int end)
-        throws MathIllegalArgumentException {
-        return walkInDefaultOrder(visitor, start, end);
+    public double walkInOptimizedOrder(final RealVectorChangingVisitor visitor, final int start, final int end) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** An entry in the vector. */
+    /**
+     * An entry in the vector.
+     */
     public class Entry {
-        /** Index of this entry. */
+
+        /**
+         * Index of this entry.
+         */
         private int index;
 
-        /** Simple constructor. */
+        /**
+         * Simple constructor.
+         */
         public Entry() {
             setIndex(0);
         }
@@ -1043,7 +808,7 @@ public abstract class RealVector {
          * @return the value of the entry.
          */
         public double getValue() {
-            return getEntry(getIndex());
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -1052,7 +817,7 @@ public abstract class RealVector {
          * @param value New value for the entry.
          */
         public void setValue(double value) {
-            setEntry(getIndex(), value);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -1061,7 +826,7 @@ public abstract class RealVector {
          * @return the index of the entry.
          */
         public int getIndex() {
-            return index;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -1070,7 +835,7 @@ public abstract class RealVector {
          * @param index New index for the entry.
          */
         public void setIndex(int index) {
-            this.index = index;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -1097,9 +862,8 @@ public abstract class RealVector {
      * overridden.
      */
     @Override
-    public boolean equals(Object other)
-        throws MathRuntimeException {
-        throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
+    public boolean equals(Object other) throws MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1112,7 +876,7 @@ public abstract class RealVector {
      */
     @Override
     public int hashCode() throws MathRuntimeException {
-        throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1127,17 +891,27 @@ public abstract class RealVector {
      * operations which preserve the default value are to be done on the entries,
      * and the fraction of non-default values is small (i.e. someone took a
      * SparseVector, and passed it into the copy-constructor of ArrayRealVector)
-
      */
     protected class SparseEntryIterator implements Iterator<Entry> {
-        /** Dimension of the vector. */
+
+        /**
+         * Dimension of the vector.
+         */
         private final int dim;
-        /** Last entry returned by {@link #next()}. */
+
+        /**
+         * Last entry returned by {@link #next()}.
+         */
         private Entry current;
-        /** Next entry for {@link #next()} to return. */
+
+        /**
+         * Next entry for {@link #next()} to return.
+         */
         private Entry next;
 
-        /** Simple constructor. */
+        /**
+         * Simple constructor.
+         */
         protected SparseEntryIterator() {
             dim = getDimension();
             current = new Entry();
@@ -1153,33 +927,23 @@ public abstract class RealVector {
          * @param e entry to advance.
          */
         protected void advance(Entry e) {
-            if (e == null) {
-                return;
-            }
-            do {
-                e.setIndex(e.getIndex() + 1);
-            } while (e.getIndex() < dim && e.getValue() == 0);
-            if (e.getIndex() >= dim) {
-                e.setIndex(-1);
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean hasNext() {
-            return next.getIndex() >= 0;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Entry next() {
-            int index = next.getIndex();
-            if (index < 0) {
-                throw new NoSuchElementException();
-            }
-            current.setIndex(index);
-            advance(next);
-            return current;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -1189,7 +953,7 @@ public abstract class RealVector {
          */
         @Override
         public void remove() throws MathRuntimeException {
-            throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -1212,421 +976,6 @@ public abstract class RealVector {
      * @return an unmodifiable view of {@code v}.
      */
     public static RealVector unmodifiableRealVector(final RealVector v) {
-        /**
-         * This anonymous class is an implementation of {@link RealVector}
-         * with read-only access.
-         * It wraps any {@link RealVector}, and exposes all methods which
-         * do not modify it. Invoking methods which should normally result
-         * in the modification of the calling {@link RealVector} results in
-         * a {@link MathRuntimeException}. It should be noted
-         * that {@link UnmodifiableVector} is <em>not</em> immutable.
-         */
-        return new RealVector() {
-            /**
-             * {@inheritDoc}
-             *
-             * @throws MathRuntimeException in all circumstances.
-             */
-            @Override
-            public RealVector mapToSelf(UnivariateFunction function)
-                throws MathRuntimeException {
-                throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector map(UnivariateFunction function) {
-                return v.map(function);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public Iterator<Entry> iterator() {
-                final Iterator<Entry> i = v.iterator();
-                return new Iterator<Entry>() {
-                    /** The current entry. */
-                    private final UnmodifiableEntry e = new UnmodifiableEntry();
-
-                    /** {@inheritDoc} */
-                    @Override
-                    public boolean hasNext() {
-                        return i.hasNext();
-                    }
-
-                    /** {@inheritDoc} */
-                    @Override
-                    public Entry next() {
-                        e.setIndex(i.next().getIndex());
-                        return e;
-                    }
-
-                    /**
-                     * {@inheritDoc}
-                     *
-                     * @throws MathRuntimeException in all
-                     * circumstances.
-                     */
-                    @Override
-                    public void remove() throws MathRuntimeException {
-                        throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
-                    }
-                };
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public Iterator<Entry> sparseIterator() {
-                final Iterator<Entry> i = v.sparseIterator();
-
-                return new Iterator<Entry>() {
-                    /** The current entry. */
-                    private final UnmodifiableEntry e = new UnmodifiableEntry();
-
-                    /** {@inheritDoc} */
-                    @Override
-                    public boolean hasNext() {
-                        return i.hasNext();
-                    }
-
-                    /** {@inheritDoc} */
-                    @Override
-                    public Entry next() {
-                        e.setIndex(i.next().getIndex());
-                        return e;
-                    }
-
-                    /**
-                     * {@inheritDoc}
-                     *
-                     * @throws MathRuntimeException in all
-                     * circumstances.
-                     */
-                    @Override
-                    public void remove()
-                        throws MathRuntimeException {
-                        throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
-                    }
-                };
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector copy() {
-                return v.copy();
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector add(RealVector w)
-                throws MathIllegalArgumentException {
-                return v.add(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector subtract(RealVector w)
-                throws MathIllegalArgumentException {
-                return v.subtract(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector mapAdd(double d) {
-                return v.mapAdd(d);
-            }
-
-            /**
-             * {@inheritDoc}
-             *
-             * @throws MathRuntimeException in all
-             * circumstances.
-             */
-            @Override
-            public RealVector mapAddToSelf(double d)
-                throws MathRuntimeException {
-                throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector mapSubtract(double d) {
-                return v.mapSubtract(d);
-            }
-
-            /**
-             * {@inheritDoc}
-             *
-             * @throws MathRuntimeException in all
-             * circumstances.
-             */
-            @Override
-            public RealVector mapSubtractToSelf(double d)
-                throws MathRuntimeException {
-                throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector mapMultiply(double d) {
-                return v.mapMultiply(d);
-            }
-
-            /**
-             * {@inheritDoc}
-             *
-             * @throws MathRuntimeException in all
-             * circumstances.
-             */
-            @Override
-            public RealVector mapMultiplyToSelf(double d)
-                throws MathRuntimeException {
-                throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector mapDivide(double d) {
-                return v.mapDivide(d);
-            }
-
-            /**
-             * {@inheritDoc}
-             *
-             * @throws MathRuntimeException in all
-             * circumstances.
-             */
-            @Override
-            public RealVector mapDivideToSelf(double d)
-                throws MathRuntimeException {
-                throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector ebeMultiply(RealVector w)
-                throws MathIllegalArgumentException {
-                return v.ebeMultiply(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector ebeDivide(RealVector w)
-                throws MathIllegalArgumentException {
-                return v.ebeDivide(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public double dotProduct(RealVector w)
-                throws MathIllegalArgumentException {
-                return v.dotProduct(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public double cosine(RealVector w)
-                throws MathRuntimeException {
-                return v.cosine(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public double getNorm() {
-                return v.getNorm();
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public double getL1Norm() {
-                return v.getL1Norm();
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public double getLInfNorm() {
-                return v.getLInfNorm();
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public double getDistance(RealVector w)
-                throws MathIllegalArgumentException {
-                return v.getDistance(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public double getL1Distance(RealVector w)
-                throws MathIllegalArgumentException {
-                return v.getL1Distance(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public double getLInfDistance(RealVector w)
-                throws MathIllegalArgumentException {
-                return v.getLInfDistance(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector unitVector() throws MathRuntimeException {
-                return v.unitVector();
-            }
-
-            /**
-             * {@inheritDoc}
-             *
-             * @throws MathRuntimeException in all
-             * circumstances.
-             */
-            @Override
-            public void unitize() throws MathRuntimeException {
-                throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealMatrix outerProduct(RealVector w) {
-                return v.outerProduct(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public double getEntry(int index) throws MathIllegalArgumentException {
-                return v.getEntry(index);
-            }
-
-            /**
-             * {@inheritDoc}
-             *
-             * @throws MathRuntimeException in all
-             * circumstances.
-             */
-            @Override
-            public void setEntry(int index, double value)
-                throws MathRuntimeException {
-                throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
-            }
-
-            /**
-             * {@inheritDoc}
-             *
-             * @throws MathRuntimeException in all
-             * circumstances.
-             */
-            @Override
-            public void addToEntry(int index, double value)
-                throws MathRuntimeException {
-                throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public int getDimension() {
-                return v.getDimension();
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector append(RealVector w) {
-                return v.append(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector append(double d) {
-                return v.append(d);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector getSubVector(int index, int n)
-                throws MathIllegalArgumentException {
-                return v.getSubVector(index, n);
-            }
-
-            /**
-             * {@inheritDoc}
-             *
-             * @throws MathRuntimeException in all
-             * circumstances.
-             */
-            @Override
-            public void setSubVector(int index, RealVector w)
-                throws MathRuntimeException {
-                throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
-            }
-
-            /**
-             * {@inheritDoc}
-             *
-             * @throws MathRuntimeException in all
-             * circumstances.
-             */
-            @Override
-            public void set(double value)
-                throws MathRuntimeException {
-                throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public double[] toArray() {
-                return v.toArray();
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public boolean isNaN() {
-                return v.isNaN();
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public boolean isInfinite() {
-                return v.isInfinite();
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector combine(double a, double b, RealVector y)
-                throws MathIllegalArgumentException {
-                return v.combine(a, b, y);
-            }
-
-            /**
-             * {@inheritDoc}
-             *
-             * @throws MathRuntimeException in all
-             * circumstances.
-             */
-            @Override
-            public RealVector combineToSelf(double a, double b, RealVector y)
-                throws MathRuntimeException {
-                throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
-            }
-
-            /** An entry in the vector. */
-            class UnmodifiableEntry extends Entry {
-                /** {@inheritDoc} */
-                @Override
-                public double getValue() {
-                    return v.getEntry(getIndex());
-                }
-
-                /**
-                 * {@inheritDoc}
-                 *
-                 * @throws MathRuntimeException in all
-                 * circumstances.
-                 */
-                @Override
-                public void setValue(double value)
-                    throws MathRuntimeException {
-                    throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
-                }
-            }
-        };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

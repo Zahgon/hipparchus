@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -47,13 +46,16 @@ import org.hipparchus.util.FastMath;
  * @param <T> Type of the field elements.
  * @since 2.0
  */
-public class IterativeLegendreFieldGaussIntegrator<T extends CalculusFieldElement<T>>
-    extends BaseAbstractFieldUnivariateIntegrator<T> {
+public class IterativeLegendreFieldGaussIntegrator<T extends CalculusFieldElement<T>> extends BaseAbstractFieldUnivariateIntegrator<T> {
 
-    /** Factory that computes the points and weights. */
+    /**
+     * Factory that computes the points and weights.
+     */
     private final FieldGaussIntegratorFactory<T> factory;
 
-    /** Number of integration points (per interval). */
+    /**
+     * Number of integration points (per interval).
+     */
     private final int numberOfPoints;
 
     /**
@@ -70,12 +72,7 @@ public class IterativeLegendreFieldGaussIntegrator<T extends CalculusFieldElemen
      * @throws MathIllegalArgumentException if maximal number of iterations
      * is smaller than or equal to the minimal number of iterations.
      */
-    public IterativeLegendreFieldGaussIntegrator(final Field<T> field, final int n,
-                                                 final double relativeAccuracy,
-                                                 final double absoluteAccuracy,
-                                                 final int minimalIterationCount,
-                                                 final int maximalIterationCount)
-        throws MathIllegalArgumentException {
+    public IterativeLegendreFieldGaussIntegrator(final Field<T> field, final int n, final double relativeAccuracy, final double absoluteAccuracy, final int minimalIterationCount, final int maximalIterationCount) throws MathIllegalArgumentException {
         super(field, relativeAccuracy, absoluteAccuracy, minimalIterationCount, maximalIterationCount);
         if (n <= 0) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_POINTS, n);
@@ -93,12 +90,8 @@ public class IterativeLegendreFieldGaussIntegrator<T extends CalculusFieldElemen
      * @param absoluteAccuracy Absolute accuracy of the result.
      * @throws MathIllegalArgumentException if {@code n < 1}.
      */
-    public IterativeLegendreFieldGaussIntegrator(final Field<T> field, final int n,
-                                                 final double relativeAccuracy,
-                                                 final double absoluteAccuracy)
-        throws MathIllegalArgumentException {
-        this(field, n, relativeAccuracy, absoluteAccuracy,
-             DEFAULT_MIN_ITERATIONS_COUNT, DEFAULT_MAX_ITERATIONS_COUNT);
+    public IterativeLegendreFieldGaussIntegrator(final Field<T> field, final int n, final double relativeAccuracy, final double absoluteAccuracy) throws MathIllegalArgumentException {
+        this(field, n, relativeAccuracy, absoluteAccuracy, DEFAULT_MIN_ITERATIONS_COUNT, DEFAULT_MAX_ITERATIONS_COUNT);
     }
 
     /**
@@ -114,44 +107,16 @@ public class IterativeLegendreFieldGaussIntegrator<T extends CalculusFieldElemen
      * is smaller than or equal to the minimal number of iterations.
      * @throws MathIllegalArgumentException if {@code n < 1}.
      */
-    public IterativeLegendreFieldGaussIntegrator(final Field<T> field, final int n,
-                                                 final int minimalIterationCount,
-                                                 final int maximalIterationCount)
-                                                                 throws MathIllegalArgumentException {
-        this(field, n, DEFAULT_RELATIVE_ACCURACY, DEFAULT_ABSOLUTE_ACCURACY,
-             minimalIterationCount, maximalIterationCount);
+    public IterativeLegendreFieldGaussIntegrator(final Field<T> field, final int n, final int minimalIterationCount, final int maximalIterationCount) throws MathIllegalArgumentException {
+        this(field, n, DEFAULT_RELATIVE_ACCURACY, DEFAULT_ABSOLUTE_ACCURACY, minimalIterationCount, maximalIterationCount);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected T doIntegrate()
-        throws MathIllegalArgumentException, MathIllegalStateException {
-        // Compute first estimate with a single step.
-        T oldt = stage(1);
-
-        int n = 2;
-        while (true) {
-            // Improve integral with a larger number of steps.
-            final T t = stage(n);
-
-            // Estimate the error.
-            final double delta = FastMath.abs(t.subtract(oldt)).getReal();
-            final double limit =
-                FastMath.max(getAbsoluteAccuracy(),
-                             FastMath.abs(oldt).add(FastMath.abs(t)).multiply(0.5 * getRelativeAccuracy()).getReal());
-
-            // check convergence
-            if (iterations.getCount() + 1 >= getMinimalIterationCount() &&
-                delta <= limit) {
-                return t;
-            }
-
-            // Prepare next iteration.
-            final double ratio = FastMath.min(4, FastMath.pow(delta / limit, 0.5 / numberOfPoints));
-            n = FastMath.max((int) (ratio * n), n + 1);
-            oldt = t;
-            iterations.increment();
-        }
+    protected T doIntegrate() throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -162,13 +127,10 @@ public class IterativeLegendreFieldGaussIntegrator<T extends CalculusFieldElemen
      * @throws MathIllegalStateException if the maximum number of evaluations
      * is exceeded.
      */
-    private T stage(final int n)
-        throws MathIllegalStateException {
-
+    private T stage(final int n) throws MathIllegalStateException {
         final T min = getMin();
         final T max = getMax();
         final T step = max.subtract(min).divide(n);
-
         T sum = getField().getZero();
         for (int i = 0; i < n; i++) {
             // Integrate over each sub-interval [a, b].
@@ -177,8 +139,6 @@ public class IterativeLegendreFieldGaussIntegrator<T extends CalculusFieldElemen
             final FieldGaussIntegrator<T> g = factory.legendre(numberOfPoints, a, b);
             sum = sum.add(g.integrate(super::computeObjectiveValue));
         }
-
         return sum;
     }
-
 }

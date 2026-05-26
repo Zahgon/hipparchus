@@ -17,10 +17,10 @@
 package org.hipparchus.analysis.differentiation;
 
 import java.io.Serializable;
-
 import org.hipparchus.Field;
 
-/** Field for {@link UnivariateDerivative2} instances.
+/**
+ * Field for {@link UnivariateDerivative2} instances.
  * <p>
  * This class is a singleton.
  * </p>
@@ -28,46 +28,61 @@ import org.hipparchus.Field;
  */
 public class UnivariateDerivative2Field implements Field<UnivariateDerivative2>, Serializable {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20200520L;
 
-    /** Zero constant. */
+    /**
+     * Zero constant.
+     */
     private final UnivariateDerivative2 zero;
 
-    /** One constant. */
+    /**
+     * One constant.
+     */
     private final UnivariateDerivative2 one;
 
-    /** Associated factory for conversions to {@link DerivativeStructure}. */
+    /**
+     * Associated factory for conversions to {@link DerivativeStructure}.
+     */
     private final DSFactory factory;
 
-    /** Private constructor for the singleton.
+    /**
+     * Private constructor for the singleton.
      */
     private UnivariateDerivative2Field() {
-        zero    = new UnivariateDerivative2(0.0, 0.0, 0.0);
-        one     = new UnivariateDerivative2(1.0, 0.0, 0.0);
+        zero = new UnivariateDerivative2(0.0, 0.0, 0.0);
+        one = new UnivariateDerivative2(1.0, 0.0, 0.0);
         factory = new DSFactory(1, 2);
     }
 
-    /** Get the unique instance.
+    /**
+     * Get the unique instance.
      * @return the unique instance
      */
     public static UnivariateDerivative2Field getInstance() {
-        return LazyHolder.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative2 getOne() {
-        return one;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UnivariateDerivative2 getZero() {
-        return zero;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the factory for converting to {@link DerivativeStructure}.
+    /**
+     * Get the factory for converting to {@link DerivativeStructure}.
      * <p>
      * This factory is used only for conversions. {@code UnivariateDerivative2} by
      * itself does not rely at all on {@link DSFactory}, {@link DSCompiler}
@@ -79,43 +94,53 @@ public class UnivariateDerivative2Field implements Field<UnivariateDerivative2>,
      * @return factory for conversions
      */
     DSFactory getConversionFactory() {
-        return factory;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Class<UnivariateDerivative2> getRuntimeClass() {
-        return UnivariateDerivative2.class;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(final Object other) {
-        return this == other;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
-        return 0x71f43303;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // CHECKSTYLE: stop HideUtilityClassConstructor
-    /** Holder for the instance.
+    /**
+     * Holder for the instance.
      * <p>We use here the Initialization On Demand Holder Idiom.</p>
      */
     private static class LazyHolder {
-        /** Cached field instance. */
+
+        /**
+         * Cached field instance.
+         */
         private static final UnivariateDerivative2Field INSTANCE = new UnivariateDerivative2Field();
     }
-    // CHECKSTYLE: resume HideUtilityClassConstructor
 
-    /** Handle deserialization of the singleton.
+    // CHECKSTYLE: resume HideUtilityClassConstructor
+    /**
+     * Handle deserialization of the singleton.
      * @return the singleton instance
      */
     private Object readResolve() {
         // return the singleton instance
         return LazyHolder.INSTANCE;
     }
-
 }

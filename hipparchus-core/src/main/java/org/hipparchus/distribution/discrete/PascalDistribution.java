@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -60,17 +59,32 @@ import org.hipparchus.util.MathUtils;
  * Negative binomial distribution (MathWorld)</a>
  */
 public class PascalDistribution extends AbstractIntegerDistribution {
-    /** Serializable version identifier. */
+
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20160320L;
-    /** The number of successes. */
+
+    /**
+     * The number of successes.
+     */
     private final int numberOfSuccesses;
-    /** The probability of success. */
+
+    /**
+     * The probability of success.
+     */
     private final double probabilityOfSuccess;
-    /** The value of {@code log(p)}, where {@code p} is the probability of success,
-     * stored for faster computation. */
+
+    /**
+     * The value of {@code log(p)}, where {@code p} is the probability of success,
+     * stored for faster computation.
+     */
     private final double logProbabilityOfSuccess;
-    /** The value of {@code log(1-p)}, where {@code p} is the probability of success,
-     * stored for faster computation. */
+
+    /**
+     * The value of {@code log(1-p)}, where {@code p} is the probability of success,
+     * stored for faster computation.
+     */
     private final double log1mProbabilityOfSuccess;
 
     /**
@@ -83,15 +97,11 @@ public class PascalDistribution extends AbstractIntegerDistribution {
      * @throws MathIllegalArgumentException if the probability of success is not in the
      * range {@code [0, 1]}.
      */
-    public PascalDistribution(int r, double p)
-        throws MathIllegalArgumentException {
+    public PascalDistribution(int r, double p) throws MathIllegalArgumentException {
         if (r <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_SUCCESSES,
-                                                   r);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_SUCCESSES, r);
         }
-
         MathUtils.checkRangeInclusive(p, 0, 1);
-
         numberOfSuccesses = r;
         probabilityOfSuccess = p;
         logProbabilityOfSuccess = FastMath.log(p);
@@ -104,7 +114,7 @@ public class PascalDistribution extends AbstractIntegerDistribution {
      * @return the number of successes.
      */
     public int getNumberOfSuccesses() {
-        return numberOfSuccesses;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -113,50 +123,31 @@ public class PascalDistribution extends AbstractIntegerDistribution {
      * @return the probability of success.
      */
     public double getProbabilityOfSuccess() {
-        return probabilityOfSuccess;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double probability(int x) {
-        double ret;
-        if (x < 0) {
-            ret = 0.0;
-        } else {
-            ret = CombinatoricsUtils.binomialCoefficientDouble(x +
-                  numberOfSuccesses - 1, numberOfSuccesses - 1) *
-                  FastMath.pow(probabilityOfSuccess, numberOfSuccesses) *
-                  FastMath.pow(1.0 - probabilityOfSuccess, x);
-        }
-        return ret;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double logProbability(int x) {
-        double ret;
-        if (x < 0) {
-            ret = Double.NEGATIVE_INFINITY;
-        } else {
-            ret = CombinatoricsUtils.binomialCoefficientLog(x +
-                  numberOfSuccesses - 1, numberOfSuccesses - 1) +
-                  logProbabilityOfSuccess * numberOfSuccesses +
-                  log1mProbabilityOfSuccess * x;
-        }
-        return ret;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double cumulativeProbability(int x) {
-        double ret;
-        if (x < 0) {
-            ret = 0.0;
-        } else {
-            ret = Beta.regularizedBeta(probabilityOfSuccess,
-                    numberOfSuccesses, x + 1.0);
-        }
-        return ret;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -167,9 +158,7 @@ public class PascalDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double getNumericalMean() {
-        final double p = getProbabilityOfSuccess();
-        final double r = getNumberOfSuccesses();
-        return (r * (1 - p)) / p;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -180,9 +169,7 @@ public class PascalDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        final double p = getProbabilityOfSuccess();
-        final double r = getNumberOfSuccesses();
-        return r * (1 - p) / (p * p);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -194,7 +181,7 @@ public class PascalDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public int getSupportLowerBound() {
-        return 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -208,7 +195,7 @@ public class PascalDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public int getSupportUpperBound() {
-        return Integer.MAX_VALUE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -220,6 +207,6 @@ public class PascalDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

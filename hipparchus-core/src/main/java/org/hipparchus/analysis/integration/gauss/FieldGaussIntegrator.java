@@ -31,9 +31,15 @@ import org.hipparchus.util.Pair;
  * @since 2.0
  */
 public class FieldGaussIntegrator<T extends CalculusFieldElement<T>> {
-    /** Nodes. */
+
+    /**
+     * Nodes.
+     */
     private final T[] points;
-    /** Nodes weights. */
+
+    /**
+     * Nodes weights.
+     */
     private final T[] weights;
 
     /**
@@ -47,12 +53,9 @@ public class FieldGaussIntegrator<T extends CalculusFieldElement<T>> {
      * sorted in increasing order.
      * @throws MathIllegalArgumentException if points and weights don't have the same length
      */
-    public FieldGaussIntegrator(T[] points, T[] weights)
-        throws MathIllegalArgumentException {
-
+    public FieldGaussIntegrator(T[] points, T[] weights) throws MathIllegalArgumentException {
         MathArrays.checkEqualLength(points, weights);
         MathArrays.checkOrder(points, MathArrays.OrderDirection.INCREASING, true, true);
-
         this.points = points.clone();
         this.weights = weights.clone();
     }
@@ -67,8 +70,7 @@ public class FieldGaussIntegrator<T extends CalculusFieldElement<T>> {
      *
      * @see #FieldGaussIntegrator(CalculusFieldElement[], CalculusFieldElement[])
      */
-    public FieldGaussIntegrator(Pair<T[], T[]> pointsAndWeights)
-        throws MathIllegalArgumentException {
+    public FieldGaussIntegrator(Pair<T[], T[]> pointsAndWeights) throws MathIllegalArgumentException {
         this(pointsAndWeights.getFirst(), pointsAndWeights.getSecond());
     }
 
@@ -83,25 +85,16 @@ public class FieldGaussIntegrator<T extends CalculusFieldElement<T>> {
      * @return the integral of the weighted function.
      */
     public T integrate(CalculusFieldUnivariateFunction<T> f) {
-        T s = points[0].getField().getZero();
-        T c = s;
-        for (int i = 0; i < points.length; i++) {
-            final T x = points[i];
-            final T w = weights[i];
-            final T y = w.multiply(f.value(x)).subtract(c);
-            final T t = s.add(y);
-            c = t.subtract(s).subtract(y);
-            s = t;
-        }
-        return s;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get order of the integration rule.
+    /**
+     * Get order of the integration rule.
      * @return the order of the integration rule (the number of integration
      * points).
      */
     public int getNumberOfPoints() {
-        return points.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -111,7 +104,7 @@ public class FieldGaussIntegrator<T extends CalculusFieldElement<T>> {
      * @return the integration point.
      */
     public T getPoint(int index) {
-        return points[index];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -121,6 +114,6 @@ public class FieldGaussIntegrator<T extends CalculusFieldElement<T>> {
      * @return the weight.
      */
     public T getWeight(int index) {
-        return weights[index];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

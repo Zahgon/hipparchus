@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -35,17 +34,27 @@ import org.hipparchus.exception.NullArgumentException;
  * select which exception must be thrown.
  */
 public class Incrementor {
-    /** Default callback. */
-    private static final MaxCountExceededCallback DEFAULT_CALLBACK =
-        (int max) -> {
-            throw new MathIllegalStateException(LocalizedCoreFormats.MAX_COUNT_EXCEEDED, max);
-        };
 
-    /** Upper limit for the counter. */
+    /**
+     * Default callback.
+     */
+    private static final MaxCountExceededCallback DEFAULT_CALLBACK = (int max) -> {
+        throw new MathIllegalStateException(LocalizedCoreFormats.MAX_COUNT_EXCEEDED, max);
+    };
+
+    /**
+     * Upper limit for the counter.
+     */
     private final int maximalCount;
-    /** Function called at counter exhaustion. */
+
+    /**
+     * Function called at counter exhaustion.
+     */
     private final MaxCountExceededCallback maxCountCallback;
-    /** Current count. */
+
+    /**
+     * Current count.
+     */
     private int count;
 
     /**
@@ -54,6 +63,7 @@ public class Incrementor {
      */
     @FunctionalInterface
     public interface MaxCountExceededCallback {
+
         /**
          * Function called when the maximal count has been reached.
          *
@@ -90,9 +100,7 @@ public class Incrementor {
      * @throws NullArgumentException if {@code cb} is {@code null}.
      * @throws MathIllegalArgumentException if {@code max} is negative.
      */
-    public Incrementor(int max,
-                        MaxCountExceededCallback cb)
-        throws NullArgumentException {
+    public Incrementor(int max, MaxCountExceededCallback cb) throws NullArgumentException {
         this(0, max, cb);
     }
 
@@ -105,10 +113,7 @@ public class Incrementor {
      * @throws NullArgumentException if {@code cb} is {@code null}.
      * @throws MathIllegalArgumentException if {@code max} is negative.
      */
-    private Incrementor(int count,
-                        int max,
-                        MaxCountExceededCallback cb)
-        throws NullArgumentException {
+    private Incrementor(int count, int max, MaxCountExceededCallback cb) throws NullArgumentException {
         if (cb == null) {
             throw new NullArgumentException();
         }
@@ -127,9 +132,7 @@ public class Incrementor {
      * @return a new instance.
      */
     public Incrementor withCount(int value) {
-        return new Incrementor(value,
-                               this.maximalCount,
-                               this.maxCountCallback);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -141,9 +144,7 @@ public class Incrementor {
      * @throws MathIllegalArgumentException if {@code max} is negative.
      */
     public Incrementor withMaximalCount(int max) {
-        return new Incrementor(0,
-                               max,
-                               this.maxCountCallback);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -154,9 +155,7 @@ public class Incrementor {
      * @return a new instance.
      */
     public Incrementor withCallback(MaxCountExceededCallback cb) {
-        return new Incrementor(0,
-                               this.maximalCount,
-                               cb);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -165,7 +164,7 @@ public class Incrementor {
      * @return the counter upper limit.
      */
     public int getMaximalCount() {
-        return maximalCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -174,7 +173,7 @@ public class Incrementor {
      * @return the current count.
      */
     public int getCount() {
-        return count;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -185,7 +184,7 @@ public class Incrementor {
      * {@code true} otherwise.
      */
     public boolean canIncrement() {
-        return canIncrement(1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -198,11 +197,7 @@ public class Incrementor {
      * @throws MathIllegalArgumentException if {@code nTimes} is negative.
      */
     public boolean canIncrement(int nTimes) {
-        if (nTimes < 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL,
-                                                   nTimes, 0);
-        }
-        return count <= maximalCount - nTimes;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -214,14 +209,7 @@ public class Incrementor {
      * @see #increment()
      */
     public void increment(int nTimes) {
-        if (nTimes < 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL,
-                                                   nTimes, 0);
-        }
-
-        for (int i = 0; i < nTimes; i++) {
-            increment();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -234,16 +222,13 @@ public class Incrementor {
      * @see #increment(int)
      */
     public void increment() {
-        if (count > maximalCount - 1) {
-            maxCountCallback.trigger(maximalCount);
-        }
-        ++count;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Resets the counter to 0.
      */
     public void reset() {
-        count = 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

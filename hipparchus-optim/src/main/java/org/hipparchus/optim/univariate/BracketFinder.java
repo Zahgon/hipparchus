@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -32,47 +31,59 @@ import org.hipparchus.util.Incrementor;
  * Provide an interval that brackets a local optimum of a function.
  * This code is based on a Python implementation (from <em>SciPy</em>,
  * module {@code optimize.py} v0.5).
- *
  */
 public class BracketFinder {
-    /** Tolerance to avoid division by zero. */
+
+    /**
+     * Tolerance to avoid division by zero.
+     */
     private static final double EPS_MIN = 1e-21;
+
     /**
      * Golden section.
      */
     private static final double GOLD = 1.618034;
+
     /**
      * Factor for expanding the interval.
      */
     private final double growLimit;
+
     /**
      * Number of allowed function evaluations.
      */
     private final int maxEvaluations;
+
     /**
      * Number of function evaluations performed in the last search.
      */
     private int evaluations;
+
     /**
      * Lower bound of the bracket.
      */
     private double lo;
+
     /**
      * Higher bound of the bracket.
      */
     private double hi;
+
     /**
      * Point inside the bracket.
      */
     private double mid;
+
     /**
      * Function value at {@link #lo}.
      */
     private double fLo;
+
     /**
      * Function value at {@link #hi}.
      */
     private double fHi;
+
     /**
      * Function value at {@link #mid}.
      */
@@ -93,17 +104,13 @@ public class BracketFinder {
      * @param maxEvaluations Maximum number of evaluations allowed for finding
      * a bracketing interval.
      */
-    public BracketFinder(double growLimit,
-                         int maxEvaluations) {
+    public BracketFinder(double growLimit, int maxEvaluations) {
         if (growLimit <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
-                                                   growLimit, 0);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED, growLimit, 0);
         }
         if (maxEvaluations <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
-                                                   maxEvaluations, 0);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED, maxEvaluations, 0);
         }
-
         this.growLimit = growLimit;
         this.maxEvaluations = maxEvaluations;
     }
@@ -118,142 +125,50 @@ public class BracketFinder {
      * @throws org.hipparchus.exception.MathIllegalStateException if the maximum number of evaluations
      * is exceeded.
      */
-    public void search(UnivariateFunction func,
-                       GoalType goal,
-                       double xA,
-                       double xB) {
-        final FunctionEvaluator eval = new FunctionEvaluator(func);
-        final boolean isMinim = goal == GoalType.MINIMIZE;
-
-        double fA = eval.value(xA);
-        double fB = eval.value(xB);
-        if (isMinim ?
-            fA < fB :
-            fA > fB) {
-
-            double tmp = xA;
-            xA = xB;
-            xB = tmp;
-
-            tmp = fA;
-            fA = fB;
-            fB = tmp;
-        }
-
-        double xC = xB + GOLD * (xB - xA);
-        double fC = eval.value(xC);
-
-        while (isMinim ? fC < fB : fC > fB) {
-            double tmp1 = (xB - xA) * (fB - fC);
-            double tmp2 = (xB - xC) * (fB - fA);
-
-            double val = tmp2 - tmp1;
-            double denom = FastMath.abs(val) < EPS_MIN ? 2 * EPS_MIN : 2 * val;
-
-            double w = xB - ((xB - xC) * tmp2 - (xB - xA) * tmp1) / denom;
-            double wLim = xB + growLimit * (xC - xB);
-
-            double fW;
-            if ((w - xC) * (xB - w) > 0) {
-                fW = eval.value(w);
-                if (isMinim ?
-                    fW < fC :
-                    fW > fC) {
-                    xA = xB;
-                    xB = w;
-                    fA = fB;
-                    fB = fW;
-                    break;
-                } else if (isMinim ?
-                           fW > fB :
-                           fW < fB) {
-                    xC = w;
-                    fC = fW;
-                    break;
-                }
-                w = xC + GOLD * (xC - xB);
-                fW = eval.value(w);
-            } else if ((w - wLim) * (wLim - xC) >= 0) {
-                w = wLim;
-                fW = eval.value(w);
-            } else if ((w - wLim) * (xC - w) > 0) {
-                fW = eval.value(w);
-                if (isMinim ?
-                    fW < fC :
-                    fW > fC) {
-                    xB = xC;
-                    xC = w;
-                    w = xC + GOLD * (xC - xB);
-                    fB = fC;
-                    fC =fW;
-                    fW = eval.value(w);
-                }
-            } else {
-                w = xC + GOLD * (xC - xB);
-                fW = eval.value(w);
-            }
-
-            xA = xB;
-            fA = fB;
-            xB = xC;
-            fB = fC;
-            xC = w;
-            fC = fW;
-        }
-
-        lo = xA;
-        fLo = fA;
-        mid = xB;
-        fMid = fB;
-        hi = xC;
-        fHi = fC;
-
-        if (lo > hi) {
-            double tmp = lo;
-            lo = hi;
-            hi = tmp;
-
-            tmp = fLo;
-            fLo = fHi;
-            fHi = tmp;
-        }
+    public void search(UnivariateFunction func, GoalType goal, double xA, double xB) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get maximum number of evaluations.
+    /**
+     * Get maximum number of evaluations.
      * @return the maximum number of evaluations
      */
     public int getMaxEvaluations() {
-        return maxEvaluations;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get number of evaluations.
+    /**
+     * Get number of evaluations.
      * @return the number of evaluations
      */
     public int getEvaluations() {
-        return evaluations;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get lower bound of the bracket.
+    /**
+     * Get lower bound of the bracket.
      * @return the lower bound of the bracket
      * @see #getFLo()
      */
     public double getLo() {
-        return lo;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get function value at {@link #getLo()}.
+    /**
+     * Get function value at {@link #getLo()}.
      * @return function value at {@link #getLo()}
      */
     public double getFLo() {
-        return fLo;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get higher bound of the bracket.
+    /**
+     * Get higher bound of the bracket.
      * @return the higher bound of the bracket
      * @see #getFHi()
      */
     public double getHi() {
-        return hi;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -261,34 +176,43 @@ public class BracketFinder {
      * @return function value at {@link #getHi()}
      */
     public double getFHi() {
-        return fHi;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a point in the middle of the bracket.
+    /**
+     * Get a point in the middle of the bracket.
      * @return a point in the middle of the bracket
      * @see #getFMid()
      */
     public double getMid() {
-        return mid;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get function value at {@link #getMid()}.
+    /**
+     * Get function value at {@link #getMid()}.
      * @return function value at {@link #getMid()}
      */
     public double getFMid() {
-        return fMid;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Utility for incrementing a counter at each function evaluation.
      */
     private class FunctionEvaluator {
-        /** Function. */
+
+        /**
+         * Function.
+         */
         private final UnivariateFunction func;
-        /** Counter. */
+
+        /**
+         * Counter.
+         */
         private final Incrementor inc;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          * @param func Function.
          */
         FunctionEvaluator(UnivariateFunction func) {
@@ -297,16 +221,15 @@ public class BracketFinder {
             evaluations = 0;
         }
 
-        /** Evaluate function.
+        /**
+         * Evaluate function.
          * @param x Argument.
          * @return {@code f(x)}
          * @throws org.hipparchus.exception.MathIllegalStateException if the maximal number of evaluations is
          * exceeded.
          */
         double value(double x) {
-            inc.increment();
-            evaluations = inc.getCount();
-            return func.value(x);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

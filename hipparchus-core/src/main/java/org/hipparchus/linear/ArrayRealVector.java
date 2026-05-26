@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -24,7 +23,6 @@ package org.hipparchus.linear;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
-
 import org.hipparchus.analysis.UnivariateFunction;
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -36,12 +34,20 @@ import org.hipparchus.util.MathUtils;
  * This class implements the {@link RealVector} interface with a double array.
  */
 public class ArrayRealVector extends RealVector implements Serializable {
-    /** Serializable version identifier. */
+
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = -1097961340710804027L;
-    /** Default format. */
+
+    /**
+     * Default format.
+     */
     private static final RealVectorFormat DEFAULT_FORMAT = RealVectorFormat.getRealVectorFormat();
 
-    /** Entries of the vector. */
+    /**
+     * Entries of the vector.
+     */
     private double[] data;
 
     /**
@@ -99,12 +105,11 @@ public class ArrayRealVector extends RealVector implements Serializable {
      * @throws NullArgumentException if {@code d} is {@code null}.
      * @see #ArrayRealVector(double[])
      */
-    public ArrayRealVector(double[] d, boolean copyArray)
-        throws NullArgumentException {
+    public ArrayRealVector(double[] d, boolean copyArray) throws NullArgumentException {
         if (d == null) {
             throw new NullArgumentException();
         }
-        data = copyArray ? d.clone() :  d;
+        data = copyArray ? d.clone() : d;
     }
 
     /**
@@ -117,14 +122,12 @@ public class ArrayRealVector extends RealVector implements Serializable {
      * @throws MathIllegalArgumentException if the size of {@code d} is less
      * than {@code pos + size}.
      */
-    public ArrayRealVector(double[] d, int pos, int size)
-        throws MathIllegalArgumentException, NullArgumentException {
+    public ArrayRealVector(double[] d, int pos, int size) throws MathIllegalArgumentException, NullArgumentException {
         if (d == null) {
             throw new NullArgumentException();
         }
         if (d.length < pos + size) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE,
-                                                   pos + size, d.length);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE, pos + size, d.length);
         }
         data = new double[size];
         System.arraycopy(d, pos, data, 0, size);
@@ -152,14 +155,12 @@ public class ArrayRealVector extends RealVector implements Serializable {
      * @throws MathIllegalArgumentException if the size of {@code d} is less
      * than {@code pos + size}.
      */
-    public ArrayRealVector(Double[] d, int pos, int size)
-        throws MathIllegalArgumentException, NullArgumentException {
+    public ArrayRealVector(Double[] d, int pos, int size) throws MathIllegalArgumentException, NullArgumentException {
         if (d == null) {
             throw new NullArgumentException();
         }
         if (d.length < pos + size) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE,
-                                                   pos + size, d.length);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE, pos + size, d.length);
         }
         data = new double[size];
         for (int i = pos; i < pos + size; i++) {
@@ -284,161 +285,92 @@ public class ArrayRealVector extends RealVector implements Serializable {
         System.arraycopy(v2, 0, data, l1, l2);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ArrayRealVector copy() {
-        return new ArrayRealVector(this, true);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ArrayRealVector add(RealVector v)
-        throws MathIllegalArgumentException {
-        if (v instanceof ArrayRealVector) {
-            final double[] vData = ((ArrayRealVector) v).data;
-            final int dim = vData.length;
-            checkVectorDimensions(dim);
-            ArrayRealVector result = new ArrayRealVector(dim);
-            double[] resultData = result.data;
-            for (int i = 0; i < dim; i++) {
-                resultData[i] = data[i] + vData[i];
-            }
-            return result;
-        } else {
-            checkVectorDimensions(v);
-            double[] out = data.clone();
-            Iterator<Entry> it = v.iterator();
-            while (it.hasNext()) {
-                final Entry e = it.next();
-                out[e.getIndex()] += e.getValue();
-            }
-            return new ArrayRealVector(out, false);
-        }
+    public ArrayRealVector add(RealVector v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ArrayRealVector subtract(RealVector v)
-        throws MathIllegalArgumentException {
-        if (v instanceof ArrayRealVector) {
-            final double[] vData = ((ArrayRealVector) v).data;
-            final int dim = vData.length;
-            checkVectorDimensions(dim);
-            ArrayRealVector result = new ArrayRealVector(dim);
-            double[] resultData = result.data;
-            for (int i = 0; i < dim; i++) {
-                resultData[i] = data[i] - vData[i];
-            }
-            return result;
-        } else {
-            checkVectorDimensions(v);
-            double[] out = data.clone();
-            Iterator<Entry> it = v.iterator();
-            while (it.hasNext()) {
-                final Entry e = it.next();
-                out[e.getIndex()] -= e.getValue();
-            }
-            return new ArrayRealVector(out, false);
-        }
+    public ArrayRealVector subtract(RealVector v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ArrayRealVector map(UnivariateFunction function) {
-        return copy().mapToSelf(function);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ArrayRealVector mapToSelf(UnivariateFunction function) {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = function.value(data[i]);
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector mapAddToSelf(double d) {
-        for (int i = 0; i < data.length; i++) {
-            data[i] += d;
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector mapSubtractToSelf(double d) {
-        for (int i = 0; i < data.length; i++) {
-            data[i] -= d;
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector mapMultiplyToSelf(double d) {
-        for (int i = 0; i < data.length; i++) {
-            data[i] *= d;
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector mapDivideToSelf(double d) {
-        for (int i = 0; i < data.length; i++) {
-            data[i] /= d;
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ArrayRealVector ebeMultiply(RealVector v)
-        throws MathIllegalArgumentException {
-        if (v instanceof ArrayRealVector) {
-            final double[] vData = ((ArrayRealVector) v).data;
-            final int dim = vData.length;
-            checkVectorDimensions(dim);
-            ArrayRealVector result = new ArrayRealVector(dim);
-            double[] resultData = result.data;
-            for (int i = 0; i < dim; i++) {
-                resultData[i] = data[i] * vData[i];
-            }
-            return result;
-        } else {
-            checkVectorDimensions(v);
-            double[] out = data.clone();
-            for (int i = 0; i < data.length; i++) {
-                out[i] *= v.getEntry(i);
-            }
-            return new ArrayRealVector(out, false);
-        }
+    public ArrayRealVector ebeMultiply(RealVector v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ArrayRealVector ebeDivide(RealVector v)
-        throws MathIllegalArgumentException {
-        if (v instanceof ArrayRealVector) {
-            final double[] vData = ((ArrayRealVector) v).data;
-            final int dim = vData.length;
-            checkVectorDimensions(dim);
-            ArrayRealVector result = new ArrayRealVector(dim);
-            double[] resultData = result.data;
-            for (int i = 0; i < dim; i++) {
-                resultData[i] = data[i] / vData[i];
-            }
-            return result;
-        } else {
-            checkVectorDimensions(v);
-            double[] out = data.clone();
-            for (int i = 0; i < data.length; i++) {
-                out[i] /= v.getEntry(i);
-            }
-            return new ArrayRealVector(out, false);
-        }
+    public ArrayRealVector ebeDivide(RealVector v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -448,176 +380,95 @@ public class ArrayRealVector extends RealVector implements Serializable {
      * @return the array of entries.
      */
     public double[] getDataRef() {
-        return data; // NOPMD - returning an internal array is intentional and documented here
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double dotProduct(RealVector v) throws MathIllegalArgumentException {
-        if (v instanceof ArrayRealVector) {
-            final double[] vData = ((ArrayRealVector) v).data;
-            checkVectorDimensions(vData.length);
-            double dot = 0;
-            for (int i = 0; i < data.length; i++) {
-                dot += data[i] * vData[i];
-            }
-            return dot;
-        }
-        return super.dotProduct(v);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getNorm() {
-        double sum = 0;
-        for (double a : data) {
-            sum += a * a;
-        }
-        return FastMath.sqrt(sum);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getL1Norm() {
-        double sum = 0;
-        for (double a : data) {
-            sum += FastMath.abs(a);
-        }
-        return sum;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getLInfNorm() {
-        double max = 0;
-        for (double a : data) {
-            max = FastMath.max(max, FastMath.abs(a));
-        }
-        return max;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getDistance(RealVector v) throws MathIllegalArgumentException {
-        if (v instanceof ArrayRealVector) {
-            final double[] vData = ((ArrayRealVector) v).data;
-            checkVectorDimensions(vData.length);
-            double sum = 0;
-            for (int i = 0; i < data.length; ++i) {
-                final double delta = data[i] - vData[i];
-                sum += delta * delta;
-            }
-            return FastMath.sqrt(sum);
-        } else {
-            checkVectorDimensions(v);
-            double sum = 0;
-            for (int i = 0; i < data.length; ++i) {
-                final double delta = data[i] - v.getEntry(i);
-                sum += delta * delta;
-            }
-            return FastMath.sqrt(sum);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double getL1Distance(RealVector v)
-        throws MathIllegalArgumentException {
-        if (v instanceof ArrayRealVector) {
-            final double[] vData = ((ArrayRealVector) v).data;
-            checkVectorDimensions(vData.length);
-            double sum = 0;
-            for (int i = 0; i < data.length; ++i) {
-                final double delta = data[i] - vData[i];
-                sum += FastMath.abs(delta);
-            }
-            return sum;
-        } else {
-            checkVectorDimensions(v);
-            double sum = 0;
-            for (int i = 0; i < data.length; ++i) {
-                final double delta = data[i] - v.getEntry(i);
-                sum += FastMath.abs(delta);
-            }
-            return sum;
-        }
+    public double getL1Distance(RealVector v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double getLInfDistance(RealVector v)
-        throws MathIllegalArgumentException {
-        if (v instanceof ArrayRealVector) {
-            final double[] vData = ((ArrayRealVector) v).data;
-            checkVectorDimensions(vData.length);
-            double max = 0;
-            for (int i = 0; i < data.length; ++i) {
-                final double delta = data[i] - vData[i];
-                max = FastMath.max(max, FastMath.abs(delta));
-            }
-            return max;
-        } else {
-            checkVectorDimensions(v);
-            double max = 0;
-            for (int i = 0; i < data.length; ++i) {
-                final double delta = data[i] - v.getEntry(i);
-                max = FastMath.max(max, FastMath.abs(delta));
-            }
-            return max;
-        }
+    public double getLInfDistance(RealVector v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealMatrix outerProduct(RealVector v) {
-        if (v instanceof ArrayRealVector) {
-            final double[] vData = ((ArrayRealVector) v).data;
-            final int m = data.length;
-            final int n = vData.length;
-            final RealMatrix out = MatrixUtils.createRealMatrix(m, n);
-            for (int i = 0; i < m; i++) {
-                for (int j = 0; j < n; j++) {
-                    out.setEntry(i, j, data[i] * vData[j]);
-                }
-            }
-            return out;
-        } else {
-            final int m = data.length;
-            final int n = v.getDimension();
-            final RealMatrix out = MatrixUtils.createRealMatrix(m, n);
-            for (int i = 0; i < m; i++) {
-                for (int j = 0; j < n; j++) {
-                    out.setEntry(i, j, data[i] * v.getEntry(j));
-                }
-            }
-            return out;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getEntry(int index) throws MathIllegalArgumentException {
-        try {
-            return data[index];
-        } catch (IndexOutOfBoundsException e) {
-            throw new MathIllegalArgumentException(e, LocalizedCoreFormats.INDEX, index, 0, getDimension() - 1);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getDimension() {
-        return data.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector append(RealVector v) {
-        if (v instanceof ArrayRealVector) {
-            return new ArrayRealVector(this, (ArrayRealVector) v);
-        } else {
-            return new ArrayRealVector(this, v);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -627,72 +478,47 @@ public class ArrayRealVector extends RealVector implements Serializable {
      * @return a new vector.
      */
     public ArrayRealVector append(ArrayRealVector v) {
-        return new ArrayRealVector(this, v);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector append(double in) {
-        final double[] out = new double[data.length + 1];
-        System.arraycopy(data, 0, out, 0, data.length);
-        out[data.length] = in;
-        return new ArrayRealVector(out, false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public RealVector getSubVector(int index, int n)
-        throws MathIllegalArgumentException {
-        if (n < 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE, n);
-        }
-        ArrayRealVector out = new ArrayRealVector(n);
-        try {
-            System.arraycopy(data, index, out.data, 0, n);
-        } catch (IndexOutOfBoundsException e) {
-            checkIndex(index);
-            checkIndex(index + n - 1);
-        }
-        return out;
+    public RealVector getSubVector(int index, int n) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setEntry(int index, double value) throws MathIllegalArgumentException {
-        try {
-            data[index] = value;
-        } catch (IndexOutOfBoundsException e) {
-            checkIndex(index);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void addToEntry(int index, double increment)
-        throws MathIllegalArgumentException {
-        try {
-        data[index] += increment;
-        } catch(IndexOutOfBoundsException e){
-            throw new MathIllegalArgumentException(e, LocalizedCoreFormats.INDEX, index, 0, data.length - 1);
-        }
+    public void addToEntry(int index, double increment) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setSubVector(int index, RealVector v)
-        throws MathIllegalArgumentException {
-        if (v instanceof ArrayRealVector) {
-            setSubVector(index, ((ArrayRealVector) v).data);
-        } else {
-            try {
-                for (int i = index; i < index + v.getDimension(); ++i) {
-                    data[i] = v.getEntry(i - index);
-                }
-            } catch (IndexOutOfBoundsException e) {
-                checkIndex(index);
-                checkIndex(index + v.getDimension() - 1);
-            }
-        }
+    public void setSubVector(int index, RealVector v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -703,32 +529,32 @@ public class ArrayRealVector extends RealVector implements Serializable {
      * @throws MathIllegalArgumentException if the index is inconsistent with the vector
      * size.
      */
-    public void setSubVector(int index, double[] v)
-        throws MathIllegalArgumentException {
-        try {
-            System.arraycopy(v, 0, data, index, v.length);
-        } catch (IndexOutOfBoundsException e) {
-            checkIndex(index);
-            checkIndex(index + v.length - 1);
-        }
+    public void setSubVector(int index, double[] v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void set(double value) {
-        Arrays.fill(data, value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double[] toArray(){
-        return data.clone();
+    public double[] toArray() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public String toString(){
-        return DEFAULT_FORMAT.format(this);
+    public String toString() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -739,9 +565,8 @@ public class ArrayRealVector extends RealVector implements Serializable {
      * have the same dimension.
      */
     @Override
-    protected void checkVectorDimensions(RealVector v)
-        throws MathIllegalArgumentException {
-        checkVectorDimensions(v.getDimension());
+    protected void checkVectorDimensions(RealVector v) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -752,12 +577,8 @@ public class ArrayRealVector extends RealVector implements Serializable {
      * inconsistent with vector size.
      */
     @Override
-    protected void checkVectorDimensions(int n)
-        throws MathIllegalArgumentException {
-        if (data.length != n) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   data.length, n);
-        }
+    protected void checkVectorDimensions(int n) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -768,12 +589,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
      */
     @Override
     public boolean isNaN() {
-        for (double v : data) {
-            if (Double.isNaN(v)) {
-                return true;
-            }
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -785,45 +601,15 @@ public class ArrayRealVector extends RealVector implements Serializable {
      */
     @Override
     public boolean isInfinite() {
-        if (isNaN()) {
-            return false;
-        }
-
-        for (double v : data) {
-            if (Double.isInfinite(v)) {
-                return true;
-            }
-        }
-
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-
-        if (!(other instanceof RealVector)) {
-            return false;
-        }
-
-        RealVector rhs = (RealVector) other;
-        if (data.length != rhs.getDimension()) {
-            return false;
-        }
-
-        if (rhs.isNaN()) {
-            return this.isNaN();
-        }
-
-        for (int i = 0; i < data.length; ++i) {
-            if (data[i] != rhs.getEntry(i)) {
-                return false;
-            }
-        }
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -831,58 +617,39 @@ public class ArrayRealVector extends RealVector implements Serializable {
      */
     @Override
     public int hashCode() {
-        if (isNaN()) {
-            return 9;
-        }
-        return MathUtils.hash(data);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ArrayRealVector combine(double a, double b, RealVector y)
-        throws MathIllegalArgumentException {
-        return copy().combineToSelf(a, b, y);
+    public ArrayRealVector combine(double a, double b, RealVector y) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ArrayRealVector combineToSelf(double a, double b, RealVector y)
-        throws MathIllegalArgumentException {
-        if (y instanceof ArrayRealVector) {
-            final double[] yData = ((ArrayRealVector) y).data;
-            checkVectorDimensions(yData.length);
-            for (int i = 0; i < this.data.length; i++) {
-                data[i] = a * data[i] + b * yData[i];
-            }
-        } else {
-            checkVectorDimensions(y);
-            for (int i = 0; i < this.data.length; i++) {
-                data[i] = a * data[i] + b * y.getEntry(i);
-            }
-        }
-        return this;
+    public ArrayRealVector combineToSelf(double a, double b, RealVector y) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double walkInDefaultOrder(final RealVectorPreservingVisitor visitor) {
-        visitor.start(data.length, 0, data.length - 1);
-        for (int i = 0; i < data.length; i++) {
-            visitor.visit(i, data[i]);
-        }
-        return visitor.end();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double walkInDefaultOrder(final RealVectorPreservingVisitor visitor,
-        final int start, final int end) throws MathIllegalArgumentException {
-        checkIndices(start, end);
-        visitor.start(data.length, start, end);
-        for (int i = start; i <= end; i++) {
-            visitor.visit(i, data[i]);
-        }
-        return visitor.end();
+    public double walkInDefaultOrder(final RealVectorPreservingVisitor visitor, final int start, final int end) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -892,7 +659,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
      */
     @Override
     public double walkInOptimizedOrder(final RealVectorPreservingVisitor visitor) {
-        return walkInDefaultOrder(visitor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -901,31 +668,24 @@ public class ArrayRealVector extends RealVector implements Serializable {
      * In this implementation, the optimized order is the default order.
      */
     @Override
-    public double walkInOptimizedOrder(final RealVectorPreservingVisitor visitor,
-        final int start, final int end) throws MathIllegalArgumentException {
-        return walkInDefaultOrder(visitor, start, end);
+    public double walkInOptimizedOrder(final RealVectorPreservingVisitor visitor, final int start, final int end) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double walkInDefaultOrder(final RealVectorChangingVisitor visitor) {
-        visitor.start(data.length, 0, data.length - 1);
-        for (int i = 0; i < data.length; i++) {
-            data[i] = visitor.visit(i, data[i]);
-        }
-        return visitor.end();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double walkInDefaultOrder(final RealVectorChangingVisitor visitor,
-        final int start, final int end) throws MathIllegalArgumentException {
-        checkIndices(start, end);
-        visitor.start(data.length, start, end);
-        for (int i = start; i <= end; i++) {
-            data[i] = visitor.visit(i, data[i]);
-        }
-        return visitor.end();
+    public double walkInDefaultOrder(final RealVectorChangingVisitor visitor, final int start, final int end) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -935,7 +695,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
      */
     @Override
     public double walkInOptimizedOrder(final RealVectorChangingVisitor visitor) {
-        return walkInDefaultOrder(visitor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -944,8 +704,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
      * In this implementation, the optimized order is the default order.
      */
     @Override
-    public double walkInOptimizedOrder(final RealVectorChangingVisitor visitor,
-        final int start, final int end) throws MathIllegalArgumentException {
-        return walkInDefaultOrder(visitor, start, end);
+    public double walkInOptimizedOrder(final RealVectorChangingVisitor visitor, final int start, final int end) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

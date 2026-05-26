@@ -14,19 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.fraction;
 
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Locale;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathIllegalStateException;
@@ -39,7 +36,9 @@ import org.hipparchus.exception.MathIllegalStateException;
  */
 public class FractionFormat extends AbstractFormat {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20160323L;
 
     /**
@@ -67,8 +66,7 @@ public class FractionFormat extends AbstractFormat {
      * @param denominatorFormat the custom format for the denominator.
      * @throws org.hipparchus.exception.NullArgumentException if either provided format is null.
      */
-    public FractionFormat(final NumberFormat numeratorFormat,
-                          final NumberFormat denominatorFormat) {
+    public FractionFormat(final NumberFormat numeratorFormat, final NumberFormat denominatorFormat) {
         super(numeratorFormat, denominatorFormat);
     }
 
@@ -78,7 +76,7 @@ public class FractionFormat extends AbstractFormat {
      * @return available complex format locales.
      */
     public static Locale[] getAvailableLocales() {
-        return NumberFormat.getAvailableLocales();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -89,7 +87,7 @@ public class FractionFormat extends AbstractFormat {
      * @return a formatted fraction in proper form.
      */
     public static String formatFraction(Fraction f) {
-        return getImproperInstance().format(f);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -97,7 +95,7 @@ public class FractionFormat extends AbstractFormat {
      * @return the default complex format.
      */
     public static FractionFormat getImproperInstance() {
-        return getImproperInstance(Locale.getDefault());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -106,7 +104,7 @@ public class FractionFormat extends AbstractFormat {
      * @return the complex format specific to the given locale.
      */
     public static FractionFormat getImproperInstance(final Locale locale) {
-        return new FractionFormat(getDefaultNumberFormat(locale));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -114,7 +112,7 @@ public class FractionFormat extends AbstractFormat {
      * @return the default complex format.
      */
     public static FractionFormat getProperInstance() {
-        return getProperInstance(Locale.getDefault());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -123,7 +121,7 @@ public class FractionFormat extends AbstractFormat {
      * @return the complex format specific to the given locale.
      */
     public static FractionFormat getProperInstance(final Locale locale) {
-        return new ProperFractionFormat(getDefaultNumberFormat(locale));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -133,7 +131,7 @@ public class FractionFormat extends AbstractFormat {
      * @return the default number format.
      */
     protected static NumberFormat getDefaultNumberFormat() {
-        return getDefaultNumberFormat(Locale.getDefault());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -146,18 +144,11 @@ public class FractionFormat extends AbstractFormat {
      * offsets of the alignment field
      * @return the value passed in as toAppendTo.
      */
-    public StringBuffer format(final Fraction fraction, // NOPMD - PMD false positive, we cannot have @Override here
-                               final StringBuffer toAppendTo, final FieldPosition pos) {
-
-        pos.setBeginIndex(0);
-        pos.setEndIndex(0);
-
-        getNumeratorFormat().format(fraction.getNumerator(), toAppendTo, pos);
-        toAppendTo.append(" / ");
-        getDenominatorFormat().format(fraction.getDenominator(), toAppendTo,
-            pos);
-
-        return toAppendTo;
+    public // NOPMD - PMD false positive, we cannot have @Override here
+    StringBuffer // NOPMD - PMD false positive, we cannot have @Override here
+    format(// NOPMD - PMD false positive, we cannot have @Override here
+    final Fraction fraction, final StringBuffer toAppendTo, final FieldPosition pos) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -175,18 +166,8 @@ public class FractionFormat extends AbstractFormat {
      * @throws MathIllegalArgumentException if <code>obj</code> is not a valid type.
      */
     @Override
-    public StringBuffer format(final Object obj,
-                               final StringBuffer toAppendTo, final FieldPosition pos)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-
-        if (obj instanceof Fraction) {
-            return format((Fraction) obj, toAppendTo, pos);
-        } else if (obj instanceof Number) {
-            return format(new Fraction(((Number) obj).doubleValue()), toAppendTo, pos);
-        } else {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.CANNOT_FORMAT_OBJECT_TO_FRACTION);
-        }
-
+    public StringBuffer format(final Object obj, final StringBuffer toAppendTo, final FieldPosition pos) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -198,13 +179,7 @@ public class FractionFormat extends AbstractFormat {
      */
     @Override
     public Fraction parse(final String source) throws MathIllegalStateException {
-        final ParsePosition parsePosition = new ParsePosition(0);
-        final Fraction result = parse(source, parsePosition);
-        if (parsePosition.getIndex() == 0) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.CANNOT_PARSE_AS_TYPE,
-                                                source, parsePosition.getErrorIndex(), Fraction.class);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -216,55 +191,6 @@ public class FractionFormat extends AbstractFormat {
      */
     @Override
     public Fraction parse(final String source, final ParsePosition pos) {
-        final int initialIndex = pos.getIndex();
-
-        // parse whitespace
-        parseAndIgnoreWhitespace(source, pos);
-
-        // parse numerator
-        final Number num = getNumeratorFormat().parse(source, pos);
-        if (num == null) {
-            // invalid integer number
-            // set index back to initial, error index should already be set
-            // character examined.
-            pos.setIndex(initialIndex);
-            return null;
-        }
-
-        // parse '/'
-        final int startIndex = pos.getIndex();
-        final char c = parseNextCharacter(source, pos);
-        switch (c) {
-        case 0 :
-            // no '/'
-            // return num as a fraction
-            return new Fraction(num.intValue(), 1);
-        case '/' :
-            // found '/', continue parsing denominator
-            break;
-        default :
-            // invalid '/'
-            // set index back to initial, error index should be the last
-            // character examined.
-            pos.setIndex(initialIndex);
-            pos.setErrorIndex(startIndex);
-            return null;
-        }
-
-        // parse whitespace
-        parseAndIgnoreWhitespace(source, pos);
-
-        // parse denominator
-        final Number den = getDenominatorFormat().parse(source, pos);
-        if (den == null) {
-            // invalid integer number
-            // set index back to initial, error index should already be set
-            // character examined.
-            pos.setIndex(initialIndex);
-            return null;
-        }
-
-        return new Fraction(num.intValue(), den.intValue());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

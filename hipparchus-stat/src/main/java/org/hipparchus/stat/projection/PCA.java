@@ -33,6 +33,7 @@ import org.hipparchus.stat.descriptive.moment.StandardDeviation;
  * @since 3.0
  */
 public class PCA {
+
     /**
      * The number of components (reduced dimensions) for this projection.
      */
@@ -96,41 +97,44 @@ public class PCA {
         this(numC, false, true);
     }
 
-    /** GEt number of components.
+    /**
+     * GEt number of components.
      * @return the number of components
      */
     public int getNumComponents() {
-        return numC;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check whether scaling (correlation) or no scaling (covariance) is used.
+    /**
+     * Check whether scaling (correlation) or no scaling (covariance) is used.
      * @return whether scaling (correlation) or no scaling (covariance) is used
      */
     public boolean isScale() {
-        return scale;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check whether scaling (correlation), if in use, adjusts for bias.
+    /**
+     * Check whether scaling (correlation), if in use, adjusts for bias.
      * @return whether scaling (correlation), if in use, adjusts for bias
      */
     public boolean isBiasCorrection() {
-        return biasCorrection;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get principal component variances.
+    /**
+     * Get principal component variances.
      * @return the principal component variances, ordered from largest to smallest, which are the eigenvalues of the covariance or correlation matrix of the fitted data
      */
     public double[] getVariance() {
-        validateState("getVariance");
-        return eigenValues.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get by column center (or mean) of the fitted data.
+    /**
+     * Get by column center (or mean) of the fitted data.
      * @return the by column center (or mean) of the fitted data
      */
     public double[] getCenter() {
-        validateState("getCenter");
-        return center.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -140,8 +144,7 @@ public class PCA {
      * @return the principal components
      */
     public double[][] getComponents() {
-        validateState("getComponents");
-        return principalComponents.getData();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -151,10 +154,7 @@ public class PCA {
      * @return the fitted data
      */
     public double[][] fitAndTransform(double[][] data) {
-        center = null;
-        RealMatrix normalizedM = getNormalizedMatrix(data);
-        calculatePrincipalComponents(normalizedM);
-        return normalizedM.multiply(principalComponents).getData();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -164,9 +164,7 @@ public class PCA {
      * @return the fitted data
      */
     public double[][] transform(double[][] data) {
-        validateState("transform");
-        RealMatrix normalizedM = getNormalizedMatrix(data);
-        return normalizedM.multiply(principalComponents).getData();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -176,13 +174,11 @@ public class PCA {
      * @return this
      */
     public PCA fit(double[][] data) {
-        center = null;
-        RealMatrix normalized = getNormalizedMatrix(data);
-        calculatePrincipalComponents(normalized);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check if the state allows an operation to be performed.
+    /**
+     * Check if the state allows an operation to be performed.
      * @param from name of the operation
      * @exception MathIllegalStateException if the state does not allows operation
      */
@@ -190,10 +186,10 @@ public class PCA {
         if (center == null) {
             throw new MathIllegalStateException(LocalizedStatFormats.ILLEGAL_STATE_PCA, from);
         }
-
     }
 
-    /** Compute eigenvalues and principal components.
+    /**
+     * Compute eigenvalues and principal components.
      * <p>
      * The results are stored in the instance itself
      * <p>
@@ -228,7 +224,6 @@ public class PCA {
                 std = new double[numF];
             }
         }
-
         double[][] normalized = new double[numS][numF];
         for (int f = 0; f < numF; f++) {
             if (calculating) {
@@ -243,11 +238,11 @@ public class PCA {
                 }
             }
         }
-
         return MatrixUtils.createRealMatrix(normalized);
     }
 
-    /** compute normalized parameters.
+    /**
+     * compute normalized parameters.
      * @param input the input data
      * @param numS number of data rows
      * @param f index of the component

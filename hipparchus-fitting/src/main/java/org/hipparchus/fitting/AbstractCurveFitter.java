@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.fitting;
 
 import java.util.Collection;
-
 import org.hipparchus.analysis.MultivariateMatrixFunction;
 import org.hipparchus.analysis.MultivariateVectorFunction;
 import org.hipparchus.analysis.ParametricUnivariateFunction;
@@ -51,18 +49,19 @@ import org.hipparchus.optim.nonlinear.vector.leastsquares.LevenbergMarquardtOpti
  * {@link #fit(Collection)} method for obtaining the parameters.
  * The problem setup, such as the choice of optimization algorithm
  * for fitting a specific function is delegated to subclasses.
- *
  */
 public abstract class AbstractCurveFitter {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    protected AbstractCurveFitter() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    protected AbstractCurveFitter() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
@@ -75,8 +74,7 @@ public abstract class AbstractCurveFitter {
      * @return the fitted parameters.
      */
     public double[] fit(Collection<WeightedObservedPoint> points) {
-        // Perform the fit.
-        return getOptimizer().optimize(getProblem(points)).getPoint().toArray();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -89,7 +87,7 @@ public abstract class AbstractCurveFitter {
      * given {@code points}.
      */
     protected LeastSquaresOptimizer getOptimizer() {
-        return new LevenbergMarquardtOptimizer();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -105,19 +103,24 @@ public abstract class AbstractCurveFitter {
      * Vector function for computing function theoretical values.
      */
     protected static class TheoreticalValuesFunction {
-        /** Function to fit. */
+
+        /**
+         * Function to fit.
+         */
         private final ParametricUnivariateFunction f;
-        /** Observations. */
+
+        /**
+         * Observations.
+         */
         private final double[] points;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          * @param f function to fit.
          * @param observations Observations.
          */
-        public TheoreticalValuesFunction(final ParametricUnivariateFunction f,
-                                         final Collection<WeightedObservedPoint> observations) {
+        public TheoreticalValuesFunction(final ParametricUnivariateFunction f, final Collection<WeightedObservedPoint> observations) {
             this.f = f;
-
             final int len = observations.size();
             this.points = new double[len];
             int i = 0;
@@ -126,41 +129,20 @@ public abstract class AbstractCurveFitter {
             }
         }
 
-        /** Get model function value.
+        /**
+         * Get model function value.
          * @return the model function value
          */
         public MultivariateVectorFunction getModelFunction() {
-            return new MultivariateVectorFunction() {
-                /** {@inheritDoc} */
-                @Override
-                public double[] value(double[] p) {
-                    final int len = points.length;
-                    final double[] values = new double[len];
-                    for (int i = 0; i < len; i++) {
-                        values[i] = f.value(points[i], p);
-                    }
-
-                    return values;
-                }
-            };
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Get model function Jacobian.
+        /**
+         * Get model function Jacobian.
          * @return the model function Jacobian
          */
         public MultivariateMatrixFunction getModelFunctionJacobian() {
-            return new MultivariateMatrixFunction() {
-                /** {@inheritDoc} */
-                @Override
-                public double[][] value(double[] p) {
-                    final int len = points.length;
-                    final double[][] jacobian = new double[len][];
-                    for (int i = 0; i < len; i++) {
-                        jacobian[i] = f.gradient(points[i], p);
-                    }
-                    return jacobian;
-                }
-            };
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

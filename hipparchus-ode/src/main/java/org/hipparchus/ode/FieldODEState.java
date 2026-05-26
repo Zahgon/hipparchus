@@ -14,41 +14,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode;
 
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.util.MathArrays;
 
-/** Container for time, main and secondary state vectors.
-
+/**
+ * Container for time, main and secondary state vectors.
+ *
  * @see FieldOrdinaryDifferentialEquation
  * @see FieldSecondaryODE
  * @see FieldODEIntegrator
  * @see FieldODEStateAndDerivative
  * @param <T> the type of the field elements
  */
-
 public class FieldODEState<T extends CalculusFieldElement<T>> {
 
-    /** Time. */
+    /**
+     * Time.
+     */
     private final T time;
 
-    /** Primary state at time. */
+    /**
+     * Primary state at time.
+     */
     private final T[] primaryState;
 
-    /** Secondary state at time. */
+    /**
+     * Secondary state at time.
+     */
     private final T[][] secondaryState;
 
-    /** Complete dimension. */
+    /**
+     * Complete dimension.
+     */
     private final int completeDimension;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * <p>Calling this constructor is equivalent to call {@link
      * #FieldODEState(CalculusFieldElement, CalculusFieldElement[], CalculusFieldElement[][])
      * FieldODEState(time, state, null)}.</p>
@@ -59,17 +66,16 @@ public class FieldODEState<T extends CalculusFieldElement<T>> {
         this(time, primaryState, null);
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param time time
      * @param primaryState primary state at time
      * @param secondaryState secondary state at time (may be null)
      */
     public FieldODEState(T time, T[] primaryState, T[][] secondaryState) {
-
-        this.time           = time;
-        this.primaryState   = primaryState.clone();
+        this.time = time;
+        this.primaryState = primaryState.clone();
         this.secondaryState = copy(secondaryState);
-
         // compute once and for all the complete dimension
         int dimension = primaryState.length;
         if (secondaryState != null) {
@@ -78,95 +84,88 @@ public class FieldODEState<T extends CalculusFieldElement<T>> {
             }
         }
         this.completeDimension = dimension;
-
     }
 
-    /** Copy a two-dimensions array.
+    /**
+     * Copy a two-dimensions array.
      * @param original original array (may be null)
      * @return copied array or null if original array was null
      */
     protected T[][] copy(final T[][] original) {
-
-        // special handling of null arrays
-        if (original == null) {
-            return null; // NOPMD
-        }
-
-        // allocate the array
-        final T[][] copied = MathArrays.buildArray(time.getField(), original.length, -1);
-
-        // copy content
-        for (int i = 0; i < original.length; ++i) {
-            copied[i] = original[i].clone();
-        }
-
-        return copied;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get time.
+    /**
+     * Get time.
      * @return time
      */
     public T getTime() {
-        return time;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get primary state dimension.
+    /**
+     * Get primary state dimension.
      * @return primary state dimension
      * @see #getSecondaryStateDimension(int)
      * @see #getCompleteStateDimension()
      */
     public int getPrimaryStateDimension() {
-        return primaryState.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get primary state at time.
+    /**
+     * Get primary state at time.
      * @return primary state at time
      * @see #getSecondaryState(int)
      * @see #getCompleteState()
      */
     public T[] getPrimaryState() {
-        return primaryState.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the number of secondary states.
+    /**
+     * Get the number of secondary states.
      * @return number of secondary states.
      */
     public int getNumberOfSecondaryStates() {
-        return secondaryState == null ? 0 : secondaryState.length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get secondary state dimension.
+    /**
+     * Get secondary state dimension.
      * @param index index of the secondary set as returned
      * by {@link FieldExpandableODE#addSecondaryEquations(FieldSecondaryODE)}
      * (beware index 0 corresponds to primary state, secondary states start at 1)
      * @return secondary state dimension
      */
     public int getSecondaryStateDimension(final int index) {
-        return index == 0 ? primaryState.length : secondaryState[index - 1].length;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get secondary state at time.
+    /**
+     * Get secondary state at time.
      * @param index index of the secondary set as returned
      * by {@link FieldExpandableODE#addSecondaryEquations(FieldSecondaryODE)}
      * (beware index 0 corresponds to primary state, secondary states start at 1)
      * @return secondary state at time
      */
     public T[] getSecondaryState(final int index) {
-        return index == 0 ? primaryState.clone() : secondaryState[index - 1].clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Return the dimension of the complete set of equations.
+    /**
+     * Return the dimension of the complete set of equations.
      * <p>
      * The complete set of equations correspond to the primary set plus all secondary sets.
      * </p>
      * @return dimension of the complete set of equations
      */
     public int getCompleteStateDimension() {
-        return completeDimension;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get complete state at time.
+    /**
+     * Get complete state at time.
      * @return complete state at time, starting with
      * {@link #getPrimaryState() primary state}, followed
      * by all {@link #getSecondaryState(int) secondary states} in
@@ -175,18 +174,6 @@ public class FieldODEState<T extends CalculusFieldElement<T>> {
      * @see #getSecondaryState(int)
      */
     public T[] getCompleteState() {
-        final T[] completeState = MathArrays.buildArray(time.getField(), getCompleteStateDimension());
-        System.arraycopy(primaryState, 0, completeState, 0, primaryState.length);
-        int offset = primaryState.length;
-        if (secondaryState != null) {
-            for (T[] ts : secondaryState) {
-                System.arraycopy(ts, 0,
-                        completeState, offset,
-                        ts.length);
-                offset += ts.length;
-            }
-        }
-        return completeState;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.distribution.continuous;
 
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -30,9 +28,14 @@ import org.hipparchus.util.MathUtils;
  */
 public class ConstantRealDistribution extends AbstractRealDistribution {
 
-    /** Serialization ID */
+    /**
+     * Serialization ID
+     */
     private static final long serialVersionUID = 20160320L;
-    /** Constant value of the distribution */
+
+    /**
+     * Constant value of the distribution
+     */
     private final double value;
 
     /**
@@ -44,24 +47,28 @@ public class ConstantRealDistribution extends AbstractRealDistribution {
         this.value = value;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double density(double x) {
-        return x == value ? 1 : 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double cumulativeProbability(double x)  {
-        return x < value ? 0 : 1;
+    public double cumulativeProbability(double x) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double inverseCumulativeProbability(final double p)
-        throws MathIllegalArgumentException {
-        MathUtils.checkRangeInclusive(p, 0, 1);
-        return value;
+    public double inverseCumulativeProbability(final double p) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -69,7 +76,7 @@ public class ConstantRealDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalMean() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -77,7 +84,7 @@ public class ConstantRealDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        return 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -85,7 +92,7 @@ public class ConstantRealDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportLowerBound() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -93,7 +100,7 @@ public class ConstantRealDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportUpperBound() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -101,6 +108,6 @@ public class ConstantRealDistribution extends AbstractRealDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

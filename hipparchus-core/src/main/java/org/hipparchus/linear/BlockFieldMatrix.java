@@ -14,16 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.linear;
 
 import java.io.Serializable;
-
 import org.hipparchus.Field;
 import org.hipparchus.FieldElement;
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -72,19 +69,40 @@ import org.hipparchus.util.MathUtils;
  * @param <T> the type of the field elements
  */
 public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMatrix<T> implements Serializable {
-    /** Block size. */
+
+    /**
+     * Block size.
+     */
     public static final int BLOCK_SIZE = 36;
-    /** Serializable version identifier. */
+
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = -4602336630143123183L;
-    /** Blocks of matrix entries. */
+
+    /**
+     * Blocks of matrix entries.
+     */
     private final T[][] blocks;
-    /** Number of rows of the matrix. */
+
+    /**
+     * Number of rows of the matrix.
+     */
     private final int rows;
-    /** Number of columns of the matrix. */
+
+    /**
+     * Number of columns of the matrix.
+     */
     private final int columns;
-    /** Number of block rows of the matrix. */
+
+    /**
+     * Number of block rows of the matrix.
+     */
     private final int blockRows;
-    /** Number of block columns of the matrix. */
+
+    /**
+     * Number of block columns of the matrix.
+     */
     private final int blockColumns;
 
     /**
@@ -96,17 +114,13 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * @throws MathIllegalArgumentException if row or column dimension is not
      * positive.
      */
-    public BlockFieldMatrix(final Field<T> field, final int rows,
-                            final int columns)
-        throws MathIllegalArgumentException {
+    public BlockFieldMatrix(final Field<T> field, final int rows, final int columns) throws MathIllegalArgumentException {
         super(field, rows, columns);
-        this.rows    = rows;
+        this.rows = rows;
         this.columns = columns;
-
         // number of blocks
-        blockRows    = (rows    + BLOCK_SIZE - 1) / BLOCK_SIZE;
+        blockRows = (rows + BLOCK_SIZE - 1) / BLOCK_SIZE;
         blockColumns = (columns + BLOCK_SIZE - 1) / BLOCK_SIZE;
-
         // allocate storage blocks, taking care of smaller ones at right and bottom
         blocks = createBlocksLayout(field, rows, columns);
     }
@@ -123,8 +137,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * inconsistent with block layout.
      * @see #BlockFieldMatrix(int, int, FieldElement[][], boolean)
      */
-    public BlockFieldMatrix(final T[][] rawData)
-        throws MathIllegalArgumentException {
+    public BlockFieldMatrix(final T[][] rawData) throws MathIllegalArgumentException {
         this(rawData.length, rawData[0].length, toBlocksLayout(rawData), false);
     }
 
@@ -145,33 +158,27 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * @see #toBlocksLayout(FieldElement[][])
      * @see #BlockFieldMatrix(FieldElement[][])
      */
-    public BlockFieldMatrix(final int rows, final int columns,
-                            final T[][] blockData, final boolean copyArray)
-        throws MathIllegalArgumentException {
+    public BlockFieldMatrix(final int rows, final int columns, final T[][] blockData, final boolean copyArray) throws MathIllegalArgumentException {
         super(extractField(blockData), rows, columns);
-        this.rows    = rows;
+        this.rows = rows;
         this.columns = columns;
-
         // number of blocks
-        blockRows    = (rows    + BLOCK_SIZE - 1) / BLOCK_SIZE;
+        blockRows = (rows + BLOCK_SIZE - 1) / BLOCK_SIZE;
         blockColumns = (columns + BLOCK_SIZE - 1) / BLOCK_SIZE;
-
         if (copyArray) {
             // allocate storage blocks, taking care of smaller ones at right and bottom
             blocks = MathArrays.buildArray(getField(), blockRows * blockColumns, -1);
         } else {
             // reference existing array
-            blocks = blockData; // NOPMD - array copy is taken care of by parameter
+            // NOPMD - array copy is taken care of by parameter
+            blocks = blockData;
         }
-
         int index = 0;
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int iHeight = blockHeight(iBlock);
             for (int jBlock = 0; jBlock < blockColumns; ++jBlock, ++index) {
                 if (blockData[index].length != iHeight * blockWidth(jBlock)) {
-                    throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                           blockData[index].length,
-                                                           iHeight * blockWidth(jBlock));
+                    throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH, blockData[index].length, iHeight * blockWidth(jBlock));
                 }
                 if (copyArray) {
                     blocks[index] = blockData[index].clone();
@@ -204,52 +211,8 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * @see #createBlocksLayout(Field, int, int)
      * @see #BlockFieldMatrix(int, int, FieldElement[][], boolean)
      */
-    public static <T extends FieldElement<T>> T[][] toBlocksLayout(final T[][] rawData)
-        throws MathIllegalArgumentException {
-
-        final int rows         = rawData.length;
-        final int columns      = rawData[0].length;
-        final int blockRows    = (rows    + BLOCK_SIZE - 1) / BLOCK_SIZE;
-        final int blockColumns = (columns + BLOCK_SIZE - 1) / BLOCK_SIZE;
-
-        // safety checks
-        for (T[] rawDatum : rawData) {
-            final int length = rawDatum.length;
-            if (length != columns) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                        columns, length);
-            }
-        }
-
-        // convert array
-        final Field<T> field = extractField(rawData);
-        final T[][] blocks = MathArrays.buildArray(field, blockRows * blockColumns, -1);
-        int blockIndex = 0;
-        for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
-            final int pStart  = iBlock * BLOCK_SIZE;
-            final int pEnd    = FastMath.min(pStart + BLOCK_SIZE, rows);
-            final int iHeight = pEnd - pStart;
-            for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
-                final int qStart = jBlock * BLOCK_SIZE;
-                final int qEnd   = FastMath.min(qStart + BLOCK_SIZE, columns);
-                final int jWidth = qEnd - qStart;
-
-                // allocate new block
-                final T[] block = MathArrays.buildArray(field, iHeight * jWidth);
-                blocks[blockIndex] = block;
-
-                // copy data
-                int index = 0;
-                for (int p = pStart; p < pEnd; ++p) {
-                    System.arraycopy(rawData[p], qStart, block, index, jWidth);
-                    index += jWidth;
-                }
-
-                ++blockIndex;
-            }
-        }
-
-        return blocks;
+    public static <T extends FieldElement<T>> T[][] toBlocksLayout(final T[][] rawData) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -267,94 +230,32 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * @see #toBlocksLayout(FieldElement[][])
      * @see #BlockFieldMatrix(int, int, FieldElement[][], boolean)
      */
-    public static <T extends FieldElement<T>> T[][] createBlocksLayout(final Field<T> field,
-                                                                       final int rows, final int columns) {
-        final int blockRows    = (rows    + BLOCK_SIZE - 1) / BLOCK_SIZE;
-        final int blockColumns = (columns + BLOCK_SIZE - 1) / BLOCK_SIZE;
-
-        final T[][] blocks = MathArrays.buildArray(field, blockRows * blockColumns, -1);
-        int blockIndex = 0;
-        for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
-            final int pStart  = iBlock * BLOCK_SIZE;
-            final int pEnd    = FastMath.min(pStart + BLOCK_SIZE, rows);
-            final int iHeight = pEnd - pStart;
-            for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
-                final int qStart = jBlock * BLOCK_SIZE;
-                final int qEnd   = FastMath.min(qStart + BLOCK_SIZE, columns);
-                final int jWidth = qEnd - qStart;
-                blocks[blockIndex] = MathArrays.buildArray(field, iHeight * jWidth);
-                ++blockIndex;
-            }
-        }
-
-        return blocks;
+    public static <T extends FieldElement<T>> T[][] createBlocksLayout(final Field<T> field, final int rows, final int columns) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldMatrix<T> createMatrix(final int rowDimension,
-                                       final int columnDimension)
-        throws MathIllegalArgumentException {
-        return new BlockFieldMatrix<>(getField(), rowDimension,
-                columnDimension);
+    public FieldMatrix<T> createMatrix(final int rowDimension, final int columnDimension) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldMatrix<T> copy() {
-
-        // create an empty matrix
-        BlockFieldMatrix<T> copied = new BlockFieldMatrix<>(getField(), rows, columns);
-
-        // copy the blocks
-        for (int i = 0; i < blocks.length; ++i) {
-            System.arraycopy(blocks[i], 0, copied.blocks[i], 0, blocks[i].length);
-        }
-
-        return copied;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldMatrix<T> add(final FieldMatrix<T> m)
-        throws MathIllegalArgumentException {
-        if (m instanceof BlockFieldMatrix) {
-            return add((BlockFieldMatrix<T>) m);
-        } else {
-
-            // safety check
-            checkAdditionCompatible(m);
-
-            final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), rows, columns);
-
-            // perform addition block-wise, to ensure good cache behavior
-            int blockIndex = 0;
-            for (int iBlock = 0; iBlock < out.blockRows; ++iBlock) {
-                for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
-
-                    // perform addition on the current block
-                    final T[] outBlock = out.blocks[blockIndex];
-                    final T[] tBlock   = blocks[blockIndex];
-                    final int      pStart   = iBlock * BLOCK_SIZE;
-                    final int      pEnd     = FastMath.min(pStart + BLOCK_SIZE, rows);
-                    final int      qStart   = jBlock * BLOCK_SIZE;
-                    final int      qEnd     = FastMath.min(qStart + BLOCK_SIZE, columns);
-                    int k = 0;
-                    for (int p = pStart; p < pEnd; ++p) {
-                        for (int q = qStart; q < qEnd; ++q) {
-                            outBlock[k] = tBlock[k].add(m.getEntry(p, q));
-                            ++k;
-                        }
-                    }
-
-                    // go to next block
-                    ++blockIndex;
-
-                }
-            }
-
-            return out;
-        }
+    public FieldMatrix<T> add(final FieldMatrix<T> m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -365,68 +266,16 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * @throws MathIllegalArgumentException if {@code m} is not the same
      * size as {@code this}
      */
-    public BlockFieldMatrix<T> add(final BlockFieldMatrix<T> m)
-        throws MathIllegalArgumentException {
-
-        // safety check
-        checkAdditionCompatible(m);
-
-        final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), rows, columns);
-
-        // perform addition block-wise, to ensure good cache behavior
-        for (int blockIndex = 0; blockIndex < out.blocks.length; ++blockIndex) {
-            final T[] outBlock = out.blocks[blockIndex];
-            final T[] tBlock   = blocks[blockIndex];
-            final T[] mBlock   = m.blocks[blockIndex];
-            for (int k = 0; k < outBlock.length; ++k) {
-                outBlock[k] = tBlock[k].add(mBlock[k]);
-            }
-        }
-
-        return out;
+    public BlockFieldMatrix<T> add(final BlockFieldMatrix<T> m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldMatrix<T> subtract(final FieldMatrix<T> m)
-        throws MathIllegalArgumentException {
-        if (m instanceof BlockFieldMatrix) {
-            return subtract((BlockFieldMatrix<T>) m);
-        } else {
-
-            // safety check
-            checkSubtractionCompatible(m);
-
-            final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), rows, columns);
-
-            // perform subtraction block-wise, to ensure good cache behavior
-            int blockIndex = 0;
-            for (int iBlock = 0; iBlock < out.blockRows; ++iBlock) {
-                for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
-
-                    // perform subtraction on the current block
-                    final T[] outBlock = out.blocks[blockIndex];
-                    final T[] tBlock   = blocks[blockIndex];
-                    final int      pStart   = iBlock * BLOCK_SIZE;
-                    final int      pEnd     = FastMath.min(pStart + BLOCK_SIZE, rows);
-                    final int      qStart   = jBlock * BLOCK_SIZE;
-                    final int      qEnd     = FastMath.min(qStart + BLOCK_SIZE, columns);
-                    int k = 0;
-                    for (int p = pStart; p < pEnd; ++p) {
-                        for (int q = qStart; q < qEnd; ++q) {
-                            outBlock[k] = tBlock[k].subtract(m.getEntry(p, q));
-                            ++k;
-                        }
-                    }
-
-                    // go to next block
-                    ++blockIndex;
-
-                }
-            }
-
-            return out;
-        }
+    public FieldMatrix<T> subtract(final FieldMatrix<T> m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -438,118 +287,31 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * size as {@code this}
      */
     public BlockFieldMatrix<T> subtract(final BlockFieldMatrix<T> m) throws MathIllegalArgumentException {
-        // safety check
-        checkSubtractionCompatible(m);
-
-        final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), rows, columns);
-
-        // perform subtraction block-wise, to ensure good cache behavior
-        for (int blockIndex = 0; blockIndex < out.blocks.length; ++blockIndex) {
-            final T[] outBlock = out.blocks[blockIndex];
-            final T[] tBlock   = blocks[blockIndex];
-            final T[] mBlock   = m.blocks[blockIndex];
-            for (int k = 0; k < outBlock.length; ++k) {
-                outBlock[k] = tBlock[k].subtract(mBlock[k]);
-            }
-        }
-
-        return out;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldMatrix<T> scalarAdd(final T d) {
-        final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), rows, columns);
-
-        // perform subtraction block-wise, to ensure good cache behavior
-        for (int blockIndex = 0; blockIndex < out.blocks.length; ++blockIndex) {
-            final T[] outBlock = out.blocks[blockIndex];
-            final T[] tBlock   = blocks[blockIndex];
-            for (int k = 0; k < outBlock.length; ++k) {
-                outBlock[k] = tBlock[k].add(d);
-            }
-        }
-
-        return out;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldMatrix<T> scalarMultiply(final T d) {
-
-        final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), rows, columns);
-
-        // perform subtraction block-wise, to ensure good cache behavior
-        for (int blockIndex = 0; blockIndex < out.blocks.length; ++blockIndex) {
-            final T[] outBlock = out.blocks[blockIndex];
-            final T[] tBlock   = blocks[blockIndex];
-            for (int k = 0; k < outBlock.length; ++k) {
-                outBlock[k] = tBlock[k].multiply(d);
-            }
-        }
-
-        return out;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldMatrix<T> multiply(final FieldMatrix<T> m)
-        throws MathIllegalArgumentException {
-        if (m instanceof BlockFieldMatrix) {
-            return multiply((BlockFieldMatrix<T>) m);
-        } else {
-
-            // safety check
-            checkMultiplicationCompatible(m);
-
-            final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), rows, m.getColumnDimension());
-            final T zero = getField().getZero();
-
-            // perform multiplication block-wise, to ensure good cache behavior
-            int blockIndex = 0;
-            for (int iBlock = 0; iBlock < out.blockRows; ++iBlock) {
-
-                final int pStart = iBlock * BLOCK_SIZE;
-                final int pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
-
-                for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
-
-                    final int qStart = jBlock * BLOCK_SIZE;
-                    final int qEnd   = FastMath.min(qStart + BLOCK_SIZE, m.getColumnDimension());
-
-                    // select current block
-                    final T[] outBlock = out.blocks[blockIndex];
-
-                    // perform multiplication on current block
-                    for (int kBlock = 0; kBlock < blockColumns; ++kBlock) {
-                        final int kWidth      = blockWidth(kBlock);
-                        final T[] tBlock = blocks[iBlock * blockColumns + kBlock];
-                        final int rStart      = kBlock * BLOCK_SIZE;
-                        int k = 0;
-                        for (int p = pStart; p < pEnd; ++p) {
-                            final int lStart = (p - pStart) * kWidth;
-                            final int lEnd   = lStart + kWidth;
-                            for (int q = qStart; q < qEnd; ++q) {
-                                T sum = zero;
-                                int r = rStart;
-                                for (int l = lStart; l < lEnd; ++l) {
-                                    sum = sum.add(tBlock[l].multiply(m.getEntry(r, q)));
-                                    ++r;
-                                }
-                                outBlock[k] = outBlock[k].add(sum);
-                                ++k;
-                            }
-                        }
-                    }
-
-                    // go to next block
-                    ++blockIndex;
-
-                }
-            }
-
-            return out;
-        }
+    public FieldMatrix<T> multiply(final FieldMatrix<T> m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -559,69 +321,8 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * @return {@code this * m}
      * @throws MathIllegalArgumentException if the matrices are not compatible.
      */
-    public BlockFieldMatrix<T> multiply(BlockFieldMatrix<T> m)
-        throws MathIllegalArgumentException {
-
-        // safety check
-        checkMultiplicationCompatible(m);
-
-        final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), rows, m.columns);
-        final T zero = getField().getZero();
-
-        // perform multiplication block-wise, to ensure good cache behavior
-        int blockIndex = 0;
-        for (int iBlock = 0; iBlock < out.blockRows; ++iBlock) {
-
-            final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
-
-            for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
-                final int jWidth = out.blockWidth(jBlock);
-                final int jWidth2 = jWidth  + jWidth;
-                final int jWidth3 = jWidth2 + jWidth;
-                final int jWidth4 = jWidth3 + jWidth;
-
-                // select current block
-                final T[] outBlock = out.blocks[blockIndex];
-
-                // perform multiplication on current block
-                for (int kBlock = 0; kBlock < blockColumns; ++kBlock) {
-                    final int kWidth = blockWidth(kBlock);
-                    final T[] tBlock = blocks[iBlock * blockColumns + kBlock];
-                    final T[] mBlock = m.blocks[kBlock * m.blockColumns + jBlock];
-                    int k = 0;
-                    for (int p = pStart; p < pEnd; ++p) {
-                        final int lStart = (p - pStart) * kWidth;
-                        final int lEnd   = lStart + kWidth;
-                        for (int nStart = 0; nStart < jWidth; ++nStart) {
-                            T sum = zero;
-                            int l = lStart;
-                            int n = nStart;
-                            while (l < lEnd - 3) {
-                                sum = sum.
-                                      add(tBlock[l].multiply(mBlock[n])).
-                                      add(tBlock[l + 1].multiply(mBlock[n + jWidth])).
-                                      add(tBlock[l + 2].multiply(mBlock[n + jWidth2])).
-                                      add(tBlock[l + 3].multiply(mBlock[n + jWidth3]));
-                                l += 4;
-                                n += jWidth4;
-                            }
-                            while (l < lEnd) {
-                                sum = sum.add(tBlock[l++].multiply(mBlock[n]));
-                                n += jWidth;
-                            }
-                            outBlock[k] = outBlock[k].add(sum);
-                            ++k;
-                        }
-                    }
-                }
-
-                // go to next block
-                ++blockIndex;
-            }
-        }
-
-        return out;
+    public BlockFieldMatrix<T> multiply(BlockFieldMatrix<T> m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -632,117 +333,16 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * {@code columnDimension(this) != columnDimension(m)}
      * @since 1.3
      */
-    public BlockFieldMatrix<T> multiplyTransposed(BlockFieldMatrix<T> m)
-        throws MathIllegalArgumentException {
-        // safety check
-        MatrixUtils.checkSameColumnDimension(this, m);
-
-        final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), rows, m.rows);
-
-        // perform multiplication block-wise, to ensure good cache behavior
-        int blockIndex = 0;
-        for (int iBlock = 0; iBlock < out.blockRows; ++iBlock) {
-
-            final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
-
-            for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
-                final int jWidth = out.blockWidth(jBlock);
-
-                // select current block
-                final T[] outBlock = out.blocks[blockIndex];
-
-                // perform multiplication on current block
-                for (int kBlock = 0; kBlock < blockColumns; ++kBlock) {
-                    final int kWidth = blockWidth(kBlock);
-                    final T[] tBlock = blocks[iBlock * blockColumns + kBlock];
-                    final T[] mBlock = m.blocks[jBlock * m.blockColumns + kBlock];
-                    int k = 0;
-                    for (int p = pStart; p < pEnd; ++p) {
-                        final int lStart = (p - pStart) * kWidth;
-                        final int lEnd   = lStart + kWidth;
-                        for (int nStart = 0; nStart < jWidth * kWidth; nStart += kWidth) {
-                            T sum = getField().getZero();
-                            int l = lStart;
-                            int n = nStart;
-                            while (l < lEnd - 3) {
-                                sum = sum.
-                                      add(tBlock[l].multiply(mBlock[n])).
-                                      add(tBlock[l + 1].multiply(mBlock[n + 1])).
-                                      add(tBlock[l + 2].multiply(mBlock[n + 2])).
-                                      add(tBlock[l + 3].multiply(mBlock[n + 3]));
-                                l += 4;
-                                n += 4;
-                            }
-                            while (l < lEnd) {
-                                sum = sum.add(tBlock[l++].multiply(mBlock[n++]));
-                            }
-                            outBlock[k] = outBlock[k].add(sum);
-                            ++k;
-                        }
-                    }
-                }
-                // go to next block
-                ++blockIndex;
-            }
-        }
-
-        return out;
+    public BlockFieldMatrix<T> multiplyTransposed(BlockFieldMatrix<T> m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public BlockFieldMatrix<T> multiplyTransposed(final FieldMatrix<T> m)
-        throws MathIllegalArgumentException {
-        if (m instanceof BlockFieldMatrix) {
-            return multiplyTransposed((BlockFieldMatrix<T>) m);
-        } else {
-            // safety check
-            MatrixUtils.checkSameColumnDimension(this, m);
-
-            final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), rows, m.getRowDimension());
-
-            // perform multiplication block-wise, to ensure good cache behavior
-            int blockIndex = 0;
-            for (int iBlock = 0; iBlock < out.blockRows; ++iBlock) {
-                final int pStart = iBlock * BLOCK_SIZE;
-                final int pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
-
-                for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
-                    final int qStart = jBlock * BLOCK_SIZE;
-                    final int qEnd   = FastMath.min(qStart + BLOCK_SIZE, m.getRowDimension());
-
-                    // select current block
-                    final T[] outBlock = out.blocks[blockIndex];
-
-                    // perform multiplication on current block
-                    for (int kBlock = 0; kBlock < blockColumns; ++kBlock) {
-                        final int kWidth = blockWidth(kBlock);
-                        final T[] tBlock = blocks[iBlock * blockColumns + kBlock];
-                        final int rStart = kBlock * BLOCK_SIZE;
-                        int k = 0;
-                        for (int p = pStart; p < pEnd; ++p) {
-                            final int lStart = (p - pStart) * kWidth;
-                            final int lEnd = lStart + kWidth;
-                            for (int q = qStart; q < qEnd; ++q) {
-                                T sum = getField().getZero();
-                                int r = rStart;
-                                for (int l = lStart; l < lEnd; ++l) {
-                                    sum = sum.add(tBlock[l].multiply(m.getEntry(q, r)));
-                                    ++r;
-                                }
-                                outBlock[k] = outBlock[k].add(sum);
-                                ++k;
-                            }
-                        }
-                    }
-                    // go to next block
-                    ++blockIndex;
-                }
-            }
-
-            return out;
-        }
+    public BlockFieldMatrix<T> multiplyTransposed(final FieldMatrix<T> m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -753,252 +353,32 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * {@code columnDimension(this) != columnDimension(m)}
      * @since 1.3
      */
-    public BlockFieldMatrix<T> transposeMultiply(final BlockFieldMatrix<T> m)
-        throws MathIllegalArgumentException {
-        // safety check
-        MatrixUtils.checkSameRowDimension(this, m);
-
-        final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), columns, m.columns);
-
-        // perform multiplication block-wise, to ensure good cache behavior
-        int blockIndex = 0;
-        for (int iBlock = 0; iBlock < out.blockRows; ++iBlock) {
-
-            final int iHeight  = out.blockHeight(iBlock);
-            final int iHeight2 = iHeight  + iHeight;
-            final int iHeight3 = iHeight2 + iHeight;
-            final int iHeight4 = iHeight3 + iHeight;
-            final int pStart   = iBlock * BLOCK_SIZE;
-            final int pEnd     = FastMath.min(pStart + BLOCK_SIZE, columns);
-
-            for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
-                final int jWidth  = out.blockWidth(jBlock);
-                final int jWidth2 = jWidth  + jWidth;
-                final int jWidth3 = jWidth2 + jWidth;
-                final int jWidth4 = jWidth3 + jWidth;
-
-                // select current block
-                final T[] outBlock = out.blocks[blockIndex];
-
-                // perform multiplication on current block
-                for (int kBlock = 0; kBlock < blockRows; ++kBlock) {
-                    final int kHeight = blockHeight(kBlock);
-                    final T[] tBlock  = blocks[kBlock * blockColumns + iBlock];
-                    final T[] mBlock  = m.blocks[kBlock * m.blockColumns + jBlock];
-                    int k = 0;
-                    for (int p = pStart; p < pEnd; ++p) {
-                        final int lStart = p - pStart;
-                        final int lEnd   = lStart + iHeight * kHeight;
-                        for (int nStart = 0; nStart < jWidth; ++nStart) {
-                            T sum = getField().getZero();
-                            int l = lStart;
-                            int n = nStart;
-                            while (l < lEnd - iHeight3) {
-                                sum = sum.add(tBlock[l].multiply(mBlock[n]).
-                                       add(tBlock[l + iHeight].multiply(mBlock[n + jWidth])).
-                                       add(tBlock[l + iHeight2].multiply(mBlock[n + jWidth2])).
-                                       add(tBlock[l + iHeight3].multiply(mBlock[n + jWidth3])));
-                                l += iHeight4;
-                                n += jWidth4;
-                            }
-                            while (l < lEnd) {
-                                sum = sum.add(tBlock[l].multiply(mBlock[n]));
-                                l += iHeight;
-                                n += jWidth;
-                            }
-                            outBlock[k] = outBlock[k].add(sum);
-                            ++k;
-                        }
-                    }
-                }
-                // go to next block
-                ++blockIndex;
-            }
-        }
-
-        return out;
+    public BlockFieldMatrix<T> transposeMultiply(final BlockFieldMatrix<T> m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public BlockFieldMatrix<T> transposeMultiply(final FieldMatrix<T> m)
-        throws MathIllegalArgumentException {
-        if (m instanceof BlockFieldMatrix) {
-            return transposeMultiply((BlockFieldMatrix<T>) m);
-        } else {
-            // safety check
-            MatrixUtils.checkSameRowDimension(this, m);
-
-            final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), columns, m.getColumnDimension());
-
-            // perform multiplication block-wise, to ensure good cache behavior
-            int blockIndex = 0;
-            for (int iBlock = 0; iBlock < out.blockRows; ++iBlock) {
-
-                final int iHeight = out.blockHeight(iBlock);
-                final int pStart  = iBlock * BLOCK_SIZE;
-                final int pEnd    = FastMath.min(pStart + BLOCK_SIZE, columns);
-
-                for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
-                    final int qStart = jBlock * BLOCK_SIZE;
-                    final int qEnd   = FastMath.min(qStart + BLOCK_SIZE, m.getColumnDimension());
-
-                    // select current block
-                    final T[] outBlock = out.blocks[blockIndex];
-
-                    // perform multiplication on current block
-                    for (int kBlock = 0; kBlock < blockRows; ++kBlock) {
-                        final int kHeight = blockHeight(kBlock);
-                        final T[] tBlock  = blocks[kBlock * blockColumns + iBlock];
-                        final int rStart  = kBlock * BLOCK_SIZE;
-                        int k = 0;
-                        for (int p = pStart; p < pEnd; ++p) {
-                            final int lStart = p - pStart;
-                            final int lEnd   = lStart + iHeight * kHeight;
-                            for (int q = qStart; q < qEnd; ++q) {
-                                T sum = getField().getZero();
-                                int r = rStart;
-                                for (int l = lStart; l < lEnd; l += iHeight) {
-                                    sum = sum.add(tBlock[l].multiply(m.getEntry(r++, q)));
-                                }
-                                outBlock[k] = outBlock[k].add(sum);
-                                ++k;
-                            }
-                        }
-                    }
-                    // go to next block
-                    ++blockIndex;
-                }
-            }
-
-            return out;
-        }
-
+    public BlockFieldMatrix<T> transposeMultiply(final FieldMatrix<T> m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[][] getData() {
-
-        final T[][] data = MathArrays.buildArray(getField(), getRowDimension(), getColumnDimension());
-        final int lastColumns = columns - (blockColumns - 1) * BLOCK_SIZE;
-
-        for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
-            final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
-            int regularPos   = 0;
-            int lastPos      = 0;
-            for (int p = pStart; p < pEnd; ++p) {
-                final T[] dataP = data[p];
-                int blockIndex = iBlock * blockColumns;
-                int dataPos    = 0;
-                for (int jBlock = 0; jBlock < blockColumns - 1; ++jBlock) {
-                    System.arraycopy(blocks[blockIndex++], regularPos, dataP, dataPos, BLOCK_SIZE);
-                    dataPos += BLOCK_SIZE;
-                }
-                System.arraycopy(blocks[blockIndex], lastPos, dataP, dataPos, lastColumns);
-                regularPos += BLOCK_SIZE;
-                lastPos    += lastColumns;
-            }
-        }
-
-        return data;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldMatrix<T> getSubMatrix(final int startRow, final int endRow,
-                                       final int startColumn,
-                                       final int endColumn)
-        throws MathIllegalArgumentException {
-        // safety checks
-        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
-
-        // create the output matrix
-        final BlockFieldMatrix<T> out =
-            new BlockFieldMatrix<>(getField(), endRow - startRow + 1, endColumn - startColumn + 1);
-
-        // compute blocks shifts
-        final int blockStartRow    = startRow    / BLOCK_SIZE;
-        final int rowsShift        = startRow    % BLOCK_SIZE;
-        final int blockStartColumn = startColumn / BLOCK_SIZE;
-        final int columnsShift     = startColumn % BLOCK_SIZE;
-
-        // perform extraction block-wise, to ensure good cache behavior
-        int pBlock = blockStartRow;
-        for (int iBlock = 0; iBlock < out.blockRows; ++iBlock) {
-            final int iHeight = out.blockHeight(iBlock);
-            int qBlock = blockStartColumn;
-            for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
-                final int jWidth = out.blockWidth(jBlock);
-
-                // handle one block of the output matrix
-                final int      outIndex = iBlock * out.blockColumns + jBlock;
-                final T[] outBlock = out.blocks[outIndex];
-                final int      index    = pBlock * blockColumns + qBlock;
-                final int      width    = blockWidth(qBlock);
-
-                final int heightExcess = iHeight + rowsShift - BLOCK_SIZE;
-                final int widthExcess  = jWidth + columnsShift - BLOCK_SIZE;
-                if (heightExcess > 0) {
-                    // the submatrix block spans on two blocks rows from the original matrix
-                    if (widthExcess > 0) {
-                        // the submatrix block spans on two blocks columns from the original matrix
-                        final int width2 = blockWidth(qBlock + 1);
-                        copyBlockPart(blocks[index], width,
-                                      rowsShift, BLOCK_SIZE,
-                                      columnsShift, BLOCK_SIZE,
-                                      outBlock, jWidth, 0, 0);
-                        copyBlockPart(blocks[index + 1], width2,
-                                      rowsShift, BLOCK_SIZE,
-                                      0, widthExcess,
-                                      outBlock, jWidth, 0, jWidth - widthExcess);
-                        copyBlockPart(blocks[index + blockColumns], width,
-                                      0, heightExcess,
-                                      columnsShift, BLOCK_SIZE,
-                                      outBlock, jWidth, iHeight - heightExcess, 0);
-                        copyBlockPart(blocks[index + blockColumns + 1], width2,
-                                      0, heightExcess,
-                                      0, widthExcess,
-                                      outBlock, jWidth, iHeight - heightExcess, jWidth - widthExcess);
-                    } else {
-                        // the submatrix block spans on one block column from the original matrix
-                        copyBlockPart(blocks[index], width,
-                                      rowsShift, BLOCK_SIZE,
-                                      columnsShift, jWidth + columnsShift,
-                                      outBlock, jWidth, 0, 0);
-                        copyBlockPart(blocks[index + blockColumns], width,
-                                      0, heightExcess,
-                                      columnsShift, jWidth + columnsShift,
-                                      outBlock, jWidth, iHeight - heightExcess, 0);
-                    }
-                } else {
-                    // the submatrix block spans on one block row from the original matrix
-                    if (widthExcess > 0) {
-                        // the submatrix block spans on two blocks columns from the original matrix
-                        final int width2 = blockWidth(qBlock + 1);
-                        copyBlockPart(blocks[index], width,
-                                      rowsShift, iHeight + rowsShift,
-                                      columnsShift, BLOCK_SIZE,
-                                      outBlock, jWidth, 0, 0);
-                        copyBlockPart(blocks[index + 1], width2,
-                                      rowsShift, iHeight + rowsShift,
-                                      0, widthExcess,
-                                      outBlock, jWidth, 0, jWidth - widthExcess);
-                    } else {
-                        // the submatrix block spans on one block column from the original matrix
-                        copyBlockPart(blocks[index], width,
-                                      rowsShift, iHeight + rowsShift,
-                                      columnsShift, jWidth + columnsShift,
-                                      outBlock, jWidth, 0, 0);
-                    }
-               }
-                ++qBlock;
-            }
-            ++pBlock;
-        }
-
-        return out;
+    public FieldMatrix<T> getSubMatrix(final int startRow, final int endRow, final int startColumn, final int endColumn) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1016,11 +396,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * @param dstStartRow start row in the destination block
      * @param dstStartColumn start column in the destination block
      */
-    private void copyBlockPart(final T[] srcBlock, final int srcWidth,
-                               final int srcStartRow, final int srcEndRow,
-                               final int srcStartColumn, final int srcEndColumn,
-                               final T[] dstBlock, final int dstWidth,
-                               final int dstStartRow, final int dstStartColumn) {
+    private void copyBlockPart(final T[] srcBlock, final int srcWidth, final int srcStartRow, final int srcEndRow, final int srcStartColumn, final int srcEndColumn, final T[] dstBlock, final int dstWidth, final int dstStartRow, final int dstStartColumn) {
         final int length = srcEndColumn - srcStartColumn;
         int srcPos = srcStartRow * srcWidth + srcStartColumn;
         int dstPos = dstStartRow * dstWidth + dstStartColumn;
@@ -1031,99 +407,28 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setSubMatrix(final T[][] subMatrix, final int row,
-                             final int column)
-        throws MathIllegalArgumentException, NullArgumentException {
-        // safety checks
-        MathUtils.checkNotNull(subMatrix);
-        final int refLength = subMatrix[0].length;
-        if (refLength == 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.AT_LEAST_ONE_COLUMN);
-        }
-        final int endRow    = row + subMatrix.length - 1;
-        final int endColumn = column + refLength - 1;
-        checkSubMatrixIndex(row, endRow, column, endColumn);
-        for (final T[] subRow : subMatrix) {
-            if (subRow.length != refLength) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                       refLength, subRow.length);
-            }
-        }
-
-        // compute blocks bounds
-        final int blockStartRow    = row / BLOCK_SIZE;
-        final int blockEndRow      = (endRow + BLOCK_SIZE) / BLOCK_SIZE;
-        final int blockStartColumn = column / BLOCK_SIZE;
-        final int blockEndColumn   = (endColumn + BLOCK_SIZE) / BLOCK_SIZE;
-
-        // perform copy block-wise, to ensure good cache behavior
-        for (int iBlock = blockStartRow; iBlock < blockEndRow; ++iBlock) {
-            final int iHeight  = blockHeight(iBlock);
-            final int firstRow = iBlock * BLOCK_SIZE;
-            final int iStart   = FastMath.max(row,    firstRow);
-            final int iEnd     = FastMath.min(endRow + 1, firstRow + iHeight);
-
-            for (int jBlock = blockStartColumn; jBlock < blockEndColumn; ++jBlock) {
-                final int jWidth      = blockWidth(jBlock);
-                final int firstColumn = jBlock * BLOCK_SIZE;
-                final int jStart      = FastMath.max(column,    firstColumn);
-                final int jEnd        = FastMath.min(endColumn + 1, firstColumn + jWidth);
-                final int jLength     = jEnd - jStart;
-
-                // handle one block, row by row
-                final T[] block = blocks[iBlock * blockColumns + jBlock];
-                for (int i = iStart; i < iEnd; ++i) {
-                    System.arraycopy(subMatrix[i - row], jStart - column,
-                                     block, (i - firstRow) * jWidth + (jStart - firstColumn),
-                                     jLength);
-                }
-
-            }
-        }
+    public void setSubMatrix(final T[][] subMatrix, final int row, final int column) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldMatrix<T> getRowMatrix(final int row)
-        throws MathIllegalArgumentException {
-        checkRowIndex(row);
-        final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), 1, columns);
-
-        // perform copy block-wise, to ensure good cache behavior
-        final int iBlock  = row / BLOCK_SIZE;
-        final int iRow    = row - iBlock * BLOCK_SIZE;
-        int outBlockIndex = 0;
-        int outIndex      = 0;
-        T[] outBlock = out.blocks[outBlockIndex];
-        for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
-            final int jWidth     = blockWidth(jBlock);
-            final T[] block = blocks[iBlock * blockColumns + jBlock];
-            final int available  = outBlock.length - outIndex;
-            if (jWidth > available) {
-                System.arraycopy(block, iRow * jWidth, outBlock, outIndex, available);
-                outBlock = out.blocks[++outBlockIndex];
-                System.arraycopy(block, iRow * jWidth, outBlock, 0, jWidth - available);
-                outIndex = jWidth - available;
-            } else {
-                System.arraycopy(block, iRow * jWidth, outBlock, outIndex, jWidth);
-                outIndex += jWidth;
-            }
-        }
-
-        return out;
+    public FieldMatrix<T> getRowMatrix(final int row) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setRowMatrix(final int row, final FieldMatrix<T> matrix)
-        throws MathIllegalArgumentException {
-        if (matrix instanceof BlockFieldMatrix) {
-            setRowMatrix(row, (BlockFieldMatrix<T>) matrix);
-        } else {
-            super.setRowMatrix(row, matrix);
-        }
+    public void setRowMatrix(final int row, final FieldMatrix<T> matrix) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1137,77 +442,24 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * not match one instance row.
      * @throws MathIllegalArgumentException if the specified row index is invalid.
      */
-    public void setRowMatrix(final int row, final BlockFieldMatrix<T> matrix)
-        throws MathIllegalArgumentException {
-        checkRowIndex(row);
-        final int nCols = getColumnDimension();
-        if ((matrix.getRowDimension() != 1) ||
-            (matrix.getColumnDimension() != nCols)) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH_2x2,
-                                                   matrix.getRowDimension(), matrix.getColumnDimension(),
-                                                   1, nCols);
-        }
-
-        // perform copy block-wise, to ensure good cache behavior
-        final int iBlock = row / BLOCK_SIZE;
-        final int iRow   = row - iBlock * BLOCK_SIZE;
-        int mBlockIndex  = 0;
-        int mIndex       = 0;
-        T[] mBlock  = matrix.blocks[mBlockIndex];
-        for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
-            final int jWidth     = blockWidth(jBlock);
-            final T[] block = blocks[iBlock * blockColumns + jBlock];
-            final int available  = mBlock.length - mIndex;
-            if (jWidth > available) {
-                System.arraycopy(mBlock, mIndex, block, iRow * jWidth, available);
-                mBlock = matrix.blocks[++mBlockIndex];
-                System.arraycopy(mBlock, 0, block, iRow * jWidth, jWidth - available);
-                mIndex = jWidth - available;
-            } else {
-                System.arraycopy(mBlock, mIndex, block, iRow * jWidth, jWidth);
-                mIndex += jWidth;
-           }
-        }
+    public void setRowMatrix(final int row, final BlockFieldMatrix<T> matrix) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldMatrix<T> getColumnMatrix(final int column)
-        throws MathIllegalArgumentException {
-        checkColumnIndex(column);
-        final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), rows, 1);
-
-        // perform copy block-wise, to ensure good cache behavior
-        final int jBlock  = column / BLOCK_SIZE;
-        final int jColumn = column - jBlock * BLOCK_SIZE;
-        final int jWidth  = blockWidth(jBlock);
-        int outBlockIndex = 0;
-        int outIndex      = 0;
-        T[] outBlock = out.blocks[outBlockIndex];
-        for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
-            final int iHeight = blockHeight(iBlock);
-            final T[] block = blocks[iBlock * blockColumns + jBlock];
-            for (int i = 0; i < iHeight; ++i) {
-                if (outIndex >= outBlock.length) {
-                    outBlock = out.blocks[++outBlockIndex];
-                    outIndex = 0;
-                }
-                outBlock[outIndex++] = block[i * jWidth + jColumn];
-            }
-        }
-
-        return out;
+    public FieldMatrix<T> getColumnMatrix(final int column) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setColumnMatrix(final int column, final FieldMatrix<T> matrix)
-        throws MathIllegalArgumentException {
-        if (matrix instanceof BlockFieldMatrix) {
-            setColumnMatrix(column, (BlockFieldMatrix<T>) matrix);
-        } else {
-            super.setColumnMatrix(column, matrix);
-        }
+    public void setColumnMatrix(final int column, final FieldMatrix<T> matrix) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1221,614 +473,208 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * not match one instance column.
      * @throws MathIllegalArgumentException if the specified column index is invalid.
      */
-    void setColumnMatrix(final int column, final BlockFieldMatrix<T> matrix)
-        throws MathIllegalArgumentException {
-        checkColumnIndex(column);
-        final int nRows = getRowDimension();
-        if ((matrix.getRowDimension() != nRows) ||
-            (matrix.getColumnDimension() != 1)) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH_2x2,
-                                                   matrix.getRowDimension(), matrix.getColumnDimension(),
-                                                   nRows, 1);
-        }
-
-        // perform copy block-wise, to ensure good cache behavior
-        final int jBlock  = column / BLOCK_SIZE;
-        final int jColumn = column - jBlock * BLOCK_SIZE;
-        final int jWidth  = blockWidth(jBlock);
-        int mBlockIndex = 0;
-        int mIndex      = 0;
-        T[] mBlock = matrix.blocks[mBlockIndex];
-        for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
-            final int iHeight = blockHeight(iBlock);
-            final T[] block = blocks[iBlock * blockColumns + jBlock];
-            for (int i = 0; i < iHeight; ++i) {
-                if (mIndex >= mBlock.length) {
-                    mBlock = matrix.blocks[++mBlockIndex];
-                    mIndex = 0;
-                }
-                block[i * jWidth + jColumn] = mBlock[mIndex++];
-            }
-        }
+    void setColumnMatrix(final int column, final BlockFieldMatrix<T> matrix) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldVector<T> getRowVector(final int row)
-        throws MathIllegalArgumentException {
-        checkRowIndex(row);
-        final T[] outData = MathArrays.buildArray(getField(), columns);
-
-        // perform copy block-wise, to ensure good cache behavior
-        final int iBlock  = row / BLOCK_SIZE;
-        final int iRow    = row - iBlock * BLOCK_SIZE;
-        int outIndex      = 0;
-        for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
-            final int jWidth     = blockWidth(jBlock);
-            final T[] block = blocks[iBlock * blockColumns + jBlock];
-            System.arraycopy(block, iRow * jWidth, outData, outIndex, jWidth);
-            outIndex += jWidth;
-        }
-
-        return new ArrayFieldVector<>(getField(), outData, false);
+    public FieldVector<T> getRowVector(final int row) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setRowVector(final int row, final FieldVector<T> vector)
-        throws MathIllegalArgumentException {
-        if (vector instanceof ArrayFieldVector) {
-            setRow(row, ((ArrayFieldVector<T>) vector).getDataRef());
-        } else {
-            super.setRowVector(row, vector);
-        }
+    public void setRowVector(final int row, final FieldVector<T> vector) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldVector<T> getColumnVector(final int column)
-        throws MathIllegalArgumentException {
-        checkColumnIndex(column);
-        final T[] outData = MathArrays.buildArray(getField(), rows);
-
-        // perform copy block-wise, to ensure good cache behavior
-        final int jBlock  = column / BLOCK_SIZE;
-        final int jColumn = column - jBlock * BLOCK_SIZE;
-        final int jWidth  = blockWidth(jBlock);
-        int outIndex      = 0;
-        for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
-            final int iHeight = blockHeight(iBlock);
-            final T[] block = blocks[iBlock * blockColumns + jBlock];
-            for (int i = 0; i < iHeight; ++i) {
-                outData[outIndex++] = block[i * jWidth + jColumn];
-            }
-        }
-
-        return new ArrayFieldVector<>(getField(), outData, false);
+    public FieldVector<T> getColumnVector(final int column) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setColumnVector(final int column, final FieldVector<T> vector)
-        throws MathIllegalArgumentException {
-        if (vector instanceof ArrayFieldVector) {
-            setColumn(column, ((ArrayFieldVector<T>) vector).getDataRef());
-        } else {
-            super.setColumnVector(column, vector);
-        }
+    public void setColumnVector(final int column, final FieldVector<T> vector) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[] getRow(final int row) throws MathIllegalArgumentException {
-        checkRowIndex(row);
-        final T[] out = MathArrays.buildArray(getField(), columns);
-
-        // perform copy block-wise, to ensure good cache behavior
-        final int iBlock  = row / BLOCK_SIZE;
-        final int iRow    = row - iBlock * BLOCK_SIZE;
-        int outIndex      = 0;
-        for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
-            final int jWidth     = blockWidth(jBlock);
-            final T[] block = blocks[iBlock * blockColumns + jBlock];
-            System.arraycopy(block, iRow * jWidth, out, outIndex, jWidth);
-            outIndex += jWidth;
-        }
-
-        return out;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setRow(final int row, final T[] array)
-        throws MathIllegalArgumentException {
-        checkRowIndex(row);
-        final int nCols = getColumnDimension();
-        if (array.length != nCols) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH_2x2,
-                                                   1, array.length,
-                                                   1, nCols);
-        }
-
-        // perform copy block-wise, to ensure good cache behavior
-        final int iBlock  = row / BLOCK_SIZE;
-        final int iRow    = row - iBlock * BLOCK_SIZE;
-        int outIndex      = 0;
-        for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
-            final int jWidth     = blockWidth(jBlock);
-            final T[] block = blocks[iBlock * blockColumns + jBlock];
-            System.arraycopy(array, outIndex, block, iRow * jWidth, jWidth);
-            outIndex += jWidth;
-        }
+    public void setRow(final int row, final T[] array) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[] getColumn(final int column) throws MathIllegalArgumentException {
-        checkColumnIndex(column);
-        final T[] out = MathArrays.buildArray(getField(), rows);
-
-        // perform copy block-wise, to ensure good cache behavior
-        final int jBlock  = column / BLOCK_SIZE;
-        final int jColumn = column - jBlock * BLOCK_SIZE;
-        final int jWidth  = blockWidth(jBlock);
-        int outIndex      = 0;
-        for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
-            final int iHeight = blockHeight(iBlock);
-            final T[] block = blocks[iBlock * blockColumns + jBlock];
-            for (int i = 0; i < iHeight; ++i) {
-                out[outIndex++] = block[i * jWidth + jColumn];
-            }
-        }
-
-        return out;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setColumn(final int column, final T[] array)
-        throws MathIllegalArgumentException {
-        checkColumnIndex(column);
-        final int nRows = getRowDimension();
-        if (array.length != nRows) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH_2x2,
-                                                   array.length,
-                                                   1, nRows, 1);
-        }
-
-        // perform copy block-wise, to ensure good cache behavior
-        final int jBlock  = column / BLOCK_SIZE;
-        final int jColumn = column - jBlock * BLOCK_SIZE;
-        final int jWidth  = blockWidth(jBlock);
-        int outIndex      = 0;
-        for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
-            final int iHeight = blockHeight(iBlock);
-            final T[] block = blocks[iBlock * blockColumns + jBlock];
-            for (int i = 0; i < iHeight; ++i) {
-                block[i * jWidth + jColumn] = array[outIndex++];
-            }
-        }
+    public void setColumn(final int column, final T[] array) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public T getEntry(final int row, final int column)
-        throws MathIllegalArgumentException {
-        checkRowIndex(row);
-        checkColumnIndex(column);
-
-        final int iBlock = row    / BLOCK_SIZE;
-        final int jBlock = column / BLOCK_SIZE;
-        final int k      = (row    - iBlock * BLOCK_SIZE) * blockWidth(jBlock) +
-            (column - jBlock * BLOCK_SIZE);
-
-        return blocks[iBlock * blockColumns + jBlock][k];
+    public T getEntry(final int row, final int column) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setEntry(final int row, final int column, final T value)
-        throws MathIllegalArgumentException {
-        checkRowIndex(row);
-        checkColumnIndex(column);
-
-        final int iBlock = row    / BLOCK_SIZE;
-        final int jBlock = column / BLOCK_SIZE;
-        final int k      = (row    - iBlock * BLOCK_SIZE) * blockWidth(jBlock) +
-            (column - jBlock * BLOCK_SIZE);
-
-        blocks[iBlock * blockColumns + jBlock][k] = value;
+    public void setEntry(final int row, final int column, final T value) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void addToEntry(final int row, final int column, final T increment)
-        throws MathIllegalArgumentException {
-        checkRowIndex(row);
-        checkColumnIndex(column);
-
-        final int iBlock = row    / BLOCK_SIZE;
-        final int jBlock = column / BLOCK_SIZE;
-        final int k      = (row    - iBlock * BLOCK_SIZE) * blockWidth(jBlock) +
-            (column - jBlock * BLOCK_SIZE);
-        final T[] blockIJ = blocks[iBlock * blockColumns + jBlock];
-
-        blockIJ[k] = blockIJ[k].add(increment);
+    public void addToEntry(final int row, final int column, final T increment) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void multiplyEntry(final int row, final int column, final T factor)
-        throws MathIllegalArgumentException {
-        checkRowIndex(row);
-        checkColumnIndex(column);
-
-        final int iBlock = row    / BLOCK_SIZE;
-        final int jBlock = column / BLOCK_SIZE;
-        final int k      = (row    - iBlock * BLOCK_SIZE) * blockWidth(jBlock) +
-            (column - jBlock * BLOCK_SIZE);
-        final T[] blockIJ = blocks[iBlock * blockColumns + jBlock];
-
-        blockIJ[k] = blockIJ[k].multiply(factor);
+    public void multiplyEntry(final int row, final int column, final T factor) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldMatrix<T> transpose() {
-        final int nRows = getRowDimension();
-        final int nCols = getColumnDimension();
-        final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), nCols, nRows);
-
-        // perform transpose block-wise, to ensure good cache behavior
-        int blockIndex = 0;
-        for (int iBlock = 0; iBlock < blockColumns; ++iBlock) {
-            for (int jBlock = 0; jBlock < blockRows; ++jBlock) {
-
-                // transpose current block
-                final T[] outBlock = out.blocks[blockIndex];
-                final T[] tBlock   = blocks[jBlock * blockColumns + iBlock];
-                final int      pStart   = iBlock * BLOCK_SIZE;
-                final int      pEnd     = FastMath.min(pStart + BLOCK_SIZE, columns);
-                final int      qStart   = jBlock * BLOCK_SIZE;
-                final int      qEnd     = FastMath.min(qStart + BLOCK_SIZE, rows);
-                int k = 0;
-                for (int p = pStart; p < pEnd; ++p) {
-                    final int lInc = pEnd - pStart;
-                    int l = p - pStart;
-                    for (int q = qStart; q < qEnd; ++q) {
-                        outBlock[k] = tBlock[l];
-                        ++k;
-                        l+= lInc;
-                    }
-                }
-
-                // go to next block
-                ++blockIndex;
-
-            }
-        }
-
-        return out;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getRowDimension() {
-        return rows;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getColumnDimension() {
-        return columns;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[] operate(final T[] v) throws MathIllegalArgumentException {
-        if (v.length != columns) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   v.length, columns);
-        }
-        final T[] out = MathArrays.buildArray(getField(), rows);
-        final T zero = getField().getZero();
-
-        // perform multiplication block-wise, to ensure good cache behavior
-        for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
-            final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
-            for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
-                final T[] block  = blocks[iBlock * blockColumns + jBlock];
-                final int      qStart = jBlock * BLOCK_SIZE;
-                final int      qEnd   = FastMath.min(qStart + BLOCK_SIZE, columns);
-                int k = 0;
-                for (int p = pStart; p < pEnd; ++p) {
-                    T sum = zero;
-                    int q = qStart;
-                    while (q < qEnd - 3) {
-                        sum = sum.
-                              add(block[k].multiply(v[q])).
-                              add(block[k + 1].multiply(v[q + 1])).
-                              add(block[k + 2].multiply(v[q + 2])).
-                              add(block[k + 3].multiply(v[q + 3]));
-                        k += 4;
-                        q += 4;
-                    }
-                    while (q < qEnd) {
-                        sum = sum.add(block[k++].multiply(v[q++]));
-                    }
-                    out[p] = out[p].add(sum);
-                }
-            }
-        }
-
-        return out;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[] preMultiply(final T[] v) throws MathIllegalArgumentException {
-
-        if (v.length != rows) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   v.length, rows);
-        }
-        final T[] out = MathArrays.buildArray(getField(), columns);
-        final T zero = getField().getZero();
-
-        // perform multiplication block-wise, to ensure good cache behavior
-        for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
-            final int jWidth  = blockWidth(jBlock);
-            final int jWidth2 = jWidth  + jWidth;
-            final int jWidth3 = jWidth2 + jWidth;
-            final int jWidth4 = jWidth3 + jWidth;
-            final int qStart = jBlock * BLOCK_SIZE;
-            final int qEnd   = FastMath.min(qStart + BLOCK_SIZE, columns);
-            for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
-                final T[] block  = blocks[iBlock * blockColumns + jBlock];
-                final int      pStart = iBlock * BLOCK_SIZE;
-                final int      pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
-                for (int q = qStart; q < qEnd; ++q) {
-                    int k = q - qStart;
-                    T sum = zero;
-                    int p = pStart;
-                    while (p < pEnd - 3) {
-                        sum = sum.
-                              add(block[k].multiply(v[p])).
-                              add(block[k + jWidth].multiply(v[p + 1])).
-                              add(block[k + jWidth2].multiply(v[p + 2])).
-                              add(block[k + jWidth3].multiply(v[p + 3]));
-                        k += jWidth4;
-                        p += 4;
-                    }
-                    while (p < pEnd) {
-                        sum = sum.add(block[k].multiply(v[p++]));
-                        k += jWidth;
-                    }
-                    out[q] = out[q].add(sum);
-                }
-            }
-        }
-
-        return out;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T walkInRowOrder(final FieldMatrixChangingVisitor<T> visitor) {
-        visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
-        for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
-            final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
-            for (int p = pStart; p < pEnd; ++p) {
-                for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
-                    final int jWidth = blockWidth(jBlock);
-                    final int qStart = jBlock * BLOCK_SIZE;
-                    final int qEnd   = FastMath.min(qStart + BLOCK_SIZE, columns);
-                    final T[] block = blocks[iBlock * blockColumns + jBlock];
-                    int k = (p - pStart) * jWidth;
-                    for (int q = qStart; q < qEnd; ++q) {
-                        block[k] = visitor.visit(p, q, block[k]);
-                        ++k;
-                    }
-                }
-             }
-        }
-        return visitor.end();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T walkInRowOrder(final FieldMatrixPreservingVisitor<T> visitor) {
-        visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
-        for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
-            final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
-            for (int p = pStart; p < pEnd; ++p) {
-                for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
-                    final int jWidth = blockWidth(jBlock);
-                    final int qStart = jBlock * BLOCK_SIZE;
-                    final int qEnd   = FastMath.min(qStart + BLOCK_SIZE, columns);
-                    final T[] block = blocks[iBlock * blockColumns + jBlock];
-                    int k = (p - pStart) * jWidth;
-                    for (int q = qStart; q < qEnd; ++q) {
-                        visitor.visit(p, q, block[k]);
-                        ++k;
-                    }
-                }
-             }
-        }
-        return visitor.end();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public T walkInRowOrder(final FieldMatrixChangingVisitor<T> visitor,
-                            final int startRow, final int endRow,
-                            final int startColumn, final int endColumn)
-        throws MathIllegalArgumentException {
-        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
-        visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
-        for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
-            final int p0     = iBlock * BLOCK_SIZE;
-            final int pStart = FastMath.max(startRow, p0);
-            final int pEnd   = FastMath.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
-            for (int p = pStart; p < pEnd; ++p) {
-                for (int jBlock = startColumn / BLOCK_SIZE; jBlock < 1 + endColumn / BLOCK_SIZE; ++jBlock) {
-                    final int jWidth = blockWidth(jBlock);
-                    final int q0     = jBlock * BLOCK_SIZE;
-                    final int qStart = FastMath.max(startColumn, q0);
-                    final int qEnd   = FastMath.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
-                    final T[] block = blocks[iBlock * blockColumns + jBlock];
-                    int k = (p - p0) * jWidth + qStart - q0;
-                    for (int q = qStart; q < qEnd; ++q) {
-                        block[k] = visitor.visit(p, q, block[k]);
-                        ++k;
-                    }
-                }
-             }
-        }
-        return visitor.end();
+    public T walkInRowOrder(final FieldMatrixChangingVisitor<T> visitor, final int startRow, final int endRow, final int startColumn, final int endColumn) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public T walkInRowOrder(final FieldMatrixPreservingVisitor<T> visitor,
-                            final int startRow, final int endRow,
-                            final int startColumn, final int endColumn)
-        throws MathIllegalArgumentException {
-        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
-        visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
-        for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
-            final int p0     = iBlock * BLOCK_SIZE;
-            final int pStart = FastMath.max(startRow, p0);
-            final int pEnd   = FastMath.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
-            for (int p = pStart; p < pEnd; ++p) {
-                for (int jBlock = startColumn / BLOCK_SIZE; jBlock < 1 + endColumn / BLOCK_SIZE; ++jBlock) {
-                    final int jWidth = blockWidth(jBlock);
-                    final int q0     = jBlock * BLOCK_SIZE;
-                    final int qStart = FastMath.max(startColumn, q0);
-                    final int qEnd   = FastMath.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
-                    final T[] block = blocks[iBlock * blockColumns + jBlock];
-                    int k = (p - p0) * jWidth + qStart - q0;
-                    for (int q = qStart; q < qEnd; ++q) {
-                        visitor.visit(p, q, block[k]);
-                        ++k;
-                    }
-                }
-             }
-        }
-        return visitor.end();
+    public T walkInRowOrder(final FieldMatrixPreservingVisitor<T> visitor, final int startRow, final int endRow, final int startColumn, final int endColumn) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T walkInOptimizedOrder(final FieldMatrixChangingVisitor<T> visitor) {
-        visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
-        int blockIndex = 0;
-        for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
-            final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
-            for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
-                final int qStart = jBlock * BLOCK_SIZE;
-                final int qEnd   = FastMath.min(qStart + BLOCK_SIZE, columns);
-                final T[] block = blocks[blockIndex];
-                int k = 0;
-                for (int p = pStart; p < pEnd; ++p) {
-                    for (int q = qStart; q < qEnd; ++q) {
-                        block[k] = visitor.visit(p, q, block[k]);
-                        ++k;
-                    }
-                }
-                ++blockIndex;
-            }
-        }
-        return visitor.end();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T walkInOptimizedOrder(final FieldMatrixPreservingVisitor<T> visitor) {
-        visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
-        int blockIndex = 0;
-        for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
-            final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
-            for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
-                final int qStart = jBlock * BLOCK_SIZE;
-                final int qEnd   = FastMath.min(qStart + BLOCK_SIZE, columns);
-                final T[] block = blocks[blockIndex];
-                int k = 0;
-                for (int p = pStart; p < pEnd; ++p) {
-                    for (int q = qStart; q < qEnd; ++q) {
-                        visitor.visit(p, q, block[k]);
-                        ++k;
-                    }
-                }
-                ++blockIndex;
-            }
-        }
-        return visitor.end();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public T walkInOptimizedOrder(final FieldMatrixChangingVisitor<T> visitor,
-                                  final int startRow, final int endRow,
-                                  final int startColumn, final int endColumn)
-        throws MathIllegalArgumentException {
-        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
-        visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
-        for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
-            final int p0     = iBlock * BLOCK_SIZE;
-            final int pStart = FastMath.max(startRow, p0);
-            final int pEnd   = FastMath.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
-            for (int jBlock = startColumn / BLOCK_SIZE; jBlock < 1 + endColumn / BLOCK_SIZE; ++jBlock) {
-                final int jWidth = blockWidth(jBlock);
-                final int q0     = jBlock * BLOCK_SIZE;
-                final int qStart = FastMath.max(startColumn, q0);
-                final int qEnd   = FastMath.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
-                final T[] block = blocks[iBlock * blockColumns + jBlock];
-                for (int p = pStart; p < pEnd; ++p) {
-                    int k = (p - p0) * jWidth + qStart - q0;
-                    for (int q = qStart; q < qEnd; ++q) {
-                        block[k] = visitor.visit(p, q, block[k]);
-                        ++k;
-                    }
-                }
-            }
-        }
-        return visitor.end();
+    public T walkInOptimizedOrder(final FieldMatrixChangingVisitor<T> visitor, final int startRow, final int endRow, final int startColumn, final int endColumn) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public T walkInOptimizedOrder(final FieldMatrixPreservingVisitor<T> visitor,
-                                  final int startRow, final int endRow,
-                                  final int startColumn, final int endColumn)
-        throws MathIllegalArgumentException {
-        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
-        visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
-        for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
-            final int p0     = iBlock * BLOCK_SIZE;
-            final int pStart = FastMath.max(startRow, p0);
-            final int pEnd   = FastMath.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
-            for (int jBlock = startColumn / BLOCK_SIZE; jBlock < 1 + endColumn / BLOCK_SIZE; ++jBlock) {
-                final int jWidth = blockWidth(jBlock);
-                final int q0     = jBlock * BLOCK_SIZE;
-                final int qStart = FastMath.max(startColumn, q0);
-                final int qEnd   = FastMath.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
-                final T[] block = blocks[iBlock * blockColumns + jBlock];
-                for (int p = pStart; p < pEnd; ++p) {
-                    int k = (p - p0) * jWidth + qStart - q0;
-                    for (int q = qStart; q < qEnd; ++q) {
-                        visitor.visit(p, q, block[k]);
-                        ++k;
-                    }
-                }
-            }
-        }
-        return visitor.end();
+    public T walkInOptimizedOrder(final FieldMatrixPreservingVisitor<T> visitor, final int startRow, final int endRow, final int startColumn, final int endColumn) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**

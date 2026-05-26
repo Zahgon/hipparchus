@@ -17,7 +17,6 @@
 package org.hipparchus.complex;
 
 import java.util.function.Function;
-
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.analysis.CalculusFieldUnivariateFunction;
 import org.hipparchus.analysis.integration.FieldUnivariateIntegrator;
@@ -27,12 +26,15 @@ import org.hipparchus.analysis.integration.FieldUnivariateIntegrator;
  * @param <T> the type of the field elements
  * @since 2.0
  */
-public class FieldComplexUnivariateIntegrator<T extends CalculusFieldElement<T>>  {
+public class FieldComplexUnivariateIntegrator<T extends CalculusFieldElement<T>> {
 
-    /** Underlying real integrator. */
+    /**
+     * Underlying real integrator.
+     */
     private FieldUnivariateIntegrator<T> integrator;
 
-    /** Crate a complex integrator from a real integrator.
+    /**
+     * Crate a complex integrator from a real integrator.
      * @param integrator underlying real integrator to use
      */
     public FieldComplexUnivariateIntegrator(final FieldUnivariateIntegrator<T> integrator) {
@@ -49,23 +51,8 @@ public class FieldComplexUnivariateIntegrator<T extends CalculusFieldElement<T>>
      * @param end end point of the integration path
      * @return the value of integral along the straight path
      */
-    public FieldComplex<T> integrate(final int maxEval, final CalculusFieldUnivariateFunction<FieldComplex<T>> f,
-                                     final FieldComplex<T> start, final FieldComplex<T> end) {
-
-        // linear mapping from real interval [0; 1] to function value along complex straight path from start to end
-        final FieldComplex<T>              rate   = end.subtract(start);
-        final Function<T, FieldComplex<T>> mapped = t -> f.value(start.add(rate.multiply(t)));
-
-        final T zero = start.getRealPart().getField().getZero();
-        final T one  = start.getRealPart().getField().getOne();
-
-        // integrate real and imaginary parts separately
-        final T real      = integrator.integrate(maxEval, t -> mapped.apply(t).getRealPart(),      zero, one);
-        final T imaginary = integrator.integrate(maxEval, t -> mapped.apply(t).getImaginaryPart(), zero, one);
-
-        // combine integrals
-        return new FieldComplex<>(real, imaginary).multiply(rate);
-
+    public FieldComplex<T> integrate(final int maxEval, final CalculusFieldUnivariateFunction<FieldComplex<T>> f, final FieldComplex<T> start, final FieldComplex<T> end) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -80,15 +67,7 @@ public class FieldComplexUnivariateIntegrator<T extends CalculusFieldElement<T>>
      * @return the value of integral along the polyline path
      */
     @SuppressWarnings("unchecked")
-    public FieldComplex<T> integrate(final int maxEval, final CalculusFieldUnivariateFunction<FieldComplex<T>> f,
-                                     final FieldComplex<T> start, final FieldComplex<T>...path) {
-        FieldComplex<T> sum      = start.newInstance(0);
-        FieldComplex<T> previous = start;
-        for (final FieldComplex<T> current : path) {
-            sum = sum.add(integrate(maxEval, f, previous, current));
-            previous = current;
-        }
-        return sum;
+    public FieldComplex<T> integrate(final int maxEval, final CalculusFieldUnivariateFunction<FieldComplex<T>> f, final FieldComplex<T> start, final FieldComplex<T>... path) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

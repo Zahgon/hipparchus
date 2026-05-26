@@ -18,7 +18,8 @@ package org.hipparchus.special.elliptic.jacobi;
 
 import org.hipparchus.complex.Complex;
 
-/** Values of {@link JacobiTheta Jacobi theta} functions.
+/**
+ * Values of {@link JacobiTheta Jacobi theta} functions.
  * <p>
  * This is a container for the four Jacobi theta functions
  * θ₁(z|τ), θ₂(z|τ), θ₃(z|τ), and θ₄(z|τ).
@@ -28,58 +29,69 @@ import org.hipparchus.complex.Complex;
  */
 public class Theta {
 
-    /** Value of the θ₁(z|τ) function. */
+    /**
+     * Value of the θ₁(z|τ) function.
+     */
     private final Complex theta1;
 
-    /** Value of the θ₂(z|τ) function. */
+    /**
+     * Value of the θ₂(z|τ) function.
+     */
     private final Complex theta2;
 
-    /** Value of the θ₃(z|τ) function. */
+    /**
+     * Value of the θ₃(z|τ) function.
+     */
     private final Complex theta3;
 
-    /** Value of the θ₄(z|τ) function. */
+    /**
+     * Value of the θ₄(z|τ) function.
+     */
     private final Complex theta4;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param theta1 value of the θ₁(z|τ) function
      * @param theta2 value of the θ₂(z|τ) function
      * @param theta3 value of the θ₃(z|τ) function
      * @param theta4 value of the θ₄(z|τ) function
      */
-    Theta(final Complex theta1, final Complex theta2,
-          final Complex theta3, final Complex theta4) {
+    Theta(final Complex theta1, final Complex theta2, final Complex theta3, final Complex theta4) {
         this.theta1 = theta1;
         this.theta2 = theta2;
         this.theta3 = theta3;
         this.theta4 = theta4;
     }
 
-    /** Get the value of the θ₁(z|τ) function.
+    /**
+     * Get the value of the θ₁(z|τ) function.
      * @return θ₁(z|τ)
      */
     public Complex theta1() {
-        return theta1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the value of the θ₂(z|τ) function.
+    /**
+     * Get the value of the θ₂(z|τ) function.
      * @return θ₂(z|τ)
      */
     public Complex theta2() {
-        return theta2;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the value of the θ₃(z|τ) function.
+    /**
+     * Get the value of the θ₃(z|τ) function.
      * @return θ₃(z|τ)
      */
     public Complex theta3() {
-        return theta3;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the value of the θ₄(z|τ) function.
+    /**
+     * Get the value of the θ₄(z|τ) function.
      * @return θ₄(z|τ)
      */
     public Complex theta4() {
-        return theta4;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

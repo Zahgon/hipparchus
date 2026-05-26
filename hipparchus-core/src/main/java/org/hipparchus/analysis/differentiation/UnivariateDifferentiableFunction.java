@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -24,7 +23,8 @@ package org.hipparchus.analysis.differentiation;
 import org.hipparchus.analysis.UnivariateFunction;
 import org.hipparchus.exception.MathIllegalArgumentException;
 
-/** Interface for univariate functions derivatives.
+/**
+ * Interface for univariate functions derivatives.
  * <p>This interface represents a simple function which computes
  * both the value and the first derivative of a mathematical function.
  * The derivative is computed with respect to the input variable.</p>
@@ -46,6 +46,6 @@ public interface UnivariateDifferentiableFunction extends UnivariateFunction {
 
     @Override
     default double value(double x) {
-        return value(new UnivariateDerivative1(x, 0)).getValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

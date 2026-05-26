@@ -18,7 +18,6 @@ package org.hipparchus.complex;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.Field;
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -56,21 +55,31 @@ import org.hipparchus.util.Precision;
  * @param <T> the type of the field elements
  * @since 2.0
  */
-public class FieldComplex<T extends CalculusFieldElement<T>> implements CalculusFieldElement<FieldComplex<T>>  {
+public class FieldComplex<T extends CalculusFieldElement<T>> implements CalculusFieldElement<FieldComplex<T>> {
 
-    /** A real number representing log(10). */
+    /**
+     * A real number representing log(10).
+     */
     private static final double LOG10 = 2.302585092994045684;
 
-    /** The imaginary part. */
+    /**
+     * The imaginary part.
+     */
     private final T imaginary;
 
-    /** The real part. */
+    /**
+     * The real part.
+     */
     private final T real;
 
-    /** Record whether this complex number is equal to NaN. */
+    /**
+     * Record whether this complex number is equal to NaN.
+     */
     private final transient boolean isNaN;
 
-    /** Record whether this complex number is infinite. */
+    /**
+     * Record whether this complex number is infinite.
+     */
     private final transient boolean isInfinite;
 
     /**
@@ -91,82 +100,88 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
     public FieldComplex(T real, T imaginary) {
         this.real = real;
         this.imaginary = imaginary;
-
         isNaN = real.isNaN() || imaginary.isNaN();
-        isInfinite = !isNaN &&
-            (real.isInfinite() || imaginary.isInfinite());
+        isInfinite = !isNaN && (real.isInfinite() || imaginary.isInfinite());
     }
 
-    /** Get the square root of -1.
+    /**
+     * Get the square root of -1.
      * @param field field the complex components belong to
      * @return number representing "0.0 + 1.0i"
      * @param <T> the type of the field elements
      */
     public static <T extends CalculusFieldElement<T>> FieldComplex<T> getI(final Field<T> field) {
-        return new FieldComplex<>(field.getZero(), field.getOne());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the square root of -1.
+    /**
+     * Get the square root of -1.
      * @param field field the complex components belong to
      * @return number representing "0.0 _ 1.0i"
      * @param <T> the type of the field elements
      */
     public static <T extends CalculusFieldElement<T>> FieldComplex<T> getMinusI(final Field<T> field) {
-        return new FieldComplex<>(field.getZero(), field.getOne().negate());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a complex number representing "NaN + NaNi".
+    /**
+     * Get a complex number representing "NaN + NaNi".
      * @param field field the complex components belong to
      * @return complex number representing "NaN + NaNi"
      * @param <T> the type of the field elements
      */
     public static <T extends CalculusFieldElement<T>> FieldComplex<T> getNaN(final Field<T> field) {
-        return new FieldComplex<>(field.getZero().add(Double.NaN), field.getZero().add(Double.NaN));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a complex number representing "+INF + INFi".
+    /**
+     * Get a complex number representing "+INF + INFi".
      * @param field field the complex components belong to
      * @return complex number representing "+INF + INFi"
      * @param <T> the type of the field elements
      */
     public static <T extends CalculusFieldElement<T>> FieldComplex<T> getInf(final Field<T> field) {
-        return new FieldComplex<>(field.getZero().add(Double.POSITIVE_INFINITY), field.getZero().add(Double.POSITIVE_INFINITY));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a complex number representing "1.0 + 0.0i".
+    /**
+     * Get a complex number representing "1.0 + 0.0i".
      * @param field field the complex components belong to
      * @return complex number representing "1.0 + 0.0i"
      * @param <T> the type of the field elements
      */
     public static <T extends CalculusFieldElement<T>> FieldComplex<T> getOne(final Field<T> field) {
-        return new FieldComplex<>(field.getOne(), field.getZero());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a complex number representing "-1.0 + 0.0i".
+    /**
+     * Get a complex number representing "-1.0 + 0.0i".
      * @param field field the complex components belong to
      * @return complex number representing "-1.0 + 0.0i"
      * @param <T> the type of the field elements
      */
     public static <T extends CalculusFieldElement<T>> FieldComplex<T> getMinusOne(final Field<T> field) {
-        return new FieldComplex<>(field.getOne().negate(), field.getZero());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a complex number representing "0.0 + 0.0i".
+    /**
+     * Get a complex number representing "0.0 + 0.0i".
      * @param field field the complex components belong to
      * @return complex number representing "0.0 + 0.0i
      * @param <T> the type of the field elements
      */
     public static <T extends CalculusFieldElement<T>> FieldComplex<T> getZero(final Field<T> field) {
-        return new FieldComplex<>(field.getZero(), field.getZero());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a complex number representing "π + 0.0i".
+    /**
+     * Get a complex number representing "π + 0.0i".
      * @param field field the complex components belong to
      * @return complex number representing "π + 0.0i
      * @param <T> the type of the field elements
      */
     public static <T extends CalculusFieldElement<T>> FieldComplex<T> getPi(final Field<T> field) {
-        return new FieldComplex<>(field.getZero().getPi(), field.getZero());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -179,8 +194,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> abs() {
-        // we check NaN here because FastMath.hypot checks it after infinity
-        return isNaN ? getNaN(getPartsField()) : createComplex(FastMath.hypot(real, imaginary), getPartsField().getZero());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -201,13 +215,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> add(FieldComplex<T> addend) throws NullArgumentException {
-        MathUtils.checkNotNull(addend);
-        if (isNaN || addend.isNaN) {
-            return getNaN(getPartsField());
-        }
-
-        return createComplex(real.add(addend.getRealPart()),
-                             imaginary.add(addend.getImaginaryPart()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -219,11 +227,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @see #add(FieldComplex)
      */
     public FieldComplex<T> add(T addend) {
-        if (isNaN || addend.isNaN()) {
-            return getNaN(getPartsField());
-        }
-
-        return createComplex(real.add(addend), imaginary);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -236,11 +240,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> add(double addend) {
-        if (isNaN || Double.isNaN(addend)) {
-            return getNaN(getPartsField());
-        }
-
-        return createComplex(real.add(addend), imaginary);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -258,11 +258,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @return the conjugate of this Complex object.
      */
     public FieldComplex<T> conjugate() {
-        if (isNaN) {
-            return getNaN(getPartsField());
-        }
-
-        return createComplex(real, imaginary.negate());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -308,34 +304,8 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @throws NullArgumentException if {@code divisor} is {@code null}.
      */
     @Override
-    public FieldComplex<T> divide(FieldComplex<T> divisor)
-        throws NullArgumentException {
-        MathUtils.checkNotNull(divisor);
-        if (isNaN || divisor.isNaN) {
-            return getNaN(getPartsField());
-        }
-
-        final T c = divisor.getRealPart();
-        final T d = divisor.getImaginaryPart();
-        if (c.isZero() && d.isZero()) {
-            return getNaN(getPartsField());
-        }
-
-        if (divisor.isInfinite() && !isInfinite()) {
-            return getZero(getPartsField());
-        }
-
-        if (FastMath.abs(c).getReal() < FastMath.abs(d).getReal()) {
-            T q = c.divide(d);
-            T invDen = c.multiply(q).add(d).reciprocal();
-            return createComplex(real.multiply(q).add(imaginary).multiply(invDen),
-                                 imaginary.multiply(q).subtract(real).multiply(invDen));
-        } else {
-            T q = d.divide(c);
-            T invDen = d.multiply(q).add(c).reciprocal();
-            return createComplex(imaginary.multiply(q).add(real).multiply(invDen),
-                                 imaginary.subtract(real.multiply(q)).multiply(invDen));
-        }
+    public FieldComplex<T> divide(FieldComplex<T> divisor) throws NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -347,16 +317,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @see #divide(FieldComplex)
      */
     public FieldComplex<T> divide(T divisor) {
-        if (isNaN || divisor.isNaN()) {
-            return getNaN(getPartsField());
-        }
-        if (divisor.isZero()) {
-            return getNaN(getPartsField());
-        }
-        if (divisor.isInfinite()) {
-            return !isInfinite() ? getZero(getPartsField()) : getNaN(getPartsField());
-        }
-        return createComplex(real.divide(divisor), imaginary.divide(divisor));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -369,42 +330,15 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> divide(double divisor) {
-        if (isNaN || Double.isNaN(divisor)) {
-            return getNaN(getPartsField());
-        }
-        if (divisor == 0.0) {
-            return getNaN(getPartsField());
-        }
-        if (Double.isInfinite(divisor)) {
-            return !isInfinite() ? getZero(getPartsField()) : getNaN(getPartsField());
-        }
-        return createComplex(real.divide(divisor), imaginary.divide(divisor));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> reciprocal() {
-        if (isNaN) {
-            return getNaN(getPartsField());
-        }
-
-        if (real.isZero() && imaginary.isZero()) {
-            return getInf(getPartsField());
-        }
-
-        if (isInfinite) {
-            return getZero(getPartsField());
-        }
-
-        if (FastMath.abs(real).getReal() < FastMath.abs(imaginary).getReal()) {
-            T q = real.divide(imaginary);
-            T scale = real.multiply(q).add(imaginary).reciprocal();
-            return createComplex(scale.multiply(q), scale.negate());
-        } else {
-            T q = imaginary.divide(real);
-            T scale = imaginary.multiply(q).add(real).reciprocal();
-            return createComplex(scale, scale.negate().multiply(q));
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -433,19 +367,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-        if (other instanceof FieldComplex){
-            @SuppressWarnings("unchecked")
-            FieldComplex<T> c = (FieldComplex<T>) other;
-            if (c.isNaN) {
-                return isNaN;
-            } else {
-                return real.equals(c.real) && imaginary.equals(c.imaginary);
-            }
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -465,9 +387,8 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      *
      * @see Precision#equals(double,double,int)
      */
-    public static <T extends CalculusFieldElement<T>>boolean equals(FieldComplex<T> x, FieldComplex<T> y, int maxUlps) {
-        return Precision.equals(x.real.getReal(), y.real.getReal(), maxUlps) &&
-               Precision.equals(x.imaginary.getReal(), y.imaginary.getReal(), maxUlps);
+    public static <T extends CalculusFieldElement<T>> boolean equals(FieldComplex<T> x, FieldComplex<T> y, int maxUlps) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -479,8 +400,8 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @param <T> the type of the field elements
      * @return {@code true} if the values are equal.
      */
-    public static <T extends CalculusFieldElement<T>>boolean equals(FieldComplex<T> x, FieldComplex<T> y) {
-        return equals(x, y, 1);
+    public static <T extends CalculusFieldElement<T>> boolean equals(FieldComplex<T> x, FieldComplex<T> y) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -498,10 +419,8 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      *
      * @see Precision#equals(double,double,double)
      */
-    public static <T extends CalculusFieldElement<T>>boolean equals(FieldComplex<T> x, FieldComplex<T> y,
-                                                                    double eps) {
-        return Precision.equals(x.real.getReal(), y.real.getReal(), eps) &&
-               Precision.equals(x.imaginary.getReal(), y.imaginary.getReal(), eps);
+    public static <T extends CalculusFieldElement<T>> boolean equals(FieldComplex<T> x, FieldComplex<T> y, double eps) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -519,11 +438,8 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      *
      * @see Precision#equalsWithRelativeTolerance(double,double,double)
      */
-    public static <T extends CalculusFieldElement<T>>boolean equalsWithRelativeTolerance(FieldComplex<T> x,
-                                                                                         FieldComplex<T> y,
-                                                                                         double eps) {
-        return Precision.equalsWithRelativeTolerance(x.real.getReal(), y.real.getReal(), eps) &&
-               Precision.equalsWithRelativeTolerance(x.imaginary.getReal(), y.imaginary.getReal(), eps);
+    public static <T extends CalculusFieldElement<T>> boolean equalsWithRelativeTolerance(FieldComplex<T> x, FieldComplex<T> y, double eps) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -535,13 +451,11 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public int hashCode() {
-        if (isNaN) {
-            return 7;
-        }
-        return 37 * (17 * imaginary.hashCode() + real.hashCode());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * This implementation considers +0.0 and -0.0 to be equal for both
      * real and imaginary components.
@@ -549,7 +463,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public boolean isZero() {
-        return real.isZero() && imaginary.isZero();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -558,7 +472,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @return the imaginary part.
      */
     public T getImaginary() {
-        return imaginary;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -567,7 +481,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @return the imaginary part.
      */
     public T getImaginaryPart() {
-        return imaginary;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -577,13 +491,15 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public double getReal() {
-        return real.getReal();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> getAddendum() {
-        return new FieldComplex<>(real.getAddendum(), imaginary);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -592,7 +508,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @return the real part.
      */
     public T getRealPart() {
-        return real;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -604,21 +520,23 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public boolean isNaN() {
-        return isNaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check whether the instance is real (i.e. imaginary part is zero).
+    /**
+     * Check whether the instance is real (i.e. imaginary part is zero).
      * @return true if imaginary part is zero
-      */
+     */
     public boolean isReal() {
-        return imaginary.isZero();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check whether the instance is an integer (i.e. imaginary part is zero and real part has no fractional part).
+    /**
+     * Check whether the instance is an integer (i.e. imaginary part is zero and real part has no fractional part).
      * @return true if imaginary part is zero and real part has no fractional part
      */
     public boolean isMathematicalInteger() {
-        return isReal() && Precision.isMathematicalInteger(real.getReal());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -632,7 +550,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public boolean isInfinite() {
-        return isInfinite;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -658,21 +576,8 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @throws NullArgumentException if {@code factor} is {@code null}.
      */
     @Override
-    public FieldComplex<T> multiply(FieldComplex<T> factor)
-        throws NullArgumentException {
-        MathUtils.checkNotNull(factor);
-        if (isNaN || factor.isNaN) {
-            return getNaN(getPartsField());
-        }
-        if (real.isInfinite() ||
-            imaginary.isInfinite() ||
-            factor.real.isInfinite() ||
-            factor.imaginary.isInfinite()) {
-            // we don't use isInfinite() to avoid testing for NaN again
-            return getInf(getPartsField());
-        }
-        return createComplex(real.linearCombination(real, factor.real, imaginary.negate(), factor.imaginary),
-                             real.linearCombination(real, factor.imaginary, imaginary, factor.real));
+    public FieldComplex<T> multiply(FieldComplex<T> factor) throws NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -685,13 +590,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> multiply(final int factor) {
-        if (isNaN) {
-            return getNaN(getPartsField());
-        }
-        if (real.isInfinite() || imaginary.isInfinite()) {
-            return getInf(getPartsField());
-        }
-        return createComplex(real.multiply(factor), imaginary.multiply(factor));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -704,16 +603,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> multiply(double factor) {
-        if (isNaN || Double.isNaN(factor)) {
-            return getNaN(getPartsField());
-        }
-        if (real.isInfinite() ||
-            imaginary.isInfinite() ||
-            Double.isInfinite(factor)) {
-            // we don't use isInfinite() to avoid testing for NaN again
-            return getInf(getPartsField());
-        }
-        return createComplex(real.multiply(factor), imaginary.multiply(factor));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -725,37 +615,30 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @see #multiply(FieldComplex)
      */
     public FieldComplex<T> multiply(T factor) {
-        if (isNaN || factor.isNaN()) {
-            return getNaN(getPartsField());
-        }
-        if (real.isInfinite() ||
-            imaginary.isInfinite() ||
-            factor.isInfinite()) {
-            // we don't use isInfinite() to avoid testing for NaN again
-            return getInf(getPartsField());
-        }
-        return createComplex(real.multiply(factor), imaginary.multiply(factor));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute this * i.
+    /**
+     * Compute this * i.
      * @return this * i
      * @since 2.0
      */
     public FieldComplex<T> multiplyPlusI() {
-        return createComplex(imaginary.negate(), real);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute this *- -i.
+    /**
+     * Compute this *- -i.
      * @return this * i
      * @since 2.0
      */
     public FieldComplex<T> multiplyMinusI() {
-        return createComplex(imaginary, real.negate());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public FieldComplex<T> square() {
-        return multiply(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -767,11 +650,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> negate() {
-        if (isNaN) {
-            return getNaN(getPartsField());
-        }
-
-        return createComplex(real.negate(), imaginary.negate());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -791,15 +670,8 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @throws NullArgumentException if {@code subtrahend} is {@code null}.
      */
     @Override
-    public FieldComplex<T> subtract(FieldComplex<T> subtrahend)
-        throws NullArgumentException {
-        MathUtils.checkNotNull(subtrahend);
-        if (isNaN || subtrahend.isNaN) {
-            return getNaN(getPartsField());
-        }
-
-        return createComplex(real.subtract(subtrahend.getRealPart()),
-                             imaginary.subtract(subtrahend.getImaginaryPart()));
+    public FieldComplex<T> subtract(FieldComplex<T> subtrahend) throws NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -812,10 +684,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> subtract(double subtrahend) {
-        if (isNaN || Double.isNaN(subtrahend)) {
-            return getNaN(getPartsField());
-        }
-        return createComplex(real.subtract(subtrahend), imaginary);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -827,10 +696,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @see #subtract(FieldComplex)
      */
     public FieldComplex<T> subtract(T subtrahend) {
-        if (isNaN || subtrahend.isNaN()) {
-            return getNaN(getPartsField());
-        }
-        return createComplex(real.subtract(subtrahend), imaginary);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -848,11 +714,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> acos() {
-        if (isNaN) {
-            return getNaN(getPartsField());
-        }
-
-        return this.add(this.sqrt1z().multiplyPlusI()).log().multiplyMinusI();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -870,11 +732,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> asin() {
-        if (isNaN) {
-            return getNaN(getPartsField());
-        }
-
-        return sqrt1z().add(this.multiplyPlusI()).log().multiplyMinusI();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -892,34 +750,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> atan() {
-        if (isNaN) {
-            return getNaN(getPartsField());
-        }
-
-        final T one = getPartsField().getOne();
-        if (real.isZero()) {
-
-            // singularity at ±i
-            if (imaginary.multiply(imaginary).subtract(one).isZero()) {
-                return getNaN(getPartsField());
-            }
-
-            // branch cut on imaginary axis
-            final T zero = getPartsField().getZero();
-            final FieldComplex<T> tmp = createComplex(one.add(imaginary).divide(one.subtract(imaginary)), zero).
-                                        log().multiplyPlusI().multiply(0.5);
-            return createComplex(FastMath.copySign(tmp.real, real), tmp.imaginary);
-
-        } else if (imaginary.isZero()) {
-            // taking care to preserve the sign of the zero imaginary part
-            return createComplex(FastMath.atan(real), imaginary);
-        } else {
-            // regular formula
-            final FieldComplex<T> n = createComplex(one.add(imaginary), real.negate());
-            final FieldComplex<T> d = createComplex(one.subtract(imaginary),  real);
-            return n.divide(d).log().multiplyPlusI().multiply(0.5);
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -952,13 +783,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> cos() {
-        if (isNaN) {
-            return getNaN(getPartsField());
-        }
-
-        final FieldSinCos<T>   scr  = FastMath.sinCos(real);
-        final FieldSinhCosh<T> schi = FastMath.sinhCosh(imaginary);
-        return createComplex(scr.cos().multiply(schi.cosh()), scr.sin().negate().multiply(schi.sinh()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -993,13 +818,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> cosh() {
-        if (isNaN) {
-            return getNaN(getPartsField());
-        }
-
-        final FieldSinhCosh<T> schr = FastMath.sinhCosh(real);
-        final FieldSinCos<T>   sci  = FastMath.sinCos(imaginary);
-        return createComplex(schr.cosh().multiply(sci.cos()), schr.sinh().multiply(sci.sin()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1035,25 +854,15 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> exp() {
-        if (isNaN) {
-            return getNaN(getPartsField());
-        }
-
-        final T              expReal = FastMath.exp(real);
-        final FieldSinCos<T> sc      = FastMath.sinCos(imaginary);
-        return createComplex(expReal.multiply(sc.cos()), expReal.multiply(sc.sin()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> expm1() {
-        if (isNaN) {
-            return getNaN(getPartsField());
-        }
-
-        final T              expm1Real = FastMath.expm1(real);
-        final FieldSinCos<T> sc        = FastMath.sinCos(imaginary);
-        return createComplex(expm1Real.multiply(sc.cos()), expm1Real.multiply(sc.sin()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1092,24 +901,23 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> log() {
-        if (isNaN) {
-            return getNaN(getPartsField());
-        }
-
-        return createComplex(FastMath.log(FastMath.hypot(real, imaginary)),
-                             FastMath.atan2(imaginary, real));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> log1p() {
-        return add(1.0).log();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> log10() {
-        return log().divide(LOG10);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1128,30 +936,9 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @throws NullArgumentException if x is {@code null}.
      */
     @Override
-    public FieldComplex<T> pow(FieldComplex<T> x)
-        throws NullArgumentException {
-
-        MathUtils.checkNotNull(x);
-
-        if (x.imaginary.isZero()) {
-            final int nx = (int) FastMath.rint(x.real.getReal());
-            if (x.real.getReal() == nx) {
-                // integer power
-                return pow(nx);
-            } else if (this.imaginary.isZero()) {
-                // check real implementation that handles a bunch of special cases
-                final T realPow = FastMath.pow(this.real, x.real);
-                if (realPow.isFinite()) {
-                    return createComplex(realPow, getPartsField().getZero());
-                }
-            }
-        }
-
-        // generic implementation
-        return this.log().multiply(x).exp();
-
+    public FieldComplex<T> pow(FieldComplex<T> x) throws NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     /**
      * Returns of value of this complex number raised to the power of {@code x}.
@@ -1168,22 +955,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @return <code> this<sup>x</sup></code>.
      */
     public FieldComplex<T> pow(T x) {
-
-        final int nx = (int) FastMath.rint(x.getReal());
-        if (x.getReal() == nx) {
-            // integer power
-            return pow(nx);
-        } else if (this.imaginary.isZero()) {
-            // check real implementation that handles a bunch of special cases
-            final T realPow = FastMath.pow(this.real, x);
-            if (realPow.isFinite()) {
-                return createComplex(realPow, getPartsField().getZero());
-            }
-        }
-
-        // generic implementation
-        return this.log().multiply(x).exp();
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1202,54 +974,19 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> pow(double x) {
-
-        final int nx = (int) FastMath.rint(x);
-        if (x == nx) {
-            // integer power
-            return pow(nx);
-        } else if (this.imaginary.isZero()) {
-            // check real implementation that handles a bunch of special cases
-            final T realPow = FastMath.pow(this.real, x);
-            if (realPow.isFinite()) {
-                return createComplex(realPow, getPartsField().getZero());
-            }
-        }
-
-        // generic implementation
-        return this.log().multiply(x).exp();
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-     /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> pow(final int n) {
-
-        FieldComplex<T> result = getField().getOne();
-        final boolean invert;
-        int p = n;
-        if (p < 0) {
-            invert = true;
-            p = -p;
-        } else {
-            invert = false;
-        }
-
-        // Exponentiate by successive squaring
-        FieldComplex<T> square = this;
-        while (p > 0) {
-            if ((p & 0x1) > 0) {
-                result = result.multiply(square);
-            }
-            square = square.multiply(square);
-            p = p >> 1;
-        }
-
-        return invert ? result.reciprocal() : result;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-     /**
-      * Compute the
+    /**
+     * Compute the
      * <a href="http://mathworld.wolfram.com/Sine.html" TARGET="_top">
      * sine</a>
      * of this complex number.
@@ -1281,78 +1018,56 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> sin() {
-        if (isNaN) {
-            return getNaN(getPartsField());
-        }
-
-        final FieldSinCos<T>   scr  = FastMath.sinCos(real);
-        final FieldSinhCosh<T> schi = FastMath.sinhCosh(imaginary);
-        return createComplex(scr.sin().multiply(schi.cosh()), scr.cos().multiply(schi.sinh()));
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldSinCos<FieldComplex<T>> sinCos() {
-        if (isNaN) {
-            return new FieldSinCos<>(getNaN(getPartsField()), getNaN(getPartsField()));
-        }
-
-        final FieldSinCos<T>   scr = FastMath.sinCos(real);
-        final FieldSinhCosh<T> schi = FastMath.sinhCosh(imaginary);
-        return new FieldSinCos<>(createComplex(scr.sin().multiply(schi.cosh()), scr.cos().multiply(schi.sinh())),
-                                 createComplex(scr.cos().multiply(schi.cosh()), scr.sin().negate().multiply(schi.sinh())));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> atan2(FieldComplex<T> x) {
-
-        // compute r = sqrt(x^2+y^2)
-        final FieldComplex<T> r = x.square().add(multiply(this)).sqrt();
-
-        if (x.real.getReal() >= 0) {
-            // compute atan2(y, x) = 2 atan(y / (r + x))
-            return divide(r.add(x)).atan().twice();
-        } else {
-            // compute atan2(y, x) = +/- pi - 2 atan(y / (r - x))
-            return divide(r.subtract(x)).atan().multiply(-2).add(x.real.getPi());
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * Branch cuts are on the real axis, below +1.
      * </p>
      */
     @Override
     public FieldComplex<T> acosh() {
-        final FieldComplex<T> sqrtPlus  = add(1).sqrt();
-        final FieldComplex<T> sqrtMinus = subtract(1).sqrt();
-        return add(sqrtPlus.multiply(sqrtMinus)).log();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * Branch cuts are on the imaginary axis, above +i and below -i.
      * </p>
      */
     @Override
     public FieldComplex<T> asinh() {
-        return add(multiply(this).add(1.0).sqrt()).log();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * Branch cuts are on the real axis, above +1 and below -1.
      * </p>
      */
     @Override
     public FieldComplex<T> atanh() {
-        final FieldComplex<T> logPlus  = add(1).log();
-        final FieldComplex<T> logMinus = createComplex(getPartsField().getOne().subtract(real), imaginary.negate()).log();
-        return logPlus.subtract(logMinus).multiply(0.5);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1387,27 +1102,15 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> sinh() {
-        if (isNaN) {
-            return getNaN(getPartsField());
-        }
-
-        final FieldSinhCosh<T> schr = FastMath.sinhCosh(real);
-        final FieldSinCos<T>   sci  = FastMath.sinCos(imaginary);
-        return createComplex(schr.sinh().multiply(sci.cos()), schr.cosh().multiply(sci.sin()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldSinhCosh<FieldComplex<T>> sinhCosh() {
-        if (isNaN) {
-            return new FieldSinhCosh<>(getNaN(getPartsField()), getNaN(getPartsField()));
-        }
-
-        final FieldSinhCosh<T> schr = FastMath.sinhCosh(real);
-        final FieldSinCos<T>   sci  = FastMath.sinCos(imaginary);
-        return new FieldSinhCosh<>(createComplex(schr.sinh().multiply(sci.cos()), schr.cosh().multiply(sci.sin())),
-                                   createComplex(schr.cosh().multiply(sci.cos()), schr.sinh().multiply(sci.sin())));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1448,21 +1151,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> sqrt() {
-        if (isNaN) {
-            return getNaN(getPartsField());
-        }
-
-        if (isZero()) {
-            return getZero(getPartsField());
-        }
-
-        T t = FastMath.sqrt((FastMath.abs(real).add(FastMath.hypot(real, imaginary))).multiply(0.5));
-        if (real.getReal() >= 0.0) {
-            return createComplex(t, imaginary.divide(t.twice()));
-        } else {
-            return createComplex(FastMath.abs(imaginary).divide(t.twice()),
-                                 FastMath.copySign(t, imaginary));
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1482,32 +1171,29 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @return the square root of <code>1 - this<sup>2</sup></code>.
      */
     public FieldComplex<T> sqrt1z() {
-        final FieldComplex<T> t2 = this.square();
-        return createComplex(getPartsField().getOne().subtract(t2.real), t2.imaginary.negate()).sqrt();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * This implementation compute the principal cube root by using a branch cut along real negative axis.
      * </p>
      */
     @Override
     public FieldComplex<T> cbrt() {
-        final T              magnitude = FastMath.cbrt(abs().getRealPart());
-        final FieldSinCos<T> sc        = FastMath.sinCos(getArgument().divide(3));
-        return createComplex(magnitude.multiply(sc.cos()), magnitude.multiply(sc.sin()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * This implementation compute the principal n<sup>th</sup> root by using a branch cut along real negative axis.
      * </p>
      */
     @Override
     public FieldComplex<T> rootN(int n) {
-        final T              magnitude = FastMath.pow(abs().getRealPart(), 1.0 / n);
-        final FieldSinCos<T> sc        = FastMath.sinCos(getArgument().divide(n));
-        return createComplex(magnitude.multiply(sc.cos()), magnitude.multiply(sc.sin()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1543,22 +1229,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> tan() {
-        if (isNaN || real.isInfinite()) {
-            return getNaN(getPartsField());
-        }
-        if (imaginary.getReal() > 20.0) {
-            return getI(getPartsField());
-        }
-        if (imaginary.getReal() < -20.0) {
-            return getMinusI(getPartsField());
-        }
-
-        final FieldSinCos<T> sc2r = FastMath.sinCos(real.twice());
-        T imaginary2 = imaginary.twice();
-        T d = sc2r.cos().add(FastMath.cosh(imaginary2));
-
-        return createComplex(sc2r.sin().divide(d), FastMath.sinh(imaginary2).divide(d));
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1594,23 +1265,8 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> tanh() {
-        if (isNaN || imaginary.isInfinite()) {
-            return getNaN(getPartsField());
-        }
-        if (real.getReal() > 20.0) {
-            return getOne(getPartsField());
-        }
-        if (real.getReal() < -20.0) {
-            return getMinusOne(getPartsField());
-        }
-        T real2 = real.twice();
-        final FieldSinCos<T> sc2i = FastMath.sinCos(imaginary.twice());
-        T d = FastMath.cosh(real2).add(sc2i.cos());
-
-        return createComplex(FastMath.sinh(real2).divide(d), sc2i.sin().divide(d));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
-
 
     /**
      * Compute the argument of this complex number.
@@ -1630,7 +1286,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @return the argument of {@code this}.
      */
     public T getArgument() {
-        return FastMath.atan2(getImaginaryPart(), getRealPart());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1655,40 +1311,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @throws MathIllegalArgumentException if {@code n <= 0}.
      */
     public List<FieldComplex<T>> nthRoot(int n) throws MathIllegalArgumentException {
-
-        if (n <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.CANNOT_COMPUTE_NTH_ROOT_FOR_NEGATIVE_N,
-                                                   n);
-        }
-
-        final List<FieldComplex<T>> result = new ArrayList<>();
-
-        if (isNaN) {
-            result.add(getNaN(getPartsField()));
-            return result;
-        }
-        if (isInfinite()) {
-            result.add(getInf(getPartsField()));
-            return result;
-        }
-
-        // nth root of abs -- faster / more accurate to use a solver here?
-        final T nthRootOfAbs = FastMath.pow(FastMath.hypot(real, imaginary), 1.0 / n);
-
-        // Compute nth roots of complex number with k = 0, 1, ... n-1
-        final T nthPhi = getArgument().divide(n);
-        final double slice = 2 * FastMath.PI / n;
-        T innerPart = nthPhi;
-        for (int k = 0; k < n ; k++) {
-            // inner part
-            final FieldSinCos<T> scInner = FastMath.sinCos(innerPart);
-            final T realPart = nthRootOfAbs.multiply(scInner.cos());
-            final T imaginaryPart = nthRootOfAbs.multiply(scInner.sin());
-            result.add(createComplex(realPart, imaginaryPart));
-            innerPart = innerPart.add(slice);
-        }
-
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1701,7 +1324,7 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @see #valueOf(CalculusFieldElement, CalculusFieldElement)
      */
     protected FieldComplex<T> createComplex(final T realPart, final T imaginaryPart) {
-        return new FieldComplex<>(realPart, imaginaryPart);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1712,12 +1335,8 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @param <T> the type of the field elements
      * @return a Complex instance.
      */
-    public static <T extends CalculusFieldElement<T>> FieldComplex<T>
-        valueOf(T realPart, T imaginaryPart) {
-        if (realPart.isNaN() || imaginaryPart.isNaN()) {
-            return getNaN(realPart.getField());
-        }
-        return new FieldComplex<>(realPart, imaginaryPart);
+    public static <T extends CalculusFieldElement<T>> FieldComplex<T> valueOf(T realPart, T imaginaryPart) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1727,206 +1346,156 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      * @param <T> the type of the field elements
      * @return a Complex instance.
      */
-    public static <T extends CalculusFieldElement<T>> FieldComplex<T>
-        valueOf(T realPart) {
-        if (realPart.isNaN()) {
-            return getNaN(realPart.getField());
-        }
-        return new FieldComplex<>(realPart);
+    public static <T extends CalculusFieldElement<T>> FieldComplex<T> valueOf(T realPart) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> newInstance(double realPart) {
-        return valueOf(getPartsField().getZero().newInstance(realPart));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplexField<T> getField() {
-        return FieldComplexField.getField(getPartsField());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the {@link Field} the real and imaginary parts belong to.
+    /**
+     * Get the {@link Field} the real and imaginary parts belong to.
      * @return {@link Field} the real and imaginary parts belong to
      */
     public Field<T> getPartsField() {
-        return real.getField();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "(" + real + ", " + imaginary + ")";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> scalb(int n) {
-        return createComplex(FastMath.scalb(real, n), FastMath.scalb(imaginary, n));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> ulp() {
-        return createComplex(FastMath.ulp(real), FastMath.ulp(imaginary));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> hypot(FieldComplex<T> y) {
-        if (isInfinite() || y.isInfinite()) {
-            return getInf(getPartsField());
-        } else if (isNaN() || y.isNaN()) {
-            return getNaN(getPartsField());
-        } else {
-            return square().add(y.square()).sqrt();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldComplex<T> linearCombination(final FieldComplex<T>[] a, final FieldComplex<T>[] b)
-        throws MathIllegalArgumentException {
-        final int n = 2 * a.length;
-        final T[] realA      = MathArrays.buildArray(getPartsField(), n);
-        final T[] realB      = MathArrays.buildArray(getPartsField(), n);
-        final T[] imaginaryA = MathArrays.buildArray(getPartsField(), n);
-        final T[] imaginaryB = MathArrays.buildArray(getPartsField(), n);
-        for (int i = 0; i < a.length; ++i)  {
-            final FieldComplex<T> ai = a[i];
-            final FieldComplex<T> bi = b[i];
-            realA[2 * i    ]      = ai.real;
-            realA[2 * i + 1]      = ai.imaginary.negate();
-            realB[2 * i    ]      = bi.real;
-            realB[2 * i + 1]      = bi.imaginary;
-            imaginaryA[2 * i    ] = ai.real;
-            imaginaryA[2 * i + 1] = ai.imaginary;
-            imaginaryB[2 * i    ] = bi.imaginary;
-            imaginaryB[2 * i + 1] = bi.real;
-        }
-        return createComplex(real.linearCombination(realA,  realB),
-                             real.linearCombination(imaginaryA, imaginaryB));
+    public FieldComplex<T> linearCombination(final FieldComplex<T>[] a, final FieldComplex<T>[] b) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldComplex<T> linearCombination(final double[] a, final FieldComplex<T>[] b)
-        throws MathIllegalArgumentException {
-        final int n = a.length;
-        final T[] realB      = MathArrays.buildArray(getPartsField(), n);
-        final T[] imaginaryB = MathArrays.buildArray(getPartsField(), n);
-        for (int i = 0; i < a.length; ++i)  {
-            final FieldComplex<T> bi = b[i];
-            realB[i]      = bi.real;
-            imaginaryB[i] = bi.imaginary;
-        }
-        return createComplex(real.linearCombination(a,  realB),
-                             real.linearCombination(a, imaginaryB));
+    public FieldComplex<T> linearCombination(final double[] a, final FieldComplex<T>[] b) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> linearCombination(final FieldComplex<T> a1, final FieldComplex<T> b1, final FieldComplex<T> a2, final FieldComplex<T> b2) {
-        return createComplex(real.linearCombination(a1.real, b1.real,
-                                                    a1.imaginary.negate(), b1.imaginary,
-                                                    a2.real, b2.real,
-                                                    a2.imaginary.negate(), b2.imaginary),
-                             real.linearCombination(a1.real, b1.imaginary,
-                                                    a1.imaginary, b1.real,
-                                                    a2.real, b2.imaginary,
-                                                    a2.imaginary, b2.real));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> linearCombination(final double a1, final FieldComplex<T> b1, final double a2, final FieldComplex<T> b2) {
-        return createComplex(real.linearCombination(a1, b1.real,
-                                                    a2, b2.real),
-                             real.linearCombination(a1, b1.imaginary,
-                                                    a2, b2.imaginary));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldComplex<T> linearCombination(final FieldComplex<T> a1, final FieldComplex<T> b1,
-                                                final FieldComplex<T> a2, final FieldComplex<T> b2,
-                                                final FieldComplex<T> a3, final FieldComplex<T> b3) {
-        FieldComplex<T>[] a = MathArrays.buildArray(getField(), 3);
-        a[0] = a1;
-        a[1] = a2;
-        a[2] = a3;
-        FieldComplex<T>[] b = MathArrays.buildArray(getField(), 3);
-        b[0] = b1;
-        b[1] = b2;
-        b[2] = b3;
-        return linearCombination(a, b);
+    public FieldComplex<T> linearCombination(final FieldComplex<T> a1, final FieldComplex<T> b1, final FieldComplex<T> a2, final FieldComplex<T> b2, final FieldComplex<T> a3, final FieldComplex<T> b3) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldComplex<T> linearCombination(final double a1, final FieldComplex<T> b1,
-                                                final double a2, final FieldComplex<T> b2,
-                                                final double a3, final FieldComplex<T> b3) {
-        FieldComplex<T>[] b = MathArrays.buildArray(getField(), 3);
-        b[0] = b1;
-        b[1] = b2;
-        b[2] = b3;
-        return linearCombination(new double[]  { a1, a2, a3 }, b);
+    public FieldComplex<T> linearCombination(final double a1, final FieldComplex<T> b1, final double a2, final FieldComplex<T> b2, final double a3, final FieldComplex<T> b3) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldComplex<T> linearCombination(final FieldComplex<T> a1, final FieldComplex<T> b1,
-                                                final FieldComplex<T> a2, final FieldComplex<T> b2,
-                                                final FieldComplex<T> a3, final FieldComplex<T> b3,
-                                                final FieldComplex<T> a4, final FieldComplex<T> b4) {
-        FieldComplex<T>[] a = MathArrays.buildArray(getField(), 4);
-        a[0] = a1;
-        a[1] = a2;
-        a[2] = a3;
-        a[3] = a4;
-        FieldComplex<T>[] b = MathArrays.buildArray(getField(), 4);
-        b[0] = b1;
-        b[1] = b2;
-        b[2] = b3;
-        b[3] = b4;
-        return linearCombination(a, b);
+    public FieldComplex<T> linearCombination(final FieldComplex<T> a1, final FieldComplex<T> b1, final FieldComplex<T> a2, final FieldComplex<T> b2, final FieldComplex<T> a3, final FieldComplex<T> b3, final FieldComplex<T> a4, final FieldComplex<T> b4) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldComplex<T> linearCombination(final double a1, final FieldComplex<T> b1,
-                                                final double a2, final FieldComplex<T> b2,
-                                                final double a3, final FieldComplex<T> b3,
-                                                final double a4, final FieldComplex<T> b4) {
-        FieldComplex<T>[] b = MathArrays.buildArray(getField(), 4);
-        b[0] = b1;
-        b[1] = b2;
-        b[2] = b3;
-        b[3] = b4;
-        return linearCombination(new double[]  { a1, a2, a3, a4 }, b);
+    public FieldComplex<T> linearCombination(final double a1, final FieldComplex<T> b1, final double a2, final FieldComplex<T> b2, final double a3, final FieldComplex<T> b3, final double a4, final FieldComplex<T> b4) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> ceil() {
-        return createComplex(FastMath.ceil(getRealPart()), FastMath.ceil(getImaginaryPart()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> floor() {
-        return createComplex(FastMath.floor(getRealPart()), FastMath.floor(getImaginaryPart()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> rint() {
-        return createComplex(FastMath.rint(getRealPart()), FastMath.rint(getImaginaryPart()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * for complex numbers, the integer n corresponding to {@code this.subtract(remainder(a)).divide(a)}
      * is a <a href="https://en.wikipedia.org/wiki/Gaussian_integer">Wikipedia - Gaussian integer</a>.
@@ -1934,10 +1503,11 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> remainder(final double a) {
-        return createComplex(FastMath.IEEEremainder(getRealPart(), a), FastMath.IEEEremainder(getImaginaryPart(), a));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * for complex numbers, the integer n corresponding to {@code this.subtract(remainder(a)).divide(a)}
      * is a <a href="https://en.wikipedia.org/wiki/Gaussian_integer">Wikipedia - Gaussian integer</a>.
@@ -1945,63 +1515,65 @@ public class FieldComplex<T extends CalculusFieldElement<T>> implements Calculus
      */
     @Override
     public FieldComplex<T> remainder(final FieldComplex<T> a) {
-        final FieldComplex<T> complexQuotient = divide(a);
-        final T  qRInt           = FastMath.rint(complexQuotient.real);
-        final T  qIInt           = FastMath.rint(complexQuotient.imaginary);
-        return createComplex(real.subtract(qRInt.multiply(a.real)).add(qIInt.multiply(a.imaginary)),
-                             imaginary.subtract(qRInt.multiply(a.imaginary)).subtract(qIInt.multiply(a.real)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> sign() {
-        if (isNaN() || isZero()) {
-            return this;
-        } else {
-            return this.divide(FastMath.hypot(real, imaginary));
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * The signs of real and imaginary parts are copied independently.
      * </p>
      */
     @Override
     public FieldComplex<T> copySign(final FieldComplex<T> z) {
-        return createComplex(FastMath.copySign(getRealPart(), z.getRealPart()),
-                             FastMath.copySign(getImaginaryPart(), z.getImaginaryPart()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> copySign(double r) {
-        return createComplex(FastMath.copySign(getRealPart(), r), FastMath.copySign(getImaginaryPart(), r));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> toDegrees() {
-        return createComplex(FastMath.toDegrees(getRealPart()), FastMath.toDegrees(getImaginaryPart()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> toRadians() {
-        return createComplex(FastMath.toRadians(getRealPart()), FastMath.toRadians(getImaginaryPart()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> getPi() {
-        return getPi(getPartsField());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSmall(final FieldComplex<T> base, final double relativeThreshold) {
-        return getRealPart().isSmall(base.getRealPart(), relativeThreshold) &&
-               getImaginaryPart().isSmall(base.getImaginaryPart(), relativeThreshold);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

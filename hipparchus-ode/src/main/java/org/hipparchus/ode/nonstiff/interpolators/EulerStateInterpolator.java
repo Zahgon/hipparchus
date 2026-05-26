@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.nonstiff.interpolators;
 
 import org.hipparchus.ode.EquationsMapper;
@@ -41,13 +40,15 @@ import org.hipparchus.ode.nonstiff.EulerIntegrator;
  *
  * @see EulerIntegrator
  */
-
 public class EulerStateInterpolator extends RungeKuttaStateInterpolator {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20160328L;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param forward integration direction indicator
      * @param yDotK slopes at the intermediate points
      * @param globalPreviousState start of the global step
@@ -56,45 +57,23 @@ public class EulerStateInterpolator extends RungeKuttaStateInterpolator {
      * @param softCurrentState end of the restricted step
      * @param mapper equations mapper for the all equations
      */
-    public EulerStateInterpolator(final boolean forward,
-                                  final double[][] yDotK,
-                                  final ODEStateAndDerivative globalPreviousState,
-                                  final ODEStateAndDerivative globalCurrentState,
-                                  final ODEStateAndDerivative softPreviousState,
-                                  final ODEStateAndDerivative softCurrentState,
-                                  final EquationsMapper mapper) {
+    public EulerStateInterpolator(final boolean forward, final double[][] yDotK, final ODEStateAndDerivative globalPreviousState, final ODEStateAndDerivative globalCurrentState, final ODEStateAndDerivative softPreviousState, final ODEStateAndDerivative softCurrentState, final EquationsMapper mapper) {
         super(forward, yDotK, globalPreviousState, globalCurrentState, softPreviousState, softCurrentState, mapper);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected EulerStateInterpolator create(final boolean newForward, final double[][] newYDotK,
-                                            final ODEStateAndDerivative newGlobalPreviousState,
-                                            final ODEStateAndDerivative newGlobalCurrentState,
-                                            final ODEStateAndDerivative newSoftPreviousState,
-                                            final ODEStateAndDerivative newSoftCurrentState,
-                                            final EquationsMapper newMapper) {
-        return new EulerStateInterpolator(newForward, newYDotK,
-                                          newGlobalPreviousState, newGlobalCurrentState,
-                                          newSoftPreviousState, newSoftCurrentState,
-                                          newMapper);
+    protected EulerStateInterpolator create(final boolean newForward, final double[][] newYDotK, final ODEStateAndDerivative newGlobalPreviousState, final ODEStateAndDerivative newGlobalCurrentState, final ODEStateAndDerivative newSoftPreviousState, final ODEStateAndDerivative newSoftCurrentState, final EquationsMapper newMapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected ODEStateAndDerivative computeInterpolatedStateAndDerivatives(final EquationsMapper mapper,
-                                                                           final double time, final double theta,
-                                                                           final double thetaH, final double oneMinusThetaH) {
-        final double[] interpolatedState;
-        if (getGlobalPreviousState() != null && theta <= 0.5) {
-            interpolatedState       = previousStateLinearCombination(thetaH);
-        } else {
-            interpolatedState       = currentStateLinearCombination(-oneMinusThetaH);
-        }
-        final double[] interpolatedDerivatives = derivativeLinearCombination(1.0);
-
-        return mapper.mapStateAndDerivative(time, interpolatedState, interpolatedDerivatives);
-
+    protected ODEStateAndDerivative computeInterpolatedStateAndDerivatives(final EquationsMapper mapper, final double time, final double theta, final double thetaH, final double oneMinusThetaH) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

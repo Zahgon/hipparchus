@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -29,13 +28,16 @@ import org.hipparchus.util.MathUtils;
  * Abstract base class for implementations of the
  * {@link UnivariateStatistic} interface.
  */
-public abstract class AbstractUnivariateStatistic
-    implements UnivariateStatistic {
+public abstract class AbstractUnivariateStatistic implements UnivariateStatistic {
 
-    /** Stored data. */
+    /**
+     * Stored data.
+     */
     private double[] storedData;
 
-    /** Default constructor. */
+    /**
+     * Default constructor.
+     */
     protected AbstractUnivariateStatistic() {
         // This constructor is intentionally empty. Nothing special is needed here.
     }
@@ -52,12 +54,15 @@ public abstract class AbstractUnivariateStatistic
         this.storedData = original.storedData != null ? original.storedData.clone() : null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public abstract double evaluate(double[] values, int begin, int length)
-        throws MathIllegalArgumentException;
+    public abstract double evaluate(double[] values, int begin, int length) throws MathIllegalArgumentException;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public abstract UnivariateStatistic copy();
 
@@ -70,7 +75,7 @@ public abstract class AbstractUnivariateStatistic
      * @see #evaluate()
      */
     public void setData(final double[] values) {
-        storedData = (values == null) ? null : values.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -78,7 +83,7 @@ public abstract class AbstractUnivariateStatistic
      * @return copy of the stored data array (may be null)
      */
     public double[] getData() {
-        return (storedData == null) ? null : storedData.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -86,7 +91,7 @@ public abstract class AbstractUnivariateStatistic
      * @return reference to the stored data array (may be null)
      */
     protected double[] getDataRef() {
-        return storedData; // NOPMD - returning an internal array is intentional and documented here
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -99,24 +104,8 @@ public abstract class AbstractUnivariateStatistic
      * are not valid
      * @see #evaluate()
      */
-    public void setData(final double[] values, final int begin, final int length)
-            throws MathIllegalArgumentException {
-        MathUtils.checkNotNull(values, LocalizedCoreFormats.INPUT_ARRAY);
-
-        if (begin < 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.START_POSITION, begin);
-        }
-
-        if (length < 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.LENGTH, length);
-        }
-
-        if (begin + length > values.length) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.SUBARRAY_ENDS_AFTER_ARRAY_END,
-                                                begin + length, values.length, true);
-        }
-        storedData = new double[length];
-        System.arraycopy(values, begin, storedData, 0, length);
+    public void setData(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -129,7 +118,6 @@ public abstract class AbstractUnivariateStatistic
      * @throws MathIllegalArgumentException if the stored data array is null
      */
     public double evaluate() throws MathIllegalArgumentException {
-        return evaluate(storedData);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

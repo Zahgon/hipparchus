@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.analysis.solvers;
 
 import org.hipparchus.CalculusFieldElement;
@@ -28,7 +26,8 @@ import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathIllegalStateException;
 import org.hipparchus.exception.MathRuntimeException;
 
-/** Interface for {@link UnivariateSolver (univariate real) root-finding
+/**
+ * Interface for {@link UnivariateSolver (univariate real) root-finding
  * algorithms} that maintain a bracketed solution. There are several advantages
  * to having such root-finding algorithms:
  * <ul>
@@ -121,8 +120,7 @@ public interface BracketedRealFieldUnivariateSolver<T extends CalculusFieldEleme
      * @throws org.hipparchus.exception.MathIllegalStateException if
      * the allowed number of evaluations is exceeded.
      */
-    T solve(int maxEval, CalculusFieldUnivariateFunction<T> f, T min, T max,
-            AllowedSolution allowedSolution);
+    T solve(int maxEval, CalculusFieldUnivariateFunction<T> f, T min, T max, AllowedSolution allowedSolution);
 
     /**
      * Solve for a zero in the given interval, start at {@code startValue}.
@@ -143,8 +141,7 @@ public interface BracketedRealFieldUnivariateSolver<T extends CalculusFieldEleme
      * @throws org.hipparchus.exception.MathIllegalStateException if
      * the allowed number of evaluations is exceeded.
      */
-    T solve(int maxEval, CalculusFieldUnivariateFunction<T> f, T min, T max, T startValue,
-            AllowedSolution allowedSolution);
+    T solve(int maxEval, CalculusFieldUnivariateFunction<T> f, T min, T max, T startValue, AllowedSolution allowedSolution);
 
     /**
      * Solve for a zero in the given interval and return a tolerance interval surrounding
@@ -169,12 +166,8 @@ public interface BracketedRealFieldUnivariateSolver<T extends CalculusFieldEleme
      * @throws MathIllegalStateException    if the allowed number of evaluations is
      *                                      exceeded.
      */
-    default Interval<T> solveInterval(int maxEval,
-                                      CalculusFieldUnivariateFunction<T> f,
-                                      T min,
-                                      T max)
-            throws MathIllegalArgumentException, MathIllegalStateException {
-        return this.solveInterval(maxEval, f, min, max, min.add(max.subtract(min).multiply(0.5)));
+    default Interval<T> solveInterval(int maxEval, CalculusFieldUnivariateFunction<T> f, T min, T max) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -200,12 +193,7 @@ public interface BracketedRealFieldUnivariateSolver<T extends CalculusFieldEleme
      * @throws MathIllegalStateException    if the allowed number of evaluations is
      *                                      exceeded.
      */
-    Interval<T> solveInterval(int maxEval,
-                              CalculusFieldUnivariateFunction<T> f,
-                              T min,
-                              T max,
-                              T startValue)
-            throws MathIllegalArgumentException, MathIllegalStateException;
+    Interval<T> solveInterval(int maxEval, CalculusFieldUnivariateFunction<T> f, T min, T max, T startValue) throws MathIllegalArgumentException, MathIllegalStateException;
 
     /**
      * An interval of a function that brackets a root.
@@ -218,13 +206,24 @@ public interface BracketedRealFieldUnivariateSolver<T extends CalculusFieldEleme
      */
     class Interval<T extends CalculusFieldElement<T>> {
 
-        /** Abscissa on the left end of the interval. */
+        /**
+         * Abscissa on the left end of the interval.
+         */
         private final T leftAbscissa;
-        /** Function value at {@link #leftAbscissa}. */
+
+        /**
+         * Function value at {@link #leftAbscissa}.
+         */
         private final T leftValue;
-        /** Abscissa on the right end of the interval, >= {@link #leftAbscissa}. */
+
+        /**
+         * Abscissa on the right end of the interval, >= {@link #leftAbscissa}.
+         */
         private final T rightAbscissa;
-        /** Function value at {@link #rightAbscissa}. */
+
+        /**
+         * Function value at {@link #rightAbscissa}.
+         */
         private final T rightValue;
 
         /**
@@ -236,10 +235,7 @@ public interface BracketedRealFieldUnivariateSolver<T extends CalculusFieldEleme
          *                      Must be greater than or equal to {@code leftAbscissa}.
          * @param rightValue    is the function value at {@code rightAbscissa}.
          */
-        public Interval(final T leftAbscissa,
-                        final T leftValue,
-                        final T rightAbscissa,
-                        final T rightValue) {
+        public Interval(final T leftAbscissa, final T leftValue, final T rightAbscissa, final T rightValue) {
             this.leftAbscissa = leftAbscissa;
             this.leftValue = leftValue;
             this.rightAbscissa = rightAbscissa;
@@ -252,7 +248,7 @@ public interface BracketedRealFieldUnivariateSolver<T extends CalculusFieldEleme
          * @return abscissa of the start of the interval.
          */
         public T getLeftAbscissa() {
-            return leftAbscissa;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -261,7 +257,7 @@ public interface BracketedRealFieldUnivariateSolver<T extends CalculusFieldEleme
          * @return abscissa of the end of the interval.
          */
         public T getRightAbscissa() {
-            return rightAbscissa;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -270,7 +266,7 @@ public interface BracketedRealFieldUnivariateSolver<T extends CalculusFieldEleme
          * @return value of the function at the start of the interval.
          */
         public T getLeftValue() {
-            return leftValue;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -279,7 +275,7 @@ public interface BracketedRealFieldUnivariateSolver<T extends CalculusFieldEleme
          * @return value of the function at the end of the interval.
          */
         public T getRightValue() {
-            return rightValue;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -289,28 +285,7 @@ public interface BracketedRealFieldUnivariateSolver<T extends CalculusFieldEleme
          * @return the abscissa on the selected side of the root.
          */
         public T getSide(final AllowedSolution allowed) {
-            final T xA = this.getLeftAbscissa();
-            final T yA = this.getLeftValue();
-            final T xB = this.getRightAbscissa();
-            switch (allowed) {
-                case ANY_SIDE:
-                    final T absYA = this.getLeftValue().abs();
-                    final T absYB = this.getRightValue().abs();
-                    return absYA.subtract(absYB).getReal() < 0 ? xA : xB;
-                case LEFT_SIDE:
-                    return xA;
-                case RIGHT_SIDE:
-                    return xB;
-                case BELOW_SIDE:
-                    return (yA.getReal() <= 0) ? xA : xB;
-                case ABOVE_SIDE:
-                    return (yA.getReal() < 0) ? xB : xA;
-                default:
-                    // this should never happen
-                    throw MathRuntimeException.createInternalError();
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
-
 }

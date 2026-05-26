@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -33,11 +32,20 @@ import org.hipparchus.util.MathUtils;
  * @see <a href="http://mathworld.wolfram.com/ExponentialDistribution.html">Exponential distribution (MathWorld)</a>
  */
 public class ExponentialDistribution extends AbstractRealDistribution {
-    /** Serializable version identifier */
+
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20160320L;
-    /** The mean of this distribution. */
+
+    /**
+     * The mean of this distribution.
+     */
     private final double mean;
-    /** The logarithm of the mean, stored to reduce computing time. **/
+
+    /**
+     * The logarithm of the mean, stored to reduce computing time. *
+     */
     private final double logMean;
 
     /**
@@ -46,13 +54,11 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      * @param mean Mean of this distribution.
      * @throws MathIllegalArgumentException if {@code mean <= 0}.
      */
-    public ExponentialDistribution(double mean)
-        throws MathIllegalArgumentException {
+    public ExponentialDistribution(double mean) throws MathIllegalArgumentException {
         if (mean <= 0) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.MEAN, mean);
         }
-
-        this.mean    = mean;
+        this.mean = mean;
         this.logMean = FastMath.log(mean);
     }
 
@@ -62,23 +68,23 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      * @return the mean.
      */
     public double getMean() {
-        return mean;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double density(double x) {
-        final double logDensity = logDensity(x);
-        return logDensity == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logDensity);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} **/
+    /**
+     * {@inheritDoc} *
+     */
     @Override
     public double logDensity(double x) {
-        if (x < 0) {
-            return Double.NEGATIVE_INFINITY;
-        }
-        return -x / mean - logMean;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -92,14 +98,8 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      * </ul>
      */
     @Override
-    public double cumulativeProbability(double x)  {
-        double ret;
-        if (x <= 0.0) {
-            ret = 0.0;
-        } else {
-            ret = 1.0 - FastMath.exp(-x / mean);
-        }
-        return ret;
+    public double cumulativeProbability(double x) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -110,16 +110,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      */
     @Override
     public double inverseCumulativeProbability(double p) throws MathIllegalArgumentException {
-        MathUtils.checkRangeInclusive(p, 0, 1);
-
-        double ret;
-        if (p == 1.0) {
-            ret = Double.POSITIVE_INFINITY;
-        } else {
-            ret = -mean * FastMath.log(1.0 - p);
-        }
-
-        return ret;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -129,7 +120,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalMean() {
-        return getMean();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -139,8 +130,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        final double m = getMean();
-        return m * m;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -152,7 +142,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportLowerBound() {
-        return 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -165,7 +155,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportUpperBound() {
-        return Double.POSITIVE_INFINITY;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -177,6 +167,6 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

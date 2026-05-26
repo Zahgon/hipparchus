@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -24,7 +23,8 @@ package org.hipparchus.geometry.partitioning;
 import org.hipparchus.geometry.Point;
 import org.hipparchus.geometry.Space;
 
-/** Class holding the result of point projection on region boundary.
+/**
+ * Class holding the result of point projection on region boundary.
  * <p>This class is a simple placeholder, it does not provide any
  * processing methods.</p>
  * <p>Instances of this class are guaranteed to be immutable</p>
@@ -34,41 +34,51 @@ import org.hipparchus.geometry.Space;
  */
 public class BoundaryProjection<S extends Space, P extends Point<S, P>> {
 
-    /** Original point. */
+    /**
+     * Original point.
+     */
     private final P original;
 
-    /** Projected point. */
+    /**
+     * Projected point.
+     */
     private final P projected;
 
-    /** Offset of the point with respect to the boundary it is projected on. */
+    /**
+     * Offset of the point with respect to the boundary it is projected on.
+     */
     private final double offset;
 
-    /** Constructor from raw elements.
+    /**
+     * Constructor from raw elements.
      * @param original original point
      * @param projected projected point
      * @param offset offset of the point with respect to the boundary it is projected on
      */
     public BoundaryProjection(final P original, final P projected, final double offset) {
-        this.original  = original;
+        this.original = original;
         this.projected = projected;
-        this.offset    = offset;
+        this.offset = offset;
     }
 
-    /** Get the original point.
+    /**
+     * Get the original point.
      * @return original point
      */
     public P getOriginal() {
-        return original;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Projected point.
+    /**
+     * Projected point.
      * @return projected point, or null if there are no boundary
      */
     public P getProjected() {
-        return projected;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Offset of the point with respect to the boundary it is projected on.
+    /**
+     * Offset of the point with respect to the boundary it is projected on.
      * <p>
      * The offset with respect to the boundary is negative if the {@link
      * #getOriginal() original point} is inside the region, and positive otherwise.
@@ -82,7 +92,6 @@ public class BoundaryProjection<S extends Space, P extends Point<S, P>> {
      * @return offset of the point with respect to the boundary it is projected on
      */
     public double getOffset() {
-        return offset;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

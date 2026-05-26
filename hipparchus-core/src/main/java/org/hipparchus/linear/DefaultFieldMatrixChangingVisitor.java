@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.linear;
 
 import org.hipparchus.FieldElement;
@@ -33,33 +31,42 @@ import org.hipparchus.FieldElement;
  *
  * @param <T> the type of the field elements
  */
-public class DefaultFieldMatrixChangingVisitor<T extends FieldElement<T>>
-    implements FieldMatrixChangingVisitor<T> {
-    /** Zero element of the field. */
+public class DefaultFieldMatrixChangingVisitor<T extends FieldElement<T>> implements FieldMatrixChangingVisitor<T> {
+
+    /**
+     * Zero element of the field.
+     */
     private final T zero;
 
-    /** Build a new instance.
+    /**
+     * Build a new instance.
      * @param zero additive identity of the field
      */
     public DefaultFieldMatrixChangingVisitor(final T zero) {
         this.zero = zero;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void start(int rows, int columns,
-                      int startRow, int endRow, int startColumn, int endColumn) {
+    public void start(int rows, int columns, int startRow, int endRow, int startColumn, int endColumn) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T visit(int row, int column, T value) {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T end() {
-        return zero;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

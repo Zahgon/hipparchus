@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -30,10 +29,12 @@ import org.hipparchus.util.SinCos;
  * For 2D interpolation, this class constructs the microsphere as a series of
  * evenly spaced facets (rather than generating random normals as in the
  * base implementation).
- *
  */
 public class InterpolatingMicrosphere2D extends InterpolatingMicrosphere {
-    /** Space dimension. */
+
+    /**
+     * Space dimension.
+     */
     private static final int DIMENSION = 2;
 
     /**
@@ -55,20 +56,13 @@ public class InterpolatingMicrosphere2D extends InterpolatingMicrosphere {
      * @throws org.hipparchus.exception.MathIllegalArgumentException if
      * {@code maxDarkFraction} does not belong to the interval {@code [0, 1]}.
      */
-    public InterpolatingMicrosphere2D(int size,
-                                      double maxDarkFraction,
-                                      double darkThreshold,
-                                      double background) {
+    public InterpolatingMicrosphere2D(int size, double maxDarkFraction, double darkThreshold, double background) {
         super(DIMENSION, size, maxDarkFraction, darkThreshold, background);
-
         // Generate the microsphere normals.
         for (int i = 0; i < size; i++) {
-            final double angle   = i * MathUtils.TWO_PI / size;
+            final double angle = i * MathUtils.TWO_PI / size;
             final SinCos scAngle = FastMath.sinCos(angle);
-
-            add(new double[] { scAngle.cos(),
-                               scAngle.sin() },
-                false);
+            add(new double[] { scAngle.cos(), scAngle.sin() }, false);
         }
     }
 
@@ -88,6 +82,6 @@ public class InterpolatingMicrosphere2D extends InterpolatingMicrosphere {
      */
     @Override
     public InterpolatingMicrosphere2D copy() {
-        return new InterpolatingMicrosphere2D(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

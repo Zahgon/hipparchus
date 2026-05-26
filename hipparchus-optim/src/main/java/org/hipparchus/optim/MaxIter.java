@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -26,22 +25,23 @@ import org.hipparchus.exception.MathIllegalArgumentException;
 
 /**
  * Maximum number of iterations performed by an (iterative) algorithm.
- *
  */
 public class MaxIter implements OptimizationData {
-    /** Allowed number of evalutations. */
+
+    /**
+     * Allowed number of evalutations.
+     */
     private final int max;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param max Allowed number of iterations.
      * @throws MathIllegalArgumentException if {@code max <= 0}.
      */
     public MaxIter(int max) {
         if (max <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
-                                                   max, 0);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED, max, 0);
         }
-
         this.max = max;
     }
 
@@ -51,7 +51,7 @@ public class MaxIter implements OptimizationData {
      * @return the allowed number of evaluations.
      */
     public int getMaxIter() {
-        return max;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -62,6 +62,6 @@ public class MaxIter implements OptimizationData {
      * evaluations.
      */
     public static MaxIter unlimited() {
-        return new MaxIter(Integer.MAX_VALUE);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

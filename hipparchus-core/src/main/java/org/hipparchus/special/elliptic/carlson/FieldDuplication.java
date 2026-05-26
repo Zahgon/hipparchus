@@ -23,7 +23,8 @@ import org.hipparchus.complex.FieldComplex;
 import org.hipparchus.util.FastMath;
 import org.hipparchus.util.MathArrays;
 
-/** Duplication algorithm for Carlson symmetric forms.
+/**
+ * Duplication algorithm for Carlson symmetric forms.
  * <p>
  * The algorithms are described in B. C. Carlson 1995 paper
  * "Numerical computation of real or complex elliptic integrals", with
@@ -38,45 +39,51 @@ import org.hipparchus.util.MathArrays;
  */
 abstract class FieldDuplication<T extends CalculusFieldElement<T>> {
 
-    /** Max number of iterations. */
+    /**
+     * Max number of iterations.
+     */
     private static final int M_MAX = 16;
 
-    /** Symmetric variables of the integral, plus mean point. */
+    /**
+     * Symmetric variables of the integral, plus mean point.
+     */
     private final T[] initialVA;
 
-    /** Convergence criterion. */
+    /**
+     * Convergence criterion.
+     */
     private final double q;
 
-    /** Constructor.
+    /**
+     * Constructor.
      * @param v symmetric variables of the integral
      */
     @SafeVarargs
     FieldDuplication(final T... v) {
-
         final Field<T> field = v[0].getField();
         final int n = v.length;
         initialVA = MathArrays.buildArray(field, n + 1);
         System.arraycopy(v, 0, initialVA, 0, n);
         initialMeanPoint(initialVA);
-
         T max = field.getZero();
         final T a0 = initialVA[n];
         for (final T vi : v) {
             max = FastMath.max(max, a0.subtract(vi).abs());
         }
         this.q = convergenceCriterion(FastMath.ulp(field.getOne()), max).getReal();
-
     }
 
-    /** Get the i<sup>th</sup> symmetric variable.
+    /**
+     * Get the i<sup>th</sup> symmetric variable.
      * @param i index of the variable
      * @return i<sup>th</sup> symmetric variable
      */
     protected T getVi(final int i) {
-        return initialVA[i];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute initial mean point.
+    /**
+     * Compute initial mean point.
      * <p>
      * The initial mean point is put as the last array element
      * </>
@@ -84,14 +91,16 @@ abstract class FieldDuplication<T extends CalculusFieldElement<T>> {
      */
     protected abstract void initialMeanPoint(T[] va);
 
-    /** Compute convergence criterion.
+    /**
+     * Compute convergence criterion.
      * @param r relative tolerance
      * @param max max(|a0-v[i]|)
      * @return convergence criterion
      */
     protected abstract T convergenceCriterion(T r, T max);
 
-    /** Update reduced variables in place.
+    /**
+     * Update reduced variables in place.
      * <ul>
      *  <li>vₘ₊₁|i] ← (vₘ[i] + λₘ) / 4</li>
      *  <li>aₘ₊₁ ← (aₘ + λₘ) / 4</li>
@@ -103,7 +112,8 @@ abstract class FieldDuplication<T extends CalculusFieldElement<T>> {
      */
     protected abstract void update(int m, T[] vaM, T[] sqrtM, double fourM);
 
-    /** Evaluate integral.
+    /**
+     * Evaluate integral.
      * @param va0 initial symmetric variables and mean point of the integral
      * @param aM reduced mean point
      * @param fourM 4<sup>m</sup>
@@ -111,36 +121,11 @@ abstract class FieldDuplication<T extends CalculusFieldElement<T>> {
      */
     protected abstract T evaluate(T[] va0, T aM, double fourM);
 
-    /** Compute Carlson elliptic integral.
+    /**
+     * Compute Carlson elliptic integral.
      * @return Carlson elliptic integral
      */
     public T integral() {
-
-        // duplication iterations
-        final int n     = initialVA.length - 1;
-        final T[] vaM   = initialVA.clone();
-        final T[] sqrtM = MathArrays.buildArray(initialVA[0].getField(), n);
-        double    fourM = 1.0;
-        for (int m = 0; m < M_MAX; ++m) {
-
-            if (m > 0 && q < fourM * vaM[n].norm()) {
-                // convergence reached
-                break;
-            }
-
-            // apply duplication once more
-            // (we know that {Field}Complex.sqrt() returns the root with nonnegative real part)
-            for (int i = 0; i < n; ++i) {
-                sqrtM[i] = vaM[i].sqrt();
-            }
-            update(m, vaM, sqrtM, fourM);
-
-            fourM *= 4;
-
-        }
-
-        return evaluate(initialVA, vaM[n], fourM);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

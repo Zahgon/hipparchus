@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -24,54 +23,56 @@ package org.hipparchus.geometry.partitioning;
 import org.hipparchus.geometry.Point;
 import org.hipparchus.geometry.Space;
 
-/** Visitor computing the boundary size.
+/**
+ * Visitor computing the boundary size.
  * @param <S> Type of the space.
  * @param <P> Type of the points in space.
  * @param <H> Type of the hyperplane.
  * @param <I> Type of the sub-hyperplane.
  */
-class BoundarySizeVisitor<S extends Space, P extends Point<S, P>, H extends Hyperplane<S, P, H, I>, I extends SubHyperplane<S, P, H, I>>
-    implements BSPTreeVisitor<S, P, H, I> {
+class BoundarySizeVisitor<S extends Space, P extends Point<S, P>, H extends Hyperplane<S, P, H, I>, I extends SubHyperplane<S, P, H, I>> implements BSPTreeVisitor<S, P, H, I> {
 
-    /** Size of the boundary. */
+    /**
+     * Size of the boundary.
+     */
     private double boundarySize;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      */
     BoundarySizeVisitor() {
         boundarySize = 0;
     }
 
-    /** {@inheritDoc}*/
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Order visitOrder(final BSPTree<S, P, H, I> node) {
-        return Order.MINUS_SUB_PLUS;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}*/
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void visitInternalNode(final BSPTree<S, P, H, I> node) {
-        @SuppressWarnings("unchecked")
-        final BoundaryAttribute<S, P, H, I> attribute =
-            (BoundaryAttribute<S, P, H, I>) node.getAttribute();
-        if (attribute.getPlusOutside() != null) {
-            boundarySize += attribute.getPlusOutside().getSize();
-        }
-        if (attribute.getPlusInside() != null) {
-            boundarySize += attribute.getPlusInside().getSize();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}*/
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void visitLeafNode(final BSPTree<S, P, H, I> node) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the size of the boundary.
+    /**
+     * Get the size of the boundary.
      * @return size of the boundary
      */
     public double getSize() {
-        return boundarySize;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

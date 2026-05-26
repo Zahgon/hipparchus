@@ -22,12 +22,15 @@ import org.hipparchus.linear.RealVector;
 import org.hipparchus.optim.OptimizationData;
 import org.hipparchus.util.MathUtils;
 
-/** Set of linear inequality constraints expressed as \( A x \gt B\).
+/**
+ * Set of linear inequality constraints expressed as \( A x \gt B\).
  * @since 3.1
  */
 public class LinearInequalityConstraint extends InequalityConstraint implements OptimizationData {
 
-    /** Corresponding set of individual linear constraint functions. */
+    /**
+     * Corresponding set of individual linear constraint functions.
+     */
     private final RealMatrix a;
 
     /**
@@ -50,19 +53,18 @@ public class LinearInequalityConstraint extends InequalityConstraint implements 
         this(MatrixUtils.createRealMatrix(a), MatrixUtils.createRealVector(b));
     }
 
-     @Override
+    @Override
     public int dim() {
-        return a.getColumnDimension();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public RealVector value(RealVector x) {
-        return a.operate(x);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public RealMatrix jacobian(RealVector x) {
-        return a.copy();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

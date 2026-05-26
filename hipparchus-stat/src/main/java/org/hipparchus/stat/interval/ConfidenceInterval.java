@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -30,10 +29,14 @@ import org.hipparchus.stat.LocalizedStatFormats;
  */
 public class ConfidenceInterval {
 
-    /** Lower endpoint of the interval */
+    /**
+     * Lower endpoint of the interval
+     */
     private double lowerBound;
 
-    /** Upper endpoint of the interval */
+    /**
+     * Upper endpoint of the interval
+     */
     private double upperBound;
 
     /**
@@ -64,34 +67,38 @@ public class ConfidenceInterval {
         this.confidenceLevel = confidenceLevel;
     }
 
-    /** Get lower endpoint of the interval.
+    /**
+     * Get lower endpoint of the interval.
      * @return the lower endpoint of the interval
      */
     public double getLowerBound() {
-        return lowerBound;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get upper endpoint of the interval.
+    /**
+     * Get upper endpoint of the interval.
      * @return the upper endpoint of the interval
      */
     public double getUpperBound() {
-        return upperBound;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get asserted probability that the interval contains the population parameter.
+    /**
+     * Get asserted probability that the interval contains the population parameter.
      * @return the asserted probability that the interval contains the
      *         population parameter
      */
     public double getConfidenceLevel() {
-        return confidenceLevel;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get String representation of the confidence interval.
+    /**
+     * Get String representation of the confidence interval.
      * @return String representation of the confidence interval
      */
     @Override
     public String toString() {
-        return "[" + lowerBound + ";" + upperBound + "] (confidence level:" + confidenceLevel + ")";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -104,12 +111,10 @@ public class ConfidenceInterval {
      */
     private void checkParameters(double lower, double upper, double confidence) {
         if (lower >= upper) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
-                                                   lower, upper);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND, lower, upper);
         }
         if (confidence <= 0 || confidence >= 1) {
-            throw new MathIllegalArgumentException(LocalizedStatFormats.OUT_OF_BOUNDS_CONFIDENCE_LEVEL,
-                                                   confidence, 0, 1);
+            throw new MathIllegalArgumentException(LocalizedStatFormats.OUT_OF_BOUNDS_CONFIDENCE_LEVEL, confidence, 0, 1);
         }
     }
 }

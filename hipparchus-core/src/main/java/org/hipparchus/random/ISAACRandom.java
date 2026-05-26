@@ -14,16 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.random;
 
 import java.io.Serializable;
-
 import org.hipparchus.util.FastMath;
 
 /**
@@ -45,39 +42,86 @@ import org.hipparchus.util.FastMath;
  * ISAAC: a fast cryptographic pseudo-random number generator</a>
  */
 public class ISAACRandom extends IntRandomGenerator implements Serializable {
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 20160529L;
-    /** Log of size of rsl[] and mem[] */
-    private static final int SIZE_L = 8;
-    /** Size of rsl[] and mem[] */
-    private static final int SIZE = 1 << SIZE_L;
-    /** Half-size of rsl[] and mem[] */
-    private static final int H_SIZE = SIZE >> 1;
-    /** For pseudo-random lookup */
-    private static final int MASK = SIZE - 1 << 2;
-    /** The golden ratio */
-    private static final int GLD_RATIO = 0x9e3779b9;
-    /** The results given to the user */
-    private final int[] rsl = new int[SIZE];
-    /** The internal state */
-    private final int[] mem = new int[SIZE];
-    /** Count through the results in rsl[] */
-    private int count;
-    /** Accumulator */
-    private int isaacA;
-    /** The last result */
-    private int isaacB;
-    /** Counter, guarantees cycle is at least 2^40 */
-    private int isaacC;
-    /** Service variable. */
-    private final int[] arr = new int[8];
-    /** Service variable. */
-    private int isaacX;
-    /** Service variable. */
-    private int isaacI;
-    /** Service variable. */
-    private int isaacJ;
 
+    /**
+     * Serializable version identifier
+     */
+    private static final long serialVersionUID = 20160529L;
+
+    /**
+     * Log of size of rsl[] and mem[]
+     */
+    private static final int SIZE_L = 8;
+
+    /**
+     * Size of rsl[] and mem[]
+     */
+    private static final int SIZE = 1 << SIZE_L;
+
+    /**
+     * Half-size of rsl[] and mem[]
+     */
+    private static final int H_SIZE = SIZE >> 1;
+
+    /**
+     * For pseudo-random lookup
+     */
+    private static final int MASK = SIZE - 1 << 2;
+
+    /**
+     * The golden ratio
+     */
+    private static final int GLD_RATIO = 0x9e3779b9;
+
+    /**
+     * The results given to the user
+     */
+    private final int[] rsl = new int[SIZE];
+
+    /**
+     * The internal state
+     */
+    private final int[] mem = new int[SIZE];
+
+    /**
+     * Count through the results in rsl[]
+     */
+    private int count;
+
+    /**
+     * Accumulator
+     */
+    private int isaacA;
+
+    /**
+     * The last result
+     */
+    private int isaacB;
+
+    /**
+     * Counter, guarantees cycle is at least 2^40
+     */
+    private int isaacC;
+
+    /**
+     * Service variable.
+     */
+    private final int[] arr = new int[8];
+
+    /**
+     * Service variable.
+     */
+    private int isaacX;
+
+    /**
+     * Service variable.
+     */
+    private int isaacI;
+
+    /**
+     * Service variable.
+     */
+    private int isaacJ;
 
     /**
      * Creates a new ISAAC random number generator.
@@ -108,36 +152,25 @@ public class ISAACRandom extends IntRandomGenerator implements Serializable {
         setSeed(seed);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSeed(int[] seed) {
-        if (seed == null) {
-            setSeed(System.currentTimeMillis() + System.identityHashCode(this));
-            return;
-        }
-        final int seedLen = seed.length;
-        final int rslLen = rsl.length;
-        System.arraycopy(seed, 0, rsl, 0, FastMath.min(seedLen, rslLen));
-        if (seedLen < rslLen) {
-            for (int j = seedLen; j < rslLen; j++) {
-                long k = rsl[j - seedLen];
-                rsl[j] = (int) (0x6c078965L * (k ^ k >> 30) + j & 0xffffffffL);
-            }
-        }
-        initState();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int nextInt() {
-        if (count < 0) {
-            isaac();
-            count = SIZE - 1;
-        }
-        return rsl[count--];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Generate 256 results */
+    /**
+     * Generate 256 results
+     */
     private void isaac() {
         isaacI = 0;
         isaacJ = H_SIZE;
@@ -151,7 +184,9 @@ public class ISAACRandom extends IntRandomGenerator implements Serializable {
         }
     }
 
-    /** Intermediate internal loop. */
+    /**
+     * Intermediate internal loop.
+     */
     private void isaac2() {
         isaacX = mem[isaacI];
         isaacA ^= isaacA << 13;
@@ -171,14 +206,18 @@ public class ISAACRandom extends IntRandomGenerator implements Serializable {
         isaac3();
     }
 
-    /** Lowest level internal loop. */
+    /**
+     * Lowest level internal loop.
+     */
     private void isaac3() {
         mem[isaacI] = mem[(isaacX & MASK) >> 2] + isaacA + isaacB;
         isaacB = mem[(mem[isaacI] >> SIZE_L & MASK) >> 2] + isaacX;
         rsl[isaacI++] = isaacB;
     }
 
-    /** Initialize, or reinitialize, this instance of rand. */
+    /**
+     * Initialize, or reinitialize, this instance of rand.
+     */
     private void initState() {
         isaacA = 0;
         isaacB = 0;
@@ -220,7 +259,9 @@ public class ISAACRandom extends IntRandomGenerator implements Serializable {
         clearCache();
     }
 
-    /** Shuffle array. */
+    /**
+     * Shuffle array.
+     */
     private void shuffle() {
         arr[0] ^= arr[1] << 11;
         arr[3] += arr[0];
@@ -248,7 +289,8 @@ public class ISAACRandom extends IntRandomGenerator implements Serializable {
         arr[0] += arr[1];
     }
 
-    /** Set the state by copying the internal arrays.
+    /**
+     * Set the state by copying the internal arrays.
      *
      * @param start First index into {@link #mem} array.
      */

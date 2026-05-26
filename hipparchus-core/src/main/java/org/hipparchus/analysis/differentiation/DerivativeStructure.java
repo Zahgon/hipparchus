@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.analysis.differentiation;
 
 import java.io.Serializable;
-
 import org.hipparchus.Field;
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -33,7 +31,8 @@ import org.hipparchus.util.FieldSinhCosh;
 import org.hipparchus.util.MathArrays;
 import org.hipparchus.util.MathUtils;
 
-/** Class representing both the value and the differentials of a function.
+/**
+ * Class representing both the value and the differentials of a function.
  * <p>This class is the workhorse of the differentiation package.</p>
  * <p>This class is an implementation of the extension to Rall's
  * numbers described in Dan Kalman's paper <a
@@ -67,68 +66,83 @@ import org.hipparchus.util.MathUtils;
  */
 public class DerivativeStructure implements Derivative<DerivativeStructure>, Serializable {
 
-    /** Serializable UID. */
+    /**
+     * Serializable UID.
+     */
     private static final long serialVersionUID = 20161220L;
 
-    /** Factory that built the instance. */
+    /**
+     * Factory that built the instance.
+     */
     private final DSFactory factory;
 
-    /** Combined array holding all values. */
+    /**
+     * Combined array holding all values.
+     */
     private final double[] data;
 
-    /** Build an instance with all values and derivatives set to 0.
+    /**
+     * Build an instance with all values and derivatives set to 0.
      * @param factory factory that built the instance
      * @param data combined array holding all values
      */
     DerivativeStructure(final DSFactory factory, final double[] data) {
         this.factory = factory;
-        this.data    = data.clone();
+        this.data = data.clone();
     }
 
-    /** Build an instance with all values and derivatives set to 0.
+    /**
+     * Build an instance with all values and derivatives set to 0.
      * @param factory factory that built the instance
      * @since 1.4
      */
     DerivativeStructure(final DSFactory factory) {
         this.factory = factory;
-        this.data    = new double[factory.getCompiler().getSize()];
+        this.data = new double[factory.getCompiler().getSize()];
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DerivativeStructure newInstance(final double value) {
-        return factory.constant(value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DerivativeStructure withValue(final double value) {
-        final DerivativeStructure ds = factory.build();
-        System.arraycopy(data, 1, ds.data, 1, data.length - 1);
-        ds.data[0] = value;
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the factory that built the instance.
+    /**
+     * Get the factory that built the instance.
      * @return factory that built the instance
      */
     public DSFactory getFactory() {
-        return factory;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getFreeParameters() {
-        return getFactory().getCompiler().getFreeParameters();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getOrder() {
-        return getFactory().getCompiler().getOrder();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set a derivative component.
+    /**
+     * Set a derivative component.
      * <p>
      * This method is package-private (no modifier specified), as it is intended
      * to be used only by Hipparchus classes since it relied on the ordering of
@@ -140,10 +154,11 @@ public class DerivativeStructure implements Derivative<DerivativeStructure>, Ser
      * @since 1.4
      */
     void setDerivativeComponent(final int index, final double value) {
-        data[index] = value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a derivative component.
+    /**
+     * Get a derivative component.
      * <p>
      * This method is package-private (no modifier specified), as it is intended
      * to be used only by Hipparchus classes since it relied on the ordering of
@@ -155,235 +170,166 @@ public class DerivativeStructure implements Derivative<DerivativeStructure>, Ser
      * @since 2.2
      */
     double getDerivativeComponent(final int index) {
-        return data[index];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DerivativeStructure getAddendum() {
-        final double[] addendum = data.clone();
-        addendum[0] = 0;
-        return new DerivativeStructure(factory, addendum);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the value part of the derivative structure.
+    /**
+     * Get the value part of the derivative structure.
      * @return value part of the derivative structure
      * @see #getPartialDerivative(int...)
      */
     @Override
     public double getValue() {
-        return data[0];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double getPartialDerivative(final int ... orders)
-        throws MathIllegalArgumentException {
-        return data[getFactory().getCompiler().getPartialDerivativeIndex(orders)];
+    public double getPartialDerivative(final int... orders) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get all partial derivatives.
+    /**
+     * Get all partial derivatives.
      * @return a fresh copy of partial derivatives, in an array sorted according to
      * {@link DSCompiler#getPartialDerivativeIndex(int...)}
      */
     public double[] getAllDerivatives() {
-        return data.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public DerivativeStructure add(final DerivativeStructure a)
-        throws MathIllegalArgumentException {
-        factory.checkCompatibility(a.factory);
-        final DerivativeStructure ds = factory.build();
-        factory.getCompiler().add(data, 0, a.data, 0, ds.data, 0);
-        return ds;
+    public DerivativeStructure add(final DerivativeStructure a) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public DerivativeStructure subtract(final DerivativeStructure a)
-        throws MathIllegalArgumentException {
-        factory.checkCompatibility(a.factory);
-        final DerivativeStructure ds = factory.build();
-        factory.getCompiler().subtract(data, 0, a.data, 0, ds.data, 0);
-        return ds;
+    public DerivativeStructure subtract(final DerivativeStructure a) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure multiply(final double a) {
-        final DerivativeStructure ds = factory.build();
-        for (int i = 0; i < ds.data.length; ++i) {
-            ds.data[i] = data[i] * a;
-        }
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public DerivativeStructure multiply(final DerivativeStructure a)
-        throws MathIllegalArgumentException {
-        factory.checkCompatibility(a.factory);
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().multiply(data, 0, a.data, 0, result.data, 0);
-        return result;
+    public DerivativeStructure multiply(final DerivativeStructure a) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DerivativeStructure square() {
-        return multiply(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure divide(final double a) {
-        final DerivativeStructure ds = factory.build();
-        final double inv = 1.0 / a;
-        for (int i = 0; i < ds.data.length; ++i) {
-            ds.data[i] = data[i] * inv;
-        }
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public DerivativeStructure divide(final DerivativeStructure a)
-        throws MathIllegalArgumentException {
-        factory.checkCompatibility(a.factory);
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().divide(data, 0, a.data, 0, result.data, 0);
-        return result;
+    public DerivativeStructure divide(final DerivativeStructure a) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public DerivativeStructure remainder(final DerivativeStructure a)
-        throws MathIllegalArgumentException {
-        factory.checkCompatibility(a.factory);
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().remainder(data, 0, a.data, 0, result.data, 0);
-        return result;
+    public DerivativeStructure remainder(final DerivativeStructure a) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DerivativeStructure negate() {
-        final DerivativeStructure ds = factory.build();
-        for (int i = 0; i < ds.data.length; ++i) {
-            ds.data[i] = -data[i];
-        }
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure abs() {
-        if (Double.doubleToLongBits(data[0]) < 0) {
-            // we use the bits representation to also handle -0.0
-            return negate();
-        } else {
-            return this;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure copySign(final DerivativeStructure sign) {
-        long m = Double.doubleToLongBits(data[0]);
-        long s = Double.doubleToLongBits(sign.data[0]);
-        if ((m >= 0 && s >= 0) || (m < 0 && s < 0)) { // Sign is currently OK
-            return this;
-        }
-        return negate(); // flip sign
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure copySign(final double sign) {
-        long m = Double.doubleToLongBits(data[0]);
-        long s = Double.doubleToLongBits(sign);
-        if ((m >= 0 && s >= 0) || (m < 0 && s < 0)) { // Sign is currently OK
-            return this;
-        }
-        return negate(); // flip sign
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure scalb(final int n) {
-        final DerivativeStructure ds = factory.build();
-        for (int i = 0; i < ds.data.length; ++i) {
-            ds.data[i] = FastMath.scalb(data[i], n);
-        }
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public DerivativeStructure hypot(final DerivativeStructure y)
-        throws MathIllegalArgumentException {
-
-        factory.checkCompatibility(y.factory);
-
-        if (Double.isInfinite(data[0]) || Double.isInfinite(y.data[0])) {
-            return factory.constant(Double.POSITIVE_INFINITY);
-        } else if (Double.isNaN(data[0]) || Double.isNaN(y.data[0])) {
-            return factory.constant(Double.NaN);
-        } else {
-
-            final int expX = getExponent();
-            final int expY = y.getExponent();
-            if (expX > expY + 27) {
-                // y is negligible with respect to x
-                return abs();
-            } else if (expY > expX + 27) {
-                // x is negligible with respect to y
-                return y.abs();
-            } else {
-
-                // find an intermediate scale to avoid both overflow and underflow
-                final int middleExp = (expX + expY) / 2;
-
-                // scale parameters without losing precision
-                final DerivativeStructure scaledX = scalb(-middleExp);
-                final DerivativeStructure scaledY = y.scalb(-middleExp);
-
-                // compute scaled hypotenuse
-                final DerivativeStructure scaledH =
-                        scaledX.multiply(scaledX).add(scaledY.multiply(scaledY)).sqrt();
-
-                // remove scaling
-                return scaledH.scalb(middleExp);
-
-            }
-
-        }
+    public DerivativeStructure hypot(final DerivativeStructure y) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -402,12 +348,12 @@ public class DerivativeStructure implements Derivative<DerivativeStructure>, Ser
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
-    public static DerivativeStructure hypot(final DerivativeStructure x, final DerivativeStructure y)
-        throws MathIllegalArgumentException {
-        return x.hypot(y);
+    public static DerivativeStructure hypot(final DerivativeStructure x, final DerivativeStructure y) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute composition of the instance by a univariate function.
+    /**
+     * Compute composition of the instance by a univariate function.
      * @param f array of value and derivatives of the function at
      * the current point (i.e. [f({@link #getValue()}),
      * f'({@link #getValue()}), f''({@link #getValue()})...]).
@@ -416,307 +362,269 @@ public class DerivativeStructure implements Derivative<DerivativeStructure>, Ser
      * in the array is not equal to {@link #getOrder() order} + 1
      */
     @Override
-    public DerivativeStructure compose(final double ... f)
-        throws MathIllegalArgumentException {
-
-        MathUtils.checkDimension(f.length, getOrder() + 1);
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().compose(data, 0, f, result.data, 0);
-        return result;
+    public DerivativeStructure compose(final double... f) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DerivativeStructure reciprocal() {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().reciprocal(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure sqrt() {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().sqrt(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure rootN(final int n) {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().rootN(data, 0, n, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Field<DerivativeStructure> getField() {
-        return factory.getDerivativeField();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute a<sup>x</sup> where a is a double and x a {@link DerivativeStructure}
+    /**
+     * Compute a<sup>x</sup> where a is a double and x a {@link DerivativeStructure}
      * @param a number to exponentiate
      * @param x power to apply
      * @return a<sup>x</sup>
      */
     public static DerivativeStructure pow(final double a, final DerivativeStructure x) {
-        final DerivativeStructure result = x.factory.build();
-        x.factory.getCompiler().pow(a, x.data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure pow(final double p) {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().pow(data, 0, p, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure pow(final int n) {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().pow(data, 0, n, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public DerivativeStructure pow(final DerivativeStructure e)
-        throws MathIllegalArgumentException {
-        factory.checkCompatibility(e.factory);
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().pow(data, 0, e.data, 0, result.data, 0);
-        return result;
+    public DerivativeStructure pow(final DerivativeStructure e) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure exp() {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().exp(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure expm1() {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().expm1(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure log() {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().log(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure log1p() {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().log1p(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Base 10 logarithm.
+    /**
+     * Base 10 logarithm.
      * @return base 10 logarithm of the instance
      */
     @Override
     public DerivativeStructure log10() {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().log10(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure cos() {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().cos(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure sin() {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().sin(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldSinCos<DerivativeStructure> sinCos() {
-        final DerivativeStructure sin = factory.build();
-        final DerivativeStructure cos = factory.build();
-        factory.getCompiler().sinCos(data, 0, sin.data, 0, cos.data, 0);
-        return new FieldSinCos<>(sin, cos);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure tan() {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().tan(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure acos() {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().acos(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure asin() {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().asin(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure atan() {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().atan(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
-    public DerivativeStructure atan2(final DerivativeStructure x)
-        throws MathIllegalArgumentException {
-        factory.checkCompatibility(x.factory);
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().atan2(data, 0, x.data, 0, result.data, 0);
-        return result;
+    public DerivativeStructure atan2(final DerivativeStructure x) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Two arguments arc tangent operation.
+    /**
+     * Two arguments arc tangent operation.
      * @param y first argument of the arc tangent
      * @param x second argument of the arc tangent
      * @return atan2(y, x)
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
-    public static DerivativeStructure atan2(final DerivativeStructure y, final DerivativeStructure x)
-        throws MathIllegalArgumentException {
-        return y.atan2(x);
+    public static DerivativeStructure atan2(final DerivativeStructure y, final DerivativeStructure x) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure cosh() {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().cosh(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure sinh() {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().sinh(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public FieldSinhCosh<DerivativeStructure> sinhCosh() {
-        final DerivativeStructure sinh = factory.build();
-        final DerivativeStructure cosh = factory.build();
-        factory.getCompiler().sinhCosh(data, 0, sinh.data, 0, cosh.data, 0);
-        return new FieldSinhCosh<>(sinh, cosh);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure tanh() {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().tanh(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure acosh() {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().acosh(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure asinh() {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().asinh(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure atanh() {
-        final DerivativeStructure result = factory.build();
-        factory.getCompiler().atanh(data, 0, result.data, 0);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DerivativeStructure toDegrees() {
-        final DerivativeStructure ds = factory.build();
-        for (int i = 0; i < ds.data.length; ++i) {
-            ds.data[i] = FastMath.toDegrees(data[i]);
-        }
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DerivativeStructure toRadians() {
-        final DerivativeStructure ds = factory.build();
-        for (int i = 0; i < ds.data.length; ++i) {
-            ds.data[i] = FastMath.toRadians(data[i]);
-        }
-        return ds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Integrate w.r.t. one independent variable.
+    /**
+     * Integrate w.r.t. one independent variable.
      * <p>
      * Rigorously, if the derivatives of a function are known up to
      * order N, the ones of its M-th integral w.r.t. a given variable
@@ -731,42 +639,11 @@ public class DerivativeStructure implements Derivative<DerivativeStructure>, Ser
      * @since 2.2
      */
     public DerivativeStructure integrate(final int varIndex, final int integrationOrder) {
-
-        // Deal first with trivial case
-        if (integrationOrder > getOrder()) {
-            return factory.constant(0.);
-        } else if (integrationOrder == 0) {
-            return factory.build(data);
-        }
-
-        // Call 'inverse' (not rigorously) operation if necessary
-        if (integrationOrder < 0) {
-            return differentiate(varIndex, -integrationOrder);
-        }
-
-        final double[] newData = new double[data.length];
-        final DSCompiler dsCompiler = factory.getCompiler();
-        for (int i = 0; i < newData.length; i++) {
-            if (data[i] != 0.) {
-                final int[] orders = dsCompiler.getPartialDerivativeOrders(i);
-                int sum = 0;
-                for (int order : orders) {
-                    sum += order;
-                }
-                if (sum + integrationOrder <= getOrder()) {
-                    final int saved = orders[varIndex];
-                    orders[varIndex] += integrationOrder;
-                    final int index = dsCompiler.getPartialDerivativeIndex(orders);
-                    orders[varIndex] = saved;
-                    newData[index] = data[i];
-                }
-            }
-        }
-
-        return factory.build(newData);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Differentiate w.r.t. one independent variable.
+    /**
+     * Differentiate w.r.t. one independent variable.
      * <p>
      * Rigorously, if the derivatives of a function are known up to
      * order N, the ones of its M-th derivative w.r.t. a given variable
@@ -781,47 +658,21 @@ public class DerivativeStructure implements Derivative<DerivativeStructure>, Ser
      * @since 2.2
      */
     public DerivativeStructure differentiate(final int varIndex, final int differentiationOrder) {
-
-        // Deal first with trivial case
-        if (differentiationOrder > getOrder()) {
-            return factory.constant(0.);
-        } else if (differentiationOrder == 0) {
-            return factory.build(data);
-        }
-
-        // Call 'inverse' (not rigorously) operation if necessary
-        if (differentiationOrder < 0) {
-            return integrate(varIndex, -differentiationOrder);
-        }
-
-        final double[] newData = new double[data.length];
-        final DSCompiler dsCompiler = factory.getCompiler();
-        for (int i = 0; i < newData.length; i++) {
-            if (data[i] != 0.) {
-                final int[] orders = dsCompiler.getPartialDerivativeOrders(i);
-                if (orders[varIndex] - differentiationOrder >= 0) {
-                    final int saved = orders[varIndex];
-                    orders[varIndex] -= differentiationOrder;
-                    final int index = dsCompiler.getPartialDerivativeIndex(orders);
-                    orders[varIndex] = saved;
-                    newData[index] = data[i];
-                }
-            }
-        }
-
-        return factory.build(newData);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Evaluate Taylor expansion a derivative structure.
+    /**
+     * Evaluate Taylor expansion a derivative structure.
      * @param delta parameters offsets (&Delta;x, &Delta;y, ...)
      * @return value of the Taylor expansion at x + &Delta;x, y + &Delta;y, ...
      * @throws MathRuntimeException if factorials becomes too large
      */
-    public double taylor(final double ... delta) throws MathRuntimeException {
-        return factory.getCompiler().taylor(data, 0, delta);
+    public double taylor(final double... delta) throws MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Rebase instance with respect to low level parameter functions.
+    /**
+     * Rebase instance with respect to low level parameter functions.
      * <p>
      * The instance is considered to be a function of {@link #getFreeParameters()
      * n free parameters} up to order {@link #getOrder() o} \(f(p_0, p_1, \ldots p_{n-1})\).
@@ -857,264 +708,111 @@ public class DerivativeStructure implements Derivative<DerivativeStructure>, Ser
      * @since 2.2
      */
     public DerivativeStructure rebase(final DerivativeStructure... p) {
-
-        MathUtils.checkDimension(getFreeParameters(), p.length);
-
-        // handle special case of no variables at all
-        if (p.length == 0) {
-            return this;
-        }
-
-        final int pSize = p[0].getFactory().getCompiler().getSize();
-        final double[] pData = new double[p.length * pSize];
-        for (int i = 0; i < p.length; ++i) {
-            MathUtils.checkDimension(getOrder(), p[i].getOrder());
-            MathUtils.checkDimension(p[0].getFreeParameters(), p[i].getFreeParameters());
-            System.arraycopy(p[i].data, 0, pData, i * pSize, pSize);
-        }
-
-        final DerivativeStructure result = p[0].factory.build();
-        factory.getCompiler().rebase(data, 0, p[0].factory.getCompiler(), pData, result.data, 0);
-        return result;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public DerivativeStructure linearCombination(final DerivativeStructure[] a, final DerivativeStructure[] b)
-        throws MathIllegalArgumentException {
-
-        // compute an accurate value, taking care of cancellations
-        final double[] aDouble = new double[a.length];
-        for (int i = 0; i < a.length; ++i) {
-            aDouble[i] = a[i].getValue();
-        }
-        final double[] bDouble = new double[b.length];
-        for (int i = 0; i < b.length; ++i) {
-            bDouble[i] = b[i].getValue();
-        }
-        final double accurateValue = MathArrays.linearCombination(aDouble, bDouble);
-
-        // compute a simple value, with all partial derivatives
-        DerivativeStructure simpleValue = a[0].getField().getZero();
-        for (int i = 0; i < a.length; ++i) {
-            simpleValue = simpleValue.add(a[i].multiply(b[i]));
-        }
-
-        // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
-        final double[] all = simpleValue.getAllDerivatives();
-        all[0] = accurateValue;
-        return factory.build(all);
-
+    public DerivativeStructure linearCombination(final DerivativeStructure[] a, final DerivativeStructure[] b) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public DerivativeStructure linearCombination(final double[] a, final DerivativeStructure[] b)
-        throws MathIllegalArgumentException {
-
-        // compute an accurate value, taking care of cancellations
-        final double[] bDouble = new double[b.length];
-        for (int i = 0; i < b.length; ++i) {
-            bDouble[i] = b[i].getValue();
-        }
-        final double accurateValue = MathArrays.linearCombination(a, bDouble);
-
-        // compute a simple value, with all partial derivatives
-        DerivativeStructure simpleValue = b[0].getField().getZero();
-        for (int i = 0; i < a.length; ++i) {
-            simpleValue = simpleValue.add(b[i].multiply(a[i]));
-        }
-
-        // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
-        final double[] all = simpleValue.getAllDerivatives();
-        all[0] = accurateValue;
-        return factory.build(all);
-
+    public DerivativeStructure linearCombination(final double[] a, final DerivativeStructure[] b) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public DerivativeStructure linearCombination(final DerivativeStructure a1, final DerivativeStructure b1,
-                                                 final DerivativeStructure a2, final DerivativeStructure b2)
-        throws MathIllegalArgumentException {
-
-        // compute an accurate value, taking care of cancellations
-        final double accurateValue = MathArrays.linearCombination(a1.getValue(), b1.getValue(),
-                                                                  a2.getValue(), b2.getValue());
-
-        // compute a simple value, with all partial derivatives
-        final DerivativeStructure simpleValue = a1.multiply(b1).add(a2.multiply(b2));
-
-        // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
-        final double[] all = simpleValue.getAllDerivatives();
-        all[0] = accurateValue;
-        return factory.build(all);
-
+    public DerivativeStructure linearCombination(final DerivativeStructure a1, final DerivativeStructure b1, final DerivativeStructure a2, final DerivativeStructure b2) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public DerivativeStructure linearCombination(final double a1, final DerivativeStructure b1,
-                                                 final double a2, final DerivativeStructure b2)
-        throws MathIllegalArgumentException {
-
-        factory.checkCompatibility(b1.factory);
-        factory.checkCompatibility(b2.factory);
-
-        final DerivativeStructure ds = factory.build();
-        factory.getCompiler().linearCombination(a1, b1.data, 0,
-                                                a2, b2.data, 0,
-                                                ds.data, 0);
-
-        return ds;
-
+    public DerivativeStructure linearCombination(final double a1, final DerivativeStructure b1, final double a2, final DerivativeStructure b2) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public DerivativeStructure linearCombination(final DerivativeStructure a1, final DerivativeStructure b1,
-                                                 final DerivativeStructure a2, final DerivativeStructure b2,
-                                                 final DerivativeStructure a3, final DerivativeStructure b3)
-        throws MathIllegalArgumentException {
-
-        // compute an accurate value, taking care of cancellations
-        final double accurateValue = MathArrays.linearCombination(a1.getValue(), b1.getValue(),
-                                                                  a2.getValue(), b2.getValue(),
-                                                                  a3.getValue(), b3.getValue());
-
-        // compute a simple value, with all partial derivatives
-        final DerivativeStructure simpleValue = a1.multiply(b1).add(a2.multiply(b2)).add(a3.multiply(b3));
-
-        // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
-        final double[] all = simpleValue.getAllDerivatives();
-        all[0] = accurateValue;
-        return factory.build(all);
-
+    public DerivativeStructure linearCombination(final DerivativeStructure a1, final DerivativeStructure b1, final DerivativeStructure a2, final DerivativeStructure b2, final DerivativeStructure a3, final DerivativeStructure b3) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public DerivativeStructure linearCombination(final double a1, final DerivativeStructure b1,
-                                                 final double a2, final DerivativeStructure b2,
-                                                 final double a3, final DerivativeStructure b3)
-        throws MathIllegalArgumentException {
-
-        factory.checkCompatibility(b1.factory);
-        factory.checkCompatibility(b2.factory);
-        factory.checkCompatibility(b3.factory);
-
-        final DerivativeStructure ds = factory.build();
-        factory.getCompiler().linearCombination(a1, b1.data, 0,
-                                                a2, b2.data, 0,
-                                                a3, b3.data, 0,
-                                                ds.data, 0);
-
-        return ds;
-
+    public DerivativeStructure linearCombination(final double a1, final DerivativeStructure b1, final double a2, final DerivativeStructure b2, final double a3, final DerivativeStructure b3) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public DerivativeStructure linearCombination(final DerivativeStructure a1, final DerivativeStructure b1,
-                                                 final DerivativeStructure a2, final DerivativeStructure b2,
-                                                 final DerivativeStructure a3, final DerivativeStructure b3,
-                                                 final DerivativeStructure a4, final DerivativeStructure b4)
-        throws MathIllegalArgumentException {
-
-        // compute an accurate value, taking care of cancellations
-        final double accurateValue = MathArrays.linearCombination(a1.getValue(), b1.getValue(),
-                                                                  a2.getValue(), b2.getValue(),
-                                                                  a3.getValue(), b3.getValue(),
-                                                                  a4.getValue(), b4.getValue());
-
-        // compute a simple value, with all partial derivatives
-        final DerivativeStructure simpleValue = a1.multiply(b1).add(a2.multiply(b2)).add(a3.multiply(b3)).add(a4.multiply(b4));
-
-        // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
-        final double[] all = simpleValue.getAllDerivatives();
-        all[0] = accurateValue;
-        return factory.build(all);
-
+    public DerivativeStructure linearCombination(final DerivativeStructure a1, final DerivativeStructure b1, final DerivativeStructure a2, final DerivativeStructure b2, final DerivativeStructure a3, final DerivativeStructure b3, final DerivativeStructure a4, final DerivativeStructure b4) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if number of free parameters
      * or orders do not match
      */
     @Override
-    public DerivativeStructure linearCombination(final double a1, final DerivativeStructure b1,
-                                                 final double a2, final DerivativeStructure b2,
-                                                 final double a3, final DerivativeStructure b3,
-                                                 final double a4, final DerivativeStructure b4)
-        throws MathIllegalArgumentException {
-
-        factory.checkCompatibility(b1.factory);
-        factory.checkCompatibility(b2.factory);
-        factory.checkCompatibility(b3.factory);
-        factory.checkCompatibility(b4.factory);
-
-        final DerivativeStructure ds = factory.build();
-        factory.getCompiler().linearCombination(a1, b1.data, 0,
-                                                a2, b2.data, 0,
-                                                a3, b3.data, 0,
-                                                a4, b4.data, 0,
-                                                ds.data, 0);
-
-        return ds;
-
+    public DerivativeStructure linearCombination(final double a1, final DerivativeStructure b1, final double a2, final DerivativeStructure b2, final double a3, final DerivativeStructure b3, final double a4, final DerivativeStructure b4) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double norm() {
-        double sum = 0;
-        for (final double derivative: data) {
-            sum += FastMath.abs(derivative);
-        }
-        return sum;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public DerivativeStructure getPi() {
-        return factory.getDerivativeField().getPi();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSmall(final DerivativeStructure base, final double relativeThreshold) {
-        if (data.length != base.data.length) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   data.length, base.data.length);
-        }
-        boolean ok = true;
-        for (int i = 0; i < data.length && ok; ++i) {
-            ok = FastMath.abs(data[i]) <= FastMath.abs(base.data[i] * relativeThreshold);
-        }
-        return ok;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1128,20 +826,7 @@ public class DerivativeStructure implements Derivative<DerivativeStructure>, Ser
      */
     @Override
     public boolean equals(Object other) {
-
-        if (this == other) {
-            return true;
-        }
-
-        if (other instanceof DerivativeStructure) {
-            final DerivativeStructure rhs = (DerivativeStructure)other;
-            return (getFreeParameters() == rhs.getFreeParameters()) &&
-                   (getOrder() == rhs.getOrder()) &&
-                   MathArrays.equals(data, rhs.data);
-        }
-
-        return false;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1150,7 +835,6 @@ public class DerivativeStructure implements Derivative<DerivativeStructure>, Ser
      */
     @Override
     public int hashCode() {
-        return 227 + 229 * getFreeParameters() + 233 * getOrder() + 239 * MathUtils.hash(data);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

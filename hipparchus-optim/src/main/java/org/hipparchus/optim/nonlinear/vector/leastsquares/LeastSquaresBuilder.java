@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -37,38 +36,61 @@ import org.hipparchus.optim.nonlinear.vector.leastsquares.LeastSquaresProblem.Ev
  */
 public class LeastSquaresBuilder {
 
-    /** max evaluations */
+    /**
+     * max evaluations
+     */
     private int maxEvaluations;
-    /** max iterations */
+
+    /**
+     * max iterations
+     */
     private int maxIterations;
-    /** convergence checker */
+
+    /**
+     * convergence checker
+     */
     private ConvergenceChecker<Evaluation> checker;
-    /** model function */
+
+    /**
+     * model function
+     */
     private MultivariateJacobianFunction model;
-    /** observed values */
+
+    /**
+     * observed values
+     */
     private RealVector target;
-    /** initial guess */
+
+    /**
+     * initial guess
+     */
     private RealVector start;
-    /** weight matrix */
+
+    /**
+     * weight matrix
+     */
     private RealMatrix weight;
+
     /**
      * Lazy evaluation.
-     *
      */
     private boolean lazyEvaluation;
-    /** Validator.
-     *
+
+    /**
+     * Validator.
      */
     private ParameterValidator paramValidator;
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public LeastSquaresBuilder() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public LeastSquaresBuilder() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
@@ -78,15 +100,7 @@ public class LeastSquaresBuilder {
      * @return a new {@link LeastSquaresProblem}.
      */
     public LeastSquaresProblem build() {
-        return LeastSquaresFactory.create(model,
-                                          target,
-                                          start,
-                                          weight,
-                                          checker,
-                                          maxEvaluations,
-                                          maxIterations,
-                                          lazyEvaluation,
-                                          paramValidator);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -96,8 +110,7 @@ public class LeastSquaresBuilder {
      * @return this
      */
     public LeastSquaresBuilder maxEvaluations(final int newMaxEvaluations) {
-        this.maxEvaluations = newMaxEvaluations;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -107,8 +120,7 @@ public class LeastSquaresBuilder {
      * @return this
      */
     public LeastSquaresBuilder maxIterations(final int newMaxIterations) {
-        this.maxIterations = newMaxIterations;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -118,8 +130,7 @@ public class LeastSquaresBuilder {
      * @return this
      */
     public LeastSquaresBuilder checker(final ConvergenceChecker<Evaluation> newChecker) {
-        this.checker = newChecker;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -132,7 +143,7 @@ public class LeastSquaresBuilder {
      * @return this
      */
     public LeastSquaresBuilder checkerPair(final ConvergenceChecker<PointVectorValuePair> newChecker) {
-        return this.checker(LeastSquaresFactory.evaluationChecker(newChecker));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -142,9 +153,8 @@ public class LeastSquaresBuilder {
      * @param jacobian the Jacobian of {@code value}
      * @return this
      */
-    public LeastSquaresBuilder model(final MultivariateVectorFunction value,
-                                     final MultivariateMatrixFunction jacobian) {
-        return model(LeastSquaresFactory.model(value, jacobian));
+    public LeastSquaresBuilder model(final MultivariateVectorFunction value, final MultivariateMatrixFunction jacobian) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -154,8 +164,7 @@ public class LeastSquaresBuilder {
      * @return this
      */
     public LeastSquaresBuilder model(final MultivariateJacobianFunction newModel) {
-        this.model = newModel;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -165,8 +174,7 @@ public class LeastSquaresBuilder {
      * @return this
      */
     public LeastSquaresBuilder target(final RealVector newTarget) {
-        this.target = newTarget;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -176,7 +184,7 @@ public class LeastSquaresBuilder {
      * @return this
      */
     public LeastSquaresBuilder target(final double[] newTarget) {
-        return target(new ArrayRealVector(newTarget, false));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -186,8 +194,7 @@ public class LeastSquaresBuilder {
      * @return this
      */
     public LeastSquaresBuilder start(final RealVector newStart) {
-        this.start = newStart;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -197,7 +204,7 @@ public class LeastSquaresBuilder {
      * @return this
      */
     public LeastSquaresBuilder start(final double[] newStart) {
-        return start(new ArrayRealVector(newStart, false));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -207,8 +214,7 @@ public class LeastSquaresBuilder {
      * @return this
      */
     public LeastSquaresBuilder weight(final RealMatrix newWeight) {
-        this.weight = newWeight;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -216,11 +222,9 @@ public class LeastSquaresBuilder {
      *
      * @param newValue Whether to perform lazy evaluation.
      * @return this object.
-     *
      */
     public LeastSquaresBuilder lazyEvaluation(final boolean newValue) {
-        lazyEvaluation = newValue;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -228,10 +232,8 @@ public class LeastSquaresBuilder {
      *
      * @param newValidator Parameter validator.
      * @return this object.
-     *
      */
     public LeastSquaresBuilder parameterValidator(final ParameterValidator newValidator) {
-        paramValidator = newValidator;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

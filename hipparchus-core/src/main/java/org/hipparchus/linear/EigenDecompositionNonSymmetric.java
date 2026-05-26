@@ -14,17 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.linear;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hipparchus.complex.Complex;
 import org.hipparchus.complex.ComplexField;
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -85,22 +82,44 @@ import org.hipparchus.util.Precision;
  * @since 3.0
  */
 public class EigenDecompositionNonSymmetric {
-    /** Default epsilon value to use for internal epsilon **/
+
+    /**
+     * Default epsilon value to use for internal epsilon *
+     */
     public static final double DEFAULT_EPSILON = 1e-12;
-    /** Internally used epsilon criteria. */
+
+    /**
+     * Internally used epsilon criteria.
+     */
     private final double epsilon;
-    /** eigenvalues. */
+
+    /**
+     * eigenvalues.
+     */
     private Complex[] eigenvalues;
-    /** Eigenvectors. */
+
+    /**
+     * Eigenvectors.
+     */
     private List<FieldVector<Complex>> eigenvectors;
-    /** Cached value of \(V\). */
+
+    /**
+     * Cached value of \(V\).
+     */
     private RealMatrix cachedV;
-    /** Cached value of \(D\). */
+
+    /**
+     * Cached value of \(D\).
+     */
     private RealMatrix cachedD;
-    /** Cached value of \(V^{-1}\). */
+
+    /**
+     * Cached value of \(V^{-1}\).
+     */
     private RealMatrix cachedVInv;
 
-    /** Calculates the eigen decomposition of the given real matrix.
+    /**
+     * Calculates the eigen decomposition of the given real matrix.
      * @param matrix Matrix to decompose.
      * @throws MathIllegalStateException if the algorithm fails to converge.
      * @throws MathRuntimeException if the decomposition of a general matrix
@@ -110,15 +129,15 @@ public class EigenDecompositionNonSymmetric {
         this(matrix, DEFAULT_EPSILON);
     }
 
-    /** Calculates the eigen decomposition of the given real matrix.
+    /**
+     * Calculates the eigen decomposition of the given real matrix.
      * @param matrix Matrix to decompose.
      * @param epsilon Epsilon used for internal tests (e.g. is singular, eigenvalue ratio, etc.)
      * @throws MathIllegalStateException if the algorithm fails to converge.
      * @throws MathRuntimeException if the decomposition of a general matrix
      * results in a matrix with zero norm
      */
-    public EigenDecompositionNonSymmetric(final RealMatrix matrix, double epsilon)
-        throws MathRuntimeException {
+    public EigenDecompositionNonSymmetric(final RealMatrix matrix, double epsilon) throws MathRuntimeException {
         this.epsilon = epsilon;
         findEigenVectorsFromSchur(transformToSchur(matrix));
     }
@@ -131,31 +150,7 @@ public class EigenDecompositionNonSymmetric {
      * @return the V matrix.
      */
     public RealMatrix getV() {
-
-        if (cachedV == null) {
-            final int m = eigenvectors.size();
-            cachedV = MatrixUtils.createRealMatrix(m, m);
-            for (int k = 0; k < m; ++k) {
-                final FieldVector<Complex> ek = eigenvectors.get(k);
-                if (eigenvalues[k].getImaginaryPart() >= 0) {
-                    // either it is a real eigenvalue, or it is the first of two conjugate eigenvalues,
-                    // we pick up the real part of the eigenvector
-                    for (int l = 0; l < m; ++l) {
-                        cachedV.setEntry(l, k, ek.getEntry(l).getRealPart());
-                    }
-                } else {
-                    // second of two conjugate eigenvalues,
-                    // we pick up the imaginary part of the eigenvector
-                    for (int l = 0; l < m; ++l) {
-                        cachedV.setEntry(l, k, -ek.getEntry(l).getImaginaryPart());
-                    }
-                }
-            }
-        }
-
-        // return the cached matrix
-        return cachedV;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -167,20 +162,7 @@ public class EigenDecompositionNonSymmetric {
      * @return the D matrix.
      */
     public RealMatrix getD() {
-
-        if (cachedD == null) {
-            // cache the matrix for subsequent calls
-            cachedD = MatrixUtils.createRealMatrix(eigenvalues.length, eigenvalues.length);
-            for (int i = 0; i < eigenvalues.length; ++i) {
-                cachedD.setEntry(i, i, eigenvalues[i].getRealPart());
-                if (Precision.compareTo(eigenvalues[i].getImaginaryPart(), 0.0, epsilon) > 0) {
-                    cachedD.setEntry(i, i + 1, eigenvalues[i].getImaginaryPart());
-                } else if (Precision.compareTo(eigenvalues[i].getImaginaryPart(), 0.0, epsilon) < 0) {
-                    cachedD.setEntry(i, i - 1, eigenvalues[i].getImaginaryPart());
-                }
-            }
-        }
-        return cachedD;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -189,7 +171,7 @@ public class EigenDecompositionNonSymmetric {
      * @return the epsilon value.
      */
     public double getEpsilon() {
-        return epsilon;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -198,13 +180,7 @@ public class EigenDecompositionNonSymmetric {
      * @return the inverse of the V matrix.
      */
     public RealMatrix getVInv() {
-
-        if (cachedVInv == null) {
-            cachedVInv = MatrixUtils.inverse(getV(), epsilon);
-        }
-
-        // return the cached matrix
-        return cachedVInv;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -216,7 +192,7 @@ public class EigenDecompositionNonSymmetric {
      * @see #getEigenvalue(int)
      */
     public Complex[] getEigenvalues() {
-        return eigenvalues.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -229,7 +205,7 @@ public class EigenDecompositionNonSymmetric {
      * @see #getEigenvalues()
      */
     public Complex getEigenvalue(final int i) {
-        return eigenvalues[i];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -243,7 +219,7 @@ public class EigenDecompositionNonSymmetric {
      * @see #getD()
      */
     public FieldVector<Complex> getEigenvector(final int i) {
-        return eigenvectors.get(i).copy();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -252,11 +228,7 @@ public class EigenDecompositionNonSymmetric {
      * @return the determinant of the matrix.
      */
     public Complex getDeterminant() {
-        Complex determinant = Complex.ONE;
-        for (Complex eigenvalue : eigenvalues) {
-            determinant = determinant.multiply(eigenvalue);
-        }
-        return determinant;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -269,19 +241,16 @@ public class EigenDecompositionNonSymmetric {
         final SchurTransformer schurTransform = new SchurTransformer(matrix, epsilon);
         final double[][] matT = schurTransform.getT().getData();
         final double norm = matrix.getNorm1();
-
         eigenvalues = new Complex[matT.length];
-
         int i = 0;
         while (i < eigenvalues.length) {
-            if (i == (eigenvalues.length - 1) ||
-                Precision.equals(matT[i + 1][i], 0.0, norm * epsilon)) {
+            if (i == (eigenvalues.length - 1) || Precision.equals(matT[i + 1][i], 0.0, norm * epsilon)) {
                 eigenvalues[i] = new Complex(matT[i][i]);
                 i++;
             } else {
-                final double x   = matT[i + 1][i + 1];
-                final double p   = 0.5 * (matT[i][i] - x);
-                final double z   = FastMath.sqrt(FastMath.abs(p * p + matT[i + 1][i] * matT[i][i + 1]));
+                final double x = matT[i + 1][i + 1];
+                final double p = 0.5 * (matT[i][i] - x);
+                final double z = FastMath.sqrt(FastMath.abs(p * p + matT[i + 1][i] * matT[i][i + 1]));
                 eigenvalues[i++] = new Complex(x + p, +z);
                 eigenvalues[i++] = new Complex(x + p, -z);
             }
@@ -298,8 +267,7 @@ public class EigenDecompositionNonSymmetric {
      * @param yi imaginary part of the second number
      * @return result of the complex division
      */
-    private Complex cdiv(final double xr, final double xi,
-                         final double yr, final double yi) {
+    private Complex cdiv(final double xr, final double xi, final double yr, final double yi) {
         return new Complex(xr, xi).divide(new Complex(yr, yi));
     }
 
@@ -309,36 +277,28 @@ public class EigenDecompositionNonSymmetric {
      * @param schur the schur transformation of the matrix
      * @throws MathRuntimeException if the Schur form has a norm of zero
      */
-    private void findEigenVectorsFromSchur(final SchurTransformer schur)
-        throws MathRuntimeException {
+    private void findEigenVectorsFromSchur(final SchurTransformer schur) throws MathRuntimeException {
         final double[][] matrixT = schur.getT().getData();
         final double[][] matrixP = schur.getP().getData();
-
         final int n = matrixT.length;
-
         // compute matrix norm
         double norm = 0.0;
         for (int i = 0; i < n; i++) {
-           for (int j = FastMath.max(i - 1, 0); j < n; j++) {
-               norm += FastMath.abs(matrixT[i][j]);
-           }
+            for (int j = FastMath.max(i - 1, 0); j < n; j++) {
+                norm += FastMath.abs(matrixT[i][j]);
+            }
         }
-
         // we can not handle a matrix with zero norm
         if (norm == 0.0) {
-           throw new MathRuntimeException(LocalizedCoreFormats.ZERO_NORM);
+            throw new MathRuntimeException(LocalizedCoreFormats.ZERO_NORM);
         }
-
         // Backsubstitute to find vectors of upper triangular form
-
         double r = 0.0;
         double s = 0.0;
         double z = 0.0;
-
         for (int idx = n - 1; idx >= 0; idx--) {
             double p = eigenvalues[idx].getRealPart();
             double q = eigenvalues[idx].getImaginaryPart();
-
             if (Precision.equals(q, 0.0)) {
                 // Real vector
                 int l = idx;
@@ -364,8 +324,7 @@ public class EigenDecompositionNonSymmetric {
                             // Solve real equations
                             double x = matrixT[i][i + 1];
                             double y = matrixT[i + 1][i];
-                            q = (eigenvalues[i].getRealPart() - p) * (eigenvalues[i].getRealPart() - p) +
-                                eigenvalues[i].getImaginaryPart() * eigenvalues[i].getImaginaryPart();
+                            q = (eigenvalues[i].getRealPart() - p) * (eigenvalues[i].getRealPart() - p) + eigenvalues[i].getImaginaryPart() * eigenvalues[i].getImaginaryPart();
                             double t = (x * s - z * r) / q;
                             matrixT[i][idx] = t;
                             if (FastMath.abs(x) > FastMath.abs(z)) {
@@ -374,7 +333,6 @@ public class EigenDecompositionNonSymmetric {
                                 matrixT[i + 1][idx] = (-s - y * t) / z;
                             }
                         }
-
                         // Overflow control
                         double t = FastMath.abs(matrixT[i][idx]);
                         if ((Precision.EPSILON * t) * t > 1) {
@@ -387,21 +345,17 @@ public class EigenDecompositionNonSymmetric {
             } else if (q < 0.0) {
                 // Complex vector
                 int l = idx - 1;
-
                 // Last vector component imaginary so matrix is triangular
                 if (FastMath.abs(matrixT[idx][idx - 1]) > FastMath.abs(matrixT[idx - 1][idx])) {
                     matrixT[idx - 1][idx - 1] = q / matrixT[idx][idx - 1];
-                    matrixT[idx - 1][idx]     = -(matrixT[idx][idx] - p) / matrixT[idx][idx - 1];
+                    matrixT[idx - 1][idx] = -(matrixT[idx][idx] - p) / matrixT[idx][idx - 1];
                 } else {
-                    final Complex result = cdiv(0.0, -matrixT[idx - 1][idx],
-                                                matrixT[idx - 1][idx - 1] - p, q);
+                    final Complex result = cdiv(0.0, -matrixT[idx - 1][idx], matrixT[idx - 1][idx - 1] - p, q);
                     matrixT[idx - 1][idx - 1] = result.getReal();
-                    matrixT[idx - 1][idx]     = result.getImaginary();
+                    matrixT[idx - 1][idx] = result.getImaginary();
                 }
-
                 matrixT[idx][idx - 1] = 0.0;
-                matrixT[idx][idx]     = 1.0;
-
+                matrixT[idx][idx] = 1.0;
                 for (int i = idx - 2; i >= 0; i--) {
                     double ra = 0.0;
                     double sa = 0.0;
@@ -410,7 +364,6 @@ public class EigenDecompositionNonSymmetric {
                         sa += matrixT[i][j] * matrixT[j][idx];
                     }
                     double w = matrixT[i][i] - p;
-
                     if (Precision.compareTo(eigenvalues[i].getImaginaryPart(), 0.0, epsilon) < 0) {
                         z = w;
                         r = ra;
@@ -425,35 +378,25 @@ public class EigenDecompositionNonSymmetric {
                             // Solve complex equations
                             double x = matrixT[i][i + 1];
                             double y = matrixT[i + 1][i];
-                            double vr = (eigenvalues[i].getRealPart() - p) * (eigenvalues[i].getRealPart() - p) +
-                                        eigenvalues[i].getImaginaryPart() * eigenvalues[i].getImaginaryPart() - q * q;
+                            double vr = (eigenvalues[i].getRealPart() - p) * (eigenvalues[i].getRealPart() - p) + eigenvalues[i].getImaginaryPart() * eigenvalues[i].getImaginaryPart() - q * q;
                             final double vi = (eigenvalues[i].getRealPart() - p) * 2.0 * q;
                             if (Precision.equals(vr, 0.0) && Precision.equals(vi, 0.0)) {
-                                vr = Precision.EPSILON * norm *
-                                     (FastMath.abs(w) + FastMath.abs(q) + FastMath.abs(x) +
-                                      FastMath.abs(y) + FastMath.abs(z));
+                                vr = Precision.EPSILON * norm * (FastMath.abs(w) + FastMath.abs(q) + FastMath.abs(x) + FastMath.abs(y) + FastMath.abs(z));
                             }
-                            final Complex c     = cdiv(x * r - z * ra + q * sa,
-                                                       x * s - z * sa - q * ra, vr, vi);
+                            final Complex c = cdiv(x * r - z * ra + q * sa, x * s - z * sa - q * ra, vr, vi);
                             matrixT[i][idx - 1] = c.getReal();
-                            matrixT[i][idx]     = c.getImaginary();
-
+                            matrixT[i][idx] = c.getImaginary();
                             if (FastMath.abs(x) > (FastMath.abs(z) + FastMath.abs(q))) {
-                                matrixT[i + 1][idx - 1] = (-ra - w * matrixT[i][idx - 1] +
-                                                           q * matrixT[i][idx]) / x;
-                                matrixT[i + 1][idx]     = (-sa - w * matrixT[i][idx] -
-                                                           q * matrixT[i][idx - 1]) / x;
+                                matrixT[i + 1][idx - 1] = (-ra - w * matrixT[i][idx - 1] + q * matrixT[i][idx]) / x;
+                                matrixT[i + 1][idx] = (-sa - w * matrixT[i][idx] - q * matrixT[i][idx - 1]) / x;
                             } else {
-                                final Complex c2        = cdiv(-r - y * matrixT[i][idx - 1],
-                                                               -s - y * matrixT[i][idx], z, q);
+                                final Complex c2 = cdiv(-r - y * matrixT[i][idx - 1], -s - y * matrixT[i][idx], z, q);
                                 matrixT[i + 1][idx - 1] = c2.getReal();
-                                matrixT[i + 1][idx]     = c2.getImaginary();
+                                matrixT[i + 1][idx] = c2.getImaginary();
                             }
                         }
-
                         // Overflow control
-                        double t = FastMath.max(FastMath.abs(matrixT[i][idx - 1]),
-                                                FastMath.abs(matrixT[i][idx]));
+                        double t = FastMath.max(FastMath.abs(matrixT[i][idx - 1]), FastMath.abs(matrixT[i][idx]));
                         if ((Precision.EPSILON * t) * t > 1) {
                             for (int j = i; j <= idx; j++) {
                                 matrixT[j][idx - 1] /= t;
@@ -464,7 +407,6 @@ public class EigenDecompositionNonSymmetric {
                 }
             }
         }
-
         // Back transformation to get eigenvectors of original matrix
         for (int j = n - 1; j >= 0; j--) {
             for (int i = 0; i <= n - 1; i++) {
@@ -475,7 +417,6 @@ public class EigenDecompositionNonSymmetric {
                 matrixP[i][j] = z;
             }
         }
-
         eigenvectors = new ArrayList<>(n);
         for (int i = 0; i < n; i++) {
             FieldVector<Complex> ei = new ArrayFieldVector<>(ComplexField.getInstance(), n);

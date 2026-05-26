@@ -21,69 +21,83 @@ import org.hipparchus.complex.FieldComplex;
 import org.hipparchus.special.elliptic.legendre.LegendreEllipticIntegral;
 import org.hipparchus.util.FastMath;
 
-/** Algorithm for computing the principal Jacobi functions for complex parameter m.
+/**
+ * Algorithm for computing the principal Jacobi functions for complex parameter m.
  * @param <T> the type of the field elements
  * @since 2.0
  */
 class FieldComplexParameter<T extends CalculusFieldElement<T>> extends FieldJacobiElliptic<FieldComplex<T>> {
 
-    /** Jacobi θ functions. */
+    /**
+     * Jacobi θ functions.
+     */
     private final FieldJacobiTheta<FieldComplex<T>> jacobiTheta;
 
-    /** Quarter period K. */
+    /**
+     * Quarter period K.
+     */
     private final FieldComplex<T> bigK;
 
-    /** Quarter period iK'. */
+    /**
+     * Quarter period iK'.
+     */
     private final FieldComplex<T> iBigKPrime;
 
-    /** Real periodic factor for K. */
+    /**
+     * Real periodic factor for K.
+     */
     private final T rK;
 
-    /** Imaginary periodic factor for K. */
+    /**
+     * Imaginary periodic factor for K.
+     */
     private final T iK;
 
-    /** Real periodic factor for iK'. */
+    /**
+     * Real periodic factor for iK'.
+     */
     private final T rKPrime;
 
-    /** Imaginary periodic factor for iK'. */
+    /**
+     * Imaginary periodic factor for iK'.
+     */
     private final T iKPrime;
 
-    /** Value of Jacobi θ functions at origin. */
+    /**
+     * Value of Jacobi θ functions at origin.
+     */
     private final FieldTheta<FieldComplex<T>> t0;
 
-    /** Scaling factor. */
+    /**
+     * Scaling factor.
+     */
     private final FieldComplex<T> scaling;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param m parameter of the Jacobi elliptic function
      */
     FieldComplexParameter(final FieldComplex<T> m) {
-
         super(m);
-
         // compute nome
-         final FieldComplex<T> q = LegendreEllipticIntegral.nome(m);
-
+        final FieldComplex<T> q = LegendreEllipticIntegral.nome(m);
         // compute periodic factors such that
         // z = 4K [rK Re(z) + iK Im(z)] + 4K' [rK' Re(z) + iK' Im(z)]
-        bigK            = LegendreEllipticIntegral.bigK(m);
-        iBigKPrime      = LegendreEllipticIntegral.bigKPrime(m).multiplyPlusI();
-        final T inverse = bigK.getRealPart().multiply(iBigKPrime.getImaginaryPart()).
-                          subtract(bigK.getImaginaryPart().multiply(iBigKPrime.getRealPart())).
-                          multiply(4).reciprocal();
-        this.rK         = iBigKPrime.getImaginaryPart().multiply(inverse);
-        this.iK         = iBigKPrime.getRealPart().multiply(inverse).negate();
-        this.rKPrime    = bigK.getImaginaryPart().multiply(inverse).negate();
-        this.iKPrime    = bigK.getRealPart().multiply(inverse);
-
+        bigK = LegendreEllipticIntegral.bigK(m);
+        iBigKPrime = LegendreEllipticIntegral.bigKPrime(m).multiplyPlusI();
+        final T inverse = bigK.getRealPart().multiply(iBigKPrime.getImaginaryPart()).subtract(bigK.getImaginaryPart().multiply(iBigKPrime.getRealPart())).multiply(4).reciprocal();
+        this.rK = iBigKPrime.getImaginaryPart().multiply(inverse);
+        this.iK = iBigKPrime.getRealPart().multiply(inverse).negate();
+        this.rKPrime = bigK.getImaginaryPart().multiply(inverse).negate();
+        this.iKPrime = bigK.getRealPart().multiply(inverse);
         // prepare underlying Jacobi θ functions
         this.jacobiTheta = new FieldJacobiTheta<>(q);
-        this.t0          = jacobiTheta.values(m.getField().getZero());
-        this.scaling     = bigK.reciprocal().multiply(m.getPi().multiply(0.5));
-
+        this.t0 = jacobiTheta.values(m.getField().getZero());
+        this.scaling = bigK.reciprocal().multiply(m.getPi().multiply(0.5));
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * The algorithm for evaluating the functions is based on {@link FieldJacobiTheta
      * Jacobi theta functions}.
@@ -91,24 +105,6 @@ class FieldComplexParameter<T extends CalculusFieldElement<T>> extends FieldJaco
      */
     @Override
     public FieldCopolarN<FieldComplex<T>> valuesN(FieldComplex<T> u) {
-
-        // perform argument reduction
-        final T cK      = rK.multiply(u.getRealPart()).add(iK.multiply(u.getImaginaryPart()));
-        final T cKPrime = rKPrime.multiply(u.getRealPart()).add(iKPrime.multiply(u.getImaginaryPart()));
-        final FieldComplex<T> reducedU = u.linearCombination(1.0,                                  u,
-                                                            -4 * FastMath.rint(cK.getReal()),      bigK,
-                                                            -4 * FastMath.rint(cKPrime.getReal()), iBigKPrime);
-
-        // evaluate Jacobi θ functions at argument
-        final FieldTheta<FieldComplex<T>> tZ = jacobiTheta.values(reducedU.multiply(scaling));
-
-        // convert to Jacobi elliptic functions
-        final FieldComplex<T> sn = t0.theta3().multiply(tZ.theta1()).divide(t0.theta2().multiply(tZ.theta4()));
-        final FieldComplex<T> cn = t0.theta4().multiply(tZ.theta2()).divide(t0.theta2().multiply(tZ.theta4()));
-        final FieldComplex<T> dn = t0.theta4().multiply(tZ.theta3()).divide(t0.theta3().multiply(tZ.theta4()));
-
-        return new FieldCopolarN<>(sn, cn, dn);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

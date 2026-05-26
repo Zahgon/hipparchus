@@ -14,34 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.random;
 
 import org.hipparchus.util.FastMath;
 
-
 /**
  * Generate random vectors isotropically located on the surface of a sphere.
  */
-public class UnitSphereRandomVectorGenerator
-    implements RandomVectorGenerator {
+public class UnitSphereRandomVectorGenerator implements RandomVectorGenerator {
 
-    /** RNG used for generating the individual components of the vectors. */
+    /**
+     * RNG used for generating the individual components of the vectors.
+     */
     private final RandomGenerator rand;
-    /** Space dimension. */
+
+    /**
+     * Space dimension.
+     */
     private final int dimension;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param dimension Space dimension.
      * @param rand RNG for the individual components of the vectors.
      */
-    public UnitSphereRandomVectorGenerator(final int dimension,
-                                           final RandomGenerator rand) {
+    public UnitSphereRandomVectorGenerator(final int dimension, final RandomGenerator rand) {
         this.dimension = dimension;
         this.rand = rand;
     }
@@ -56,26 +57,11 @@ public class UnitSphereRandomVectorGenerator
         this(dimension, new MersenneTwister());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[] nextVector() {
-        final double[] v = new double[dimension];
-
-        // See http://mathworld.wolfram.com/SpherePointPicking.html for example.
-        // Pick a point by choosing a standard Gaussian for each element, and then
-        // normalizing to unit length.
-        double normSq = 0;
-        for (int i = 0; i < dimension; i++) {
-            final double comp = rand.nextGaussian();
-            v[i] = comp;
-            normSq += comp * comp;
-        }
-
-        final double f = 1 / FastMath.sqrt(normSq);
-        for (int i = 0; i < dimension; i++) {
-            v[i] *= f;
-        }
-
-        return v;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,7 +22,6 @@ package org.hipparchus.clustering;
 
 import java.util.Collection;
 import java.util.List;
-
 import org.hipparchus.clustering.distance.DistanceMeasure;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathIllegalStateException;
@@ -35,7 +33,9 @@ import org.hipparchus.exception.MathIllegalStateException;
  */
 public abstract class Clusterer<T extends Clusterable> {
 
-    /** The distance measure to use. */
+    /**
+     * The distance measure to use.
+     */
     private DistanceMeasure measure;
 
     /**
@@ -57,8 +57,7 @@ public abstract class Clusterer<T extends Clusterable> {
      * @throws MathIllegalStateException if the algorithm has not yet converged after
      *   the maximum number of iterations has been exceeded
      */
-    public abstract List<? extends Cluster<T>> cluster(Collection<T> points)
-            throws MathIllegalArgumentException, MathIllegalStateException;
+    public abstract List<? extends Cluster<T>> cluster(Collection<T> points) throws MathIllegalArgumentException, MathIllegalStateException;
 
     /**
      * Returns the {@link DistanceMeasure} instance used by this clusterer.
@@ -66,7 +65,7 @@ public abstract class Clusterer<T extends Clusterable> {
      * @return the distance measure
      */
     public DistanceMeasure getDistanceMeasure() {
-        return measure;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -78,7 +77,6 @@ public abstract class Clusterer<T extends Clusterable> {
      * @return the distance between the two clusterables
      */
     protected double distance(final Clusterable p1, final Clusterable p2) {
-        return measure.compute(p1.getPoint(), p2.getPoint());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

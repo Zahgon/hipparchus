@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.analysis.differentiation;
 
 import java.io.Serializable;
-
 import org.hipparchus.analysis.UnivariateFunction;
 import org.hipparchus.analysis.UnivariateMatrixFunction;
 import org.hipparchus.analysis.UnivariateVectorFunction;
@@ -31,7 +29,8 @@ import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.util.FastMath;
 import org.hipparchus.util.MathArrays;
 
-/** Univariate functions differentiator using finite differences.
+/**
+ * Univariate functions differentiator using finite differences.
  * <p>
  * This class creates some wrapper objects around regular
  * {@link UnivariateFunction univariate functions} (or {@link
@@ -69,28 +68,37 @@ import org.hipparchus.util.MathArrays;
  * <p>
  * This example shows that the small step size is really bad, even simply
  * for second order derivative!</p>
- *
  */
-public class FiniteDifferencesDifferentiator
-    implements UnivariateFunctionDifferentiator, UnivariateVectorFunctionDifferentiator,
-               UnivariateMatrixFunctionDifferentiator, Serializable {
+public class FiniteDifferencesDifferentiator implements UnivariateFunctionDifferentiator, UnivariateVectorFunctionDifferentiator, UnivariateMatrixFunctionDifferentiator, Serializable {
 
-    /** Serializable UID. */
+    /**
+     * Serializable UID.
+     */
     private static final long serialVersionUID = 20120917L;
 
-    /** Number of points to use. */
+    /**
+     * Number of points to use.
+     */
     private final int nbPoints;
 
-    /** Step size. */
+    /**
+     * Step size.
+     */
     private final double stepSize;
 
-    /** Half sample span. */
+    /**
+     * Half sample span.
+     */
     private final double halfSampleSpan;
 
-    /** Lower bound for independent variable. */
+    /**
+     * Lower bound for independent variable.
+     */
     private final double tMin;
 
-    /** Upper bound for independent variable. */
+    /**
+     * Upper bound for independent variable.
+     */
     private final double tMax;
 
     /**
@@ -107,8 +115,7 @@ public class FiniteDifferencesDifferentiator
      * {@link MathIllegalArgumentException} extends {@link MathIllegalArgumentException})
      * @exception MathIllegalArgumentException {@code nbPoint <= 1}
      */
-    public FiniteDifferencesDifferentiator(final int nbPoints, final double stepSize)
-        throws MathIllegalArgumentException {
+    public FiniteDifferencesDifferentiator(final int nbPoints, final double stepSize) throws MathIllegalArgumentException {
         this(nbPoints, stepSize, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
     }
 
@@ -141,31 +148,22 @@ public class FiniteDifferencesDifferentiator
      * @exception MathIllegalArgumentException {@code nbPoint <= 1}
      * @exception MathIllegalArgumentException {@code stepSize * (nbPoints - 1) >= tUpper - tLower}
      */
-    public FiniteDifferencesDifferentiator(final int nbPoints, final double stepSize,
-                                           final double tLower, final double tUpper)
-            throws MathIllegalArgumentException {
-
+    public FiniteDifferencesDifferentiator(final int nbPoints, final double stepSize, final double tLower, final double tUpper) throws MathIllegalArgumentException {
         if (nbPoints <= 1) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL,
-                                                   stepSize, 1);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL, stepSize, 1);
         }
         this.nbPoints = nbPoints;
-
         if (stepSize <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
-                                                   stepSize, 0);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED, stepSize, 0);
         }
         this.stepSize = stepSize;
-
         halfSampleSpan = 0.5 * stepSize * (nbPoints - 1);
         if (2 * halfSampleSpan >= tUpper - tLower) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                   2 * halfSampleSpan, tUpper - tLower);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED, 2 * halfSampleSpan, tUpper - tLower);
         }
         final double safety = FastMath.ulp(halfSampleSpan);
         this.tMin = tLower + halfSampleSpan + safety;
         this.tMax = tUpper - halfSampleSpan - safety;
-
     }
 
     /**
@@ -173,7 +171,7 @@ public class FiniteDifferencesDifferentiator
      * @return number of points to use
      */
     public int getNbPoints() {
-        return nbPoints;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -181,7 +179,7 @@ public class FiniteDifferencesDifferentiator
      * @return step size
      */
     public double getStepSize() {
-        return stepSize;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -197,29 +195,22 @@ public class FiniteDifferencesDifferentiator
      * @exception MathIllegalArgumentException if the requested derivation order
      * is larger or equal to the number of points
      */
-    private <T extends Derivative<T>> T evaluate(final T t, final double t0, final double[] y)
-        throws MathIllegalArgumentException {
-
+    private <T extends Derivative<T>> T evaluate(final T t, final double t0, final double[] y) throws MathIllegalArgumentException {
         // create divided differences diagonal arrays
-        final double[] top    = new double[nbPoints];
+        final double[] top = new double[nbPoints];
         final double[] bottom = new double[nbPoints];
-
         for (int i = 0; i < nbPoints; ++i) {
-
             // update the bottom diagonal of the divided differences array
             bottom[i] = y[i];
             for (int j = 1; j <= i; ++j) {
                 bottom[i - j] = (bottom[i - j + 1] - bottom[i - j]) / (j * stepSize);
             }
-
             // update the top diagonal of the divided differences array
             top[i] = bottom[0];
-
         }
-
         // evaluate interpolation polynomial (represented by top diagonal) at t
         T interpolation = t.getField().getZero();
-        T monomial      = null;
+        T monomial = null;
         for (int i = 0; i < nbPoints; ++i) {
             if (i == 0) {
                 // start with monomial(t) = 1
@@ -231,12 +222,11 @@ public class FiniteDifferencesDifferentiator
             }
             interpolation = interpolation.add(monomial.multiply(top[i]));
         }
-
         return interpolation;
-
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>The returned object cannot compute derivatives to arbitrary orders. The
      * value function will throw a {@link MathIllegalArgumentException} if the requested
      * derivation order is larger or equal to the number of points.
@@ -244,43 +234,11 @@ public class FiniteDifferencesDifferentiator
      */
     @Override
     public UnivariateDifferentiableFunction differentiate(final UnivariateFunction function) {
-        return new UnivariateDifferentiableFunction() {
-
-            /** {@inheritDoc} */
-            @Override
-            public double value(final double x) throws MathIllegalArgumentException {
-                return function.value(x);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public <T extends Derivative<T>> T value(T t)
-                throws MathIllegalArgumentException {
-
-                // check we can achieve the requested derivation order with the sample
-                if (t.getOrder() >= nbPoints) {
-                    throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                           t.getOrder(), nbPoints);
-                }
-
-                // compute sample position, trying to be centered if possible
-                final double t0 = FastMath.max(FastMath.min(t.getValue(), tMax), tMin) - halfSampleSpan;
-
-                // compute sample points
-                final double[] y = new double[nbPoints];
-                for (int i = 0; i < nbPoints; ++i) {
-                    y[i] = function.value(t0 + i * stepSize);
-                }
-
-                // evaluate derivatives
-                return evaluate(t, t0, y);
-
-            }
-
-        };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>The returned object cannot compute derivatives to arbitrary orders. The
      * value function will throw a {@link MathIllegalArgumentException} if the requested
      * derivation order is larger or equal to the number of points.
@@ -288,54 +246,11 @@ public class FiniteDifferencesDifferentiator
      */
     @Override
     public UnivariateDifferentiableVectorFunction differentiate(final UnivariateVectorFunction function) {
-        return new UnivariateDifferentiableVectorFunction() {
-
-            /** {@inheritDoc} */
-            @Override
-            public double[]value(final double x) throws MathIllegalArgumentException {
-                return function.value(x);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public <T extends Derivative<T>> T[] value(T t)
-                throws MathIllegalArgumentException {
-
-                // check we can achieve the requested derivation order with the sample
-                if (t.getOrder() >= nbPoints) {
-                    throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                           t.getOrder(), nbPoints);
-                }
-
-                // compute sample position, trying to be centered if possible
-                final double t0 = FastMath.max(FastMath.min(t.getValue(), tMax), tMin) - halfSampleSpan;
-
-                // compute sample points
-                double[][] y = null;
-                for (int i = 0; i < nbPoints; ++i) {
-                    final double[] v = function.value(t0 + i * stepSize);
-                    if (i == 0) {
-                        y = new double[v.length][nbPoints];
-                    }
-                    for (int j = 0; j < v.length; ++j) {
-                        y[j][i] = v[j];
-                    }
-                }
-
-                // evaluate derivatives
-                final T[] value = MathArrays.buildArray(t.getField(), y.length);
-                for (int j = 0; j < value.length; ++j) {
-                    value[j] = evaluate(t, t0, y[j]);
-                }
-
-                return value;
-
-            }
-
-        };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>The returned object cannot compute derivatives to arbitrary orders. The
      * value function will throw a {@link MathIllegalArgumentException} if the requested
      * derivation order is larger or equal to the number of points.
@@ -343,55 +258,6 @@ public class FiniteDifferencesDifferentiator
      */
     @Override
     public UnivariateDifferentiableMatrixFunction differentiate(final UnivariateMatrixFunction function) {
-        return new UnivariateDifferentiableMatrixFunction() {
-
-            /** {@inheritDoc} */
-            @Override
-            public double[][]  value(final double x) throws MathIllegalArgumentException {
-                return function.value(x);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public <T extends Derivative<T>> T[][] value(T t)
-                throws MathIllegalArgumentException {
-
-                // check we can achieve the requested derivation order with the sample
-                if (t.getOrder() >= nbPoints) {
-                    throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                           t.getOrder(), nbPoints);
-                }
-
-                // compute sample position, trying to be centered if possible
-                final double t0 = FastMath.max(FastMath.min(t.getValue(), tMax), tMin) - halfSampleSpan;
-
-                // compute sample points
-                double[][][] y = null;
-                for (int i = 0; i < nbPoints; ++i) {
-                    final double[][] v = function.value(t0 + i * stepSize);
-                    if (i == 0) {
-                        y = new double[v.length][v[0].length][nbPoints];
-                    }
-                    for (int j = 0; j < v.length; ++j) {
-                        for (int k = 0; k < v[j].length; ++k) {
-                            y[j][k][i] = v[j][k];
-                        }
-                    }
-                }
-
-                // evaluate derivatives
-                final T[][] value = MathArrays.buildArray(t.getField(), y.length, y[0].length);
-                for (int j = 0; j < value.length; ++j) {
-                    for (int k = 0; k < y[j].length; ++k) {
-                        value[j][k] = evaluate(t, t0, y[j][k]);
-                    }
-                }
-
-                return value;
-
-            }
-
-        };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

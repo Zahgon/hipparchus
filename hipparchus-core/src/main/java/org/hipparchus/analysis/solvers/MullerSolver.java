@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -51,7 +50,9 @@ import org.hipparchus.util.FastMath;
  */
 public class MullerSolver extends AbstractUnivariateSolver {
 
-    /** Default absolute accuracy. */
+    /**
+     * Default absolute accuracy.
+     */
     private static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
 
     /**
@@ -60,6 +61,7 @@ public class MullerSolver extends AbstractUnivariateSolver {
     public MullerSolver() {
         this(DEFAULT_ABSOLUTE_ACCURACY);
     }
+
     /**
      * Construct a solver.
      *
@@ -68,14 +70,14 @@ public class MullerSolver extends AbstractUnivariateSolver {
     public MullerSolver(double absoluteAccuracy) {
         super(absoluteAccuracy);
     }
+
     /**
      * Construct a solver.
      *
      * @param relativeAccuracy Relative accuracy.
      * @param absoluteAccuracy Absolute accuracy.
      */
-    public MullerSolver(double relativeAccuracy,
-                        double absoluteAccuracy) {
+    public MullerSolver(double relativeAccuracy, double absoluteAccuracy) {
         super(relativeAccuracy, absoluteAccuracy);
     }
 
@@ -83,37 +85,8 @@ public class MullerSolver extends AbstractUnivariateSolver {
      * {@inheritDoc}
      */
     @Override
-    protected double doSolve()
-        throws MathIllegalArgumentException, MathIllegalStateException {
-        final double min = getMin();
-        final double max = getMax();
-        final double initial = getStartValue();
-
-        final double functionValueAccuracy = getFunctionValueAccuracy();
-
-        verifySequence(min, initial, max);
-
-        // check for zeros before verifying bracketing
-        final double fMin = computeObjectiveValue(min);
-        if (FastMath.abs(fMin) < functionValueAccuracy) {
-            return min;
-        }
-        final double fMax = computeObjectiveValue(max);
-        if (FastMath.abs(fMax) < functionValueAccuracy) {
-            return max;
-        }
-        final double fInitial = computeObjectiveValue(initial);
-        if (FastMath.abs(fInitial) <  functionValueAccuracy) {
-            return initial;
-        }
-
-        verifyBracketing(min, max);
-
-        if (isBracketing(min, initial)) {
-            return solve(min, initial, fMin, fInitial);
-        } else {
-            return solve(initial, max, fInitial, fMax);
-        }
+    protected double doSolve() throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -127,25 +100,20 @@ public class MullerSolver extends AbstractUnivariateSolver {
      * @throws MathIllegalStateException if the allowed number of calls to
      * the function to be solved has been exhausted.
      */
-    private double solve(double min, double max,
-                         double fMin, double fMax)
-        throws MathIllegalStateException {
+    private double solve(double min, double max, double fMin, double fMax) throws MathIllegalStateException {
         final double relativeAccuracy = getRelativeAccuracy();
         final double absoluteAccuracy = getAbsoluteAccuracy();
         final double functionValueAccuracy = getFunctionValueAccuracy();
-
         // [x0, x2] is the bracketing interval in each iteration
         // x1 is the last approximation and an interpolation point in (x0, x2)
         // x is the new root approximation and new x1 for next round
         // d01, d12, d012 are divided differences
-
         double x0 = min;
         double y0 = fMin;
         double x2 = max;
         double y2 = fMax;
         double x1 = 0.5 * (x0 + x2);
         double y1 = computeObjectiveValue(x1);
-
         double oldx = Double.POSITIVE_INFINITY;
         while (true) {
             // Muller's method employs quadratic interpolation through
@@ -163,36 +131,34 @@ public class MullerSolver extends AbstractUnivariateSolver {
             // one of them should lie in (x0, x2)
             final double x = isSequence(x0, xplus, x2) ? xplus : xminus;
             final double y = computeObjectiveValue(x);
-
             // check for convergence
             final double tolerance = FastMath.max(relativeAccuracy * FastMath.abs(x), absoluteAccuracy);
-            if (FastMath.abs(x - oldx) <= tolerance ||
-                FastMath.abs(y) <= functionValueAccuracy) {
+            if (FastMath.abs(x - oldx) <= tolerance || FastMath.abs(y) <= functionValueAccuracy) {
                 return x;
             }
-
             // Bisect if convergence is too slow. Bisection would waste
             // our calculation of x, hopefully it won't happen often.
             // the real number equality test x == x1 is intentional and
             // completes the proximity tests above it
-            boolean bisect = (x < x1 && (x1 - x0) > 0.95 * (x2 - x0)) ||
-                             (x > x1 && (x2 - x1) > 0.95 * (x2 - x0)) ||
-                             (x == x1);
+            boolean bisect = (x < x1 && (x1 - x0) > 0.95 * (x2 - x0)) || (x > x1 && (x2 - x1) > 0.95 * (x2 - x0)) || (x == x1);
             // prepare the new bracketing interval for next iteration
             if (!bisect) {
                 x0 = x < x1 ? x0 : x1;
                 y0 = x < x1 ? y0 : y1;
                 x2 = x > x1 ? x2 : x1;
                 y2 = x > x1 ? y2 : y1;
-                x1 = x; y1 = y;
+                x1 = x;
+                y1 = y;
                 oldx = x;
             } else {
                 double xm = 0.5 * (x0 + x2);
                 double ym = computeObjectiveValue(xm);
                 if (FastMath.signum(y0) + FastMath.signum(ym) == 0.0) {
-                    x2 = xm; y2 = ym;
+                    x2 = xm;
+                    y2 = ym;
                 } else {
-                    x0 = xm; y0 = ym;
+                    x0 = xm;
+                    y0 = ym;
                 }
                 x1 = 0.5 * (x0 + x2);
                 y1 = computeObjectiveValue(x1);

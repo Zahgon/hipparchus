@@ -19,26 +19,30 @@ package org.hipparchus.optim.nonlinear.vector.constrained;
 import org.hipparchus.linear.RealMatrix;
 import org.hipparchus.optim.OptimizationData;
 
-/** Inverse of Cholesky factorization.
+/**
+ * Inverse of Cholesky factorization.
  * @since 4.1
  */
 public class InverseCholesky implements OptimizationData {
 
-    /** Inverse of Cholesku factorization. */
+    /**
+     * Inverse of Cholesku factorization.
+     */
     private final RealMatrix invL;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param inverseL inverse of Cholesku factorization
      */
     public InverseCholesky(final RealMatrix inverseL) {
-       this.invL = inverseL;
+        this.invL = inverseL;
     }
 
-    /** Get inverse of Cholesku factorization.
+    /**
+     * Get inverse of Cholesku factorization.
      * @return inverse of Cholesku factorization
      */
     public RealMatrix getInverseL() {
-        return this.invL;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

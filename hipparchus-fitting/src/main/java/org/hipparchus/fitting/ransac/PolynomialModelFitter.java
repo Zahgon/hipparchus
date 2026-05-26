@@ -33,10 +33,14 @@ import org.hipparchus.util.FastMath;
  */
 public class PolynomialModelFitter implements IModelFitter<PolynomialModelFitter.Model> {
 
-    /** Class representing the polynomial model to fit. */
+    /**
+     * Class representing the polynomial model to fit.
+     */
     public static final class Model {
 
-        /** Coefficients of the polynomial model. */
+        /**
+         * Coefficients of the polynomial model.
+         */
         private final double[] coefficients;
 
         /**
@@ -53,7 +57,7 @@ public class PolynomialModelFitter implements IModelFitter<PolynomialModelFitter
          * @return the model value for the given point
          */
         public double predict(final double x) {
-            return IntStream.range(0, coefficients.length).mapToDouble(i -> coefficients[i] * FastMath.pow(x, i)).sum();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -66,11 +70,13 @@ public class PolynomialModelFitter implements IModelFitter<PolynomialModelFitter
          * @return the coefficients of the polynomial model
          */
         public double[] getCoefficients() {
-            return coefficients.clone();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
-    /** Degree of the polynomial to fit. */
+    /**
+     * Degree of the polynomial to fit.
+     */
     private final int degree;
 
     /**
@@ -84,42 +90,20 @@ public class PolynomialModelFitter implements IModelFitter<PolynomialModelFitter
         this.degree = degree;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Model fitModel(final List<Fittable> points) {
-        // Reference: Wikipedia page "Polynomial regression"
-        final int size = points.size();
-        checkSampleSize(size);
-
-        // Fill the data
-        final double[][] x = new double[size][degree + 1];
-        final double[] y = new double[size];
-        for (int i = 0; i < size; i++) {
-            final double[] point = points.get(i).getPoint();
-            final double currentX = point[0];
-            final double currentY = point[1];
-            double value = 1.0;
-            for (int j = 0; j <= degree; j++) {
-                x[i][j] = value;
-                value *= currentX;
-            }
-            y[i] = currentY;
-        }
-
-        // Computes (X^T.X)^-1 X^T.Y to determine the coefficients "C" of the polynomial (Y = X.C)
-        final RealMatrix matrixX = new Array2DRowRealMatrix(x);
-        final RealVector matrixY = new ArrayRealVector(y);
-        final RealMatrix matrixXTranspose = matrixX.transpose();
-        final RealMatrix xTx = matrixXTranspose.multiply(matrixX);
-        final RealVector xTy = matrixXTranspose.operate(matrixY);
-        final RealVector coefficients = new SingularValueDecomposition(xTx).getSolver().solve(xTy);
-        return new Model(coefficients.toArray());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}. */
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public double computeModelError(final Model model, final Fittable point) {
-        return FastMath.abs(point.getPoint()[1] - model.predict(point.getPoint()[0]));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**

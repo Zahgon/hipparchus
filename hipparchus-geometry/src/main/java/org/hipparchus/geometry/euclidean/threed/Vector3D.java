@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.geometry.euclidean.threed;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -31,7 +29,6 @@ import org.hipparchus.util.FastMath;
 import org.hipparchus.util.MathArrays;
 import org.hipparchus.util.MathUtils;
 import org.hipparchus.util.SinCos;
-
 import java.io.Serializable;
 import java.text.NumberFormat;
 
@@ -41,53 +38,80 @@ import java.text.NumberFormat;
  */
 public class Vector3D implements Serializable, Vector<Euclidean3D, Vector3D> {
 
-    /** Null vector (coordinates: 0, 0, 0). */
-    public static final Vector3D ZERO   = new Vector3D(0, 0, 0);
+    /**
+     * Null vector (coordinates: 0, 0, 0).
+     */
+    public static final Vector3D ZERO = new Vector3D(0, 0, 0);
 
-    /** First canonical vector (coordinates: 1, 0, 0). */
+    /**
+     * First canonical vector (coordinates: 1, 0, 0).
+     */
     public static final Vector3D PLUS_I = new Vector3D(1, 0, 0);
 
-    /** Opposite of the first canonical vector (coordinates: -1, 0, 0). */
+    /**
+     * Opposite of the first canonical vector (coordinates: -1, 0, 0).
+     */
     public static final Vector3D MINUS_I = new Vector3D(-1, 0, 0);
 
-    /** Second canonical vector (coordinates: 0, 1, 0). */
+    /**
+     * Second canonical vector (coordinates: 0, 1, 0).
+     */
     public static final Vector3D PLUS_J = new Vector3D(0, 1, 0);
 
-    /** Opposite of the second canonical vector (coordinates: 0, -1, 0). */
+    /**
+     * Opposite of the second canonical vector (coordinates: 0, -1, 0).
+     */
     public static final Vector3D MINUS_J = new Vector3D(0, -1, 0);
 
-    /** Third canonical vector (coordinates: 0, 0, 1). */
+    /**
+     * Third canonical vector (coordinates: 0, 0, 1).
+     */
     public static final Vector3D PLUS_K = new Vector3D(0, 0, 1);
 
-    /** Opposite of the third canonical vector (coordinates: 0, 0, -1).  */
+    /**
+     * Opposite of the third canonical vector (coordinates: 0, 0, -1).
+     */
     public static final Vector3D MINUS_K = new Vector3D(0, 0, -1);
 
     // CHECKSTYLE: stop ConstantName
-    /** A vector with all coordinates set to NaN. */
+    /**
+     * A vector with all coordinates set to NaN.
+     */
     public static final Vector3D NaN = new Vector3D(Double.NaN, Double.NaN, Double.NaN);
+
     // CHECKSTYLE: resume ConstantName
+    /**
+     * A vector with all coordinates set to positive infinity.
+     */
+    public static final Vector3D POSITIVE_INFINITY = new Vector3D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
 
-    /** A vector with all coordinates set to positive infinity. */
-    public static final Vector3D POSITIVE_INFINITY =
-        new Vector3D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+    /**
+     * A vector with all coordinates set to negative infinity.
+     */
+    public static final Vector3D NEGATIVE_INFINITY = new Vector3D(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
 
-    /** A vector with all coordinates set to negative infinity. */
-    public static final Vector3D NEGATIVE_INFINITY =
-        new Vector3D(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
-
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 1313493323784566947L;
 
-    /** Abscissa. */
+    /**
+     * Abscissa.
+     */
     private final double x;
 
-    /** Ordinate. */
+    /**
+     * Ordinate.
+     */
     private final double y;
 
-    /** Height. */
+    /**
+     * Height.
+     */
     private final double z;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * Build a vector from its coordinates
      * @param x abscissa
      * @param y ordinate
@@ -102,7 +126,8 @@ public class Vector3D implements Serializable, Vector<Euclidean3D, Vector3D> {
         this.z = z;
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * Build a vector from its coordinates
      * @param v coordinates array
      * @exception MathIllegalArgumentException if array does not have 3 elements
@@ -110,15 +135,15 @@ public class Vector3D implements Serializable, Vector<Euclidean3D, Vector3D> {
      */
     public Vector3D(double[] v) throws MathIllegalArgumentException {
         if (v.length != 3) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   v.length, 3);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH, v.length, 3);
         }
         this.x = v[0];
         this.y = v[1];
         this.z = v[2];
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * Build a vector from its azimuthal coordinates
      * @param alpha azimuth (&alpha;) around Z
      *              (0 is +X, &pi;/2 is +Y, &pi; is -X and 3&pi;/2 is -Y)
@@ -134,7 +159,8 @@ public class Vector3D implements Serializable, Vector<Euclidean3D, Vector3D> {
         this.z = sinCosDelta.sin();
     }
 
-    /** Multiplicative constructor
+    /**
+     * Multiplicative constructor
      * Build a vector from another one and a scale factor.
      * The vector built will be a * u
      * @param a scale factor
@@ -146,7 +172,8 @@ public class Vector3D implements Serializable, Vector<Euclidean3D, Vector3D> {
         this.z = a * u.z;
     }
 
-    /** Linear constructor
+    /**
+     * Linear constructor
      * Build a vector from two other ones and corresponding scale factors.
      * The vector built will be a1 * u1 + a2 * u2
      * @param a1 first scale factor
@@ -160,7 +187,8 @@ public class Vector3D implements Serializable, Vector<Euclidean3D, Vector3D> {
         this.z = MathArrays.linearCombination(a1, u1.z, a2, u2.z);
     }
 
-    /** Linear constructor
+    /**
+     * Linear constructor
      * Build a vector from three other ones and corresponding scale factors.
      * The vector built will be a1 * u1 + a2 * u2 + a3 * u3
      * @param a1 first scale factor
@@ -170,14 +198,14 @@ public class Vector3D implements Serializable, Vector<Euclidean3D, Vector3D> {
      * @param a3 third scale factor
      * @param u3 third base (unscaled) vector
      */
-    public Vector3D(double a1, Vector3D u1, double a2, Vector3D u2,
-                    double a3, Vector3D u3) {
+    public Vector3D(double a1, Vector3D u1, double a2, Vector3D u2, double a3, Vector3D u3) {
         this.x = MathArrays.linearCombination(a1, u1.x, a2, u2.x, a3, u3.x);
         this.y = MathArrays.linearCombination(a1, u1.y, a2, u2.y, a3, u3.y);
         this.z = MathArrays.linearCombination(a1, u1.z, a2, u2.z, a3, u3.z);
     }
 
-    /** Linear constructor
+    /**
+     * Linear constructor
      * Build a vector from four other ones and corresponding scale factors.
      * The vector built will be a1 * u1 + a2 * u2 + a3 * u3 + a4 * u4
      * @param a1 first scale factor
@@ -189,78 +217,91 @@ public class Vector3D implements Serializable, Vector<Euclidean3D, Vector3D> {
      * @param a4 fourth scale factor
      * @param u4 fourth base (unscaled) vector
      */
-    public Vector3D(double a1, Vector3D u1, double a2, Vector3D u2,
-                    double a3, Vector3D u3, double a4, Vector3D u4) {
+    public Vector3D(double a1, Vector3D u1, double a2, Vector3D u2, double a3, Vector3D u3, double a4, Vector3D u4) {
         this.x = MathArrays.linearCombination(a1, u1.x, a2, u2.x, a3, u3.x, a4, u4.x);
         this.y = MathArrays.linearCombination(a1, u1.y, a2, u2.y, a3, u3.y, a4, u4.y);
         this.z = MathArrays.linearCombination(a1, u1.z, a2, u2.z, a3, u3.z, a4, u4.z);
     }
 
-    /** Get the abscissa of the vector.
+    /**
+     * Get the abscissa of the vector.
      * @return abscissa of the vector
      * @see #Vector3D(double, double, double)
      */
     public double getX() {
-        return x;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the ordinate of the vector.
+    /**
+     * Get the ordinate of the vector.
      * @return ordinate of the vector
      * @see #Vector3D(double, double, double)
      */
     public double getY() {
-        return y;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the height of the vector.
+    /**
+     * Get the height of the vector.
      * @return height of the vector
      * @see #Vector3D(double, double, double)
      */
     public double getZ() {
-        return z;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the vector coordinates as a dimension 3 array.
+    /**
+     * Get the vector coordinates as a dimension 3 array.
      * @return vector coordinates
      * @see #Vector3D(double[])
      */
     public double[] toArray() {
-        return new double[] { x, y, z };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Space getSpace() {
-        return Euclidean3D.getInstance();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector3D getZero() {
-        return ZERO;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getNorm1() {
-        return FastMath.abs(x) + FastMath.abs(y) + FastMath.abs(z);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getNorm2Sq() {
-        // there are no cancellation problems here, so we use the straightforward formula
-        return x * x + y * y + z * z;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getNorm() {
-        // there are no cancellation problems here, so we use the straightforward formula
-        return FastMath.sqrt (x * x + y * y + z * z);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Deprecated
     public double getNormSq() {
@@ -268,53 +309,66 @@ public class Vector3D implements Serializable, Vector<Euclidean3D, Vector3D> {
         return getNorm2Sq();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getNormInf() {
-        return FastMath.max(FastMath.max(FastMath.abs(x), FastMath.abs(y)), FastMath.abs(z));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the azimuth of the vector.
+    /**
+     * Get the azimuth of the vector.
      * @return azimuth (&alpha;) of the vector, between -&pi; and +&pi;
      * @see #Vector3D(double, double)
      */
     public double getAlpha() {
-        return FastMath.atan2(y, x);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the elevation of the vector.
+    /**
+     * Get the elevation of the vector.
      * @return elevation (&delta;) of the vector, between -&pi;/2 and +&pi;/2
      * @see #Vector3D(double, double)
      */
     public double getDelta() {
-        return FastMath.asin(z / getNorm());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector3D add(final Vector3D v) {
-        return new Vector3D(x + v.x, y + v.y, z + v.z);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector3D add(double factor, final Vector3D v) {
-        return new Vector3D(1, this, factor, v);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector3D subtract(final Vector3D v) {
-        return new Vector3D(x - v.x, y - v.y, z - v.z);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector3D subtract(final double factor, final Vector3D v) {
-        return new Vector3D(1, this, -factor, v);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a vector orthogonal to the instance.
+    /**
+     * Get a vector orthogonal to the instance.
      * <p>There are an infinite number of normalized vectors orthogonal
      * to the instance. This method picks up one of them almost
      * arbitrarily. It is useful when one needs to compute a reference
@@ -331,25 +385,11 @@ public class Vector3D implements Serializable, Vector<Euclidean3D, Vector3D> {
      * @exception MathRuntimeException if the norm of the instance is null
      */
     public Vector3D orthogonal() throws MathRuntimeException {
-
-        double threshold = 0.6 * getNorm();
-        if (threshold == 0) {
-            throw new MathRuntimeException(LocalizedCoreFormats.ZERO_NORM);
-        }
-
-        if (FastMath.abs(x) <= threshold) {
-            double inverse  = 1 / FastMath.sqrt(y * y + z * z);
-            return new Vector3D(0, inverse * z, -inverse * y);
-        } else if (FastMath.abs(y) <= threshold) {
-            double inverse  = 1 / FastMath.sqrt(x * x + z * z);
-            return new Vector3D(-inverse * z, 0, inverse * x);
-        }
-        double inverse  = 1 / FastMath.sqrt(x * x + y * y);
-        return new Vector3D(inverse * y, -inverse * x, 0);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the angular separation between two vectors.
+    /**
+     * Compute the angular separation between two vectors.
      * <p>This method computes the angular separation between two
      * vectors using the dot product for well separated vectors and the
      * cross product for almost aligned vectors. This allows to have a
@@ -361,50 +401,39 @@ public class Vector3D implements Serializable, Vector<Euclidean3D, Vector3D> {
      * @exception MathRuntimeException if either vector has a null norm
      */
     public static double angle(Vector3D v1, Vector3D v2) throws MathRuntimeException {
-
-        double normProduct = v1.getNorm() * v2.getNorm();
-        if (normProduct == 0) {
-            throw new MathRuntimeException(LocalizedCoreFormats.ZERO_NORM);
-        }
-
-        double dot = v1.dotProduct(v2);
-        double threshold = normProduct * 0.9999;
-        if ((dot < -threshold) || (dot > threshold)) {
-            // the vectors are almost aligned, compute using the sine
-            Vector3D v3 = crossProduct(v1, v2);
-            if (dot >= 0) {
-                return FastMath.asin(v3.getNorm() / normProduct);
-            }
-            return FastMath.PI - FastMath.asin(v3.getNorm() / normProduct);
-        }
-
-        // the vectors are sufficiently separated to use the cosine
-        return FastMath.acos(dot / normProduct);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector3D negate() {
-        return new Vector3D(-x, -y, -z);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector3D scalarMultiply(double a) {
-        return new Vector3D(a * x, a * y, a * z);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isNaN() {
-        return Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isInfinite() {
-        return !isNaN() && (Double.isInfinite(x) || Double.isInfinite(y) || Double.isInfinite(z));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -424,22 +453,10 @@ public class Vector3D implements Serializable, Vector<Euclidean3D, Vector3D> {
      * @return true if two 3D vector objects are equal, false if
      *         object is null, not an instance of Vector3D, or
      *         not equal to this Vector3D instance
-     *
      */
     @Override
     public boolean equals(Object other) {
-
-        if (this == other) {
-            return true;
-        }
-
-        if (other instanceof Vector3D) {
-            final Vector3D rhs = (Vector3D)other;
-            return x == rhs.x && y == rhs.y && z == rhs.z || isNaN() && rhs.isNaN();
-        }
-
-        return false;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -462,18 +479,7 @@ public class Vector3D implements Serializable, Vector<Euclidean3D, Vector3D> {
      * @since 2.1
      */
     public boolean equalsIeee754(Object other) {
-
-        if (this == other && !isNaN()) {
-            return true;
-        }
-
-        if (other instanceof Vector3D) {
-            final Vector3D rhs = (Vector3D) other;
-            return x == rhs.x && y == rhs.y && z == rhs.z;
-        }
-
-        return false;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -485,13 +491,11 @@ public class Vector3D implements Serializable, Vector<Euclidean3D, Vector3D> {
      */
     @Override
     public int hashCode() {
-        if (isNaN()) {
-            return 642;
-        }
-        return 643 * (164 * MathUtils.hash(x) +  3 * MathUtils.hash(y) +  MathUtils.hash(z));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * The implementation uses specific multiplication and addition
      * algorithms to preserve accuracy and reduce cancellation effects.
@@ -501,74 +505,72 @@ public class Vector3D implements Serializable, Vector<Euclidean3D, Vector3D> {
      */
     @Override
     public double dotProduct(final Vector3D v) {
-        return MathArrays.linearCombination(x, v.x, y, v.y, z, v.z);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the cross-product of the instance with another vector.
+    /**
+     * Compute the cross-product of the instance with another vector.
      * @param v other vector
      * @return the cross product this ^ v as a new Vector3D
      */
     public Vector3D crossProduct(final Vector3D v) {
-        return new Vector3D(MathArrays.linearCombination(y, v.z, -z, v.y),
-                            MathArrays.linearCombination(z, v.x, -x, v.z),
-                            MathArrays.linearCombination(x, v.y, -y, v.x));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double distance1(Vector3D v) {
-        final double dx = FastMath.abs(v.x - x);
-        final double dy = FastMath.abs(v.y - y);
-        final double dz = FastMath.abs(v.z - z);
-        return dx + dy + dz;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double distance(Vector3D v) {
-        final double dx = v.x - x;
-        final double dy = v.y - y;
-        final double dz = v.z - z;
-        return FastMath.sqrt(dx * dx + dy * dy + dz * dz);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double distanceInf(Vector3D v) {
-        final double dx = FastMath.abs(v.x - x);
-        final double dy = FastMath.abs(v.y - y);
-        final double dz = FastMath.abs(v.z - z);
-        return FastMath.max(FastMath.max(dx, dy), dz);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double distanceSq(Vector3D v) {
-        final double dx = v.x - x;
-        final double dy = v.y - y;
-        final double dz = v.z - z;
-        return dx * dx + dy * dy + dz * dz;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the dot-product of two vectors.
+    /**
+     * Compute the dot-product of two vectors.
      * @param v1 first vector
      * @param v2 second vector
      * @return the dot product v1.v2
      */
     public static double dotProduct(Vector3D v1, Vector3D v2) {
-        return v1.dotProduct(v2);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the cross-product of two vectors.
+    /**
+     * Compute the cross-product of two vectors.
      * @param v1 first vector
      * @param v2 second vector
      * @return the cross product v1 ^ v2 as a new Vector
      */
     public static Vector3D crossProduct(final Vector3D v1, final Vector3D v2) {
-        return v1.crossProduct(v2);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the distance between two vectors according to the L<sub>1</sub> norm.
+    /**
+     * Compute the distance between two vectors according to the L<sub>1</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>v1.subtract(v2).getNorm1()</code> except that no intermediate
      * vector is built</p>
@@ -577,10 +579,11 @@ public class Vector3D implements Serializable, Vector<Euclidean3D, Vector3D> {
      * @return the distance between v1 and v2 according to the L<sub>1</sub> norm
      */
     public static double distance1(Vector3D v1, Vector3D v2) {
-        return v1.distance1(v2);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the distance between two vectors according to the L<sub>2</sub> norm.
+    /**
+     * Compute the distance between two vectors according to the L<sub>2</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>v1.subtract(v2).getNorm()</code> except that no intermediate
      * vector is built</p>
@@ -589,10 +592,11 @@ public class Vector3D implements Serializable, Vector<Euclidean3D, Vector3D> {
      * @return the distance between v1 and v2 according to the L<sub>2</sub> norm
      */
     public static double distance(Vector3D v1, Vector3D v2) {
-        return v1.distance(v2);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the distance between two vectors according to the L<sub>&infin;</sub> norm.
+    /**
+     * Compute the distance between two vectors according to the L<sub>&infin;</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>v1.subtract(v2).getNormInf()</code> except that no intermediate
      * vector is built</p>
@@ -601,10 +605,11 @@ public class Vector3D implements Serializable, Vector<Euclidean3D, Vector3D> {
      * @return the distance between v1 and v2 according to the L<sub>&infin;</sub> norm
      */
     public static double distanceInf(Vector3D v1, Vector3D v2) {
-        return v1.distanceInf(v2);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute the square of the distance between two vectors.
+    /**
+     * Compute the square of the distance between two vectors.
      * <p>Calling this method is equivalent to calling:
      * <code>v1.subtract(v2).getNorm2Sq()</code> except that no intermediate
      * vector is built</p>
@@ -613,29 +618,31 @@ public class Vector3D implements Serializable, Vector<Euclidean3D, Vector3D> {
      * @return the square of the distance between v1 and v2
      */
     public static double distanceSq(Vector3D v1, Vector3D v2) {
-        return v1.distanceSq(v2);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector3D moveTowards(final Vector3D other, final double ratio) {
-        return new Vector3D(x + ratio * (other.x - x),
-                            y + ratio * (other.y - y),
-                            z + ratio * (other.z - z));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a string representation of this vector.
+    /**
+     * Get a string representation of this vector.
      * @return a string representation of this vector
      */
     @Override
     public String toString() {
-        return Vector3DFormat.getVector3DFormat().format(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString(final NumberFormat format) {
-        return new Vector3DFormat(format).format(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

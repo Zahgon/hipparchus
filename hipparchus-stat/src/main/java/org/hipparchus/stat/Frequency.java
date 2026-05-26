@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -32,7 +31,6 @@ import java.util.NavigableMap;
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
-
 import org.hipparchus.exception.NullArgumentException;
 import org.hipparchus.util.MathUtils;
 
@@ -47,10 +45,14 @@ import org.hipparchus.util.MathUtils;
  */
 public class Frequency<T extends Comparable<T>> implements Serializable {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20160322L;
 
-    /** underlying collection */
+    /**
+     * underlying collection
+     */
     private final NavigableMap<T, Long> freqTable;
 
     /**
@@ -75,7 +77,7 @@ public class Frequency<T extends Comparable<T>> implements Serializable {
      * @param v the value to add.
      */
     public void addValue(T v) {
-        incrementValue(v, 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -85,13 +87,14 @@ public class Frequency<T extends Comparable<T>> implements Serializable {
      * @param increment the amount by which the value should be incremented
      */
     public void incrementValue(T v, long increment) {
-        Long count = freqTable.getOrDefault(v, 0L);
-        freqTable.put(v, count + increment);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Clears the frequency table */
+    /**
+     * Clears the frequency table
+     */
     public void clear() {
-        freqTable.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -100,7 +103,7 @@ public class Frequency<T extends Comparable<T>> implements Serializable {
      * @return values Iterator
      */
     public Iterator<T> valuesIterator() {
-        return freqTable.keySet().iterator();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -112,21 +115,17 @@ public class Frequency<T extends Comparable<T>> implements Serializable {
      * @return entry set Iterator
      */
     public Iterator<Map.Entry<T, Long>> entrySetIterator() {
-        return freqTable.entrySet().iterator();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-------------------------------------------------------------------------
-
     /**
      * Returns the sum of all frequencies.
      *
      * @return the total frequency count.
      */
     public long getSumFreq() {
-        return freqTable.values()
-                        .stream()
-                        .mapToLong(Long::longValue)
-                        .sum();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -137,7 +136,7 @@ public class Frequency<T extends Comparable<T>> implements Serializable {
      * @return the frequency of v.
      */
     public long getCount(T v) {
-        return freqTable.getOrDefault(v, 0L);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -146,8 +145,8 @@ public class Frequency<T extends Comparable<T>> implements Serializable {
      * @return the number of unique values that have been added to the frequency table.
      * @see #valuesIterator()
      */
-    public int getUniqueCount(){
-        return freqTable.keySet().size();
+    public int getUniqueCount() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -160,15 +159,10 @@ public class Frequency<T extends Comparable<T>> implements Serializable {
      * @return the proportion of values equal to v
      */
     public double getPct(T v) {
-        final long sumFreq = getSumFreq();
-        if (sumFreq == 0) {
-            return Double.NaN;
-        }
-        return ((double) getCount(v)) / sumFreq;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //-----------------------------------------------------------------------------------------
-
     /**
      * Returns the cumulative frequency of values less than or equal to v.
      *
@@ -176,28 +170,10 @@ public class Frequency<T extends Comparable<T>> implements Serializable {
      * @return the proportion of values equal to v
      */
     public long getCumFreq(T v) {
-        if (getSumFreq() == 0) {
-            return 0;
-        }
-
-        NavigableMap<T, Long> headMap = freqTable.headMap(v, true);
-
-        if (headMap.isEmpty()) {
-            // v is less than first value
-            return 0;
-        } else if (headMap.size() == freqTable.size()) {
-            // v is greater than or equal to last value
-            return getSumFreq();
-        }
-
-        return headMap.values()
-                      .stream()
-                      .mapToLong(Long::longValue)
-                      .sum();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //----------------------------------------------------------------------------------------------
-
     /**
      * Returns the cumulative percentage of values less than or equal to v
      * (as a proportion between 0 and 1).
@@ -208,11 +184,7 @@ public class Frequency<T extends Comparable<T>> implements Serializable {
      * @return the proportion of values less than or equal to v
      */
     public double getCumPct(T v) {
-        final long sumFreq = getSumFreq();
-        if (sumFreq == 0) {
-            return Double.NaN;
-        }
-        return ((double) getCumFreq(v)) / sumFreq;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -221,23 +193,10 @@ public class Frequency<T extends Comparable<T>> implements Serializable {
      * @return a list containing the value(s) which appear most often.
      */
     public List<T> getMode() {
-        // Get the max count first
-        final long mostPopular =
-                freqTable.values()
-                         .stream()
-                         .mapToLong(Long::longValue)
-                         .max()
-                         .orElse(0L);
-
-        return freqTable.entrySet()
-                        .stream()
-                        .filter(entry -> entry.getValue() == mostPopular)
-                        .map(Map.Entry::getKey)
-                        .collect(Collectors.toList());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //----------------------------------------------------------------------------------------------
-
     /**
      * Merge another Frequency object's counts into this instance.
      * This Frequency's counts will be incremented (or set when not already set)
@@ -247,13 +206,7 @@ public class Frequency<T extends Comparable<T>> implements Serializable {
      * @throws NullArgumentException if {@code other} is null
      */
     public void merge(final Frequency<? extends T> other) throws NullArgumentException {
-        MathUtils.checkNotNull(other);
-
-        Iterator<? extends Map.Entry<? extends T, Long>> iter = other.entrySetIterator();
-        while (iter.hasNext()) {
-            final Map.Entry<? extends T, Long> entry = iter.next();
-            incrementValue(entry.getKey(), entry.getValue());
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -264,17 +217,11 @@ public class Frequency<T extends Comparable<T>> implements Serializable {
      * @param others the other {@link Frequency} objects to be merged
      * @throws NullArgumentException if the collection is null
      */
-    public void merge(final Collection<? extends Frequency<? extends T>> others)
-        throws NullArgumentException {
-        MathUtils.checkNotNull(others);
-
-        for (final Frequency<? extends T> freq : others) {
-            merge(freq);
-        }
+    public void merge(final Collection<? extends Frequency<? extends T>> others) throws NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //----------------------------------------------------------------------------------------------
-
     /**
      * Return a string representation of this frequency distribution.
      *
@@ -282,43 +229,22 @@ public class Frequency<T extends Comparable<T>> implements Serializable {
      */
     @Override
     public String toString() {
-        NumberFormat nf = NumberFormat.getPercentInstance();
-        StringBuilder outBuffer = new StringBuilder(200); // this size is just a wild guess
-        outBuffer.append("Value \tFreq. \tPct. \tCum Pct. \n");
-        for (T value : freqTable.keySet()) {
-            outBuffer.append(value).
-                    append('\t').
-                    append(getCount(value)).
-                    append('\t').
-                    append(nf.format(getPct(value))).
-                    append('\t').
-                    append(nf.format(getCumPct(value))).
-                    append('\n');
-        }
-        return outBuffer.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result +
-                 ((freqTable == null) ? 0 : freqTable.hashCode());
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof Frequency)) {
-            return false;
-        }
-        Frequency<?> other = (Frequency<?>) obj;
-        return Objects.equals(freqTable, other.freqTable);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,7 +22,6 @@ package org.hipparchus.optim.linear;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hipparchus.exception.MathIllegalStateException;
 import org.hipparchus.optim.LocalizedOptimFormats;
 import org.hipparchus.optim.OptimizationData;
@@ -57,7 +55,7 @@ import org.hipparchus.util.Precision;
  *   <li>Algorithm convergence: 1e-6</li>
  *   <li>Floating-point comparisons: 10 ulp</li>
  *   <li>Cut-Off value: 1e-10</li>
-  * </ul>
+ * </ul>
  * <p>
  * The cut-off value has been introduced to handle the case of very small pivot elements
  * in the Simplex tableau, as these may lead to numerical instabilities and degeneracy.
@@ -65,22 +63,32 @@ import org.hipparchus.util.Precision;
  * and are thus not considered by the pivot selection mechanism. The default value is safe
  * for many problems, but may need to be adjusted in case of very small coefficients
  * used in either the {@link LinearConstraint} or {@link LinearObjectiveFunction}.
- *
  */
 public class SimplexSolver extends LinearOptimizer {
-    /** Default amount of error to accept in floating point comparisons (as ulps). */
+
+    /**
+     * Default amount of error to accept in floating point comparisons (as ulps).
+     */
     static final int DEFAULT_ULPS = 10;
 
-    /** Default cut-off value. */
+    /**
+     * Default cut-off value.
+     */
     static final double DEFAULT_CUT_OFF = 1e-10;
 
-    /** Default amount of error to accept for algorithm convergence. */
+    /**
+     * Default amount of error to accept for algorithm convergence.
+     */
     private static final double DEFAULT_EPSILON = 1.0e-6;
 
-    /** Amount of error to accept for algorithm convergence. */
+    /**
+     * Amount of error to accept for algorithm convergence.
+     */
     private final double epsilon;
 
-    /** Amount of error to accept in floating point comparisons (as ulps). */
+    /**
+     * Amount of error to accept in floating point comparisons (as ulps).
+     */
     private final int maxUlps;
 
     /**
@@ -89,7 +97,9 @@ public class SimplexSolver extends LinearOptimizer {
      */
     private final double cutOff;
 
-    /** The pivot selection method to use. */
+    /**
+     * The pivot selection method to use.
+     */
     private PivotSelectionRule pivotSelection;
 
     /**
@@ -155,10 +165,8 @@ public class SimplexSolver extends LinearOptimizer {
      * of the constraints does not match the dimension of the objective function
      */
     @Override
-    public PointValuePair optimize(OptimizationData... optData)
-        throws MathIllegalStateException {
-        // Set up base class and perform computation.
-        return super.optimize(optData);
+    public PointValuePair optimize(OptimizationData... optData) throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -175,22 +183,7 @@ public class SimplexSolver extends LinearOptimizer {
      */
     @Override
     protected void parseOptimizationData(OptimizationData... optData) {
-        // Allow base class to register its own data.
-        super.parseOptimizationData(optData);
-
-        // reset the callback before parsing
-        solutionCallback = null;
-
-        for (OptimizationData data : optData) {
-            if (data instanceof SolutionCallback) {
-                solutionCallback = (SolutionCallback) data;
-                continue;
-            }
-            if (data instanceof PivotSelectionRule) {
-                pivotSelection = (PivotSelectionRule) data;
-                continue;
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -209,7 +202,6 @@ public class SimplexSolver extends LinearOptimizer {
             if (entry < minValue) {
                 minValue = entry;
                 minPos = i;
-
                 // Bland's rule: chose the entering column with the lowest index
                 if (pivotSelection == PivotSelectionRule.BLAND && isValidPivotColumn(tableau, i)) {
                     break;
@@ -234,7 +226,6 @@ public class SimplexSolver extends LinearOptimizer {
     private boolean isValidPivotColumn(SimplexTableau tableau, int col) {
         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getHeight(); i++) {
             final double entry = tableau.getEntry(i, col);
-
             // do the same check as in getPivotRow
             if (Precision.compareTo(entry, 0d, cutOff) > 0) {
                 return true;
@@ -257,7 +248,6 @@ public class SimplexSolver extends LinearOptimizer {
         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getHeight(); i++) {
             final double rhs = tableau.getEntry(i, tableau.getWidth() - 1);
             final double entry = tableau.getEntry(i, col);
-
             // only consider pivot elements larger than the cutOff threshold
             // selecting others may lead to degeneracy or numerical instabilities
             if (Precision.compareTo(entry, 0d, cutOff) > 0) {
@@ -274,12 +264,10 @@ public class SimplexSolver extends LinearOptimizer {
                 }
             }
         }
-
         if (minRatioPositions.isEmpty()) {
             return null;
         } else if (minRatioPositions.size() > 1) {
             // there's a degeneracy as indicated by a tie in the minimum ratio test
-
             // 1. check if there's an artificial variable that can be forced out of the basis
             if (tableau.getNumArtificialVariables() > 0) {
                 for (Integer row : minRatioPositions) {
@@ -292,13 +280,11 @@ public class SimplexSolver extends LinearOptimizer {
                     }
                 }
             }
-
             // 2. apply Bland's rule to prevent cycling:
             //    take the row for which the corresponding basic variable has the smallest index
             //
             // see http://www.stanford.edu/class/msande310/blandrule.pdf
             // see http://en.wikipedia.org/wiki/Bland%27s_rule (not equivalent to the above paper)
-
             Integer minRow = null;
             int minIndex = tableau.getWidth();
             for (Integer row : minRatioPositions) {
@@ -320,18 +306,8 @@ public class SimplexSolver extends LinearOptimizer {
      * @throws MathIllegalStateException if the allowed number of iterations has been exhausted.
      * @throws MathIllegalStateException if the model is found not to have a bounded solution.
      */
-    protected void doIteration(final SimplexTableau tableau)
-        throws MathIllegalStateException {
-
-        incrementIterationCount();
-
-        Integer pivotCol = getPivotColumn(tableau);
-        Integer pivotRow = getPivotRow(tableau, pivotCol);
-        if (pivotRow == null) {
-            throw new MathIllegalStateException(LocalizedOptimFormats.UNBOUNDED_SOLUTION);
-        }
-
-        tableau.performRowOperations(pivotCol, pivotRow);
+    protected void doIteration(final SimplexTableau tableau) throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -341,68 +317,15 @@ public class SimplexSolver extends LinearOptimizer {
      * @throws MathIllegalStateException if the allowed number of iterations has been exhausted,
      * or if the model is found not to have a bounded solution, or if there is no feasible solution
      */
-    protected void solvePhase1(final SimplexTableau tableau)
-        throws MathIllegalStateException {
-
-        // make sure we're in Phase 1
-        if (tableau.getNumArtificialVariables() == 0) {
-            return;
-        }
-
-        while (!tableau.isOptimal()) {
-            doIteration(tableau);
-        }
-
-        // if W is not zero then we have no feasible solution
-        if (!Precision.equals(tableau.getEntry(0, tableau.getRhsOffset()), 0d, epsilon)) {
-            throw new MathIllegalStateException(LocalizedOptimFormats.NO_FEASIBLE_SOLUTION);
-        }
+    protected void solvePhase1(final SimplexTableau tableau) throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public PointValuePair doOptimize()
-        throws MathIllegalStateException {
-
-        // reset the tableau to indicate a non-feasible solution in case
-        // we do not pass phase 1 successfully
-        if (solutionCallback != null) {
-            solutionCallback.setTableau(null);
-        }
-
-        final SimplexTableau tableau =
-            new SimplexTableau(getFunction(),
-                               getConstraints(),
-                               getGoalType(),
-                               isRestrictedToNonNegative(),
-                               epsilon,
-                               maxUlps);
-
-        solvePhase1(tableau);
-        tableau.dropPhase1Objective();
-
-        // after phase 1, we are sure to have a feasible solution
-        if (solutionCallback != null) {
-            solutionCallback.setTableau(tableau);
-        }
-
-        while (!tableau.isOptimal()) {
-            doIteration(tableau);
-        }
-
-        // check that the solution respects the nonNegative restriction in case
-        // the epsilon/cutOff values are too large for the actual linear problem
-        // (e.g. with very small constraint coefficients), the solver might actually
-        // find a non-valid solution (with negative coefficients).
-        final PointValuePair solution = tableau.getSolution();
-        if (isRestrictedToNonNegative()) {
-            final double[] coeff = solution.getPoint();
-            for (double v : coeff) {
-                if (Precision.compareTo(v, 0, epsilon) < 0) {
-                    throw new MathIllegalStateException(LocalizedOptimFormats.NO_FEASIBLE_SOLUTION);
-                }
-            }
-        }
-        return solution;
+    public PointValuePair doOptimize() throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

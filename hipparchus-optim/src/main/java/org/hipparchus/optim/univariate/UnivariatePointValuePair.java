@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.optim.univariate;
 
 import java.io.Serializable;
@@ -28,14 +26,22 @@ import java.io.Serializable;
  * This class holds a point and the value of an objective function at this
  * point.
  * This is a simple immutable container.
- *
  */
 public class UnivariatePointValuePair implements Serializable {
-    /** Serializable version identifier. */
+
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 1003888396256744753L;
-    /** Point. */
+
+    /**
+     * Point.
+     */
     private final double point;
-    /** Value of the objective function at the point. */
+
+    /**
+     * Value of the objective function at the point.
+     */
     private final double value;
 
     /**
@@ -44,8 +50,7 @@ public class UnivariatePointValuePair implements Serializable {
      * @param point Point.
      * @param value Value of an objective function at the point
      */
-    public UnivariatePointValuePair(final double point,
-                                    final double value) {
+    public UnivariatePointValuePair(final double point, final double value) {
         this.point = point;
         this.value = value;
     }
@@ -56,7 +61,7 @@ public class UnivariatePointValuePair implements Serializable {
      * @return the point.
      */
     public double getPoint() {
-        return point;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -65,6 +70,6 @@ public class UnivariatePointValuePair implements Serializable {
      * @return the stored value of the objective function.
      */
     public double getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

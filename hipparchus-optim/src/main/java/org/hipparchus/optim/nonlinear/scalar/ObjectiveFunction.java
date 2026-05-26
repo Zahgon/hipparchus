@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -26,13 +25,16 @@ import org.hipparchus.optim.OptimizationData;
 
 /**
  * Scalar function to be optimized.
- *
  */
 public class ObjectiveFunction implements OptimizationData {
-    /** Function to be optimized. */
+
+    /**
+     * Function to be optimized.
+     */
     private final MultivariateFunction function;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param f Function to be optimized.
      */
     public ObjectiveFunction(MultivariateFunction f) {
@@ -45,6 +47,6 @@ public class ObjectiveFunction implements OptimizationData {
      * @return the objective function.
      */
     public MultivariateFunction getObjectiveFunction() {
-        return function;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

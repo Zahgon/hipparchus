@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.stat.descriptive.summary;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.NullArgumentException;
 import org.hipparchus.stat.descriptive.AbstractStorelessUnivariateStatistic;
@@ -51,24 +49,29 @@ import org.hipparchus.util.MathUtils;
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.
  */
-public class SumOfLogs extends AbstractStorelessUnivariateStatistic
-    implements AggregatableStatistic<SumOfLogs>, Serializable {
+public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements AggregatableStatistic<SumOfLogs>, Serializable {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20150412L;
 
-    /** Number of values that have been added */
+    /**
+     * Number of values that have been added
+     */
     private int n;
 
-    /** The currently running value */
+    /**
+     * The currently running value
+     */
     private double value;
 
     /**
      * Create a SumOfLogs instance.
      */
     public SumOfLogs() {
-       value = 0d;
-       n = 0;
+        value = 0d;
+        n = 0;
     }
 
     /**
@@ -80,44 +83,48 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic
      */
     public SumOfLogs(SumOfLogs original) throws NullArgumentException {
         MathUtils.checkNotNull(original);
-        this.n     = original.n;
+        this.n = original.n;
         this.value = original.value;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void increment(final double d) {
-        value += FastMath.log(d);
-        n++;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getResult() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long getN() {
-        return n;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
-        value = 0d;
-        n = 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void aggregate(SumOfLogs other) {
-        MathUtils.checkNotNull(other);
-        if (other.n > 0) {
-            this.n     += other.n;
-            this.value += other.value;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -134,23 +141,15 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-
-        double sumLog = Double.NaN;
-        if (MathArrays.verifyValues(values, begin, length, true)) {
-            sumLog = 0.0;
-            for (int i = begin; i < begin + length; i++) {
-                sumLog += FastMath.log(values[i]);
-            }
-        }
-        return sumLog;
+    public double evaluate(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SumOfLogs copy() {
-        return new SumOfLogs(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

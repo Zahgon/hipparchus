@@ -14,14 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.nonstiff;
 
 import org.hipparchus.ode.EquationsMapper;
 import org.hipparchus.ode.ODEStateAndDerivative;
 import org.hipparchus.ode.nonstiff.interpolators.HighamHall54StateInterpolator;
 import org.hipparchus.util.FastMath;
-
 
 /**
  * This class implements the 5(4) Higham and Hall integrator for
@@ -32,20 +30,21 @@ import org.hipparchus.util.FastMath;
  * is computed using the high order formula) with stepsize control
  * (and automatic step initialization) and continuous output. This
  * method uses 7 functions evaluations per step.</p>
- *
  */
-
 public class HighamHall54Integrator extends EmbeddedRungeKuttaIntegrator {
 
-    /** Name of integration scheme. */
+    /**
+     * Name of integration scheme.
+     */
     public static final String METHOD_NAME = "Higham-Hall 5(4)";
 
-    /** Error weights Butcher array. */
-    static final double[] STATIC_E = {
-        -1.0/20.0, 0.0, 81.0/160.0, -6.0/5.0, 25.0/32.0, 1.0/16.0, -1.0/10.0
-    };
+    /**
+     * Error weights Butcher array.
+     */
+    static final double[] STATIC_E = { -1.0 / 20.0, 0.0, 81.0 / 160.0, -6.0 / 5.0, 25.0 / 32.0, 1.0 / 16.0, -1.0 / 10.0 };
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * Build a fifth order Higham and Hall integrator with the given step bounds
      * @param minStep minimal step (sign is irrelevant, regardless of
      * integration direction, forward or backward), the last step can
@@ -56,14 +55,12 @@ public class HighamHall54Integrator extends EmbeddedRungeKuttaIntegrator {
      * @param scalAbsoluteTolerance allowed absolute error
      * @param scalRelativeTolerance allowed relative error
      */
-    public HighamHall54Integrator(final double minStep, final double maxStep,
-                                  final double scalAbsoluteTolerance,
-                                  final double scalRelativeTolerance) {
-        super(METHOD_NAME, -1,
-              minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
+    public HighamHall54Integrator(final double minStep, final double maxStep, final double scalAbsoluteTolerance, final double scalRelativeTolerance) {
+        super(METHOD_NAME, -1, minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * Build a fifth order Higham and Hall integrator with the given step bounds
      * @param minStep minimal step (sign is irrelevant, regardless of
      * integration direction, forward or backward), the last step can
@@ -74,84 +71,55 @@ public class HighamHall54Integrator extends EmbeddedRungeKuttaIntegrator {
      * @param vecAbsoluteTolerance allowed absolute error
      * @param vecRelativeTolerance allowed relative error
      */
-    public HighamHall54Integrator(final double minStep, final double maxStep,
-                                  final double[] vecAbsoluteTolerance,
-                                  final double[] vecRelativeTolerance) {
-        super(METHOD_NAME, -1,
-              minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
+    public HighamHall54Integrator(final double minStep, final double maxStep, final double[] vecAbsoluteTolerance, final double[] vecRelativeTolerance) {
+        super(METHOD_NAME, -1, minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[] getC() {
-        return new double[] {
-            2.0/9.0, 1.0/3.0, 1.0/2.0, 3.0/5.0, 1.0, 1.0
-        };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[][] getA() {
-        return new double[][] {
-            {2.0/9.0},
-            {1.0/12.0, 1.0/4.0},
-            {1.0/8.0, 0.0, 3.0/8.0},
-            {91.0/500.0, -27.0/100.0, 78.0/125.0, 8.0/125.0},
-            {-11.0/20.0, 27.0/20.0, 12.0/5.0, -36.0/5.0, 5.0},
-            {1.0/12.0, 0.0, 27.0/32.0, -4.0/3.0, 125.0/96.0, 5.0/48.0}
-        };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[] getB() {
-        return new double[] {
-            1.0/12.0, 0.0, 27.0/32.0, -4.0/3.0, 125.0/96.0, 5.0/48.0, 0.0
-        };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected HighamHall54StateInterpolator
-    createInterpolator(final boolean forward, double[][] yDotK,
-                       final ODEStateAndDerivative globalPreviousState,
-                       final ODEStateAndDerivative globalCurrentState,
-                       final EquationsMapper mapper) {
-        return new HighamHall54StateInterpolator(forward, yDotK,
-                                                globalPreviousState, globalCurrentState,
-                                                globalPreviousState, globalCurrentState,
-                                                mapper);
+    protected HighamHall54StateInterpolator createInterpolator(final boolean forward, double[][] yDotK, final ODEStateAndDerivative globalPreviousState, final ODEStateAndDerivative globalCurrentState, final EquationsMapper mapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getOrder() {
-        return 5;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected double estimateError(final double[][] yDotK,
-                                   final double[] y0, final double[] y1,
-                                   final double h) {
-
-        final StepsizeHelper helper = getStepSizeHelper();
-        double error = 0;
-
-        for (int j = 0; j < helper.getMainSetDimension(); ++j) {
-            double errSum = STATIC_E[0] * yDotK[0][j];
-            for (int l = 1; l < STATIC_E.length; ++l) {
-                errSum += STATIC_E[l] * yDotK[l][j];
-            }
-
-            final double tol = helper.getTolerance(j, FastMath.max(FastMath.abs(y0[j]), FastMath.abs(y1[j])));
-            final double ratio  = h * errSum / tol;
-            error += ratio * ratio;
-
-        }
-
-        return FastMath.sqrt(error / helper.getMainSetDimension());
-
+    protected double estimateError(final double[][] yDotK, final double[] y0, final double[] y1, final double h) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

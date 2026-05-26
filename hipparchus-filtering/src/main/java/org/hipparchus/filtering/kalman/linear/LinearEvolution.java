@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.filtering.kalman.linear;
 
 import org.hipparchus.linear.RealMatrix;
@@ -27,22 +26,33 @@ import org.hipparchus.linear.RealVector;
  */
 public class LinearEvolution {
 
-    /** State transition matrix A<sub>k-1</sub>. */
+    /**
+     * State transition matrix A<sub>k-1</sub>.
+     */
     private final RealMatrix stateTransitionMatrix;
 
-    /** Control matrix B<sub>k-1</sub> (can be null if the process is not controlled). */
+    /**
+     * Control matrix B<sub>k-1</sub> (can be null if the process is not controlled).
+     */
     private final RealMatrix controlMatrix;
 
-    /** Command u<sub>k-1</sub>. (can be null if the process is not controlled). */
+    /**
+     * Command u<sub>k-1</sub>. (can be null if the process is not controlled).
+     */
     private final RealVector command;
 
-    /** Process noise matrix Q<sub>k-1</sub>. */
+    /**
+     * Process noise matrix Q<sub>k-1</sub>.
+     */
     private final RealMatrix processNoiseMatrix;
 
-    /** Jacobian of the measurement with respect to the state (may be null). */
+    /**
+     * Jacobian of the measurement with respect to the state (may be null).
+     */
     private final RealMatrix measurementJacobian;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param stateTransitionMatrix state transition matrix A<sub>k-1</sub>
      * @param controlMatrix control matrix B<sub>k-1</sub> (can be null if the process is not controlled)
      * @param command u<sub>k-1</sub>. (can be null if the process is not controlled)
@@ -50,51 +60,52 @@ public class LinearEvolution {
      * @param measurementJacobian Jacobian of the measurement with respect to the state
      * (may be null if measurement should be ignored)
      */
-    public LinearEvolution(final RealMatrix stateTransitionMatrix,
-                           final RealMatrix controlMatrix, final RealVector command,
-                           final RealMatrix processNoiseMatrix,
-                           final RealMatrix measurementJacobian) {
+    public LinearEvolution(final RealMatrix stateTransitionMatrix, final RealMatrix controlMatrix, final RealVector command, final RealMatrix processNoiseMatrix, final RealMatrix measurementJacobian) {
         this.stateTransitionMatrix = stateTransitionMatrix;
-        this.controlMatrix         = controlMatrix;
-        this.command               = command;
-        this.processNoiseMatrix    = processNoiseMatrix;
-        this.measurementJacobian   = measurementJacobian;
+        this.controlMatrix = controlMatrix;
+        this.command = command;
+        this.processNoiseMatrix = processNoiseMatrix;
+        this.measurementJacobian = measurementJacobian;
     }
 
-    /** Get the state transition matrix A<sub>k-1</sub>.
+    /**
+     * Get the state transition matrix A<sub>k-1</sub>.
      * @return state transition matrix A<sub>k-1</sub>
      */
     public RealMatrix getStateTransitionMatrix() {
-        return stateTransitionMatrix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the control matrix B<sub>k-1</sub>.
+    /**
+     * Get the control matrix B<sub>k-1</sub>.
      * @return control matrix B<sub>k-1</sub> (can be null if there is no control)
      */
     public RealMatrix getControlMatrix() {
-        return controlMatrix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the command u<sub>k-1</sub>.
+    /**
+     * Get the command u<sub>k-1</sub>.
      * @return command vector u<sub>k-1</sub> (can be null if there is no control)
      */
     public RealVector getCommand() {
-        return command;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the process noise matrix Q<sub>k-1</sub>.
+    /**
+     * Get the process noise matrix Q<sub>k-1</sub>.
      * @return process noise matrix<sub>k-1</sub>
      */
     public RealMatrix getProcessNoiseMatrix() {
-        return processNoiseMatrix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get measurement Jacobian.
+    /**
+     * Get measurement Jacobian.
      * @return Jacobian of the measurement with respect to the state
      * (may be null if measurement should be ignored)
      */
     public RealMatrix getMeasurementJacobian() {
-        return measurementJacobian;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

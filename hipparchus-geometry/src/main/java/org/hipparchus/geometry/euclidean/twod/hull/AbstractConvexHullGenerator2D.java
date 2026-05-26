@@ -17,7 +17,6 @@
 package org.hipparchus.geometry.euclidean.twod.hull;
 
 import java.util.Collection;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathIllegalStateException;
@@ -26,14 +25,17 @@ import org.hipparchus.util.MathUtils;
 
 /**
  * Abstract base class for convex hull generators in the two-dimensional euclidean space.
- *
  */
 abstract class AbstractConvexHullGenerator2D implements ConvexHullGenerator2D {
 
-    /** Default value for tolerance. */
+    /**
+     * Default value for tolerance.
+     */
     private static final double DEFAULT_TOLERANCE = 1e-10;
 
-    /** Tolerance below which points are considered identical. */
+    /**
+     * Tolerance below which points are considered identical.
+     */
     private final double tolerance;
 
     /**
@@ -71,7 +73,7 @@ abstract class AbstractConvexHullGenerator2D implements ConvexHullGenerator2D {
      * @return the tolerance below which points are considered identical
      */
     public double getTolerance() {
-        return tolerance;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -80,29 +82,15 @@ abstract class AbstractConvexHullGenerator2D implements ConvexHullGenerator2D {
      * if only extreme points are present.
      */
     public boolean isIncludeCollinearPoints() {
-        return includeCollinearPoints;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ConvexHull2D generate(final Collection<Vector2D> points)
-            throws MathIllegalStateException {
-        // check for null points
-        MathUtils.checkNotNull(points);
-
-        final Collection<Vector2D> hullVertices;
-        if (points.size() < 2) {
-            hullVertices = points;
-        } else {
-            hullVertices = findHullVertices(points);
-        }
-
-        try {
-            return new ConvexHull2D(hullVertices.toArray(new Vector2D[0]), tolerance);
-        } catch (MathIllegalArgumentException e) {
-            // the hull vertices may not form a convex hull if the tolerance value is to large
-            throw new MathIllegalStateException(e, LocalizedCoreFormats.CONVERGENCE_FAILED);
-        }
+    public ConvexHull2D generate(final Collection<Vector2D> points) throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -111,5 +99,4 @@ abstract class AbstractConvexHullGenerator2D implements ConvexHullGenerator2D {
      * @return the convex hull vertices in CCW winding
      */
     protected abstract Collection<Vector2D> findHullVertices(Collection<Vector2D> points);
-
 }

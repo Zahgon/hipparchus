@@ -20,7 +20,8 @@ import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.util.FastMath;
 import org.hipparchus.util.FieldSinCos;
 
-/** Algorithm for computing the principal Jacobi functions for parameters slightly above zero.
+/**
+ * Algorithm for computing the principal Jacobi functions for parameters slightly above zero.
  * <p>
  * The algorithm for evaluating the functions is based on approximation
  * in terms of circular functions. It is given in Abramowitz and Stegun,
@@ -31,21 +32,19 @@ import org.hipparchus.util.FieldSinCos;
  */
 class FieldNearZeroParameter<T extends CalculusFieldElement<T>> extends FieldJacobiElliptic<T> {
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param m parameter of the Jacobi elliptic function (must be zero or slightly positive here)
      */
     FieldNearZeroParameter(final T m) {
         super(m);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldCopolarN<T> valuesN(final T u) {
-        final FieldSinCos<T> sc     = FastMath.sinCos(u);
-        final T              factor = getM().multiply(u.subtract(sc.sin().multiply(sc.cos()))).multiply(0.25);
-        return new FieldCopolarN<>(sc.sin().subtract(factor.multiply(sc.cos())),             // equation 16.13.1
-                        sc.cos().add(factor.multiply(sc.sin())),                             // equation 16.13.2
-                        getM().multiply(sc.sin()).multiply(sc.sin()).multiply(-0.5).add(1)); // equation 16.13.3
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

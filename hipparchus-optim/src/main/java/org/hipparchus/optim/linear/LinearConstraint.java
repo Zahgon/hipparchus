@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -25,7 +24,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
 import org.hipparchus.linear.ArrayRealVector;
 import org.hipparchus.linear.RealVector;
 
@@ -46,16 +44,27 @@ import org.hipparchus.linear.RealVector;
  * <p>The c<sub>i</sub>, l<sub>i</sub> or r<sub>i</sub> are the coefficients of the constraints, the x<sub>i</sub>
  * are the coordinates of the current point and v is the value of the constraint.
  * </p>
- *
  */
 public class LinearConstraint implements Serializable {
-    /** Serializable version identifier. */
+
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = -764632794033034092L;
-    /** Coefficients of the constraint (left hand side). */
+
+    /**
+     * Coefficients of the constraint (left hand side).
+     */
     private final transient RealVector coefficients;
-    /** Relationship between left and right hand sides (=, &lt;=, &gt;=). */
+
+    /**
+     * Relationship between left and right hand sides (=, &lt;=, &gt;=).
+     */
     private final Relationship relationship;
-    /** Value of the constraint (right hand side). */
+
+    /**
+     * Value of the constraint (right hand side).
+     */
     private final double value;
 
     /**
@@ -70,9 +79,7 @@ public class LinearConstraint implements Serializable {
      * @param relationship The type of (in)equality used in the constraint
      * @param value The value of the constraint (right hand side)
      */
-    public LinearConstraint(final double[] coefficients,
-                            final Relationship relationship,
-                            final double value) {
+    public LinearConstraint(final double[] coefficients, final Relationship relationship, final double value) {
         this(new ArrayRealVector(coefficients), relationship, value);
     }
 
@@ -88,12 +95,10 @@ public class LinearConstraint implements Serializable {
      * @param relationship The type of (in)equality used in the constraint
      * @param value The value of the constraint (right hand side)
      */
-    public LinearConstraint(final RealVector coefficients,
-                            final Relationship relationship,
-                            final double value) {
+    public LinearConstraint(final RealVector coefficients, final Relationship relationship, final double value) {
         this.coefficients = coefficients;
         this.relationship = relationship;
-        this.value        = value;
+        this.value = value;
     }
 
     /**
@@ -113,16 +118,14 @@ public class LinearConstraint implements Serializable {
      * @param rhsCoefficients The coefficients of the linear expression on the right hand side of the constraint
      * @param rhsConstant The constant term of the linear expression on the right hand side of the constraint
      */
-    public LinearConstraint(final double[] lhsCoefficients, final double lhsConstant,
-                            final Relationship relationship,
-                            final double[] rhsCoefficients, final double rhsConstant) {
+    public LinearConstraint(final double[] lhsCoefficients, final double lhsConstant, final Relationship relationship, final double[] rhsCoefficients, final double rhsConstant) {
         double[] sub = new double[lhsCoefficients.length];
         for (int i = 0; i < sub.length; ++i) {
             sub[i] = lhsCoefficients[i] - rhsCoefficients[i];
         }
         this.coefficients = new ArrayRealVector(sub, false);
         this.relationship = relationship;
-        this.value        = rhsConstant - lhsConstant;
+        this.value = rhsConstant - lhsConstant;
     }
 
     /**
@@ -142,12 +145,10 @@ public class LinearConstraint implements Serializable {
      * @param rhsCoefficients The coefficients of the linear expression on the right hand side of the constraint
      * @param rhsConstant The constant term of the linear expression on the right hand side of the constraint
      */
-    public LinearConstraint(final RealVector lhsCoefficients, final double lhsConstant,
-                            final Relationship relationship,
-                            final RealVector rhsCoefficients, final double rhsConstant) {
+    public LinearConstraint(final RealVector lhsCoefficients, final double lhsConstant, final Relationship relationship, final RealVector rhsCoefficients, final double rhsConstant) {
         this.coefficients = lhsCoefficients.subtract(rhsCoefficients);
         this.relationship = relationship;
-        this.value        = rhsConstant - lhsConstant;
+        this.value = rhsConstant - lhsConstant;
     }
 
     /**
@@ -156,7 +157,7 @@ public class LinearConstraint implements Serializable {
      * @return the coefficients of the constraint (left hand side).
      */
     public RealVector getCoefficients() {
-        return coefficients;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -165,7 +166,7 @@ public class LinearConstraint implements Serializable {
      * @return the relationship between left and right hand sides.
      */
     public Relationship getRelationship() {
-        return relationship;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -174,30 +175,23 @@ public class LinearConstraint implements Serializable {
      * @return the value of the constraint (right hand side).
      */
     public double getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-        if (other instanceof LinearConstraint) {
-            LinearConstraint rhs = (LinearConstraint) other;
-            return relationship == rhs.relationship &&
-                value == rhs.value &&
-                coefficients.equals(rhs.coefficients);
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
-        return relationship.hashCode() ^
-            Double.valueOf(value).hashCode() ^
-            coefficients.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -205,8 +199,7 @@ public class LinearConstraint implements Serializable {
      * @param oos stream where object should be written
      * @throws IOException if object cannot be written to stream
      */
-    private void writeObject(ObjectOutputStream oos)
-        throws IOException {
+    private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.defaultWriteObject();
         final int n = coefficients.getDimension();
         oos.writeInt(n);
@@ -221,28 +214,25 @@ public class LinearConstraint implements Serializable {
      * @throws ClassNotFoundException if a class in the stream cannot be found
      * @throws IOException if object cannot be read from the stream
      */
-    private void readObject(ObjectInputStream ois)
-      throws ClassNotFoundException, IOException {
+    private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
         ois.defaultReadObject();
-
         // read the vector data
         final int n = ois.readInt();
         final double[] data = new double[n];
         for (int i = 0; i < n; ++i) {
             data[i] = ois.readDouble();
         }
-
         try {
             // create the instance
             ArrayRealVector vector = new ArrayRealVector(data, false);
             final java.lang.reflect.Field f = getClass().getDeclaredField("coefficients");
-            f.setAccessible(true); // NOPMD
+            // NOPMD
+            f.setAccessible(true);
             f.set(this, vector);
         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
             IOException ioe = new IOException();
             ioe.initCause(e);
             throw ioe;
         }
-
     }
 }

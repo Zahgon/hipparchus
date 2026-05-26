@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.random;
 
 /**
@@ -27,25 +25,27 @@ package org.hipparchus.random;
  * <p>This class is a simple wrapper around the {@link
  * RandomGenerator#nextGaussian} method.</p>
  */
-
 public class GaussianRandomGenerator implements NormalizedRandomGenerator {
 
-    /** Underlying generator. */
+    /**
+     * Underlying generator.
+     */
     private final RandomGenerator generator;
 
-    /** Create a new generator.
+    /**
+     * Create a new generator.
      * @param generator underlying random generator to use
      */
     public GaussianRandomGenerator(final RandomGenerator generator) {
         this.generator = generator;
     }
 
-    /** Generate a random scalar with null mean and unit standard deviation.
+    /**
+     * Generate a random scalar with null mean and unit standard deviation.
      * @return a random scalar with null mean and unit standard deviation
      */
     @Override
     public double nextNormalizedDouble() {
-        return generator.nextGaussian();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

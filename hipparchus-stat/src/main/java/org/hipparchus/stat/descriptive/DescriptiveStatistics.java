@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -24,7 +23,6 @@ package org.hipparchus.stat.descriptive;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.function.DoubleConsumer;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathIllegalStateException;
@@ -41,7 +39,6 @@ import org.hipparchus.stat.descriptive.summary.SumOfSquares;
 import org.hipparchus.util.FastMath;
 import org.hipparchus.util.MathUtils;
 import org.hipparchus.util.ResizableDoubleArray;
-
 
 /**
  * Maintains a dataset of values of a single variable and computes descriptive
@@ -60,8 +57,7 @@ import org.hipparchus.util.ResizableDoubleArray;
  * <p>
  * Note: this class is not threadsafe.
  */
-public class DescriptiveStatistics
-    implements StatisticalSummary, DoubleConsumer, Serializable {
+public class DescriptiveStatistics implements StatisticalSummary, DoubleConsumer, Serializable {
 
     /**
      * Represents an infinite window size.  When the {@link #getWindowSize()}
@@ -70,37 +66,74 @@ public class DescriptiveStatistics
      */
     protected static final int INFINITE_WINDOW = -1;
 
-    /** Serialization UID */
+    /**
+     * Serialization UID
+     */
     private static final long serialVersionUID = 20160411L;
 
-    /** The statistic used to calculate the population variance - fixed. */
+    /**
+     * The statistic used to calculate the population variance - fixed.
+     */
     private static final UnivariateStatistic POPULATION_VARIANCE = new Variance(false);
 
-    /** Maximum statistic implementation. */
-    private final UnivariateStatistic          maxImpl;
-    /** Minimum statistic implementation. */
-    private final UnivariateStatistic          minImpl;
-    /** Sum statistic implementation. */
-    private final UnivariateStatistic          sumImpl;
-    /** Sum of squares statistic implementation. */
-    private final UnivariateStatistic          sumOfSquaresImpl;
-    /** Mean statistic implementation. */
-    private final UnivariateStatistic          meanImpl;
-    /** Variance statistic implementation. */
-    private final UnivariateStatistic          varianceImpl;
-    /** Geometric mean statistic implementation. */
-    private final UnivariateStatistic          geometricMeanImpl;
-    /** Kurtosis statistic implementation. */
-    private final UnivariateStatistic          kurtosisImpl;
-    /** Skewness statistic implementation. */
-    private final UnivariateStatistic          skewnessImpl;
-    /** Percentile statistic implementation. */
-    private final Percentile                   percentileImpl;
+    /**
+     * Maximum statistic implementation.
+     */
+    private final UnivariateStatistic maxImpl;
 
-    /** holds the window size. */
+    /**
+     * Minimum statistic implementation.
+     */
+    private final UnivariateStatistic minImpl;
+
+    /**
+     * Sum statistic implementation.
+     */
+    private final UnivariateStatistic sumImpl;
+
+    /**
+     * Sum of squares statistic implementation.
+     */
+    private final UnivariateStatistic sumOfSquaresImpl;
+
+    /**
+     * Mean statistic implementation.
+     */
+    private final UnivariateStatistic meanImpl;
+
+    /**
+     * Variance statistic implementation.
+     */
+    private final UnivariateStatistic varianceImpl;
+
+    /**
+     * Geometric mean statistic implementation.
+     */
+    private final UnivariateStatistic geometricMeanImpl;
+
+    /**
+     * Kurtosis statistic implementation.
+     */
+    private final UnivariateStatistic kurtosisImpl;
+
+    /**
+     * Skewness statistic implementation.
+     */
+    private final UnivariateStatistic skewnessImpl;
+
+    /**
+     * Percentile statistic implementation.
+     */
+    private final Percentile percentileImpl;
+
+    /**
+     * holds the window size.
+     */
     private int windowSize;
 
-    /** Stored data values. */
+    /**
+     * Stored data values.
+     */
     private final ResizableDoubleArray eDA;
 
     /**
@@ -143,22 +176,20 @@ public class DescriptiveStatistics
      */
     protected DescriptiveStatistics(DescriptiveStatistics original) {
         MathUtils.checkNotNull(original);
-
         // Copy data and window size
         this.windowSize = original.windowSize;
-        this.eDA        = original.eDA.copy();
-
+        this.eDA = original.eDA.copy();
         // Copy implementations
-        this.maxImpl           = original.maxImpl.copy();
-        this.minImpl           = original.minImpl.copy();
-        this.meanImpl          = original.meanImpl.copy();
-        this.sumImpl           = original.sumImpl.copy();
-        this.sumOfSquaresImpl  = original.sumOfSquaresImpl.copy();
-        this.varianceImpl      = original.varianceImpl.copy();
+        this.maxImpl = original.maxImpl.copy();
+        this.minImpl = original.minImpl.copy();
+        this.meanImpl = original.meanImpl.copy();
+        this.sumImpl = original.sumImpl.copy();
+        this.sumOfSquaresImpl = original.sumOfSquaresImpl.copy();
+        this.varianceImpl = original.varianceImpl.copy();
         this.geometricMeanImpl = original.geometricMeanImpl.copy();
-        this.kurtosisImpl      = original.kurtosisImpl.copy();
-        this.skewnessImpl      = original.skewnessImpl.copy();
-        this.percentileImpl    = original.percentileImpl.copy();
+        this.kurtosisImpl = original.kurtosisImpl.copy();
+        this.skewnessImpl = original.skewnessImpl.copy();
+        this.percentileImpl = original.percentileImpl.copy();
     }
 
     /**
@@ -173,30 +204,24 @@ public class DescriptiveStatistics
      */
     DescriptiveStatistics(int windowSize, boolean hasInitialValues, double[] initialValues) {
         if (windowSize < 1 && windowSize != INFINITE_WINDOW) {
-            throw new MathIllegalArgumentException(
-                    LocalizedCoreFormats.NOT_POSITIVE_WINDOW_SIZE, windowSize);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NOT_POSITIVE_WINDOW_SIZE, windowSize);
         }
-
         if (hasInitialValues) {
             MathUtils.checkNotNull(initialValues, LocalizedCoreFormats.INPUT_ARRAY);
         }
-
-        this.windowSize     = windowSize;
+        this.windowSize = windowSize;
         int initialCapacity = this.windowSize < 0 ? 100 : this.windowSize;
-        this.eDA            = hasInitialValues ?
-            new ResizableDoubleArray(initialValues) :
-            new ResizableDoubleArray(initialCapacity);
-
-        maxImpl           = new Max();
-        minImpl           = new Min();
-        sumImpl           = new Sum();
-        sumOfSquaresImpl  = new SumOfSquares();
-        meanImpl          = new Mean();
-        varianceImpl      = new Variance();
+        this.eDA = hasInitialValues ? new ResizableDoubleArray(initialValues) : new ResizableDoubleArray(initialCapacity);
+        maxImpl = new Max();
+        minImpl = new Min();
+        sumImpl = new Sum();
+        sumOfSquaresImpl = new SumOfSquares();
+        meanImpl = new Mean();
+        varianceImpl = new Variance();
         geometricMeanImpl = new GeometricMean();
-        kurtosisImpl      = new Kurtosis();
-        skewnessImpl      = new Skewness();
-        percentileImpl    = new Percentile();
+        kurtosisImpl = new Kurtosis();
+        skewnessImpl = new Skewness();
+        percentileImpl = new Percentile();
     }
 
     /**
@@ -205,7 +230,7 @@ public class DescriptiveStatistics
      * @return a copy of this
      */
     public DescriptiveStatistics copy() {
-        return new DescriptiveStatistics(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -217,28 +242,22 @@ public class DescriptiveStatistics
      * @param v the value to be added
      */
     public void addValue(double v) {
-        if (windowSize != INFINITE_WINDOW) {
-            if (getN() == windowSize) {
-                eDA.addElementRolling(v);
-            } else if (getN() < windowSize) {
-                eDA.addElement(v);
-            }
-        } else {
-            eDA.addElement(v);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void accept(double v) {
-        addValue(v);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Resets all statistics and storage.
      */
     public void clear() {
-        eDA.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -247,11 +266,7 @@ public class DescriptiveStatistics
      * @throws MathIllegalStateException if there are no elements stored
      */
     public void removeMostRecentValue() throws MathIllegalStateException {
-        try {
-            eDA.discardMostRecentElements(1);
-        } catch (MathIllegalArgumentException ex) {
-            throw new MathIllegalStateException(ex, LocalizedCoreFormats.NO_DATA);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -263,7 +278,7 @@ public class DescriptiveStatistics
      * @throws MathIllegalStateException if there are no elements stored
      */
     public double replaceMostRecentValue(double v) throws MathIllegalStateException {
-        return eDA.substituteMostRecentElement(v);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -272,15 +287,15 @@ public class DescriptiveStatistics
      * @return the computed value of the statistic.
      */
     public double apply(UnivariateStatistic stat) {
-        // No try-catch or advertised exception here because arguments
-        // are guaranteed valid.
-        return eDA.compute(stat);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getMean() {
-        return apply(meanImpl);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -295,7 +310,7 @@ public class DescriptiveStatistics
      * or if any negative values have been added.
      */
     public double getGeometricMean() {
-        return apply(geometricMeanImpl);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -305,15 +320,7 @@ public class DescriptiveStatistics
      */
     @Override
     public double getStandardDeviation() {
-        double stdDev = Double.NaN;
-        if (getN() > 0) {
-            if (getN() > 1) {
-                stdDev = FastMath.sqrt(getVariance());
-            } else {
-                stdDev = 0.0;
-            }
-        }
-        return stdDev;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -326,14 +333,15 @@ public class DescriptiveStatistics
      * have been added.
      */
     public double getQuadraticMean() {
-        final long n = getN();
-        return n > 0 ? FastMath.sqrt(getSumOfSquares() / n) : Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getVariance() {
-        return apply(varianceImpl);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -346,7 +354,7 @@ public class DescriptiveStatistics
      * or 0.0 for a single value set.
      */
     public double getPopulationVariance() {
-        return apply(POPULATION_VARIANCE);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -356,7 +364,7 @@ public class DescriptiveStatistics
      * @return The skewness, Double.NaN if less than 3 values have been added.
      */
     public double getSkewness() {
-        return apply(skewnessImpl);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -366,25 +374,31 @@ public class DescriptiveStatistics
      * @return The kurtosis, Double.NaN if less than 4 values have been added.
      */
     public double getKurtosis() {
-        return apply(kurtosisImpl);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getMax() {
-        return apply(maxImpl);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getMin() {
-        return apply(minImpl);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getSum() {
-        return apply(sumImpl);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -393,7 +407,7 @@ public class DescriptiveStatistics
      * values have been added.
      */
     public double getSumOfSquares() {
-        return apply(sumOfSquaresImpl);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -413,17 +427,16 @@ public class DescriptiveStatistics
      * @return An estimate for the pth percentile of the stored data
      * @throws MathIllegalArgumentException if p is not a valid quantile
      */
-    public double getPercentile(final double p)
-        throws MathIllegalArgumentException {
-
-        percentileImpl.setQuantile(p);
-        return apply(percentileImpl);
+    public double getPercentile(final double p) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long getN() {
-        return eDA.getNumElements();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -433,7 +446,7 @@ public class DescriptiveStatistics
      * @return The current window size or -1 if its Infinite.
      */
     public int getWindowSize() {
-        return windowSize;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -450,22 +463,8 @@ public class DescriptiveStatistics
      * @throws MathIllegalArgumentException if window size is less than 1 but
      * not equal to {@link #INFINITE_WINDOW}
      */
-    public void setWindowSize(int windowSize)
-        throws MathIllegalArgumentException {
-
-        if (windowSize < 1 && windowSize != INFINITE_WINDOW) {
-            throw new MathIllegalArgumentException(
-                    LocalizedCoreFormats.NOT_POSITIVE_WINDOW_SIZE, windowSize);
-        }
-
-        this.windowSize = windowSize;
-
-        // We need to check to see if we need to discard elements
-        // from the front of the array.  If the windowSize is less than
-        // the current number of elements.
-        if (windowSize != INFINITE_WINDOW && windowSize < eDA.getNumElements()) {
-            eDA.discardFrontElements(eDA.getNumElements() - windowSize);
-        }
+    public void setWindowSize(int windowSize) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -478,7 +477,7 @@ public class DescriptiveStatistics
      * were added to this set
      */
     public double[] getValues() {
-        return eDA.getElements();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -490,9 +489,7 @@ public class DescriptiveStatistics
      * numbers sorted in ascending order
      */
     public double[] getSortedValues() {
-        double[] sort = getValues();
-        Arrays.sort(sort);
-        return sort;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -501,7 +498,7 @@ public class DescriptiveStatistics
      * @return return the element at the specified index
      */
     public double getElement(int index) {
-        return eDA.getElement(index);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -512,23 +509,6 @@ public class DescriptiveStatistics
      */
     @Override
     public String toString() {
-        final StringBuilder outBuffer = new StringBuilder(100);
-        final String endl = "\n";
-        outBuffer.append("DescriptiveStatistics:").append(endl).
-                  append("n: ").append(getN()).append(endl).
-                  append("min: ").append(getMin()).append(endl).
-                  append("max: ").append(getMax()).append(endl).
-                  append("mean: ").append(getMean()).append(endl).
-                  append("std dev: ").append(getStandardDeviation()).append(endl);
-        try {
-            // No catch for MIAE because actual parameter is valid below
-            outBuffer.append("median: ").append(getPercentile(50)).append(endl);
-        } catch (MathIllegalStateException ex) {
-            outBuffer.append("median: unavailable").append(endl);
-        }
-        outBuffer.append("skewness: ").append(getSkewness()).append(endl).
-                  append("kurtosis: ").append(getKurtosis()).append(endl);
-        return outBuffer.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

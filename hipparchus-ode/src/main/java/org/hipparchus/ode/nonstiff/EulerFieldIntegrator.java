@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode.nonstiff;
 
 import org.hipparchus.CalculusFieldElement;
@@ -56,13 +54,15 @@ import org.hipparchus.util.MathArrays;
  * @see LutherFieldIntegrator
  * @param <T> the type of the field elements
  */
-
 public class EulerFieldIntegrator<T extends CalculusFieldElement<T>> extends FixedStepRungeKuttaFieldIntegrator<T> {
 
-    /** Name of integration scheme. */
+    /**
+     * Name of integration scheme.
+     */
     public static final String METHOD_NAME = EulerIntegrator.METHOD_NAME;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * Build an Euler integrator with the given step.
      * @param field field to which the time and state vector elements belong
      * @param step integration step
@@ -71,37 +71,35 @@ public class EulerFieldIntegrator<T extends CalculusFieldElement<T>> extends Fix
         super(field, METHOD_NAME, step);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[] getC() {
-        return MathArrays.buildArray(getField(), 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[][] getA() {
-        return MathArrays.buildArray(getField(), 0, 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[] getB() {
-        final T[] b = MathArrays.buildArray(getField(), 1);
-        b[0] = getField().getOne();
-        return b;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected EulerFieldStateInterpolator<T>
-        createInterpolator(final boolean forward, T[][] yDotK,
-                           final FieldODEStateAndDerivative<T> globalPreviousState,
-                           final FieldODEStateAndDerivative<T> globalCurrentState,
-                           final FieldEquationsMapper<T> mapper) {
-        return new EulerFieldStateInterpolator<>(getField(), forward, yDotK,
-                                                 globalPreviousState, globalCurrentState,
-                                                 globalPreviousState, globalCurrentState,
-                                                 mapper);
+    protected EulerFieldStateInterpolator<T> createInterpolator(final boolean forward, T[][] yDotK, final FieldODEStateAndDerivative<T> globalPreviousState, final FieldODEStateAndDerivative<T> globalCurrentState, final FieldEquationsMapper<T> mapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

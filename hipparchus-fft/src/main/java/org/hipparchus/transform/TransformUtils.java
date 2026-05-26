@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,31 +21,25 @@
 package org.hipparchus.transform;
 
 import java.util.Arrays;
-
 import org.hipparchus.complex.Complex;
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 
 /**
  * Useful functions for the implementation of various transforms.
- *
  */
 public class TransformUtils {
+
     /**
      * Table of the powers of 2 to facilitate binary search lookup.
      *
      * @see #exactLog2(int)
      */
-    private static final int[] POWERS_OF_TWO = {
-        0x00000001, 0x00000002, 0x00000004, 0x00000008, 0x00000010, 0x00000020,
-        0x00000040, 0x00000080, 0x00000100, 0x00000200, 0x00000400, 0x00000800,
-        0x00001000, 0x00002000, 0x00004000, 0x00008000, 0x00010000, 0x00020000,
-        0x00040000, 0x00080000, 0x00100000, 0x00200000, 0x00400000, 0x00800000,
-        0x01000000, 0x02000000, 0x04000000, 0x08000000, 0x10000000, 0x20000000,
-        0x40000000
-    };
+    private static final int[] POWERS_OF_TWO = { 0x00000001, 0x00000002, 0x00000004, 0x00000008, 0x00000010, 0x00000020, 0x00000040, 0x00000080, 0x00000100, 0x00000200, 0x00000400, 0x00000800, 0x00001000, 0x00002000, 0x00004000, 0x00008000, 0x00010000, 0x00020000, 0x00040000, 0x00080000, 0x00100000, 0x00200000, 0x00400000, 0x00800000, 0x01000000, 0x02000000, 0x04000000, 0x08000000, 0x10000000, 0x20000000, 0x40000000 };
 
-    /** Private constructor. */
+    /**
+     * Private constructor.
+     */
     private TransformUtils() {
         super();
     }
@@ -60,11 +53,7 @@ public class TransformUtils {
      * @return a reference to the scaled array
      */
     public static double[] scaleArray(double[] f, double d) {
-
-        for (int i = 0; i < f.length; i++) {
-            f[i] *= d;
-        }
-        return f;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -76,13 +65,8 @@ public class TransformUtils {
      * @return a reference to the scaled array
      */
     public static Complex[] scaleArray(Complex[] f, double d) {
-
-        for (int i = 0; i < f.length; i++) {
-            f[i] = new Complex(d * f[i].getReal(), d * f[i].getImaginary());
-        }
-        return f;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     /**
      * Builds a new two dimensional array of {@code double} filled with the real
@@ -98,15 +82,7 @@ public class TransformUtils {
      *   of the specified complex input
      */
     public static double[][] createRealImaginaryArray(final Complex[] dataC) {
-        final double[][] dataRI = new double[2][dataC.length];
-        final double[] dataR = dataRI[0];
-        final double[] dataI = dataRI[1];
-        for (int i = 0; i < dataC.length; i++) {
-            final Complex c = dataC[i];
-            dataR[i] = c.getReal();
-            dataI[i] = c.getImaginary();
-        }
-        return dataRI;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -123,28 +99,9 @@ public class TransformUtils {
      * @throws MathIllegalArgumentException if the number of rows of the specified
      *   array is not two, or the array is not rectangular
      */
-    public static Complex[] createComplexArray(final double[][] dataRI)
-        throws MathIllegalArgumentException {
-
-        if (dataRI.length != 2) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   dataRI.length, 2);
-        }
-        final double[] dataR = dataRI[0];
-        final double[] dataI = dataRI[1];
-        if (dataR.length != dataI.length) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   dataI.length, dataR.length);
-        }
-
-        final int n = dataR.length;
-        final Complex[] c = new Complex[n];
-        for (int i = 0; i < n; i++) {
-            c[i] = new Complex(dataR[i], dataI[i]);
-        }
-        return c;
+    public static Complex[] createComplexArray(final double[][] dataRI) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     /**
      * Returns the base-2 logarithm of the specified {@code int}. Throws an
@@ -154,14 +111,7 @@ public class TransformUtils {
      * @return the base-2 logarithm of {@code n}
      * @throws MathIllegalArgumentException if {@code n} is not a power of two
      */
-    public static int exactLog2(final int n)
-        throws MathIllegalArgumentException {
-
-        int index = Arrays.binarySearch(POWERS_OF_TWO, n);
-        if (index < 0) {
-            throw new MathIllegalArgumentException(LocalizedFFTFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING,
-                    n);
-        }
-        return index;
+    public static int exactLog2(final int n) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

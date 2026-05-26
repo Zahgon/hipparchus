@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.nonstiff;
 
 import org.hipparchus.ode.EquationsMapper;
@@ -43,13 +42,15 @@ import org.hipparchus.ode.nonstiff.interpolators.ClassicalRungeKuttaStateInterpo
  * @see ThreeEighthesIntegrator
  * @see LutherIntegrator
  */
-
 public class ClassicalRungeKuttaIntegrator extends FixedStepRungeKuttaIntegrator {
 
-    /** Name of integration scheme. */
+    /**
+     * Name of integration scheme.
+     */
     public static final String METHOD_NAME = "classical Runge-Kutta";
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * Build a fourth-order Runge-Kutta integrator with the given
      * step.
      * @param step integration step
@@ -58,40 +59,35 @@ public class ClassicalRungeKuttaIntegrator extends FixedStepRungeKuttaIntegrator
         super(METHOD_NAME, step);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[] getC() {
-        return new double[] {
-            1.0 / 2.0, 1.0 / 2.0, 1.0
-        };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[][] getA() {
-        return new double[][] {
-            { 1.0 / 2.0 },
-            { 0.0, 1.0 / 2.0 },
-            { 0.0, 0.0, 1.0 }
-        };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[] getB() {
-        return new double[] {
-            1.0 / 6.0, 1.0 / 3.0, 1.0 / 3.0, 1.0 / 6.0
-        };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected ClassicalRungeKuttaStateInterpolator createInterpolator(final boolean forward, final double[][] yDotK,
-                                                                      final ODEStateAndDerivative globalPreviousState,
-                                                                      final ODEStateAndDerivative globalCurrentState,
-                                                                      final EquationsMapper mapper) {
-        return new ClassicalRungeKuttaStateInterpolator(forward, yDotK, globalPreviousState, globalCurrentState,
-                                                       globalPreviousState, globalCurrentState, mapper);
+    protected ClassicalRungeKuttaStateInterpolator createInterpolator(final boolean forward, final double[][] yDotK, final ODEStateAndDerivative globalPreviousState, final ODEStateAndDerivative globalCurrentState, final EquationsMapper mapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

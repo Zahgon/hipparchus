@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,7 +22,6 @@ package org.hipparchus.geometry.spherical.twod;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hipparchus.exception.MathRuntimeException;
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
 import org.hipparchus.geometry.partitioning.BSPTree;
@@ -31,150 +29,131 @@ import org.hipparchus.geometry.partitioning.BSPTreeVisitor;
 import org.hipparchus.util.FastMath;
 import org.hipparchus.util.MathUtils;
 
-/** Visitor computing geometrical properties.
+/**
+ * Visitor computing geometrical properties.
  */
 class PropertiesComputer implements BSPTreeVisitor<Sphere2D, S2Point, Circle, SubCircle> {
 
-    /** Tolerance below which points are consider to be identical. */
+    /**
+     * Tolerance below which points are consider to be identical.
+     */
     private final double tolerance;
 
-    /** Summed area. */
+    /**
+     * Summed area.
+     */
     private double summedArea;
 
-    /** Summed barycenter. */
+    /**
+     * Summed barycenter.
+     */
     private Vector3D summedBarycenter;
 
-    /** List of points strictly inside convex cells. */
+    /**
+     * List of points strictly inside convex cells.
+     */
     private final List<Vector3D> convexCellsInsidePoints;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param tolerance below which points are consider to be identical
      */
     PropertiesComputer(final double tolerance) {
-        this.tolerance               = tolerance;
-        this.summedArea              = 0;
-        this.summedBarycenter        = Vector3D.ZERO;
+        this.tolerance = tolerance;
+        this.summedArea = 0;
+        this.summedBarycenter = Vector3D.ZERO;
         this.convexCellsInsidePoints = new ArrayList<>();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Order visitOrder(final BSPTree<Sphere2D, S2Point, Circle, SubCircle> node) {
-        return Order.MINUS_SUB_PLUS;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void visitInternalNode(final BSPTree<Sphere2D, S2Point, Circle, SubCircle> node) {
-        // nothing to do here
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void visitLeafNode(final BSPTree<Sphere2D, S2Point, Circle, SubCircle> node) {
-        if ((Boolean) node.getAttribute()) {
-
-            // transform this inside leaf cell into a simple convex polygon
-            final SphericalPolygonsSet convex =
-                    new SphericalPolygonsSet(node.pruneAroundConvexCell(Boolean.TRUE,
-                                                                        Boolean.FALSE,
-                                                                        null),
-                                             tolerance);
-
-            // extract the start of the single loop boundary of the convex cell
-            final List<Vertex> boundary = convex.getBoundaryLoops();
-            if (boundary.size() != 1) {
-                // this should never happen
-                throw MathRuntimeException.createInternalError();
-            }
-
-            // compute the geometrical properties of the convex cell
-            final double area  = convexCellArea(boundary.get(0));
-            final Vector3D barycenter = convexCellBarycenter(boundary.get(0));
-            convexCellsInsidePoints.add(barycenter);
-
-            // add the cell contribution to the global properties
-            summedArea      += area;
-            summedBarycenter = new Vector3D(1, summedBarycenter, area, barycenter);
-
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute convex cell area.
+    /**
+     * Compute convex cell area.
      * @param start start vertex of the convex cell boundary
      * @return area
      */
     private double convexCellArea(final Vertex start) {
-
         int n = 0;
         double sum = 0;
-
         // loop around the cell
         for (Edge e = start.getOutgoing(); n == 0 || e.getStart() != start; e = e.getEnd().getOutgoing()) {
-
             // find path interior angle at vertex
             final Vector3D previousPole = e.getCircle().getPole();
-            final Vector3D nextPole     = e.getEnd().getOutgoing().getCircle().getPole();
-            final Vector3D point        = e.getEnd().getLocation().getVector();
-            double alpha = FastMath.atan2(Vector3D.dotProduct(nextPole, Vector3D.crossProduct(point, previousPole)),
-                                          -Vector3D.dotProduct(nextPole, previousPole));
+            final Vector3D nextPole = e.getEnd().getOutgoing().getCircle().getPole();
+            final Vector3D point = e.getEnd().getLocation().getVector();
+            double alpha = FastMath.atan2(Vector3D.dotProduct(nextPole, Vector3D.crossProduct(point, previousPole)), -Vector3D.dotProduct(nextPole, previousPole));
             if (alpha < 0) {
                 alpha += MathUtils.TWO_PI;
             }
             sum += alpha;
             n++;
         }
-
         // compute area using extended Girard theorem
         // see Spherical Trigonometry: For the Use of Colleges and Schools by I. Todhunter
         // article 99 in chapter VIII Area Of a Spherical Triangle. Spherical Excess.
         // book available from project Gutenberg at http://www.gutenberg.org/ebooks/19770
         return sum - (n - 2) * FastMath.PI;
-
     }
 
-    /** Compute convex cell barycenter.
+    /**
+     * Compute convex cell barycenter.
      * @param start start vertex of the convex cell boundary
      * @return barycenter
      */
     private Vector3D convexCellBarycenter(final Vertex start) {
-
         int n = 0;
         Vector3D sumB = Vector3D.ZERO;
-
         // loop around the cell
         for (Edge e = start.getOutgoing(); n == 0 || e.getStart() != start; e = e.getEnd().getOutgoing()) {
             sumB = new Vector3D(1, sumB, e.getLength(), e.getCircle().getPole());
             n++;
         }
-
         return sumB.normalize();
-
     }
 
-    /** Get the area.
+    /**
+     * Get the area.
      * @return area
      */
     public double getArea() {
-        return summedArea;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the barycenter.
+    /**
+     * Get the barycenter.
      * @return barycenter
      */
     public S2Point getBarycenter() {
-        if (summedBarycenter.getNorm2Sq() == 0) {
-            return S2Point.NaN;
-        } else {
-            return new S2Point(summedBarycenter);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the points strictly inside convex cells.
+    /**
+     * Get the points strictly inside convex cells.
      * @return points strictly inside convex cells
      */
     public List<Vector3D> getConvexCellsInsidePoints() {
-        return convexCellsInsidePoints;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

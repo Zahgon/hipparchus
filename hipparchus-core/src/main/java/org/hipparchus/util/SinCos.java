@@ -16,7 +16,8 @@
  */
 package org.hipparchus.util;
 
-/** Holder for both sine and cosine values.
+/**
+ * Holder for both sine and cosine values.
  * <p>
  * This class is a simple container, it does not provide any computational method.
  * </p>
@@ -25,13 +26,18 @@ package org.hipparchus.util;
  */
 public class SinCos {
 
-    /** Value of the sine. */
+    /**
+     * Value of the sine.
+     */
     private final double sin;
 
-    /** Value of the cosine. */
+    /**
+     * Value of the cosine.
+     */
     private final double cos;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param sin value of the sine
      * @param cos value of the cosine
      */
@@ -40,40 +46,41 @@ public class SinCos {
         this.cos = cos;
     }
 
-    /** Get the value of the sine.
+    /**
+     * Get the value of the sine.
      * @return value of the sine
      */
     public double sin() {
-        return sin;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the value of the cosine.
+    /**
+     * Get the value of the cosine.
      * @return value of the cosine
      */
     public double cos() {
-        return cos;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute sine and cosine of angles sum.
+    /**
+     * Compute sine and cosine of angles sum.
      * @param scAlpha \((\sin \alpha, \cos \alpha)\)
      * @param scBeta \((\sin \beta, \cos \beta)\)
      * @return \((\sin \alpha+\beta, \cos \alpha+\beta)\)
      * @since 1.8
      */
     public static SinCos sum(final SinCos scAlpha, final SinCos scBeta) {
-        return new SinCos(MathArrays.linearCombination(scAlpha.sin, scBeta.cos,  scAlpha.cos, scBeta.sin),
-                          MathArrays.linearCombination(scAlpha.cos, scBeta.cos, -scAlpha.sin, scBeta.sin));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute sine and cosine of angles difference.
+    /**
+     * Compute sine and cosine of angles difference.
      * @param scAlpha \((\sin \alpha, \cos \alpha)\)
      * @param scBeta \((\sin \beta, \cos \beta)\)
      * @return \((\sin \alpha+\beta, \cos \alpha-\beta)\)
      * @since 1.8
      */
     public static SinCos difference(final SinCos scAlpha, final SinCos scBeta) {
-        return new SinCos(MathArrays.linearCombination(scAlpha.sin, scBeta.cos, -scAlpha.cos, scBeta.sin),
-                          MathArrays.linearCombination(scAlpha.cos, scBeta.cos,  scAlpha.sin, scBeta.sin));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

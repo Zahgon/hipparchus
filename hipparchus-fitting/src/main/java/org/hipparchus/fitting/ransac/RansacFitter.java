@@ -47,22 +47,34 @@ import org.hipparchus.exception.MathIllegalArgumentException;
  */
 public class RansacFitter<M> {
 
-    /** Mathematical model fitter. */
+    /**
+     * Mathematical model fitter.
+     */
     private final IModelFitter<M> fitter;
 
-    /** The minimum number of data points to estimate the model parameters. */
+    /**
+     * The minimum number of data points to estimate the model parameters.
+     */
     private final int sampleSize;
 
-    /** The maximum number of iterations allowed to fit the model. */
+    /**
+     * The maximum number of iterations allowed to fit the model.
+     */
     private final int maxIterations;
 
-    /** Threshold to assert that a data point fits the model. */
+    /**
+     * Threshold to assert that a data point fits the model.
+     */
     private final double threshold;
 
-    /** The minimum number of close data points required to assert that the model fits the input data. */
+    /**
+     * The minimum number of close data points required to assert that the model fits the input data.
+     */
     private final int minInliers;
 
-    /** Random generator. */
+    /**
+     * Random generator.
+     */
     private final Random random;
 
     /**
@@ -74,9 +86,7 @@ public class RansacFitter<M> {
      * @param minInliers minimum number of close data points required to assert that the model fits the input data
      * @param seed seed for the random generator
      */
-    public RansacFitter(final IModelFitter<M> fitter, final int sampleSize,
-                        final int maxIterations, final double threshold,
-                        final int minInliers, final int seed) {
+    public RansacFitter(final IModelFitter<M> fitter, final int sampleSize, final int maxIterations, final double threshold, final int minInliers, final int seed) {
         this.fitter = fitter;
         this.sampleSize = sampleSize;
         this.maxIterations = maxIterations;
@@ -92,29 +102,7 @@ public class RansacFitter<M> {
      * @return a java class containing the best estimate of the model parameters
      */
     public RansacFitterOutputs<M> fit(final List<Fittable> points) {
-
-        // Initialize the best model data
-        final List<Fittable> data = new ArrayList<>(points);
-        Optional<M> bestModel = Optional.empty();
-        List<Fittable> bestInliers = new ArrayList<>();
-
-        // Iterative loop to determine the best model
-        for (int iteration = 0; iteration < maxIterations; iteration++) {
-
-            // Random permute the set of observed data and determine the inliers
-            Collections.shuffle(data, random);
-            final List<Fittable> inliers = determineCurrentInliersFromRandomlyPermutedPoints(data);
-
-            // Verifies if the current inliers are fit better the model than the previous ones
-            if (isCurrentInliersSetBetterThanPreviousOne(inliers, bestInliers)) {
-                bestModel = Optional.of(fitter.fitModel(inliers));
-                bestInliers = inliers;
-            }
-
-        }
-
-        // Returns the best model data
-        return new RansacFitterOutputs<>(bestModel, bestInliers, fitter);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**

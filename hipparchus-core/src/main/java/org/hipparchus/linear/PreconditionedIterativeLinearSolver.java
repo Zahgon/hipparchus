@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -51,10 +50,8 @@ import org.hipparchus.util.MathUtils;
  * Concrete implementations of this abstract class must be provided with the
  * preconditioner M, as a {@link RealLinearOperator}.
  * </p>
- *
  */
-public abstract class PreconditionedIterativeLinearSolver
-    extends IterativeLinearSolver {
+public abstract class PreconditionedIterativeLinearSolver extends IterativeLinearSolver {
 
     /**
      * Creates a new instance of this class, with default iteration manager.
@@ -71,8 +68,7 @@ public abstract class PreconditionedIterativeLinearSolver
      * @param manager the custom iteration manager
      * @throws NullArgumentException if {@code manager} is {@code null}
      */
-    public PreconditionedIterativeLinearSolver(final IterationManager manager)
-        throws NullArgumentException {
+    public PreconditionedIterativeLinearSolver(final IterationManager manager) throws NullArgumentException {
         super(manager);
     }
 
@@ -95,30 +91,24 @@ public abstract class PreconditionedIterativeLinearSolver
      * {@link org.hipparchus.util.Incrementor.MaxCountExceededCallback callback}
      * has been set at construction of the {@link IterationManager}
      */
-    public RealVector solve(final RealLinearOperator a,
-        final RealLinearOperator m, final RealVector b, final RealVector x0)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        MathUtils.checkNotNull(x0);
-        return solveInPlace(a, m, b, x0.copy());
+    public RealVector solve(final RealLinearOperator a, final RealLinearOperator m, final RealVector b, final RealVector x0) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public RealVector solve(final RealLinearOperator a, final RealVector b)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        MathUtils.checkNotNull(a);
-        final RealVector x = new ArrayRealVector(a.getColumnDimension());
-        x.set(0.);
-        return solveInPlace(a, null, b, x);
+    public RealVector solve(final RealLinearOperator a, final RealVector b) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public RealVector solve(final RealLinearOperator a, final RealVector b,
-                            final RealVector x0)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        MathUtils.checkNotNull(x0);
-        return solveInPlace(a, null, b, x0.copy());
+    public RealVector solve(final RealLinearOperator a, final RealVector b, final RealVector x0) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -138,20 +128,8 @@ public abstract class PreconditionedIterativeLinearSolver
      * @throws MathIllegalArgumentException if {@code m}, {@code b} or
      * {@code x0} have dimensions inconsistent with {@code a}
      */
-    protected static void checkParameters(final RealLinearOperator a,
-        final RealLinearOperator m, final RealVector b, final RealVector x0)
-        throws MathIllegalArgumentException, NullArgumentException {
-        checkParameters(a, b, x0);
-        if (m != null) {
-            if (m.getColumnDimension() != m.getRowDimension()) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.NON_SQUARE_OPERATOR,
-                                                       m.getColumnDimension(), m.getRowDimension());
-            }
-            if (m.getRowDimension() != a.getRowDimension()) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                       m.getRowDimension(), a.getRowDimension());
-            }
-        }
+    protected static void checkParameters(final RealLinearOperator a, final RealLinearOperator m, final RealVector b, final RealVector x0) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -172,11 +150,8 @@ public abstract class PreconditionedIterativeLinearSolver
      * {@link org.hipparchus.util.Incrementor.MaxCountExceededCallback callback}
      * has been set at construction of the {@link IterationManager}
      */
-    public RealVector solve(RealLinearOperator a, RealLinearOperator m,
-        RealVector b) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        MathUtils.checkNotNull(a);
-        final RealVector x = new ArrayRealVector(a.getColumnDimension());
-        return solveInPlace(a, m, b, x);
+    public RealVector solve(RealLinearOperator a, RealLinearOperator m, RealVector b) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -199,15 +174,13 @@ public abstract class PreconditionedIterativeLinearSolver
      * {@link org.hipparchus.util.Incrementor.MaxCountExceededCallback callback}
      * has been set at construction of the {@link IterationManager}
      */
-    public abstract RealVector solveInPlace(RealLinearOperator a,
-        RealLinearOperator m, RealVector b, RealVector x0) throws
-        MathIllegalArgumentException, NullArgumentException, MathIllegalStateException;
+    public abstract RealVector solveInPlace(RealLinearOperator a, RealLinearOperator m, RealVector b, RealVector x0) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public RealVector solveInPlace(final RealLinearOperator a,
-        final RealVector b, final RealVector x0) throws
-        MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        return solveInPlace(a, null, b, x0);
+    public RealVector solveInPlace(final RealLinearOperator a, final RealVector b, final RealVector x0) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

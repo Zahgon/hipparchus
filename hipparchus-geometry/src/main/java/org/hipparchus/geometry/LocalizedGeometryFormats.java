@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.geometry;
 
 import java.util.Locale;
-
 import org.hipparchus.exception.Localizable;
 
 /**
@@ -41,75 +39,99 @@ import org.hipparchus.exception.Localizable;
  */
 public enum LocalizedGeometryFormats implements Localizable {
 
-    /** CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR. */
+    /**
+     * CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR.
+     */
     CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR("cannot normalize a zero norm vector"),
-
-    /** CLOSE_VERTICES. */
+    /**
+     * CLOSE_VERTICES.
+     */
     CLOSE_VERTICES("too close vertices near point ({0}, {1}, {2})"),
-
-    /** CLOSEST_ORTHOGONAL_MATRIX_HAS_NEGATIVE_DETERMINANT. */
+    /**
+     * CLOSEST_ORTHOGONAL_MATRIX_HAS_NEGATIVE_DETERMINANT.
+     */
     CLOSEST_ORTHOGONAL_MATRIX_HAS_NEGATIVE_DETERMINANT("the closest orthogonal matrix has a negative determinant {0}"),
-
-    /** CROSSING_BOUNDARY_LOOPS. */
+    /**
+     * CROSSING_BOUNDARY_LOOPS.
+     */
     CROSSING_BOUNDARY_LOOPS("some outline boundary loops cross each other"),
-
-    /** EDGE_CONNECTED_TO_ONE_FACET. */
+    /**
+     * EDGE_CONNECTED_TO_ONE_FACET.
+     */
     EDGE_CONNECTED_TO_ONE_FACET("edge joining points ({0}, {1}, {2}) and ({3}, {4}, {5}) is connected to one facet only"),
-
-    /** FACET_ORIENTATION_MISMATCH. */
+    /**
+     * FACET_ORIENTATION_MISMATCH.
+     */
     FACET_ORIENTATION_MISMATCH("facets orientation mismatch around edge joining points ({0}, {1}, {2}) and ({3}, {4}, {5})"),
-
-    /** INCONSISTENT_STATE_AT_2_PI_WRAPPING. */
+    /**
+     * INCONSISTENT_STATE_AT_2_PI_WRAPPING.
+     */
     INCONSISTENT_STATE_AT_2_PI_WRAPPING("inconsistent state at 2π wrapping"),
-
-    /** NON_INVERTIBLE_TRANSFORM. */
+    /**
+     * NON_INVERTIBLE_TRANSFORM.
+     */
     NON_INVERTIBLE_TRANSFORM("non-invertible affine transform collapses some lines into single points"),
-
-    /** NOT_CONVEX. */
+    /**
+     * NOT_CONVEX.
+     */
     NOT_CONVEX("vertices do not form a convex hull in CCW winding"),
-
-    /** NOT_CONVEX_HYPERPLANES. */
+    /**
+     * NOT_CONVEX_HYPERPLANES.
+     */
     NOT_CONVEX_HYPERPLANES("hyperplanes do not define a convex region"),
-
-    /** NOT_SUPPORTED_IN_DIMENSION_N. */
+    /**
+     * NOT_SUPPORTED_IN_DIMENSION_N.
+     */
     NOT_SUPPORTED_IN_DIMENSION_N("method not supported in dimension {0}"),
-
-    /** OUTLINE_BOUNDARY_LOOP_OPEN. */
+    /**
+     * OUTLINE_BOUNDARY_LOOP_OPEN.
+     */
     OUTLINE_BOUNDARY_LOOP_OPEN("an outline boundary loop is open"),
-
-    /** FACET_WITH_SEVERAL_BOUNDARY_LOOPS. */
+    /**
+     * FACET_WITH_SEVERAL_BOUNDARY_LOOPS.
+     */
     FACET_WITH_SEVERAL_BOUNDARY_LOOPS("a facet has several boundary loops"),
-
-    /** OUT_OF_PLANE. */
+    /**
+     * OUT_OF_PLANE.
+     */
     OUT_OF_PLANE("point ({0}, {1}, {2}) is out of plane"),
-
-    /** ROTATION_MATRIX_DIMENSIONS. */
+    /**
+     * ROTATION_MATRIX_DIMENSIONS.
+     */
     ROTATION_MATRIX_DIMENSIONS("a {0}x{1} matrix cannot be a rotation matrix"),
-
-    /** UNABLE_TO_ORTHOGONOLIZE_MATRIX. */
+    /**
+     * UNABLE_TO_ORTHOGONOLIZE_MATRIX.
+     */
     UNABLE_TO_ORTHOGONOLIZE_MATRIX("unable to orthogonalize matrix in {0} iterations"),
-
-    /** ZERO_NORM_FOR_ROTATION_AXIS. */
+    /**
+     * ZERO_NORM_FOR_ROTATION_AXIS.
+     */
     ZERO_NORM_FOR_ROTATION_AXIS("zero norm for rotation axis"),
-
-    /** ZERO_NORM_FOR_ROTATION_DEFINING_VECTOR. */
+    /**
+     * ZERO_NORM_FOR_ROTATION_DEFINING_VECTOR.
+     */
     ZERO_NORM_FOR_ROTATION_DEFINING_VECTOR("zero norm for rotation defining vector"),
-
-    /** TOO_SMALL_TOLERANCE. */
+    /**
+     * TOO_SMALL_TOLERANCE.
+     */
     TOO_SMALL_TOLERANCE("tolerance {0,number,0.00000E00} is not computationally feasible, it is smaller than {1} ({2,number,0.00000E00})"),
-
-    /** INVALID_ROTATION_ORDER_NAME. */
+    /**
+     * INVALID_ROTATION_ORDER_NAME.
+     */
     INVALID_ROTATION_ORDER_NAME("the value {0} does not correspond to a rotation order"),
-
-    /** CANNOT_FIND_INSIDE_POINT.
+    /**
+     * CANNOT_FIND_INSIDE_POINT.
      * @since 4.0
      */
     CANNOT_FIND_INSIDE_POINT("cannot find an inside point after {0} iterations");
 
-    /** Source English format. */
+    /**
+     * Source English format.
+     */
     private final String sourceFormat;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param sourceFormat source English format to use when no
      * localized version is available
      */
@@ -117,17 +139,19 @@ public enum LocalizedGeometryFormats implements Localizable {
         this.sourceFormat = sourceFormat;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getSourceString() {
-        return sourceFormat;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getLocalizedString(final Locale locale) {
-        return getLocalizedString("assets/" + LocalizedGeometryFormats.class.getName().replaceAll("\\.", "/"),
-                                  name(), locale);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

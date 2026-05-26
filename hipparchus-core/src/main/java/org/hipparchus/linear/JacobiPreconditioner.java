@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -33,7 +32,9 @@ import org.hipparchus.util.MathArrays;
  */
 public class JacobiPreconditioner implements RealLinearOperator {
 
-    /** The diagonal coefficients of the preconditioner. */
+    /**
+     * The diagonal coefficients of the preconditioner.
+     */
     private final ArrayRealVector diag;
 
     /**
@@ -61,49 +62,32 @@ public class JacobiPreconditioner implements RealLinearOperator {
      * coefficients of the specified linear operator
      * @throws MathIllegalArgumentException if {@code a} is not square
      */
-    public static JacobiPreconditioner create(final RealLinearOperator a)
-        throws MathIllegalArgumentException {
-        final int n = a.getColumnDimension();
-        if (a.getRowDimension() != n) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NON_SQUARE_OPERATOR,
-                                                   a.getRowDimension(), n);
-        }
-        final double[] diag = new double[n];
-        if (a instanceof AbstractRealMatrix) {
-            final AbstractRealMatrix m = (AbstractRealMatrix) a;
-            for (int i = 0; i < n; i++) {
-                diag[i] = m.getEntry(i, i);
-            }
-        } else {
-            final ArrayRealVector x = new ArrayRealVector(n);
-            for (int i = 0; i < n; i++) {
-                x.set(0.);
-                x.setEntry(i, 1.);
-                diag[i] = a.operate(x).getEntry(i);
-            }
-        }
-        return new JacobiPreconditioner(diag, false);
+    public static JacobiPreconditioner create(final RealLinearOperator a) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getColumnDimension() {
-        return diag.getDimension();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getRowDimension() {
-        return diag.getDimension();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector operate(final RealVector x) {
-        // Dimension check is carried out by ebeDivide
-        return new ArrayRealVector(MathArrays.ebeDivide(x.toArray(),
-                                                        diag.toArray()),
-                                   false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -114,27 +98,6 @@ public class JacobiPreconditioner implements RealLinearOperator {
      * @return the square root of {@code this} preconditioner
      */
     public RealLinearOperator sqrt() {
-        final RealVector sqrtDiag = diag.map(new Sqrt());
-        return new RealLinearOperator() {
-            /** {@inheritDoc} */
-            @Override
-            public RealVector operate(final RealVector x) {
-                return new ArrayRealVector(MathArrays.ebeDivide(x.toArray(),
-                                                                sqrtDiag.toArray()),
-                                           false);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public int getRowDimension() {
-                return sqrtDiag.getDimension();
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public int getColumnDimension() {
-                return sqrtDiag.getDimension();
-            }
-        };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

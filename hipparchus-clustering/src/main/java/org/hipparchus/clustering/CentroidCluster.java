@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -31,10 +30,14 @@ package org.hipparchus.clustering;
  */
 public class CentroidCluster<T extends Clusterable> extends Cluster<T> {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = -3075288519071812288L;
 
-    /** Center of the cluster. */
+    /**
+     * Center of the cluster.
+     */
     private final Clusterable center;
 
     /**
@@ -50,7 +53,6 @@ public class CentroidCluster<T extends Clusterable> extends Cluster<T> {
      * @return chosen cluster center
      */
     public Clusterable getCenter() {
-        return center;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

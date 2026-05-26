@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.nonstiff;
 
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -24,7 +23,6 @@ import org.hipparchus.ode.EquationsMapper;
 import org.hipparchus.ode.ODEStateAndDerivative;
 import org.hipparchus.ode.nonstiff.interpolators.AdamsStateInterpolator;
 import org.hipparchus.util.FastMath;
-
 
 /**
  * This class implements explicit Adams-Bashforth integrators for Ordinary
@@ -149,11 +147,12 @@ import org.hipparchus.util.FastMath;
  *
  * <p>The P<sup>-1</sup>u vector and the P<sup>-1</sup> A P matrix do not depend on the state,
  * they only depend on k and therefore are precomputed once for all.</p>
- *
  */
 public class AdamsBashforthIntegrator extends AdamsIntegrator {
 
-    /** Name of integration scheme. */
+    /**
+     * Name of integration scheme.
+     */
     public static final String METHOD_NAME = "Adams-Bashforth";
 
     /**
@@ -169,13 +168,8 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
      * @param scalRelativeTolerance allowed relative error
      * @exception MathIllegalArgumentException if order is 1 or less
      */
-    public AdamsBashforthIntegrator(final int nSteps,
-                                    final double minStep, final double maxStep,
-                                    final double scalAbsoluteTolerance,
-                                    final double scalRelativeTolerance)
-        throws MathIllegalArgumentException {
-        super(METHOD_NAME, nSteps, nSteps, minStep, maxStep,
-              scalAbsoluteTolerance, scalRelativeTolerance);
+    public AdamsBashforthIntegrator(final int nSteps, final double minStep, final double maxStep, final double scalAbsoluteTolerance, final double scalRelativeTolerance) throws MathIllegalArgumentException {
+        super(METHOD_NAME, nSteps, nSteps, minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
     }
 
     /**
@@ -191,57 +185,23 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
      * @param vecRelativeTolerance allowed relative error
      * @exception IllegalArgumentException if order is 1 or less
      */
-    public AdamsBashforthIntegrator(final int nSteps,
-                                    final double minStep, final double maxStep,
-                                    final double[] vecAbsoluteTolerance,
-                                    final double[] vecRelativeTolerance)
-        throws IllegalArgumentException {
-        super(METHOD_NAME, nSteps, nSteps, minStep, maxStep,
-              vecAbsoluteTolerance, vecRelativeTolerance);
+    public AdamsBashforthIntegrator(final int nSteps, final double minStep, final double maxStep, final double[] vecAbsoluteTolerance, final double[] vecRelativeTolerance) throws IllegalArgumentException {
+        super(METHOD_NAME, nSteps, nSteps, minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected double errorEstimation(final double[] previousState, final double predictedTime,
-                                     final double[] predictedState,
-                                     final double[] predictedScaled,
-                                     final RealMatrix predictedNordsieck) {
-
-        final StepsizeHelper helper = getStepSizeHelper();
-        double error = 0;
-        for (int i = 0; i < helper.getMainSetDimension(); ++i) {
-            final double tol = helper.getTolerance(i, FastMath.abs(predictedState[i]));
-
-            // apply Taylor formula from high order to low order,
-            // for the sake of numerical accuracy
-            double variation = 0;
-            int sign = predictedNordsieck.getRowDimension() % 2 == 0 ? -1 : 1;
-            for (int k = predictedNordsieck.getRowDimension() - 1; k >= 0; --k) {
-                variation += sign * predictedNordsieck.getEntry(k, i);
-                sign       = -sign;
-            }
-            variation -= predictedScaled[i];
-
-            final double ratio  = (predictedState[i] - previousState[i] + variation) / tol;
-            error              += ratio * ratio;
-
-        }
-
-        return FastMath.sqrt(error / helper.getMainSetDimension());
-
+    protected double errorEstimation(final double[] previousState, final double predictedTime, final double[] predictedState, final double[] predictedScaled, final RealMatrix predictedNordsieck) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected AdamsStateInterpolator finalizeStep(final double stepSize, final double[] predictedState,
-                                                  final double[] predictedScaled, final Array2DRowRealMatrix predictedNordsieck,
-                                                  final boolean isForward,
-                                                  final ODEStateAndDerivative globalPreviousState,
-                                                  final ODEStateAndDerivative globalCurrentState,
-                                                  final EquationsMapper equationsMapper) {
-        return new AdamsStateInterpolator(getStepSize(), globalCurrentState,
-                                          predictedScaled, predictedNordsieck, isForward,
-                                          getStepStart(), globalCurrentState, equationsMapper);
+    protected AdamsStateInterpolator finalizeStep(final double stepSize, final double[] predictedState, final double[] predictedScaled, final Array2DRowRealMatrix predictedNordsieck, final boolean isForward, final ODEStateAndDerivative globalPreviousState, final ODEStateAndDerivative globalCurrentState, final EquationsMapper equationsMapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

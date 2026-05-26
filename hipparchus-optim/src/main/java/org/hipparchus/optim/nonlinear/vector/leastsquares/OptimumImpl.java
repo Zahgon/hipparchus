@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -28,15 +27,22 @@ import org.hipparchus.optim.nonlinear.vector.leastsquares.LeastSquaresProblem.Ev
 
 /**
  * A pedantic implementation of {@link Optimum}.
- *
  */
 class OptimumImpl implements Optimum {
 
-    /** abscissa and ordinate */
+    /**
+     * abscissa and ordinate
+     */
     private final Evaluation value;
-    /** number of evaluations to compute this optimum */
+
+    /**
+     * number of evaluations to compute this optimum
+     */
     private final int evaluations;
-    /** number of iterations to compute this optimum */
+
+    /**
+     * number of iterations to compute this optimum
+     */
     private final int iterations;
 
     /**
@@ -53,70 +59,91 @@ class OptimumImpl implements Optimum {
     }
 
     /* auto-generated implementations */
-
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getEvaluations() {
-        return evaluations;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getIterations() {
-        return iterations;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealMatrix getCovariances(double threshold) {
-        return value.getCovariances(threshold);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector getSigma(double covarianceSingularityThreshold) {
-        return value.getSigma(covarianceSingularityThreshold);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getRMS() {
-        return value.getRMS();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealMatrix getJacobian() {
-        return value.getJacobian();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getCost() {
-        return value.getCost();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getChiSquare() {
-        return value.getChiSquare();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getReducedChiSquare(int n) {
-        return value.getReducedChiSquare(n);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector getResiduals() {
-        return value.getResiduals();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector getPoint() {
-        return value.getPoint();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

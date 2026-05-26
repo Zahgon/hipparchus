@@ -14,29 +14,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
 package org.hipparchus.geometry.spherical.twod;
 
-/** Spherical polygons boundary vertex.
+/**
+ * Spherical polygons boundary vertex.
  * @see SphericalPolygonsSet#getBoundaryLoops()
  * @see Edge
  */
 public class Vertex {
 
-    /** Vertex location. */
+    /**
+     * Vertex location.
+     */
     private final S2Point location;
 
-    /** Incoming edge. */
+    /**
+     * Incoming edge.
+     */
     private Edge incoming;
 
-    /** Outgoing edge. */
+    /**
+     * Outgoing edge.
+     */
     private Edge outgoing;
 
-    /** Build a non-processed vertex not owned by any node yet.
+    /**
+     * Build a non-processed vertex not owned by any node yet.
      * @param location vertex location
      */
     Vertex(final S2Point location) {
@@ -45,14 +52,16 @@ public class Vertex {
         this.outgoing = null;
     }
 
-    /** Get Vertex location.
+    /**
+     * Get Vertex location.
      * @return vertex location
      */
     public S2Point getLocation() {
-        return location;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set incoming edge.
+    /**
+     * Set incoming edge.
      * <p>
      * The circle supporting the incoming edge is automatically bound
      * with the instance.
@@ -60,17 +69,19 @@ public class Vertex {
      * @param incoming incoming edge
      */
     void setIncoming(final Edge incoming) {
-        this.incoming = incoming;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get incoming edge.
+    /**
+     * Get incoming edge.
      * @return incoming edge
      */
     public Edge getIncoming() {
-        return incoming;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set outgoing edge.
+    /**
+     * Set outgoing edge.
      * <p>
      * The circle supporting the outgoing edge is automatically bound
      * with the instance.
@@ -78,14 +89,14 @@ public class Vertex {
      * @param outgoing outgoing edge
      */
     void setOutgoing(final Edge outgoing) {
-        this.outgoing = outgoing;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get outgoing edge.
+    /**
+     * Get outgoing edge.
      * @return outgoing edge
      */
     public Edge getOutgoing() {
-        return outgoing;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

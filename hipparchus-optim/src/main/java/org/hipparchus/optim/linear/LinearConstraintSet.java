@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -25,15 +24,16 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Collection;
 import java.util.Collections;
-
 import org.hipparchus.optim.OptimizationData;
 
 /**
  * Class that represents a set of {@link LinearConstraint linear constraints}.
- *
  */
 public class LinearConstraintSet implements OptimizationData {
-    /** Set of constraints. */
+
+    /**
+     * Set of constraints.
+     */
     private final Set<LinearConstraint> linearConstraints;
 
     /**
@@ -62,6 +62,6 @@ public class LinearConstraintSet implements OptimizationData {
      * @return the constraints.
      */
     public Collection<LinearConstraint> getConstraints() {
-        return Collections.unmodifiableSet(linearConstraints);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -27,14 +27,15 @@ import org.hipparchus.Field;
 @FunctionalInterface
 public interface FieldMultivariateFunction {
 
-    /** Convert to a {@link CalculusFieldMultivariateFunction} with a specific type.
+    /**
+     * Convert to a {@link CalculusFieldMultivariateFunction} with a specific type.
      * @param <T> the type of the field elements
      * @param field field for the argument and value
      * @return converted function
      */
     @SuppressWarnings("unchecked")
     default <T extends CalculusFieldElement<T>> CalculusFieldMultivariateFunction<T> toCalculusFieldMultivariateFunction(Field<T> field) {
-        return this::value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -46,5 +47,4 @@ public interface FieldMultivariateFunction {
      */
     @SuppressWarnings("unchecked")
     <T extends CalculusFieldElement<T>> T value(T... x);
-
 }

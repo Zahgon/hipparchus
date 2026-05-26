@@ -14,17 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.linear;
 
-
 import java.util.function.Function;
-
 import org.hipparchus.Field;
 import org.hipparchus.FieldElement;
 import org.hipparchus.analysis.polynomials.SmoothStepFactory;
@@ -41,6 +37,7 @@ import org.hipparchus.util.FieldBlendable;
  * @param <T> the type of the field elements
  */
 public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix, FieldBlendable<FieldMatrix<T>, T> {
+
     /**
      * Get the type of field elements of the matrix.
      *
@@ -58,8 +55,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix, Field
      * @throws MathIllegalArgumentException if row or column dimension is not
      * positive.
      */
-    FieldMatrix<T> createMatrix(int rowDimension, int columnDimension)
-    throws MathIllegalArgumentException;
+    FieldMatrix<T> createMatrix(int rowDimension, int columnDimension) throws MathIllegalArgumentException;
 
     /**
      * Make a (deep) copy of this.
@@ -88,7 +84,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix, Field
      */
     FieldMatrix<T> subtract(FieldMatrix<T> m) throws MathIllegalArgumentException;
 
-     /**
+    /**
      * Increment each entry of this matrix.
      *
      * @param d Value to be added to each entry.
@@ -127,9 +123,8 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix, Field
      * {@code columnDimension(this) != columnDimension(m)}
      * @since 1.3
      */
-    default FieldMatrix<T> multiplyTransposed(final FieldMatrix<T> m)
-        throws MathIllegalArgumentException {
-        return multiply(m.transpose());
+    default FieldMatrix<T> multiplyTransposed(final FieldMatrix<T> m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -144,9 +139,8 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix, Field
      * {@code columnDimension(this) != columnDimension(m)}
      * @since 1.3
      */
-    default FieldMatrix<T> transposeMultiply(final FieldMatrix<T> m)
-        throws MathIllegalArgumentException {
-        return transpose().multiply(m);
+    default FieldMatrix<T> transposeMultiply(final FieldMatrix<T> m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -171,12 +165,12 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix, Field
      */
     FieldMatrix<T> power(int p) throws MathIllegalArgumentException;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default FieldMatrix<T> blendArithmeticallyWith(final FieldMatrix<T> other, final T blendingValue) {
-        SmoothStepFactory.checkBetweenZeroAndOneIncluded(blendingValue.getReal());
-        return this.scalarMultiply(getField().getOne().subtract(blendingValue))
-                   .add(other.scalarMultiply(blendingValue));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -199,64 +193,59 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix, Field
      * {@code endColumn < startColumn}.
      * @throws MathIllegalArgumentException if the indices are not valid.
      */
-   FieldMatrix<T> getSubMatrix(int startRow, int endRow, int startColumn, int endColumn)
-   throws MathIllegalArgumentException;
+    FieldMatrix<T> getSubMatrix(int startRow, int endRow, int startColumn, int endColumn) throws MathIllegalArgumentException;
 
-   /**
-    * Get a submatrix. Rows and columns are indicated
-    * counting from 0 to n - 1.
-    *
-    * @param selectedRows Array of row indices.
-    * @param selectedColumns Array of column indices.
-    * @return the matrix containing the data in the
-    * specified rows and columns.
-    * @throws MathIllegalArgumentException if {@code selectedRows} or
-    * {@code selectedColumns} is empty
-    * @throws NullArgumentException if {@code selectedRows} or
-    * {@code selectedColumns} is {@code null}.
-    * @throws MathIllegalArgumentException if row or column selections are not valid.
-    */
-   FieldMatrix<T> getSubMatrix(int[] selectedRows, int[] selectedColumns)
-   throws MathIllegalArgumentException, NullArgumentException;
+    /**
+     * Get a submatrix. Rows and columns are indicated
+     * counting from 0 to n - 1.
+     *
+     * @param selectedRows Array of row indices.
+     * @param selectedColumns Array of column indices.
+     * @return the matrix containing the data in the
+     * specified rows and columns.
+     * @throws MathIllegalArgumentException if {@code selectedRows} or
+     * {@code selectedColumns} is empty
+     * @throws NullArgumentException if {@code selectedRows} or
+     * {@code selectedColumns} is {@code null}.
+     * @throws MathIllegalArgumentException if row or column selections are not valid.
+     */
+    FieldMatrix<T> getSubMatrix(int[] selectedRows, int[] selectedColumns) throws MathIllegalArgumentException, NullArgumentException;
 
-   /**
-    * Copy a submatrix. Rows and columns are 0-based. The designated submatrix
-    * is copied into the top left portion of the destination array.
-    *
-    * @param startRow Initial row index.
-    * @param endRow Final row index (inclusive).
-    * @param startColumn Initial column index.
-    * @param endColumn Final column index (inclusive).
-    * @param destination The array where the submatrix data should be copied
-    * (if larger than rows/columns counts, only the upper-left part will be modified).
-    * @throws MathIllegalArgumentException if the dimensions of
-    * {@code destination} are not large enough to hold the submatrix.
-    * @throws MathIllegalArgumentException if {@code endRow < startRow} or
-    * {@code endColumn < startColumn}.
-    * @throws MathIllegalArgumentException if the indices are not valid.
-    */
-    void copySubMatrix(int startRow, int endRow, int startColumn, int endColumn,
-                       T[][] destination)
-    throws MathIllegalArgumentException;
+    /**
+     * Copy a submatrix. Rows and columns are 0-based. The designated submatrix
+     * is copied into the top left portion of the destination array.
+     *
+     * @param startRow Initial row index.
+     * @param endRow Final row index (inclusive).
+     * @param startColumn Initial column index.
+     * @param endColumn Final column index (inclusive).
+     * @param destination The array where the submatrix data should be copied
+     * (if larger than rows/columns counts, only the upper-left part will be modified).
+     * @throws MathIllegalArgumentException if the dimensions of
+     * {@code destination} are not large enough to hold the submatrix.
+     * @throws MathIllegalArgumentException if {@code endRow < startRow} or
+     * {@code endColumn < startColumn}.
+     * @throws MathIllegalArgumentException if the indices are not valid.
+     */
+    void copySubMatrix(int startRow, int endRow, int startColumn, int endColumn, T[][] destination) throws MathIllegalArgumentException;
 
-  /**
-   * Copy a submatrix. Rows and columns are indicated
-   * counting from 0 to n - 1.
-   *
-   * @param selectedRows Array of row indices.
-   * @param selectedColumns Array of column indices.
-   * @param destination Arrays where the submatrix data should be copied
-   * (if larger than rows/columns counts, only the upper-left part will be used)
-   * @throws MathIllegalArgumentException if the dimensions of
-   * {@code destination} do not match those of {@code this}.
-   * @throws MathIllegalArgumentException if {@code selectedRows} or
-   * {@code selectedColumns} is empty
-   * @throws NullArgumentException if {@code selectedRows} or
-   * {@code selectedColumns} is {@code null}.
-   * @throws MathIllegalArgumentException if the indices are not valid.
-   */
-  void copySubMatrix(int[] selectedRows, int[] selectedColumns, T[][] destination)
-  throws MathIllegalArgumentException, NullArgumentException;
+    /**
+     * Copy a submatrix. Rows and columns are indicated
+     * counting from 0 to n - 1.
+     *
+     * @param selectedRows Array of row indices.
+     * @param selectedColumns Array of column indices.
+     * @param destination Arrays where the submatrix data should be copied
+     * (if larger than rows/columns counts, only the upper-left part will be used)
+     * @throws MathIllegalArgumentException if the dimensions of
+     * {@code destination} do not match those of {@code this}.
+     * @throws MathIllegalArgumentException if {@code selectedRows} or
+     * {@code selectedColumns} is empty
+     * @throws NullArgumentException if {@code selectedRows} or
+     * {@code selectedColumns} is {@code null}.
+     * @throws MathIllegalArgumentException if the indices are not valid.
+     */
+    void copySubMatrix(int[] selectedRows, int[] selectedColumns, T[][] destination) throws MathIllegalArgumentException, NullArgumentException;
 
     /**
      * Replace the submatrix starting at {@code (row, column)} using data in the
@@ -291,104 +280,99 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix, Field
      * rectangular (not all rows have the same length).
      * @throws NullArgumentException if {@code subMatrix} is {@code null}.
      */
-    void setSubMatrix(T[][] subMatrix, int row, int column)
-        throws MathIllegalArgumentException, NullArgumentException;
+    void setSubMatrix(T[][] subMatrix, int row, int column) throws MathIllegalArgumentException, NullArgumentException;
 
-   /**
-    * Get the entries in row number {@code row}
-    * as a row matrix.
-    *
-    * @param row Row to be fetched.
-    * @return a row matrix.
-    * @throws MathIllegalArgumentException if the specified row index is invalid.
-    */
-   FieldMatrix<T> getRowMatrix(int row) throws MathIllegalArgumentException;
+    /**
+     * Get the entries in row number {@code row}
+     * as a row matrix.
+     *
+     * @param row Row to be fetched.
+     * @return a row matrix.
+     * @throws MathIllegalArgumentException if the specified row index is invalid.
+     */
+    FieldMatrix<T> getRowMatrix(int row) throws MathIllegalArgumentException;
 
-   /**
-    * Set the entries in row number {@code row}
-    * as a row matrix.
-    *
-    * @param row Row to be set.
-    * @param matrix Row matrix (must have one row and the same number
-    * of columns as the instance).
-    * @throws MathIllegalArgumentException if the specified row index is invalid.
-    * @throws MathIllegalArgumentException
-    * if the matrix dimensions do not match one instance row.
-    */
-   void setRowMatrix(int row, FieldMatrix<T> matrix)
-   throws MathIllegalArgumentException;
+    /**
+     * Set the entries in row number {@code row}
+     * as a row matrix.
+     *
+     * @param row Row to be set.
+     * @param matrix Row matrix (must have one row and the same number
+     * of columns as the instance).
+     * @throws MathIllegalArgumentException if the specified row index is invalid.
+     * @throws MathIllegalArgumentException
+     * if the matrix dimensions do not match one instance row.
+     */
+    void setRowMatrix(int row, FieldMatrix<T> matrix) throws MathIllegalArgumentException;
 
-   /**
-    * Get the entries in column number {@code column}
-    * as a column matrix.
-    *
-    * @param column Column to be fetched.
-    * @return a column matrix.
-    * @throws MathIllegalArgumentException if the specified column index is invalid.
-    */
-   FieldMatrix<T> getColumnMatrix(int column) throws MathIllegalArgumentException;
+    /**
+     * Get the entries in column number {@code column}
+     * as a column matrix.
+     *
+     * @param column Column to be fetched.
+     * @return a column matrix.
+     * @throws MathIllegalArgumentException if the specified column index is invalid.
+     */
+    FieldMatrix<T> getColumnMatrix(int column) throws MathIllegalArgumentException;
 
-   /**
-    * Set the entries in column number {@code column}
-    * as a column matrix.
-    *
-    * @param column Column to be set.
-    * @param matrix column matrix (must have one column and the same
-    * number of rows as the instance).
-    * @throws MathIllegalArgumentException if the specified column index is invalid.
-    * @throws MathIllegalArgumentException if the matrix dimensions do
-    * not match one instance column.
-    */
-   void setColumnMatrix(int column, FieldMatrix<T> matrix)
-   throws MathIllegalArgumentException;
+    /**
+     * Set the entries in column number {@code column}
+     * as a column matrix.
+     *
+     * @param column Column to be set.
+     * @param matrix column matrix (must have one column and the same
+     * number of rows as the instance).
+     * @throws MathIllegalArgumentException if the specified column index is invalid.
+     * @throws MathIllegalArgumentException if the matrix dimensions do
+     * not match one instance column.
+     */
+    void setColumnMatrix(int column, FieldMatrix<T> matrix) throws MathIllegalArgumentException;
 
-   /**
-    * Get the entries in row number {@code row}
-    * as a vector.
-    *
-    * @param row Row to be fetched
-    * @return a row vector.
-    * @throws MathIllegalArgumentException if the specified row index is invalid.
-    */
-   FieldVector<T> getRowVector(int row) throws MathIllegalArgumentException;
+    /**
+     * Get the entries in row number {@code row}
+     * as a vector.
+     *
+     * @param row Row to be fetched
+     * @return a row vector.
+     * @throws MathIllegalArgumentException if the specified row index is invalid.
+     */
+    FieldVector<T> getRowVector(int row) throws MathIllegalArgumentException;
 
-   /**
-    * Set the entries in row number {@code row}
-    * as a vector.
-    *
-    * @param row Row to be set.
-    * @param vector row vector (must have the same number of columns
-    * as the instance).
-    * @throws MathIllegalArgumentException if the specified row index is invalid.
-    * @throws MathIllegalArgumentException if the vector dimension does not
-    * match one instance row.
-    */
-   void setRowVector(int row, FieldVector<T> vector)
-   throws MathIllegalArgumentException;
+    /**
+     * Set the entries in row number {@code row}
+     * as a vector.
+     *
+     * @param row Row to be set.
+     * @param vector row vector (must have the same number of columns
+     * as the instance).
+     * @throws MathIllegalArgumentException if the specified row index is invalid.
+     * @throws MathIllegalArgumentException if the vector dimension does not
+     * match one instance row.
+     */
+    void setRowVector(int row, FieldVector<T> vector) throws MathIllegalArgumentException;
 
-   /**
-    * Returns the entries in column number {@code column}
-    * as a vector.
-    *
-    * @param column Column to be fetched.
-    * @return a column vector.
-    * @throws MathIllegalArgumentException if the specified column index is invalid.
-    */
-   FieldVector<T> getColumnVector(int column) throws MathIllegalArgumentException;
+    /**
+     * Returns the entries in column number {@code column}
+     * as a vector.
+     *
+     * @param column Column to be fetched.
+     * @return a column vector.
+     * @throws MathIllegalArgumentException if the specified column index is invalid.
+     */
+    FieldVector<T> getColumnVector(int column) throws MathIllegalArgumentException;
 
-   /**
-    * Set the entries in column number {@code column}
-    * as a vector.
-    *
-    * @param column Column to be set.
-    * @param vector Column vector (must have the same number of rows
-    * as the instance).
-    * @throws MathIllegalArgumentException if the specified column index is invalid.
-    * @throws MathIllegalArgumentException if the vector dimension does not
-    * match one instance column.
-    */
-   void setColumnVector(int column, FieldVector<T> vector)
-   throws MathIllegalArgumentException;
+    /**
+     * Set the entries in column number {@code column}
+     * as a vector.
+     *
+     * @param column Column to be set.
+     * @param vector Column vector (must have the same number of rows
+     * as the instance).
+     * @throws MathIllegalArgumentException if the specified column index is invalid.
+     * @throws MathIllegalArgumentException if the vector dimension does not
+     * match one instance column.
+     */
+    void setColumnVector(int column, FieldVector<T> vector) throws MathIllegalArgumentException;
 
     /**
      * Get the entries in row number {@code row} as an array.
@@ -604,9 +588,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix, Field
      * @return the value returned by {@link FieldMatrixChangingVisitor#end()} at the end
      * of the walk
      */
-    T walkInRowOrder(FieldMatrixChangingVisitor<T> visitor,
-                     int startRow, int endRow, int startColumn, int endColumn)
-    throws MathIllegalArgumentException;
+    T walkInRowOrder(FieldMatrixChangingVisitor<T> visitor, int startRow, int endRow, int startColumn, int endColumn) throws MathIllegalArgumentException;
 
     /**
      * Visit (but don't change) some matrix entries in row order.
@@ -635,9 +617,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix, Field
      * @return the value returned by {@link FieldMatrixPreservingVisitor#end()} at the end
      * of the walk
      */
-    T walkInRowOrder(FieldMatrixPreservingVisitor<T> visitor,
-                     int startRow, int endRow, int startColumn, int endColumn)
-    throws MathIllegalArgumentException;
+    T walkInRowOrder(FieldMatrixPreservingVisitor<T> visitor, int startRow, int endRow, int startColumn, int endColumn) throws MathIllegalArgumentException;
 
     /**
      * Visit (and possibly change) all matrix entries in column order.
@@ -710,9 +690,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix, Field
      * @return the value returned by {@link FieldMatrixChangingVisitor#end()} at the end
      * of the walk
      */
-    T walkInColumnOrder(FieldMatrixChangingVisitor<T> visitor,
-                        int startRow, int endRow, int startColumn, int endColumn)
-    throws MathIllegalArgumentException;
+    T walkInColumnOrder(FieldMatrixChangingVisitor<T> visitor, int startRow, int endRow, int startColumn, int endColumn) throws MathIllegalArgumentException;
 
     /**
      * Visit (but don't change) some matrix entries in column order.
@@ -741,9 +719,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix, Field
      * @return the value returned by {@link FieldMatrixPreservingVisitor#end()} at the end
      * of the walk
      */
-    T walkInColumnOrder(FieldMatrixPreservingVisitor<T> visitor,
-                        int startRow, int endRow, int startColumn, int endColumn)
-    throws MathIllegalArgumentException;
+    T walkInColumnOrder(FieldMatrixPreservingVisitor<T> visitor, int startRow, int endRow, int startColumn, int endColumn) throws MathIllegalArgumentException;
 
     /**
      * Visit (and possibly change) all matrix entries using the fastest possible order.
@@ -813,9 +789,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix, Field
      * @return the value returned by {@link FieldMatrixChangingVisitor#end()} at the end
      * of the walk
      */
-    T walkInOptimizedOrder(FieldMatrixChangingVisitor<T> visitor,
-                           int startRow, int endRow, int startColumn, int endColumn)
-    throws MathIllegalArgumentException;
+    T walkInOptimizedOrder(FieldMatrixChangingVisitor<T> visitor, int startRow, int endRow, int startColumn, int endColumn) throws MathIllegalArgumentException;
 
     /**
      * Visit (but don't change) some matrix entries using the fastest possible order.
@@ -843,9 +817,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix, Field
      * @return the value returned by {@link FieldMatrixPreservingVisitor#end()} at the end
      * of the walk
      */
-    T walkInOptimizedOrder(FieldMatrixPreservingVisitor<T> visitor,
-                           int startRow, int endRow, int startColumn, int endColumn)
-    throws MathIllegalArgumentException;
+    T walkInOptimizedOrder(FieldMatrixPreservingVisitor<T> visitor, int startRow, int endRow, int startColumn, int endColumn) throws MathIllegalArgumentException;
 
     /**
      * Acts as if implemented as:
@@ -859,7 +831,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix, Field
      * @since 1.7
      */
     default FieldMatrix<T> map(Function<T, T> function) {
-        return copy().mapToSelf(function);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -869,32 +841,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix, Field
      * @return a reference to this matrix.
      * @since 1.7
      */
-    default FieldMatrix<T> mapToSelf(final Function<T,T> function) {
-        walkInOptimizedOrder(new FieldMatrixChangingVisitor<T>() {
-
-            /** {@inheritDoc} */
-            @Override
-            public T visit(int row, int column, T value) {
-                // apply the function to the current entry
-                return function.apply(value);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public void start(int rows, int columns, int startRow, int endRow,
-                              int startColumn, int endColumn) {
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public T end() {
-                return getField().getZero();
-            }
-
-        });
-
-        return this;
-
+    default FieldMatrix<T> mapToSelf(final Function<T, T> function) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

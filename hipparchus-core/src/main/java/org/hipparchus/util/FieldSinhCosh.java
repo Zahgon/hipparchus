@@ -18,7 +18,8 @@ package org.hipparchus.util;
 
 import org.hipparchus.CalculusFieldElement;
 
-/** Holder for both hyperbolic sine and hyperbolic cosine values.
+/**
+ * Holder for both hyperbolic sine and hyperbolic cosine values.
  * <p>
  * This class is a simple container, it does not provide any computational method.
  * </p>
@@ -28,13 +29,18 @@ import org.hipparchus.CalculusFieldElement;
  */
 public class FieldSinhCosh<T> {
 
-    /** Value of the hyperbolic sine. */
+    /**
+     * Value of the hyperbolic sine.
+     */
     private final T sinh;
 
-    /** Value of the hyperbolic cosine. */
+    /**
+     * Value of the hyperbolic cosine.
+     */
     private final T cosh;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param sinh value of the hyperbolic sine
      * @param cosh value of the hyperbolic cosine
      */
@@ -43,41 +49,41 @@ public class FieldSinhCosh<T> {
         this.cosh = cosh;
     }
 
-    /** Get the value of the hyperbolic sine.
+    /**
+     * Get the value of the hyperbolic sine.
      * @return value of the hyperbolic sine
      */
     public T sinh() {
-        return sinh;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the value of the hyperbolic cosine.
+    /**
+     * Get the value of the hyperbolic cosine.
      * @return value of the hyperbolic cosine
      */
     public T cosh() {
-        return cosh;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute hyperbolic sine and hyperbolic cosine of angles sum.
+    /**
+     * Compute hyperbolic sine and hyperbolic cosine of angles sum.
      * @param schAlpha \((\sinh \alpha, \cosh \alpha)\)
      * @param schBeta \((\sinh \beta, \cosh \beta)\)
      * @param <S> the type of the field elements
      * @return \((\sinh \alpha+\beta, \cosh \alpha+\beta)\)
      */
     public static <S extends CalculusFieldElement<S>> FieldSinhCosh<S> sum(final FieldSinhCosh<S> schAlpha, final FieldSinhCosh<S> schBeta) {
-        return new FieldSinhCosh<>(schAlpha.sinh.linearCombination(schAlpha.sinh, schBeta.cosh, schAlpha.cosh, schBeta.sinh),
-                                   schAlpha.sinh.linearCombination(schAlpha.cosh, schBeta.cosh, schAlpha.sinh, schBeta.sinh));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute hyperbolic sine and hyperbolic cosine of angles difference.
+    /**
+     * Compute hyperbolic sine and hyperbolic cosine of angles difference.
      * @param schAlpha \((\sinh \alpha, \cosh \alpha)\)
      * @param schBeta \((\sinh \beta, \cosh \beta)\)
      * @param <S> the type of the field elements
      * @return \((\sinh \alpha+\beta, \cosh \alpha-\beta)\)
      */
     public static <S extends CalculusFieldElement<S>> FieldSinhCosh<S> difference(final FieldSinhCosh<S> schAlpha, final FieldSinhCosh<S> schBeta) {
-        final S mShB = schBeta.sinh.negate();
-        return new FieldSinhCosh<>(schAlpha.sinh.linearCombination(schAlpha.sinh, schBeta.cosh, schAlpha.cosh, mShB),
-                                   schAlpha.sinh.linearCombination(schAlpha.cosh, schBeta.cosh, schAlpha.sinh, mShB));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

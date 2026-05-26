@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.distribution.continuous;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -28,17 +27,28 @@ import org.hipparchus.util.FastMath;
  * @see <a href="https://en.wikipedia.org/wiki/Inverse-gamma_distribution">Inv-Gamma distribution (Wikipedia)</a>
  */
 public class InvGammaDistribution extends AbstractRealDistribution {
-    /** Serializable version identifier. */
+
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20250915L;
-    /** The shape parameter. */
+
+    /**
+     * The shape parameter.
+     */
     private final double shape;
-    /** The scale parameter. */
+
+    /**
+     * The scale parameter.
+     */
     private final double scale;
+
     /**
      * The constant value of {@code shape + g + 0.5}, where {@code g} is the
      * Lanczos constant {@link Gamma#LANCZOS_G}.
      */
     private final double shiftedShape;
+
     /**
      * The constant value of
      * {@code shape / scale * sqrt(e / (2 * pi * (shape + g + 0.5))) / L(shape)},
@@ -48,6 +58,7 @@ public class InvGammaDistribution extends AbstractRealDistribution {
      * calculation.
      */
     private final double densityPrefactor1;
+
     /**
      * The constant value of
      * {@code log(shape / scale * sqrt(e / (2 * pi * (shape + g + 0.5))) / L(shape))},
@@ -71,7 +82,6 @@ public class InvGammaDistribution extends AbstractRealDistribution {
         this(shape, scale, DEFAULT_SOLVER_ABSOLUTE_ACCURACY);
     }
 
-
     /**
      * Creates an Inverse Gamma distribution.
      *
@@ -83,29 +93,23 @@ public class InvGammaDistribution extends AbstractRealDistribution {
      * @throws MathIllegalArgumentException if {@code shape <= 0} or
      * {@code scale <= 0}.
      */
-    public InvGammaDistribution(final double shape,
-                                final double scale,
-                                final double inverseCumAccuracy)
-        throws MathIllegalArgumentException {
+    public InvGammaDistribution(final double shape, final double scale, final double inverseCumAccuracy) throws MathIllegalArgumentException {
         super(inverseCumAccuracy);
-
         if (shape <= 0) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.SHAPE, shape);
         }
         if (scale <= 0) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.SCALE, scale);
         }
-
         this.shape = shape;
         this.scale = scale;
         this.shiftedShape = shape + Gamma.LANCZOS_G + 0.5;
         // gammaShape is the Lanczos approximation of Gamma function evaluated at shape
         // See https://www.hipparchus.org/apidocs/org/hipparchus/special/Gamma.html#lanczos(double)
         final double gammaShape;
-        gammaShape = FastMath.sqrt(2.0 * FastMath.PI)/shape * FastMath.sqrt(shiftedShape) * FastMath.pow(shiftedShape, shape) *
-                     FastMath.exp(-shiftedShape) * Gamma.lanczos(shape);
-        this.densityPrefactor1 = 1.0/(gammaShape*scale);
-        this.logDensityPrefactor1 = - FastMath.log(gammaShape)- FastMath.log(scale);
+        gammaShape = FastMath.sqrt(2.0 * FastMath.PI) / shape * FastMath.sqrt(shiftedShape) * FastMath.pow(shiftedShape, shape) * FastMath.exp(-shiftedShape) * Gamma.lanczos(shape);
+        this.densityPrefactor1 = 1.0 / (gammaShape * scale);
+        this.logDensityPrefactor1 = -FastMath.log(gammaShape) - FastMath.log(scale);
     }
 
     /**
@@ -114,7 +118,7 @@ public class InvGammaDistribution extends AbstractRealDistribution {
      * @return the shape parameter
      */
     public double getShape() {
-        return shape;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -123,36 +127,23 @@ public class InvGammaDistribution extends AbstractRealDistribution {
      * @return the scale parameter
      */
     public double getScale() {
-        return scale;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double density(double x) {
-        if (x <= 0) {
-            return 0;
-        }
-        final double y = scale / x;
-        /*
-         * Natural calculation.
-         */
-        return  densityPrefactor1  * FastMath.exp(-y) * FastMath.pow(y, shape + 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} **/
+    /**
+     * {@inheritDoc} *
+     */
     @Override
     public double logDensity(double x) {
-        /*
-         * see the comment in {@link #density(double)} for computation details
-         */
-        if (x <= 0) {
-            return Double.NEGATIVE_INFINITY;
-        }
-        final double y = scale / x;
-        /*
-         * Natural calculation.
-         */
-        return logDensityPrefactor1 - y + FastMath.log(y) * (shape + 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -162,15 +153,7 @@ public class InvGammaDistribution extends AbstractRealDistribution {
      */
     @Override
     public double cumulativeProbability(double x) {
-        double ret;
-
-        if (x <= 0) {
-            ret = 0;
-        } else {
-            ret = Gamma.regularizedGammaQ(shape, scale / x);
-        }
-
-        return ret;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -181,14 +164,7 @@ public class InvGammaDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalMean() {
-        double ret;
-
-        if (shape <= 1.0) {
-            ret = Double.NaN;
-        } else {
-            ret = scale/(shape - 1.0);
-        }
-        return ret;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -201,14 +177,7 @@ public class InvGammaDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        double ret;
-
-        if (shape <= 2.0) {
-            ret = Double.NaN;
-        } else {
-            ret = (scale*scale)/((shape - 1.0)*(shape - 1.0)*(shape - 2.0));
-        }
-        return ret;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -220,7 +189,7 @@ public class InvGammaDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportLowerBound() {
-        return 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -233,7 +202,7 @@ public class InvGammaDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportUpperBound() {
-        return Double.POSITIVE_INFINITY;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -245,7 +214,6 @@ public class InvGammaDistribution extends AbstractRealDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }
-

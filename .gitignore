@@ -19,3 +19,8 @@ target
 hs_err_pid*.log
 replay_pid*.log
 
+
+.aider*
+logs/
+.commit0_scripts/
+.github/workflows/

@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.distribution.discrete;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -32,11 +30,20 @@ import org.hipparchus.exception.MathIllegalArgumentException;
  * Uniform distribution (discrete), at Wikipedia</a>
  */
 public class UniformIntegerDistribution extends AbstractIntegerDistribution {
-    /** Serializable version identifier. */
+
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20120109L;
-    /** Lower bound (inclusive) of this distribution. */
+
+    /**
+     * Lower bound (inclusive) of this distribution.
+     */
     private final int lower;
-    /** Upper bound (inclusive) of this distribution. */
+
+    /**
+     * Upper bound (inclusive) of this distribution.
+     */
     private final int upper;
 
     /**
@@ -47,36 +54,28 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
      * @param upper Upper bound (inclusive) of this distribution.
      * @throws MathIllegalArgumentException if {@code lower >= upper}.
      */
-    public UniformIntegerDistribution(int lower, int upper)
-        throws MathIllegalArgumentException {
+    public UniformIntegerDistribution(int lower, int upper) throws MathIllegalArgumentException {
         if (lower > upper) {
-            throw new MathIllegalArgumentException(
-                            LocalizedCoreFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
-                            lower, upper, true);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND, lower, upper, true);
         }
         this.lower = lower;
         this.upper = upper;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double probability(int x) {
-        if (x < lower || x > upper) {
-            return 0;
-        }
-        return 1.0 / (upper - lower + 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double cumulativeProbability(int x) {
-        if (x < lower) {
-            return 0;
-        }
-        if (x > upper) {
-            return 1;
-        }
-        return (x - lower + 1.0) / (upper - lower + 1.0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -87,7 +86,7 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double getNumericalMean() {
-        return 0.5 * (lower + upper);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -98,8 +97,7 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        double n = upper - lower + 1;
-        return (n * n - 1) / 12.0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -112,7 +110,7 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public int getSupportLowerBound() {
-        return lower;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -125,7 +123,7 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public int getSupportUpperBound() {
-        return upper;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -137,6 +135,6 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -20,27 +20,29 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 
-/** This abstract class provides boilerplate parameters list.
- *
+/**
+ * This abstract class provides boilerplate parameters list.
  */
-
 public abstract class AbstractParameterizable implements Parameterizable {
 
-   /** List of the parameters names. */
+    /**
+     * List of the parameters names.
+     */
     private final List<String> parametersNames;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param names names of the supported parameters
      */
-    protected AbstractParameterizable(final String ... names) {
+    protected AbstractParameterizable(final String... names) {
         parametersNames = new ArrayList<>();
         Collections.addAll(parametersNames, names);
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param names names of the supported parameters
      */
     protected AbstractParameterizable(final Collection<String> names) {
@@ -48,33 +50,29 @@ public abstract class AbstractParameterizable implements Parameterizable {
         parametersNames.addAll(names);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<String> getParametersNames() {
-        return parametersNames;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupported(final String name) {
-        for (final String supportedName : parametersNames) {
-            if (supportedName.equals(name)) {
-                return true;
-            }
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check if a parameter is supported and throw an IllegalArgumentException if not.
+    /**
+     * Check if a parameter is supported and throw an IllegalArgumentException if not.
      * @param name name of the parameter to check
      * @exception MathIllegalArgumentException if the parameter is not supported
      * @see #isSupported(String)
      */
-    public void complainIfNotSupported(final String name)
-        throws MathIllegalArgumentException {
-        if (!isSupported(name)) {
-            throw new MathIllegalArgumentException(LocalizedODEFormats.UNKNOWN_PARAMETER, name);
-        }
+    public void complainIfNotSupported(final String name) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -19,7 +19,6 @@ package org.hipparchus.analysis.integration.gauss;
 import java.util.Arrays;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
 import org.hipparchus.analysis.UnivariateFunction;
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -36,53 +35,30 @@ import org.hipparchus.util.Pair;
  */
 public abstract class AbstractRuleFactory implements RuleFactory {
 
-    /** List of points and weights, indexed by the order of the rule. */
+    /**
+     * List of points and weights, indexed by the order of the rule.
+     */
     private final SortedMap<Integer, Pair<double[], double[]>> pointsAndWeights = new TreeMap<>();
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    protected AbstractRuleFactory() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    protected AbstractRuleFactory() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Pair<double[], double[]> getRule(int numberOfPoints)
-        throws MathIllegalArgumentException {
-
-        if (numberOfPoints <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_POINTS,
-                                                   numberOfPoints);
-        }
-        if (numberOfPoints > 1000) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE,
-                                                   numberOfPoints, 1000);
-        }
-
-        Pair<double[], double[]> rule;
-        synchronized (pointsAndWeights) {
-            // Try to obtain the rule from the cache.
-            rule = pointsAndWeights.get(numberOfPoints);
-
-            if (rule == null) {
-                // Rule not computed yet.
-
-                // Compute the rule.
-                rule = computeRule(numberOfPoints);
-
-                // Cache it.
-                pointsAndWeights.put(numberOfPoints, rule);
-            }
-        }
-
-        // Return a copy.
-        return new Pair<>(rule.getFirst().clone(), rule.getSecond().clone());
-
+    public Pair<double[], double[]> getRule(int numberOfPoints) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -93,10 +69,10 @@ public abstract class AbstractRuleFactory implements RuleFactory {
      * @throws MathIllegalArgumentException if the elements of the pair do not
      * have the same length.
      */
-    protected abstract Pair<double[], double[]> computeRule(int numberOfPoints)
-        throws MathIllegalArgumentException;
+    protected abstract Pair<double[], double[]> computeRule(int numberOfPoints) throws MathIllegalArgumentException;
 
-    /** Computes roots of the associated orthogonal polynomials.
+    /**
+     * Computes roots of the associated orthogonal polynomials.
      * <p>
      * The roots are found using the <a href="https://en.wikipedia.org/wiki/Aberth_method">Aberth method</a>.
      * The guess points for initializing search for degree n are fixed for degrees 1 and 2 and are
@@ -108,103 +84,14 @@ public abstract class AbstractRuleFactory implements RuleFactory {
      * @return sorted array of roots
      */
     protected double[] findRoots(final int n, final UnivariateFunction ratioEvaluator) {
-
-        final double[] roots  = new double[n];
-
-        // set up initial guess
-        if (n == 1) {
-            // arbitrary guess
-            roots[0] = 0;
-        } else if (n == 2) {
-            // arbitrary guess
-            roots[0] = -1;
-            roots[1] = +1;
-        } else {
-
-            // get roots from previous rule.
-            // If it has not been computed yet it will trigger a recursive call
-            final double[] previousPoints = getRule(n - 1).getFirst();
-
-            // first guess at previous first root
-            roots[0] = previousPoints[0];
-
-            // intermediate guesses between previous roots
-            for (int i = 1; i < n - 1; ++i) {
-                roots[i] = (previousPoints[i - 1] + previousPoints[i]) * 0.5;
-            }
-
-            // last guess at previous last root
-            roots[n - 1] = previousPoints[n - 2];
-
-        }
-
-        // use Aberth method to find all roots simultaneously
-        final double[]    ratio       = new double[n];
-        final Incrementor incrementor = new Incrementor(1000);
-        double            tol;
-        double            maxOffset;
-        do {
-
-            // safety check that triggers an exception if too much iterations are made
-            incrementor.increment();
-
-            // find the ratio P(xᵢ)/P'(xᵢ) for all current roots approximations
-            for (int i = 0; i < n; ++i) {
-                ratio[i] = ratioEvaluator.value(roots[i]);
-            }
-
-            // move roots approximations all at once, using Aberth method
-            maxOffset = 0;
-            for (int i = 0; i < n; ++i) {
-                double sum = 0;
-                for (int j = 0; j < n; ++j) {
-                    if (j != i) {
-                        sum += 1 / (roots[i] - roots[j]);
-                    }
-                }
-                final double offset = ratio[i] / (1 - ratio[i] * sum);
-                maxOffset = FastMath.max(maxOffset, FastMath.abs(offset));
-                roots[i] -= offset;
-            }
-
-            // we set tolerance to 1 ulp of the largest root
-            tol = 0;
-            for (final double r : roots) {
-                tol = FastMath.max(tol, FastMath.ulp(r));
-            }
-
-        } while (maxOffset > tol);
-
-        // sort the roots
-        Arrays.sort(roots);
-
-        return roots;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Enforce symmetry of roots.
+    /**
+     * Enforce symmetry of roots.
      * @param roots roots to process in place
      */
     protected void enforceSymmetry(final double[] roots) {
-
-        final int n = roots.length;
-
-        // enforce symmetry
-        for (int i = 0; i < n / 2; ++i) {
-            final int idx = n - i - 1;
-            final double c = (roots[i] - roots[idx]) * 0.5;
-            roots[i]   = +c;
-            roots[idx] = -c;
-        }
-
-        // If n is odd, 0 is a root.
-        // Note: as written, the test for oddness will work for negative
-        // integers too (although it is not necessary here), preventing
-        // a FindBugs warning.
-        if (n % 2 != 0) {
-            roots[n / 2] = 0;
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

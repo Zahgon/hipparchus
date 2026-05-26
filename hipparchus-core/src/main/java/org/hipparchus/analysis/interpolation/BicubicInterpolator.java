@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -40,19 +39,19 @@ import org.hipparchus.util.MathUtils;
  *  {@link BicubicInterpolatingFunction#isValidPoint(double,double)} to
  *  indicate points where the interpolation will be inaccurate.
  * </p>
- *
  */
-public class BicubicInterpolator
-    implements BivariateGridInterpolator {
+public class BicubicInterpolator implements BivariateGridInterpolator {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public BicubicInterpolator() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public BicubicInterpolator() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
@@ -60,66 +59,7 @@ public class BicubicInterpolator
      * {@inheritDoc}
      */
     @Override
-    public BicubicInterpolatingFunction interpolate(final double[] xval,
-                                                    final double[] yval,
-                                                    final double[][] fval)
-        throws MathIllegalArgumentException {
-        if (xval.length == 0 || yval.length == 0 || fval.length == 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NO_DATA);
-        }
-        MathUtils.checkDimension(xval.length, fval.length);
-        MathArrays.checkOrder(xval);
-        MathArrays.checkOrder(yval);
-
-        final int xLen = xval.length;
-        final int yLen = yval.length;
-
-        // Approximation to the partial derivatives using finite differences.
-        final double[][] dFdX = new double[xLen][yLen];
-        final double[][] dFdY = new double[xLen][yLen];
-        final double[][] d2FdXdY = new double[xLen][yLen];
-        for (int i = 1; i < xLen - 1; i++) {
-            final int nI = i + 1;
-            final int pI = i - 1;
-
-            final double nX = xval[nI];
-            final double pX = xval[pI];
-
-            final double deltaX = nX - pX;
-
-            for (int j = 1; j < yLen - 1; j++) {
-                final int nJ = j + 1;
-                final int pJ = j - 1;
-
-                final double nY = yval[nJ];
-                final double pY = yval[pJ];
-
-                final double deltaY = nY - pY;
-
-                dFdX[i][j] = (fval[nI][j] - fval[pI][j]) / deltaX;
-                dFdY[i][j] = (fval[i][nJ] - fval[i][pJ]) / deltaY;
-
-                final double deltaXY = deltaX * deltaY;
-
-                d2FdXdY[i][j] = (fval[nI][nJ] - fval[nI][pJ] - fval[pI][nJ] + fval[pI][pJ]) / deltaXY;
-            }
-        }
-
-        // Create the interpolating function.
-        return new BicubicInterpolatingFunction(xval, yval, fval,
-                                                dFdX, dFdY, d2FdXdY) {
-            /** {@inheritDoc} */
-            @Override
-            public boolean isValidPoint(double x, double y) {
-                if (x < xval[1] ||
-                    x > xval[xval.length - 2] ||
-                    y < yval[1] ||
-                    y > yval[yval.length - 2]) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        };
+    public BicubicInterpolatingFunction interpolate(final double[] xval, final double[] yval, final double[][] fval) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

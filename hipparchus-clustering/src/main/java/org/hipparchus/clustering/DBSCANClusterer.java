@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -28,7 +27,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.hipparchus.clustering.distance.DistanceMeasure;
 import org.hipparchus.clustering.distance.EuclideanDistance;
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -62,17 +60,28 @@ import org.hipparchus.util.MathUtils;
  */
 public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {
 
-    /** Maximum radius of the neighborhood to be considered. */
-    private final double              eps;
+    /**
+     * Maximum radius of the neighborhood to be considered.
+     */
+    private final double eps;
 
-    /** Minimum number of points needed for a cluster. */
-    private final int                 minPts;
+    /**
+     * Minimum number of points needed for a cluster.
+     */
+    private final int minPts;
 
-    /** Status of a point during the clustering process. */
+    /**
+     * Status of a point during the clustering process.
+     */
     private enum PointStatus {
-        /** The point has is considered to be noise. */
+
+        /**
+         * The point has is considered to be noise.
+         */
         NOISE,
-        /** The point is already part of a cluster. */
+        /**
+         * The point is already part of a cluster.
+         */
         PART_OF_CLUSTER
     }
 
@@ -85,8 +94,7 @@ public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {
      * @param minPts minimum number of points needed for a cluster
      * @throws MathIllegalArgumentException if {@code eps < 0.0} or {@code minPts < 0}
      */
-    public DBSCANClusterer(final double eps, final int minPts)
-        throws MathIllegalArgumentException {
+    public DBSCANClusterer(final double eps, final int minPts) throws MathIllegalArgumentException {
         this(eps, minPts, new EuclideanDistance());
     }
 
@@ -98,10 +106,8 @@ public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {
      * @param measure the distance measure to use
      * @throws MathIllegalArgumentException if {@code eps < 0.0} or {@code minPts < 0}
      */
-    public DBSCANClusterer(final double eps, final int minPts, final DistanceMeasure measure)
-        throws MathIllegalArgumentException {
+    public DBSCANClusterer(final double eps, final int minPts, final DistanceMeasure measure) throws MathIllegalArgumentException {
         super(measure);
-
         if (eps < 0.0d) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL, eps, 0);
         }
@@ -117,7 +123,7 @@ public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {
      * @return maximum radius of the neighborhood
      */
     public double getEps() {
-        return eps;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -125,7 +131,7 @@ public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {
      * @return minimum number of points needed for a cluster
      */
     public int getMinPts() {
-        return minPts;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -137,28 +143,7 @@ public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {
      */
     @Override
     public List<Cluster<T>> cluster(final Collection<T> points) throws NullArgumentException {
-
-        // sanity checks
-        MathUtils.checkNotNull(points);
-
-        final List<Cluster<T>> clusters = new ArrayList<>();
-        final Map<Clusterable, PointStatus> visited = new HashMap<>();
-
-        for (final T point : points) {
-            if (visited.get(point) != null) {
-                continue;
-            }
-            final List<T> neighbors = getNeighbors(point, points);
-            if (neighbors.size() >= minPts) {
-                // DBSCAN does not care about center points
-                final Cluster<T> cluster = new Cluster<>();
-                clusters.add(expandCluster(cluster, point, neighbors, points, visited));
-            } else {
-                visited.put(point, PointStatus.NOISE);
-            }
-        }
-
-        return clusters;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -171,14 +156,9 @@ public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {
      * @param visited the set of already visited points
      * @return the expanded cluster
      */
-    private Cluster<T> expandCluster(final Cluster<T> cluster,
-                                     final T point,
-                                     final List<T> neighbors,
-                                     final Collection<T> points,
-                                     final Map<Clusterable, PointStatus> visited) {
+    private Cluster<T> expandCluster(final Cluster<T> cluster, final T point, final List<T> neighbors, final Collection<T> points, final Map<Clusterable, PointStatus> visited) {
         cluster.addPoint(point);
         visited.put(point, PointStatus.PART_OF_CLUSTER);
-
         List<T> seeds = new ArrayList<>(neighbors);
         int index = 0;
         while (index < seeds.size()) {
@@ -191,12 +171,10 @@ public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {
                     seeds = merge(seeds, currentNeighbors);
                 }
             }
-
             if (pStatus != PointStatus.PART_OF_CLUSTER) {
                 visited.put(current, PointStatus.PART_OF_CLUSTER);
                 cluster.addPoint(current);
             }
-
             index++;
         }
         return cluster;

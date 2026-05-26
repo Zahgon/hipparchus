@@ -14,20 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode;
 
 import java.util.List;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathIllegalStateException;
 import org.hipparchus.ode.events.ODEEventDetector;
 import org.hipparchus.ode.events.ODEStepEndHandler;
 import org.hipparchus.ode.sampling.ODEStepHandler;
 
-/** This interface represents a first order integrator for
+/**
+ * This interface represents a first order integrator for
  * differential equations.
-
+ *
  * <p>The classes which are devoted to solve first order differential
  * equations should implement this interface. The problems which can
  * be handled should implement the {@link
@@ -37,14 +36,16 @@ import org.hipparchus.ode.sampling.ODEStepHandler;
  * @see org.hipparchus.ode.sampling.ODEStepHandler
  * @see org.hipparchus.ode.events.ODEEventHandler
  */
-public interface ODEIntegrator  {
+public interface ODEIntegrator {
 
-    /** Get the name of the method.
+    /**
+     * Get the name of the method.
      * @return name of the method
      */
     String getName();
 
-    /** Add a step handler to this integrator.
+    /**
+     * Add a step handler to this integrator.
      * <p>The handler will be called by the integrator for each accepted
      * step.</p>
      * @param handler handler for the accepted steps
@@ -53,20 +54,23 @@ public interface ODEIntegrator  {
      */
     void addStepHandler(ODEStepHandler handler);
 
-    /** Get all the step handlers that have been added to the integrator.
+    /**
+     * Get all the step handlers that have been added to the integrator.
      * @return an unmodifiable collection of the added events handlers
      * @see #addStepHandler(ODEStepHandler)
      * @see #clearStepHandlers()
      */
     List<ODEStepHandler> getStepHandlers();
 
-    /** Remove all the step handlers that have been added to the integrator.
+    /**
+     * Remove all the step handlers that have been added to the integrator.
      * @see #addStepHandler(ODEStepHandler)
      * @see #getStepHandlers()
      */
     void clearStepHandlers();
 
-    /** Add an event detector to the integrator.
+    /**
+     * Add an event detector to the integrator.
      * @param detector event detector
      * @see #getEventDetectors()
      * @see #clearEventDetectors()
@@ -74,7 +78,8 @@ public interface ODEIntegrator  {
      */
     void addEventDetector(ODEEventDetector detector);
 
-    /** Get all the event detectors that have been added to the integrator.
+    /**
+     * Get all the event detectors that have been added to the integrator.
      * @return an unmodifiable list of the added events detectors
      * @see #addEventDetector(ODEEventDetector)
      * @see #clearEventDetectors()
@@ -82,14 +87,16 @@ public interface ODEIntegrator  {
      */
     List<ODEEventDetector> getEventDetectors();
 
-    /** Remove all the event handlers that have been added to the integrator.
+    /**
+     * Remove all the event handlers that have been added to the integrator.
      * @see #addEventDetector(ODEEventDetector)
      * @see #getEventDetectors()
      * @since 3.0
      */
     void clearEventDetectors();
 
-    /** Add a handler for step ends to the integrator.
+    /**
+     * Add a handler for step ends to the integrator.
      * <p>
      * The {@link ODEStepEndHandler#stepEndOccurred(ODEStateAndDerivative, boolean)
      * stepEndOccurred(state, forward)} method of the {@code handler} will be called
@@ -102,7 +109,8 @@ public interface ODEIntegrator  {
      */
     void addStepEndHandler(ODEStepEndHandler handler);
 
-    /** Get all the handlers for step ends that have been added to the integrator.
+    /**
+     * Get all the handlers for step ends that have been added to the integrator.
      * @return an unmodifiable list of the added step end handlers
      * @see #addStepEndHandler(ODEStepEndHandler)
      * @see #clearStepEndHandlers()
@@ -110,14 +118,16 @@ public interface ODEIntegrator  {
      */
     List<ODEStepEndHandler> getStepEndHandlers();
 
-    /** Remove all the handlers for step ends that have been added to the integrator.
+    /**
+     * Remove all the handlers for step ends that have been added to the integrator.
      * @see #addStepEndHandler(ODEStepEndHandler)
      * @see #getStepEndHandlers()
      * @since 3.0
      */
     void clearStepEndHandlers();
 
-    /** Get the state at step start time t<sub>i</sub>.
+    /**
+     * Get the state at step start time t<sub>i</sub>.
      * <p>This method can be called during integration (typically by
      * the object implementing the {@link OrdinaryDifferentialEquation
      * differential equations} problem) if the value of the current step that
@@ -128,7 +138,8 @@ public interface ODEIntegrator  {
      */
     ODEStateAndDerivative getStepStart();
 
-    /** Get the current signed value of the integration stepsize.
+    /**
+     * Get the current signed value of the integration stepsize.
      * <p>This method can be called during integration (typically by
      * the object implementing the {@link OrdinaryDifferentialEquation
      * differential equations} problem) if the signed value of the current stepsize
@@ -139,7 +150,8 @@ public interface ODEIntegrator  {
      */
     double getCurrentSignedStepsize();
 
-    /** Set the maximal number of differential equations function evaluations.
+    /**
+     * Set the maximal number of differential equations function evaluations.
      * <p>The purpose of this method is to avoid infinite loops which can occur
      * for example when stringent error constraints are set or when lots of
      * discrete events are triggered, thus leading to many rejected steps.</p>
@@ -149,12 +161,14 @@ public interface ODEIntegrator  {
      */
     void setMaxEvaluations(int maxEvaluations);
 
-    /** Get the maximal number of functions evaluations.
+    /**
+     * Get the maximal number of functions evaluations.
      * @return maximal number of functions evaluations
      */
     int getMaxEvaluations();
 
-    /** Get the number of evaluations of the differential equations function.
+    /**
+     * Get the number of evaluations of the differential equations function.
      * <p>
      * The number of evaluations corresponds to the last call to the
      * <code>integrate</code> method. It is 0 if the method has not been called yet.
@@ -163,7 +177,8 @@ public interface ODEIntegrator  {
      */
     int getEvaluations();
 
-    /** Integrate the differential equations up to the given time.
+    /**
+     * Integrate the differential equations up to the given time.
      * <p>This method solves an Initial Value Problem (IVP).</p>
      * <p>Since this method stores some internal state variables made
      * available in its public interface during integration ({@link
@@ -179,11 +194,10 @@ public interface ODEIntegrator  {
      * @exception MathIllegalStateException if the number of functions evaluations is exceeded
      * @exception MathIllegalArgumentException if the location of an event cannot be bracketed
      */
-    ODEStateAndDerivative integrate(ExpandableODE equations,
-                                    ODEState initialState, double finalTime)
-        throws MathIllegalArgumentException, MathIllegalStateException;
+    ODEStateAndDerivative integrate(ExpandableODE equations, ODEState initialState, double finalTime) throws MathIllegalArgumentException, MathIllegalStateException;
 
-    /** Integrate the differential equations up to the given time.
+    /**
+     * Integrate the differential equations up to the given time.
      * <p>This method solves an Initial Value Problem (IVP).</p>
      * <p>Since this method stores some internal state variables made
      * available in its public interface during integration ({@link
@@ -199,10 +213,7 @@ public interface ODEIntegrator  {
      * @exception MathIllegalStateException if the number of functions evaluations is exceeded
      * @exception MathIllegalArgumentException if the location of an event cannot be bracketed
      */
-    default ODEStateAndDerivative integrate(OrdinaryDifferentialEquation equations,
-                                            ODEState initialState, double finalTime)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-        return integrate(new ExpandableODE(equations), initialState, finalTime);
+    default ODEStateAndDerivative integrate(OrdinaryDifferentialEquation equations, ODEState initialState, double finalTime) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

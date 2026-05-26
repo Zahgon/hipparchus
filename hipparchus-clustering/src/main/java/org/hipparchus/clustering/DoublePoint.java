@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.clustering;
 
 import java.io.Serializable;
@@ -30,10 +28,14 @@ import java.util.Arrays;
  */
 public class DoublePoint implements Clusterable, Serializable {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 3946024775784901369L;
 
-    /** Point coordinates. */
+    /**
+     * Point coordinates.
+     */
     private final double[] point;
 
     /**
@@ -44,7 +46,8 @@ public class DoublePoint implements Clusterable, Serializable {
      * @param point the n-dimensional point in double space
      */
     public DoublePoint(final double[] point) {
-        this.point = point; // NOPMD - storage of array reference is intentional and documented here
+        // NOPMD - storage of array reference is intentional and documented here
+        this.point = point;
     }
 
     /**
@@ -56,12 +59,13 @@ public class DoublePoint implements Clusterable, Serializable {
      */
     public DoublePoint(final int[] point) {
         this.point = new double[point.length];
-        for ( int i = 0; i < point.length; i++) {
+        for (int i = 0; i < point.length; i++) {
             this.point[i] = point[i];
         }
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * In this implementation of the {@link Clusterable} interface,
      * the method <em>always</em> returns a reference to an internal array.
@@ -69,28 +73,30 @@ public class DoublePoint implements Clusterable, Serializable {
      */
     @Override
     public double[] getPoint() {
-        return point; // NOPMD - returning a reference to an internal array is documented here
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof DoublePoint)) {
-            return false;
-        }
-        return Arrays.equals(point, ((DoublePoint) other).point);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
-        return Arrays.hashCode(point);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return Arrays.toString(point);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.analysis.interpolation;
 
 import java.io.Serializable;
-
 import org.hipparchus.analysis.polynomials.PolynomialFunctionLagrangeForm;
 import org.hipparchus.analysis.polynomials.PolynomialFunctionNewtonForm;
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -36,21 +34,24 @@ import org.hipparchus.exception.MathIllegalArgumentException;
  * <p>
  * The actual code of Neville's evaluation is in PolynomialFunctionLagrangeForm,
  * this class provides an easy-to-use interface to it.</p>
- *
  */
-public class DividedDifferenceInterpolator
-    implements UnivariateInterpolator, Serializable {
-    /** serializable version identifier */
+public class DividedDifferenceInterpolator implements UnivariateInterpolator, Serializable {
+
+    /**
+     * serializable version identifier
+     */
     private static final long serialVersionUID = 107049519551235069L;
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public DividedDifferenceInterpolator() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public DividedDifferenceInterpolator() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
@@ -66,28 +67,8 @@ public class DividedDifferenceInterpolator
      * strictly increasing order.
      */
     @Override
-    public PolynomialFunctionNewtonForm interpolate(double[] x, double[] y)
-        throws MathIllegalArgumentException {
-        /**
-         * a[] and c[] are defined in the general formula of Newton form:
-         * p(x) = a[0] + a[1](x-c[0]) + a[2](x-c[0])(x-c[1]) + ... +
-         *        a[n](x-c[0])(x-c[1])...(x-c[n-1])
-         */
-        PolynomialFunctionLagrangeForm.verifyInterpolationArray(x, y, true);
-
-        /**
-         * When used for interpolation, the Newton form formula becomes
-         * p(x) = f[x0] + f[x0,x1](x-x0) + f[x0,x1,x2](x-x0)(x-x1) + ... +
-         *        f[x0,x1,...,x[n-1]](x-x0)(x-x1)...(x-x[n-2])
-         * Therefore, a[k] = f[x0,x1,...,xk], c[k] = x[k].
-         * <p>
-         * Note x[], y[], a[] have the same length but c[]'s size is one less.</p>
-         */
-        final double[] c = new double[x.length-1];
-        System.arraycopy(x, 0, c, 0, c.length);
-
-        final double[] a = computeDividedDifference(x, y);
-        return new PolynomialFunctionNewtonForm(a, c);
+    public PolynomialFunctionNewtonForm interpolate(double[] x, double[] y) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -109,23 +90,7 @@ public class DividedDifferenceInterpolator
      * @throws MathIllegalArgumentException
      * if {@code x} is not sorted in strictly increasing order.
      */
-    protected static double[] computeDividedDifference(final double[] x, final double[] y)
-        throws MathIllegalArgumentException {
-        PolynomialFunctionLagrangeForm.verifyInterpolationArray(x, y, true);
-
-        final double[] divdiff = y.clone(); // initialization
-
-        final int n = x.length;
-        final double[] a = new double [n];
-        a[0] = divdiff[0];
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j < n-i; j++) {
-                final double denominator = x[j+i] - x[j];
-                divdiff[j] = (divdiff[j+1] - divdiff[j]) / denominator;
-            }
-            a[i] = divdiff[0];
-        }
-
-        return a;
+    protected static double[] computeDividedDifference(final double[] x, final double[] y) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

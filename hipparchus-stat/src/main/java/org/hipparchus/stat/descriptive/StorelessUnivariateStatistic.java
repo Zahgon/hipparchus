@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.stat.descriptive;
 
 import java.util.function.DoubleConsumer;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.util.MathArrays;
@@ -41,8 +39,7 @@ import org.hipparchus.util.MathUtils;
  * {@link #evaluate(double[], int, int)} methods do <b>NOT</b> alter the internal
  * state of the respective statistic.
  */
-public interface StorelessUnivariateStatistic
-    extends UnivariateStatistic, DoubleConsumer {
+public interface StorelessUnivariateStatistic extends UnivariateStatistic, DoubleConsumer {
 
     /**
      * {@inheritDoc}
@@ -64,16 +61,8 @@ public interface StorelessUnivariateStatistic
      * @see UnivariateStatistic#evaluate(double[], int, int)
      */
     @Override
-    default double evaluate(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-
-        if (MathArrays.verifyValues(values, begin, length)) {
-            StorelessUnivariateStatistic stat = copy();
-            stat.clear();
-            stat.incrementAll(values, begin, length);
-            return stat.getResult();
-        }
-        return Double.NaN;
+    default double evaluate(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -82,10 +71,12 @@ public interface StorelessUnivariateStatistic
      */
     void increment(double d);
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default void accept(double value) {
-        increment(value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -100,10 +91,8 @@ public interface StorelessUnivariateStatistic
      * @throws MathIllegalArgumentException if the array is null
      */
     default void incrementAll(double[] values) throws MathIllegalArgumentException {
-        MathUtils.checkNotNull(values, LocalizedCoreFormats.INPUT_ARRAY);
-        incrementAll(values, 0, values.length);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     /**
      * Updates the internal state of the statistic to reflect addition of
@@ -119,17 +108,9 @@ public interface StorelessUnivariateStatistic
      * @param length  the number of elements to add
      * @throws MathIllegalArgumentException if the array is null or the index
      */
-    default void incrementAll(double[] values, int start, int length)
-        throws MathIllegalArgumentException {
-
-        if (MathArrays.verifyValues(values, start, length)) {
-            int k = start + length;
-            for (int i = start; i < k; i++) {
-                increment(values[i]);
-            }
-        }
+    default void incrementAll(double[] values, int start, int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     /**
      * Returns the current value of the Statistic.
@@ -156,5 +137,4 @@ public interface StorelessUnivariateStatistic
      */
     @Override
     StorelessUnivariateStatistic copy();
-
 }

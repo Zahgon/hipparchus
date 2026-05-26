@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.distribution.continuous;
 
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -35,15 +33,30 @@ import org.hipparchus.util.MathUtils;
  * @see <a href="http://mathworld.wolfram.com/NormalDistribution.html">Normal distribution (MathWorld)</a>
  */
 public class NormalDistribution extends AbstractRealDistribution {
-    /** Serializable version identifier. */
+
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20160320L;
-    /** &radic;(2) */
+
+    /**
+     * &radic;(2)
+     */
     private static final double SQRT2 = FastMath.sqrt(2.0);
-    /** Mean of this distribution. */
+
+    /**
+     * Mean of this distribution.
+     */
     private final double mean;
-    /** Standard deviation of this distribution. */
+
+    /**
+     * Standard deviation of this distribution.
+     */
     private final double standardDeviation;
-    /** The value of {@code log(sd) + 0.5*log(2*pi)} stored for faster computation. */
+
+    /**
+     * The value of {@code log(sd) + 0.5*log(2*pi)} stored for faster computation.
+     */
     private final double logStandardDeviationPlusHalfLog2Pi;
 
     /**
@@ -61,16 +74,13 @@ public class NormalDistribution extends AbstractRealDistribution {
      * @param sd Standard deviation for this distribution.
      * @throws MathIllegalArgumentException if {@code sd <= 0}.
      */
-    public NormalDistribution(double mean, double sd)
-        throws MathIllegalArgumentException {
+    public NormalDistribution(double mean, double sd) throws MathIllegalArgumentException {
         if (sd <= 0) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.STANDARD_DEVIATION, sd);
         }
-
         this.mean = mean;
         this.standardDeviation = sd;
-        this.logStandardDeviationPlusHalfLog2Pi =
-                FastMath.log(sd) + 0.5 * FastMath.log(2 * FastMath.PI);
+        this.logStandardDeviationPlusHalfLog2Pi = FastMath.log(sd) + 0.5 * FastMath.log(2 * FastMath.PI);
     }
 
     /**
@@ -79,7 +89,7 @@ public class NormalDistribution extends AbstractRealDistribution {
      * @return the mean for this distribution.
      */
     public double getMean() {
-        return mean;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -88,21 +98,23 @@ public class NormalDistribution extends AbstractRealDistribution {
      * @return the standard deviation for this distribution.
      */
     public double getStandardDeviation() {
-        return standardDeviation;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double density(double x) {
-        return FastMath.exp(logDensity(x));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double logDensity(double x) {
-        final double x0 = x - mean;
-        final double x1 = x0 / standardDeviation;
-        return -0.5 * x1 * x1 - logStandardDeviationPlusHalfLog2Pi;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -113,34 +125,24 @@ public class NormalDistribution extends AbstractRealDistribution {
      * {@code Double.MIN_VALUE} of 0 or 1.
      */
     @Override
-    public double cumulativeProbability(double x)  {
-        final double dev = x - mean;
-        if (FastMath.abs(dev) > 40 * standardDeviation) {
-            return dev < 0 ? 0.0d : 1.0d;
-        }
-        return 0.5 * Erf.erfc(-dev / (standardDeviation * SQRT2));
+    public double cumulativeProbability(double x) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double inverseCumulativeProbability(final double p) throws MathIllegalArgumentException {
-        MathUtils.checkRangeInclusive(p, 0, 1);
-        return mean + standardDeviation * SQRT2 * Erf.erfInv(2 * p - 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double probability(double x0,
-                              double x1)
-        throws MathIllegalArgumentException {
-        if (x0 > x1) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
-                                                x0, x1, true);
-        }
-        final double denom = standardDeviation * SQRT2;
-        final double v0 = (x0 - mean) / denom;
-        final double v1 = (x1 - mean) / denom;
-        return 0.5 * Erf.erf(v0, v1);
+    public double probability(double x0, double x1) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -150,7 +152,7 @@ public class NormalDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalMean() {
-        return getMean();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -160,8 +162,7 @@ public class NormalDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        final double s = getStandardDeviation();
-        return s * s;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -175,7 +176,7 @@ public class NormalDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportLowerBound() {
-        return Double.NEGATIVE_INFINITY;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -189,7 +190,7 @@ public class NormalDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportUpperBound() {
-        return Double.POSITIVE_INFINITY;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -201,6 +202,6 @@ public class NormalDistribution extends AbstractRealDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

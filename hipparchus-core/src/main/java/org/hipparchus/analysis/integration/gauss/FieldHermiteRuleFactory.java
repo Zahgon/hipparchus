@@ -45,47 +45,24 @@ import org.hipparchus.util.Pair;
  */
 public class FieldHermiteRuleFactory<T extends CalculusFieldElement<T>> extends FieldAbstractRuleFactory<T> {
 
-    /** Simple constructor
+    /**
+     * Simple constructor
      * @param field field to which rule coefficients belong
      */
     public FieldHermiteRuleFactory(final Field<T> field) {
         super(field);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected Pair<T[], T[]> computeRule(int numberOfPoints)
-        throws MathIllegalArgumentException {
-
-        final Field<T> field  = getField();
-        final T        sqrtPi = field.getZero().getPi().sqrt();
-
-        if (numberOfPoints == 1) {
-            // Break recursion.
-            final T[] points  = MathArrays.buildArray(field, numberOfPoints);
-            final T[] weights = MathArrays.buildArray(field, numberOfPoints);
-            points[0]  = field.getZero();
-            weights[0] = sqrtPi;
-            return new Pair<>(points, weights);
-        }
-
-        // find nodes as roots of Hermite polynomial
-        final T[] points = findRoots(numberOfPoints, new Hermite<>(field, numberOfPoints)::ratio);
-        enforceSymmetry(points);
-
-        // compute weights
-        final T[] weights = MathArrays.buildArray(field, numberOfPoints);
-        final Hermite<T> hm1 = new Hermite<>(field, numberOfPoints - 1);
-        for (int i = 0; i < numberOfPoints; i++) {
-            final T y = hm1.hNhNm1(points[i])[0];
-            weights[i] = sqrtPi.divide(y.square().multiply(numberOfPoints));
-        }
-
-        return new Pair<>(points, weights);
-
+    protected Pair<T[], T[]> computeRule(int numberOfPoints) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Hermite polynomial, normalized to avoid overflow.
+    /**
+     * Hermite polynomial, normalized to avoid overflow.
      * <p>
      * The regular Hermite polynomials and associated weights are given by:
      *   <pre>
@@ -109,31 +86,37 @@ public class FieldHermiteRuleFactory<T extends CalculusFieldElement<T>> extends 
      */
     private static class Hermite<T extends CalculusFieldElement<T>> {
 
-        /** √2. */
+        /**
+         * √2.
+         */
         private final T sqrt2;
 
-        /** Degree. */
+        /**
+         * Degree.
+         */
         private final int degree;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          * @param field field to which rule coefficients belong
          * @param degree polynomial degree
          */
         Hermite(Field<T> field, int degree) {
-            this.sqrt2  = field.getZero().newInstance(2).sqrt();
+            this.sqrt2 = field.getZero().newInstance(2).sqrt();
             this.degree = degree;
         }
 
-        /** Compute ratio H(x)/H'(x).
+        /**
+         * Compute ratio H(x)/H'(x).
          * @param x point at which ratio must be computed
          * @return ratio H(x)/H'(x)
          */
         public T ratio(T x) {
-            T[] h = hNhNm1(x);
-            return h[0].divide(h[1].multiply(2 * degree));
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Compute Nₙ(x) and Nₙ₋₁(x).
+        /**
+         * Compute Nₙ(x) and Nₙ₋₁(x).
          * @param x point at which polynomials are evaluated
          * @return array containing Nₙ(x) at index 0 and Nₙ₋₁(x) at index 1
          */
@@ -146,13 +129,11 @@ public class FieldHermiteRuleFactory<T extends CalculusFieldElement<T>> extends 
                 // apply recurrence relation hₙ₊₁(x) = [√2 x hₙ(x) - √n hₙ₋₁(x)]/√(n+1)
                 final T sqrtNp = x.getField().getZero().newInstance(n + 1).sqrt();
                 final T hp = (h[0].multiply(x).multiply(sqrt2).subtract(h[1].multiply(sqrtN))).divide(sqrtNp);
-                h[1]  = h[0];
-                h[0]  = hp;
+                h[1] = h[0];
+                h[0] = hp;
                 sqrtN = sqrtNp;
             }
             return h;
         }
-
     }
-
 }

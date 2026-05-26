@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.linear;
 
 import org.hipparchus.analysis.UnivariateFunction;
@@ -34,7 +32,6 @@ import org.hipparchus.util.FastMath;
  * <p>
  * Matrix element indexing is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</p>
- *
  */
 public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
 
@@ -49,8 +46,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @throws MathIllegalArgumentException if row or column dimension is not
      * positive.
      */
-    RealMatrix createMatrix(int rowDimension, int columnDimension)
-        throws MathIllegalArgumentException;
+    RealMatrix createMatrix(int rowDimension, int columnDimension) throws MathIllegalArgumentException;
 
     /**
      * Returns a (deep) copy of this.
@@ -67,8 +63,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @throws MathIllegalArgumentException if {@code m} is not the same
      * size as {@code this}.
      */
-    RealMatrix add(RealMatrix m)
-        throws MathIllegalArgumentException;
+    RealMatrix add(RealMatrix m) throws MathIllegalArgumentException;
 
     /**
      * Returns {@code this} minus {@code m}.
@@ -78,8 +73,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @throws MathIllegalArgumentException if {@code m} is not the same
      * size as {@code this}.
      */
-    RealMatrix subtract(RealMatrix m)
-        throws MathIllegalArgumentException;
+    RealMatrix subtract(RealMatrix m) throws MathIllegalArgumentException;
 
     /**
      * Returns the result of adding {@code d} to each entry of {@code this}.
@@ -106,8 +100,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @throws MathIllegalArgumentException if
      * {@code columnDimension(this) != rowDimension(m)}
      */
-    RealMatrix multiply(RealMatrix m)
-        throws MathIllegalArgumentException;
+    RealMatrix multiply(RealMatrix m) throws MathIllegalArgumentException;
 
     /**
      * Returns the result of postmultiplying {@code this} by {@code m^T}.
@@ -121,9 +114,8 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * {@code columnDimension(this) != columnDimension(m)}
      * @since 1.3
      */
-    default RealMatrix multiplyTransposed(final RealMatrix m)
-        throws MathIllegalArgumentException {
-        return multiply(m.transpose());
+    default RealMatrix multiplyTransposed(final RealMatrix m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -138,9 +130,8 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * {@code columnDimension(this) != columnDimension(m)}
      * @since 1.3
      */
-    default RealMatrix transposeMultiply(final RealMatrix m)
-        throws MathIllegalArgumentException {
-        return transpose().multiply(m);
+    default RealMatrix transposeMultiply(final RealMatrix m) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -151,8 +142,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @throws MathIllegalArgumentException if
      * {@code rowDimension(this) != columnDimension(m)}
      */
-    RealMatrix preMultiply(RealMatrix m)
-        throws MathIllegalArgumentException;
+    RealMatrix preMultiply(RealMatrix m) throws MathIllegalArgumentException;
 
     /**
      * Returns the result of multiplying {@code this} with itself {@code p}
@@ -164,14 +154,14 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @throws MathIllegalArgumentException if {@code p < 0}
      * @throws MathIllegalArgumentException if the matrix is not square
      */
-    RealMatrix power(int p)
-        throws MathIllegalArgumentException;
+    RealMatrix power(int p) throws MathIllegalArgumentException;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default RealMatrix blendArithmeticallyWith(final RealMatrix other, final double blendingValue) {
-        SmoothStepFactory.checkBetweenZeroAndOneIncluded(blendingValue);
-        return this.scalarMultiply(1 - blendingValue).add(other.scalarMultiply(blendingValue));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -188,43 +178,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @return norm
      */
     default double getNorm1() {
-        return walkInColumnOrder(new RealMatrixPreservingVisitor() {
-
-            /** Last row index. */
-            private int endRow;
-
-            /** Sum of absolute values on one column. */
-            private double columnSum;
-
-            /** Maximal sum across all columns. */
-            private double maxColSum;
-
-            /** {@inheritDoc} */
-            @Override
-            public void start(final int rows, final int columns,
-                              final int startRow, final int endRow,
-                              final int startColumn, final int endColumn) {
-                this.endRow = endRow;
-                columnSum   = 0;
-                maxColSum   = 0;
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public void visit(final int row, final int column, final double value) {
-                columnSum += FastMath.abs(value);
-                if (row == endRow) {
-                    maxColSum = FastMath.max(maxColSum, columnSum);
-                    columnSum = 0;
-                }
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public double end() {
-                return maxColSum;
-            }
-        });
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -234,44 +188,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @return norm
      */
     default double getNormInfty() {
-        return walkInRowOrder(new RealMatrixPreservingVisitor() {
-
-            /** Last column index. */
-            private int endColumn;
-
-            /** Sum of absolute values on one row. */
-            private double rowSum;
-
-            /** Maximal sum across all rows. */
-            private double maxRowSum;
-
-            /** {@inheritDoc} */
-            @Override
-            public void start(final int rows, final int columns,
-                              final int startRow, final int endRow,
-                              final int startColumn, final int endColumn) {
-                this.endColumn = endColumn;
-                rowSum   = 0;
-                maxRowSum   = 0;
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public void visit(final int row, final int column, final double value) {
-                rowSum += FastMath.abs(value);
-                if (column == endColumn) {
-                    maxRowSum = FastMath.max(maxRowSum, rowSum);
-                    rowSum = 0;
-                }
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public double end() {
-                return maxRowSum;
-            }
-        });
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -296,9 +213,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @throws MathIllegalArgumentException if {@code endRow < startRow} or
      * {@code endColumn < startColumn}.
      */
-    RealMatrix getSubMatrix(int startRow, int endRow, int startColumn,
-                            int endColumn)
-        throws MathIllegalArgumentException;
+    RealMatrix getSubMatrix(int startRow, int endRow, int startColumn, int endColumn) throws MathIllegalArgumentException;
 
     /**
      * Gets a submatrix. Rows and columns are indicated counting from 0 to n-1.
@@ -313,8 +228,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * length).
      * @throws MathIllegalArgumentException if the indices are not valid.
      */
-    RealMatrix getSubMatrix(int[] selectedRows, int[] selectedColumns)
-        throws MathIllegalArgumentException, NullArgumentException;
+    RealMatrix getSubMatrix(int[] selectedRows, int[] selectedColumns) throws MathIllegalArgumentException, NullArgumentException;
 
     /**
      * Copy a submatrix. Rows and columns are indicated counting from 0 to n-1.
@@ -332,9 +246,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @throws MathIllegalArgumentException if the destination array is too
      * small.
      */
-    void copySubMatrix(int startRow, int endRow, int startColumn,
-                       int endColumn, double[][] destination)
-        throws MathIllegalArgumentException;
+    void copySubMatrix(int startRow, int endRow, int startColumn, int endColumn, double[][] destination) throws MathIllegalArgumentException;
 
     /**
      * Copy a submatrix. Rows and columns are indicated counting from 0 to n-1.
@@ -352,52 +264,49 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @throws MathIllegalArgumentException if the destination array is too
      * small.
      */
-    void copySubMatrix(int[] selectedRows, int[] selectedColumns,
-                       double[][] destination)
-        throws MathIllegalArgumentException, NullArgumentException;
+    void copySubMatrix(int[] selectedRows, int[] selectedColumns, double[][] destination) throws MathIllegalArgumentException, NullArgumentException;
 
-   /**
-    * Replace the submatrix starting at {@code row, column} using data in the
-    * input {@code subMatrix} array. Indexes are 0-based.
-    * <p>
-    * Example:<br>
-    * Starting with </p>
-    * <pre>
-    * 1  2  3  4
-    * 5  6  7  8
-    * 9  0  1  2
-    * </pre>
-    * <p>
-    * and {@code subMatrix = {{3, 4} {5,6}}}, invoking
-    * {@code setSubMatrix(subMatrix,1,1))} will result in </p>
-    * <pre>
-    * 1  2  3  4
-    * 5  3  4  8
-    * 9  5  6  2
-    * </pre>
-    *
-    * @param subMatrix  array containing the submatrix replacement data
-    * @param row  row coordinate of the top, left element to be replaced
-    * @param column  column coordinate of the top, left element to be replaced
-    * @throws MathIllegalArgumentException if {@code subMatrix} is empty.
-    * @throws MathIllegalArgumentException if {@code subMatrix} does not fit into
-    * this matrix from element in {@code (row, column)}.
-    * @throws MathIllegalArgumentException if {@code subMatrix} is not rectangular
-    * (not all rows have the same length) or empty.
-    * @throws NullArgumentException if {@code subMatrix} is {@code null}.
-    */
-    void setSubMatrix(double[][] subMatrix, int row, int column)
-        throws MathIllegalArgumentException, NullArgumentException;
+    /**
+     * Replace the submatrix starting at {@code row, column} using data in the
+     * input {@code subMatrix} array. Indexes are 0-based.
+     * <p>
+     * Example:<br>
+     * Starting with </p>
+     * <pre>
+     * 1  2  3  4
+     * 5  6  7  8
+     * 9  0  1  2
+     * </pre>
+     * <p>
+     * and {@code subMatrix = {{3, 4} {5,6}}}, invoking
+     * {@code setSubMatrix(subMatrix,1,1))} will result in </p>
+     * <pre>
+     * 1  2  3  4
+     * 5  3  4  8
+     * 9  5  6  2
+     * </pre>
+     *
+     * @param subMatrix  array containing the submatrix replacement data
+     * @param row  row coordinate of the top, left element to be replaced
+     * @param column  column coordinate of the top, left element to be replaced
+     * @throws MathIllegalArgumentException if {@code subMatrix} is empty.
+     * @throws MathIllegalArgumentException if {@code subMatrix} does not fit into
+     * this matrix from element in {@code (row, column)}.
+     * @throws MathIllegalArgumentException if {@code subMatrix} is not rectangular
+     * (not all rows have the same length) or empty.
+     * @throws NullArgumentException if {@code subMatrix} is {@code null}.
+     */
+    void setSubMatrix(double[][] subMatrix, int row, int column) throws MathIllegalArgumentException, NullArgumentException;
 
-   /**
-    * Get the entries at the given row index as a row matrix.  Row indices start
-    * at 0.
-    *
-    * @param row Row to be fetched.
-    * @return row Matrix.
-    * @throws MathIllegalArgumentException if the specified row index is invalid.
-    */
-   RealMatrix getRowMatrix(int row) throws MathIllegalArgumentException;
+    /**
+     * Get the entries at the given row index as a row matrix.  Row indices start
+     * at 0.
+     *
+     * @param row Row to be fetched.
+     * @return row Matrix.
+     * @throws MathIllegalArgumentException if the specified row index is invalid.
+     */
+    RealMatrix getRowMatrix(int row) throws MathIllegalArgumentException;
 
     /**
      * Sets the specified {@code row} of {@code this} matrix to the entries of
@@ -411,8 +320,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * {@code matrix} is not {@code 1}, or the column dimensions of {@code this}
      * and {@code matrix} do not match.
      */
-    void setRowMatrix(int row, RealMatrix matrix)
-        throws MathIllegalArgumentException;
+    void setRowMatrix(int row, RealMatrix matrix) throws MathIllegalArgumentException;
 
     /**
      * Get the entries at the given column index as a column matrix. Column
@@ -422,8 +330,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @return column Matrix.
      * @throws MathIllegalArgumentException if the specified column index is invalid.
      */
-    RealMatrix getColumnMatrix(int column)
-        throws MathIllegalArgumentException;
+    RealMatrix getColumnMatrix(int column) throws MathIllegalArgumentException;
 
     /**
      * Sets the specified {@code column} of {@code this} matrix to the entries
@@ -437,8 +344,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * {@code matrix} is not {@code 1}, or the row dimensions of {@code this}
      * and {@code matrix} do not match.
      */
-    void setColumnMatrix(int column, RealMatrix matrix)
-        throws MathIllegalArgumentException;
+    void setColumnMatrix(int column, RealMatrix matrix) throws MathIllegalArgumentException;
 
     /**
      * Returns the entries in row number {@code row} as a vector. Row indices
@@ -448,8 +354,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @return a row vector.
      * @throws MathIllegalArgumentException if the specified row index is invalid.
      */
-    RealVector getRowVector(int row)
-        throws MathIllegalArgumentException;
+    RealVector getRowVector(int row) throws MathIllegalArgumentException;
 
     /**
      * Sets the specified {@code row} of {@code this} matrix to the entries of
@@ -462,8 +367,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @throws MathIllegalArgumentException if the {@code vector} dimension
      * does not match the column dimension of {@code this} matrix.
      */
-    void setRowVector(int row, RealVector vector)
-        throws MathIllegalArgumentException;
+    void setRowVector(int row, RealVector vector) throws MathIllegalArgumentException;
 
     /**
      * Get the entries at the given column index as a vector. Column indices
@@ -473,8 +377,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @return a column vector.
      * @throws MathIllegalArgumentException if the specified column index is invalid
      */
-    RealVector getColumnVector(int column)
-        throws MathIllegalArgumentException;
+    RealVector getColumnVector(int column) throws MathIllegalArgumentException;
 
     /**
      * Sets the specified {@code column} of {@code this} matrix to the entries
@@ -487,8 +390,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @throws MathIllegalArgumentException if the {@code vector} dimension
      * does not match the row dimension of {@code this} matrix.
      */
-    void setColumnVector(int column, RealVector vector)
-        throws MathIllegalArgumentException;
+    void setColumnVector(int column, RealVector vector) throws MathIllegalArgumentException;
 
     /**
      * Get the entries at the given row index. Row indices start at 0.
@@ -510,8 +412,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @throws MathIllegalArgumentException if the {@code array} length does
      * not match the column dimension of {@code this} matrix.
      */
-    void setRow(int row, double[] array)
-        throws MathIllegalArgumentException;
+    void setRow(int row, double[] array) throws MathIllegalArgumentException;
 
     /**
      * Get the entries at the given column index as an array. Column indices
@@ -534,8 +435,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @throws MathIllegalArgumentException if the {@code array} length does
      * not match the row dimension of {@code this} matrix.
      */
-    void setColumn(int column, double[] array)
-        throws MathIllegalArgumentException;
+    void setColumn(int column, double[] array) throws MathIllegalArgumentException;
 
     /**
      * Get the entry in the specified row and column. Row and column indices
@@ -708,9 +608,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @return the value returned by {@link RealMatrixChangingVisitor#end()} at the end
      * of the walk
      */
-    double walkInRowOrder(RealMatrixChangingVisitor visitor, int startRow,
-        int endRow, int startColumn, int endColumn)
-        throws MathIllegalArgumentException;
+    double walkInRowOrder(RealMatrixChangingVisitor visitor, int startRow, int endRow, int startColumn, int endColumn) throws MathIllegalArgumentException;
 
     /**
      * Visit (but don't change) some matrix entries in row order.
@@ -739,9 +637,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @return the value returned by {@link RealMatrixPreservingVisitor#end()} at the end
      * of the walk
      */
-    double walkInRowOrder(RealMatrixPreservingVisitor visitor, int startRow,
-        int endRow, int startColumn, int endColumn)
-        throws MathIllegalArgumentException;
+    double walkInRowOrder(RealMatrixPreservingVisitor visitor, int startRow, int endRow, int startColumn, int endColumn) throws MathIllegalArgumentException;
 
     /**
      * Visit (and possibly change) all matrix entries in column order.
@@ -814,9 +710,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @return the value returned by {@link RealMatrixChangingVisitor#end()} at the end
      * of the walk
      */
-    double walkInColumnOrder(RealMatrixChangingVisitor visitor, int startRow,
-        int endRow, int startColumn, int endColumn)
-        throws MathIllegalArgumentException;
+    double walkInColumnOrder(RealMatrixChangingVisitor visitor, int startRow, int endRow, int startColumn, int endColumn) throws MathIllegalArgumentException;
 
     /**
      * Visit (but don't change) some matrix entries in column order.
@@ -845,9 +739,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @return the value returned by {@link RealMatrixPreservingVisitor#end()} at the end
      * of the walk
      */
-    double walkInColumnOrder(RealMatrixPreservingVisitor visitor, int startRow,
-        int endRow, int startColumn, int endColumn)
-        throws MathIllegalArgumentException;
+    double walkInColumnOrder(RealMatrixPreservingVisitor visitor, int startRow, int endRow, int startColumn, int endColumn) throws MathIllegalArgumentException;
 
     /**
      * Visit (and possibly change) all matrix entries using the fastest possible order.
@@ -917,9 +809,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @return the value returned by {@link RealMatrixChangingVisitor#end()} at the end
      * of the walk
      */
-    double walkInOptimizedOrder(RealMatrixChangingVisitor visitor,
-        int startRow, int endRow, int startColumn, int endColumn)
-        throws MathIllegalArgumentException;
+    double walkInOptimizedOrder(RealMatrixChangingVisitor visitor, int startRow, int endRow, int startColumn, int endColumn) throws MathIllegalArgumentException;
 
     /**
      * Visit (but don't change) some matrix entries using the fastest possible order.
@@ -947,9 +837,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @return the value returned by {@link RealMatrixPreservingVisitor#end()} at the end
      * of the walk
      */
-    double walkInOptimizedOrder(RealMatrixPreservingVisitor visitor,
-        int startRow, int endRow, int startColumn, int endColumn)
-        throws MathIllegalArgumentException;
+    double walkInOptimizedOrder(RealMatrixPreservingVisitor visitor, int startRow, int endRow, int startColumn, int endColumn) throws MathIllegalArgumentException;
 
     /**
      * Acts as if implemented as:
@@ -963,7 +851,7 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @since 1.7
      */
     default RealMatrix map(UnivariateFunction function) {
-        return copy().mapToSelf(function);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -974,31 +862,6 @@ public interface RealMatrix extends AnyMatrix, Blendable<RealMatrix> {
      * @since 1.7
      */
     default RealMatrix mapToSelf(final UnivariateFunction function) {
-        walkInOptimizedOrder(new RealMatrixChangingVisitor() {
-
-            /** {@inheritDoc} */
-            @Override
-            public double visit(int row, int column, double value) {
-                // apply the function to the current entry
-                return function.value(value);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public void start(int rows, int columns, int startRow, int endRow,
-                              int startColumn, int endColumn) {
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public double end() {
-                return 0;
-            }
-
-        });
-
-        return this;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

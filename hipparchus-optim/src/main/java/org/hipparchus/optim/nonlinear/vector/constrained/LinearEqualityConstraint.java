@@ -16,18 +16,21 @@
  */
 package org.hipparchus.optim.nonlinear.vector.constrained;
 
-
 import org.hipparchus.linear.Array2DRowRealMatrix;
 import org.hipparchus.linear.ArrayRealVector;
 import org.hipparchus.linear.RealMatrix;
 import org.hipparchus.linear.RealVector;
 import org.hipparchus.optim.OptimizationData;
-/** A set of linear equality constraints given as Ax = b.
+
+/**
+ * A set of linear equality constraints given as Ax = b.
  * @since 3.1
  */
 public class LinearEqualityConstraint extends EqualityConstraint implements OptimizationData {
 
-    /** Matrix of linear weights. */
+    /**
+     * Matrix of linear weights.
+     */
     private final RealMatrix a;
 
     /**
@@ -53,26 +56,26 @@ public class LinearEqualityConstraint extends EqualityConstraint implements Opti
         this(new Array2DRowRealMatrix(a), new ArrayRealVector(b));
     }
 
-    /** Get the matrix of linear weights.
+    /**
+     * Get the matrix of linear weights.
      * @return matrix of linear weights
      */
     public RealMatrix getA() {
-        return a;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int dim() {
-        return a.getColumnDimension();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public RealVector value(final RealVector x) {
-        return a.operate(x);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public RealMatrix jacobian(final RealVector x) {
-        return a.copy();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

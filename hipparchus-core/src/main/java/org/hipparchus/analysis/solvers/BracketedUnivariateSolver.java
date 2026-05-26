@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.analysis.solvers;
 
 import org.hipparchus.analysis.UnivariateFunction;
@@ -28,7 +26,8 @@ import org.hipparchus.exception.MathIllegalStateException;
 import org.hipparchus.exception.MathRuntimeException;
 import org.hipparchus.util.FastMath;
 
-/** Interface for {@link UnivariateSolver (univariate real) root-finding
+/**
+ * Interface for {@link UnivariateSolver (univariate real) root-finding
  * algorithms} that maintain a bracketed solution. There are several advantages
  * to having such root-finding algorithms:
  * <ul>
@@ -51,8 +50,7 @@ import org.hipparchus.util.FastMath;
  *
  * @see AllowedSolution
  */
-public interface BracketedUnivariateSolver<F extends UnivariateFunction>
-    extends BaseUnivariateSolver<F> {
+public interface BracketedUnivariateSolver<F extends UnivariateFunction> extends BaseUnivariateSolver<F> {
 
     /**
      * Solve for a zero in the given interval.
@@ -72,8 +70,7 @@ public interface BracketedUnivariateSolver<F extends UnivariateFunction>
      * @throws org.hipparchus.exception.MathIllegalStateException if
      * the allowed number of evaluations is exceeded.
      */
-    double solve(int maxEval, F f, double min, double max,
-                 AllowedSolution allowedSolution);
+    double solve(int maxEval, F f, double min, double max, AllowedSolution allowedSolution);
 
     /**
      * Solve for a zero in the given interval, start at {@code startValue}.
@@ -94,8 +91,7 @@ public interface BracketedUnivariateSolver<F extends UnivariateFunction>
      * @throws org.hipparchus.exception.MathIllegalStateException if
      * the allowed number of evaluations is exceeded.
      */
-    double solve(int maxEval, F f, double min, double max, double startValue,
-                 AllowedSolution allowedSolution);
+    double solve(int maxEval, F f, double min, double max, double startValue, AllowedSolution allowedSolution);
 
     /**
      * Solve for a zero in the given interval and return a tolerance interval surrounding
@@ -121,9 +117,8 @@ public interface BracketedUnivariateSolver<F extends UnivariateFunction>
      * @throws MathIllegalStateException    if the allowed number of evaluations is
      *                                      exceeded.
      */
-    default Interval solveInterval(int maxEval, F f, double min, double max)
-            throws MathIllegalArgumentException, MathIllegalStateException {
-        return this.solveInterval(maxEval, f, min, max, min + 0.5 * (max - min));
+    default Interval solveInterval(int maxEval, F f, double min, double max) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -151,8 +146,7 @@ public interface BracketedUnivariateSolver<F extends UnivariateFunction>
      * @throws MathIllegalStateException    if the allowed number of evaluations is
      *                                      exceeded.
      */
-    Interval solveInterval(int maxEval, F f, double min, double max, double startValue)
-            throws MathIllegalArgumentException, MathIllegalStateException;
+    Interval solveInterval(int maxEval, F f, double min, double max, double startValue) throws MathIllegalArgumentException, MathIllegalStateException;
 
     /**
      * An interval of a function that brackets a root.
@@ -163,13 +157,24 @@ public interface BracketedUnivariateSolver<F extends UnivariateFunction>
      */
     class Interval {
 
-        /** Abscissa on the left end of the interval. */
+        /**
+         * Abscissa on the left end of the interval.
+         */
         private final double leftAbscissa;
-        /** Function value at {@link #leftAbscissa}. */
+
+        /**
+         * Function value at {@link #leftAbscissa}.
+         */
         private final double leftValue;
-        /** Abscissa on the right end of the interval, >= {@link #leftAbscissa}. */
+
+        /**
+         * Abscissa on the right end of the interval, >= {@link #leftAbscissa}.
+         */
         private final double rightAbscissa;
-        /** Function value at {@link #rightAbscissa}. */
+
+        /**
+         * Function value at {@link #rightAbscissa}.
+         */
         private final double rightValue;
 
         /**
@@ -181,10 +186,7 @@ public interface BracketedUnivariateSolver<F extends UnivariateFunction>
          *                      Must be greater than or equal to {@code leftAbscissa}.
          * @param rightValue    is the function value at {@code rightAbscissa}.
          */
-        public Interval(final double leftAbscissa,
-                        final double leftValue,
-                        final double rightAbscissa,
-                        final double rightValue) {
+        public Interval(final double leftAbscissa, final double leftValue, final double rightAbscissa, final double rightValue) {
             this.leftAbscissa = leftAbscissa;
             this.leftValue = leftValue;
             this.rightAbscissa = rightAbscissa;
@@ -197,7 +199,7 @@ public interface BracketedUnivariateSolver<F extends UnivariateFunction>
          * @return abscissa of the start of the interval.
          */
         public double getLeftAbscissa() {
-            return leftAbscissa;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -206,7 +208,7 @@ public interface BracketedUnivariateSolver<F extends UnivariateFunction>
          * @return abscissa of the end of the interval.
          */
         public double getRightAbscissa() {
-            return rightAbscissa;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -215,7 +217,7 @@ public interface BracketedUnivariateSolver<F extends UnivariateFunction>
          * @return value of the function at the start of the interval.
          */
         public double getLeftValue() {
-            return leftValue;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -224,7 +226,7 @@ public interface BracketedUnivariateSolver<F extends UnivariateFunction>
          * @return value of the function at the end of the interval.
          */
         public double getRightValue() {
-            return rightValue;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -234,28 +236,7 @@ public interface BracketedUnivariateSolver<F extends UnivariateFunction>
          * @return the abscissa on the selected side of the root.
          */
         public double getSide(final AllowedSolution allowed) {
-            final double xA = this.getLeftAbscissa();
-            final double yA = this.getLeftValue();
-            final double xB = this.getRightAbscissa();
-            switch (allowed) {
-                case ANY_SIDE:
-                    final double absYA = FastMath.abs(this.getLeftValue());
-                    final double absYB = FastMath.abs(this.getRightValue());
-                    return absYA < absYB ? xA : xB;
-                case LEFT_SIDE:
-                    return xA;
-                case RIGHT_SIDE:
-                    return xB;
-                case BELOW_SIDE:
-                    return (yA <= 0) ? xA : xB;
-                case ABOVE_SIDE:
-                    return (yA < 0) ? xB : xA;
-                default:
-                    // this should never happen
-                    throw MathRuntimeException.createInternalError();
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
-
 }

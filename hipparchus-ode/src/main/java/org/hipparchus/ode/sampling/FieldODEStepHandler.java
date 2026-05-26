@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode.sampling;
 
 import org.hipparchus.CalculusFieldElement;
@@ -42,10 +40,10 @@ import org.hipparchus.ode.FieldODEStateAndDerivative;
  * @see FieldODEStateInterpolator
  * @param <T> the type of the field elements
  */
-
 public interface FieldODEStepHandler<T extends CalculusFieldElement<T>> {
 
-    /** Initialize step handler at the start of an ODE integration.
+    /**
+     * Initialize step handler at the start of an ODE integration.
      * <p>
      * This method is called once at the start of the integration. It
      * may be used by the step handler to initialize some internal data
@@ -58,7 +56,7 @@ public interface FieldODEStepHandler<T extends CalculusFieldElement<T>> {
      * @param finalTime target time for the integration
      */
     default void init(FieldODEStateAndDerivative<T> initialState, T finalTime) {
-        // nothing by default
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -73,7 +71,7 @@ public interface FieldODEStepHandler<T extends CalculusFieldElement<T>> {
      * @since 4.0.3
      */
     default void updateOnStep(FieldODEStateInterpolator<T> interpolator) {
-        // nothing by default
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -82,7 +80,6 @@ public interface FieldODEStepHandler<T extends CalculusFieldElement<T>> {
      * @since 2.0
      */
     default void finish(FieldODEStateAndDerivative<T> finalState) {
-        // nothing by default
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

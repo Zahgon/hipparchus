@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.nonstiff.interpolators;
 
 import org.hipparchus.ode.EquationsMapper;
@@ -43,13 +42,15 @@ import org.hipparchus.ode.nonstiff.MidpointIntegrator;
  *
  * @see MidpointIntegrator
  */
-
 public class MidpointStateInterpolator extends RungeKuttaStateInterpolator {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20160328L;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param forward integration direction indicator
      * @param yDotK slopes at the intermediate points
      * @param globalPreviousState start of the global step
@@ -58,55 +59,23 @@ public class MidpointStateInterpolator extends RungeKuttaStateInterpolator {
      * @param softCurrentState end of the restricted step
      * @param mapper equations mapper for the all equations
      */
-    public MidpointStateInterpolator(final boolean forward,
-                                     final double[][] yDotK,
-                                     final ODEStateAndDerivative globalPreviousState,
-                                     final ODEStateAndDerivative globalCurrentState,
-                                     final ODEStateAndDerivative softPreviousState,
-                                     final ODEStateAndDerivative softCurrentState,
-                                     final EquationsMapper mapper) {
+    public MidpointStateInterpolator(final boolean forward, final double[][] yDotK, final ODEStateAndDerivative globalPreviousState, final ODEStateAndDerivative globalCurrentState, final ODEStateAndDerivative softPreviousState, final ODEStateAndDerivative softCurrentState, final EquationsMapper mapper) {
         super(forward, yDotK, globalPreviousState, globalCurrentState, softPreviousState, softCurrentState, mapper);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected MidpointStateInterpolator create(final boolean newForward, final double[][] newYDotK,
-                                               final ODEStateAndDerivative newGlobalPreviousState,
-                                               final ODEStateAndDerivative newGlobalCurrentState,
-                                               final ODEStateAndDerivative newSoftPreviousState,
-                                               final ODEStateAndDerivative newSoftCurrentState,
-                                               final EquationsMapper newMapper) {
-        return new MidpointStateInterpolator(newForward, newYDotK,
-                                             newGlobalPreviousState, newGlobalCurrentState,
-                                             newSoftPreviousState, newSoftCurrentState,
-                                             newMapper);
+    protected MidpointStateInterpolator create(final boolean newForward, final double[][] newYDotK, final ODEStateAndDerivative newGlobalPreviousState, final ODEStateAndDerivative newGlobalCurrentState, final ODEStateAndDerivative newSoftPreviousState, final ODEStateAndDerivative newSoftCurrentState, final EquationsMapper newMapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected ODEStateAndDerivative computeInterpolatedStateAndDerivatives(final EquationsMapper mapper,
-                                                                           final double time, final double theta,
-                                                                           final double thetaH, final double oneMinusThetaH) {
-        final double coeffDot2 = 2 * theta;
-        final double coeffDot1 = 1 - coeffDot2;
-
-        final double[] interpolatedState;
-        final double[] interpolatedDerivatives;
-        if (getGlobalPreviousState() != null && theta <= 0.5) {
-
-            final double coeff1     = theta * oneMinusThetaH;
-            final double coeff2     = theta * thetaH;
-            interpolatedState       = previousStateLinearCombination(coeff1, coeff2);
-            interpolatedDerivatives = derivativeLinearCombination(coeffDot1, coeffDot2);
-        } else {
-            final double coeff1     =  oneMinusThetaH * theta;
-            final double coeff2     = -oneMinusThetaH * (1.0 + theta);
-            interpolatedState       = currentStateLinearCombination(coeff1, coeff2);
-            interpolatedDerivatives = derivativeLinearCombination(coeffDot1, coeffDot2);
-        }
-
-        return mapper.mapStateAndDerivative(time, interpolatedState, interpolatedDerivatives);
-
+    protected ODEStateAndDerivative computeInterpolatedStateAndDerivatives(final EquationsMapper mapper, final double time, final double theta, final double thetaH, final double oneMinusThetaH) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

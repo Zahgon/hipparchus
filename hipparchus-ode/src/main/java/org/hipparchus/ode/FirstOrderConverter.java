@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode;
 
-/** This class converts second order differential equations to first
+/**
+ * This class converts second order differential equations to first
  * order ones.
  *
  * <p>This class is a wrapper around a {@link SecondOrderODE} which
@@ -54,55 +53,44 @@ package org.hipparchus.ode;
  * @see OrdinaryDifferentialEquation
  * @see SecondOrderODE
  */
-
 public class FirstOrderConverter implements OrdinaryDifferentialEquation {
 
-    /** Underlying second order equations set. */
+    /**
+     * Underlying second order equations set.
+     */
     private final SecondOrderODE equations;
 
-    /** second order problem dimension. */
+    /**
+     * second order problem dimension.
+     */
     private final int dimension;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * Build a converter around a second order equations set.
      * @param equations second order equations set to convert
      */
-    public FirstOrderConverter (final SecondOrderODE equations) {
+    public FirstOrderConverter(final SecondOrderODE equations) {
         this.equations = equations;
-        dimension      = equations.getDimension();
+        dimension = equations.getDimension();
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>The dimension of the first order problem is twice the
      * dimension of the underlying second order problem.</p>
      * @return dimension of the problem
      */
     @Override
     public int getDimension() {
-        return 2 * dimension;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[] computeDerivatives(final double t, final double[] y) {
-
-        final double[] yDot = new double[y.length];
-
-        // split the state vector in two
-        final double[] z    = new double[dimension];
-        final double[] zDot = new double[dimension];
-        System.arraycopy(y, 0,         z,    0, dimension);
-        System.arraycopy(y, dimension, zDot, 0, dimension);
-
-        // apply the underlying equations set
-        final double[] zDDot = equations.computeSecondDerivatives(t, z, zDot);
-
-        // build the result state derivative
-        System.arraycopy(zDot,  0, yDot, 0,         dimension);
-        System.arraycopy(zDDot, 0, yDot, dimension, dimension);
-
-        return yDot;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -14,18 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.events;
 
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.ode.FieldODEStateAndDerivative;
 
-/** This interface represents an event checking interval that depends on state.
-*
-* @see ODEEventDetector
-* @since 3.0
-* @param <T> the type of the field elements
-*/
+/**
+ * This interface represents an event checking interval that depends on state.
+ *
+ * @see ODEEventDetector
+ * @since 3.0
+ * @param <T> the type of the field elements
+ */
 @FunctionalInterface
 public interface FieldAdaptableInterval<T extends CalculusFieldElement<T>> {
 
@@ -46,6 +46,6 @@ public interface FieldAdaptableInterval<T extends CalculusFieldElement<T>> {
      * @since 4.0
      */
     static <W extends CalculusFieldElement<W>> FieldAdaptableInterval<W> of(final double maxCheck) {
-        return (state, isForward) -> maxCheck;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

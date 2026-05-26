@@ -25,10 +25,14 @@ import org.hipparchus.linear.RealVector;
  */
 public class UnscentedEvolution {
 
-    /** Current time. */
+    /**
+     * Current time.
+     */
     private final double currentTime;
 
-    /** State vectors at current time. */
+    /**
+     * State vectors at current time.
+     */
     private final RealVector[] currentStates;
 
     /**
@@ -37,22 +41,23 @@ public class UnscentedEvolution {
      * @param currentStates state vectors at current time
      */
     public UnscentedEvolution(final double currentTime, final RealVector[] currentStates) {
-        this.currentTime         = currentTime;
-        this.currentStates       = currentStates.clone();
+        this.currentTime = currentTime;
+        this.currentStates = currentStates.clone();
     }
 
-    /** Get current time.
+    /**
+     * Get current time.
      * @return current time
      */
     public double getCurrentTime() {
-        return currentTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get current states.
+    /**
+     * Get current states.
      * @return current states
      */
     public RealVector[] getCurrentStates() {
-        return currentStates.clone();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

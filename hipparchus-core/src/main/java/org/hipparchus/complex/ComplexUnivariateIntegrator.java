@@ -17,7 +17,6 @@
 package org.hipparchus.complex;
 
 import java.util.function.DoubleFunction;
-
 import org.hipparchus.analysis.CalculusFieldUnivariateFunction;
 import org.hipparchus.analysis.integration.UnivariateIntegrator;
 
@@ -25,12 +24,15 @@ import org.hipparchus.analysis.integration.UnivariateIntegrator;
  * Wrapper to perform univariate complex integration using an underlying real integration algorithms.
  * @since 2.0
  */
-public class ComplexUnivariateIntegrator  {
+public class ComplexUnivariateIntegrator {
 
-    /** Underlying real integrator. */
+    /**
+     * Underlying real integrator.
+     */
     private UnivariateIntegrator integrator;
 
-    /** Crate a complex integrator from a real integrator.
+    /**
+     * Crate a complex integrator from a real integrator.
      * @param integrator underlying real integrator to use
      */
     public ComplexUnivariateIntegrator(final UnivariateIntegrator integrator) {
@@ -47,20 +49,8 @@ public class ComplexUnivariateIntegrator  {
      * @param end end point of the integration path
      * @return the value of integral along the straight path
      */
-    public Complex integrate(final int maxEval, final CalculusFieldUnivariateFunction<Complex> f,
-                             final Complex start, final Complex end) {
-
-        // linear mapping from real interval [0; 1] to function value along complex straight path from start to end
-        final Complex                 rate   = end.subtract(start);
-        final DoubleFunction<Complex> mapped = t -> f.value(start.add(rate.multiply(t)));
-
-        // integrate real and imaginary parts separately
-        final double real      = integrator.integrate(maxEval, t -> mapped.apply(t).getRealPart(),      0.0, 1.0);
-        final double imaginary = integrator.integrate(maxEval, t -> mapped.apply(t).getImaginaryPart(), 0.0, 1.0);
-
-        // combine integrals
-        return new Complex(real, imaginary).multiply(rate);
-
+    public Complex integrate(final int maxEval, final CalculusFieldUnivariateFunction<Complex> f, final Complex start, final Complex end) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -74,15 +64,7 @@ public class ComplexUnivariateIntegrator  {
      * @param path successive points defining the path vertices
      * @return the value of integral along the polyline path
      */
-    public Complex integrate(final int maxEval, final CalculusFieldUnivariateFunction<Complex> f,
-                             final Complex start, final Complex...path) {
-        Complex sum      = Complex.ZERO;
-        Complex previous = start;
-        for (final Complex current : path) {
-            sum = sum.add(integrate(maxEval, f, previous, current));
-            previous = current;
-        }
-        return sum;
+    public Complex integrate(final int maxEval, final CalculusFieldUnivariateFunction<Complex> f, final Complex start, final Complex... path) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

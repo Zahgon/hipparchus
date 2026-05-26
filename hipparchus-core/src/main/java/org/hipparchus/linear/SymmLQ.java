@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -146,12 +145,12 @@ import org.hipparchus.util.MathUtils;
  * Solution of Sparse Indefinite Systems of Linear Equations</em></a>, SIAM
  * Journal on Numerical Analysis 12(4): 617-629, 1975</dd>
  * </dl>
- *
  */
-public class SymmLQ
-    extends PreconditionedIterativeLinearSolver {
+public class SymmLQ extends PreconditionedIterativeLinearSolver {
 
-    /** {@code true} if symmetry of matrix and conditioner must be checked. */
+    /**
+     * {@code true} if symmetry of matrix and conditioner must be checked.
+     */
     private final boolean check;
 
     /**
@@ -228,7 +227,6 @@ public class SymmLQ
      *         = xL2[k-1] + zbar[k] * wbar2[k]
      *           + (bstep[k-1] + s[1] * ... * s[k-1] * zbar[k]) * v[1].
      */
-
     /**
      * <p>
      * A simple container holding the non-final variables used in the
@@ -246,19 +244,30 @@ public class SymmLQ
      * </p>
      */
     private static class State {
-        /** The cubic root of {@link #MACH_PREC}. */
+
+        /**
+         * The cubic root of {@link #MACH_PREC}.
+         */
         static final double CBRT_MACH_PREC;
 
-        /** The machine precision. */
+        /**
+         * The machine precision.
+         */
         static final double MACH_PREC;
 
-        /** Reference to the linear operator. */
+        /**
+         * Reference to the linear operator.
+         */
         private final RealLinearOperator a;
 
-        /** Reference to the right-hand side vector. */
+        /**
+         * Reference to the right-hand side vector.
+         */
         private final RealVector b;
 
-        /** {@code true} if symmetry of matrix and conditioner must be checked. */
+        /**
+         * {@code true} if symmetry of matrix and conditioner must be checked.
+         */
         private final boolean check;
 
         /**
@@ -267,19 +276,29 @@ public class SymmLQ
          */
         private final double delta;
 
-        /** The value of beta[k+1]. */
+        /**
+         * The value of beta[k+1].
+         */
         private double beta;
 
-        /** The value of beta[1]. */
+        /**
+         * The value of beta[1].
+         */
         private double beta1;
 
-        /** The value of bstep[k-1]. */
+        /**
+         * The value of bstep[k-1].
+         */
         private double bstep;
 
-        /** The estimate of the norm of P * rC[k]. */
+        /**
+         * The estimate of the norm of P * rC[k].
+         */
         private double cgnorm;
 
-        /** The value of dbar[k+1] = -beta[k+1] * c[k-1]. */
+        /**
+         * The value of dbar[k+1] = -beta[k+1] * c[k-1].
+         */
         private double dbar;
 
         /**
@@ -288,25 +307,39 @@ public class SymmLQ
          */
         private double gammaZeta;
 
-        /** The value of gbar[k]. */
+        /**
+         * The value of gbar[k].
+         */
         private double gbar;
 
-        /** The value of max(|alpha[1]|, gamma[1], ..., gamma[k-1]). */
+        /**
+         * The value of max(|alpha[1]|, gamma[1], ..., gamma[k-1]).
+         */
         private double gmax;
 
-        /** The value of min(|alpha[1]|, gamma[1], ..., gamma[k-1]). */
+        /**
+         * The value of min(|alpha[1]|, gamma[1], ..., gamma[k-1]).
+         */
         private double gmin;
 
-        /** Copy of the {@code goodb} parameter. */
+        /**
+         * Copy of the {@code goodb} parameter.
+         */
         private final boolean goodb;
 
-        /** {@code true} if the default convergence criterion is verified. */
+        /**
+         * {@code true} if the default convergence criterion is verified.
+         */
         private boolean hasConverged;
 
-        /** The estimate of the norm of P * rL[k-1]. */
+        /**
+         * The estimate of the norm of P * rL[k-1].
+         */
         private double lqnorm;
 
-        /** Reference to the preconditioner, M. */
+        /**
+         * Reference to the preconditioner, M.
+         */
         private final RealLinearOperator m;
 
         /**
@@ -315,16 +348,24 @@ public class SymmLQ
          */
         private double minusEpsZeta;
 
-        /** The value of M * b. */
+        /**
+         * The value of M * b.
+         */
         private final RealVector mb;
 
-        /** The value of beta[k]. */
+        /**
+         * The value of beta[k].
+         */
         private double oldb;
 
-        /** The value of beta[k] * M^(-1) * P' * v[k]. */
+        /**
+         * The value of beta[k] * M^(-1) * P' * v[k].
+         */
         private RealVector r1;
 
-        /** The value of beta[k+1] * M^(-1) * P' * v[k+1]. */
+        /**
+         * The value of beta[k+1] * M^(-1) * P' * v[k+1].
+         */
         private RealVector r2;
 
         /**
@@ -333,10 +374,14 @@ public class SymmLQ
          */
         private double rnorm;
 
-        /** Copy of the {@code shift} parameter. */
+        /**
+         * Copy of the {@code shift} parameter.
+         */
         private final double shift;
 
-        /** The value of s[1] * ... * s[k-1]. */
+        /**
+         * The value of s[1] * ... * s[k-1].
+         */
         private double snprod;
 
         /**
@@ -359,13 +404,19 @@ public class SymmLQ
          */
         private final RealVector xL;
 
-        /** The value of beta[k+1] * P' * v[k+1]. */
+        /**
+         * The value of beta[k+1] * P' * v[k+1].
+         */
         private RealVector y;
 
-        /** The value of zeta[1]^2 + ... + zeta[k-1]^2. */
+        /**
+         * The value of zeta[1]^2 + ... + zeta[k-1]^2.
+         */
         private double ynorm2;
 
-        /** The value of {@code b == 0} (exact floating-point equality). */
+        /**
+         * The value of {@code b == 0} (exact floating-point equality).
+         */
         private boolean bIsNull;
 
         static {
@@ -387,13 +438,7 @@ public class SymmLQ
          * @param check {@code true} if self-adjointedness of both matrix and
          * preconditioner should be checked
          */
-        State(final RealLinearOperator a,
-            final RealLinearOperator m,
-            final RealVector b,
-            final boolean goodb,
-            final double shift,
-            final double delta,
-            final boolean check) {
+        State(final RealLinearOperator a, final RealLinearOperator m, final RealVector b, final boolean goodb, final double shift, final double delta, final boolean check) {
             this.a = a;
             this.m = m;
             this.b = b;
@@ -418,8 +463,7 @@ public class SymmLQ
          *
          * @throws MathIllegalArgumentException when the test fails
          */
-        private static void checkSymmetry(final RealVector x, final RealVector y, final RealVector z)
-            throws MathIllegalArgumentException {
+        private static void checkSymmetry(final RealVector x, final RealVector y, final RealVector z) throws MathIllegalArgumentException {
             final double s = y.dotProduct(y);
             final double t = x.dotProduct(z);
             final double epsa = (s + MACH_PREC) * CBRT_MACH_PREC;
@@ -446,8 +490,7 @@ public class SymmLQ
          * @param x the vector to be added to {@code y}
          * @param y the vector to be incremented
          */
-        private static void daxpy(final double a, final RealVector x,
-            final RealVector y) {
+        private static void daxpy(final double a, final RealVector x, final RealVector y) {
             final int n = x.getDimension();
             for (int i = 0; i < n; i++) {
                 y.setEntry(i, a * x.getEntry(i) + y.getEntry(i));
@@ -465,8 +508,7 @@ public class SymmLQ
          * @param y the second vector to be added to {@code z}
          * @param z the vector to be incremented
          */
-        private static void daxpbypz(final double a, final RealVector x,
-            final double b, final RealVector y, final RealVector z) {
+        private static void daxpbypz(final double a, final RealVector x, final double b, final RealVector y, final RealVector z) {
             final int n = z.getDimension();
             for (int i = 0; i < n; i++) {
                 final double zi;
@@ -488,40 +530,8 @@ public class SymmLQ
          *
          * @param x the vector to be updated with the refined value of xL
          */
-         void refineSolution(final RealVector x) {
-            final int n = this.xL.getDimension();
-            if (lqnorm < cgnorm) {
-                if (!goodb) {
-                    x.setSubVector(0, this.xL);
-                } else {
-                    final double step = bstep / beta1;
-                    for (int i = 0; i < n; i++) {
-                        final double bi = mb.getEntry(i);
-                        final double xi = this.xL.getEntry(i);
-                        x.setEntry(i, xi + step * bi);
-                    }
-                }
-            } else {
-                final double anorm = FastMath.sqrt(tnorm);
-                final double diag = gbar == 0. ? anorm * MACH_PREC : gbar;
-                final double zbar = gammaZeta / diag;
-                final double step = (bstep + snprod * zbar) / beta1;
-                // ynorm = FastMath.sqrt(ynorm2 + zbar * zbar);
-                if (!goodb) {
-                    for (int i = 0; i < n; i++) {
-                        final double xi = this.xL.getEntry(i);
-                        final double wi = wbar.getEntry(i);
-                        x.setEntry(i, xi + zbar * wi);
-                    }
-                } else {
-                    for (int i = 0; i < n; i++) {
-                        final double xi = this.xL.getEntry(i);
-                        final double wi = wbar.getEntry(i);
-                        final double bi = mb.getEntry(i);
-                        x.setEntry(i, xi + zbar * wi + step * bi);
-                    }
-                }
-            }
+        void refineSolution(final RealVector x) {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -529,91 +539,8 @@ public class SymmLQ
          * value of the state variables of {@code this} object correspond to k =
          * 1.
          */
-         void init() {
-            this.xL.set(0.);
-            /*
-             * Set up y for the first Lanczos vector. y and beta1 will be zero
-             * if b = 0.
-             */
-            this.r1 = this.b.copy();
-            this.y = this.m == null ? this.b.copy() : this.m.operate(this.r1);
-            if ((this.m != null) && this.check) {
-                checkSymmetry(this.r1, this.y, this.m.operate(this.y));
-            }
-
-            this.beta1 = this.r1.dotProduct(this.y);
-            if (this.beta1 < 0.) {
-                throwNPDLOException();
-            }
-            if (this.beta1 == 0.) {
-                /* If b = 0 exactly, stop with x = 0. */
-                this.bIsNull = true;
-                return;
-            }
-            this.bIsNull = false;
-            this.beta1 = FastMath.sqrt(this.beta1);
-            /* At this point
-             *   r1 = b,
-             *   y = M * b,
-             *   beta1 = beta[1].
-             */
-            final RealVector v = this.y.mapMultiply(1. / this.beta1);
-            this.y = this.a.operate(v);
-            if (this.check) {
-                checkSymmetry(v, this.y, this.a.operate(this.y));
-            }
-            /*
-             * Set up y for the second Lanczos vector. y and beta will be zero
-             * or very small if b is an eigenvector.
-             */
-            daxpy(-this.shift, v, this.y);
-            final double alpha = v.dotProduct(this.y);
-            daxpy(-alpha / this.beta1, this.r1, this.y);
-            /*
-             * At this point
-             *   alpha = alpha[1]
-             *   y     = beta[2] * M^(-1) * P' * v[2]
-             */
-            /* Make sure r2 will be orthogonal to the first v. */
-            final double vty = v.dotProduct(this.y);
-            final double vtv = v.dotProduct(v);
-            daxpy(-vty / vtv, v, this.y);
-            this.r2 = this.y.copy();
-            if (this.m != null) {
-                this.y = this.m.operate(this.r2);
-            }
-            this.oldb = this.beta1;
-            this.beta = this.r2.dotProduct(this.y);
-            if (this.beta < 0.) {
-                throwNPDLOException();
-            }
-            this.beta = FastMath.sqrt(this.beta);
-            /*
-             * At this point
-             *   oldb = beta[1]
-             *   beta = beta[2]
-             *   y  = beta[2] * P' * v[2]
-             *   r2 = beta[2] * M^(-1) * P' * v[2]
-             */
-            this.cgnorm = this.beta1;
-            this.gbar = alpha;
-            this.dbar = this.beta;
-            this.gammaZeta = this.beta1;
-            this.minusEpsZeta = 0.;
-            this.bstep = 0.;
-            this.snprod = 1.;
-            this.tnorm = alpha * alpha + this.beta * this.beta;
-            this.ynorm2 = 0.;
-            this.gmax = FastMath.abs(alpha) + MACH_PREC;
-            this.gmin = this.gmax;
-
-            if (this.goodb) {
-                this.wbar = new ArrayRealVector(this.a.getRowDimension());
-                this.wbar.set(0.);
-            } else {
-                this.wbar = v;
-            }
-            updateNorms();
+        void init() {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -623,122 +550,7 @@ public class SymmLQ
          * current iteration count {@code k}.
          */
         void update() {
-            final RealVector v = y.mapMultiply(1. / beta);
-            y = a.operate(v);
-            daxpbypz(-shift, v, -beta / oldb, r1, y);
-            final double alpha = v.dotProduct(y);
-            /*
-             * At this point
-             *   v     = P' * v[k],
-             *   y     = (A - shift * I) * P' * v[k] - beta[k] * M^(-1) * P' * v[k-1],
-             *   alpha = v'[k] * P * (A - shift * I) * P' * v[k]
-             *           - beta[k] * v[k]' * P * M^(-1) * P' * v[k-1]
-             *         = v'[k] * P * (A - shift * I) * P' * v[k]
-             *           - beta[k] * v[k]' * v[k-1]
-             *         = alpha[k].
-             */
-            daxpy(-alpha / beta, r2, y);
-            /*
-             * At this point
-             *   y = (A - shift * I) * P' * v[k] - alpha[k] * M^(-1) * P' * v[k]
-             *       - beta[k] * M^(-1) * P' * v[k-1]
-             *     = M^(-1) * P' * (P * (A - shift * I) * P' * v[k] -alpha[k] * v[k]
-             *       - beta[k] * v[k-1])
-             *     = beta[k+1] * M^(-1) * P' * v[k+1],
-             * from Paige and Saunders (1975), equation (3.2).
-             *
-             * WATCH-IT: the two following lines work only because y is no longer
-             * updated up to the end of the present iteration, and is
-             * reinitialized at the beginning of the next iteration.
-             */
-            r1 = r2;
-            r2 = y;
-            if (m != null) {
-                y = m.operate(r2);
-            }
-            oldb = beta;
-            beta = r2.dotProduct(y);
-            if (beta < 0.) {
-                throwNPDLOException();
-            }
-            beta = FastMath.sqrt(beta);
-            /*
-             * At this point
-             *   r1 = beta[k] * M^(-1) * P' * v[k],
-             *   r2 = beta[k+1] * M^(-1) * P' * v[k+1],
-             *   y  = beta[k+1] * P' * v[k+1],
-             *   oldb = beta[k],
-             *   beta = beta[k+1].
-             */
-            tnorm += alpha * alpha + oldb * oldb + beta * beta;
-            /*
-             * Compute the next plane rotation for Q. See Paige and Saunders
-             * (1975), equation (5.6), with
-             *   gamma = gamma[k-1],
-             *   c     = c[k-1],
-             *   s     = s[k-1].
-             */
-            final double gamma = FastMath.sqrt(gbar * gbar + oldb * oldb);
-            final double c = gbar / gamma;
-            final double s = oldb / gamma;
-            /*
-             * The relations
-             *   gbar[k] = s[k-1] * (-c[k-2] * beta[k]) - c[k-1] * alpha[k]
-             *           = s[k-1] * dbar[k] - c[k-1] * alpha[k],
-             *   delta[k] = c[k-1] * dbar[k] + s[k-1] * alpha[k],
-             * are not stated in Paige and Saunders (1975), but can be retrieved
-             * by expanding the (k, k-1) and (k, k) coefficients of the matrix in
-             * equation (5.5).
-             */
-            final double deltak = c * dbar + s * alpha;
-            gbar = s * dbar - c * alpha;
-            final double eps = s * beta;
-            dbar = -c * beta;
-            final double zeta = gammaZeta / gamma;
-            /*
-             * At this point
-             *   gbar   = gbar[k]
-             *   deltak = delta[k]
-             *   eps    = eps[k+1]
-             *   dbar   = dbar[k+1]
-             *   zeta   = zeta[k-1]
-             */
-            final double zetaC = zeta * c;
-            final double zetaS = zeta * s;
-            final int n = xL.getDimension();
-            for (int i = 0; i < n; i++) {
-                final double xi = xL.getEntry(i);
-                final double vi = v.getEntry(i);
-                final double wi = wbar.getEntry(i);
-                xL.setEntry(i, xi + wi * zetaC + vi * zetaS);
-                wbar.setEntry(i, wi * s - vi * c);
-            }
-            /*
-             * At this point
-             *   x = xL[k-1],
-             *   ptwbar = P' wbar[k],
-             * see Paige and Saunders (1975), equations (5.9) and (5.10).
-             */
-            bstep += snprod * c * zeta;
-            snprod *= s;
-            gmax = FastMath.max(gmax, gamma);
-            gmin = FastMath.min(gmin, gamma);
-            ynorm2 += zeta * zeta;
-            gammaZeta = minusEpsZeta - deltak * zeta;
-            minusEpsZeta = -eps * zeta;
-            /*
-             * At this point
-             *   snprod       = s[1] * ... * s[k-1],
-             *   gmax         = max(|alpha[1]|, gamma[1], ..., gamma[k-1]),
-             *   gmin         = min(|alpha[1]|, gamma[1], ..., gamma[k-1]),
-             *   ynorm2       = zeta[1]^2 + ... + zeta[k-1]^2,
-             *   gammaZeta    = gamma[k] * zeta[k],
-             *   minusEpsZeta = -eps[k+1] * zeta[k-1].
-             * The relation for gammaZeta can be retrieved from Paige and
-             * Saunders (1975), equation (5.4a), last line of the vector
-             * gbar[k] * zbar[k] = -eps[k] * zeta[k-2] - delta[k] * zeta[k-1].
-             */
-            updateNorms();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -752,11 +564,9 @@ public class SymmLQ
             final double epsx = anorm * ynorm * MACH_PREC;
             final double epsr = anorm * ynorm * delta;
             final double diag = gbar == 0. ? epsa : gbar;
-            lqnorm = FastMath.sqrt(gammaZeta * gammaZeta +
-                                   minusEpsZeta * minusEpsZeta);
+            lqnorm = FastMath.sqrt(gammaZeta * gammaZeta + minusEpsZeta * minusEpsZeta);
             final double qrnorm = snprod * beta1;
             cgnorm = qrnorm * beta / FastMath.abs(diag);
-
             /*
              * Estimate cond(A). In this version we look at the diagonals of L
              * in the factorization of the tridiagonal matrix, T = L * Q.
@@ -789,7 +599,7 @@ public class SymmLQ
          * @return {@code true} if convergence of the iterations has occurred
          */
         boolean hasConverged() {
-            return hasConverged;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -798,7 +608,7 @@ public class SymmLQ
          * @return the boolean value of {@code b == 0}
          */
         boolean bEqualsNullVector() {
-            return bIsNull;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -808,7 +618,7 @@ public class SymmLQ
          * @return {@code true} if {@code beta < }{@link #MACH_PREC}
          */
         boolean betaEqualsZero() {
-            return beta < MACH_PREC;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -817,7 +627,7 @@ public class SymmLQ
          * @return the norm of the residual, ||P * r||
          */
         double getNormOfResidual() {
-            return rnorm;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -831,8 +641,7 @@ public class SymmLQ
      * @param check {@code true} if self-adjointedness of both matrix and
      * preconditioner should be checked
      */
-    public SymmLQ(final int maxIterations, final double delta,
-                  final boolean check) {
+    public SymmLQ(final int maxIterations, final double delta, final boolean check) {
         super(maxIterations);
         this.delta = delta;
         this.check = check;
@@ -849,8 +658,7 @@ public class SymmLQ
      * @param check {@code true} if self-adjointedness of both matrix and
      * preconditioner should be checked
      */
-    public SymmLQ(final IterationManager manager, final double delta,
-                  final boolean check) {
+    public SymmLQ(final IterationManager manager, final double delta, final boolean check) {
         super(manager);
         this.delta = delta;
         this.check = check;
@@ -864,7 +672,7 @@ public class SymmLQ
      * @since 1.4
      */
     public final boolean shouldCheck() {
-        return check;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -877,12 +685,8 @@ public class SymmLQ
      * @throws MathIllegalArgumentException if {@code a} is ill-conditioned
      */
     @Override
-    public RealVector solve(final RealLinearOperator a,
-        final RealLinearOperator m, final RealVector b) throws
-            NullArgumentException, MathIllegalStateException, MathIllegalArgumentException {
-        MathUtils.checkNotNull(a);
-        final RealVector x = new ArrayRealVector(a.getColumnDimension());
-        return solveInPlace(a, m, b, x, false, 0.);
+    public RealVector solve(final RealLinearOperator a, final RealLinearOperator m, final RealVector b) throws NullArgumentException, MathIllegalStateException, MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -925,12 +729,8 @@ public class SymmLQ
      * positive definite
      * @throws MathIllegalArgumentException if {@code a} is ill-conditioned
      */
-    public RealVector solve(final RealLinearOperator a, final RealLinearOperator m,
-                            final RealVector b, final boolean goodb, final double shift)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        MathUtils.checkNotNull(a);
-        final RealVector x = new ArrayRealVector(a.getColumnDimension());
-        return solveInPlace(a, m, b, x, goodb, shift);
+    public RealVector solve(final RealLinearOperator a, final RealLinearOperator m, final RealVector b, final boolean goodb, final double shift) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -945,13 +745,8 @@ public class SymmLQ
      * @throws MathIllegalArgumentException if {@code a} is ill-conditioned
      */
     @Override
-    public RealVector solve(final RealLinearOperator a,
-        final RealLinearOperator m, final RealVector b, final RealVector x)
-        throws NullArgumentException,
-        MathIllegalArgumentException,
-        MathIllegalStateException {
-        MathUtils.checkNotNull(x);
-        return solveInPlace(a, m, b, x.copy(), false, 0.);
+    public RealVector solve(final RealLinearOperator a, final RealLinearOperator m, final RealVector b, final RealVector x) throws NullArgumentException, MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -962,13 +757,8 @@ public class SymmLQ
      * @throws MathIllegalArgumentException if {@code a} is ill-conditioned
      */
     @Override
-    public RealVector solve(final RealLinearOperator a, final RealVector b)
-        throws NullArgumentException,
-        MathIllegalArgumentException, MathIllegalStateException {
-        MathUtils.checkNotNull(a);
-        final RealVector x = new ArrayRealVector(a.getColumnDimension());
-        x.set(0.);
-        return solveInPlace(a, null, b, x, false, 0.);
+    public RealVector solve(final RealLinearOperator a, final RealVector b) throws NullArgumentException, MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1006,12 +796,8 @@ public class SymmLQ
      * {@code true}, and {@code a} is not self-adjoint
      * @throws MathIllegalArgumentException if {@code a} is ill-conditioned
      */
-    public RealVector solve(final RealLinearOperator a, final RealVector b,
-                            final boolean goodb, final double shift)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        MathUtils.checkNotNull(a);
-        final RealVector x = new ArrayRealVector(a.getColumnDimension());
-        return solveInPlace(a, null, b, x, goodb, shift);
+    public RealVector solve(final RealLinearOperator a, final RealVector b, final boolean goodb, final double shift) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1024,11 +810,8 @@ public class SymmLQ
      * @throws MathIllegalArgumentException if {@code a} is ill-conditioned
      */
     @Override
-    public RealVector solve(final RealLinearOperator a, final RealVector b,
-        final RealVector x) throws NullArgumentException, MathIllegalArgumentException,
-        MathIllegalStateException {
-        MathUtils.checkNotNull(x);
-        return solveInPlace(a, null, b, x.copy(), false, 0.);
+    public RealVector solve(final RealLinearOperator a, final RealVector b, final RealVector x) throws NullArgumentException, MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1043,12 +826,8 @@ public class SymmLQ
      * @throws MathIllegalArgumentException if {@code a} is ill-conditioned
      */
     @Override
-    public RealVector solveInPlace(final RealLinearOperator a,
-        final RealLinearOperator m, final RealVector b, final RealVector x)
-        throws NullArgumentException,
-        MathIllegalArgumentException,
-        MathIllegalStateException {
-        return solveInPlace(a, m, b, x, false, 0.);
+    public RealVector solveInPlace(final RealLinearOperator a, final RealLinearOperator m, final RealVector b, final RealVector x) throws NullArgumentException, MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1092,62 +871,8 @@ public class SymmLQ
      * @throws MathIllegalArgumentException if {@code m} is not positive definite
      * @throws MathIllegalArgumentException if {@code a} is ill-conditioned
      */
-    public RealVector solveInPlace(final RealLinearOperator a,
-                                   final RealLinearOperator m, final RealVector b,
-                                   final RealVector x, final boolean goodb, final double shift)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-        checkParameters(a, m, b, x);
-
-        final IterationManager manager = getIterationManager();
-        /* Initialization counts as an iteration. */
-        manager.resetIterationCount();
-        manager.incrementIterationCount();
-
-        final State state;
-        state = new State(a, m, b, goodb, shift, delta, check);
-        state.init();
-        state.refineSolution(x);
-        IterativeLinearSolverEvent event;
-        event = new DefaultIterativeLinearSolverEvent(this,
-                                                      manager.getIterations(),
-                                                      x,
-                                                      b,
-                                                      state.getNormOfResidual());
-        if (state.bEqualsNullVector()) {
-            /* If b = 0 exactly, stop with x = 0. */
-            manager.fireTerminationEvent(event);
-            return x;
-        }
-        /* Cause termination if beta is essentially zero. */
-        final boolean earlyStop;
-        earlyStop = state.betaEqualsZero() || state.hasConverged();
-        manager.fireInitializationEvent(event);
-        if (!earlyStop) {
-            do {
-                manager.incrementIterationCount();
-                event = new DefaultIterativeLinearSolverEvent(this,
-                                                              manager.getIterations(),
-                                                              x,
-                                                              b,
-                                                              state.getNormOfResidual());
-                manager.fireIterationStartedEvent(event);
-                state.update();
-                state.refineSolution(x);
-                event = new DefaultIterativeLinearSolverEvent(this,
-                                                              manager.getIterations(),
-                                                              x,
-                                                              b,
-                                                              state.getNormOfResidual());
-                manager.fireIterationPerformedEvent(event);
-            } while (!state.hasConverged());
-        }
-        event = new DefaultIterativeLinearSolverEvent(this,
-                                                      manager.getIterations(),
-                                                      x,
-                                                      b,
-                                                      state.getNormOfResidual());
-        manager.fireTerminationEvent(event);
-        return x;
+    public RealVector solveInPlace(final RealLinearOperator a, final RealLinearOperator m, final RealVector b, final RealVector x, final boolean goodb, final double shift) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1160,9 +885,7 @@ public class SymmLQ
      * @throws MathIllegalArgumentException if {@code a} is ill-conditioned
      */
     @Override
-    public RealVector solveInPlace(final RealLinearOperator a,
-        final RealVector b, final RealVector x) throws NullArgumentException, MathIllegalArgumentException,
-        MathIllegalStateException {
-        return solveInPlace(a, null, b, x, false, 0.);
+    public RealVector solveInPlace(final RealLinearOperator a, final RealVector b, final RealVector x) throws NullArgumentException, MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

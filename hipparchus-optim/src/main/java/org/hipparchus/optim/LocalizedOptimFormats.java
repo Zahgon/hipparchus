@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.optim;
 
 import java.util.Locale;
-
 import org.hipparchus.exception.Localizable;
 
 /**
@@ -41,46 +39,62 @@ import org.hipparchus.exception.Localizable;
  */
 public enum LocalizedOptimFormats implements Localizable {
 
-    /** EQUAL_VERTICES_IN_SIMPLEX. */
+    /**
+     * EQUAL_VERTICES_IN_SIMPLEX.
+     */
     EQUAL_VERTICES_IN_SIMPLEX("equal vertices {0} and {1} in simplex configuration"),
-
-    /** INVALID_IMPLEMENTATION. */
+    /**
+     * INVALID_IMPLEMENTATION.
+     */
     INVALID_IMPLEMENTATION("required functionality is missing in {0}"),
-
-    /** NO_FEASIBLE_SOLUTION. */
+    /**
+     * NO_FEASIBLE_SOLUTION.
+     */
     NO_FEASIBLE_SOLUTION("no feasible solution"),
-
-    /** SIMPLEX_NEED_ONE_POINT. */
+    /**
+     * SIMPLEX_NEED_ONE_POINT.
+     */
     SIMPLEX_NEED_ONE_POINT("simplex must contain at least one point"),
-
-    /** TOO_SMALL_COST_RELATIVE_TOLERANCE. */
+    /**
+     * TOO_SMALL_COST_RELATIVE_TOLERANCE.
+     */
     TOO_SMALL_COST_RELATIVE_TOLERANCE("cost relative tolerance is too small ({0}), no further reduction in the sum of squares is possible"),
-
-    /** TOO_SMALL_ORTHOGONALITY_TOLERANCE. */
+    /**
+     * TOO_SMALL_ORTHOGONALITY_TOLERANCE.
+     */
     TOO_SMALL_ORTHOGONALITY_TOLERANCE("orthogonality tolerance is too small ({0}), solution is orthogonal to the jacobian"),
-
-    /** TOO_SMALL_PARAMETERS_RELATIVE_TOLERANCE. */
+    /**
+     * TOO_SMALL_PARAMETERS_RELATIVE_TOLERANCE.
+     */
     TOO_SMALL_PARAMETERS_RELATIVE_TOLERANCE("parameters relative tolerance is too small ({0}), no further improvement in the approximate solution is possible"),
-
-    /** TRUST_REGION_STEP_FAILED. */
+    /**
+     * TRUST_REGION_STEP_FAILED.
+     */
     TRUST_REGION_STEP_FAILED("trust region step has failed to reduce Q"),
-
-    /** UNABLE_TO_PERFORM_QR_DECOMPOSITION_ON_JACOBIAN. */
+    /**
+     * UNABLE_TO_PERFORM_QR_DECOMPOSITION_ON_JACOBIAN.
+     */
     UNABLE_TO_PERFORM_QR_DECOMPOSITION_ON_JACOBIAN("unable to perform Q.R decomposition on the {0}x{1} jacobian matrix"),
-
-    /** UNABLE_TO_SOLVE_SINGULAR_PROBLEM. */
+    /**
+     * UNABLE_TO_SOLVE_SINGULAR_PROBLEM.
+     */
     UNABLE_TO_SOLVE_SINGULAR_PROBLEM("unable to solve: singular problem"),
-
-    /** UNBOUNDED_SOLUTION. */
+    /**
+     * UNBOUNDED_SOLUTION.
+     */
     UNBOUNDED_SOLUTION("unbounded solution"),
-
-    /** CONSTRAINTS_RANK. */
+    /**
+     * CONSTRAINTS_RANK.
+     */
     CONSTRAINTS_RANK("rank of constraints must be lesser than domain dimension, but {0} >= {1}");
 
-    /** Source English format. */
+    /**
+     * Source English format.
+     */
     private final String sourceFormat;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param sourceFormat source English format to use when no
      * localized version is available
      */
@@ -88,17 +102,19 @@ public enum LocalizedOptimFormats implements Localizable {
         this.sourceFormat = sourceFormat;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getSourceString() {
-        return sourceFormat;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getLocalizedString(final Locale locale) {
-        return getLocalizedString("assets/" + LocalizedOptimFormats.class.getName().replaceAll("\\.", "/"),
-                                  name(), locale);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

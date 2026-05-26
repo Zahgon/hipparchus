@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.util;
 
 import java.lang.reflect.Array;
@@ -30,7 +28,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NavigableSet;
 import java.util.TreeSet;
-
 import org.hipparchus.Field;
 import org.hipparchus.FieldElement;
 import org.hipparchus.CalculusFieldElement;
@@ -49,29 +46,29 @@ public class MathArrays {
     /**
      * Private constructor.
      */
-    private MathArrays() {}
+    private MathArrays() {
+    }
 
     /**
      * Real-valued function that operates on an array or a part of it.
      */
     public interface Function {
 
-        /** Operates on an entire array.
+        /**
+         * Operates on an entire array.
          * @param array Array to operate on.
          * @return the result of the operation.
          */
         double evaluate(double[] array);
 
-        /** Operates on a sub-array.
+        /**
+         * Operates on a sub-array.
          * @param array Array to operate on.
          * @param startIndex Index of the first element to take into account.
          * @param numElements Number of elements to take into account.
          * @return the result of the operation.
          */
-        double evaluate(double[] array,
-                        int startIndex,
-                        int numElements);
-
+        double evaluate(double[] array, int startIndex, int numElements);
     }
 
     /**
@@ -82,11 +79,7 @@ public class MathArrays {
      * @return scaled copy of array with each entry multiplied by val.
      */
     public static double[] scale(double val, final double[] arr) {
-        double[] newArr = new double[arr.length];
-        for (int i = 0; i < arr.length; i++) {
-            newArr[i] = arr[i] * val;
-        }
-        return newArr;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -98,9 +91,7 @@ public class MathArrays {
      * @param val Scalar
      */
     public static void scaleInPlace(double val, final double[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] *= val;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -112,16 +103,10 @@ public class MathArrays {
      * @return a new array {@code r} where {@code r[i] = a[i] + b[i]}.
      * @throws MathIllegalArgumentException if the array lengths differ.
      */
-    public static double[] ebeAdd(double[] a, double[] b)
-        throws MathIllegalArgumentException {
-        checkEqualLength(a, b);
-
-        final double[] result = a.clone();
-        for (int i = 0; i < a.length; i++) {
-            result[i] += b[i];
-        }
-        return result;
+    public static double[] ebeAdd(double[] a, double[] b) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     /**
      * Creates an array whose contents will be the element-by-element
      * subtraction of the second argument from the first.
@@ -131,16 +116,10 @@ public class MathArrays {
      * @return a new array {@code r} where {@code r[i] = a[i] - b[i]}.
      * @throws MathIllegalArgumentException if the array lengths differ.
      */
-    public static double[] ebeSubtract(double[] a, double[] b)
-        throws MathIllegalArgumentException {
-        checkEqualLength(a, b);
-
-        final double[] result = a.clone();
-        for (int i = 0; i < a.length; i++) {
-            result[i] -= b[i];
-        }
-        return result;
+    public static double[] ebeSubtract(double[] a, double[] b) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     /**
      * Creates an array whose contents will be the element-by-element
      * multiplication of the arguments.
@@ -150,16 +129,10 @@ public class MathArrays {
      * @return a new array {@code r} where {@code r[i] = a[i] * b[i]}.
      * @throws MathIllegalArgumentException if the array lengths differ.
      */
-    public static double[] ebeMultiply(double[] a, double[] b)
-        throws MathIllegalArgumentException {
-        checkEqualLength(a, b);
-
-        final double[] result = a.clone();
-        for (int i = 0; i < a.length; i++) {
-            result[i] *= b[i];
-        }
-        return result;
+    public static double[] ebeMultiply(double[] a, double[] b) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     /**
      * Creates an array whose contents will be the element-by-element
      * division of the first argument by the second.
@@ -169,15 +142,8 @@ public class MathArrays {
      * @return a new array {@code r} where {@code r[i] = a[i] / b[i]}.
      * @throws MathIllegalArgumentException if the array lengths differ.
      */
-    public static double[] ebeDivide(double[] a, double[] b)
-        throws MathIllegalArgumentException {
-        checkEqualLength(a, b);
-
-        final double[] result = a.clone();
-        for (int i = 0; i < a.length; i++) {
-            result[i] /= b[i];
-        }
-        return result;
+    public static double[] ebeDivide(double[] a, double[] b) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -188,14 +154,8 @@ public class MathArrays {
      * @return the L<sub>1</sub> distance between the two points
      * @throws MathIllegalArgumentException if the array lengths differ.
      */
-    public static double distance1(double[] p1, double[] p2)
-        throws MathIllegalArgumentException {
-        checkEqualLength(p1, p2);
-        double sum = 0;
-        for (int i = 0; i < p1.length; i++) {
-            sum += FastMath.abs(p1[i] - p2[i]);
-        }
-        return sum;
+    public static double distance1(double[] p1, double[] p2) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -206,14 +166,8 @@ public class MathArrays {
      * @return the L<sub>1</sub> distance between the two points
      * @throws MathIllegalArgumentException if the array lengths differ.
      */
-    public static int distance1(int[] p1, int[] p2)
-        throws MathIllegalArgumentException {
-        checkEqualLength(p1, p2);
-        int sum = 0;
-        for (int i = 0; i < p1.length; i++) {
-            sum += FastMath.abs(p1[i] - p2[i]);
-        }
-        return sum;
+    public static int distance1(int[] p1, int[] p2) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -224,15 +178,8 @@ public class MathArrays {
      * @return the L<sub>2</sub> distance between the two points
      * @throws MathIllegalArgumentException if the array lengths differ.
      */
-    public static double distance(double[] p1, double[] p2)
-        throws MathIllegalArgumentException {
-        checkEqualLength(p1, p2);
-        double sum = 0;
-        for (int i = 0; i < p1.length; i++) {
-            final double dp = p1[i] - p2[i];
-            sum += dp * dp;
-        }
-        return FastMath.sqrt(sum);
+    public static double distance(double[] p1, double[] p2) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -243,7 +190,7 @@ public class MathArrays {
      * @return the cosine of the angle between the vectors.
      */
     public static double cosAngle(double[] v1, double[] v2) {
-        return linearCombination(v1, v2) / (safeNorm(v1) * safeNorm(v2));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -254,15 +201,8 @@ public class MathArrays {
      * @return the L<sub>2</sub> distance between the two points
      * @throws MathIllegalArgumentException if the array lengths differ.
      */
-    public static double distance(int[] p1, int[] p2)
-        throws MathIllegalArgumentException {
-        checkEqualLength(p1, p2);
-        double sum = 0;
-        for (int i = 0; i < p1.length; i++) {
-            final double dp = p1[i] - p2[i];
-            sum += dp * dp;
-        }
-        return FastMath.sqrt(sum);
+    public static double distance(int[] p1, int[] p2) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -273,14 +213,8 @@ public class MathArrays {
      * @return the L<sub>&infin;</sub> distance between the two points
      * @throws MathIllegalArgumentException if the array lengths differ.
      */
-    public static double distanceInf(double[] p1, double[] p2)
-        throws MathIllegalArgumentException {
-        checkEqualLength(p1, p2);
-        double max = 0;
-        for (int i = 0; i < p1.length; i++) {
-            max = FastMath.max(max, FastMath.abs(p1[i] - p2[i]));
-        }
-        return max;
+    public static double distanceInf(double[] p1, double[] p2) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -291,23 +225,22 @@ public class MathArrays {
      * @return the L<sub>&infin;</sub> distance between the two points
      * @throws MathIllegalArgumentException if the array lengths differ.
      */
-    public static int distanceInf(int[] p1, int[] p2)
-        throws MathIllegalArgumentException {
-        checkEqualLength(p1, p2);
-        int max = 0;
-        for (int i = 0; i < p1.length; i++) {
-            max = FastMath.max(max, FastMath.abs(p1[i] - p2[i]));
-        }
-        return max;
+    public static int distanceInf(int[] p1, int[] p2) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Specification of ordering direction.
      */
     public enum OrderDirection {
-        /** Constant for increasing direction. */
+
+        /**
+         * Constant for increasing direction.
+         */
         INCREASING,
-        /** Constant for decreasing direction. */
+        /**
+         * Constant for decreasing direction.
+         */
         DECREASING
     }
 
@@ -320,46 +253,8 @@ public class MathArrays {
      * @param strict Whether the order should be strict.
      * @return {@code true} if sorted, {@code false} otherwise.
      */
-    public static <T extends Comparable<? super T>> boolean isMonotonic(T[] val,
-                                                                        OrderDirection dir,
-                                                                        boolean strict) {
-        T previous = val[0];
-        final int max = val.length;
-        for (int i = 1; i < max; i++) {
-            final int comp;
-            switch (dir) {
-            case INCREASING:
-                comp = previous.compareTo(val[i]);
-                if (strict) {
-                    if (comp >= 0) {
-                        return false;
-                    }
-                } else {
-                    if (comp > 0) {
-                        return false;
-                    }
-                }
-                break;
-            case DECREASING:
-                comp = val[i].compareTo(previous);
-                if (strict) {
-                    if (comp >= 0) {
-                        return false;
-                    }
-                } else {
-                    if (comp > 0) {
-                       return false;
-                    }
-                }
-                break;
-            default:
-                // Should never happen.
-                throw MathRuntimeException.createInternalError();
-            }
-
-            previous = val[i];
-        }
-        return true;
+    public static <T extends Comparable<? super T>> boolean isMonotonic(T[] val, OrderDirection dir, boolean strict) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -371,7 +266,7 @@ public class MathArrays {
      * @return {@code true} if sorted, {@code false} otherwise.
      */
     public static boolean isMonotonic(double[] val, OrderDirection dir, boolean strict) {
-        return checkOrder(val, dir, strict, false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -384,18 +279,8 @@ public class MathArrays {
      * @throws MathIllegalArgumentException if the lengths differ and
      * {@code abort} is {@code true}.
      */
-    public static boolean checkEqualLength(double[] a,
-                                           double[] b,
-                                           boolean abort) {
-        if (a.length == b.length) {
-            return true;
-        } else {
-            if (abort) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                       a.length, b.length);
-            }
-            return false;
-        }
+    public static boolean checkEqualLength(double[] a, double[] b, boolean abort) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -405,9 +290,8 @@ public class MathArrays {
      * @param b Array.
      * @throws MathIllegalArgumentException if the lengths differ.
      */
-    public static void checkEqualLength(double[] a,
-                                        double[] b) {
-        checkEqualLength(a, b, true);
+    public static void checkEqualLength(double[] a, double[] b) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -422,18 +306,8 @@ public class MathArrays {
      * @param <T> the type of the field elements
      * @since 1.5
      */
-    public static <T extends CalculusFieldElement<T>> boolean checkEqualLength(final T[] a,
-                                                                           final T[] b,
-                                           boolean abort) {
-        if (a.length == b.length) {
-            return true;
-        } else {
-            if (abort) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                       a.length, b.length);
-            }
-            return false;
-        }
+    public static <T extends CalculusFieldElement<T>> boolean checkEqualLength(final T[] a, final T[] b, boolean abort) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -446,7 +320,7 @@ public class MathArrays {
      * @since 1.5
      */
     public static <T extends CalculusFieldElement<T>> void checkEqualLength(final T[] a, final T[] b) {
-        checkEqualLength(a, b, true);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -459,18 +333,8 @@ public class MathArrays {
      * @throws MathIllegalArgumentException if the lengths differ and
      * {@code abort} is {@code true}.
      */
-    public static boolean checkEqualLength(int[] a,
-                                           int[] b,
-                                           boolean abort) {
-        if (a.length == b.length) {
-            return true;
-        } else {
-            if (abort) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                       a.length, b.length);
-            }
-            return false;
-        }
+    public static boolean checkEqualLength(int[] a, int[] b, boolean abort) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -480,9 +344,8 @@ public class MathArrays {
      * @param b Array.
      * @throws MathIllegalArgumentException if the lengths differ.
      */
-    public static void checkEqualLength(int[] a,
-                                        int[] b) {
-        checkEqualLength(a, b, true);
+    public static void checkEqualLength(int[] a, int[] b) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -496,64 +359,8 @@ public class MathArrays {
      * @throws MathIllegalArgumentException if the array is not sorted
      * and {@code abort} is {@code true}.
      */
-    public static boolean checkOrder(double[] val, OrderDirection dir,
-                                     boolean strict, boolean abort)
-        throws MathIllegalArgumentException {
-        double previous = val[0];
-        final int max = val.length;
-
-        int index;
-        ITEM:
-        for (index = 1; index < max; index++) {
-            switch (dir) {
-            case INCREASING:
-                if (strict) {
-                    if (val[index] <= previous) {
-                        break ITEM;
-                    }
-                } else {
-                    if (val[index] < previous) {
-                        break ITEM;
-                    }
-                }
-                break;
-            case DECREASING:
-                if (strict) {
-                    if (val[index] >= previous) {
-                        break ITEM;
-                    }
-                } else {
-                    if (val[index] > previous) {
-                        break ITEM;
-                    }
-                }
-                break;
-            default:
-                // Should never happen.
-                throw MathRuntimeException.createInternalError();
-            }
-
-            previous = val[index];
-        }
-
-        if (index == max) {
-            // Loop completed.
-            return true;
-        }
-
-        // Loop early exit means wrong ordering.
-        if (abort) {
-            throw new MathIllegalArgumentException(dir == MathArrays.OrderDirection.INCREASING ?
-                                                    (strict ?
-                                                     LocalizedCoreFormats.NOT_STRICTLY_INCREASING_SEQUENCE :
-                                                     LocalizedCoreFormats.NOT_INCREASING_SEQUENCE) :
-                                                    (strict ?
-                                                     LocalizedCoreFormats.NOT_STRICTLY_DECREASING_SEQUENCE :
-                                                     LocalizedCoreFormats.NOT_DECREASING_SEQUENCE),
-                                                    val[index], previous, index, index - 1);
-        } else {
-            return false;
-        }
+    public static boolean checkOrder(double[] val, OrderDirection dir, boolean strict, boolean abort) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -564,9 +371,8 @@ public class MathArrays {
      * @param strict Whether the order should be strict.
      * @throws MathIllegalArgumentException if the array is not sorted.
      */
-    public static void checkOrder(double[] val, OrderDirection dir,
-                                  boolean strict) throws MathIllegalArgumentException {
-        checkOrder(val, dir, strict, true);
+    public static void checkOrder(double[] val, OrderDirection dir, boolean strict) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -576,7 +382,7 @@ public class MathArrays {
      * @throws MathIllegalArgumentException if the array is not sorted.
      */
     public static void checkOrder(double[] val) throws MathIllegalArgumentException {
-        checkOrder(val, OrderDirection.INCREASING, true);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -592,64 +398,8 @@ public class MathArrays {
      * @param <T> the type of the field elements
      * @since 1.5
      */
-    public static <T extends CalculusFieldElement<T>>boolean checkOrder(T[] val, OrderDirection dir,
-                                                                    boolean strict, boolean abort)
-        throws MathIllegalArgumentException {
-        double previous = val[0].getReal();
-        final int max = val.length;
-
-        int index;
-        ITEM:
-        for (index = 1; index < max; index++) {
-            switch (dir) {
-            case INCREASING:
-                if (strict) {
-                    if (val[index].getReal() <= previous) {
-                        break ITEM;
-                    }
-                } else {
-                    if (val[index].getReal() < previous) {
-                        break ITEM;
-                    }
-                }
-                break;
-            case DECREASING:
-                if (strict) {
-                    if (val[index].getReal() >= previous) {
-                        break ITEM;
-                    }
-                } else {
-                    if (val[index].getReal() > previous) {
-                        break ITEM;
-                    }
-                }
-                break;
-            default:
-                // Should never happen.
-                throw MathRuntimeException.createInternalError();
-            }
-
-            previous = val[index].getReal();
-        }
-
-        if (index == max) {
-            // Loop completed.
-            return true;
-        }
-
-        // Loop early exit means wrong ordering.
-        if (abort) {
-            throw new MathIllegalArgumentException(dir == MathArrays.OrderDirection.INCREASING ?
-                                                    (strict ?
-                                                     LocalizedCoreFormats.NOT_STRICTLY_INCREASING_SEQUENCE :
-                                                     LocalizedCoreFormats.NOT_INCREASING_SEQUENCE) :
-                                                    (strict ?
-                                                     LocalizedCoreFormats.NOT_STRICTLY_DECREASING_SEQUENCE :
-                                                     LocalizedCoreFormats.NOT_DECREASING_SEQUENCE),
-                                                    val[index], previous, index, index - 1);
-        } else {
-            return false;
-        }
+    public static <T extends CalculusFieldElement<T>> boolean checkOrder(T[] val, OrderDirection dir, boolean strict, boolean abort) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -662,9 +412,8 @@ public class MathArrays {
      * @param <T> the type of the field elements
      * @since 1.5
      */
-    public static <T extends CalculusFieldElement<T>> void checkOrder(T[] val, OrderDirection dir,
-                                                                  boolean strict) throws MathIllegalArgumentException {
-        checkOrder(val, dir, strict, true);
+    public static <T extends CalculusFieldElement<T>> void checkOrder(T[] val, OrderDirection dir, boolean strict) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -676,7 +425,7 @@ public class MathArrays {
      * @since 1.5
      */
     public static <T extends CalculusFieldElement<T>> void checkOrder(T[] val) throws MathIllegalArgumentException {
-        checkOrder(val, OrderDirection.INCREASING, true);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -686,16 +435,8 @@ public class MathArrays {
      * @throws NullArgumentException if input array is null
      * @throws MathIllegalArgumentException if input array is not rectangular
      */
-    public static void checkRectangular(final long[][] in)
-        throws MathIllegalArgumentException, NullArgumentException {
-        MathUtils.checkNotNull(in);
-        for (int i = 1; i < in.length; i++) {
-            if (in[i].length != in[0].length) {
-                throw new MathIllegalArgumentException(
-                        LocalizedCoreFormats.DIFFERENT_ROWS_LENGTHS,
-                        in[i].length, in[0].length);
-            }
-        }
+    public static void checkRectangular(final long[][] in) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -705,14 +446,8 @@ public class MathArrays {
      * @throws MathIllegalArgumentException if any entries of the array are not
      * strictly positive.
      */
-    public static void checkPositive(final double[] in)
-        throws MathIllegalArgumentException {
-        for (double v : in) {
-            if (v <= 0) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
-                        v, 0);
-            }
-        }
+    public static void checkPositive(final double[] in) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -721,13 +456,8 @@ public class MathArrays {
      * @param in Array to be tested.
      * @throws MathIllegalArgumentException if an entry is {@code NaN}.
      */
-    public static void checkNotNaN(final double[] in)
-        throws MathIllegalArgumentException {
-        for(int i = 0; i < in.length; i++) {
-            if (Double.isNaN(in[i])) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.NAN_ELEMENT_AT_INDEX, i);
-            }
-        }
+    public static void checkNotNaN(final double[] in) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -736,13 +466,8 @@ public class MathArrays {
      * @param in Array to be tested
      * @throws MathIllegalArgumentException if any array entries are less than 0.
      */
-    public static void checkNonNegative(final long[] in)
-        throws MathIllegalArgumentException {
-        for (long l : in) {
-            if (l < 0) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL, l, 0);
-            }
-        }
+    public static void checkNonNegative(final long[] in) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -751,15 +476,8 @@ public class MathArrays {
      * @param in Array to be tested
      * @throws MathIllegalArgumentException if any array entries are less than 0.
      */
-    public static void checkNonNegative(final long[][] in)
-        throws MathIllegalArgumentException {
-        for (long[] longs : in) {
-            for (int j = 0; j < longs.length; j++) {
-                if (longs[j] < 0) {
-                    throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL, longs[j], 0);
-                }
-            }
-        }
+    public static void checkNonNegative(final long[][] in) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -825,58 +543,7 @@ public class MathArrays {
      * @return the 2-norm of the vector.
      */
     public static double safeNorm(double[] v) {
-        double rdwarf = 3.834e-20;
-        double rgiant = 1.304e+19;
-        double s1 = 0;
-        double s2 = 0;
-        double s3 = 0;
-        double x1max = 0;
-        double x3max = 0;
-        double floatn = v.length;
-        double agiant = rgiant / floatn;
-        for (double value : v) {
-            double xabs = FastMath.abs(value);
-            if (xabs < rdwarf || xabs > agiant) {
-                if (xabs > rdwarf) {
-                    if (xabs > x1max) {
-                        double r = x1max / xabs;
-                        s1 = 1 + s1 * r * r;
-                        x1max = xabs;
-                    } else {
-                        double r = xabs / x1max;
-                        s1 += r * r;
-                    }
-                } else {
-                    if (xabs > x3max) {
-                        double r = x3max / xabs;
-                        s3 = 1 + s3 * r * r;
-                        x3max = xabs;
-                    } else {
-                        if (xabs != 0) {
-                            double r = xabs / x3max;
-                            s3 += r * r;
-                        }
-                    }
-                }
-            } else {
-                s2 += xabs * xabs;
-            }
-        }
-        double norm;
-        if (s1 != 0) {
-            norm = x1max * Math.sqrt(s1 + (s2 / x1max) / x1max);
-        } else {
-            if (s2 == 0) {
-                norm = x3max * Math.sqrt(s3);
-            } else {
-                if (s2 >= x3max) {
-                    norm = Math.sqrt(s2 * (1 + (x3max / s2) * (x3max * s3)));
-                } else {
-                    norm = Math.sqrt(x3max * ((s2 / x3max) + (x3max * s3)));
-                }
-            }
-        }
-        return norm;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -894,18 +561,23 @@ public class MathArrays {
      * size as {@code x}.
      * @throws NullArgumentException if {@code x} or any {@code y} is null.
      */
-    public static void sortInPlace(double[] x, double[]... yList)
-        throws MathIllegalArgumentException, NullArgumentException {
-        sortInPlace(x, OrderDirection.INCREASING, yList);
+    public static void sortInPlace(double[] x, double[]... yList) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Helper data structure holding a (double, integer) pair.
      */
     private static class PairDoubleInteger {
-        /** Key */
+
+        /**
+         * Key
+         */
         private final double key;
-        /** Value */
+
+        /**
+         * Value
+         */
         private final int value;
 
         /**
@@ -917,14 +589,18 @@ public class MathArrays {
             this.value = value;
         }
 
-        /** @return the key. */
+        /**
+         * @return the key.
+         */
         public double getKey() {
-            return key;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** @return the value. */
+        /**
+         * @return the value.
+         */
         public int getValue() {
-            return value;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -944,77 +620,8 @@ public class MathArrays {
      * size as {@code x}.
      * @throws NullArgumentException if {@code x} or any {@code y} is null
      */
-    public static void sortInPlace(double[] x,
-                                   final OrderDirection dir,
-                                   double[]... yList)
-        throws MathIllegalArgumentException, NullArgumentException {
-
-        // Consistency checks.
-        if (x == null) {
-            throw new NullArgumentException();
-        }
-
-        final int len = x.length;
-
-        for (final double[] y : yList) {
-            if (y == null) {
-                throw new NullArgumentException();
-            }
-            if (y.length != len) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                        y.length, len);
-            }
-        }
-
-        // Associate each abscissa "x[i]" with its index "i".
-        final List<PairDoubleInteger> list = new ArrayList<>(len);
-        for (int i = 0; i < len; i++) {
-            list.add(new PairDoubleInteger(x[i], i));
-        }
-
-        // Create comparators for increasing and decreasing orders.
-        final Comparator<PairDoubleInteger> comp =
-            dir == MathArrays.OrderDirection.INCREASING ?
-            new Comparator<PairDoubleInteger>() {
-                /** {@inheritDoc} */
-                @Override
-                public int compare(PairDoubleInteger o1,
-                                   PairDoubleInteger o2) {
-                    return Double.compare(o1.getKey(), o2.getKey());
-                }
-            } :
-            new Comparator<PairDoubleInteger>() {
-                /** {@inheritDoc} */
-                @Override
-                public int compare(PairDoubleInteger o1,
-                                   PairDoubleInteger o2) {
-                    return Double.compare(o2.getKey(), o1.getKey());
-                }
-            };
-
-        // Sort.
-        list.sort(comp);
-
-        // Modify the original array so that its elements are in
-        // the prescribed order.
-        // Retrieve indices of original locations.
-        final int[] indices = new int[len];
-        for (int i = 0; i < len; i++) {
-            final PairDoubleInteger e = list.get(i);
-            x[i] = e.getKey();
-            indices[i] = e.getValue();
-        }
-
-        // In each of the associated arrays, move the
-        // elements to their new location.
-        for (final double[] yInPlace : yList) {
-            // Input array will be modified in place.
-            final double[] yOrig = yInPlace.clone();
-
-            for (int i = 0; i < len; i++) {
-                yInPlace[i] = yOrig[indices[i]];
-            }
-        }
+    public static void sortInPlace(double[] x, final OrderDirection dir, double[]... yList) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1034,64 +641,8 @@ public class MathArrays {
      * @return <code>&Sigma;<sub>i</sub> a<sub>i</sub> b<sub>i</sub></code>.
      * @throws MathIllegalArgumentException if arrays dimensions don't match
      */
-    public static double linearCombination(final double[] a, final double[] b)
-        throws MathIllegalArgumentException {
-        checkEqualLength(a, b);
-        final int len = a.length;
-
-        if (len == 1) {
-            // Revert to scalar multiplication.
-            return a[0] * b[0];
-        }
-
-        final double[] prodHigh = new double[len];
-        double prodLowSum = 0;
-
-        for (int i = 0; i < len; i++) {
-            final double ai    = a[i];
-            final double aHigh = Double.longBitsToDouble(Double.doubleToRawLongBits(ai) & ((-1L) << 27));
-            final double aLow  = ai - aHigh;
-
-            final double bi    = b[i];
-            final double bHigh = Double.longBitsToDouble(Double.doubleToRawLongBits(bi) & ((-1L) << 27));
-            final double bLow  = bi - bHigh;
-            prodHigh[i] = ai * bi;
-            final double prodLow = aLow * bLow - (((prodHigh[i] -
-                                                    aHigh * bHigh) -
-                                                   aLow * bHigh) -
-                                                  aHigh * bLow);
-            prodLowSum += prodLow;
-        }
-
-
-        final double prodHighCur = prodHigh[0];
-        double prodHighNext = prodHigh[1];
-        double sHighPrev = prodHighCur + prodHighNext;
-        double sPrime = sHighPrev - prodHighNext;
-        double sLowSum = (prodHighNext - (sHighPrev - sPrime)) + (prodHighCur - sPrime);
-
-        final int lenMinusOne = len - 1;
-        for (int i = 1; i < lenMinusOne; i++) {
-            prodHighNext = prodHigh[i + 1];
-            final double sHighCur = sHighPrev + prodHighNext;
-            sPrime = sHighCur - prodHighNext;
-            sLowSum += (prodHighNext - (sHighCur - sPrime)) + (sHighPrev - sPrime);
-            sHighPrev = sHighCur;
-        }
-
-        double result = sHighPrev + (prodLowSum + sLowSum);
-
-        if (Double.isNaN(result) || result == 0.0) {
-            // either we have split infinite numbers or some coefficients were NaNs or signed zeros,
-            // just rely on the naive implementation and let IEEE754 handle this
-            // we do this for zeros too as we want to preserve the sign of zero (see issue #76)
-            result = a[0] * b[0];
-            for (int i = 1; i < len; ++i) {
-                result += a[i] * b[i];
-            }
-        }
-
-        return result;
+    public static double linearCombination(final double[] a, final double[] b) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1115,56 +666,8 @@ public class MathArrays {
      * @see #linearCombination(double, double, double, double, double, double)
      * @see #linearCombination(double, double, double, double, double, double, double, double)
      */
-    public static double linearCombination(final double a1, final double b1,
-                                           final double a2, final double b2) {
-
-        // the code below is split in many additions/subtractions that may
-        // appear redundant. However, they should NOT be simplified, as they
-        // use IEEE754 floating point arithmetic rounding properties.
-        // The variable naming conventions are that xyzHigh contains the most significant
-        // bits of xyz and xyzLow contains its least significant bits. So theoretically
-        // xyz is the sum xyzHigh + xyzLow, but in many cases below, this sum cannot
-        // be represented in only one double precision number so we preserve two numbers
-        // to hold it as long as we can, combining the high and low order bits together
-        // only at the end, after cancellation may have occurred on high order bits
-
-        // split a1 and b1 as one 26 bits number and one 27 bits number
-        final double a1High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a1) & ((-1L) << 27));
-        final double a1Low      = a1 - a1High;
-        final double b1High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b1) & ((-1L) << 27));
-        final double b1Low      = b1 - b1High;
-
-        // accurate multiplication a1 * b1
-        final double prod1High  = a1 * b1;
-        final double prod1Low   = a1Low * b1Low - (((prod1High - a1High * b1High) - a1Low * b1High) - a1High * b1Low);
-
-        // split a2 and b2 as one 26 bits number and one 27 bits number
-        final double a2High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a2) & ((-1L) << 27));
-        final double a2Low      = a2 - a2High;
-        final double b2High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b2) & ((-1L) << 27));
-        final double b2Low      = b2 - b2High;
-
-        // accurate multiplication a2 * b2
-        final double prod2High  = a2 * b2;
-        final double prod2Low   = a2Low * b2Low - (((prod2High - a2High * b2High) - a2Low * b2High) - a2High * b2Low);
-
-        // accurate addition a1 * b1 + a2 * b2
-        final double s12High    = prod1High + prod2High;
-        final double s12Prime   = s12High - prod2High;
-        final double s12Low     = (prod2High - (s12High - s12Prime)) + (prod1High - s12Prime);
-
-        // final rounding, s12 may have suffered many cancellations, we try
-        // to recover some bits from the extra words we have saved up to now
-        double result = s12High + (prod1Low + prod2Low + s12Low);
-
-        if (Double.isNaN(result) || result == 0.0) {
-            // either we have split infinite numbers or some coefficients were NaNs or signed zeros,
-            // just rely on the naive implementation and let IEEE754 handle this
-            // we do this for zeros too as we want to preserve the sign of zero (see issue #76)
-            result = a1 * b1 + a2 * b2;
-        }
-
-        return result;
+    public static double linearCombination(final double a1, final double b1, final double a2, final double b2) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1190,72 +693,8 @@ public class MathArrays {
      * @see #linearCombination(double, double, double, double)
      * @see #linearCombination(double, double, double, double, double, double, double, double)
      */
-    public static double linearCombination(final double a1, final double b1,
-                                           final double a2, final double b2,
-                                           final double a3, final double b3) {
-
-        // the code below is split in many additions/subtractions that may
-        // appear redundant. However, they should NOT be simplified, as they
-        // do use IEEE754 floating point arithmetic rounding properties.
-        // The variables naming conventions are that xyzHigh contains the most significant
-        // bits of xyz and xyzLow contains its least significant bits. So theoretically
-        // xyz is the sum xyzHigh + xyzLow, but in many cases below, this sum cannot
-        // be represented in only one double precision number so we preserve two numbers
-        // to hold it as long as we can, combining the high and low order bits together
-        // only at the end, after cancellation may have occurred on high order bits
-
-        // split a1 and b1 as one 26 bits number and one 27 bits number
-        final double a1High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a1) & ((-1L) << 27));
-        final double a1Low      = a1 - a1High;
-        final double b1High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b1) & ((-1L) << 27));
-        final double b1Low      = b1 - b1High;
-
-        // accurate multiplication a1 * b1
-        final double prod1High  = a1 * b1;
-        final double prod1Low   = a1Low * b1Low - (((prod1High - a1High * b1High) - a1Low * b1High) - a1High * b1Low);
-
-        // split a2 and b2 as one 26 bits number and one 27 bits number
-        final double a2High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a2) & ((-1L) << 27));
-        final double a2Low      = a2 - a2High;
-        final double b2High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b2) & ((-1L) << 27));
-        final double b2Low      = b2 - b2High;
-
-        // accurate multiplication a2 * b2
-        final double prod2High  = a2 * b2;
-        final double prod2Low   = a2Low * b2Low - (((prod2High - a2High * b2High) - a2Low * b2High) - a2High * b2Low);
-
-        // split a3 and b3 as one 26 bits number and one 27 bits number
-        final double a3High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a3) & ((-1L) << 27));
-        final double a3Low      = a3 - a3High;
-        final double b3High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b3) & ((-1L) << 27));
-        final double b3Low      = b3 - b3High;
-
-        // accurate multiplication a3 * b3
-        final double prod3High  = a3 * b3;
-        final double prod3Low   = a3Low * b3Low - (((prod3High - a3High * b3High) - a3Low * b3High) - a3High * b3Low);
-
-        // accurate addition a1 * b1 + a2 * b2
-        final double s12High    = prod1High + prod2High;
-        final double s12Prime   = s12High - prod2High;
-        final double s12Low     = (prod2High - (s12High - s12Prime)) + (prod1High - s12Prime);
-
-        // accurate addition a1 * b1 + a2 * b2 + a3 * b3
-        final double s123High   = s12High + prod3High;
-        final double s123Prime  = s123High - prod3High;
-        final double s123Low    = (prod3High - (s123High - s123Prime)) + (s12High - s123Prime);
-
-        // final rounding, s123 may have suffered many cancellations, we try
-        // to recover some bits from the extra words we have saved up to now
-        double result = s123High + (prod1Low + prod2Low + prod3Low + s12Low + s123Low);
-
-        if (Double.isNaN(result) || result == 0.0) {
-            // either we have split infinite numbers or some coefficients were NaNs or signed zeros,
-            // just rely on the naive implementation and let IEEE754 handle this
-            // we do this for zeros too as we want to preserve the sign of zero (see issue #76)
-            result = a1 * b1 + a2 * b2 + a3 * b3;
-        }
-
-        return result;
+    public static double linearCombination(final double a1, final double b1, final double a2, final double b2, final double a3, final double b3) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1285,88 +724,8 @@ public class MathArrays {
      * @see #linearCombination(double, double, double, double)
      * @see #linearCombination(double, double, double, double, double, double)
      */
-    public static double linearCombination(final double a1, final double b1,
-                                           final double a2, final double b2,
-                                           final double a3, final double b3,
-                                           final double a4, final double b4) {
-
-        // the code below is split in many additions/subtractions that may
-        // appear redundant. However, they should NOT be simplified, as they
-        // do use IEEE754 floating point arithmetic rounding properties.
-        // The variables naming conventions are that xyzHigh contains the most significant
-        // bits of xyz and xyzLow contains its least significant bits. So theoretically
-        // xyz is the sum xyzHigh + xyzLow, but in many cases below, this sum cannot
-        // be represented in only one double precision number so we preserve two numbers
-        // to hold it as long as we can, combining the high and low order bits together
-        // only at the end, after cancellation may have occurred on high order bits
-
-        // split a1 and b1 as one 26 bits number and one 27 bits number
-        final double a1High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a1) & ((-1L) << 27));
-        final double a1Low      = a1 - a1High;
-        final double b1High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b1) & ((-1L) << 27));
-        final double b1Low      = b1 - b1High;
-
-        // accurate multiplication a1 * b1
-        final double prod1High  = a1 * b1;
-        final double prod1Low   = a1Low * b1Low - (((prod1High - a1High * b1High) - a1Low * b1High) - a1High * b1Low);
-
-        // split a2 and b2 as one 26 bits number and one 27 bits number
-        final double a2High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a2) & ((-1L) << 27));
-        final double a2Low      = a2 - a2High;
-        final double b2High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b2) & ((-1L) << 27));
-        final double b2Low      = b2 - b2High;
-
-        // accurate multiplication a2 * b2
-        final double prod2High  = a2 * b2;
-        final double prod2Low   = a2Low * b2Low - (((prod2High - a2High * b2High) - a2Low * b2High) - a2High * b2Low);
-
-        // split a3 and b3 as one 26 bits number and one 27 bits number
-        final double a3High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a3) & ((-1L) << 27));
-        final double a3Low      = a3 - a3High;
-        final double b3High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b3) & ((-1L) << 27));
-        final double b3Low      = b3 - b3High;
-
-        // accurate multiplication a3 * b3
-        final double prod3High  = a3 * b3;
-        final double prod3Low   = a3Low * b3Low - (((prod3High - a3High * b3High) - a3Low * b3High) - a3High * b3Low);
-
-        // split a4 and b4 as one 26 bits number and one 27 bits number
-        final double a4High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a4) & ((-1L) << 27));
-        final double a4Low      = a4 - a4High;
-        final double b4High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b4) & ((-1L) << 27));
-        final double b4Low      = b4 - b4High;
-
-        // accurate multiplication a4 * b4
-        final double prod4High  = a4 * b4;
-        final double prod4Low   = a4Low * b4Low - (((prod4High - a4High * b4High) - a4Low * b4High) - a4High * b4Low);
-
-        // accurate addition a1 * b1 + a2 * b2
-        final double s12High    = prod1High + prod2High;
-        final double s12Prime   = s12High - prod2High;
-        final double s12Low     = (prod2High - (s12High - s12Prime)) + (prod1High - s12Prime);
-
-        // accurate addition a1 * b1 + a2 * b2 + a3 * b3
-        final double s123High   = s12High + prod3High;
-        final double s123Prime  = s123High - prod3High;
-        final double s123Low    = (prod3High - (s123High - s123Prime)) + (s12High - s123Prime);
-
-        // accurate addition a1 * b1 + a2 * b2 + a3 * b3 + a4 * b4
-        final double s1234High  = s123High + prod4High;
-        final double s1234Prime = s1234High - prod4High;
-        final double s1234Low   = (prod4High - (s1234High - s1234Prime)) + (s123High - s1234Prime);
-
-        // final rounding, s1234 may have suffered many cancellations, we try
-        // to recover some bits from the extra words we have saved up to now
-        double result = s1234High + (prod1Low + prod2Low + prod3Low + prod4Low + s12Low + s123Low + s1234Low);
-
-        if (Double.isNaN(result) || result == 0.0) {
-            // either we have split infinite numbers or some coefficients were NaNs or signed zeros,
-            // just rely on the naive implementation and let IEEE754 handle this
-            // we do this for zeros too as we want to preserve the sign of zero (see issue #76)
-            result = a1 * b1 + a2 * b2 + a3 * b3 + a4 * b4;
-        }
-
-        return result;
+    public static double linearCombination(final double a1, final double b1, final double a2, final double b2, final double a3, final double b3, final double a4, final double b4) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1380,18 +739,7 @@ public class MathArrays {
      * and equal elements.
      */
     public static boolean equals(float[] x, float[] y) {
-        if ((x == null) || (y == null)) {
-            return !((x == null) ^ (y == null));
-        }
-        if (x.length != y.length) {
-            return false;
-        }
-        for (int i = 0; i < x.length; ++i) {
-            if (!Precision.equals(x[i], y[i])) {
-                return false;
-            }
-        }
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1405,18 +753,7 @@ public class MathArrays {
      * equal elements
      */
     public static boolean equalsIncludingNaN(float[] x, float[] y) {
-        if ((x == null) || (y == null)) {
-            return !((x == null) ^ (y == null));
-        }
-        if (x.length != y.length) {
-            return false;
-        }
-        for (int i = 0; i < x.length; ++i) {
-            if (!Precision.equalsIncludingNaN(x[i], y[i])) {
-                return false;
-            }
-        }
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1430,18 +767,7 @@ public class MathArrays {
      * dimension and equal elements.
      */
     public static boolean equals(double[] x, double[] y) {
-        if ((x == null) || (y == null)) {
-            return !((x == null) ^ (y == null));
-        }
-        if (x.length != y.length) {
-            return false;
-        }
-        for (int i = 0; i < x.length; ++i) {
-            if (!Precision.equals(x[i], y[i])) {
-                return false;
-            }
-        }
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1457,18 +783,7 @@ public class MathArrays {
      * @since 4.0
      */
     public static <T extends FieldElement<T>> boolean equals(T[] x, T[] y) {
-        if ((x == null) || (y == null)) {
-            return !((x == null) ^ (y == null));
-        }
-        if (x.length != y.length) {
-            return false;
-        }
-        for (int i = 0; i < x.length; ++i) {
-            if (!x[i].equals(y[i])) {
-                return false;
-            }
-        }
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1482,18 +797,7 @@ public class MathArrays {
      * dimension and equal elements.
      */
     public static boolean equalsIncludingNaN(double[] x, double[] y) {
-        if ((x == null) || (y == null)) {
-            return !((x == null) ^ (y == null));
-        }
-        if (x.length != y.length) {
-            return false;
-        }
-        for (int i = 0; i < x.length; ++i) {
-            if (!Precision.equalsIncludingNaN(x[i], y[i])) {
-                return false;
-            }
-        }
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1506,18 +810,7 @@ public class MathArrays {
      * dimension and equal elements.
      */
     public static boolean equals(long[] x, long[] y) {
-        if ((x == null) || (y == null)) {
-            return !((x == null) ^ (y == null));
-        }
-        if (x.length != y.length) {
-            return false;
-        }
-        for (int i = 0; i < x.length; ++i) {
-            if (x[i] != y[i]) {
-                return false;
-            }
-        }
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1530,18 +823,7 @@ public class MathArrays {
      * dimension and equal elements.
      */
     public static boolean equals(int[] x, int[] y) {
-        if ((x == null) || (y == null)) {
-            return !((x == null) ^ (y == null));
-        }
-        if (x.length != y.length) {
-            return false;
-        }
-        for (int i = 0; i < x.length; ++i) {
-            if (x[i] != y[i]) {
-                return false;
-            }
-        }
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1554,18 +836,7 @@ public class MathArrays {
      * dimension and equal elements.
      */
     public static boolean equals(byte[] x, byte[] y) {
-        if ((x == null) || (y == null)) {
-            return !((x == null) ^ (y == null));
-        }
-        if (x.length != y.length) {
-            return false;
-        }
-        for (int i = 0; i < x.length; ++i) {
-            if (x[i] != y[i]) {
-                return false;
-            }
-        }
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1578,18 +849,7 @@ public class MathArrays {
      * dimension and equal elements.
      */
     public static boolean equals(short[] x, short[] y) {
-        if ((x == null) || (y == null)) {
-            return !((x == null) ^ (y == null));
-        }
-        if (x.length != y.length) {
-            return false;
-        }
-        for (int i = 0; i < x.length; ++i) {
-            if (x[i] != y[i]) {
-                return false;
-            }
-        }
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1615,39 +875,12 @@ public class MathArrays {
      * elements or sums to zero
      * @throws MathIllegalArgumentException if the target sum is infinite or {@code NaN}
      */
-    public static double[] normalizeArray(double[] values, double normalizedSum)
-        throws MathIllegalArgumentException, MathRuntimeException {
-        if (Double.isInfinite(normalizedSum)) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NORMALIZE_INFINITE);
-        }
-        if (Double.isNaN(normalizedSum)) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NORMALIZE_NAN);
-        }
-        double sum = 0d;
-        final int len = values.length;
-        double[] out = new double[len];
-        for (int i = 0; i < len; i++) {
-            if (Double.isInfinite(values[i])) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.INFINITE_ARRAY_ELEMENT, values[i], i);
-            }
-            if (!Double.isNaN(values[i])) {
-                sum += values[i];
-            }
-        }
-        if (sum == 0) {
-            throw new MathRuntimeException(LocalizedCoreFormats.ARRAY_SUMS_TO_ZERO);
-        }
-        for (int i = 0; i < len; i++) {
-            if (Double.isNaN(values[i])) {
-                out[i] = Double.NaN;
-            } else {
-                out[i] = values[i] * normalizedSum / sum;
-            }
-        }
-        return out;
+    public static double[] normalizeArray(double[] values, double normalizedSum) throws MathIllegalArgumentException, MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Build an array of elements.
+    /**
+     * Build an array of elements.
      * <p>
      * Arrays are filled with {@code field.getZero()}
      *
@@ -1657,13 +890,11 @@ public class MathArrays {
      * @return a new array
      */
     public static <T extends FieldElement<T>> T[] buildArray(final Field<T> field, final int length) {
-        @SuppressWarnings("unchecked") // OK because field must be correct class
-        T[] array = (T[]) Array.newInstance(field.getRuntimeClass(), length);
-        Arrays.fill(array, field.getZero());
-        return array;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Build a double dimension array of elements.
+    /**
+     * Build a double dimension array of elements.
      * <p>
      * Arrays are filled with {@code field.getZero()}
      *
@@ -1676,20 +907,11 @@ public class MathArrays {
      */
     @SuppressWarnings("unchecked")
     public static <T extends FieldElement<T>> T[][] buildArray(final Field<T> field, final int rows, final int columns) {
-        final T[][] array;
-        if (columns < 0) {
-            T[] dummyRow = buildArray(field, 0);
-            array = (T[][]) Array.newInstance(dummyRow.getClass(), rows);
-        } else {
-            array = (T[][]) Array.newInstance(field.getRuntimeClass(), rows, columns);
-            for (int i = 0; i < rows; ++i) {
-                Arrays.fill(array[i], field.getZero());
-            }
-        }
-        return array;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Build a triple dimension array of elements.
+    /**
+     * Build a triple dimension array of elements.
      * <p>
      * Arrays are filled with {@code field.getZero()}
      *
@@ -1704,19 +926,7 @@ public class MathArrays {
      */
     @SuppressWarnings("unchecked")
     public static <T extends FieldElement<T>> T[][][] buildArray(final Field<T> field, final int l1, final int l2, final int l3) {
-        final T[][][] array;
-        if (l3 < 0) {
-            T[] dummyRow = buildArray(field, 0);
-            array = (T[][][]) Array.newInstance(dummyRow.getClass(), l1, l2);
-        } else {
-            array = (T[][][]) Array.newInstance(field.getRuntimeClass(), l1, l2, l3);
-            for (int i = 0; i < l1; ++i) {
-                for (int j = 0; j < l2; ++j) {
-                    Arrays.fill(array[i][j], field.getZero());
-                }
-            }
-        }
-        return array;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1737,34 +947,8 @@ public class MathArrays {
      * @throws NullArgumentException if either {@code x} or {@code h} is {@code null}.
      * @throws MathIllegalArgumentException if either {@code x} or {@code h} is empty.
      */
-    public static double[] convolve(double[] x, double[] h)
-        throws MathIllegalArgumentException, NullArgumentException {
-        MathUtils.checkNotNull(x);
-        MathUtils.checkNotNull(h);
-
-        final int xLen = x.length;
-        final int hLen = h.length;
-
-        if (xLen == 0 || hLen == 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NO_DATA);
-        }
-
-        // initialize the output array
-        final int totalLength = xLen + hLen - 1;
-        final double[] y = new double[totalLength];
-
-        // straightforward implementation of the convolution sum
-        for (int n = 0; n < totalLength; n++) {
-            double yn = 0;
-            int k = FastMath.max(0, n + 1 - xLen);
-            int j = n - k;
-            while (k < hLen && j >= 0) {
-                yn += x[j--] * h[k++];
-            }
-            y[n] = yn;
-        }
-
-        return y;
+    public static double[] convolve(double[] x, double[] h) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1772,9 +956,14 @@ public class MathArrays {
      * before or after a given index.
      */
     public enum Position {
-        /** Designates the beginning of the array (near index 0). */
+
+        /**
+         * Designates the beginning of the array (near index 0).
+         */
         HEAD,
-        /** Designates the end of the array. */
+        /**
+         * Designates the end of the array.
+         */
         TAIL
     }
 
@@ -1791,10 +980,8 @@ public class MathArrays {
      * {@code start} and either the end (if {@link Position#TAIL})
      * or the beginning (if {@link Position#HEAD}) of the array.
      */
-    public static void shuffle(int[] list,
-                               int start,
-                               Position pos) {
-        shuffle(list, start, pos, new Well19937c());
+    public static void shuffle(int[] list, int start, Position pos) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1811,32 +998,8 @@ public class MathArrays {
      * or the beginning (if {@link Position#HEAD}) of the array.
      * @param rng Random number generator.
      */
-    public static void shuffle(int[] list,
-                               int start,
-                               Position pos,
-                               RandomGenerator rng) {
-        switch (pos) {
-        case TAIL:
-            for (int i = list.length - 1; i > start; i--) {
-                final int target = start + rng.nextInt(i - start + 1);
-                final int temp = list[target];
-                list[target] = list[i];
-                list[i] = temp;
-            }
-            break;
-
-        case HEAD:
-            for (int i = 0; i < start; i++) {
-                final int target = i + rng.nextInt(start - i + 1);
-                final int temp = list[target];
-                list[target] = list[i];
-                list[i] = temp;
-            }
-            break;
-
-        default:
-            throw MathRuntimeException.createInternalError(); // Should never happen.
-        }
+    public static void shuffle(int[] list, int start, Position pos, RandomGenerator rng) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1847,9 +1010,8 @@ public class MathArrays {
      * @param list Array whose entries will be shuffled (in-place).
      * @param rng Random number generator.
      */
-    public static void shuffle(int[] list,
-                               RandomGenerator rng) {
-        shuffle(list, 0, Position.TAIL, rng);
+    public static void shuffle(int[] list, RandomGenerator rng) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1860,7 +1022,7 @@ public class MathArrays {
      * @param list Array whose entries will be shuffled (in-place).
      */
     public static void shuffle(int[] list) {
-        shuffle(list, new Well19937c());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1871,7 +1033,7 @@ public class MathArrays {
      * If {@code n == 0}, the returned array is empty.
      */
     public static int[] natural(int n) {
-        return sequence(n, 0, 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1885,14 +1047,8 @@ public class MathArrays {
      * {@code start, start + stride, ..., start + (size - 1) * stride}.
      * If {@code size == 0}, the returned array is empty.
      */
-    public static int[] sequence(int size,
-                                 int start,
-                                 int stride) {
-        final int[] a = new int[size];
-        for (int i = 0; i < size; i++) {
-            a[i] = start + i * stride;
-        }
-        return a;
+    public static int[] sequence(int size, int start, int stride) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1913,9 +1069,8 @@ public class MathArrays {
      * @return true if the parameters are valid and designate a subarray of positive length
      * @throws MathIllegalArgumentException if the indices are invalid or the array is null
      */
-    public static boolean verifyValues(final double[] values, final int begin, final int length)
-            throws MathIllegalArgumentException {
-        return verifyValues(values, begin, length, false);
+    public static boolean verifyValues(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1937,29 +1092,8 @@ public class MathArrays {
      * @return true if the parameters are valid
      * @throws MathIllegalArgumentException if the indices are invalid or the array is null
      */
-    public static boolean verifyValues(final double[] values, final int begin,
-            final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
-
-        MathUtils.checkNotNull(values, LocalizedCoreFormats.INPUT_ARRAY);
-
-        if (begin < 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.START_POSITION, begin);
-        }
-
-        if (length < 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.LENGTH, length);
-        }
-
-        if (begin + length > values.length) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.SUBARRAY_ENDS_AFTER_ARRAY_END,
-                    begin + length, values.length, true);
-        }
-
-        if (length == 0 && !allowEmpty) {
-            return false;
-        }
-
-        return true;
+    public static boolean verifyValues(final double[] values, final int begin, final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1988,12 +1122,8 @@ public class MathArrays {
      * @return true if the parameters are valid and designate a subarray of positive length
      * @throws MathIllegalArgumentException if the indices are invalid or the array is null
      */
-    public static boolean verifyValues(
-        final double[] values,
-        final double[] weights,
-        final int begin,
-        final int length) throws MathIllegalArgumentException {
-        return verifyValues(values, weights, begin, length, false);
+    public static boolean verifyValues(final double[] values, final double[] weights, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -2027,36 +1157,8 @@ public class MathArrays {
      * the weights array contains NaN, infinite or negative elements, or there
      * are no positive weights.
      */
-    public static boolean verifyValues(final double[] values, final double[] weights,
-            final int begin, final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
-
-        MathUtils.checkNotNull(weights, LocalizedCoreFormats.INPUT_ARRAY);
-        MathUtils.checkNotNull(values, LocalizedCoreFormats.INPUT_ARRAY);
-
-        checkEqualLength(weights, values);
-
-        boolean containsPositiveWeight = false;
-        for (int i = begin; i < begin + length; i++) {
-            final double weight = weights[i];
-            if (Double.isNaN(weight)) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.NAN_ELEMENT_AT_INDEX, i);
-            }
-            if (Double.isInfinite(weight)) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.INFINITE_ARRAY_ELEMENT, weight, i);
-            }
-            if (weight < 0) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.NEGATIVE_ELEMENT_AT_INDEX, i, weight);
-            }
-            if (!containsPositiveWeight && weight > 0.0) {
-                containsPositiveWeight = true;
-            }
-        }
-
-        if (!containsPositiveWeight) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.WEIGHT_AT_LEAST_ONE_NON_ZERO);
-        }
-
-        return verifyValues(values, begin, length, allowEmpty);
+    public static boolean verifyValues(final double[] values, final double[] weights, final int begin, final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -2070,18 +1172,7 @@ public class MathArrays {
      * @throws NullPointerException if any of the arrays are null
      */
     public static double[] concatenate(double[]... x) {
-        int combinedLength = 0;
-        for (double[] a : x) {
-            combinedLength += a.length;
-        }
-        int offset = 0;
-        final double[] combined = new double[combinedLength];
-        for (double[] doubles : x) {
-            final int curLength = doubles.length;
-            System.arraycopy(doubles, 0, combined, offset, curLength);
-            offset += curLength;
-        }
-        return combined;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -2098,17 +1189,6 @@ public class MathArrays {
      * @throws NullPointerException if data is null
      */
     public static double[] unique(double[] data) {
-        NavigableSet<Double> values = new TreeSet<>();
-        for (double datum : data) {
-            values.add(datum);
-        }
-        final int count = values.size();
-        final double[] out = new double[count];
-        Iterator<Double> iterator = values.descendingIterator();
-        int i = 0;
-        while (iterator.hasNext()) {
-            out[i++] = iterator.next();
-        }
-        return out;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

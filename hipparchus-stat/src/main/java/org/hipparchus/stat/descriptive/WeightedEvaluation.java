@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -43,7 +42,7 @@ public interface WeightedEvaluation {
      * weights does not include at least on positive value
      */
     default double evaluate(double[] values, double[] weights) throws MathIllegalArgumentException {
-        return evaluate(values, weights, 0, values.length);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -59,7 +58,5 @@ public interface WeightedEvaluation {
      * do not match, indices are invalid, weights contain NaN, negative or
      * infinite values, or weights does not include at least on positive value
      */
-    double evaluate(double[] values, double[] weights, int begin, int length)
-        throws MathIllegalArgumentException;
-
+    double evaluate(double[] values, double[] weights, int begin, int length) throws MathIllegalArgumentException;
 }

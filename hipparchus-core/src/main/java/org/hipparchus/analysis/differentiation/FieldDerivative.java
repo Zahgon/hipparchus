@@ -20,21 +20,23 @@ import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.util.FastMath;
 
-/** Interface representing both the value and the differentials of a function.
+/**
+ * Interface representing both the value and the differentials of a function.
  * @param <S> the type of the field elements
  * @param <T> the type of the function derivative
  * @see Derivative
  * @since 1.7
  */
-public interface FieldDerivative<S extends CalculusFieldElement<S>, T extends FieldDerivative<S, T>>
-        extends CalculusFieldElement<T>, DifferentialAlgebra {
+public interface FieldDerivative<S extends CalculusFieldElement<S>, T extends FieldDerivative<S, T>> extends CalculusFieldElement<T>, DifferentialAlgebra {
 
-    /** Get the value part of the function.
+    /**
+     * Get the value part of the function.
      * @return value part of the value of the function
      */
     S getValue();
 
-    /** Get a partial derivative.
+    /**
+     * Get a partial derivative.
      * @param orders derivation orders with respect to each variable (if all orders are 0,
      * the value is returned)
      * @return partial derivative
@@ -44,16 +46,18 @@ public interface FieldDerivative<S extends CalculusFieldElement<S>, T extends Fi
      * @exception MathIllegalArgumentException if sum of derivation orders is larger
      * than the instance limits
      */
-    S getPartialDerivative(int ... orders)
-        throws MathIllegalArgumentException;
+    S getPartialDerivative(int... orders) throws MathIllegalArgumentException;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default double getReal() {
-        return getValue().getReal();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Create an instance corresponding to a constant Field value.
+    /**
+     * Create an instance corresponding to a constant Field value.
      * <p>
      * This default implementation is there so that no API gets broken
      * by the next release, which is not a major one. Custom inheritors
@@ -64,10 +68,11 @@ public interface FieldDerivative<S extends CalculusFieldElement<S>, T extends Fi
      * @since 3.1
      */
     default T newInstance(S value) {
-        return newInstance(value.getReal());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Create a new object with new value (zeroth-order derivative, as passed as input)
+    /**
+     * Create a new object with new value (zeroth-order derivative, as passed as input)
      * and same derivatives of order one and above.
      * <p>
      * This default implementation is there so that no API gets broken
@@ -79,91 +84,114 @@ public interface FieldDerivative<S extends CalculusFieldElement<S>, T extends Fi
      * @since 3.1
      */
     default T withValue(S value) {
-        return add(newInstance(value.subtract(getValue())));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** '+' operator.
+    /**
+     * '+' operator.
      * @param a right hand side parameter of the operator
      * @return this+a
      * @since 3.1
      */
     default T add(S a) {
-        return withValue(getValue().add(a));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** '-' operator.
+    /**
+     * '-' operator.
      * @param a right hand side parameter of the operator
      * @return this-a
      * @since 3.1
      */
     default T subtract(S a) {
-        return withValue(getValue().subtract(a));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T log10() {
-        return log().divide(FastMath.log(10.));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T pow(T e) {
-        return log().multiply(e).exp();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T cosh() {
-        return (exp().add(negate().exp())).half();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T sinh() {
-        return (exp().subtract(negate().exp())).half();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T acos() {
-        return asin().negate().add(getPi().half());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T ceil() {
-        return newInstance(getValue().ceil());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T floor() {
-        return newInstance(getValue().floor());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T rint() {
-        return newInstance(getValue().rint());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T ulp() {
-        return newInstance(getValue().ulp());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T sign() {
-        return newInstance(getValue().sign());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default int getExponent() {
-        return getValue().getExponent();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

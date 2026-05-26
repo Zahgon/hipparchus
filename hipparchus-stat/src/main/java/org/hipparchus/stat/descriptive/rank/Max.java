@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.stat.descriptive.rank;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.NullArgumentException;
 import org.hipparchus.stat.descriptive.AbstractStorelessUnivariateStatistic;
@@ -38,22 +36,27 @@ import org.hipparchus.util.MathUtils;
  * <li>If any of the values equals <code>Double.POSITIVE_INFINITY</code>,
  * the result is <code>Double.POSITIVE_INFINITY.</code></li>
  * </ul>
-* <p>
+ * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.
  */
-public class Max extends AbstractStorelessUnivariateStatistic
-    implements AggregatableStatistic<Max>, Serializable {
+public class Max extends AbstractStorelessUnivariateStatistic implements AggregatableStatistic<Max>, Serializable {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20150412L;
 
-    /** Number of values that have been added */
+    /**
+     * Number of values that have been added
+     */
     private long n;
 
-    /** Current value of the statistic */
+    /**
+     * Current value of the statistic
+     */
     private double value;
 
     /**
@@ -73,48 +76,48 @@ public class Max extends AbstractStorelessUnivariateStatistic
      */
     public Max(Max original) throws NullArgumentException {
         MathUtils.checkNotNull(original);
-        this.n     = original.n;
+        this.n = original.n;
         this.value = original.value;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void increment(final double d) {
-        if (d > value || Double.isNaN(value)) {
-            value = d;
-        }
-        n++;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
-        value = Double.NaN;
-        n = 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getResult() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long getN() {
-        return n;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void aggregate(Max other) {
-        MathUtils.checkNotNull(other);
-        if (other.n > 0) {
-            if (other.value > this.value || Double.isNaN(this.value)) {
-                this.value = other.value;
-            }
-            this.n += other.n;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -140,25 +143,15 @@ public class Max extends AbstractStorelessUnivariateStatistic
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-
-        double max = Double.NaN;
-        if (MathArrays.verifyValues(values, begin, length)) {
-            max = values[begin];
-            for (int i = begin; i < begin + length; i++) {
-                if (!Double.isNaN(values[i])) {
-                    max = (max > values[i]) ? max : values[i];
-                }
-            }
-        }
-        return max;
+    public double evaluate(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Max copy() {
-        return new Max(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

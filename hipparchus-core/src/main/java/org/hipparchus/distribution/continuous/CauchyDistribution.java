@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -33,11 +32,20 @@ import org.hipparchus.util.MathUtils;
  * @see <a href="http://mathworld.wolfram.com/CauchyDistribution.html">Cauchy Distribution (MathWorld)</a>
  */
 public class CauchyDistribution extends AbstractRealDistribution {
-    /** Serializable version identifier */
+
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20160320L;
-    /** The median of this distribution. */
+
+    /**
+     * The median of this distribution.
+     */
     private final double median;
-    /** The scale of this distribution. */
+
+    /**
+     * The scale of this distribution.
+     */
     private final double scale;
 
     /**
@@ -48,7 +56,6 @@ public class CauchyDistribution extends AbstractRealDistribution {
         this(0, 1);
     }
 
-
     /**
      * Creates a Cauchy distribution.
      *
@@ -56,20 +63,20 @@ public class CauchyDistribution extends AbstractRealDistribution {
      * @param scale Scale parameter for this distribution
      * @throws MathIllegalArgumentException if {@code scale <= 0}
      */
-    public CauchyDistribution(double median, double scale)
-        throws MathIllegalArgumentException {
+    public CauchyDistribution(double median, double scale) throws MathIllegalArgumentException {
         if (scale <= 0) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.SCALE, scale);
         }
-
         this.scale = scale;
         this.median = median;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double cumulativeProbability(double x) {
-        return 0.5 + (FastMath.atan((x - median) / scale) / FastMath.PI);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -78,7 +85,7 @@ public class CauchyDistribution extends AbstractRealDistribution {
      * @return the median for this distribution.
      */
     public double getMedian() {
-        return median;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -87,14 +94,15 @@ public class CauchyDistribution extends AbstractRealDistribution {
      * @return the scale parameter for this distribution.
      */
     public double getScale() {
-        return scale;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double density(double x) {
-        final double dev = x - median;
-        return (1 / FastMath.PI) * (scale / (dev * dev + scale * scale));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -105,17 +113,7 @@ public class CauchyDistribution extends AbstractRealDistribution {
      */
     @Override
     public double inverseCumulativeProbability(double p) throws MathIllegalArgumentException {
-        MathUtils.checkRangeInclusive(p, 0, 1);
-
-        double ret;
-        if (p == 0) {
-            ret = Double.NEGATIVE_INFINITY;
-        } else  if (p == 1) {
-            ret = Double.POSITIVE_INFINITY;
-        } else {
-            ret = median + scale * FastMath.tan(FastMath.PI * (p - .5));
-        }
-        return ret;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -127,7 +125,7 @@ public class CauchyDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalMean() {
-        return Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -139,7 +137,7 @@ public class CauchyDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        return Double.NaN;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -152,7 +150,7 @@ public class CauchyDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportLowerBound() {
-        return Double.NEGATIVE_INFINITY;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -165,7 +163,7 @@ public class CauchyDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportUpperBound() {
-        return Double.POSITIVE_INFINITY;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -177,6 +175,6 @@ public class CauchyDistribution extends AbstractRealDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

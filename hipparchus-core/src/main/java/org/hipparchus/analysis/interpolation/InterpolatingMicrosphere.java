@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,7 +22,6 @@ package org.hipparchus.analysis.interpolation;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathIllegalStateException;
@@ -34,22 +32,42 @@ import org.hipparchus.util.MathUtils;
 
 /**
  * Utility class for the {@link MicrosphereProjectionInterpolator} algorithm.
- *
  */
 public class InterpolatingMicrosphere {
-    /** Microsphere. */
+
+    /**
+     * Microsphere.
+     */
     private final List<Facet> microsphere;
-    /** Microsphere data. */
+
+    /**
+     * Microsphere data.
+     */
     private final List<FacetData> microsphereData;
-    /** Space dimension. */
+
+    /**
+     * Space dimension.
+     */
     private final int dimension;
-    /** Number of surface elements. */
+
+    /**
+     * Number of surface elements.
+     */
     private final int size;
-    /** Maximum fraction of the facets that can be dark. */
+
+    /**
+     * Maximum fraction of the facets that can be dark.
+     */
     private final double maxDarkFraction;
-    /** Lowest non-zero illumination. */
+
+    /**
+     * Lowest non-zero illumination.
+     */
     private final double darkThreshold;
-    /** Background value. */
+
+    /**
+     * Background value.
+     */
     private final double background;
 
     /**
@@ -73,24 +91,17 @@ public class InterpolatingMicrosphere {
      * @throws MathIllegalArgumentException if {@code maxDarkFraction} does not
      * belong to the interval {@code [0, 1]}.
      */
-    protected InterpolatingMicrosphere(int dimension,
-                                       int size,
-                                       double maxDarkFraction,
-                                       double darkThreshold,
-                                       double background) {
+    protected InterpolatingMicrosphere(int dimension, int size, double maxDarkFraction, double darkThreshold, double background) {
         if (dimension <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
-                                                   dimension, 0);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED, dimension, 0);
         }
         if (size <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
-                                                   size, 0);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED, size, 0);
         }
         MathUtils.checkRangeInclusive(maxDarkFraction, 0, 1);
         if (darkThreshold < 0) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL, darkThreshold, 0);
         }
-
         this.dimension = dimension;
         this.size = size;
         this.maxDarkFraction = maxDarkFraction;
@@ -122,14 +133,8 @@ public class InterpolatingMicrosphere {
      * @throws MathIllegalArgumentException if {@code maxDarkFraction} does not
      * belong to the interval {@code [0, 1]}.
      */
-    public InterpolatingMicrosphere(int dimension,
-                                    int size,
-                                    double maxDarkFraction,
-                                    double darkThreshold,
-                                    double background,
-                                    UnitSphereRandomVectorGenerator rand) {
+    public InterpolatingMicrosphere(int dimension, int size, double maxDarkFraction, double darkThreshold, double background, UnitSphereRandomVectorGenerator rand) {
         this(dimension, size, maxDarkFraction, darkThreshold, background);
-
         // Generate the microsphere normals, assuming that a number of
         // randomly generated normals will represent a sphere.
         for (int i = 0; i < size; i++) {
@@ -148,10 +153,8 @@ public class InterpolatingMicrosphere {
         maxDarkFraction = other.maxDarkFraction;
         darkThreshold = other.darkThreshold;
         background = other.background;
-
         // Field can be shared.
         microsphere = other.microsphere;
-
         // Field must be copied.
         microsphereData = new ArrayList<>(size);
         for (FacetData fd : other.microsphereData) {
@@ -165,7 +168,7 @@ public class InterpolatingMicrosphere {
      * @return a copy of this instance.
      */
     public InterpolatingMicrosphere copy() {
-        return new InterpolatingMicrosphere(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -174,7 +177,7 @@ public class InterpolatingMicrosphere {
      * @return the number of space dimensions.
      */
     public int getDimension() {
-        return dimension;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -183,7 +186,7 @@ public class InterpolatingMicrosphere {
      * @return the number of surface elements of the microspshere.
      */
     public int getSize() {
-        return size;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -206,36 +209,8 @@ public class InterpolatingMicrosphere {
      * @return the estimated value at the given {@code point}.
      * @throws MathIllegalArgumentException if {@code exponent < 0}.
      */
-    public double value(double[] point,
-                        double[][] samplePoints,
-                        double[] sampleValues,
-                        double exponent,
-                        double noInterpolationTolerance) {
-        if (exponent < 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL, exponent, 0);
-        }
-
-        clear();
-
-        // Contribution of each sample point to the illumination of the
-        // microsphere's facets.
-        final int numSamples = samplePoints.length;
-        for (int i = 0; i < numSamples; i++) {
-            // Vector between interpolation point and current sample point.
-            final double[] diff = MathArrays.ebeSubtract(samplePoints[i], point);
-            final double diffNorm = MathArrays.safeNorm(diff);
-
-            if (FastMath.abs(diffNorm) < noInterpolationTolerance) {
-                // No need to interpolate, as the interpolation point is
-                // actually (very close to) one of the sampled points.
-                return sampleValues[i];
-            }
-
-            final double weight = FastMath.pow(diffNorm, -exponent);
-            illuminate(diff, sampleValues[i], weight);
-        }
-
-        return interpolate();
+    public double value(double[] point, double[][] samplePoints, double[] sampleValues, double exponent, double noInterpolationTolerance) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -249,18 +224,8 @@ public class InterpolatingMicrosphere {
      * @throws MathIllegalStateException if the method has been called
      * more times than the size of the sphere.
      */
-    protected void add(double[] normal,
-                       boolean copy) {
-        if (microsphere.size() >= size) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.MAX_COUNT_EXCEEDED, size);
-        }
-        if (normal.length > dimension) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   normal.length, dimension);
-        }
-
-        microsphere.add(new Facet(copy ? normal.clone() : normal));
-        microsphereData.add(new FacetData(0d, 0d));
+    protected void add(double[] normal, boolean copy) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -272,7 +237,6 @@ public class InterpolatingMicrosphere {
     private double interpolate() {
         // Number of non-illuminated facets.
         int darkCount = 0;
-
         double value = 0;
         double totalWeight = 0;
         for (FacetData fd : microsphereData) {
@@ -284,12 +248,8 @@ public class InterpolatingMicrosphere {
                 ++darkCount;
             }
         }
-
         final double darkFraction = darkCount / (double) size;
-
-        return darkFraction <= maxDarkFraction ?
-            value / totalWeight :
-            background;
+        return darkFraction <= maxDarkFraction ? value / totalWeight : background;
     }
 
     /**
@@ -300,18 +260,13 @@ public class InterpolatingMicrosphere {
      * @param sampleValue Data value of the sample.
      * @param weight Weight.
      */
-    private void illuminate(double[] sampleDirection,
-                            double sampleValue,
-                            double weight) {
+    private void illuminate(double[] sampleDirection, double sampleValue, double weight) {
         for (int i = 0; i < size; i++) {
             final double[] n = microsphere.get(i).getNormal();
             final double cos = MathArrays.cosAngle(n, sampleDirection);
-
             if (cos > 0) {
                 final double illumination = cos * weight;
-
-                if (illumination > darkThreshold &&
-                    illumination > microsphereData.get(i).illumination()) {
+                if (illumination > darkThreshold && illumination > microsphereData.get(i).illumination()) {
                     microsphereData.set(i, new FacetData(illumination, sampleValue));
                 }
             }
@@ -331,7 +286,10 @@ public class InterpolatingMicrosphere {
      * Microsphere "facet" (surface element).
      */
     private static class Facet {
-        /** Normal vector characterizing a surface element. */
+
+        /**
+         * Normal vector characterizing a surface element.
+         */
         private final double[] normal;
 
         /**
@@ -339,7 +297,8 @@ public class InterpolatingMicrosphere {
          * of the microsphere. No copy is made.
          */
         Facet(double[] n) {
-            normal = n; // NOPMD - array cloning is taken care of at call site
+            // NOPMD - array cloning is taken care of at call site
+            normal = n;
         }
 
         /**
@@ -348,7 +307,7 @@ public class InterpolatingMicrosphere {
          * @return the normal vector.
          */
         public double[] getNormal() {
-            return normal; // NOPMD - returning an internal array is intentional and documented here
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -356,9 +315,15 @@ public class InterpolatingMicrosphere {
      * Data associated with each {@link Facet}.
      */
     private static class FacetData {
-        /** Illumination received from the sample. */
+
+        /**
+         * Illumination received from the sample.
+         */
         private final double illumination;
-        /** Data value of the sample. */
+
+        /**
+         * Data value of the sample.
+         */
         private final double sample;
 
         /**
@@ -375,7 +340,7 @@ public class InterpolatingMicrosphere {
          * @return the illumination.
          */
         public double illumination() {
-            return illumination;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -383,7 +348,7 @@ public class InterpolatingMicrosphere {
          * @return the data value.
          */
         public double sample() {
-            return sample;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

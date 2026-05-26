@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -34,34 +33,39 @@ import org.hipparchus.optim.univariate.UnivariatePointValuePair;
 /**
  * Class for finding the minimum of the objective function along a given
  * direction.
- *
  */
 public class LineSearch {
+
     /**
      * Value that will pass the precondition check for {@link BrentOptimizer}
      * but will not pass the convergence check, so that the custom checker
      * will always decide when to stop the line search.
      */
     private static final double REL_TOL_UNUSED = 1e-15;
+
     /**
      * Value that will pass the precondition check for {@link BrentOptimizer}
      * but will not pass the convergence check, so that the custom checker
      * will always decide when to stop the line search.
      */
     private static final double ABS_TOL_UNUSED = Double.MIN_VALUE;
+
     /**
      * Optimizer used for line search.
      */
     private final UnivariateOptimizer lineOptimizer;
+
     /**
      * Automatic bracketing.
      */
     private final BracketFinder bracket = new BracketFinder();
+
     /**
      * Extent of the initial interval used to find an interval that
      * brackets the optimum.
      */
     private final double initialBracketingRange;
+
     /**
      * Optimizer on behalf of which the line search must be performed.
      */
@@ -90,15 +94,9 @@ public class LineSearch {
      * it may be necessary to provide a value lower than the distance between
      * successive local minima.
      */
-    public LineSearch(MultivariateOptimizer optimizer,
-                      double relativeTolerance,
-                      double absoluteTolerance,
-                      double initialBracketingRange) {
+    public LineSearch(MultivariateOptimizer optimizer, double relativeTolerance, double absoluteTolerance, double initialBracketingRange) {
         mainOptimizer = optimizer;
-        lineOptimizer = new BrentOptimizer(REL_TOL_UNUSED,
-                                           ABS_TOL_UNUSED,
-                                           new SimpleUnivariateValueChecker(relativeTolerance,
-                                                                            absoluteTolerance));
+        lineOptimizer = new BrentOptimizer(REL_TOL_UNUSED, ABS_TOL_UNUSED, new SimpleUnivariateValueChecker(relativeTolerance, absoluteTolerance));
         this.initialBracketingRange = initialBracketingRange;
     }
 
@@ -112,31 +110,7 @@ public class LineSearch {
      * @throws org.hipparchus.exception.MathIllegalStateException
      * if the number of evaluations is exceeded.
      */
-    public UnivariatePointValuePair search(final double[] startPoint,
-                                           final double[] direction) {
-        final int n = startPoint.length;
-        final UnivariateFunction f = new UnivariateFunction() {
-            /** {@inheritDoc} */
-            @Override
-            public double value(double alpha) {
-                final double[] x = new double[n];
-                for (int i = 0; i < n; i++) {
-                    x[i] = startPoint[i] + alpha * direction[i];
-                }
-                return mainOptimizer.computeObjectiveValue(x);
-            }
-        };
-
-        final GoalType goal = mainOptimizer.getGoalType();
-        bracket.search(f, goal, 0, initialBracketingRange);
-        // Passing "MAX_VALUE" as a dummy value because it is the enclosing
-        // class that counts the number of evaluations (and will eventually
-        // generate the exception).
-        return lineOptimizer.optimize(new MaxEval(Integer.MAX_VALUE),
-                                      new UnivariateObjectiveFunction(f),
-                                      goal,
-                                      new SearchInterval(bracket.getLo(),
-                                                         bracket.getHi(),
-                                                         bracket.getMid()));
+    public UnivariatePointValuePair search(final double[] startPoint, final double[] direction) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.analysis.function;
 
 import org.hipparchus.analysis.differentiation.Derivative;
@@ -28,31 +26,35 @@ import org.hipparchus.util.FastMath;
 
 /**
  * <code>e<sup>x</sup>-1</code> function.
- *
  */
 public class Expm1 implements UnivariateDifferentiableFunction {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public Expm1() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public Expm1() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double value(double x) {
-        return FastMath.expm1(x);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <T extends Derivative<T>> T value(T x) {
-        return x.expm1();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.events;
 
 import org.hipparchus.CalculusFieldElement;
@@ -27,11 +26,19 @@ import org.hipparchus.ode.FieldODEState;
  */
 public class FieldEventOccurrence<T extends CalculusFieldElement<T>> {
 
-    /** User requested action. */
+    /**
+     * User requested action.
+     */
     private final Action action;
-    /** New state for a reset action. */
+
+    /**
+     * New state for a reset action.
+     */
     private final FieldODEState<T> newState;
-    /** The time to stop propagation if the action is a stop event. */
+
+    /**
+     * The time to stop propagation if the action is a stop event.
+     */
     private final T stopTime;
 
     /**
@@ -43,9 +50,7 @@ public class FieldEventOccurrence<T extends CalculusFieldElement<T>> {
      * @param stopTime to stop propagation if the action is {@link Action#STOP}. Used
      *                 to move the stop time to just after the root.
      */
-    public FieldEventOccurrence(final Action action,
-                                final FieldODEState<T> newState,
-                                final T stopTime) {
+    public FieldEventOccurrence(final Action action, final FieldODEState<T> newState, final T stopTime) {
         this.action = action;
         this.newState = newState;
         this.stopTime = stopTime;
@@ -57,7 +62,7 @@ public class FieldEventOccurrence<T extends CalculusFieldElement<T>> {
      * @return the action.
      */
     public Action getAction() {
-        return action;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -66,7 +71,7 @@ public class FieldEventOccurrence<T extends CalculusFieldElement<T>> {
      * @return the new state.
      */
     public FieldODEState<T> getNewState() {
-        return newState;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -75,7 +80,6 @@ public class FieldEventOccurrence<T extends CalculusFieldElement<T>> {
      * @return when to stop propagation.
      */
     public T getStopTime() {
-        return stopTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -26,22 +25,23 @@ import org.hipparchus.exception.MathIllegalArgumentException;
 
 /**
  * Maximum number of evaluations of the function to be optimized.
- *
  */
 public class MaxEval implements OptimizationData {
-    /** Allowed number of evalutations. */
+
+    /**
+     * Allowed number of evalutations.
+     */
     private final int max;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param max Allowed number of evalutations.
      * @throws MathIllegalArgumentException if {@code max <= 0}.
      */
     public MaxEval(int max) {
         if (max <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
-                                                   max, 0);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED, max, 0);
         }
-
         this.max = max;
     }
 
@@ -51,7 +51,7 @@ public class MaxEval implements OptimizationData {
      * @return the allowed number of evaluations.
      */
     public int getMaxEval() {
-        return max;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -62,6 +62,6 @@ public class MaxEval implements OptimizationData {
      * evaluations.
      */
     public static MaxEval unlimited() {
-        return new MaxEval(Integer.MAX_VALUE);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

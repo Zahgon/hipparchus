@@ -39,7 +39,6 @@ import org.hipparchus.util.Pair;
  * This class solve a least-square problem by solving the normal equations of
  * the linearized problem at each iteration.
  * </p>
- *
  */
 public class SequentialGaussNewtonOptimizer implements LeastSquaresOptimizer {
 
@@ -50,19 +49,29 @@ public class SequentialGaussNewtonOptimizer implements LeastSquaresOptimizer {
      */
     private static final double SINGULARITY_THRESHOLD = 1e-11;
 
-    /** Decomposer. */
+    /**
+     * Decomposer.
+     */
     private final MatrixDecomposer decomposer;
 
-    /** Indicates if normal equations should be formed explicitly. */
+    /**
+     * Indicates if normal equations should be formed explicitly.
+     */
     private final boolean formNormalEquations;
 
-    /** Old evaluation previously computed. */
+    /**
+     * Old evaluation previously computed.
+     */
     private final Evaluation oldEvaluation;
 
-    /** Old jacobian previously computed. */
+    /**
+     * Old jacobian previously computed.
+     */
     private final RealMatrix oldLhs;
 
-    /** Old residuals previously computed. */
+    /**
+     * Old residuals previously computed.
+     */
     private final RealVector oldRhs;
 
     /**
@@ -71,7 +80,6 @@ public class SequentialGaussNewtonOptimizer implements LeastSquaresOptimizer {
      * The default for the algorithm is to use QR decomposition, not
      * form normal equations and have no previous evaluation
      * </p>
-     *
      */
     public SequentialGaussNewtonOptimizer() {
         this(new QRDecomposer(SINGULARITY_THRESHOLD), false, null);
@@ -93,19 +101,16 @@ public class SequentialGaussNewtonOptimizer implements LeastSquaresOptimizer {
      *                            parameter should be {@code true}.
      * @param evaluation old evaluation previously computed, null if there are no previous evaluations.
      */
-    public SequentialGaussNewtonOptimizer(final MatrixDecomposer decomposer,
-                                          final boolean formNormalEquations,
-                                          final Evaluation evaluation) {
-        this.decomposer          = decomposer;
+    public SequentialGaussNewtonOptimizer(final MatrixDecomposer decomposer, final boolean formNormalEquations, final Evaluation evaluation) {
+        this.decomposer = decomposer;
         this.formNormalEquations = formNormalEquations;
-        this.oldEvaluation       = evaluation;
+        this.oldEvaluation = evaluation;
         if (evaluation == null) {
             this.oldLhs = null;
             this.oldRhs = null;
         } else {
             if (formNormalEquations) {
-                final Pair<RealMatrix, RealVector> normalEquation =
-                                computeNormalMatrix(evaluation.getJacobian(), evaluation.getResiduals());
+                final Pair<RealMatrix, RealVector> normalEquation = computeNormalMatrix(evaluation.getJacobian(), evaluation.getResiduals());
                 // solve the linearized least squares problem
                 this.oldLhs = normalEquation.getFirst();
                 this.oldRhs = normalEquation.getSecond();
@@ -122,7 +127,7 @@ public class SequentialGaussNewtonOptimizer implements LeastSquaresOptimizer {
      * @return the decomposition algorithm.
      */
     public MatrixDecomposer getDecomposer() {
-        return decomposer;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -132,9 +137,7 @@ public class SequentialGaussNewtonOptimizer implements LeastSquaresOptimizer {
      * @return a new instance.
      */
     public SequentialGaussNewtonOptimizer withDecomposer(final MatrixDecomposer newDecomposer) {
-        return new SequentialGaussNewtonOptimizer(newDecomposer,
-                                                  this.isFormNormalEquations(),
-                                                  this.getOldEvaluation());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -145,7 +148,7 @@ public class SequentialGaussNewtonOptimizer implements LeastSquaresOptimizer {
      * {@code decomposer} is used to solve Jx=r.
      */
     public boolean isFormNormalEquations() {
-        return formNormalEquations;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -160,9 +163,7 @@ public class SequentialGaussNewtonOptimizer implements LeastSquaresOptimizer {
      * @return a new instance.
      */
     public SequentialGaussNewtonOptimizer withFormNormalEquations(final boolean newFormNormalEquations) {
-        return new SequentialGaussNewtonOptimizer(this.getDecomposer(),
-                                                  newFormNormalEquations,
-                                                  this.getOldEvaluation());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -171,7 +172,7 @@ public class SequentialGaussNewtonOptimizer implements LeastSquaresOptimizer {
      * @return the previous evaluation.
      */
     public Evaluation getOldEvaluation() {
-        return oldEvaluation;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -187,9 +188,7 @@ public class SequentialGaussNewtonOptimizer implements LeastSquaresOptimizer {
      * @return a new instance.
      */
     public SequentialGaussNewtonOptimizer withEvaluation(final Evaluation previousEvaluation) {
-        return new SequentialGaussNewtonOptimizer(this.getDecomposer(),
-                                                  this.isFormNormalEquations(),
-                                                  previousEvaluation);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -208,11 +207,8 @@ public class SequentialGaussNewtonOptimizer implements LeastSquaresOptimizer {
      * @return a new instance.
      * @see #withAPrioriData(RealVector, RealMatrix, double, double)
      */
-    public SequentialGaussNewtonOptimizer withAPrioriData(final RealVector aPrioriState,
-                                                          final RealMatrix aPrioriCovariance) {
-        return withAPrioriData(aPrioriState, aPrioriCovariance,
-                               CholeskyDecomposition.DEFAULT_RELATIVE_SYMMETRY_THRESHOLD,
-                               CholeskyDecomposition.DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD);
+    public SequentialGaussNewtonOptimizer withAPrioriData(final RealVector aPrioriState, final RealMatrix aPrioriCovariance) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -235,142 +231,24 @@ public class SequentialGaussNewtonOptimizer implements LeastSquaresOptimizer {
      * @return a new instance.
      * @since 2.3
      */
-    public SequentialGaussNewtonOptimizer withAPrioriData(final RealVector aPrioriState,
-                                                          final RealMatrix aPrioriCovariance,
-                                                          final double relativeSymmetryThreshold,
-                                                          final double absolutePositivityThreshold) {
-
-        // we consider the a priori state and covariance come from a
-        // previous estimation with exactly one observation of each state
-        // component, so partials are the identity matrix, weight is the
-        // square root of inverse of covariance, and residuals are zero
-
-        // create a fake weighted Jacobian
-        final RealMatrix jTj              = getDecomposer().decompose(aPrioriCovariance).getInverse();
-        final RealMatrix weightedJacobian = new CholeskyDecomposition(jTj,
-                                                                      relativeSymmetryThreshold,
-                                                                      absolutePositivityThreshold).getLT();
-
-        // create fake zero residuals
-        final RealVector residuals        = MatrixUtils.createRealVector(aPrioriState.getDimension());
-
-        // combine everything as an evaluation
-        final Evaluation fakeEvaluation   = new AbstractEvaluation(aPrioriState.getDimension()) {
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector getResiduals() {
-                return residuals;
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector getPoint() {
-                return aPrioriState;
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealMatrix getJacobian() {
-                return weightedJacobian;
-            }
-        };
-
-        return withEvaluation(fakeEvaluation);
-
+    public SequentialGaussNewtonOptimizer withAPrioriData(final RealVector aPrioriState, final RealMatrix aPrioriCovariance, final double relativeSymmetryThreshold, final double absolutePositivityThreshold) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optimum optimize(final LeastSquaresProblem lsp) {
-        // create local evaluation and iteration counts
-        final Incrementor evaluationCounter = lsp.getEvaluationCounter();
-        final Incrementor iterationCounter = lsp.getIterationCounter();
-        final ConvergenceChecker<Evaluation> checker =
-            lsp.getConvergenceChecker();
-
-        // Computation will be useless without a checker (see "for-loop").
-        if (checker == null) {
-            throw new NullArgumentException();
-        }
-
-        RealVector currentPoint = lsp.getStart();
-
-        if (oldEvaluation != null &&
-            currentPoint.getDimension() != oldEvaluation.getPoint().getDimension()) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                      currentPoint.getDimension(), oldEvaluation.getPoint().getDimension());
-        }
-
-        // iterate until convergence is reached
-        Evaluation current = null;
-        while (true) {
-            iterationCounter.increment();
-
-            // evaluate the objective function and its jacobian
-            final Evaluation previous = current;
-
-            // Value of the objective function at "currentPoint".
-            evaluationCounter.increment();
-            current = lsp.evaluate(currentPoint);
-            final RealVector currentResiduals = current.getResiduals();
-            final RealMatrix weightedJacobian = current.getJacobian();
-
-            currentPoint = current.getPoint();
-
-            // Check convergence.
-            if (previous != null &&
-                checker.converged(iterationCounter.getCount(), previous,
-                                  current)) {
-                // combine old and new evaluations
-                final Evaluation combinedEvaluation = oldEvaluation == null ?
-                                                      current :
-                                                      new CombinedEvaluation(oldEvaluation, current);
-                return Optimum.of(combinedEvaluation, evaluationCounter.getCount(),
-                                  iterationCounter.getCount());
-            }
-
-           // solve the linearized least squares problem
-            final RealMatrix lhs; // left hand side
-            final RealVector rhs; // right hand side
-            if (this.formNormalEquations) {
-                final Pair<RealMatrix, RealVector> normalEquation =
-                                computeNormalMatrix(weightedJacobian, currentResiduals);
-
-                lhs = oldLhs == null ?
-                      normalEquation.getFirst() :
-                      normalEquation.getFirst().add(oldLhs); // left hand side
-                rhs = oldRhs == null ?
-                      normalEquation.getSecond() :
-                      normalEquation.getSecond().add(oldRhs); // right hand side
-            } else {
-                lhs = oldLhs == null ?
-                      weightedJacobian :
-                      combineJacobians(oldLhs, weightedJacobian);
-                rhs = oldRhs == null ?
-                      currentResiduals :
-                      combineResiduals(oldRhs, currentResiduals);
-            }
-
-            final RealVector dX;
-            try {
-                dX = this.decomposer.decompose(lhs).solve(rhs);
-            } catch (MathIllegalArgumentException e) {
-                // change exception message
-                throw new MathIllegalStateException(LocalizedOptimFormats.UNABLE_TO_SOLVE_SINGULAR_PROBLEM,
-                                                    e);
-            }
-            // update the estimated parameters
-            currentPoint = currentPoint.add(dX);
-
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "SequentialGaussNewtonOptimizer{" +
-               "decomposer=" + decomposer + '}';
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -380,9 +258,7 @@ public class SequentialGaussNewtonOptimizer implements LeastSquaresOptimizer {
      * @param residuals the m by 1 residual vector, r. Input.
      * @return  the n by n normal matrix and the n by 1 J<sup>Tr</sup> vector.
      */
-    private static Pair<RealMatrix, RealVector>
-        computeNormalMatrix(final RealMatrix jacobian,
-                            final RealVector residuals) {
+    private static Pair<RealMatrix, RealVector> computeNormalMatrix(final RealMatrix jacobian, final RealVector residuals) {
         // since the normal matrix is symmetric, we only need to compute half of
         // it.
         final int nR = jacobian.getRowDimension();
@@ -394,22 +270,13 @@ public class SequentialGaussNewtonOptimizer implements LeastSquaresOptimizer {
         for (int i = 0; i < nR; ++i) {
             // compute JTr for measurement i
             for (int j = 0; j < nC; j++) {
-                jTr.setEntry(j,
-                             jTr.getEntry(j) +
-                                residuals.getEntry(i) *
-                                               jacobian.getEntry(i, j));
+                jTr.setEntry(j, jTr.getEntry(j) + residuals.getEntry(i) * jacobian.getEntry(i, j));
             }
-
             // add the the contribution to the normal matrix for measurement i
             for (int k = 0; k < nC; ++k) {
                 // only compute the upper triangular part
                 for (int l = k; l < nC; ++l) {
-                    normal
-                        .setEntry(k, l,
-                                  normal.getEntry(k,
-                                                  l) +
-                                        jacobian.getEntry(i, k) *
-                                                       jacobian.getEntry(i, l));
+                    normal.setEntry(k, l, normal.getEntry(k, l) + jacobian.getEntry(i, k) * jacobian.getEntry(i, l));
                 }
             }
         }
@@ -422,30 +289,28 @@ public class SequentialGaussNewtonOptimizer implements LeastSquaresOptimizer {
         return new Pair<>(normal, jTr);
     }
 
-    /** Combine Jacobian matrices
+    /**
+     * Combine Jacobian matrices
      * @param oldJacobian old Jacobian matrix
      * @param newJacobian new Jacobian matrix
      * @return combined Jacobian matrix
      */
-    private static RealMatrix combineJacobians(final RealMatrix oldJacobian,
-                                               final RealMatrix newJacobian) {
-        final int oldRowDimension    = oldJacobian.getRowDimension();
+    private static RealMatrix combineJacobians(final RealMatrix oldJacobian, final RealMatrix newJacobian) {
+        final int oldRowDimension = oldJacobian.getRowDimension();
         final int oldColumnDimension = oldJacobian.getColumnDimension();
-        final RealMatrix jacobian =
-                        MatrixUtils.createRealMatrix(oldRowDimension + newJacobian.getRowDimension(),
-                                                     oldColumnDimension);
-        jacobian.setSubMatrix(oldJacobian.getData(), 0,               0);
+        final RealMatrix jacobian = MatrixUtils.createRealMatrix(oldRowDimension + newJacobian.getRowDimension(), oldColumnDimension);
+        jacobian.setSubMatrix(oldJacobian.getData(), 0, 0);
         jacobian.setSubMatrix(newJacobian.getData(), oldRowDimension, 0);
         return jacobian;
     }
 
-    /** Combine residuals vectors
+    /**
+     * Combine residuals vectors
      * @param oldResiduals old residuals vector
      * @param newResiduals new residuals vector
      * @return combined residuals vector
      */
-    private static RealVector combineResiduals(final RealVector oldResiduals,
-                                               final RealVector newResiduals) {
+    private static RealVector combineResiduals(final RealVector oldResiduals, final RealVector newResiduals) {
         return oldResiduals.append(newResiduals);
     }
 
@@ -454,13 +319,19 @@ public class SequentialGaussNewtonOptimizer implements LeastSquaresOptimizer {
      */
     private static class CombinedEvaluation extends AbstractEvaluation {
 
-        /** Point of evaluation. */
+        /**
+         * Point of evaluation.
+         */
         private final RealVector point;
 
-        /** Derivative at point. */
+        /**
+         * Derivative at point.
+         */
         private final RealMatrix jacobian;
 
-        /** Computed residuals. */
+        /**
+         * Computed residuals.
+         */
         private final RealVector residuals;
 
         /**
@@ -469,37 +340,35 @@ public class SequentialGaussNewtonOptimizer implements LeastSquaresOptimizer {
          * @param oldEvaluation the old evaluation.
          * @param newEvaluation the new evaluation
          */
-        private CombinedEvaluation(final Evaluation oldEvaluation,
-                                   final Evaluation newEvaluation) {
-
-            super(oldEvaluation.getResiduals().getDimension() +
-                  newEvaluation.getResiduals().getDimension());
-
-            this.point    = newEvaluation.getPoint();
-            this.jacobian = combineJacobians(oldEvaluation.getJacobian(),
-                                             newEvaluation.getJacobian());
-            this.residuals = combineResiduals(oldEvaluation.getResiduals(),
-                                              newEvaluation.getResiduals());
+        private CombinedEvaluation(final Evaluation oldEvaluation, final Evaluation newEvaluation) {
+            super(oldEvaluation.getResiduals().getDimension() + newEvaluation.getResiduals().getDimension());
+            this.point = newEvaluation.getPoint();
+            this.jacobian = combineJacobians(oldEvaluation.getJacobian(), newEvaluation.getJacobian());
+            this.residuals = combineResiduals(oldEvaluation.getResiduals(), newEvaluation.getResiduals());
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public RealMatrix getJacobian() {
-            return jacobian;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public RealVector getPoint() {
-            return point;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public RealVector getResiduals() {
-            return residuals;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
-
 }

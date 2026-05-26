@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -34,11 +33,12 @@ import org.hipparchus.util.FastMath;
  * <p>
  * This implementation employs the basic trapezoid rule to calculate Simpson's
  * rule.</p>
- *
  */
 public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
 
-    /** Maximal number of iterations for Simpson. */
+    /**
+     * Maximal number of iterations for Simpson.
+     */
     public static final int SIMPSON_MAX_ITERATIONS_COUNT = 64;
 
     /**
@@ -55,15 +55,10 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
      * @exception MathIllegalArgumentException if maximal number of iterations
      * is greater than {@link #SIMPSON_MAX_ITERATIONS_COUNT}
      */
-    public SimpsonIntegrator(final double relativeAccuracy,
-                             final double absoluteAccuracy,
-                             final int minimalIterationCount,
-                             final int maximalIterationCount)
-        throws MathIllegalArgumentException {
+    public SimpsonIntegrator(final double relativeAccuracy, final double absoluteAccuracy, final int minimalIterationCount, final int maximalIterationCount) throws MathIllegalArgumentException {
         super(relativeAccuracy, absoluteAccuracy, minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > SIMPSON_MAX_ITERATIONS_COUNT) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                   maximalIterationCount, SIMPSON_MAX_ITERATIONS_COUNT);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED, maximalIterationCount, SIMPSON_MAX_ITERATIONS_COUNT);
         }
     }
 
@@ -79,13 +74,10 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
      * @exception MathIllegalArgumentException if maximal number of iterations
      * is greater than {@link #SIMPSON_MAX_ITERATIONS_COUNT}
      */
-    public SimpsonIntegrator(final int minimalIterationCount,
-                             final int maximalIterationCount)
-        throws MathIllegalArgumentException {
+    public SimpsonIntegrator(final int minimalIterationCount, final int maximalIterationCount) throws MathIllegalArgumentException {
         super(minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > SIMPSON_MAX_ITERATIONS_COUNT) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                   maximalIterationCount, SIMPSON_MAX_ITERATIONS_COUNT);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED, maximalIterationCount, SIMPSON_MAX_ITERATIONS_COUNT);
         }
     }
 
@@ -97,35 +89,11 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
         super(DEFAULT_MIN_ITERATIONS_COUNT, SIMPSON_MAX_ITERATIONS_COUNT);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected double doIntegrate()
-        throws MathIllegalStateException {
-
-        TrapezoidIntegrator qtrap = new TrapezoidIntegrator();
-        if (getMinimalIterationCount() == 1) {
-            return (4 * qtrap.stage(this, 1) - qtrap.stage(this, 0)) / 3.0;
-        }
-
-        // Simpson's rule requires at least two trapezoid stages.
-        double olds = 0;
-        double oldt = qtrap.stage(this, 0);
-        while (true) {
-            final double t = qtrap.stage(this, iterations.getCount());
-            iterations.increment();
-            final double s = (4 * t - oldt) / 3.0;
-            if (iterations.getCount() >= getMinimalIterationCount()) {
-                final double delta = FastMath.abs(s - olds);
-                final double rLimit =
-                    getRelativeAccuracy() * (FastMath.abs(olds) + FastMath.abs(s)) * 0.5;
-                if ((delta <= rLimit) || (delta <= getAbsoluteAccuracy())) {
-                    return s;
-                }
-            }
-            olds = s;
-            oldt = t;
-        }
-
+    protected double doIntegrate() throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

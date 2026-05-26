@@ -14,16 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.analysis.function;
 
 import java.util.Arrays;
-
 import org.hipparchus.analysis.UnivariateFunction;
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
@@ -33,12 +30,17 @@ import org.hipparchus.util.MathArrays;
 /**
  * <a href="http://en.wikipedia.org/wiki/Step_function">
  *  Step function</a>.
- *
  */
 public class StepFunction implements UnivariateFunction {
-    /** Abscissae. */
+
+    /**
+     * Abscissae.
+     */
     private final double[] abscissa;
-    /** Ordinates. */
+
+    /**
+     * Ordinates.
+     */
     private final double[] ordinate;
 
     /**
@@ -61,40 +63,24 @@ public class StepFunction implements UnivariateFunction {
      * @throws MathIllegalArgumentException if {@code x} and {@code y} do not
      * have the same length.
      */
-    public StepFunction(double[] x,
-                        double[] y)
-        throws MathIllegalArgumentException, NullArgumentException {
-        if (x == null ||
-            y == null) {
+    public StepFunction(double[] x, double[] y) throws MathIllegalArgumentException, NullArgumentException {
+        if (x == null || y == null) {
             throw new NullArgumentException();
         }
-        if (x.length == 0 ||
-            y.length == 0) {
+        if (x.length == 0 || y.length == 0) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.NO_DATA);
         }
         MathArrays.checkEqualLength(y, x);
         MathArrays.checkOrder(x);
-
         abscissa = x.clone();
         ordinate = y.clone();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double value(double x) {
-        final int index = Arrays.binarySearch(abscissa, x);
-
-        if (index < -1) {
-            // "x" is between "abscissa[-index-2]" and "abscissa[-index-1]".
-            return ordinate[-index-2];
-        } else if (index >= 0) {
-            // "x" is exactly "abscissa[index]".
-            return ordinate[index];
-        } else {
-            // Otherwise, "x" is smaller than the first value in "abscissa"
-            // (hence the returned value should be "ordinate[0]").
-            return ordinate[0];
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

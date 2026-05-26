@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode.sampling;
 
 import org.hipparchus.CalculusFieldElement;
@@ -30,7 +28,7 @@ import org.hipparchus.util.Precision;
 /**
  * This class wraps an object implementing {@link FieldODEFixedStepHandler}
  * into a {@link FieldODEStepHandler}.
-
+ *
  * <p>This wrapper allows to use fixed step handlers with general
  * integrators which cannot guaranty their integration steps will
  * remain constant and therefore only accept general step
@@ -91,145 +89,115 @@ import org.hipparchus.util.Precision;
  * @see StepNormalizerMode
  * @see StepNormalizerBounds
  */
-
 public class FieldStepNormalizer<T extends CalculusFieldElement<T>> implements FieldODEStepHandler<T> {
 
-    /** Fixed time step. */
+    /**
+     * Fixed time step.
+     */
     private double h;
 
-    /** Underlying step handler. */
+    /**
+     * Underlying step handler.
+     */
     private final FieldODEFixedStepHandler<T> handler;
 
-    /** First step state. */
+    /**
+     * First step state.
+     */
     private FieldODEStateAndDerivative<T> first;
 
-    /** Last step step. */
+    /**
+     * Last step step.
+     */
     private FieldODEStateAndDerivative<T> last;
 
-    /** Integration direction indicator. */
+    /**
+     * Integration direction indicator.
+     */
     private boolean forward;
 
-    /** The step normalizer bounds settings to use. */
+    /**
+     * The step normalizer bounds settings to use.
+     */
     private final StepNormalizerBounds bounds;
 
-    /** The step normalizer mode to use. */
+    /**
+     * The step normalizer mode to use.
+     */
     private final StepNormalizerMode mode;
 
-    /** Simple constructor. Uses {@link StepNormalizerMode#INCREMENT INCREMENT}
+    /**
+     * Simple constructor. Uses {@link StepNormalizerMode#INCREMENT INCREMENT}
      * mode, and {@link StepNormalizerBounds#FIRST FIRST} bounds setting, for
      * backwards compatibility.
      * @param h fixed time step (sign is not used)
      * @param handler fixed time step handler to wrap
      */
     public FieldStepNormalizer(final double h, final FieldODEFixedStepHandler<T> handler) {
-        this(h, handler, StepNormalizerMode.INCREMENT,
-             StepNormalizerBounds.FIRST);
+        this(h, handler, StepNormalizerMode.INCREMENT, StepNormalizerBounds.FIRST);
     }
 
-    /** Simple constructor. Uses {@link StepNormalizerBounds#FIRST FIRST}
+    /**
+     * Simple constructor. Uses {@link StepNormalizerBounds#FIRST FIRST}
      * bounds setting.
      * @param h fixed time step (sign is not used)
      * @param handler fixed time step handler to wrap
      * @param mode step normalizer mode to use
      */
-    public FieldStepNormalizer(final double h, final FieldODEFixedStepHandler<T> handler,
-                               final StepNormalizerMode mode) {
+    public FieldStepNormalizer(final double h, final FieldODEFixedStepHandler<T> handler, final StepNormalizerMode mode) {
         this(h, handler, mode, StepNormalizerBounds.FIRST);
     }
 
-    /** Simple constructor. Uses {@link StepNormalizerMode#INCREMENT INCREMENT}
+    /**
+     * Simple constructor. Uses {@link StepNormalizerMode#INCREMENT INCREMENT}
      * mode.
      * @param h fixed time step (sign is not used)
      * @param handler fixed time step handler to wrap
      * @param bounds step normalizer bounds setting to use
      */
-    public FieldStepNormalizer(final double h, final FieldODEFixedStepHandler<T> handler,
-                               final StepNormalizerBounds bounds) {
+    public FieldStepNormalizer(final double h, final FieldODEFixedStepHandler<T> handler, final StepNormalizerBounds bounds) {
         this(h, handler, StepNormalizerMode.INCREMENT, bounds);
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param h fixed time step (sign is not used)
      * @param handler fixed time step handler to wrap
      * @param mode step normalizer mode to use
      * @param bounds step normalizer bounds setting to use
      */
-    public FieldStepNormalizer(final double h, final FieldODEFixedStepHandler<T> handler,
-                               final StepNormalizerMode mode, final StepNormalizerBounds bounds) {
-        this.h       = FastMath.abs(h);
+    public FieldStepNormalizer(final double h, final FieldODEFixedStepHandler<T> handler, final StepNormalizerMode mode, final StepNormalizerBounds bounds) {
+        this.h = FastMath.abs(h);
         this.handler = handler;
-        this.mode    = mode;
-        this.bounds  = bounds;
-        first        = null;
-        last         = null;
-        forward      = true;
+        this.mode = mode;
+        this.bounds = bounds;
+        first = null;
+        last = null;
+        forward = true;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void init(final FieldODEStateAndDerivative<T> initialState, final T finalTime) {
-
-        first   = null;
-        last    = null;
-        forward = true;
-
-        // initialize the underlying handler
-        handler.init(initialState, finalTime);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handleStep(final FieldODEStateInterpolator<T> interpolator) {
-        // The first time, update the last state with the start information.
-        if (last == null) {
-
-            first   = interpolator.getPreviousState();
-            last    = first;
-
-            // Take the integration direction into account.
-            forward = interpolator.isForward();
-            if (!forward) {
-                h = -h;
-            }
-        }
-
-        // Calculate next normalized step time.
-        T nextTime = (mode == StepNormalizerMode.INCREMENT) ?
-                     last.getTime().add(h) :
-                     last.getTime().getField().getZero().add((FastMath.floor(last.getTime().getReal() / h) + 1) * h);
-        if (mode == StepNormalizerMode.MULTIPLES &&
-            Precision.equals(nextTime.getReal(), last.getTime().getReal(), 1)) {
-            nextTime = nextTime.add(h);
-        }
-
-        // Process normalized steps as long as they are in the current step.
-        boolean nextInStep = isNextInStep(nextTime, interpolator);
-        while (nextInStep) {
-            // Output the stored previous step.
-            doNormalizedStep(false);
-
-            // Store the next step as last step.
-            last = interpolator.getInterpolatedState(nextTime);
-
-            // Move on to the next step.
-            nextTime = nextTime.add(h);
-            nextInStep = isNextInStep(nextTime, interpolator);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void finish(final FieldODEStateAndDerivative<T> finalState) {
-        // There will be no more steps. The stored one should be given to
-        // the handler. We may have to output one more step. Only the last
-        // one of those should be flagged as being the last.
-        final boolean addLast = bounds.lastIncluded() && last.getTime().getReal() != finalState.getTime().getReal();
-        doNormalizedStep(!addLast);
-        if (addLast) {
-            last = finalState;
-            doNormalizedStep(true);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -242,9 +210,7 @@ public class FieldStepNormalizer<T extends CalculusFieldElement<T>> implements F
      * current step
      */
     private boolean isNextInStep(final T nextTime, final FieldODEStateInterpolator<T> interpolator) {
-        return forward ?
-               nextTime.getReal() <= interpolator.getCurrentState().getTime().getReal() :
-               nextTime.getReal() >= interpolator.getCurrentState().getTime().getReal();
+        return forward ? nextTime.getReal() <= interpolator.getCurrentState().getTime().getReal() : nextTime.getReal() >= interpolator.getCurrentState().getTime().getReal();
     }
 
     /**
@@ -257,5 +223,4 @@ public class FieldStepNormalizer<T extends CalculusFieldElement<T>> implements F
         }
         handler.handleStep(last, isLast);
     }
-
 }

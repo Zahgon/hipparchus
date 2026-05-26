@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,9 +21,7 @@
 package org.hipparchus.random;
 
 import java.io.Serializable;
-
 import org.hipparchus.util.FastMath;
-
 
 /**
  * This abstract class implements the WELL class of pseudo-random number generator
@@ -42,16 +39,23 @@ import org.hipparchus.util.FastMath;
  */
 public abstract class AbstractWell extends IntRandomGenerator implements Serializable {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20150223L;
 
-    /** Current index in the bytes pool. */
+    /**
+     * Current index in the bytes pool.
+     */
     protected int index;
 
-    /** Bytes pool. */
+    /**
+     * Bytes pool.
+     */
     protected final int[] v;
 
-    /** Creates a new random number generator.
+    /**
+     * Creates a new random number generator.
      * <p>The instance is initialized using the current time plus the
      * system identity hash code of this instance as the seed.</p>
      * @param k number of bits in the pool (not necessarily a multiple of 32)
@@ -60,7 +64,8 @@ public abstract class AbstractWell extends IntRandomGenerator implements Seriali
         this(k, null);
     }
 
-    /** Creates a new random number generator using a single int seed.
+    /**
+     * Creates a new random number generator using a single int seed.
      * @param k number of bits in the pool (not necessarily a multiple of 32)
      * @param seed the initial seed (32 bits integer)
      */
@@ -75,11 +80,9 @@ public abstract class AbstractWell extends IntRandomGenerator implements Seriali
      * the seed of the generator will be related to the current time
      */
     protected AbstractWell(final int k, final int[] seed) {
-
         final int r = calculateBlockCount(k);
-        this.v      = new int[r];
-        this.index  = 0;
-
+        this.v = new int[r];
+        this.index = 0;
         // initialize the pool content
         setSeed(seed);
     }
@@ -105,22 +108,7 @@ public abstract class AbstractWell extends IntRandomGenerator implements Seriali
      */
     @Override
     public void setSeed(final int[] seed) {
-        if (seed == null) {
-            setSeed(System.currentTimeMillis() + System.identityHashCode(this));
-            return;
-        }
-
-        System.arraycopy(seed, 0, v, 0, FastMath.min(seed.length, v.length));
-
-        if (seed.length < v.length) {
-            for (int i = seed.length; i < v.length; ++i) {
-                final long l = v[i - seed.length];
-                v[i] = (int) ((1812433253l * (l ^ (l >> 30)) + i) & 0xffffffffL);
-            }
-        }
-
-        index = 0;
-        clearCache(); // Clear normal deviate cache
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -141,6 +129,7 @@ public abstract class AbstractWell extends IntRandomGenerator implements Seriali
      * for a given type of WELL class of pseudo-random number generator.
      */
     protected static final class IndexTable {
+
         /**
          * Index indirection table giving for each index its predecessor
          * taking table size into account.
@@ -179,22 +168,20 @@ public abstract class AbstractWell extends IntRandomGenerator implements Seriali
          * @param m3 third parameter of the algorithm
          */
         public IndexTable(final int k, final int m1, final int m2, final int m3) {
-
             final int r = calculateBlockCount(k);
-
             // precompute indirection index tables. These tables are used for optimizing access
             // they allow saving computations like "(j + r - 2) % r" with costly modulo operations
             iRm1 = new int[r];
             iRm2 = new int[r];
-            i1   = new int[r];
-            i2   = new int[r];
-            i3   = new int[r];
+            i1 = new int[r];
+            i2 = new int[r];
+            i3 = new int[r];
             for (int j = 0; j < r; ++j) {
                 iRm1[j] = (j + r - 1) % r;
                 iRm2[j] = (j + r - 2) % r;
-                i1[j]   = (j + m1)    % r;
-                i2[j]   = (j + m2)    % r;
-                i3[j]   = (j + m3)    % r;
+                i1[j] = (j + m1) % r;
+                i2[j] = (j + m2) % r;
+                i3[j] = (j + m3) % r;
             }
         }
 
@@ -204,7 +191,7 @@ public abstract class AbstractWell extends IntRandomGenerator implements Seriali
          * @return (index - 1) % table size
          */
         public int getIndexPred(final int index) {
-            return iRm1[index];
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -213,7 +200,7 @@ public abstract class AbstractWell extends IntRandomGenerator implements Seriali
          * @return (index - 2) % table size
          */
         public int getIndexPred2(final int index) {
-            return iRm2[index];
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -222,7 +209,7 @@ public abstract class AbstractWell extends IntRandomGenerator implements Seriali
          * @return (index + M1) % table size
          */
         public int getIndexM1(final int index) {
-            return i1[index];
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -231,7 +218,7 @@ public abstract class AbstractWell extends IntRandomGenerator implements Seriali
          * @return (index + M2) % table size
          */
         public int getIndexM2(final int index) {
-            return i2[index];
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -240,7 +227,7 @@ public abstract class AbstractWell extends IntRandomGenerator implements Seriali
          * @return (index + M3) % table size
          */
         public int getIndexM3(final int index) {
-            return i3[index];
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

@@ -21,19 +21,24 @@ import org.hipparchus.linear.RealVector;
 import org.hipparchus.util.FastMath;
 import org.hipparchus.util.MathUtils;
 
-/** Constraint with lower and upper bounds: \(l \le f(x) \le u\).
+/**
+ * Constraint with lower and upper bounds: \(l \le f(x) \le u\).
  * @since 3.1
  */
 public abstract class BoundedConstraint implements Constraint {
 
-    /** Lower bound. */
+    /**
+     * Lower bound.
+     */
     private final RealVector lower;
 
-    /** Upper bound. */
+    /**
+     * Upper bound.
+     */
     private final RealVector upper;
 
-
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * <p>
      * At least one of the bounds must be non-null.
      * </p>
@@ -41,59 +46,54 @@ public abstract class BoundedConstraint implements Constraint {
      * @param upper upper bound (null if no upper bound)
      */
     protected BoundedConstraint(final RealVector lower, final RealVector upper) {
+        // ensure lower is always properly set, even when there are no lower bounds
+        if (lower == null) {
+            MathUtils.checkNotNull(upper);
+            this.lower = MatrixUtils.createRealVector(upper.getDimension());
+            this.lower.set(Double.NEGATIVE_INFINITY);
+        } else {
+            this.lower = lower;
+        }
+        // ensure upper is always properly set, even when there are no upper bounds
+        if (upper == null) {
+            this.upper = MatrixUtils.createRealVector(lower.getDimension());
+            this.upper.set(Double.POSITIVE_INFINITY);
+        } else {
+            this.upper = upper;
+        }
+        // safety check on dimensions
+        MathUtils.checkDimension(this.lower.getDimension(), this.upper.getDimension());
+    }
 
-         // ensure lower is always properly set, even when there are no lower bounds
-         if (lower == null) {
-             MathUtils.checkNotNull(upper);
-             this.lower = MatrixUtils.createRealVector(upper.getDimension());
-             this.lower.set(Double.NEGATIVE_INFINITY);
-         } else {
-             this.lower = lower;
-         }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int dimY() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-         // ensure upper is always properly set, even when there are no upper bounds
-         if (upper == null) {
-             this.upper = MatrixUtils.createRealVector(lower.getDimension());
-             this.upper.set(Double.POSITIVE_INFINITY);
-         } else {
-             this.upper = upper;
-         }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RealVector getLowerBound() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-         // safety check on dimensions
-         MathUtils.checkDimension(this.lower.getDimension(), this.upper.getDimension());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RealVector getUpperBound() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-     }
-
-     /** {@inheritDoc} */
-     @Override
-     public int dimY() {
-         return lower.getDimension();
-     }
-
-     /** {@inheritDoc} */
-     @Override
-     public RealVector getLowerBound() {
-         return lower;
-     }
-
-     /** {@inheritDoc} */
-     @Override
-     public RealVector getUpperBound() {
-         return upper;
-     }
-
-     /** {@inheritDoc} */
-     @Override
-     public double overshoot(final RealVector y) {
-
-         double overshoot = 0;
-         for (int i = 0; i < y.getDimension(); ++i) {
-             overshoot += FastMath.max(0, lower.getEntry(i) - y.getEntry(i));
-             overshoot += FastMath.max(0, y.getEntry(i) - upper.getEntry(i));
-         }
-
-         return overshoot;
-
-     }
-
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double overshoot(final RealVector y) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

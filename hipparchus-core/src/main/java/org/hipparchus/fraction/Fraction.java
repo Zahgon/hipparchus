@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -26,7 +25,6 @@ import java.math.BigInteger;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-
 import org.hipparchus.FieldElement;
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalStateException;
@@ -41,66 +39,103 @@ import org.hipparchus.util.Precision;
 /**
  * Representation of a rational number.
  */
-public class Fraction
-    extends Number
-    implements FieldElement<Fraction>, Comparable<Fraction>, Serializable {
+public class Fraction extends Number implements FieldElement<Fraction>, Comparable<Fraction>, Serializable {
 
-    /** A fraction representing "2 / 1". */
+    /**
+     * A fraction representing "2 / 1".
+     */
     public static final Fraction TWO = new Fraction(2, 1);
 
-    /** A fraction representing "1". */
+    /**
+     * A fraction representing "1".
+     */
     public static final Fraction ONE = new Fraction(1, 1);
 
-    /** A fraction representing "0". */
+    /**
+     * A fraction representing "0".
+     */
     public static final Fraction ZERO = new Fraction(0, 1);
 
-    /** A fraction representing "4/5". */
+    /**
+     * A fraction representing "4/5".
+     */
     public static final Fraction FOUR_FIFTHS = new Fraction(4, 5);
 
-    /** A fraction representing "1/5". */
+    /**
+     * A fraction representing "1/5".
+     */
     public static final Fraction ONE_FIFTH = new Fraction(1, 5);
 
-    /** A fraction representing "1/2". */
+    /**
+     * A fraction representing "1/2".
+     */
     public static final Fraction ONE_HALF = new Fraction(1, 2);
 
-    /** A fraction representing "1/4". */
+    /**
+     * A fraction representing "1/4".
+     */
     public static final Fraction ONE_QUARTER = new Fraction(1, 4);
 
-    /** A fraction representing "1/3". */
+    /**
+     * A fraction representing "1/3".
+     */
     public static final Fraction ONE_THIRD = new Fraction(1, 3);
 
-    /** A fraction representing "3/5". */
+    /**
+     * A fraction representing "3/5".
+     */
     public static final Fraction THREE_FIFTHS = new Fraction(3, 5);
 
-    /** A fraction representing "3/4". */
+    /**
+     * A fraction representing "3/4".
+     */
     public static final Fraction THREE_QUARTERS = new Fraction(3, 4);
 
-    /** A fraction representing "2/5". */
+    /**
+     * A fraction representing "2/5".
+     */
     public static final Fraction TWO_FIFTHS = new Fraction(2, 5);
 
-    /** A fraction representing "2/4". */
+    /**
+     * A fraction representing "2/4".
+     */
     public static final Fraction TWO_QUARTERS = new Fraction(2, 4);
 
-    /** A fraction representing "2/3". */
+    /**
+     * A fraction representing "2/3".
+     */
     public static final Fraction TWO_THIRDS = new Fraction(2, 3);
 
-    /** A fraction representing "-1 / 1". */
+    /**
+     * A fraction representing "-1 / 1".
+     */
     public static final Fraction MINUS_ONE = new Fraction(-1, 1);
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 3698073679419233275L;
 
-    /** The default epsilon used for convergence. */
+    /**
+     * The default epsilon used for convergence.
+     */
     private static final double DEFAULT_EPSILON = 1e-5;
 
-    /** Convert a convergence step to the corresponding double fraction. */
-    private static final Function<ConvergenceStep, Fraction> STEP_TO_FRACTION = //
-                    s -> new Fraction((int) s.getNumerator(), (int) s.getDenominator());
+    /**
+     * Convert a convergence step to the corresponding double fraction.
+     */
+    private static final //
+    Function<ConvergenceStep, Fraction> //
+    STEP_TO_FRACTION = s -> new Fraction((int) s.getNumerator(), (int) s.getDenominator());
 
-    /** The denominator. */
+    /**
+     * The denominator.
+     */
     private final int denominator;
 
-    /** The numerator. */
+    /**
+     * The numerator.
+     */
     private final int numerator;
 
     /**
@@ -129,18 +164,16 @@ public class Fraction
      * @throws MathIllegalStateException if the continued fraction failed to
      *         converge.
      */
-    public Fraction(double value, double epsilon, int maxIterations)
-        throws MathIllegalStateException {
+    public Fraction(double value, double epsilon, int maxIterations) throws MathIllegalStateException {
         ConvergenceStep converged = convergent(value, maxIterations, s -> {
             double quotient = s.getFractionValue();
             return Precision.equals(quotient, value, 1) || FastMath.abs(quotient - value) < epsilon;
         }).getKey();
         if (FastMath.abs(converged.getFractionValue() - value) < epsilon) {
-            this.numerator   = (int) converged.getNumerator();
+            this.numerator = (int) converged.getNumerator();
             this.denominator = (int) converged.getDenominator();
         } else {
-            throw new MathIllegalStateException(LocalizedCoreFormats.FAILED_FRACTION_CONVERSION,
-                                                value, maxIterations);
+            throw new MathIllegalStateException(LocalizedCoreFormats.FAILED_FRACTION_CONVERSION, value, maxIterations);
         }
     }
 
@@ -158,8 +191,7 @@ public class Fraction
      * @throws MathIllegalStateException if the continued fraction failed to
      *         converge
      */
-    public Fraction(double value, int maxDenominator)
-        throws MathIllegalStateException {
+    public Fraction(double value, int maxDenominator) throws MathIllegalStateException {
         final int maxIterations = 100;
         ConvergenceStep[] lastValid = new ConvergenceStep[1];
         try {
@@ -169,14 +201,14 @@ public class Fraction
                 }
                 return Precision.equals(s.getFractionValue(), value, 1);
             });
-        } catch (MathIllegalStateException e) { // NOPMD - ignore overflows and just take the last valid result
+        } catch (MathIllegalStateException e) {
+            // NOPMD - ignore overflows and just take the last valid result
         }
         if (lastValid[0] != null) {
-            this.numerator   = (int) lastValid[0].getNumerator();
+            this.numerator = (int) lastValid[0].getNumerator();
             this.denominator = (int) lastValid[0].getDenominator();
         } else {
-            throw new MathIllegalStateException(LocalizedCoreFormats.FAILED_FRACTION_CONVERSION,
-                                                value, maxIterations);
+            throw new MathIllegalStateException(LocalizedCoreFormats.FAILED_FRACTION_CONVERSION, value, maxIterations);
         }
     }
 
@@ -198,14 +230,11 @@ public class Fraction
      */
     public Fraction(int num, int den) {
         if (den == 0) {
-            throw new MathRuntimeException(LocalizedCoreFormats.ZERO_DENOMINATOR_IN_FRACTION,
-                                           num, den);
+            throw new MathRuntimeException(LocalizedCoreFormats.ZERO_DENOMINATOR_IN_FRACTION, num, den);
         }
         if (den < 0) {
-            if (num == Integer.MIN_VALUE ||
-                den == Integer.MIN_VALUE) {
-                throw new MathRuntimeException(LocalizedCoreFormats.OVERFLOW_IN_FRACTION,
-                                               num, den);
+            if (num == Integer.MIN_VALUE || den == Integer.MIN_VALUE) {
+                throw new MathRuntimeException(LocalizedCoreFormats.OVERFLOW_IN_FRACTION, num, den);
             }
             num = -num;
             den = -den;
@@ -216,13 +245,12 @@ public class Fraction
             num /= d;
             den /= d;
         }
-
         // move sign to numerator.
         if (den < 0) {
             num = -num;
             den = -den;
         }
-        this.numerator   = num;
+        this.numerator = num;
         this.denominator = den;
     }
 
@@ -231,6 +259,7 @@ public class Fraction
      */
     @FunctionalInterface
     public interface ConvergenceTest {
+
         /**
          * Evaluates if the fraction formed by {@code numerator/denominator} satisfies
          * this convergence test.
@@ -239,20 +268,19 @@ public class Fraction
          * @param denominator the denominator
          * @return if this convergence test is satisfied
          */
-        boolean test(int numerator, int denominator); // NOPMD - this is not a Junit test, PMD false positive here
+        // NOPMD - this is not a Junit test, PMD false positive here
+        boolean test(int numerator, int denominator);
     }
 
-    /** Generate a {@link Stream stream} of convergents from a real number.
+    /**
+     * Generate a {@link Stream stream} of convergents from a real number.
      * @param value value to approximate
      * @param maxConvergents maximum number of convergents.
      * @return stream of {@link Fraction} convergents approximating  {@code value}
      * @since 2.1
      */
     public static Stream<Fraction> convergents(final double value, final int maxConvergents) {
-        if (FastMath.abs(value) > Integer.MAX_VALUE) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.FRACTION_CONVERSION_OVERFLOW, value, value, 1l);
-        }
-        return ConvergentsIterator.convergents(value, maxConvergents).map(STEP_TO_FRACTION);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -277,22 +305,18 @@ public class Fraction
      *         indicating if that element satisfies the specified convergent test
      */
     public static Pair<Fraction, Boolean> convergent(double value, int maxConvergents, ConvergenceTest convergenceTest) {
-        Pair<ConvergenceStep, Boolean> converged = convergent(value, maxConvergents, s -> {
-            customAssertNoIntegerOverflow(s, value);
-            return convergenceTest.test((int) s.getNumerator(), (int) s.getDenominator());
-        });
-        return Pair.create(STEP_TO_FRACTION.apply(converged.getKey()), converged.getValue());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Create a convergent-steps to approximate the given value.
+    /**
+     * Create a convergent-steps to approximate the given value.
      * @param value           value to approximate
      * @param maxConvergents  maximum number of convergents to examine
      * @param convergenceTests the test if the series has converged at a step
      * @return the pair of last element of the series of convergents and a boolean
      *         indicating if that element satisfies the specified convergent test
      */
-    private static Pair<ConvergenceStep, Boolean> convergent(double value, int maxConvergents,
-                                                             Predicate<ConvergenceStep> convergenceTests) {
+    private static Pair<ConvergenceStep, Boolean> convergent(double value, int maxConvergents, Predicate<ConvergenceStep> convergenceTests) {
         if (FastMath.abs(value) > Integer.MAX_VALUE) {
             throw new MathIllegalStateException(LocalizedCoreFormats.FRACTION_CONVERSION_OVERFLOW, value, value, 1l);
         }
@@ -302,31 +326,35 @@ public class Fraction
         });
     }
 
-    /** Check no overflow occurred.
+    /**
+     * Check no overflow occurred.
      * @param s convergent
      * @param value corresponding value
      */
     private static void customAssertNoIntegerOverflow(ConvergenceStep s, double value) {
         if (s.getNumerator() > Integer.MAX_VALUE || s.getDenominator() > Integer.MAX_VALUE) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.FRACTION_CONVERSION_OVERFLOW, value,
-                    s.getNumerator(), s.getDenominator());
+            throw new MathIllegalStateException(LocalizedCoreFormats.FRACTION_CONVERSION_OVERFLOW, value, s.getNumerator(), s.getDenominator());
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getReal() {
-        return doubleValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check if a fraction is an integer.
+    /**
+     * Check if a fraction is an integer.
      * @return true of fraction is an integer
      */
     public boolean isInteger() {
-        return denominator == 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Returns the signum function of this fraction.
+    /**
+     * Returns the signum function of this fraction.
      * <p>
      * The return value is -1 if the specified value is negative;
      * 0 if the specified value is zero; and 1 if the specified value is positive.
@@ -335,7 +363,7 @@ public class Fraction
      * @since 1.7
      */
     public int signum() {
-        return Integer.signum(numerator);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -343,13 +371,7 @@ public class Fraction
      * @return the absolute value.
      */
     public Fraction abs() {
-        Fraction ret;
-        if (numerator >= 0) {
-            ret = this;
-        } else {
-            ret = negate();
-        }
-        return ret;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -360,9 +382,7 @@ public class Fraction
      */
     @Override
     public int compareTo(Fraction object) {
-        long nOd = ((long) numerator) * object.denominator;
-        long dOn = ((long) denominator) * object.numerator;
-        return Long.compare(nOd, dOn);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -372,7 +392,7 @@ public class Fraction
      */
     @Override
     public double doubleValue() {
-        return ((double) numerator) / denominator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -386,17 +406,7 @@ public class Fraction
      */
     @Override
     public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-        if (other instanceof Fraction) {
-            // since fractions are always in lowest terms, numerators and
-            // denominators can be compared directly for equality.
-            Fraction rhs = (Fraction)other;
-            return (numerator == rhs.numerator) &&
-                (denominator == rhs.denominator);
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -406,7 +416,7 @@ public class Fraction
      */
     @Override
     public float floatValue() {
-        return (float)doubleValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -417,15 +427,7 @@ public class Fraction
      * @since 3.1
      */
     public Fraction gcd(Fraction s) {
-      if (s.isZero()) {
-        return this;
-      }
-      if (this.isZero()) {
-        return s;
-      }
-      int p = ArithmeticUtils.gcd(numerator, s.numerator);
-      int q = ArithmeticUtils.lcm(denominator, s.denominator);
-      return new Fraction(p, q);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -436,14 +438,7 @@ public class Fraction
      * @since 3.1
      */
     public Fraction lcm(Fraction s) {
-      if (s.isZero()) {
-        return ZERO;
-      }
-      if (this.isZero()) {
-        return ZERO;
-      }
-      return new Fraction(ArithmeticUtils.lcm(numerator, s.numerator),
-                          ArithmeticUtils.gcd(denominator, s.denominator));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -451,7 +446,7 @@ public class Fraction
      * @return the denominator.
      */
     public int getDenominator() {
-        return denominator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -459,7 +454,7 @@ public class Fraction
      * @return the numerator.
      */
     public int getNumerator() {
-        return numerator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -468,7 +463,7 @@ public class Fraction
      */
     @Override
     public int hashCode() {
-        return 37 * (37 * 17 + numerator) + denominator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -478,7 +473,7 @@ public class Fraction
      */
     @Override
     public int intValue() {
-        return (int)doubleValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -488,7 +483,7 @@ public class Fraction
      */
     @Override
     public long longValue() {
-        return (long)doubleValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -497,10 +492,7 @@ public class Fraction
      */
     @Override
     public Fraction negate() {
-        if (numerator==Integer.MIN_VALUE) {
-            throw new MathRuntimeException(LocalizedCoreFormats.OVERFLOW_IN_FRACTION, numerator, denominator);
-        }
-        return new Fraction(-numerator, denominator);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -509,7 +501,7 @@ public class Fraction
      */
     @Override
     public Fraction reciprocal() {
-        return new Fraction(denominator, numerator);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -524,7 +516,7 @@ public class Fraction
      */
     @Override
     public Fraction add(Fraction fraction) {
-        return addSub(fraction, true /* add */);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -533,7 +525,7 @@ public class Fraction
      * @return this + i
      */
     public Fraction add(final int i) {
-        return new Fraction(numerator + i * denominator, denominator);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -548,7 +540,7 @@ public class Fraction
      */
     @Override
     public Fraction subtract(Fraction fraction) {
-        return addSub(fraction, false /* subtract */);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -557,7 +549,7 @@ public class Fraction
      * @return this - i
      */
     public Fraction subtract(final int i) {
-        return new Fraction(numerator - i * denominator, denominator);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -572,7 +564,6 @@ public class Fraction
      */
     private Fraction addSub(Fraction fraction, boolean isAdd) {
         MathUtils.checkNotNull(fraction, LocalizedCoreFormats.FRACTION);
-
         // zero is identity for addition.
         if (numerator == 0) {
             return isAdd ? fraction : fraction.negate();
@@ -583,37 +574,28 @@ public class Fraction
         // if denominators are randomly distributed, d1 will be 1 about 61%
         // of the time.
         int d1 = ArithmeticUtils.gcd(denominator, fraction.denominator);
-        if (d1==1) {
+        if (d1 == 1) {
             // result is ( (u*v' +/- u'v) / u'v')
             int uvp = ArithmeticUtils.mulAndCheck(numerator, fraction.denominator);
             int upv = ArithmeticUtils.mulAndCheck(fraction.numerator, denominator);
-            return new Fraction
-                (isAdd ? ArithmeticUtils.addAndCheck(uvp, upv) :
-                 ArithmeticUtils.subAndCheck(uvp, upv),
-                 ArithmeticUtils.mulAndCheck(denominator, fraction.denominator));
+            return new Fraction(isAdd ? ArithmeticUtils.addAndCheck(uvp, upv) : ArithmeticUtils.subAndCheck(uvp, upv), ArithmeticUtils.mulAndCheck(denominator, fraction.denominator));
         }
         // the quantity 't' requires 65 bits of precision; see knuth 4.5.1
         // exercise 7.  we're going to use a BigInteger.
         // t = u(v'/d1) +/- v(u'/d1)
-        BigInteger uvp = BigInteger.valueOf(numerator)
-                                   .multiply(BigInteger.valueOf(fraction.denominator / d1));
-        BigInteger upv = BigInteger.valueOf(fraction.numerator)
-                                   .multiply(BigInteger.valueOf(denominator / d1));
+        BigInteger uvp = BigInteger.valueOf(numerator).multiply(BigInteger.valueOf(fraction.denominator / d1));
+        BigInteger upv = BigInteger.valueOf(fraction.numerator).multiply(BigInteger.valueOf(denominator / d1));
         BigInteger t = isAdd ? uvp.add(upv) : uvp.subtract(upv);
         // but d2 doesn't need extra precision because
         // d2 = gcd(t,d1) = gcd(t mod d1, d1)
         int tmodd1 = t.mod(BigInteger.valueOf(d1)).intValue();
-        int d2 = (tmodd1==0)?d1:ArithmeticUtils.gcd(tmodd1, d1);
-
+        int d2 = (tmodd1 == 0) ? d1 : ArithmeticUtils.gcd(tmodd1, d1);
         // result is (t/d2) / (u'/d1)(v'/d2)
         BigInteger w = t.divide(BigInteger.valueOf(d2));
         if (w.bitLength() > 31) {
-            throw new MathRuntimeException(LocalizedCoreFormats.NUMERATOR_OVERFLOW_AFTER_MULTIPLY,
-                                           w);
+            throw new MathRuntimeException(LocalizedCoreFormats.NUMERATOR_OVERFLOW_AFTER_MULTIPLY, w);
         }
-        return new Fraction (w.intValue(),
-                ArithmeticUtils.mulAndCheck(denominator/d1,
-                                            fraction.denominator/d2));
+        return new Fraction(w.intValue(), ArithmeticUtils.mulAndCheck(denominator / d1, fraction.denominator / d2));
     }
 
     /**
@@ -628,17 +610,7 @@ public class Fraction
      */
     @Override
     public Fraction multiply(Fraction fraction) {
-        MathUtils.checkNotNull(fraction, LocalizedCoreFormats.FRACTION);
-        if (numerator == 0 || fraction.numerator == 0) {
-            return ZERO;
-        }
-        // knuth 4.5.1
-        // make sure we don't overflow unless the result *must* overflow.
-        int d1 = ArithmeticUtils.gcd(numerator, fraction.denominator);
-        int d2 = ArithmeticUtils.gcd(fraction.numerator, denominator);
-        return getReducedFraction
-                (ArithmeticUtils.mulAndCheck(numerator/d1, fraction.numerator/d2),
-                 ArithmeticUtils.mulAndCheck(denominator/d2, fraction.denominator/d1));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -648,7 +620,7 @@ public class Fraction
      */
     @Override
     public Fraction multiply(final int i) {
-        return multiply(new Fraction(i));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -663,12 +635,7 @@ public class Fraction
      */
     @Override
     public Fraction divide(Fraction fraction) {
-        MathUtils.checkNotNull(fraction, LocalizedCoreFormats.FRACTION);
-        if (fraction.numerator == 0) {
-            throw new MathRuntimeException(LocalizedCoreFormats.ZERO_FRACTION_TO_DIVIDE_BY,
-                                           fraction.numerator, fraction.denominator);
-        }
-        return multiply(fraction.reciprocal());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -677,7 +644,7 @@ public class Fraction
      * @return this * i
      */
     public Fraction divide(final int i) {
-        return divide(new Fraction(i));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -687,7 +654,7 @@ public class Fraction
      * @return the fraction percentage as a {@code double}.
      */
     public double percentageValue() {
-        return 100 * doubleValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -702,31 +669,7 @@ public class Fraction
      * @throws MathRuntimeException if the denominator is {@code zero}
      */
     public static Fraction getReducedFraction(int numerator, int denominator) {
-        if (denominator == 0) {
-            throw new MathRuntimeException(LocalizedCoreFormats.ZERO_DENOMINATOR_IN_FRACTION,
-                                           numerator, denominator);
-        }
-        if (numerator==0) {
-            return ZERO; // normalize zero.
-        }
-        // allow 2^k/-2^31 as a valid fraction (where k>0)
-        if (denominator==Integer.MIN_VALUE && (numerator&1)==0) {
-            numerator/=2; denominator/=2;
-        }
-        if (denominator < 0) {
-            if (numerator==Integer.MIN_VALUE ||
-                denominator==Integer.MIN_VALUE) {
-                throw new MathRuntimeException(LocalizedCoreFormats.OVERFLOW_IN_FRACTION,
-                                               numerator, denominator);
-            }
-            numerator = -numerator;
-            denominator = -denominator;
-        }
-        // simplify fraction.
-        int gcd = ArithmeticUtils.gcd(numerator, denominator);
-        numerator /= gcd;
-        denominator /= gcd;
-        return new Fraction(numerator, denominator);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -738,19 +681,14 @@ public class Fraction
      */
     @Override
     public String toString() {
-        if (denominator == 1) {
-            return Integer.toString(numerator);
-        } else if (numerator == 0) {
-            return "0";
-        } else {
-            return numerator + " / " + denominator;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FractionField getField() {
-        return FractionField.getInstance();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

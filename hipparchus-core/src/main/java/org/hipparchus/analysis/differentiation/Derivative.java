@@ -20,24 +20,29 @@ import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.util.FastMath;
 
-/** Interface representing both the value and the differentials of a function.
+/**
+ * Interface representing both the value and the differentials of a function.
  * @param <T> the type of the field elements
  * @since 1.7
  */
 public interface Derivative<T extends CalculusFieldElement<T>> extends CalculusFieldElement<T>, DifferentialAlgebra {
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default double getReal() {
-        return getValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the value part of the function.
+    /**
+     * Get the value part of the function.
      * @return value part of the value of the function
      */
     double getValue();
 
-    /** Create a new object with new value (zeroth-order derivative, as passed as input)
+    /**
+     * Create a new object with new value (zeroth-order derivative, as passed as input)
      * and same derivatives of order one and above.
      * <p>
      * This default implementation is there so that no API gets broken
@@ -49,10 +54,11 @@ public interface Derivative<T extends CalculusFieldElement<T>> extends CalculusF
      * @since 3.1
      */
     default T withValue(double value) {
-        return add(newInstance(value - getValue()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get a partial derivative.
+    /**
+     * Get a partial derivative.
      * @param orders derivation orders with respect to each variable (if all orders are 0,
      * the value is returned)
      * @return partial derivative
@@ -62,22 +68,26 @@ public interface Derivative<T extends CalculusFieldElement<T>> extends CalculusF
      * @exception MathIllegalArgumentException if sum of derivation orders is larger
      * than the instance limits
      */
-    double getPartialDerivative(int ... orders)
-        throws MathIllegalArgumentException;
+    double getPartialDerivative(int... orders) throws MathIllegalArgumentException;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T add(double a) {
-        return withValue(getValue() + a);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T subtract(double a) {
-        return withValue(getValue() - a);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute composition of the instance by a univariate function.
+    /**
+     * Compute composition of the instance by a univariate function.
      * @param f array of value and derivatives of the function at
      * the current point (i.e. [f({@link #getValue()}),
      * f'({@link #getValue()}), f''({@link #getValue()})...]).
@@ -85,48 +95,61 @@ public interface Derivative<T extends CalculusFieldElement<T>> extends CalculusF
      * @exception MathIllegalArgumentException if the number of derivatives
      * in the array is not equal to {@link #getOrder() order} + 1
      */
-    T compose(double... f)
-        throws MathIllegalArgumentException;
+    T compose(double... f) throws MathIllegalArgumentException;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T log10() {
-        return log().divide(FastMath.log(10.));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T pow(T e) {
-        return log().multiply(e).exp();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T cosh() {
-        return (exp().add(negate().exp())).half();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T sinh() {
-        return (exp().subtract(negate().exp())).half();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T acos() {
-        return asin().negate().add(getPi().half());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default int getExponent() {
-        return FastMath.getExponent(getValue());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     default T remainder(double a) {
-        return withValue(FastMath.IEEEremainder(getValue(), a));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

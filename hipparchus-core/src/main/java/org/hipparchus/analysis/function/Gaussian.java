@@ -14,16 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.analysis.function;
 
 import java.util.Arrays;
-
 import org.hipparchus.analysis.ParametricUnivariateFunction;
 import org.hipparchus.analysis.differentiation.Derivative;
 import org.hipparchus.analysis.differentiation.UnivariateDifferentiableFunction;
@@ -37,16 +34,27 @@ import org.hipparchus.util.Precision;
 /**
  * <a href="http://en.wikipedia.org/wiki/Gaussian_function">
  *  Gaussian</a> function.
- *
  */
 public class Gaussian implements UnivariateDifferentiableFunction {
-    /** Mean. */
+
+    /**
+     * Mean.
+     */
     private final double mean;
-    /** Inverse of the standard deviation. */
+
+    /**
+     * Inverse of the standard deviation.
+     */
     private final double is;
-    /** Inverse of twice the square of the standard deviation. */
+
+    /**
+     * Inverse of twice the square of the standard deviation.
+     */
     private final double i2s2;
-    /** Normalization factor. */
+
+    /**
+     * Normalization factor.
+     */
     private final double norm;
 
     /**
@@ -57,18 +65,13 @@ public class Gaussian implements UnivariateDifferentiableFunction {
      * @param sigma Standard deviation.
      * @throws MathIllegalArgumentException if {@code sigma <= 0}.
      */
-    public Gaussian(double norm,
-                    double mean,
-                    double sigma)
-        throws MathIllegalArgumentException {
+    public Gaussian(double norm, double mean, double sigma) throws MathIllegalArgumentException {
         if (sigma <= 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
-                                                   sigma, 0);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED, sigma, 0);
         }
-
         this.norm = norm;
         this.mean = mean;
-        this.is   = 1 / sigma;
+        this.is = 1 / sigma;
         this.i2s2 = 0.5 * is * is;
     }
 
@@ -79,9 +82,7 @@ public class Gaussian implements UnivariateDifferentiableFunction {
      * @param sigma Standard deviation.
      * @throws MathIllegalArgumentException if {@code sigma <= 0}.
      */
-    public Gaussian(double mean,
-                    double sigma)
-        throws MathIllegalArgumentException {
+    public Gaussian(double mean, double sigma) throws MathIllegalArgumentException {
         this(1 / (sigma * FastMath.sqrt(2 * Math.PI)), mean, sigma);
     }
 
@@ -92,10 +93,12 @@ public class Gaussian implements UnivariateDifferentiableFunction {
         this(0, 1);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double value(double x) {
-        return value(x - mean, norm, i2s2);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -109,14 +112,16 @@ public class Gaussian implements UnivariateDifferentiableFunction {
      */
     public static class Parametric implements ParametricUnivariateFunction {
 
-        /** Empty constructor.
+        /**
+         * Empty constructor.
          * <p>
          * This constructor is not strictly necessary, but it prevents spurious
          * javadoc warnings with JDK 18 and later.
          * </p>
          * @since 3.0
          */
-        public Parametric() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+        public Parametric() {
+            // NOPMD - unnecessary constructor added intentionally to make javadoc happy
             // nothing to do
         }
 
@@ -132,13 +137,8 @@ public class Gaussian implements UnivariateDifferentiableFunction {
          * @throws MathIllegalArgumentException if {@code param[2]} is negative.
          */
         @Override
-        public double value(double x, double ... param)
-            throws MathIllegalArgumentException, NullArgumentException {
-            validateParameters(param);
-
-            final double diff = x - param[1];
-            final double i2s2 = 1 / (2 * param[2] * param[2]);
-            return Gaussian.value(diff, param[0], i2s2);
+        public double value(double x, double... param) throws MathIllegalArgumentException, NullArgumentException {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -156,20 +156,8 @@ public class Gaussian implements UnivariateDifferentiableFunction {
          * @throws MathIllegalArgumentException if {@code param[2]} is negative.
          */
         @Override
-        public double[] gradient(double x, double ... param)
-            throws MathIllegalArgumentException, NullArgumentException {
-            validateParameters(param);
-
-            final double norm = param[0];
-            final double diff = x - param[1];
-            final double sigma = param[2];
-            final double i2s2 = 1 / (2 * sigma * sigma);
-
-            final double n = Gaussian.value(diff, 1, i2s2);
-            final double m = norm * n * 2 * i2s2 * diff;
-            final double s = m * diff / sigma;
-
-            return new double[] { n, m, s };
+        public double[] gradient(double x, double... param) throws MathIllegalArgumentException, NullArgumentException {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -183,15 +171,13 @@ public class Gaussian implements UnivariateDifferentiableFunction {
          * not 3.
          * @throws MathIllegalArgumentException if {@code param[2]} is negative.
          */
-        private void validateParameters(double[] param)
-            throws MathIllegalArgumentException, NullArgumentException {
+        private void validateParameters(double[] param) throws MathIllegalArgumentException, NullArgumentException {
             if (param == null) {
                 throw new NullArgumentException();
             }
             MathUtils.checkDimension(param.length, 3);
             if (param[2] <= 0) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
-                                                       param[2], 0);
+                throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED, param[2], 0);
             }
         }
     }
@@ -202,61 +188,15 @@ public class Gaussian implements UnivariateDifferentiableFunction {
      * @param i2s2 Inverse of twice the square of the standard deviation.
      * @return the value of the Gaussian at {@code x}.
      */
-    private static double value(double xMinusMean,
-                                double norm,
-                                double i2s2) {
+    private static double value(double xMinusMean, double norm, double i2s2) {
         return norm * FastMath.exp(-xMinusMean * xMinusMean * i2s2);
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
-    public <T extends Derivative<T>> T value(T t)
-        throws MathIllegalArgumentException {
-
-        final double u = is * (t.getValue() - mean);
-        double[] f = new double[t.getOrder() + 1];
-
-        // the nth order derivative of the Gaussian has the form:
-        // dn(g(x)/dxn = (norm / s^n) P_n(u) exp(-u^2/2) with u=(x-m)/s
-        // where P_n(u) is a degree n polynomial with same parity as n
-        // P_0(u) = 1, P_1(u) = -u, P_2(u) = u^2 - 1, P_3(u) = -u^3 + 3 u...
-        // the general recurrence relation for P_n is:
-        // P_n(u) = P_(n-1)'(u) - u P_(n-1)(u)
-        // as per polynomial parity, we can store coefficients of both P_(n-1) and P_n in the same array
-        final double[] p = new double[f.length];
-        p[0] = 1;
-        final double u2 = u * u;
-        double coeff = norm * FastMath.exp(-0.5 * u2);
-        if (coeff <= Precision.SAFE_MIN) {
-            Arrays.fill(f, 0.0);
-        } else {
-            f[0] = coeff;
-            for (int n = 1; n < f.length; ++n) {
-
-                // update and evaluate polynomial P_n(x)
-                double v = 0;
-                p[n] = -p[n - 1];
-                for (int k = n; k >= 0; k -= 2) {
-                    v = v * u2 + p[k];
-                    if (k > 2) {
-                        p[k - 2] = (k - 1) * p[k - 1] - p[k - 3];
-                    } else if (k == 2) {
-                        p[0] = p[1];
-                    }
-                }
-                if ((n & 0x1) == 1) {
-                    v *= u;
-                }
-
-                coeff *= is;
-                f[n] = coeff * v;
-
-            }
-        }
-
-        return t.compose(f);
-
+    public <T extends Derivative<T>> T value(T t) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

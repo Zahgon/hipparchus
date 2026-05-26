@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.analysis.solvers;
 
 import org.hipparchus.analysis.UnivariateFunction;
@@ -38,29 +36,57 @@ import org.hipparchus.util.MathUtils;
  * user's expectations, as well as the specifics of each implementation.
  *
  * @param <F> Type of function to solve.
- *
  */
-public abstract class BaseAbstractUnivariateSolver<F extends UnivariateFunction>
-    implements BaseUnivariateSolver<F> {
-    /** Default relative accuracy. */
+public abstract class BaseAbstractUnivariateSolver<F extends UnivariateFunction> implements BaseUnivariateSolver<F> {
+
+    /**
+     * Default relative accuracy.
+     */
     private static final double DEFAULT_RELATIVE_ACCURACY = 1e-14;
-    /** Default function value accuracy. */
+
+    /**
+     * Default function value accuracy.
+     */
     private static final double DEFAULT_FUNCTION_VALUE_ACCURACY = 1e-15;
-    /** Function value accuracy. */
+
+    /**
+     * Function value accuracy.
+     */
     private final double functionValueAccuracy;
-    /** Absolute accuracy. */
+
+    /**
+     * Absolute accuracy.
+     */
     private final double absoluteAccuracy;
-    /** Relative accuracy. */
+
+    /**
+     * Relative accuracy.
+     */
     private final double relativeAccuracy;
-    /** Evaluations counter. */
+
+    /**
+     * Evaluations counter.
+     */
     private Incrementor evaluations;
-    /** Lower end of search interval. */
+
+    /**
+     * Lower end of search interval.
+     */
     private double searchMin;
-    /** Higher end of search interval. */
+
+    /**
+     * Higher end of search interval.
+     */
     private double searchMax;
-    /** Initial guess. */
+
+    /**
+     * Initial guess.
+     */
     private double searchStart;
-    /** Function to solve. */
+
+    /**
+     * Function to solve.
+     */
     private F function;
 
     /**
@@ -69,9 +95,7 @@ public abstract class BaseAbstractUnivariateSolver<F extends UnivariateFunction>
      * @param absoluteAccuracy Maximum absolute error.
      */
     protected BaseAbstractUnivariateSolver(final double absoluteAccuracy) {
-        this(DEFAULT_RELATIVE_ACCURACY,
-             absoluteAccuracy,
-             DEFAULT_FUNCTION_VALUE_ACCURACY);
+        this(DEFAULT_RELATIVE_ACCURACY, absoluteAccuracy, DEFAULT_FUNCTION_VALUE_ACCURACY);
     }
 
     /**
@@ -80,11 +104,8 @@ public abstract class BaseAbstractUnivariateSolver<F extends UnivariateFunction>
      * @param relativeAccuracy Maximum relative error.
      * @param absoluteAccuracy Maximum absolute error.
      */
-    protected BaseAbstractUnivariateSolver(final double relativeAccuracy,
-                                           final double absoluteAccuracy) {
-        this(relativeAccuracy,
-             absoluteAccuracy,
-             DEFAULT_FUNCTION_VALUE_ACCURACY);
+    protected BaseAbstractUnivariateSolver(final double relativeAccuracy, final double absoluteAccuracy) {
+        this(relativeAccuracy, absoluteAccuracy, DEFAULT_FUNCTION_VALUE_ACCURACY);
     }
 
     /**
@@ -94,58 +115,67 @@ public abstract class BaseAbstractUnivariateSolver<F extends UnivariateFunction>
      * @param absoluteAccuracy Maximum absolute error.
      * @param functionValueAccuracy Maximum function value error.
      */
-    protected BaseAbstractUnivariateSolver(final double relativeAccuracy,
-                                           final double absoluteAccuracy,
-                                           final double functionValueAccuracy) {
-        this.absoluteAccuracy      = absoluteAccuracy;
-        this.relativeAccuracy      = relativeAccuracy;
+    protected BaseAbstractUnivariateSolver(final double relativeAccuracy, final double absoluteAccuracy, final double functionValueAccuracy) {
+        this.absoluteAccuracy = absoluteAccuracy;
+        this.relativeAccuracy = relativeAccuracy;
         this.functionValueAccuracy = functionValueAccuracy;
-        this.evaluations           = new Incrementor();
+        this.evaluations = new Incrementor();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getEvaluations() {
-        return evaluations.getCount();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    /** Get lower end of the search interval.
+
+    /**
+     * Get lower end of the search interval.
      * @return the lower end of the search interval
      */
     public double getMin() {
-        return searchMin;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    /** Get higher end of the search interval.
+
+    /**
+     * Get higher end of the search interval.
      * @return the higher end of the search interval
      */
     public double getMax() {
-        return searchMax;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    /** Get initial guess.
+
+    /**
+     * Get initial guess.
      * @return the initial guess
      */
     public double getStartValue() {
-        return searchStart;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public double getAbsoluteAccuracy() {
-        return absoluteAccuracy;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public double getRelativeAccuracy() {
-        return relativeAccuracy;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public double getFunctionValueAccuracy() {
-        return functionValueAccuracy;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -156,10 +186,8 @@ public abstract class BaseAbstractUnivariateSolver<F extends UnivariateFunction>
      * @throws MathIllegalStateException if the maximal number of evaluations
      * is exceeded.
      */
-    protected double computeObjectiveValue(double point)
-        throws MathIllegalStateException {
-        incrementEvaluationCount();
-        return function.value(point);
+    protected double computeObjectiveValue(double point) throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -174,44 +202,32 @@ public abstract class BaseAbstractUnivariateSolver<F extends UnivariateFunction>
      * @param maxEval Maximum number of evaluations.
      * @exception NullArgumentException if f is null
      */
-    protected void setup(int maxEval,
-                         F f,
-                         double min, double max,
-                         double startValue)
-        throws NullArgumentException {
-        // Checks.
-        MathUtils.checkNotNull(f);
-
-        // Reset.
-        searchMin = min;
-        searchMax = max;
-        searchStart = startValue;
-        function = f;
-        evaluations = evaluations.withMaximalCount(maxEval);
+    protected void setup(int maxEval, F f, double min, double max, double startValue) throws NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double solve(int maxEval, F f, double min, double max, double startValue)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-        // Initialization.
-        setup(maxEval, f, min, max, startValue);
-
-        // Perform computation.
-        return doSolve();
+    public double solve(int maxEval, F f, double min, double max, double startValue) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double solve(int maxEval, F f, double min, double max) {
-        return solve(maxEval, f, min, max, min + 0.5 * (max - min));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double solve(int maxEval, F f, double startValue)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-        return solve(maxEval, f, Double.NaN, Double.NaN, startValue);
+    public double solve(int maxEval, F f, double startValue) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -224,8 +240,7 @@ public abstract class BaseAbstractUnivariateSolver<F extends UnivariateFunction>
      * @throws MathIllegalArgumentException if the initial search interval does not bracket
      * a root and the solver requires it.
      */
-    protected abstract double doSolve()
-        throws MathIllegalArgumentException, MathIllegalStateException;
+    protected abstract double doSolve() throws MathIllegalArgumentException, MathIllegalStateException;
 
     /**
      * Check whether the function takes opposite signs at the endpoints.
@@ -235,9 +250,8 @@ public abstract class BaseAbstractUnivariateSolver<F extends UnivariateFunction>
      * @return {@code true} if the function values have opposite signs at the
      * given points.
      */
-    protected boolean isBracketing(final double lower,
-                                   final double upper) {
-        return UnivariateSolverUtils.isBracketing(function, lower, upper);
+    protected boolean isBracketing(final double lower, final double upper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -248,10 +262,8 @@ public abstract class BaseAbstractUnivariateSolver<F extends UnivariateFunction>
      * @param end Third number.
      * @return {@code true} if the arguments form an increasing sequence.
      */
-    protected boolean isSequence(final double start,
-                                 final double mid,
-                                 final double end) {
-        return UnivariateSolverUtils.isSequence(start, mid, end);
+    protected boolean isSequence(final double start, final double mid, final double end) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -261,10 +273,8 @@ public abstract class BaseAbstractUnivariateSolver<F extends UnivariateFunction>
      * @param upper Upper endpoint.
      * @throws MathIllegalArgumentException if {@code lower >= upper}.
      */
-    protected void verifyInterval(final double lower,
-                                  final double upper)
-        throws MathIllegalArgumentException {
-        UnivariateSolverUtils.verifyInterval(lower, upper);
+    protected void verifyInterval(final double lower, final double upper) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -276,11 +286,8 @@ public abstract class BaseAbstractUnivariateSolver<F extends UnivariateFunction>
      * @throws MathIllegalArgumentException if {@code lower >= initial} or
      * {@code initial >= upper}.
      */
-    protected void verifySequence(final double lower,
-                                  final double initial,
-                                  final double upper)
-        throws MathIllegalArgumentException {
-        UnivariateSolverUtils.verifySequence(lower, initial, upper);
+    protected void verifySequence(final double lower, final double initial, final double upper) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -293,10 +300,8 @@ public abstract class BaseAbstractUnivariateSolver<F extends UnivariateFunction>
      * @throws MathIllegalArgumentException if the function has the same sign at
      * the endpoints.
      */
-    protected void verifyBracketing(final double lower,
-                                    final double upper)
-        throws MathIllegalArgumentException, NullArgumentException {
-        UnivariateSolverUtils.verifyBracketing(function, lower, upper);
+    protected void verifyBracketing(final double lower, final double upper) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -309,8 +314,7 @@ public abstract class BaseAbstractUnivariateSolver<F extends UnivariateFunction>
      * @throws MathIllegalStateException when the allowed number of function
      * evaluations has been exhausted.
      */
-    protected void incrementEvaluationCount()
-        throws MathIllegalStateException {
-        evaluations.increment();
+    protected void incrementEvaluationCount() throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

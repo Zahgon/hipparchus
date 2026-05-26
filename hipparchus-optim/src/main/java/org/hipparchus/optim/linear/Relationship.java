@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,17 +22,25 @@ package org.hipparchus.optim.linear;
 
 /**
  * Types of relationships between two cells in a Solver {@link LinearConstraint}.
- *
  */
 public enum Relationship {
-    /** Equality relationship. */
+
+    /**
+     * Equality relationship.
+     */
     EQ("="),
-    /** Lesser than or equal relationship. */
+    /**
+     * Lesser than or equal relationship.
+     */
     LEQ("<="),
-    /** Greater than or equal relationship. */
+    /**
+     * Greater than or equal relationship.
+     */
     GEQ(">=");
 
-    /** Display string for the relationship. */
+    /**
+     * Display string for the relationship.
+     */
     private final String stringValue;
 
     /**
@@ -45,10 +52,12 @@ public enum Relationship {
         this.stringValue = stringValue;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return stringValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -57,13 +66,6 @@ public enum Relationship {
      * @return the opposite relationship.
      */
     public Relationship oppositeRelationship() {
-        switch (this) {
-        case LEQ :
-            return GEQ;
-        case GEQ :
-            return LEQ;
-        default :
-            return EQ;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

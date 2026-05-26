@@ -48,27 +48,11 @@ public interface UnscentedTransformProvider {
      * @return weighted mean state
      */
     default RealVector getUnscentedMeanState(RealVector[] sigmaPoints) {
-
-        // Sigma point dimension
-        final int sigmaPointDimension = sigmaPoints[0].getDimension();
-
-        // Compute weighted mean
-        // ---------------------
-
-        RealVector weightedMean = new ArrayRealVector(sigmaPointDimension);
-
-        // Compute the weight coefficients wm
-        final RealVector wm = getWm();
-
-        // Weight each sigma point and sum them
-        for (int i = 0; i < sigmaPoints.length; i++) {
-            weightedMean = weightedMean.add(sigmaPoints[i].mapMultiply(wm.getEntry(i)));
-        }
-
-        return weightedMean;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Computes the unscented covariance matrix from a weighted mean state and a set of sigma points.
+    /**
+     * Computes the unscented covariance matrix from a weighted mean state and a set of sigma points.
      * <p>
      * This method can be used for computing both the predicted state
      * covariance matrix and the innovation covariance matrix in an Unscented Kalman filter.
@@ -81,25 +65,7 @@ public interface UnscentedTransformProvider {
      * @return the unscented covariance matrix
      */
     default RealMatrix getUnscentedCovariance(RealVector[] sigmaPoints, RealVector meanState) {
-
-        // State dimension
-        final int stateDimension = meanState.getDimension();
-
-        // Compute covariance matrix
-        // -------------------------
-
-        RealMatrix covarianceMatrix = MatrixUtils.createRealMatrix(stateDimension, stateDimension);
-
-        // Compute the weight coefficients wc
-        final RealVector wc = getWc();
-
-        // Reconstruct the covariance
-        for (int i = 0; i < sigmaPoints.length; i++) {
-            final RealMatrix diff = MatrixUtils.createColumnRealMatrix(sigmaPoints[i].subtract(meanState).toArray());
-            covarianceMatrix = covarianceMatrix.add(diff.multiplyTransposed(diff).scalarMultiply(wc.getEntry(i)));
-        }
-
-        return covarianceMatrix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -108,12 +74,7 @@ public interface UnscentedTransformProvider {
      * @return mean state and associated covariance
      */
     default Pair<RealVector, RealMatrix> inverseUnscentedTransform(RealVector[] sigmaPoints) {
-
-        // Mean state
-        final RealVector meanState = getUnscentedMeanState(sigmaPoints);
-
-        // Return state and covariance
-        return new Pair<>(meanState, getUnscentedCovariance(sigmaPoints, meanState));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -127,5 +88,4 @@ public interface UnscentedTransformProvider {
      * @return the mean weights
      */
     RealVector getWm();
-
 }

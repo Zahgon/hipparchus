@@ -18,14 +18,12 @@ package org.hipparchus.linear;
 
 import java.util.Arrays;
 import java.util.Comparator;
-
 import org.hipparchus.complex.Complex;
 
 /**
  * Given a matrix A, it computes a complex eigen decomposition A = VDV^{T}.
  *
  * It ensures that eigen values in the diagonal of D are in ascending order.
- *
  */
 public class OrderedComplexEigenDecomposition extends ComplexEigenDecomposition {
 
@@ -59,17 +57,15 @@ public class OrderedComplexEigenDecomposition extends ComplexEigenDecomposition 
      * @param epsilonAVVDCheck Epsilon criteria for final AV=VD check
      * @since 1.9
      */
-    public OrderedComplexEigenDecomposition(final RealMatrix matrix, final double eigenVectorsEquality,
-                                            final double epsilon, final double epsilonAVVDCheck) {
-        this(matrix, eigenVectorsEquality, epsilon, epsilonAVVDCheck,
-             (c1, c2) -> {
-                 final int cR = Double.compare(c1.getReal(), c2.getReal());
-                 if (cR == 0) {
-                     return Double.compare(c1.getImaginary(), c2.getImaginary());
-                 } else {
-                     return cR;
-                 }
-             });
+    public OrderedComplexEigenDecomposition(final RealMatrix matrix, final double eigenVectorsEquality, final double epsilon, final double epsilonAVVDCheck) {
+        this(matrix, eigenVectorsEquality, epsilon, epsilonAVVDCheck, (c1, c2) -> {
+            final int cR = Double.compare(c1.getReal(), c2.getReal());
+            if (cR == 0) {
+                return Double.compare(c1.getImaginary(), c2.getImaginary());
+            } else {
+                return cR;
+            }
+        });
     }
 
     /**
@@ -89,40 +85,32 @@ public class OrderedComplexEigenDecomposition extends ComplexEigenDecomposition 
      * @param eigenValuesComparator comparator for sorting eigen values
      * @since 3.0
      */
-    public OrderedComplexEigenDecomposition(final RealMatrix matrix, final double eigenVectorsEquality,
-                                            final double epsilon, final double epsilonAVVDCheck,
-                                            final Comparator<Complex> eigenValuesComparator) {
+    public OrderedComplexEigenDecomposition(final RealMatrix matrix, final double eigenVectorsEquality, final double epsilon, final double epsilonAVVDCheck, final Comparator<Complex> eigenValuesComparator) {
         super(matrix, eigenVectorsEquality, epsilon, epsilonAVVDCheck);
         final FieldMatrix<Complex> D = this.getD();
         final FieldMatrix<Complex> V = this.getV();
-
         // getting eigen values
         IndexedEigenvalue[] eigenValues = new IndexedEigenvalue[D.getRowDimension()];
         for (int ij = 0; ij < matrix.getRowDimension(); ij++) {
             eigenValues[ij] = new IndexedEigenvalue(ij, D.getEntry(ij, ij));
         }
-
         // ordering
         Arrays.sort(eigenValues, (v1, v2) -> eigenValuesComparator.compare(v1.eigenValue, v2.eigenValue));
         for (int ij = 0; ij < matrix.getRowDimension() - 1; ij++) {
             final IndexedEigenvalue eij = eigenValues[ij];
-
             if (ij == eij.index) {
                 continue;
             }
-
             // exchanging D
             final Complex previousValue = D.getEntry(ij, ij);
             D.setEntry(ij, ij, eij.eigenValue);
             D.setEntry(eij.index, eij.index, previousValue);
-
             // exchanging V
-            for (int k = 0; k  < matrix.getRowDimension(); ++k) {
+            for (int k = 0; k < matrix.getRowDimension(); ++k) {
                 final Complex previous = V.getEntry(k, ij);
                 V.setEntry(k, ij, V.getEntry(k, eij.index));
                 V.setEntry(k, eij.index, previous);
             }
-
             // exchanging eigenvalue
             for (int k = ij + 1; k < matrix.getRowDimension(); ++k) {
                 if (eigenValues[k].index == ij) {
@@ -131,53 +119,50 @@ public class OrderedComplexEigenDecomposition extends ComplexEigenDecomposition 
                 }
             }
         }
-
         // reorder the eigenvalues and eigenvector s array in base class
         matricesToEigenArrays();
-
         checkDefinition(matrix);
-
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldMatrix<Complex> getVT() {
-        return getV().transpose();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Container for index and eigenvalue pair. */
+    /**
+     * Container for index and eigenvalue pair.
+     */
     private static class IndexedEigenvalue {
 
-        /** Index in the diagonal matrix. */
+        /**
+         * Index in the diagonal matrix.
+         */
         private int index;
 
-        /** Eigenvalue. */
+        /**
+         * Eigenvalue.
+         */
         private final Complex eigenValue;
 
-        /** Build the container from its fields.
+        /**
+         * Build the container from its fields.
          * @param index index in the diagonal matrix
          * @param eigenvalue eigenvalue
          */
         IndexedEigenvalue(final int index, final Complex eigenvalue) {
-            this.index      = index;
+            this.index = index;
             this.eigenValue = eigenvalue;
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean equals(final Object other) {
-
-            if (this == other) {
-                return true;
-            }
-
-            if (other instanceof IndexedEigenvalue) {
-                final IndexedEigenvalue rhs = (IndexedEigenvalue) other;
-                return eigenValue.equals(rhs.eigenValue);
-            }
-
-            return false;
-
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -186,9 +171,7 @@ public class OrderedComplexEigenDecomposition extends ComplexEigenDecomposition 
          */
         @Override
         public int hashCode() {
-            return 4563 + index + eigenValue.hashCode();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
-
 }

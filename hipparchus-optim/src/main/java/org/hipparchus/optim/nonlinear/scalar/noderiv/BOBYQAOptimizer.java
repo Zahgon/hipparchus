@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -48,73 +47,128 @@ import org.hipparchus.util.FastMath;
  * expensive. BOBYQA could also be considered as a replacement of any
  * derivative-based optimizer when the derivatives are approximated by
  * finite differences.
- *
  */
-public class BOBYQAOptimizer
-    extends MultivariateOptimizer {
-    /** Minimum dimension of the problem: {@value} */
+public class BOBYQAOptimizer extends MultivariateOptimizer {
+
+    /**
+     * Minimum dimension of the problem: {@value}
+     */
     public static final int MINIMUM_PROBLEM_DIMENSION = 2;
-    /** Default value for {@link #initialTrustRegionRadius}: {@value} . */
+
+    /**
+     * Default value for {@link #initialTrustRegionRadius}: {@value} .
+     */
     public static final double DEFAULT_INITIAL_RADIUS = 10.0;
-    /** Default value for {@link #stoppingTrustRegionRadius}: {@value} . */
+
+    /**
+     * Default value for {@link #stoppingTrustRegionRadius}: {@value} .
+     */
     public static final double DEFAULT_STOPPING_RADIUS = 1E-8;
-    /** Constant 0. */
+
+    /**
+     * Constant 0.
+     */
     private static final double ZERO = 0d;
-    /** Constant 1. */
+
+    /**
+     * Constant 1.
+     */
     private static final double ONE = 1d;
-    /** Constant 2. */
+
+    /**
+     * Constant 2.
+     */
     private static final double TWO = 2d;
-    /** Constant 10. */
+
+    /**
+     * Constant 10.
+     */
     private static final double TEN = 10d;
-    /** Constant 16. */
+
+    /**
+     * Constant 16.
+     */
     private static final double SIXTEEN = 16d;
-    /** Constant 250. */
+
+    /**
+     * Constant 250.
+     */
     private static final double TWO_HUNDRED_FIFTY = 250d;
-    /** Constant -1. */
+
+    /**
+     * Constant -1.
+     */
     private static final double MINUS_ONE = -ONE;
-    /** Constant 1/2. */
+
+    /**
+     * Constant 1/2.
+     */
     private static final double HALF = ONE / 2;
-    /** Constant 1/4. */
+
+    /**
+     * Constant 1/4.
+     */
     private static final double ONE_OVER_FOUR = ONE / 4;
-    /** Constant 1/8. */
+
+    /**
+     * Constant 1/8.
+     */
     private static final double ONE_OVER_EIGHT = ONE / 8;
-    /** Constant 1/10. */
+
+    /**
+     * Constant 1/10.
+     */
     private static final double ONE_OVER_TEN = ONE / 10;
-    /** Constant 1/1000. */
+
+    /**
+     * Constant 1/1000.
+     */
     private static final double ONE_OVER_A_THOUSAND = ONE / 1000;
 
     /**
      * numberOfInterpolationPoints XXX
      */
     private final int numberOfInterpolationPoints;
+
     /**
      * initialTrustRegionRadius XXX
      */
     private double initialTrustRegionRadius;
+
     /**
      * stoppingTrustRegionRadius XXX
      */
     private final double stoppingTrustRegionRadius;
-    /** Goal type (minimize or maximize). */
+
+    /**
+     * Goal type (minimize or maximize).
+     */
     private boolean isMinimize;
+
     /**
      * Current best values for the variables to be optimized.
      * The vector will be changed in-place to contain the values of the least
      * calculated objective function values.
      */
     private ArrayRealVector currentBest;
-    /** Differences between the upper and lower bounds. */
+
+    /**
+     * Differences between the upper and lower bounds.
+     */
     private double[] boundDifference;
+
     /**
      * Index of the interpolation point at the trust region center.
      */
     private int trustRegionCenterInterpolationPointIndex;
+
     /**
      * Last <em>n</em> columns of matrix H (where <em>n</em> is the dimension
      * of the problem).
      * XXX "bmat" in the original code.
      */
     private Array2DRowRealMatrix bMatrix;
+
     /**
      * Factorization of the leading <em>npt</em> square submatrix of H, this
      * factorization being Z Z<sup>T</sup>, which provides both the correct
@@ -122,33 +176,39 @@ public class BOBYQAOptimizer
      * XXX "zmat" in the original code.
      */
     private Array2DRowRealMatrix zMatrix;
+
     /**
      * Coordinates of the interpolation points relative to {@link #originShift}.
      * XXX "xpt" in the original code.
      */
     private Array2DRowRealMatrix interpolationPoints;
+
     /**
      * Shift of origin that should reduce the contributions from rounding
      * errors to values of the model and Lagrange functions.
      * XXX "xbase" in the original code.
      */
     private ArrayRealVector originShift;
+
     /**
      * Values of the objective function at the interpolation points.
      * XXX "fval" in the original code.
      */
     private ArrayRealVector fAtInterpolationPoints;
+
     /**
      * Displacement from {@link #originShift} of the trust region center.
      * XXX "xopt" in the original code.
      */
     private ArrayRealVector trustRegionCenterOffset;
+
     /**
      * Gradient of the quadratic model at {@link #originShift} +
      * {@link #trustRegionCenterOffset}.
      * XXX "gopt" in the original code.
      */
     private ArrayRealVector gradientAtTrustRegionCenter;
+
     /**
      * Differences {@link #getLowerBound()} - {@link #originShift}.
      * All the components of every {@link #trustRegionCenterOffset} are going
@@ -160,6 +220,7 @@ public class BOBYQAOptimizer
      * XXX "sl" in the original code.
      */
     private ArrayRealVector lowerDifference;
+
     /**
      * Differences {@link #getUpperBound()} - {@link #originShift}
      * All the components of every {@link #trustRegionCenterOffset} are going
@@ -171,11 +232,13 @@ public class BOBYQAOptimizer
      * XXX "su" in the original code.
      */
     private ArrayRealVector upperDifference;
+
     /**
      * Parameters of the implicit second derivatives of the quadratic model.
      * XXX "pq" in the original code.
      */
     private ArrayRealVector modelSecondDerivativesParameters;
+
     /**
      * Point chosen by function {@link #trsbox(double,ArrayRealVector,
      * ArrayRealVector, ArrayRealVector,ArrayRealVector,ArrayRealVector) trsbox}
@@ -187,6 +250,7 @@ public class BOBYQAOptimizer
      * XXX "xnew" in the original code.
      */
     private ArrayRealVector newPoint;
+
     /**
      * Alternative to {@link #newPoint}, chosen by
      * {@link #altmov(int,double) altmov}.
@@ -195,36 +259,39 @@ public class BOBYQAOptimizer
      * XXX "xalt" in the original code.
      */
     private ArrayRealVector alternativeNewPoint;
+
     /**
      * Trial step from {@link #trustRegionCenterOffset} which is usually
      * {@link #newPoint} - {@link #trustRegionCenterOffset}.
      * XXX "d__" in the original code.
      */
     private ArrayRealVector trialStepPoint;
+
     /**
      * Values of the Lagrange functions at a new point.
      * XXX "vlag" in the original code.
      */
     private ArrayRealVector lagrangeValuesAtNewPoint;
+
     /**
      * Explicit second derivatives of the quadratic model.
      * XXX "hq" in the original code.
      */
     private ArrayRealVector modelSecondDerivativesValues;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param numberOfInterpolationPoints Number of interpolation conditions.
      * For a problem of dimension {@code n}, its value must be in the interval
      * {@code [n+2, (n+1)(n+2)/2]}.
      * Choices that exceed {@code 2n+1} are not recommended.
      */
     public BOBYQAOptimizer(int numberOfInterpolationPoints) {
-        this(numberOfInterpolationPoints,
-             DEFAULT_INITIAL_RADIUS,
-             DEFAULT_STOPPING_RADIUS);
+        this(numberOfInterpolationPoints, DEFAULT_INITIAL_RADIUS, DEFAULT_STOPPING_RADIUS);
     }
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param numberOfInterpolationPoints Number of interpolation conditions.
      * For a problem of dimension {@code n}, its value must be in the interval
      * {@code [n+2, (n+1)(n+2)/2]}.
@@ -232,31 +299,20 @@ public class BOBYQAOptimizer
      * @param initialTrustRegionRadius Initial trust region radius.
      * @param stoppingTrustRegionRadius Stopping trust region radius.
      */
-    public BOBYQAOptimizer(int numberOfInterpolationPoints,
-                           double initialTrustRegionRadius,
-                           double stoppingTrustRegionRadius) {
-        super(null); // No custom convergence criterion.
+    public BOBYQAOptimizer(int numberOfInterpolationPoints, double initialTrustRegionRadius, double stoppingTrustRegionRadius) {
+        // No custom convergence criterion.
+        super(null);
         this.numberOfInterpolationPoints = numberOfInterpolationPoints;
         this.initialTrustRegionRadius = initialTrustRegionRadius;
         this.stoppingTrustRegionRadius = stoppingTrustRegionRadius;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected PointValuePair doOptimize() {
-        final double[] lowerBound = getLowerBound();
-        final double[] upperBound = getUpperBound();
-
-        // Validity checks.
-        setup(lowerBound, upperBound);
-
-        isMinimize = (getGoalType() == GoalType.MINIMIZE);
-        currentBest = new ArrayRealVector(getStartPoint());
-
-        final double value = bobyqa(lowerBound, upperBound);
-
-        return new PointValuePair(currentBest.getDataRef(),
-                                  isMinimize ? value : -value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -294,18 +350,14 @@ public class BOBYQAOptimizer
      * @param upperBound Upper bounds.
      * @return the value of the objective at the optimum.
      */
-    private double bobyqa(double[] lowerBound,
-                          double[] upperBound) {
-
+    private double bobyqa(double[] lowerBound, double[] upperBound) {
         final int n = currentBest.getDimension();
-
         // Return if there is insufficient space between the bounds. Modify the
         // initial X if necessary in order to avoid conflicts between the bounds
         // and the construction of the first quadratic model. The lower and upper
         // bounds on moves from the updated X are set now, in the ISL and ISU
         // partitions of W, in order to provide useful and exact information about
         // components of X that become within distance RHOBEG from their bounds.
-
         for (int j = 0; j < n; j++) {
             final double boundDiff = boundDifference[j];
             lowerDifference.setEntry(j, lowerBound[j] - currentBest.getEntry(j));
@@ -337,14 +389,12 @@ public class BOBYQAOptimizer
                 }
             }
         }
-
         // Make the call of BOBYQB.
-
         return bobyqb(lowerBound, upperBound);
-    } // bobyqa
+    }
 
+    // bobyqa
     // ----------------------------------------------------------------------------------------
-
     /**
      *     The arguments N, NPT, X, XL, XU, RHOBEG, RHOEND, IPRINT and MAXFUN
      *       are identical to the corresponding arguments in SUBROUTINE BOBYQA.
@@ -382,38 +432,29 @@ public class BOBYQAOptimizer
      * @param upperBound Upper bounds.
      * @return the value of the objective at the optimum.
      */
-    private double bobyqb(double[] lowerBound,
-                          double[] upperBound) {
-
+    private double bobyqb(double[] lowerBound, double[] upperBound) {
         final int n = currentBest.getDimension();
         final int npt = numberOfInterpolationPoints;
         final int np = n + 1;
         final int nptm = npt - np;
         final int nh = n * np / 2;
-
         final ArrayRealVector work1 = new ArrayRealVector(n);
         final ArrayRealVector work2 = new ArrayRealVector(npt);
         final ArrayRealVector work3 = new ArrayRealVector(npt);
-
         double cauchy = Double.NaN;
         double alpha = Double.NaN;
         double dsq = Double.NaN;
         double crvmin;
-
         // Set some constants.
         // Parameter adjustments
-
         // Function Body
-
         // The call of PRELIM sets the elements of XBASE, XPT, FVAL, GOPT, HQ, PQ,
         // BMAT and ZMAT for the first iteration, with the corresponding values of
         // of NF and KOPT, which are the number of calls of CALFUN so far and the
         // index of the interpolation point at the trust region centre. Then the
         // initial XOPT is set too. The branch to label 720 occurs if MAXFUN is
         // less than NPT. GOPT will be updated if KOPT is different from KBASE.
-
         trustRegionCenterInterpolationPointIndex = 0;
-
         prelim(lowerBound, upperBound);
         double xoptsq = ZERO;
         for (int i = 0; i < n; i++) {
@@ -424,9 +465,7 @@ public class BOBYQAOptimizer
         }
         double fsave = fAtInterpolationPoints.getEntry(0);
         final int kbase = 0;
-
         // Complete the settings that are required for the iterative procedure.
-
         int ntrits = 0;
         int itest = 0;
         int knew = 0;
@@ -445,785 +484,753 @@ public class BOBYQAOptimizer
         double scaden;
         double biglsq;
         double distsq = ZERO;
-
         // Update GOPT if necessary before the first iteration and after each
         // call of RESCUE that makes a call of CALFUN.
-
         int state = 20;
-        for(;;) {
-        switch (state) { // NOPMD - the reference algorithm is as complex as this, we simply ported it from Fortran with minimal changes
-        case 20: {
-            if (trustRegionCenterInterpolationPointIndex != kbase) {
-                int ih = 0;
-                for (int j = 0; j < n; j++) {
-                    for (int i = 0; i <= j; i++) {
-                        if (i < j) {
-                            gradientAtTrustRegionCenter.setEntry(j, gradientAtTrustRegionCenter.getEntry(j) + modelSecondDerivativesValues.getEntry(ih) * trustRegionCenterOffset.getEntry(i));
+        for (; ; ) {
+            switch(// NOPMD - the reference algorithm is as complex as this, we simply ported it from Fortran with minimal changes
+            state) {
+                case 20:
+                    {
+                        if (trustRegionCenterInterpolationPointIndex != kbase) {
+                            int ih = 0;
+                            for (int j = 0; j < n; j++) {
+                                for (int i = 0; i <= j; i++) {
+                                    if (i < j) {
+                                        gradientAtTrustRegionCenter.setEntry(j, gradientAtTrustRegionCenter.getEntry(j) + modelSecondDerivativesValues.getEntry(ih) * trustRegionCenterOffset.getEntry(i));
+                                    }
+                                    gradientAtTrustRegionCenter.setEntry(i, gradientAtTrustRegionCenter.getEntry(i) + modelSecondDerivativesValues.getEntry(ih) * trustRegionCenterOffset.getEntry(j));
+                                    ih++;
+                                }
+                            }
+                            if (getEvaluations() > npt) {
+                                for (int k = 0; k < npt; k++) {
+                                    double temp = ZERO;
+                                    for (int j = 0; j < n; j++) {
+                                        temp += interpolationPoints.getEntry(k, j) * trustRegionCenterOffset.getEntry(j);
+                                    }
+                                    temp *= modelSecondDerivativesParameters.getEntry(k);
+                                    for (int i = 0; i < n; i++) {
+                                        gradientAtTrustRegionCenter.setEntry(i, gradientAtTrustRegionCenter.getEntry(i) + temp * interpolationPoints.getEntry(k, i));
+                                    }
+                                }
+                                // throw new PathIsExploredException(); // XXX
+                            }
                         }
-                        gradientAtTrustRegionCenter.setEntry(i, gradientAtTrustRegionCenter.getEntry(i) + modelSecondDerivativesValues.getEntry(ih) * trustRegionCenterOffset.getEntry(j));
-                        ih++;
+                        // Generate the next point in the trust region that provides a small value
+                        // of the quadratic model subject to the constraints on the variables.
+                        // The int NTRITS is set to the number "trust region" iterations that
+                        // have occurred since the last "alternative" iteration. If the length
+                        // of XNEW-XOPT is less than HALF*RHO, however, then there is a branch to
+                        // label 650 or 680 with NTRITS=-1, instead of calculating F at XNEW.
                     }
-                }
-                if (getEvaluations() > npt) {
-                    for (int k = 0; k < npt; k++) {
-                        double temp = ZERO;
-                        for (int j = 0; j < n; j++) {
-                            temp += interpolationPoints.getEntry(k, j) * trustRegionCenterOffset.getEntry(j);
-                        }
-                        temp *= modelSecondDerivativesParameters.getEntry(k);
-                        for (int i = 0; i < n; i++) {
-                            gradientAtTrustRegionCenter.setEntry(i, gradientAtTrustRegionCenter.getEntry(i) + temp * interpolationPoints.getEntry(k, i));
-                        }
-                    }
-                    // throw new PathIsExploredException(); // XXX
-                }
-            }
-
-            // Generate the next point in the trust region that provides a small value
-            // of the quadratic model subject to the constraints on the variables.
-            // The int NTRITS is set to the number "trust region" iterations that
-            // have occurred since the last "alternative" iteration. If the length
-            // of XNEW-XOPT is less than HALF*RHO, however, then there is a branch to
-            // label 650 or 680 with NTRITS=-1, instead of calculating F at XNEW.
-
-        }
-        case 60: { // NOPMD
-            final ArrayRealVector gnew = new ArrayRealVector(n);
-            final ArrayRealVector xbdi = new ArrayRealVector(n);
-            final ArrayRealVector s = new ArrayRealVector(n);
-            final ArrayRealVector hs = new ArrayRealVector(n);
-            final ArrayRealVector hred = new ArrayRealVector(n);
-
-            final double[] dsqCrvmin = trsbox(delta, gnew, xbdi, s,
-                                              hs, hred);
-            dsq = dsqCrvmin[0];
-            crvmin = dsqCrvmin[1];
-
-            // Computing MIN
-            double deltaOne = delta;
-            double deltaTwo = FastMath.sqrt(dsq);
-            dnorm = FastMath.min(deltaOne, deltaTwo);
-            if (dnorm < HALF * rho) {
-                ntrits = -1;
-                // Computing 2nd power
-                deltaOne = TEN * rho;
-                distsq = deltaOne * deltaOne;
-                if (getEvaluations() <= nfsav + 2) {
-                    state = 650; break;
-                }
-
-                // The following choice between labels 650 and 680 depends on whether or
-                // not our work with the current RHO seems to be complete. Either RHO is
-                // decreased or termination occurs if the errors in the quadratic model at
-                // the last three interpolation points compare favourably with predictions
-                // of likely improvements to the model within distance HALF*RHO of XOPT.
-
-                // Computing MAX
-                deltaOne = FastMath.max(diffa, diffb);
-                final double errbig = FastMath.max(deltaOne, diffc);
-                final double frhosq = rho * ONE_OVER_EIGHT * rho;
-                if (crvmin > ZERO &&
-                    errbig > frhosq * crvmin) {
-                    state = 650; break;
-                }
-                final double bdtol = errbig / rho;
-                for (int j = 0; j < n; j++) {
-                    double bdtest = bdtol;
-                    if (newPoint.getEntry(j) == lowerDifference.getEntry(j)) {
-                        bdtest = work1.getEntry(j);
-                    }
-                    if (newPoint.getEntry(j) == upperDifference.getEntry(j)) {
-                        bdtest = -work1.getEntry(j);
-                    }
-                    if (bdtest < bdtol) {
-                        double curv = modelSecondDerivativesValues.getEntry((j + j * j) / 2);
-                        for (int k = 0; k < npt; k++) {
+                case 60:
+                    {
+                        // NOPMD
+                        final ArrayRealVector gnew = new ArrayRealVector(n);
+                        final ArrayRealVector xbdi = new ArrayRealVector(n);
+                        final ArrayRealVector s = new ArrayRealVector(n);
+                        final ArrayRealVector hs = new ArrayRealVector(n);
+                        final ArrayRealVector hred = new ArrayRealVector(n);
+                        final double[] dsqCrvmin = trsbox(delta, gnew, xbdi, s, hs, hred);
+                        dsq = dsqCrvmin[0];
+                        crvmin = dsqCrvmin[1];
+                        // Computing MIN
+                        double deltaOne = delta;
+                        double deltaTwo = FastMath.sqrt(dsq);
+                        dnorm = FastMath.min(deltaOne, deltaTwo);
+                        if (dnorm < HALF * rho) {
+                            ntrits = -1;
                             // Computing 2nd power
-                            final double d1 = interpolationPoints.getEntry(k, j);
-                            curv += modelSecondDerivativesParameters.getEntry(k) * (d1 * d1);
-                        }
-                        bdtest += HALF * curv * rho;
-                        if (bdtest < bdtol) {
+                            deltaOne = TEN * rho;
+                            distsq = deltaOne * deltaOne;
+                            if (getEvaluations() <= nfsav + 2) {
+                                state = 650;
+                                break;
+                            }
+                            // The following choice between labels 650 and 680 depends on whether or
+                            // not our work with the current RHO seems to be complete. Either RHO is
+                            // decreased or termination occurs if the errors in the quadratic model at
+                            // the last three interpolation points compare favourably with predictions
+                            // of likely improvements to the model within distance HALF*RHO of XOPT.
+                            // Computing MAX
+                            deltaOne = FastMath.max(diffa, diffb);
+                            final double errbig = FastMath.max(deltaOne, diffc);
+                            final double frhosq = rho * ONE_OVER_EIGHT * rho;
+                            if (crvmin > ZERO && errbig > frhosq * crvmin) {
+                                state = 650;
+                                break;
+                            }
+                            final double bdtol = errbig / rho;
+                            for (int j = 0; j < n; j++) {
+                                double bdtest = bdtol;
+                                if (newPoint.getEntry(j) == lowerDifference.getEntry(j)) {
+                                    bdtest = work1.getEntry(j);
+                                }
+                                if (newPoint.getEntry(j) == upperDifference.getEntry(j)) {
+                                    bdtest = -work1.getEntry(j);
+                                }
+                                if (bdtest < bdtol) {
+                                    double curv = modelSecondDerivativesValues.getEntry((j + j * j) / 2);
+                                    for (int k = 0; k < npt; k++) {
+                                        // Computing 2nd power
+                                        final double d1 = interpolationPoints.getEntry(k, j);
+                                        curv += modelSecondDerivativesParameters.getEntry(k) * (d1 * d1);
+                                    }
+                                    bdtest += HALF * curv * rho;
+                                    if (bdtest < bdtol) {
+                                        break;
+                                    }
+                                    // throw new PathIsExploredException(); // XXX
+                                }
+                            }
+                            state = 680;
                             break;
                         }
-                        // throw new PathIsExploredException(); // XXX
+                        ++ntrits;
+                        // Severe cancellation is likely to occur if XOPT is too far from XBASE.
+                        // If the following test holds, then XBASE is shifted so that XOPT becomes
+                        // zero. The appropriate changes are made to BMAT and to the second
+                        // derivatives of the current model, beginning with the changes to BMAT
+                        // that do not depend on ZMAT. VLAG is used temporarily for working space.
                     }
-                }
-                state = 680; break;
-            }
-            ++ntrits;
-
-            // Severe cancellation is likely to occur if XOPT is too far from XBASE.
-            // If the following test holds, then XBASE is shifted so that XOPT becomes
-            // zero. The appropriate changes are made to BMAT and to the second
-            // derivatives of the current model, beginning with the changes to BMAT
-            // that do not depend on ZMAT. VLAG is used temporarily for working space.
-
-        }
-        case 90: { // NOPMD
-            if (dsq <= xoptsq * ONE_OVER_A_THOUSAND) {
-                final double fracsq = xoptsq * ONE_OVER_FOUR;
-                double sumpq = ZERO;
-                // final RealVector sumVector
-                //     = new ArrayRealVector(npt, -HALF * xoptsq).add(interpolationPoints.operate(trustRegionCenter));
-                for (int k = 0; k < npt; k++) {
-                    sumpq += modelSecondDerivativesParameters.getEntry(k);
-                    double sum = -HALF * xoptsq;
-                    for (int i = 0; i < n; i++) {
-                        sum += interpolationPoints.getEntry(k, i) * trustRegionCenterOffset.getEntry(i);
-                    }
-                    // sum = sumVector.getEntry(k); // XXX "testAckley" and "testDiffPow" fail.
-                    work2.setEntry(k, sum);
-                    final double temp = fracsq - HALF * sum;
-                    for (int i = 0; i < n; i++) {
-                        work1.setEntry(i, bMatrix.getEntry(k, i));
-                        lagrangeValuesAtNewPoint.setEntry(i, sum * interpolationPoints.getEntry(k, i) + temp * trustRegionCenterOffset.getEntry(i));
-                        final int ip = npt + i;
-                        for (int j = 0; j <= i; j++) {
-                            bMatrix.setEntry(ip, j,
-                                          bMatrix.getEntry(ip, j)
-                                          + work1.getEntry(i) * lagrangeValuesAtNewPoint.getEntry(j)
-                                          + lagrangeValuesAtNewPoint.getEntry(i) * work1.getEntry(j));
+                case 90:
+                    {
+                        // NOPMD
+                        if (dsq <= xoptsq * ONE_OVER_A_THOUSAND) {
+                            final double fracsq = xoptsq * ONE_OVER_FOUR;
+                            double sumpq = ZERO;
+                            // final RealVector sumVector
+                            //     = new ArrayRealVector(npt, -HALF * xoptsq).add(interpolationPoints.operate(trustRegionCenter));
+                            for (int k = 0; k < npt; k++) {
+                                sumpq += modelSecondDerivativesParameters.getEntry(k);
+                                double sum = -HALF * xoptsq;
+                                for (int i = 0; i < n; i++) {
+                                    sum += interpolationPoints.getEntry(k, i) * trustRegionCenterOffset.getEntry(i);
+                                }
+                                // sum = sumVector.getEntry(k); // XXX "testAckley" and "testDiffPow" fail.
+                                work2.setEntry(k, sum);
+                                final double temp = fracsq - HALF * sum;
+                                for (int i = 0; i < n; i++) {
+                                    work1.setEntry(i, bMatrix.getEntry(k, i));
+                                    lagrangeValuesAtNewPoint.setEntry(i, sum * interpolationPoints.getEntry(k, i) + temp * trustRegionCenterOffset.getEntry(i));
+                                    final int ip = npt + i;
+                                    for (int j = 0; j <= i; j++) {
+                                        bMatrix.setEntry(ip, j, bMatrix.getEntry(ip, j) + work1.getEntry(i) * lagrangeValuesAtNewPoint.getEntry(j) + lagrangeValuesAtNewPoint.getEntry(i) * work1.getEntry(j));
+                                    }
+                                }
+                            }
+                            // Then the revisions of BMAT that depend on ZMAT are calculated.
+                            for (int m = 0; m < nptm; m++) {
+                                double sumz = ZERO;
+                                double sumw = ZERO;
+                                for (int k = 0; k < npt; k++) {
+                                    sumz += zMatrix.getEntry(k, m);
+                                    lagrangeValuesAtNewPoint.setEntry(k, work2.getEntry(k) * zMatrix.getEntry(k, m));
+                                    sumw += lagrangeValuesAtNewPoint.getEntry(k);
+                                }
+                                for (int j = 0; j < n; j++) {
+                                    double sum = (fracsq * sumz - HALF * sumw) * trustRegionCenterOffset.getEntry(j);
+                                    for (int k = 0; k < npt; k++) {
+                                        sum += lagrangeValuesAtNewPoint.getEntry(k) * interpolationPoints.getEntry(k, j);
+                                    }
+                                    work1.setEntry(j, sum);
+                                    for (int k = 0; k < npt; k++) {
+                                        bMatrix.setEntry(k, j, bMatrix.getEntry(k, j) + sum * zMatrix.getEntry(k, m));
+                                    }
+                                }
+                                for (int i = 0; i < n; i++) {
+                                    final int ip = i + npt;
+                                    final double temp = work1.getEntry(i);
+                                    for (int j = 0; j <= i; j++) {
+                                        bMatrix.setEntry(ip, j, bMatrix.getEntry(ip, j) + temp * work1.getEntry(j));
+                                    }
+                                }
+                            }
+                            // The following instructions complete the shift, including the changes
+                            // to the second derivative parameters of the quadratic model.
+                            int ih = 0;
+                            for (int j = 0; j < n; j++) {
+                                work1.setEntry(j, -HALF * sumpq * trustRegionCenterOffset.getEntry(j));
+                                for (int k = 0; k < npt; k++) {
+                                    work1.setEntry(j, work1.getEntry(j) + modelSecondDerivativesParameters.getEntry(k) * interpolationPoints.getEntry(k, j));
+                                    interpolationPoints.setEntry(k, j, interpolationPoints.getEntry(k, j) - trustRegionCenterOffset.getEntry(j));
+                                }
+                                for (int i = 0; i <= j; i++) {
+                                    modelSecondDerivativesValues.setEntry(ih, modelSecondDerivativesValues.getEntry(ih) + work1.getEntry(i) * trustRegionCenterOffset.getEntry(j) + trustRegionCenterOffset.getEntry(i) * work1.getEntry(j));
+                                    bMatrix.setEntry(npt + i, j, bMatrix.getEntry(npt + j, i));
+                                    ih++;
+                                }
+                            }
+                            for (int i = 0; i < n; i++) {
+                                originShift.setEntry(i, originShift.getEntry(i) + trustRegionCenterOffset.getEntry(i));
+                                newPoint.setEntry(i, newPoint.getEntry(i) - trustRegionCenterOffset.getEntry(i));
+                                lowerDifference.setEntry(i, lowerDifference.getEntry(i) - trustRegionCenterOffset.getEntry(i));
+                                upperDifference.setEntry(i, upperDifference.getEntry(i) - trustRegionCenterOffset.getEntry(i));
+                                trustRegionCenterOffset.setEntry(i, ZERO);
+                            }
+                            xoptsq = ZERO;
                         }
+                        if (ntrits == 0) {
+                            state = 210;
+                            break;
+                        }
+                        state = 230;
+                        break;
+                        // XBASE is also moved to XOPT by a call of RESCUE. This calculation is
+                        // more expensive than the previous shift, because new matrices BMAT and
+                        // ZMAT are generated from scratch, which may include the replacement of
+                        // interpolation points whose positions seem to be causing near linear
+                        // dependence in the interpolation conditions. Therefore RESCUE is called
+                        // only if rounding errors have reduced by at least a factor of two the
+                        // denominator of the formula for updating the H matrix. It provides a
+                        // useful safeguard, but is not invoked in most applications of BOBYQA.
                     }
-                }
-
-                // Then the revisions of BMAT that depend on ZMAT are calculated.
-
-                for (int m = 0; m < nptm; m++) {
-                    double sumz = ZERO;
-                    double sumw = ZERO;
-                    for (int k = 0; k < npt; k++) {
-                        sumz += zMatrix.getEntry(k, m);
-                        lagrangeValuesAtNewPoint.setEntry(k, work2.getEntry(k) * zMatrix.getEntry(k, m));
-                        sumw += lagrangeValuesAtNewPoint.getEntry(k);
+                case 210:
+                    {
+                        // Pick two alternative vectors of variables, relative to XBASE, that
+                        // are suitable as new positions of the KNEW-th interpolation point.
+                        // Firstly, XNEW is set to the point on a line through XOPT and another
+                        // interpolation point that minimizes the predicted value of the next
+                        // denominator, subject to ||XNEW - XOPT|| .LEQ. ADELT and to the SL
+                        // and SU bounds. Secondly, XALT is set to the best feasible point on
+                        // a constrained version of the Cauchy step of the KNEW-th Lagrange
+                        // function, the corresponding value of the square of this function
+                        // being returned in CAUCHY. The choice between these alternatives is
+                        // going to be made when the denominator is calculated.
+                        final double[] alphaCauchy = altmov(knew, adelt);
+                        alpha = alphaCauchy[0];
+                        cauchy = alphaCauchy[1];
+                        for (int i = 0; i < n; i++) {
+                            trialStepPoint.setEntry(i, newPoint.getEntry(i) - trustRegionCenterOffset.getEntry(i));
+                        }
+                        // Calculate VLAG and BETA for the current choice of D. The scalar
+                        // product of D with XPT(K,.) is going to be held in W(NPT+K) for
+                        // use when VQUAD is calculated.
                     }
-                    for (int j = 0; j < n; j++) {
-                        double sum = (fracsq * sumz - HALF * sumw) * trustRegionCenterOffset.getEntry(j);
+                case 230:
+                    {
+                        // NOPMD
                         for (int k = 0; k < npt; k++) {
-                            sum += lagrangeValuesAtNewPoint.getEntry(k) * interpolationPoints.getEntry(k, j);
+                            double suma = ZERO;
+                            double sumb = ZERO;
+                            double sum = ZERO;
+                            for (int j = 0; j < n; j++) {
+                                suma += interpolationPoints.getEntry(k, j) * trialStepPoint.getEntry(j);
+                                sumb += interpolationPoints.getEntry(k, j) * trustRegionCenterOffset.getEntry(j);
+                                sum += bMatrix.getEntry(k, j) * trialStepPoint.getEntry(j);
+                            }
+                            work3.setEntry(k, suma * (HALF * suma + sumb));
+                            lagrangeValuesAtNewPoint.setEntry(k, sum);
+                            work2.setEntry(k, suma);
                         }
-                        work1.setEntry(j, sum);
-                        for (int k = 0; k < npt; k++) {
-                            bMatrix.setEntry(k, j,
-                                          bMatrix.getEntry(k, j)
-                                          + sum * zMatrix.getEntry(k, m));
-                        }
-                    }
-                    for (int i = 0; i < n; i++) {
-                        final int ip = i + npt;
-                        final double temp = work1.getEntry(i);
-                        for (int j = 0; j <= i; j++) {
-                            bMatrix.setEntry(ip, j,
-                                          bMatrix.getEntry(ip, j)
-                                          + temp * work1.getEntry(j));
-                        }
-                    }
-                }
-
-                // The following instructions complete the shift, including the changes
-                // to the second derivative parameters of the quadratic model.
-
-                int ih = 0;
-                for (int j = 0; j < n; j++) {
-                    work1.setEntry(j, -HALF * sumpq * trustRegionCenterOffset.getEntry(j));
-                    for (int k = 0; k < npt; k++) {
-                        work1.setEntry(j, work1.getEntry(j) + modelSecondDerivativesParameters.getEntry(k) * interpolationPoints.getEntry(k, j));
-                        interpolationPoints.setEntry(k, j, interpolationPoints.getEntry(k, j) - trustRegionCenterOffset.getEntry(j));
-                    }
-                    for (int i = 0; i <= j; i++) {
-                         modelSecondDerivativesValues.setEntry(ih,
-                                    modelSecondDerivativesValues.getEntry(ih)
-                                    + work1.getEntry(i) * trustRegionCenterOffset.getEntry(j)
-                                    + trustRegionCenterOffset.getEntry(i) * work1.getEntry(j));
-                        bMatrix.setEntry(npt + i, j, bMatrix.getEntry(npt + j, i));
-                        ih++;
-                    }
-                }
-                for (int i = 0; i < n; i++) {
-                    originShift.setEntry(i, originShift.getEntry(i) + trustRegionCenterOffset.getEntry(i));
-                    newPoint.setEntry(i, newPoint.getEntry(i) - trustRegionCenterOffset.getEntry(i));
-                    lowerDifference.setEntry(i, lowerDifference.getEntry(i) - trustRegionCenterOffset.getEntry(i));
-                    upperDifference.setEntry(i, upperDifference.getEntry(i) - trustRegionCenterOffset.getEntry(i));
-                    trustRegionCenterOffset.setEntry(i, ZERO);
-                }
-                xoptsq = ZERO;
-            }
-            if (ntrits == 0) {
-                state = 210; break;
-            }
-            state = 230; break;
-
-            // XBASE is also moved to XOPT by a call of RESCUE. This calculation is
-            // more expensive than the previous shift, because new matrices BMAT and
-            // ZMAT are generated from scratch, which may include the replacement of
-            // interpolation points whose positions seem to be causing near linear
-            // dependence in the interpolation conditions. Therefore RESCUE is called
-            // only if rounding errors have reduced by at least a factor of two the
-            // denominator of the formula for updating the H matrix. It provides a
-            // useful safeguard, but is not invoked in most applications of BOBYQA.
-
-        }
-        case 210: {
-            // Pick two alternative vectors of variables, relative to XBASE, that
-            // are suitable as new positions of the KNEW-th interpolation point.
-            // Firstly, XNEW is set to the point on a line through XOPT and another
-            // interpolation point that minimizes the predicted value of the next
-            // denominator, subject to ||XNEW - XOPT|| .LEQ. ADELT and to the SL
-            // and SU bounds. Secondly, XALT is set to the best feasible point on
-            // a constrained version of the Cauchy step of the KNEW-th Lagrange
-            // function, the corresponding value of the square of this function
-            // being returned in CAUCHY. The choice between these alternatives is
-            // going to be made when the denominator is calculated.
-
-            final double[] alphaCauchy = altmov(knew, adelt);
-            alpha = alphaCauchy[0];
-            cauchy = alphaCauchy[1];
-
-            for (int i = 0; i < n; i++) {
-                trialStepPoint.setEntry(i, newPoint.getEntry(i) - trustRegionCenterOffset.getEntry(i));
-            }
-
-            // Calculate VLAG and BETA for the current choice of D. The scalar
-            // product of D with XPT(K,.) is going to be held in W(NPT+K) for
-            // use when VQUAD is calculated.
-
-        }
-        case 230: { // NOPMD
-            for (int k = 0; k < npt; k++) {
-                double suma = ZERO;
-                double sumb = ZERO;
-                double sum = ZERO;
-                for (int j = 0; j < n; j++) {
-                    suma += interpolationPoints.getEntry(k, j) * trialStepPoint.getEntry(j);
-                    sumb += interpolationPoints.getEntry(k, j) * trustRegionCenterOffset.getEntry(j);
-                    sum += bMatrix.getEntry(k, j) * trialStepPoint.getEntry(j);
-                }
-                work3.setEntry(k, suma * (HALF * suma + sumb));
-                lagrangeValuesAtNewPoint.setEntry(k, sum);
-                work2.setEntry(k, suma);
-            }
-            beta = ZERO;
-            for (int m = 0; m < nptm; m++) {
-                double sum = ZERO;
-                for (int k = 0; k < npt; k++) {
-                    sum += zMatrix.getEntry(k, m) * work3.getEntry(k);
-                }
-                beta -= sum * sum;
-                for (int k = 0; k < npt; k++) {
-                    lagrangeValuesAtNewPoint.setEntry(k, lagrangeValuesAtNewPoint.getEntry(k) + sum * zMatrix.getEntry(k, m));
-                }
-            }
-            dsq = ZERO;
-            double bsum = ZERO;
-            double dx = ZERO;
-            for (int j = 0; j < n; j++) {
-                // Computing 2nd power
-                final double d1 = trialStepPoint.getEntry(j);
-                dsq += d1 * d1;
-                double sum = ZERO;
-                for (int k = 0; k < npt; k++) {
-                    sum += work3.getEntry(k) * bMatrix.getEntry(k, j);
-                }
-                bsum += sum * trialStepPoint.getEntry(j);
-                final int jp = npt + j;
-                for (int i = 0; i < n; i++) {
-                    sum += bMatrix.getEntry(jp, i) * trialStepPoint.getEntry(i);
-                }
-                lagrangeValuesAtNewPoint.setEntry(jp, sum);
-                bsum += sum * trialStepPoint.getEntry(j);
-                dx += trialStepPoint.getEntry(j) * trustRegionCenterOffset.getEntry(j);
-            }
-
-            beta = dx * dx + dsq * (xoptsq + dx + dx + HALF * dsq) + beta - bsum; // Original
-            // beta += dx * dx + dsq * (xoptsq + dx + dx + HALF * dsq) - bsum; // XXX "testAckley" and "testDiffPow" fail.
-            // beta = dx * dx + dsq * (xoptsq + 2 * dx + HALF * dsq) + beta - bsum; // XXX "testDiffPow" fails.
-
-            lagrangeValuesAtNewPoint.setEntry(trustRegionCenterInterpolationPointIndex,
-                          lagrangeValuesAtNewPoint.getEntry(trustRegionCenterInterpolationPointIndex) + ONE);
-
-            // If NTRITS is zero, the denominator may be increased by replacing
-            // the step D of ALTMOV by a Cauchy step. Then RESCUE may be called if
-            // rounding errors have damaged the chosen denominator.
-
-            if (ntrits == 0) {
-                // Computing 2nd power
-                final double d1 = lagrangeValuesAtNewPoint.getEntry(knew);
-                denom = d1 * d1 + alpha * beta;
-                if (denom < cauchy && cauchy > ZERO) {
-                    for (int i = 0; i < n; i++) {
-                        newPoint.setEntry(i, alternativeNewPoint.getEntry(i));
-                        trialStepPoint.setEntry(i, newPoint.getEntry(i) - trustRegionCenterOffset.getEntry(i));
-                    }
-                    cauchy = ZERO; // XXX Useful statement?
-                    state = 230; break;
-                }
-                // Alternatively, if NTRITS is positive, then set KNEW to the index of
-                // the next interpolation point to be deleted to make room for a trust
-                // region step. Again RESCUE may be called if rounding errors have damaged_
-                // the chosen denominator, which is the reason for attempting to select
-                // KNEW before calculating the next value of the objective function.
-
-            } else {
-                final double delsq = delta * delta;
-                scaden = ZERO;
-                biglsq = ZERO;
-                knew = 0;
-                for (int k = 0; k < npt; k++) {
-                    if (k == trustRegionCenterInterpolationPointIndex) {
-                        continue;
-                    }
-                    double hdiag = ZERO;
-                    for (int m = 0; m < nptm; m++) {
-                        // Computing 2nd power
-                        final double d1 = zMatrix.getEntry(k, m);
-                        hdiag += d1 * d1;
-                    }
-                    // Computing 2nd power
-                    final double d2 = lagrangeValuesAtNewPoint.getEntry(k);
-                    final double den = beta * hdiag + d2 * d2;
-                    distsq = ZERO;
-                    for (int j = 0; j < n; j++) {
-                        // Computing 2nd power
-                        final double d3 = interpolationPoints.getEntry(k, j) - trustRegionCenterOffset.getEntry(j);
-                        distsq += d3 * d3;
-                    }
-                    // Computing MAX
-                    // Computing 2nd power
-                    final double d4 = distsq / delsq;
-                    final double temp = FastMath.max(ONE, d4 * d4);
-                    if (temp * den > scaden) {
-                        scaden = temp * den;
-                        knew = k;
-                        denom = den;
-                    }
-                    // Computing MAX
-                    // Computing 2nd power
-                    final double d5 = lagrangeValuesAtNewPoint.getEntry(k);
-                    biglsq = FastMath.max(biglsq, temp * (d5 * d5));
-                }
-            }
-
-            // Put the variables for the next calculation of the objective function
-            //   in XNEW, with any adjustments for the bounds.
-
-            // Calculate the value of the objective function at XBASE+XNEW, unless
-            //   the limit on the number of calculations of F has been reached.
-
-        }
-        case 360: { // NOPMD
-            for (int i = 0; i < n; i++) {
-                // Computing MIN
-                // Computing MAX
-                final double d3 = lowerBound[i];
-                final double d4 = originShift.getEntry(i) + newPoint.getEntry(i);
-                final double d1 = FastMath.max(d3, d4);
-                final double d2 = upperBound[i];
-                currentBest.setEntry(i, FastMath.min(d1, d2));
-                if (newPoint.getEntry(i) == lowerDifference.getEntry(i)) {
-                    currentBest.setEntry(i, lowerBound[i]);
-                }
-                if (newPoint.getEntry(i) == upperDifference.getEntry(i)) {
-                    currentBest.setEntry(i, upperBound[i]);
-                }
-            }
-
-            f = computeObjectiveValue(currentBest.toArray());
-
-            if (!isMinimize) {
-                f = -f;
-            }
-            if (ntrits == -1) {
-                fsave = f;
-                state = 720; break;
-            }
-
-            // Use the quadratic model to predict the change in F due to the step D,
-            //   and set DIFF to the error of this prediction.
-
-            final double fopt = fAtInterpolationPoints.getEntry(trustRegionCenterInterpolationPointIndex);
-            double vquad = ZERO;
-            int ih = 0;
-            for (int j = 0; j < n; j++) {
-                vquad += trialStepPoint.getEntry(j) * gradientAtTrustRegionCenter.getEntry(j);
-                for (int i = 0; i <= j; i++) {
-                    double temp = trialStepPoint.getEntry(i) * trialStepPoint.getEntry(j);
-                    if (i == j) {
-                        temp *= HALF;
-                    }
-                    vquad += modelSecondDerivativesValues.getEntry(ih) * temp;
-                    ih++;
-               }
-            }
-            for (int k = 0; k < npt; k++) {
-                // Computing 2nd power
-                final double d1 = work2.getEntry(k);
-                final double d2 = d1 * d1; // "d1" must be squared first to prevent test failures.
-                vquad += HALF * modelSecondDerivativesParameters.getEntry(k) * d2;
-            }
-            final double diff = f - fopt - vquad;
-            diffc = diffb;
-            diffb = diffa;
-            diffa = FastMath.abs(diff);
-            if (dnorm > rho) {
-                nfsav = getEvaluations();
-            }
-
-            // Pick the next value of DELTA after a trust region step.
-
-            if (ntrits > 0) {
-                if (vquad >= ZERO) {
-                    throw new MathIllegalStateException(LocalizedOptimFormats.TRUST_REGION_STEP_FAILED, vquad);
-                }
-                ratio = (f - fopt) / vquad;
-                final double hDelta = HALF * delta;
-                if (ratio <= ONE_OVER_TEN) {
-                    // Computing MIN
-                    delta = FastMath.min(hDelta, dnorm);
-                } else if (ratio <= .7) {
-                    // Computing MAX
-                    delta = FastMath.max(hDelta, dnorm);
-                } else {
-                    // Computing MAX
-                    delta = FastMath.max(hDelta, 2 * dnorm);
-                }
-                if (delta <= rho * 1.5) {
-                    delta = rho;
-                }
-
-                // Recalculate KNEW and DENOM if the new F is less than FOPT.
-
-                if (f < fopt) {
-                    final int ksav = knew;
-                    final double densav = denom;
-                    final double delsq = delta * delta;
-                    scaden = ZERO;
-                    biglsq = ZERO;
-                    knew = 0;
-                    for (int k = 0; k < npt; k++) {
-                        double hdiag = ZERO;
+                        beta = ZERO;
                         for (int m = 0; m < nptm; m++) {
-                            // Computing 2nd power
-                            final double d1 = zMatrix.getEntry(k, m);
-                            hdiag += d1 * d1;
+                            double sum = ZERO;
+                            for (int k = 0; k < npt; k++) {
+                                sum += zMatrix.getEntry(k, m) * work3.getEntry(k);
+                            }
+                            beta -= sum * sum;
+                            for (int k = 0; k < npt; k++) {
+                                lagrangeValuesAtNewPoint.setEntry(k, lagrangeValuesAtNewPoint.getEntry(k) + sum * zMatrix.getEntry(k, m));
+                            }
                         }
-                        // Computing 2nd power
-                        final double d1 = lagrangeValuesAtNewPoint.getEntry(k);
-                        final double den = beta * hdiag + d1 * d1;
-                        distsq = ZERO;
+                        dsq = ZERO;
+                        double bsum = ZERO;
+                        double dx = ZERO;
                         for (int j = 0; j < n; j++) {
                             // Computing 2nd power
-                            final double d2 = interpolationPoints.getEntry(k, j) - newPoint.getEntry(j);
-                            distsq += d2 * d2;
+                            final double d1 = trialStepPoint.getEntry(j);
+                            dsq += d1 * d1;
+                            double sum = ZERO;
+                            for (int k = 0; k < npt; k++) {
+                                sum += work3.getEntry(k) * bMatrix.getEntry(k, j);
+                            }
+                            bsum += sum * trialStepPoint.getEntry(j);
+                            final int jp = npt + j;
+                            for (int i = 0; i < n; i++) {
+                                sum += bMatrix.getEntry(jp, i) * trialStepPoint.getEntry(i);
+                            }
+                            lagrangeValuesAtNewPoint.setEntry(jp, sum);
+                            bsum += sum * trialStepPoint.getEntry(j);
+                            dx += trialStepPoint.getEntry(j) * trustRegionCenterOffset.getEntry(j);
                         }
+                        // Original
+                        beta = dx * dx + dsq * (xoptsq + dx + dx + HALF * dsq) + beta - bsum;
+                        // beta += dx * dx + dsq * (xoptsq + dx + dx + HALF * dsq) - bsum; // XXX "testAckley" and "testDiffPow" fail.
+                        // beta = dx * dx + dsq * (xoptsq + 2 * dx + HALF * dsq) + beta - bsum; // XXX "testDiffPow" fails.
+                        lagrangeValuesAtNewPoint.setEntry(trustRegionCenterInterpolationPointIndex, lagrangeValuesAtNewPoint.getEntry(trustRegionCenterInterpolationPointIndex) + ONE);
+                        // If NTRITS is zero, the denominator may be increased by replacing
+                        // the step D of ALTMOV by a Cauchy step. Then RESCUE may be called if
+                        // rounding errors have damaged the chosen denominator.
+                        if (ntrits == 0) {
+                            // Computing 2nd power
+                            final double d1 = lagrangeValuesAtNewPoint.getEntry(knew);
+                            denom = d1 * d1 + alpha * beta;
+                            if (denom < cauchy && cauchy > ZERO) {
+                                for (int i = 0; i < n; i++) {
+                                    newPoint.setEntry(i, alternativeNewPoint.getEntry(i));
+                                    trialStepPoint.setEntry(i, newPoint.getEntry(i) - trustRegionCenterOffset.getEntry(i));
+                                }
+                                // XXX Useful statement?
+                                cauchy = ZERO;
+                                state = 230;
+                                break;
+                            }
+                            // Alternatively, if NTRITS is positive, then set KNEW to the index of
+                            // the next interpolation point to be deleted to make room for a trust
+                            // region step. Again RESCUE may be called if rounding errors have damaged_
+                            // the chosen denominator, which is the reason for attempting to select
+                            // KNEW before calculating the next value of the objective function.
+                        } else {
+                            final double delsq = delta * delta;
+                            scaden = ZERO;
+                            biglsq = ZERO;
+                            knew = 0;
+                            for (int k = 0; k < npt; k++) {
+                                if (k == trustRegionCenterInterpolationPointIndex) {
+                                    continue;
+                                }
+                                double hdiag = ZERO;
+                                for (int m = 0; m < nptm; m++) {
+                                    // Computing 2nd power
+                                    final double d1 = zMatrix.getEntry(k, m);
+                                    hdiag += d1 * d1;
+                                }
+                                // Computing 2nd power
+                                final double d2 = lagrangeValuesAtNewPoint.getEntry(k);
+                                final double den = beta * hdiag + d2 * d2;
+                                distsq = ZERO;
+                                for (int j = 0; j < n; j++) {
+                                    // Computing 2nd power
+                                    final double d3 = interpolationPoints.getEntry(k, j) - trustRegionCenterOffset.getEntry(j);
+                                    distsq += d3 * d3;
+                                }
+                                // Computing MAX
+                                // Computing 2nd power
+                                final double d4 = distsq / delsq;
+                                final double temp = FastMath.max(ONE, d4 * d4);
+                                if (temp * den > scaden) {
+                                    scaden = temp * den;
+                                    knew = k;
+                                    denom = den;
+                                }
+                                // Computing MAX
+                                // Computing 2nd power
+                                final double d5 = lagrangeValuesAtNewPoint.getEntry(k);
+                                biglsq = FastMath.max(biglsq, temp * (d5 * d5));
+                            }
+                        }
+                        // Put the variables for the next calculation of the objective function
+                        //   in XNEW, with any adjustments for the bounds.
+                        // Calculate the value of the objective function at XBASE+XNEW, unless
+                        //   the limit on the number of calculations of F has been reached.
+                    }
+                case 360:
+                    {
+                        // NOPMD
+                        for (int i = 0; i < n; i++) {
+                            // Computing MIN
+                            // Computing MAX
+                            final double d3 = lowerBound[i];
+                            final double d4 = originShift.getEntry(i) + newPoint.getEntry(i);
+                            final double d1 = FastMath.max(d3, d4);
+                            final double d2 = upperBound[i];
+                            currentBest.setEntry(i, FastMath.min(d1, d2));
+                            if (newPoint.getEntry(i) == lowerDifference.getEntry(i)) {
+                                currentBest.setEntry(i, lowerBound[i]);
+                            }
+                            if (newPoint.getEntry(i) == upperDifference.getEntry(i)) {
+                                currentBest.setEntry(i, upperBound[i]);
+                            }
+                        }
+                        f = computeObjectiveValue(currentBest.toArray());
+                        if (!isMinimize) {
+                            f = -f;
+                        }
+                        if (ntrits == -1) {
+                            fsave = f;
+                            state = 720;
+                            break;
+                        }
+                        // Use the quadratic model to predict the change in F due to the step D,
+                        //   and set DIFF to the error of this prediction.
+                        final double fopt = fAtInterpolationPoints.getEntry(trustRegionCenterInterpolationPointIndex);
+                        double vquad = ZERO;
+                        int ih = 0;
+                        for (int j = 0; j < n; j++) {
+                            vquad += trialStepPoint.getEntry(j) * gradientAtTrustRegionCenter.getEntry(j);
+                            for (int i = 0; i <= j; i++) {
+                                double temp = trialStepPoint.getEntry(i) * trialStepPoint.getEntry(j);
+                                if (i == j) {
+                                    temp *= HALF;
+                                }
+                                vquad += modelSecondDerivativesValues.getEntry(ih) * temp;
+                                ih++;
+                            }
+                        }
+                        for (int k = 0; k < npt; k++) {
+                            // Computing 2nd power
+                            final double d1 = work2.getEntry(k);
+                            // "d1" must be squared first to prevent test failures.
+                            final double d2 = d1 * d1;
+                            vquad += HALF * modelSecondDerivativesParameters.getEntry(k) * d2;
+                        }
+                        final double diff = f - fopt - vquad;
+                        diffc = diffb;
+                        diffb = diffa;
+                        diffa = FastMath.abs(diff);
+                        if (dnorm > rho) {
+                            nfsav = getEvaluations();
+                        }
+                        // Pick the next value of DELTA after a trust region step.
+                        if (ntrits > 0) {
+                            if (vquad >= ZERO) {
+                                throw new MathIllegalStateException(LocalizedOptimFormats.TRUST_REGION_STEP_FAILED, vquad);
+                            }
+                            ratio = (f - fopt) / vquad;
+                            final double hDelta = HALF * delta;
+                            if (ratio <= ONE_OVER_TEN) {
+                                // Computing MIN
+                                delta = FastMath.min(hDelta, dnorm);
+                            } else if (ratio <= .7) {
+                                // Computing MAX
+                                delta = FastMath.max(hDelta, dnorm);
+                            } else {
+                                // Computing MAX
+                                delta = FastMath.max(hDelta, 2 * dnorm);
+                            }
+                            if (delta <= rho * 1.5) {
+                                delta = rho;
+                            }
+                            // Recalculate KNEW and DENOM if the new F is less than FOPT.
+                            if (f < fopt) {
+                                final int ksav = knew;
+                                final double densav = denom;
+                                final double delsq = delta * delta;
+                                scaden = ZERO;
+                                biglsq = ZERO;
+                                knew = 0;
+                                for (int k = 0; k < npt; k++) {
+                                    double hdiag = ZERO;
+                                    for (int m = 0; m < nptm; m++) {
+                                        // Computing 2nd power
+                                        final double d1 = zMatrix.getEntry(k, m);
+                                        hdiag += d1 * d1;
+                                    }
+                                    // Computing 2nd power
+                                    final double d1 = lagrangeValuesAtNewPoint.getEntry(k);
+                                    final double den = beta * hdiag + d1 * d1;
+                                    distsq = ZERO;
+                                    for (int j = 0; j < n; j++) {
+                                        // Computing 2nd power
+                                        final double d2 = interpolationPoints.getEntry(k, j) - newPoint.getEntry(j);
+                                        distsq += d2 * d2;
+                                    }
+                                    // Computing MAX
+                                    // Computing 2nd power
+                                    final double d3 = distsq / delsq;
+                                    final double temp = FastMath.max(ONE, d3 * d3);
+                                    if (temp * den > scaden) {
+                                        scaden = temp * den;
+                                        knew = k;
+                                        denom = den;
+                                    }
+                                    // Computing MAX
+                                    // Computing 2nd power
+                                    final double d4 = lagrangeValuesAtNewPoint.getEntry(k);
+                                    final double d5 = temp * (d4 * d4);
+                                    biglsq = FastMath.max(biglsq, d5);
+                                }
+                                if (scaden <= HALF * biglsq) {
+                                    knew = ksav;
+                                    denom = densav;
+                                }
+                            }
+                        }
+                        // Update BMAT and ZMAT, so that the KNEW-th interpolation point can be
+                        // moved. Also update the second derivative terms of the model.
+                        update(beta, denom, knew);
+                        ih = 0;
+                        final double pqold = modelSecondDerivativesParameters.getEntry(knew);
+                        modelSecondDerivativesParameters.setEntry(knew, ZERO);
+                        for (int i = 0; i < n; i++) {
+                            final double temp = pqold * interpolationPoints.getEntry(knew, i);
+                            for (int j = 0; j <= i; j++) {
+                                modelSecondDerivativesValues.setEntry(ih, modelSecondDerivativesValues.getEntry(ih) + temp * interpolationPoints.getEntry(knew, j));
+                                ih++;
+                            }
+                        }
+                        for (int m = 0; m < nptm; m++) {
+                            final double temp = diff * zMatrix.getEntry(knew, m);
+                            for (int k = 0; k < npt; k++) {
+                                modelSecondDerivativesParameters.setEntry(k, modelSecondDerivativesParameters.getEntry(k) + temp * zMatrix.getEntry(k, m));
+                            }
+                        }
+                        // Include the new interpolation point, and make the changes to GOPT at
+                        // the old XOPT that are caused by the updating of the quadratic model.
+                        fAtInterpolationPoints.setEntry(knew, f);
+                        for (int i = 0; i < n; i++) {
+                            interpolationPoints.setEntry(knew, i, newPoint.getEntry(i));
+                            work1.setEntry(i, bMatrix.getEntry(knew, i));
+                        }
+                        for (int k = 0; k < npt; k++) {
+                            double suma = ZERO;
+                            for (int m = 0; m < nptm; m++) {
+                                suma += zMatrix.getEntry(knew, m) * zMatrix.getEntry(k, m);
+                            }
+                            double sumb = ZERO;
+                            for (int j = 0; j < n; j++) {
+                                sumb += interpolationPoints.getEntry(k, j) * trustRegionCenterOffset.getEntry(j);
+                            }
+                            final double temp = suma * sumb;
+                            for (int i = 0; i < n; i++) {
+                                work1.setEntry(i, work1.getEntry(i) + temp * interpolationPoints.getEntry(k, i));
+                            }
+                        }
+                        for (int i = 0; i < n; i++) {
+                            gradientAtTrustRegionCenter.setEntry(i, gradientAtTrustRegionCenter.getEntry(i) + diff * work1.getEntry(i));
+                        }
+                        // Update XOPT, GOPT and KOPT if the new calculated F is less than FOPT.
+                        if (f < fopt) {
+                            trustRegionCenterInterpolationPointIndex = knew;
+                            xoptsq = ZERO;
+                            ih = 0;
+                            for (int j = 0; j < n; j++) {
+                                trustRegionCenterOffset.setEntry(j, newPoint.getEntry(j));
+                                // Computing 2nd power
+                                final double d1 = trustRegionCenterOffset.getEntry(j);
+                                xoptsq += d1 * d1;
+                                for (int i = 0; i <= j; i++) {
+                                    if (i < j) {
+                                        gradientAtTrustRegionCenter.setEntry(j, gradientAtTrustRegionCenter.getEntry(j) + modelSecondDerivativesValues.getEntry(ih) * trialStepPoint.getEntry(i));
+                                    }
+                                    gradientAtTrustRegionCenter.setEntry(i, gradientAtTrustRegionCenter.getEntry(i) + modelSecondDerivativesValues.getEntry(ih) * trialStepPoint.getEntry(j));
+                                    ih++;
+                                }
+                            }
+                            for (int k = 0; k < npt; k++) {
+                                double temp = ZERO;
+                                for (int j = 0; j < n; j++) {
+                                    temp += interpolationPoints.getEntry(k, j) * trialStepPoint.getEntry(j);
+                                }
+                                temp *= modelSecondDerivativesParameters.getEntry(k);
+                                for (int i = 0; i < n; i++) {
+                                    gradientAtTrustRegionCenter.setEntry(i, gradientAtTrustRegionCenter.getEntry(i) + temp * interpolationPoints.getEntry(k, i));
+                                }
+                            }
+                        }
+                        // Calculate the parameters of the least Frobenius norm interpolant to
+                        // the current data, the gradient of this interpolant at XOPT being put
+                        // into VLAG(NPT+I), I=1,2,...,N.
+                        if (ntrits > 0) {
+                            for (int k = 0; k < npt; k++) {
+                                lagrangeValuesAtNewPoint.setEntry(k, fAtInterpolationPoints.getEntry(k) - fAtInterpolationPoints.getEntry(trustRegionCenterInterpolationPointIndex));
+                                work3.setEntry(k, ZERO);
+                            }
+                            for (int j = 0; j < nptm; j++) {
+                                double sum = ZERO;
+                                for (int k = 0; k < npt; k++) {
+                                    sum += zMatrix.getEntry(k, j) * lagrangeValuesAtNewPoint.getEntry(k);
+                                }
+                                for (int k = 0; k < npt; k++) {
+                                    work3.setEntry(k, work3.getEntry(k) + sum * zMatrix.getEntry(k, j));
+                                }
+                            }
+                            for (int k = 0; k < npt; k++) {
+                                double sum = ZERO;
+                                for (int j = 0; j < n; j++) {
+                                    sum += interpolationPoints.getEntry(k, j) * trustRegionCenterOffset.getEntry(j);
+                                }
+                                work2.setEntry(k, work3.getEntry(k));
+                                work3.setEntry(k, sum * work3.getEntry(k));
+                            }
+                            double gqsq = ZERO;
+                            double gisq = ZERO;
+                            for (int i = 0; i < n; i++) {
+                                double sum = ZERO;
+                                for (int k = 0; k < npt; k++) {
+                                    sum += bMatrix.getEntry(k, i) * lagrangeValuesAtNewPoint.getEntry(k) + interpolationPoints.getEntry(k, i) * work3.getEntry(k);
+                                }
+                                if (trustRegionCenterOffset.getEntry(i) == lowerDifference.getEntry(i)) {
+                                    // Computing MIN
+                                    // Computing 2nd power
+                                    final double d1 = FastMath.min(ZERO, gradientAtTrustRegionCenter.getEntry(i));
+                                    gqsq += d1 * d1;
+                                    // Computing 2nd power
+                                    final double d2 = FastMath.min(ZERO, sum);
+                                    gisq += d2 * d2;
+                                } else if (trustRegionCenterOffset.getEntry(i) == upperDifference.getEntry(i)) {
+                                    // Computing MAX
+                                    // Computing 2nd power
+                                    final double d1 = FastMath.max(ZERO, gradientAtTrustRegionCenter.getEntry(i));
+                                    gqsq += d1 * d1;
+                                    // Computing 2nd power
+                                    final double d2 = FastMath.max(ZERO, sum);
+                                    gisq += d2 * d2;
+                                } else {
+                                    // Computing 2nd power
+                                    final double d1 = gradientAtTrustRegionCenter.getEntry(i);
+                                    gqsq += d1 * d1;
+                                    gisq += sum * sum;
+                                }
+                                lagrangeValuesAtNewPoint.setEntry(npt + i, sum);
+                            }
+                            // Test whether to replace the new quadratic model by the least Frobenius
+                            // norm interpolant, making the replacement if the test is satisfied.
+                            ++itest;
+                            if (gqsq < TEN * gisq) {
+                                itest = 0;
+                            }
+                            if (itest >= 3) {
+                                final int max = FastMath.max(npt, nh);
+                                for (int i = 0; i < max; i++) {
+                                    if (i < n) {
+                                        gradientAtTrustRegionCenter.setEntry(i, lagrangeValuesAtNewPoint.getEntry(npt + i));
+                                    }
+                                    if (i < npt) {
+                                        modelSecondDerivativesParameters.setEntry(i, work2.getEntry(i));
+                                    }
+                                    if (i < nh) {
+                                        modelSecondDerivativesValues.setEntry(i, ZERO);
+                                    }
+                                    itest = 0;
+                                }
+                            }
+                        }
+                        // If a trust region step has provided a sufficient decrease in F, then
+                        // branch for another trust region calculation. The case NTRITS=0 occurs
+                        // when the new interpolation point was reached by an alternative step.
+                        if (ntrits == 0) {
+                            state = 60;
+                            break;
+                        }
+                        if (f <= fopt + ONE_OVER_TEN * vquad) {
+                            state = 60;
+                            break;
+                        }
+                        // Alternatively, find out if the interpolation points are close enough
+                        //   to the best point so far.
                         // Computing MAX
                         // Computing 2nd power
-                        final double d3 = distsq / delsq;
-                        final double temp = FastMath.max(ONE, d3 * d3);
-                        if (temp * den > scaden) {
-                            scaden = temp * den;
-                            knew = k;
-                            denom = den;
+                        final double d1 = TWO * delta;
+                        // Computing 2nd power
+                        final double d2 = TEN * rho;
+                        distsq = FastMath.max(d1 * d1, d2 * d2);
+                    }
+                case 650:
+                    {
+                        // NOPMD
+                        knew = -1;
+                        for (int k = 0; k < npt; k++) {
+                            double sum = ZERO;
+                            for (int j = 0; j < n; j++) {
+                                // Computing 2nd power
+                                final double d1 = interpolationPoints.getEntry(k, j) - trustRegionCenterOffset.getEntry(j);
+                                sum += d1 * d1;
+                            }
+                            if (sum > distsq) {
+                                knew = k;
+                                distsq = sum;
+                            }
                         }
-                        // Computing MAX
-                        // Computing 2nd power
-                        final double d4 = lagrangeValuesAtNewPoint.getEntry(k);
-                        final double d5 = temp * (d4 * d4);
-                        biglsq = FastMath.max(biglsq, d5);
-                    }
-                    if (scaden <= HALF * biglsq) {
-                        knew = ksav;
-                        denom = densav;
-                    }
-                }
-            }
-
-            // Update BMAT and ZMAT, so that the KNEW-th interpolation point can be
-            // moved. Also update the second derivative terms of the model.
-
-            update(beta, denom, knew);
-
-            ih = 0;
-            final double pqold = modelSecondDerivativesParameters.getEntry(knew);
-            modelSecondDerivativesParameters.setEntry(knew, ZERO);
-            for (int i = 0; i < n; i++) {
-                final double temp = pqold * interpolationPoints.getEntry(knew, i);
-                for (int j = 0; j <= i; j++) {
-                    modelSecondDerivativesValues.setEntry(ih, modelSecondDerivativesValues.getEntry(ih) + temp * interpolationPoints.getEntry(knew, j));
-                    ih++;
-                }
-            }
-            for (int m = 0; m < nptm; m++) {
-                final double temp = diff * zMatrix.getEntry(knew, m);
-                for (int k = 0; k < npt; k++) {
-                    modelSecondDerivativesParameters.setEntry(k, modelSecondDerivativesParameters.getEntry(k) + temp * zMatrix.getEntry(k, m));
-                }
-            }
-
-            // Include the new interpolation point, and make the changes to GOPT at
-            // the old XOPT that are caused by the updating of the quadratic model.
-
-            fAtInterpolationPoints.setEntry(knew,  f);
-            for (int i = 0; i < n; i++) {
-                interpolationPoints.setEntry(knew, i, newPoint.getEntry(i));
-                work1.setEntry(i, bMatrix.getEntry(knew, i));
-            }
-            for (int k = 0; k < npt; k++) {
-                double suma = ZERO;
-                for (int m = 0; m < nptm; m++) {
-                    suma += zMatrix.getEntry(knew, m) * zMatrix.getEntry(k, m);
-                }
-                double sumb = ZERO;
-                for (int j = 0; j < n; j++) {
-                    sumb += interpolationPoints.getEntry(k, j) * trustRegionCenterOffset.getEntry(j);
-                }
-                final double temp = suma * sumb;
-                for (int i = 0; i < n; i++) {
-                    work1.setEntry(i, work1.getEntry(i) + temp * interpolationPoints.getEntry(k, i));
-                }
-            }
-            for (int i = 0; i < n; i++) {
-                gradientAtTrustRegionCenter.setEntry(i, gradientAtTrustRegionCenter.getEntry(i) + diff * work1.getEntry(i));
-            }
-
-            // Update XOPT, GOPT and KOPT if the new calculated F is less than FOPT.
-
-            if (f < fopt) {
-                trustRegionCenterInterpolationPointIndex = knew;
-                xoptsq = ZERO;
-                ih = 0;
-                for (int j = 0; j < n; j++) {
-                    trustRegionCenterOffset.setEntry(j, newPoint.getEntry(j));
-                    // Computing 2nd power
-                    final double d1 = trustRegionCenterOffset.getEntry(j);
-                    xoptsq += d1 * d1;
-                    for (int i = 0; i <= j; i++) {
-                        if (i < j) {
-                            gradientAtTrustRegionCenter.setEntry(j, gradientAtTrustRegionCenter.getEntry(j) + modelSecondDerivativesValues.getEntry(ih) * trialStepPoint.getEntry(i));
+                        // If KNEW is positive, then ALTMOV finds alternative new positions for
+                        // the KNEW-th interpolation point within distance ADELT of XOPT. It is
+                        // reached via label 90. Otherwise, there is a branch to label 60 for
+                        // another trust region iteration, unless the calculations with the
+                        // current RHO are complete.
+                        if (knew >= 0) {
+                            final double dist = FastMath.sqrt(distsq);
+                            if (ntrits == -1) {
+                                // Computing MIN
+                                delta = FastMath.min(ONE_OVER_TEN * delta, HALF * dist);
+                                if (delta <= rho * 1.5) {
+                                    delta = rho;
+                                }
+                            }
+                            ntrits = 0;
+                            // Computing MAX
+                            // Computing MIN
+                            final double d1 = FastMath.min(ONE_OVER_TEN * dist, delta);
+                            adelt = FastMath.max(d1, rho);
+                            dsq = adelt * adelt;
+                            state = 90;
+                            break;
                         }
-                        gradientAtTrustRegionCenter.setEntry(i, gradientAtTrustRegionCenter.getEntry(i) + modelSecondDerivativesValues.getEntry(ih) * trialStepPoint.getEntry(j));
-                        ih++;
-                    }
-                }
-                for (int k = 0; k < npt; k++) {
-                    double temp = ZERO;
-                    for (int j = 0; j < n; j++) {
-                        temp += interpolationPoints.getEntry(k, j) * trialStepPoint.getEntry(j);
-                    }
-                    temp *= modelSecondDerivativesParameters.getEntry(k);
-                    for (int i = 0; i < n; i++) {
-                        gradientAtTrustRegionCenter.setEntry(i, gradientAtTrustRegionCenter.getEntry(i) + temp * interpolationPoints.getEntry(k, i));
-                    }
-                }
-            }
-
-            // Calculate the parameters of the least Frobenius norm interpolant to
-            // the current data, the gradient of this interpolant at XOPT being put
-            // into VLAG(NPT+I), I=1,2,...,N.
-
-            if (ntrits > 0) {
-                for (int k = 0; k < npt; k++) {
-                    lagrangeValuesAtNewPoint.setEntry(k, fAtInterpolationPoints.getEntry(k) - fAtInterpolationPoints.getEntry(trustRegionCenterInterpolationPointIndex));
-                    work3.setEntry(k, ZERO);
-                }
-                for (int j = 0; j < nptm; j++) {
-                    double sum = ZERO;
-                    for (int k = 0; k < npt; k++) {
-                        sum += zMatrix.getEntry(k, j) * lagrangeValuesAtNewPoint.getEntry(k);
-                    }
-                    for (int k = 0; k < npt; k++) {
-                        work3.setEntry(k, work3.getEntry(k) + sum * zMatrix.getEntry(k, j));
-                    }
-                }
-                for (int k = 0; k < npt; k++) {
-                    double sum = ZERO;
-                    for (int j = 0; j < n; j++) {
-                        sum += interpolationPoints.getEntry(k, j) * trustRegionCenterOffset.getEntry(j);
-                    }
-                    work2.setEntry(k, work3.getEntry(k));
-                    work3.setEntry(k, sum * work3.getEntry(k));
-                }
-                double gqsq = ZERO;
-                double gisq = ZERO;
-                for (int i = 0; i < n; i++) {
-                    double sum = ZERO;
-                    for (int k = 0; k < npt; k++) {
-                        sum += bMatrix.getEntry(k, i) *
-                            lagrangeValuesAtNewPoint.getEntry(k) + interpolationPoints.getEntry(k, i) * work3.getEntry(k);
-                    }
-                    if (trustRegionCenterOffset.getEntry(i) == lowerDifference.getEntry(i)) {
-                        // Computing MIN
-                        // Computing 2nd power
-                        final double d1 = FastMath.min(ZERO, gradientAtTrustRegionCenter.getEntry(i));
-                        gqsq += d1 * d1;
-                        // Computing 2nd power
-                        final double d2 = FastMath.min(ZERO, sum);
-                        gisq += d2 * d2;
-                    } else if (trustRegionCenterOffset.getEntry(i) == upperDifference.getEntry(i)) {
-                        // Computing MAX
-                        // Computing 2nd power
-                        final double d1 = FastMath.max(ZERO, gradientAtTrustRegionCenter.getEntry(i));
-                        gqsq += d1 * d1;
-                        // Computing 2nd power
-                        final double d2 = FastMath.max(ZERO, sum);
-                        gisq += d2 * d2;
-                    } else {
-                        // Computing 2nd power
-                        final double d1 = gradientAtTrustRegionCenter.getEntry(i);
-                        gqsq += d1 * d1;
-                        gisq += sum * sum;
-                    }
-                    lagrangeValuesAtNewPoint.setEntry(npt + i, sum);
-                }
-
-                // Test whether to replace the new quadratic model by the least Frobenius
-                // norm interpolant, making the replacement if the test is satisfied.
-
-                ++itest;
-                if (gqsq < TEN * gisq) {
-                    itest = 0;
-                }
-                if (itest >= 3) {
-                    final int max = FastMath.max(npt, nh);
-                    for (int i = 0; i < max; i++) {
-                        if (i < n) {
-                            gradientAtTrustRegionCenter.setEntry(i, lagrangeValuesAtNewPoint.getEntry(npt + i));
+                        if (ntrits == -1) {
+                            state = 680;
+                            break;
                         }
-                        if (i < npt) {
-                            modelSecondDerivativesParameters.setEntry(i, work2.getEntry(i));
+                        if (ratio > ZERO) {
+                            state = 60;
+                            break;
                         }
-                        if (i < nh) {
-                            modelSecondDerivativesValues.setEntry(i, ZERO);
+                        if (FastMath.max(delta, dnorm) > rho) {
+                            state = 60;
+                            break;
                         }
-                        itest = 0;
+                        // The calculations with the current value of RHO are complete. Pick the
+                        //   next values of RHO and DELTA.
                     }
-                }
-            }
-
-            // If a trust region step has provided a sufficient decrease in F, then
-            // branch for another trust region calculation. The case NTRITS=0 occurs
-            // when the new interpolation point was reached by an alternative step.
-
-            if (ntrits == 0) {
-                state = 60; break;
-            }
-            if (f <= fopt + ONE_OVER_TEN * vquad) {
-                state = 60; break;
-            }
-
-            // Alternatively, find out if the interpolation points are close enough
-            //   to the best point so far.
-
-            // Computing MAX
-            // Computing 2nd power
-            final double d1 = TWO * delta;
-            // Computing 2nd power
-            final double d2 = TEN * rho;
-            distsq = FastMath.max(d1 * d1, d2 * d2);
-        }
-        case 650: { // NOPMD
-            knew = -1;
-            for (int k = 0; k < npt; k++) {
-                double sum = ZERO;
-                for (int j = 0; j < n; j++) {
-                    // Computing 2nd power
-                    final double d1 = interpolationPoints.getEntry(k, j) - trustRegionCenterOffset.getEntry(j);
-                    sum += d1 * d1;
-                }
-                if (sum > distsq) {
-                    knew = k;
-                    distsq = sum;
-                }
-            }
-
-            // If KNEW is positive, then ALTMOV finds alternative new positions for
-            // the KNEW-th interpolation point within distance ADELT of XOPT. It is
-            // reached via label 90. Otherwise, there is a branch to label 60 for
-            // another trust region iteration, unless the calculations with the
-            // current RHO are complete.
-
-            if (knew >= 0) {
-                final double dist = FastMath.sqrt(distsq);
-                if (ntrits == -1) {
-                    // Computing MIN
-                    delta = FastMath.min(ONE_OVER_TEN * delta, HALF * dist);
-                    if (delta <= rho * 1.5) {
-                        delta = rho;
+                case 680:
+                    {
+                        // NOPMD
+                        if (rho > stoppingTrustRegionRadius) {
+                            delta = HALF * rho;
+                            ratio = rho / stoppingTrustRegionRadius;
+                            if (ratio <= SIXTEEN) {
+                                rho = stoppingTrustRegionRadius;
+                            } else if (ratio <= TWO_HUNDRED_FIFTY) {
+                                rho = FastMath.sqrt(ratio) * stoppingTrustRegionRadius;
+                            } else {
+                                rho *= ONE_OVER_TEN;
+                            }
+                            delta = FastMath.max(delta, rho);
+                            ntrits = 0;
+                            nfsav = getEvaluations();
+                            state = 60;
+                            break;
+                        }
+                        // Return from the calculation, after another Newton-Raphson step, if
+                        //   it is too short to have been tried before.
+                        if (ntrits == -1) {
+                            state = 360;
+                            break;
+                        }
                     }
-                }
-                ntrits = 0;
-                // Computing MAX
-                // Computing MIN
-                final double d1 = FastMath.min(ONE_OVER_TEN * dist, delta);
-                adelt = FastMath.max(d1, rho);
-                dsq = adelt * adelt;
-                state = 90; break;
-            }
-            if (ntrits == -1) {
-                state = 680; break;
-            }
-            if (ratio > ZERO) {
-                state = 60; break;
-            }
-            if (FastMath.max(delta, dnorm) > rho) {
-                state = 60; break;
-            }
-
-            // The calculations with the current value of RHO are complete. Pick the
-            //   next values of RHO and DELTA.
-        }
-        case 680: { // NOPMD
-            if (rho > stoppingTrustRegionRadius) {
-                delta = HALF * rho;
-                ratio = rho / stoppingTrustRegionRadius;
-                if (ratio <= SIXTEEN) {
-                    rho = stoppingTrustRegionRadius;
-                } else if (ratio <= TWO_HUNDRED_FIFTY) {
-                    rho = FastMath.sqrt(ratio) * stoppingTrustRegionRadius;
-                } else {
-                    rho *= ONE_OVER_TEN;
-                }
-                delta = FastMath.max(delta, rho);
-                ntrits = 0;
-                nfsav = getEvaluations();
-                state = 60; break;
-            }
-
-            // Return from the calculation, after another Newton-Raphson step, if
-            //   it is too short to have been tried before.
-
-            if (ntrits == -1) {
-                state = 360; break;
+                case 720:
+                    {
+                        // NOPMD
+                        if (fAtInterpolationPoints.getEntry(trustRegionCenterInterpolationPointIndex) <= fsave) {
+                            for (int i = 0; i < n; i++) {
+                                // Computing MIN
+                                // Computing MAX
+                                final double d3 = lowerBound[i];
+                                final double d4 = originShift.getEntry(i) + trustRegionCenterOffset.getEntry(i);
+                                final double d1 = FastMath.max(d3, d4);
+                                final double d2 = upperBound[i];
+                                currentBest.setEntry(i, FastMath.min(d1, d2));
+                                if (trustRegionCenterOffset.getEntry(i) == lowerDifference.getEntry(i)) {
+                                    currentBest.setEntry(i, lowerBound[i]);
+                                }
+                                if (trustRegionCenterOffset.getEntry(i) == upperDifference.getEntry(i)) {
+                                    currentBest.setEntry(i, upperBound[i]);
+                                }
+                            }
+                            f = fAtInterpolationPoints.getEntry(trustRegionCenterInterpolationPointIndex);
+                        }
+                        return f;
+                    }
+                default:
+                    {
+                        throw new MathIllegalStateException(LocalizedCoreFormats.SIMPLE_MESSAGE, "bobyqb");
+                    }
             }
         }
-        case 720: { // NOPMD
-            if (fAtInterpolationPoints.getEntry(trustRegionCenterInterpolationPointIndex) <= fsave) {
-                for (int i = 0; i < n; i++) {
-                    // Computing MIN
-                    // Computing MAX
-                    final double d3 = lowerBound[i];
-                    final double d4 = originShift.getEntry(i) + trustRegionCenterOffset.getEntry(i);
-                    final double d1 = FastMath.max(d3, d4);
-                    final double d2 = upperBound[i];
-                    currentBest.setEntry(i, FastMath.min(d1, d2));
-                    if (trustRegionCenterOffset.getEntry(i) == lowerDifference.getEntry(i)) {
-                        currentBest.setEntry(i, lowerBound[i]);
-                    }
-                    if (trustRegionCenterOffset.getEntry(i) == upperDifference.getEntry(i)) {
-                        currentBest.setEntry(i, upperBound[i]);
-                    }
-                }
-                f = fAtInterpolationPoints.getEntry(trustRegionCenterInterpolationPointIndex);
-            }
-            return f;
-        }
-        default: {
-            throw new MathIllegalStateException(LocalizedCoreFormats.SIMPLE_MESSAGE, "bobyqb");
-        }}}
-    } // bobyqb
+    }
 
+    // bobyqb
     // ----------------------------------------------------------------------------------------
-
     /**
      *     The arguments N, NPT, XPT, XOPT, BMAT, ZMAT, NDIM, SL and SU all have
      *       the same meanings as the corresponding arguments of BOBYQB.
@@ -1258,16 +1265,12 @@ public class BOBYQAOptimizer
      * @param adelt
      */
     private double[] altmov(int knew, double adelt) {
-
         final int n = currentBest.getDimension();
         final int npt = numberOfInterpolationPoints;
-
         final ArrayRealVector glag = new ArrayRealVector(n);
         final ArrayRealVector hcol = new ArrayRealVector(npt);
-
         final ArrayRealVector work1 = new ArrayRealVector(n);
         final ArrayRealVector work2 = new ArrayRealVector(n);
-
         for (int k = 0; k < npt; k++) {
             hcol.setEntry(k, ZERO);
         }
@@ -1280,9 +1283,7 @@ public class BOBYQAOptimizer
         }
         final double alpha = hcol.getEntry(knew);
         final double ha = HALF * alpha;
-
         // Calculate the gradient of the KNEW-th Lagrange function at XOPT.
-
         for (int i = 0; i < n; i++) {
             glag.setEntry(i, bMatrix.getEntry(knew, i));
         }
@@ -1296,13 +1297,11 @@ public class BOBYQAOptimizer
                 glag.setEntry(i, glag.getEntry(i) + tmp * interpolationPoints.getEntry(k, i));
             }
         }
-
         // Search for a large denominator along the straight lines through XOPT
         // and another interpolation point. SLBD and SUBD will be lower and upper
         // bounds on the step along each of these lines in turn. PREDSQ will be
         // set to the square of the predicted denominator for each line. PRESAV
         // will be set to the largest admissible value of PREDSQ that occurs.
-
         double presav = ZERO;
         double step = Double.NaN;
         int ksav = 0;
@@ -1324,9 +1323,7 @@ public class BOBYQAOptimizer
             int ilbd = 0;
             int iubd = 0;
             final double sumin = FastMath.min(ONE, subd);
-
             // Revise SLBD and SUBD if necessary because of the bounds in SL and SU.
-
             for (int i = 0; i < n; i++) {
                 final double tmp = interpolationPoints.getEntry(k, i) - trustRegionCenterOffset.getEntry(i);
                 if (tmp > ZERO) {
@@ -1336,8 +1333,7 @@ public class BOBYQAOptimizer
                     }
                     if (subd * tmp > upperDifference.getEntry(i) - trustRegionCenterOffset.getEntry(i)) {
                         // Computing MAX
-                        subd = FastMath.max(sumin,
-                                            (upperDifference.getEntry(i) - trustRegionCenterOffset.getEntry(i)) / tmp);
+                        subd = FastMath.max(sumin, (upperDifference.getEntry(i) - trustRegionCenterOffset.getEntry(i)) / tmp);
                         iubd = i + 1;
                     }
                 } else if (tmp < ZERO) {
@@ -1347,16 +1343,13 @@ public class BOBYQAOptimizer
                     }
                     if (subd * tmp < lowerDifference.getEntry(i) - trustRegionCenterOffset.getEntry(i)) {
                         // Computing MAX
-                        subd = FastMath.max(sumin,
-                                            (lowerDifference.getEntry(i) - trustRegionCenterOffset.getEntry(i)) / tmp);
+                        subd = FastMath.max(sumin, (lowerDifference.getEntry(i) - trustRegionCenterOffset.getEntry(i)) / tmp);
                         iubd = -i - 1;
                     }
                 }
             }
-
             // Seek a large modulus of the KNEW-th Lagrange function when the index
             // of the other interpolation point on the line through XOPT is KNEW.
-
             step = slbd;
             int isbd = ilbd;
             double vlag;
@@ -1380,9 +1373,7 @@ public class BOBYQAOptimizer
                         isbd = 0;
                     }
                 }
-
                 // Search along each of the other lines through XOPT and another point.
-
             } else {
                 vlag = slbd * (ONE - slbd);
                 final double tmp = subd * (ONE - subd);
@@ -1398,9 +1389,7 @@ public class BOBYQAOptimizer
                 }
                 vlag *= dderiv;
             }
-
             // Calculate PREDSQ for the current line search and maintain PRESAV.
-
             final double tmp = step * (ONE - step) * distsq;
             final double predsq = vlag * vlag * (vlag * vlag + ha * tmp * tmp);
             if (predsq > presav) {
@@ -1410,13 +1399,10 @@ public class BOBYQAOptimizer
                 ibdsav = isbd;
             }
         }
-
         // Construct XNEW in a way that satisfies the bound constraints exactly.
-
         for (int i = 0; i < n; i++) {
             final double tmp = trustRegionCenterOffset.getEntry(i) + stpsav * (interpolationPoints.getEntry(ksav, i) - trustRegionCenterOffset.getEntry(i));
-            newPoint.setEntry(i, FastMath.max(lowerDifference.getEntry(i),
-                                              FastMath.min(upperDifference.getEntry(i), tmp)));
+            newPoint.setEntry(i, FastMath.max(lowerDifference.getEntry(i), FastMath.min(upperDifference.getEntry(i), tmp)));
         }
         if (ibdsav < 0) {
             newPoint.setEntry(-ibdsav - 1, lowerDifference.getEntry(-ibdsav - 1));
@@ -1424,11 +1410,9 @@ public class BOBYQAOptimizer
         if (ibdsav > 0) {
             newPoint.setEntry(ibdsav - 1, upperDifference.getEntry(ibdsav - 1));
         }
-
         // Prepare for the iterative method that assembles the constrained Cauchy
         // step in W. The sum of squares of the fixed components of W is formed in
         // WFIXSQ, and the free components of W are set to BIGSTP.
-
         final double bigstp = adelt + adelt;
         int iflag = 0;
         double cauchy;
@@ -1439,8 +1423,7 @@ public class BOBYQAOptimizer
             for (int i = 0; i < n; i++) {
                 final double glagValue = glag.getEntry(i);
                 work1.setEntry(i, ZERO);
-                if (FastMath.min(trustRegionCenterOffset.getEntry(i) - lowerDifference.getEntry(i), glagValue) > ZERO ||
-                    FastMath.max(trustRegionCenterOffset.getEntry(i) - upperDifference.getEntry(i), glagValue) < ZERO) {
+                if (FastMath.min(trustRegionCenterOffset.getEntry(i) - lowerDifference.getEntry(i), glagValue) > ZERO || FastMath.max(trustRegionCenterOffset.getEntry(i) - upperDifference.getEntry(i), glagValue) < ZERO) {
                     work1.setEntry(i, bigstp);
                     // Computing 2nd power
                     ggfree += glagValue * glagValue;
@@ -1449,7 +1432,6 @@ public class BOBYQAOptimizer
             if (ggfree == ZERO) {
                 return new double[] { alpha, ZERO };
             }
-
             // Investigate whether more components of W can be fixed.
             final double tmp1 = adelt * adelt - wfixsq;
             if (tmp1 > ZERO) {
@@ -1476,17 +1458,14 @@ public class BOBYQAOptimizer
                     }
                 }
             }
-
             // Set the remaining free components of W and all components of XALT,
             // except that W may be scaled later.
-
             double gw = ZERO;
             for (int i = 0; i < n; i++) {
                 final double glagValue = glag.getEntry(i);
                 if (work1.getEntry(i) == bigstp) {
                     work1.setEntry(i, -step * glagValue);
-                    final double min = FastMath.min(upperDifference.getEntry(i),
-                                                    trustRegionCenterOffset.getEntry(i) + work1.getEntry(i));
+                    final double min = FastMath.min(upperDifference.getEntry(i), trustRegionCenterOffset.getEntry(i) + work1.getEntry(i));
                     alternativeNewPoint.setEntry(i, FastMath.max(lowerDifference.getEntry(i), min));
                 } else if (work1.getEntry(i) == ZERO) {
                     alternativeNewPoint.setEntry(i, trustRegionCenterOffset.getEntry(i));
@@ -1497,12 +1476,10 @@ public class BOBYQAOptimizer
                 }
                 gw += glagValue * work1.getEntry(i);
             }
-
             // Set CURV to the curvature of the KNEW-th Lagrange function along W.
             // Scale W by a factor less than one if that can reduce the modulus of
             // the Lagrange function at XOPT+W. Set CAUCHY to the final value of
             // the square of this function.
-
             double curv = ZERO;
             for (int k = 0; k < npt; k++) {
                 double tmp = ZERO;
@@ -1514,13 +1491,11 @@ public class BOBYQAOptimizer
             if (iflag == 1) {
                 curv = -curv;
             }
-            if (curv > -gw &&
-                curv < -gw * (ONE + FastMath.sqrt(TWO))) {
+            if (curv > -gw && curv < -gw * (ONE + FastMath.sqrt(TWO))) {
                 final double scale = -gw / curv;
                 for (int i = 0; i < n; i++) {
                     final double tmp = trustRegionCenterOffset.getEntry(i) + scale * work1.getEntry(i);
-                    alternativeNewPoint.setEntry(i, FastMath.max(lowerDifference.getEntry(i),
-                                                    FastMath.min(upperDifference.getEntry(i), tmp)));
+                    alternativeNewPoint.setEntry(i, FastMath.max(lowerDifference.getEntry(i), FastMath.min(upperDifference.getEntry(i), tmp)));
                 }
                 // Computing 2nd power
                 final double d1 = HALF * gw * scale;
@@ -1530,11 +1505,9 @@ public class BOBYQAOptimizer
                 final double d1 = gw + HALF * curv;
                 cauchy = d1 * d1;
             }
-
             // If IFLAG is zero, then XALT is calculated as before after reversing
             // the sign of GLAG. Thus two XALT vectors become available. The one that
             // is chosen is the one that gives the larger value of CAUCHY.
-
             if (iflag == 0) {
                 for (int i = 0; i < n; i++) {
                     glag.setEntry(i, -glag.getEntry(i));
@@ -1552,12 +1525,11 @@ public class BOBYQAOptimizer
             }
             cauchy = csave;
         }
-
         return new double[] { alpha, cauchy };
-    } // altmov
+    }
 
+    // altmov
     // ----------------------------------------------------------------------------------------
-
     /**
      *     SUBROUTINE PRELIM sets the elements of XBASE, XPT, FVAL, GOPT, HQ, PQ,
      *     BMAT and ZMAT for the first iteration, and it maintains the values of
@@ -1579,18 +1551,14 @@ public class BOBYQAOptimizer
      * @param upperBound Upper bounds.
      */
     private void prelim(double[] lowerBound, double[] upperBound) {
-
         final int n = currentBest.getDimension();
         final int npt = numberOfInterpolationPoints;
         final int ndim = bMatrix.getRowDimension();
-
         final double rhosq = initialTrustRegionRadius * initialTrustRegionRadius;
         final double recip = 1d / rhosq;
         final int np = n + 1;
-
         // Set XBASE to the initial vector of variables, and set the initial
         // elements of XPT, BMAT, HQ, PQ and ZMAT to zero.
-
         for (int j = 0; j < n; j++) {
             originShift.setEntry(j, currentBest.getEntry(j));
             for (int k = 0; k < npt; k++) {
@@ -1611,11 +1579,9 @@ public class BOBYQAOptimizer
                 zMatrix.setEntry(k, j, ZERO);
             }
         }
-
         // Begin the initialization procedure. NF becomes one more than the number
         // of function values so far. The coordinates of the displacement of the
         // next initial interpolation point from XBASE are set in XPT(NF+1,.).
-
         int ipt = 0;
         int jpt = 0;
         double fbeg = Double.NaN;
@@ -1627,8 +1593,7 @@ public class BOBYQAOptimizer
             double stepa = 0;
             double stepb = 0;
             if (nfm <= 2 * n) {
-                if (nfm >= 1 &&
-                    nfm <= n) {
+                if (nfm >= 1 && nfm <= n) {
                     stepa = initialTrustRegionRadius;
                     if (upperDifference.getEntry(nfmm) == ZERO) {
                         stepa = -stepa;
@@ -1656,21 +1621,17 @@ public class BOBYQAOptimizer
                     final int tmp2 = jpt;
                     jpt = ipt - n;
                     ipt = tmp2;
-//                     throw new PathIsExploredException(); // XXX
+                    //                     throw new PathIsExploredException(); // XXX
                 }
                 final int iptMinus1 = ipt - 1;
                 final int jptMinus1 = jpt - 1;
                 interpolationPoints.setEntry(nfm, iptMinus1, interpolationPoints.getEntry(ipt, iptMinus1));
                 interpolationPoints.setEntry(nfm, jptMinus1, interpolationPoints.getEntry(jpt, jptMinus1));
             }
-
             // Calculate the next value of F. The least function value so far and
             // its index are required.
-
             for (int j = 0; j < n; j++) {
-                currentBest.setEntry(j, FastMath.min(FastMath.max(lowerBound[j],
-                                                                  originShift.getEntry(j) + interpolationPoints.getEntry(nfm, j)),
-                                                     upperBound[j]));
+                currentBest.setEntry(j, FastMath.min(FastMath.max(lowerBound[j], originShift.getEntry(j) + interpolationPoints.getEntry(nfm, j)), upperBound[j]));
                 if (interpolationPoints.getEntry(nfm, j) == lowerDifference.getEntry(j)) {
                     currentBest.setEntry(j, lowerBound[j]);
                 }
@@ -1678,28 +1639,24 @@ public class BOBYQAOptimizer
                     currentBest.setEntry(j, upperBound[j]);
                 }
             }
-
             final double objectiveValue = computeObjectiveValue(currentBest.toArray());
             final double f = isMinimize ? objectiveValue : -objectiveValue;
-            final int numEval = getEvaluations(); // nfm + 1
+            // nfm + 1
+            final int numEval = getEvaluations();
             fAtInterpolationPoints.setEntry(nfm, f);
-
             if (numEval == 1) {
                 fbeg = f;
                 trustRegionCenterInterpolationPointIndex = 0;
             } else if (f < fAtInterpolationPoints.getEntry(trustRegionCenterInterpolationPointIndex)) {
                 trustRegionCenterInterpolationPointIndex = nfm;
             }
-
             // Set the nonzero initial elements of BMAT and the quadratic model in the
             // cases when NF is at most 2*N+1. If NF exceeds N+1, then the positions
             // of the NF-th and (NF-N)-th interpolation points may be switched, in
             // order that the function value at the first of them contributes to the
             // off-diagonal second derivative terms of the initial quadratic model.
-
             if (numEval <= 2 * n + 1) {
-                if (numEval >= 2 &&
-                    numEval <= n + 1) {
+                if (numEval >= 2 && numEval <= n + 1) {
                     gradientAtTrustRegionCenter.setEntry(nfmm, (f - fbeg) / stepa);
                     if (npt < numEval + n) {
                         final double oneOverStepA = ONE / stepa;
@@ -1725,35 +1682,29 @@ public class BOBYQAOptimizer
                     }
                     bMatrix.setEntry(0, nfxm, -(stepa + stepb) / (stepa * stepb));
                     bMatrix.setEntry(nfm, nfxm, -HALF / interpolationPoints.getEntry(nfm - n, nfxm));
-                    bMatrix.setEntry(nfm - n, nfxm,
-                                  -bMatrix.getEntry(0, nfxm) - bMatrix.getEntry(nfm, nfxm));
+                    bMatrix.setEntry(nfm - n, nfxm, -bMatrix.getEntry(0, nfxm) - bMatrix.getEntry(nfm, nfxm));
                     zMatrix.setEntry(0, nfxm, FastMath.sqrt(TWO) / (stepa * stepb));
                     zMatrix.setEntry(nfm, nfxm, FastMath.sqrt(HALF) / rhosq);
                     // zMatrix.setEntry(nfm, nfxm, FastMath.sqrt(HALF) * recip); // XXX "testAckley" and "testDiffPow" fail.
-                    zMatrix.setEntry(nfm - n, nfxm,
-                                  -zMatrix.getEntry(0, nfxm) - zMatrix.getEntry(nfm, nfxm));
+                    zMatrix.setEntry(nfm - n, nfxm, -zMatrix.getEntry(0, nfxm) - zMatrix.getEntry(nfm, nfxm));
                 }
-
                 // Set the off-diagonal second derivatives of the Lagrange functions and
                 // the initial quadratic model.
-
             } else {
                 zMatrix.setEntry(0, nfxm, recip);
                 zMatrix.setEntry(nfm, nfxm, recip);
                 zMatrix.setEntry(ipt, nfxm, -recip);
                 zMatrix.setEntry(jpt, nfxm, -recip);
-
                 final int ih = ipt * (ipt - 1) / 2 + jpt - 1;
                 final double tmp = interpolationPoints.getEntry(nfm, ipt - 1) * interpolationPoints.getEntry(nfm, jpt - 1);
                 modelSecondDerivativesValues.setEntry(ih, (fbeg - fAtInterpolationPoints.getEntry(ipt) - fAtInterpolationPoints.getEntry(jpt) + f) / tmp);
-//                 throw new PathIsExploredException(); // XXX
+                //                 throw new PathIsExploredException(); // XXX
             }
         } while (getEvaluations() < npt);
-    } // prelim
+    }
 
-
+    // prelim
     // ----------------------------------------------------------------------------------------
-
     /**
      *     A version of the truncated conjugate gradient is applied. If a line
      *     search is restricted by a constraint, then the procedure is restarted,
@@ -1798,20 +1749,11 @@ public class BOBYQAOptimizer
      * @param hs
      * @param hred
      */
-    private double[] trsbox(
-            double delta,
-            ArrayRealVector gnew,
-            ArrayRealVector xbdi,
-            ArrayRealVector s,
-            ArrayRealVector hs,
-            ArrayRealVector hred) {
-
+    private double[] trsbox(double delta, ArrayRealVector gnew, ArrayRealVector xbdi, ArrayRealVector s, ArrayRealVector hs, ArrayRealVector hred) {
         final int n = currentBest.getDimension();
         final int npt = numberOfInterpolationPoints;
-
         double dsq;
         double crvmin;
-
         // Local variables
         double dhd;
         double dhs;
@@ -1819,7 +1761,7 @@ public class BOBYQAOptimizer
         double shs;
         double sth;
         double ssq;
-        double beta=0;
+        double beta = 0;
         double sdec;
         double blen;
         int iact = -1;
@@ -1848,18 +1790,14 @@ public class BOBYQAOptimizer
         double stplen;
         double stepsq = 0;
         int itermax = 0;
-
         // Set some constants.
-
         // Function Body
-
         // The sign of GOPT(I) gives the sign of the change to the I-th variable
         // that will reduce Q from its value at XOPT. Thus xbdi.get((I) shows whether
         // or not to fix the I-th variable at one of its bounds initially, with
         // NACT being set to the number of fixed variables. D and GNEW are also
         // set for the first iteration. DELSQ is the upper bound on the sum of
         // squares of the free variables. QRED is the reduction in Q so far.
-
         int iterc = 0;
         int nact = 0;
         for (int i = 0; i < n; i++) {
@@ -1868,8 +1806,7 @@ public class BOBYQAOptimizer
                 if (gradientAtTrustRegionCenter.getEntry(i) >= ZERO) {
                     xbdi.setEntry(i, MINUS_ONE);
                 }
-            } else if (trustRegionCenterOffset.getEntry(i) >= upperDifference.getEntry(i) &&
-                    gradientAtTrustRegionCenter.getEntry(i) <= ZERO) {
+            } else if (trustRegionCenterOffset.getEntry(i) >= upperDifference.getEntry(i) && gradientAtTrustRegionCenter.getEntry(i) <= ZERO) {
                 xbdi.setEntry(i, ONE);
             }
             if (xbdi.getEntry(i) != ZERO) {
@@ -1881,410 +1818,419 @@ public class BOBYQAOptimizer
         delsq = delta * delta;
         qred = ZERO;
         crvmin = MINUS_ONE;
-
         // Set the next search direction of the conjugate gradient method. It is
         // the steepest descent direction initially and when the iterations are
         // restarted because a variable has just been fixed by a bound, and of
         // course the components of the fixed variables are zero. ITERMAX is an
         // upper bound on the indices of the conjugate gradient iterations.
-
         int state = 20;
-        for(;;) {
-            switch (state) { // NOPMD - the reference algorithm is as complex as this, we simply ported it from Fortran with minimal changes
-        case 20: {
-            beta = ZERO;
-        }
-        case 30: { // NOPMD
-            stepsq = ZERO;
-            for (int i = 0; i < n; i++) {
-                if (xbdi.getEntry(i) != ZERO) {
-                    s.setEntry(i, ZERO);
-                } else if (beta == ZERO) {
-                    s.setEntry(i, -gnew.getEntry(i));
-                } else {
-                    s.setEntry(i, beta * s.getEntry(i) - gnew.getEntry(i));
-                }
-                // Computing 2nd power
-                final double d1 = s.getEntry(i);
-                stepsq += d1 * d1;
-            }
-            if (stepsq == ZERO) {
-                state = 190; break;
-            }
-            if (beta == ZERO) {
-                gredsq = stepsq;
-                itermax = iterc + n - nact;
-            }
-            if (gredsq * delsq <= qred * 1e-4 * qred) {
-                state = 190; break;
-            }
-
-            // Multiply the search direction by the second derivative matrix of Q and
-            // calculate some scalars for the choice of steplength. Then set BLEN to
-            // the length of the the step to the trust region boundary and STPLEN to
-            // the steplength, ignoring the simple bounds.
-
-            state = 210; break;
-        }
-        case 50: {
-            resid = delsq;
-            double ds = ZERO;
-            shs = ZERO;
-            for (int i = 0; i < n; i++) {
-                if (xbdi.getEntry(i) == ZERO) {
-                    // Computing 2nd power
-                    final double d1 = trialStepPoint.getEntry(i);
-                    resid -= d1 * d1;
-                    ds += s.getEntry(i) * trialStepPoint.getEntry(i);
-                    shs += s.getEntry(i) * hs.getEntry(i);
-                }
-            }
-            if (resid <= ZERO) {
-                state = 90; break;
-            }
-            temp = FastMath.sqrt(stepsq * resid + ds * ds);
-            if (ds < ZERO) {
-                blen = (temp - ds) / stepsq;
-            } else {
-                blen = resid / (temp + ds);
-            }
-            stplen = blen;
-            if (shs > ZERO) {
-                // Computing MIN
-                stplen = FastMath.min(blen, gredsq / shs);
-            }
-
-            // Reduce STPLEN if necessary in order to preserve the simple bounds,
-            // letting IACT be the index of the new constrained variable.
-
-            iact = -1;
-            for (int i = 0; i < n; i++) {
-                if (s.getEntry(i) != ZERO) {
-                    xsum = trustRegionCenterOffset.getEntry(i) + trialStepPoint.getEntry(i);
-                    if (s.getEntry(i) > ZERO) {
-                        temp = (upperDifference.getEntry(i) - xsum) / s.getEntry(i);
-                    } else {
-                        temp = (lowerDifference.getEntry(i) - xsum) / s.getEntry(i);
+        for (; ; ) {
+            switch(// NOPMD - the reference algorithm is as complex as this, we simply ported it from Fortran with minimal changes
+            state) {
+                case 20:
+                    {
+                        beta = ZERO;
                     }
-                    if (temp < stplen) {
-                        stplen = temp;
-                        iact = i;
-                    }
-                }
-            }
-
-            // Update CRVMIN, GNEW and D. Set SDEC to the decrease that occurs in Q.
-
-            sdec = ZERO;
-            if (stplen > ZERO) {
-                ++iterc;
-                temp = shs / stepsq;
-                if (iact == -1 && temp > ZERO) {
-                    crvmin = FastMath.min(crvmin,temp);
-                    if (crvmin == MINUS_ONE) {
-                        crvmin = temp;
-                    }
-                }
-                ggsav = gredsq;
-                gredsq = ZERO;
-                for (int i = 0; i < n; i++) {
-                    gnew.setEntry(i, gnew.getEntry(i) + stplen * hs.getEntry(i));
-                    if (xbdi.getEntry(i) == ZERO) {
-                        // Computing 2nd power
-                        final double d1 = gnew.getEntry(i);
-                        gredsq += d1 * d1;
-                    }
-                    trialStepPoint.setEntry(i, trialStepPoint.getEntry(i) + stplen * s.getEntry(i));
-                }
-                // Computing MAX
-                final double d1 = stplen * (ggsav - HALF * stplen * shs);
-                sdec = FastMath.max(d1, ZERO);
-                qred += sdec;
-            }
-
-            // Restart the conjugate gradient method if it has hit a new bound.
-
-            if (iact >= 0) {
-                ++nact;
-                xbdi.setEntry(iact, ONE);
-                if (s.getEntry(iact) < ZERO) {
-                    xbdi.setEntry(iact, MINUS_ONE);
-                }
-                // Computing 2nd power
-                final double d1 = trialStepPoint.getEntry(iact);
-                delsq -= d1 * d1;
-                if (delsq <= ZERO) {
-                    state = 190; break;
-                }
-                state = 20; break;
-            }
-
-            // If STPLEN is less than BLEN, then either apply another conjugate
-            // gradient iteration or RETURN.
-
-            if (stplen < blen) {
-                if (iterc == itermax) {
-                    state = 190; break;
-                }
-                if (sdec <= qred * .01) {
-                    state = 190; break;
-                }
-                beta = gredsq / ggsav;
-                state = 30; break;
-            }
-        }
-        case 90: { // NOPMD
-            crvmin = ZERO;
-
-            // Prepare for the alternative iteration by calculating some scalars
-            // and by multiplying the reduced D by the second derivative matrix of
-            // Q, where S holds the reduced D in the call of GGMULT.
-
-        }
-        case 100: { // NOPMD
-            if (nact >= n - 1) {
-                state = 190; break;
-            }
-            dredsq = ZERO;
-            dredg = ZERO;
-            gredsq = ZERO;
-            for (int i = 0; i < n; i++) {
-                if (xbdi.getEntry(i) == ZERO) {
-                    // Computing 2nd power
-                    double d1 = trialStepPoint.getEntry(i);
-                    dredsq += d1 * d1;
-                    dredg += trialStepPoint.getEntry(i) * gnew.getEntry(i);
-                    // Computing 2nd power
-                    d1 = gnew.getEntry(i);
-                    gredsq += d1 * d1;
-                    s.setEntry(i, trialStepPoint.getEntry(i));
-                } else {
-                    s.setEntry(i, ZERO);
-                }
-            }
-            itcsav = iterc;
-            state = 210; break;
-            // Let the search direction S be a linear combination of the reduced D
-            // and the reduced G that is orthogonal to the reduced D.
-        }
-        case 120: {
-            ++iterc;
-            temp = gredsq * dredsq - dredg * dredg;
-            if (temp <= qred * 1e-4 * qred) {
-                state = 190; break;
-            }
-            temp = FastMath.sqrt(temp);
-            for (int i = 0; i < n; i++) {
-                if (xbdi.getEntry(i) == ZERO) {
-                    s.setEntry(i, (dredg * trialStepPoint.getEntry(i) - dredsq * gnew.getEntry(i)) / temp);
-                } else {
-                    s.setEntry(i, ZERO);
-                }
-            }
-            sredg = -temp;
-
-            // By considering the simple bounds on the variables, calculate an upper
-            // bound on the tangent of half the angle of the alternative iteration,
-            // namely ANGBD, except that, if already a free variable has reached a
-            // bound, there is a branch back to label 100 after fixing that variable.
-
-            angbd = ONE;
-            iact = -1;
-            for (int i = 0; i < n; i++) {
-                if (xbdi.getEntry(i) == ZERO) {
-                    tempa = trustRegionCenterOffset.getEntry(i) + trialStepPoint.getEntry(i) - lowerDifference.getEntry(i);
-                    tempb = upperDifference.getEntry(i) - trustRegionCenterOffset.getEntry(i) - trialStepPoint.getEntry(i);
-                    if (tempa <= ZERO) {
-                        ++nact;
-                        xbdi.setEntry(i, MINUS_ONE);
-                        break;
-                    } else if (tempb <= ZERO) {
-                        ++nact;
-                        xbdi.setEntry(i, ONE);
+                case 30:
+                    {
+                        // NOPMD
+                        stepsq = ZERO;
+                        for (int i = 0; i < n; i++) {
+                            if (xbdi.getEntry(i) != ZERO) {
+                                s.setEntry(i, ZERO);
+                            } else if (beta == ZERO) {
+                                s.setEntry(i, -gnew.getEntry(i));
+                            } else {
+                                s.setEntry(i, beta * s.getEntry(i) - gnew.getEntry(i));
+                            }
+                            // Computing 2nd power
+                            final double d1 = s.getEntry(i);
+                            stepsq += d1 * d1;
+                        }
+                        if (stepsq == ZERO) {
+                            state = 190;
+                            break;
+                        }
+                        if (beta == ZERO) {
+                            gredsq = stepsq;
+                            itermax = iterc + n - nact;
+                        }
+                        if (gredsq * delsq <= qred * 1e-4 * qred) {
+                            state = 190;
+                            break;
+                        }
+                        // Multiply the search direction by the second derivative matrix of Q and
+                        // calculate some scalars for the choice of steplength. Then set BLEN to
+                        // the length of the the step to the trust region boundary and STPLEN to
+                        // the steplength, ignoring the simple bounds.
+                        state = 210;
                         break;
                     }
-                    // Computing 2nd power
-                    double d1 = trialStepPoint.getEntry(i);
-                    // Computing 2nd power
-                    double d2 = s.getEntry(i);
-                    ssq = d1 * d1 + d2 * d2;
-                    // Computing 2nd power
-                    d1 = trustRegionCenterOffset.getEntry(i) - lowerDifference.getEntry(i);
-                    temp = ssq - d1 * d1;
-                    if (temp > ZERO) {
-                        temp = FastMath.sqrt(temp) - s.getEntry(i);
-                        if (angbd * temp > tempa) {
-                            angbd = tempa / temp;
-                            iact = i;
-                            xsav = MINUS_ONE;
+                case 50:
+                    {
+                        resid = delsq;
+                        double ds = ZERO;
+                        shs = ZERO;
+                        for (int i = 0; i < n; i++) {
+                            if (xbdi.getEntry(i) == ZERO) {
+                                // Computing 2nd power
+                                final double d1 = trialStepPoint.getEntry(i);
+                                resid -= d1 * d1;
+                                ds += s.getEntry(i) * trialStepPoint.getEntry(i);
+                                shs += s.getEntry(i) * hs.getEntry(i);
+                            }
+                        }
+                        if (resid <= ZERO) {
+                            state = 90;
+                            break;
+                        }
+                        temp = FastMath.sqrt(stepsq * resid + ds * ds);
+                        if (ds < ZERO) {
+                            blen = (temp - ds) / stepsq;
+                        } else {
+                            blen = resid / (temp + ds);
+                        }
+                        stplen = blen;
+                        if (shs > ZERO) {
+                            // Computing MIN
+                            stplen = FastMath.min(blen, gredsq / shs);
+                        }
+                        // Reduce STPLEN if necessary in order to preserve the simple bounds,
+                        // letting IACT be the index of the new constrained variable.
+                        iact = -1;
+                        for (int i = 0; i < n; i++) {
+                            if (s.getEntry(i) != ZERO) {
+                                xsum = trustRegionCenterOffset.getEntry(i) + trialStepPoint.getEntry(i);
+                                if (s.getEntry(i) > ZERO) {
+                                    temp = (upperDifference.getEntry(i) - xsum) / s.getEntry(i);
+                                } else {
+                                    temp = (lowerDifference.getEntry(i) - xsum) / s.getEntry(i);
+                                }
+                                if (temp < stplen) {
+                                    stplen = temp;
+                                    iact = i;
+                                }
+                            }
+                        }
+                        // Update CRVMIN, GNEW and D. Set SDEC to the decrease that occurs in Q.
+                        sdec = ZERO;
+                        if (stplen > ZERO) {
+                            ++iterc;
+                            temp = shs / stepsq;
+                            if (iact == -1 && temp > ZERO) {
+                                crvmin = FastMath.min(crvmin, temp);
+                                if (crvmin == MINUS_ONE) {
+                                    crvmin = temp;
+                                }
+                            }
+                            ggsav = gredsq;
+                            gredsq = ZERO;
+                            for (int i = 0; i < n; i++) {
+                                gnew.setEntry(i, gnew.getEntry(i) + stplen * hs.getEntry(i));
+                                if (xbdi.getEntry(i) == ZERO) {
+                                    // Computing 2nd power
+                                    final double d1 = gnew.getEntry(i);
+                                    gredsq += d1 * d1;
+                                }
+                                trialStepPoint.setEntry(i, trialStepPoint.getEntry(i) + stplen * s.getEntry(i));
+                            }
+                            // Computing MAX
+                            final double d1 = stplen * (ggsav - HALF * stplen * shs);
+                            sdec = FastMath.max(d1, ZERO);
+                            qred += sdec;
+                        }
+                        // Restart the conjugate gradient method if it has hit a new bound.
+                        if (iact >= 0) {
+                            ++nact;
+                            xbdi.setEntry(iact, ONE);
+                            if (s.getEntry(iact) < ZERO) {
+                                xbdi.setEntry(iact, MINUS_ONE);
+                            }
+                            // Computing 2nd power
+                            final double d1 = trialStepPoint.getEntry(iact);
+                            delsq -= d1 * d1;
+                            if (delsq <= ZERO) {
+                                state = 190;
+                                break;
+                            }
+                            state = 20;
+                            break;
+                        }
+                        // If STPLEN is less than BLEN, then either apply another conjugate
+                        // gradient iteration or RETURN.
+                        if (stplen < blen) {
+                            if (iterc == itermax) {
+                                state = 190;
+                                break;
+                            }
+                            if (sdec <= qred * .01) {
+                                state = 190;
+                                break;
+                            }
+                            beta = gredsq / ggsav;
+                            state = 30;
+                            break;
                         }
                     }
-                    // Computing 2nd power
-                    d1 = upperDifference.getEntry(i) - trustRegionCenterOffset.getEntry(i);
-                    temp = ssq - d1 * d1;
-                    if (temp > ZERO) {
-                        temp = FastMath.sqrt(temp) + s.getEntry(i);
-                        if (angbd * temp > tempb) {
-                            angbd = tempb / temp;
-                            iact = i;
-                            xsav = ONE;
+                case 90:
+                    {
+                        // NOPMD
+                        crvmin = ZERO;
+                        // Prepare for the alternative iteration by calculating some scalars
+                        // and by multiplying the reduced D by the second derivative matrix of
+                        // Q, where S holds the reduced D in the call of GGMULT.
+                    }
+                case 100:
+                    {
+                        // NOPMD
+                        if (nact >= n - 1) {
+                            state = 190;
+                            break;
+                        }
+                        dredsq = ZERO;
+                        dredg = ZERO;
+                        gredsq = ZERO;
+                        for (int i = 0; i < n; i++) {
+                            if (xbdi.getEntry(i) == ZERO) {
+                                // Computing 2nd power
+                                double d1 = trialStepPoint.getEntry(i);
+                                dredsq += d1 * d1;
+                                dredg += trialStepPoint.getEntry(i) * gnew.getEntry(i);
+                                // Computing 2nd power
+                                d1 = gnew.getEntry(i);
+                                gredsq += d1 * d1;
+                                s.setEntry(i, trialStepPoint.getEntry(i));
+                            } else {
+                                s.setEntry(i, ZERO);
+                            }
+                        }
+                        itcsav = iterc;
+                        state = 210;
+                        break;
+                        // Let the search direction S be a linear combination of the reduced D
+                        // and the reduced G that is orthogonal to the reduced D.
+                    }
+                case 120:
+                    {
+                        ++iterc;
+                        temp = gredsq * dredsq - dredg * dredg;
+                        if (temp <= qred * 1e-4 * qred) {
+                            state = 190;
+                            break;
+                        }
+                        temp = FastMath.sqrt(temp);
+                        for (int i = 0; i < n; i++) {
+                            if (xbdi.getEntry(i) == ZERO) {
+                                s.setEntry(i, (dredg * trialStepPoint.getEntry(i) - dredsq * gnew.getEntry(i)) / temp);
+                            } else {
+                                s.setEntry(i, ZERO);
+                            }
+                        }
+                        sredg = -temp;
+                        // By considering the simple bounds on the variables, calculate an upper
+                        // bound on the tangent of half the angle of the alternative iteration,
+                        // namely ANGBD, except that, if already a free variable has reached a
+                        // bound, there is a branch back to label 100 after fixing that variable.
+                        angbd = ONE;
+                        iact = -1;
+                        for (int i = 0; i < n; i++) {
+                            if (xbdi.getEntry(i) == ZERO) {
+                                tempa = trustRegionCenterOffset.getEntry(i) + trialStepPoint.getEntry(i) - lowerDifference.getEntry(i);
+                                tempb = upperDifference.getEntry(i) - trustRegionCenterOffset.getEntry(i) - trialStepPoint.getEntry(i);
+                                if (tempa <= ZERO) {
+                                    ++nact;
+                                    xbdi.setEntry(i, MINUS_ONE);
+                                    break;
+                                } else if (tempb <= ZERO) {
+                                    ++nact;
+                                    xbdi.setEntry(i, ONE);
+                                    break;
+                                }
+                                // Computing 2nd power
+                                double d1 = trialStepPoint.getEntry(i);
+                                // Computing 2nd power
+                                double d2 = s.getEntry(i);
+                                ssq = d1 * d1 + d2 * d2;
+                                // Computing 2nd power
+                                d1 = trustRegionCenterOffset.getEntry(i) - lowerDifference.getEntry(i);
+                                temp = ssq - d1 * d1;
+                                if (temp > ZERO) {
+                                    temp = FastMath.sqrt(temp) - s.getEntry(i);
+                                    if (angbd * temp > tempa) {
+                                        angbd = tempa / temp;
+                                        iact = i;
+                                        xsav = MINUS_ONE;
+                                    }
+                                }
+                                // Computing 2nd power
+                                d1 = upperDifference.getEntry(i) - trustRegionCenterOffset.getEntry(i);
+                                temp = ssq - d1 * d1;
+                                if (temp > ZERO) {
+                                    temp = FastMath.sqrt(temp) + s.getEntry(i);
+                                    if (angbd * temp > tempb) {
+                                        angbd = tempb / temp;
+                                        iact = i;
+                                        xsav = ONE;
+                                    }
+                                }
+                            }
+                        }
+                        // Calculate HHD and some curvatures for the alternative iteration.
+                        state = 210;
+                        break;
+                    }
+                case 150:
+                    {
+                        shs = ZERO;
+                        dhs = ZERO;
+                        dhd = ZERO;
+                        for (int i = 0; i < n; i++) {
+                            if (xbdi.getEntry(i) == ZERO) {
+                                shs += s.getEntry(i) * hs.getEntry(i);
+                                dhs += trialStepPoint.getEntry(i) * hs.getEntry(i);
+                                dhd += trialStepPoint.getEntry(i) * hred.getEntry(i);
+                            }
+                        }
+                        // Seek the greatest reduction in Q for a range of equally spaced values
+                        // of ANGT in [0,ANGBD], where ANGT is the tangent of half the angle of
+                        // the alternative iteration.
+                        redmax = ZERO;
+                        isav = -1;
+                        redsav = ZERO;
+                        int iu = (int) (angbd * 17. + 3.1);
+                        for (int i = 0; i < iu; i++) {
+                            angt = angbd * i / iu;
+                            sth = (angt + angt) / (ONE + angt * angt);
+                            temp = shs + angt * (angt * dhd - dhs - dhs);
+                            rednew = sth * (angt * dredg - sredg - HALF * sth * temp);
+                            if (rednew > redmax) {
+                                redmax = rednew;
+                                isav = i;
+                                rdprev = redsav;
+                            } else if (i == isav + 1) {
+                                rdnext = rednew;
+                            }
+                            redsav = rednew;
+                        }
+                        // Return if the reduction is zero. Otherwise, set the sine and cosine
+                        // of the angle of the alternative iteration, and calculate SDEC.
+                        if (isav < 0) {
+                            state = 190;
+                            break;
+                        }
+                        if (isav < iu) {
+                            temp = (rdnext - rdprev) / (redmax + redmax - rdprev - rdnext);
+                            angt = angbd * (isav + HALF * temp) / iu;
+                        }
+                        cth = (ONE - angt * angt) / (ONE + angt * angt);
+                        sth = (angt + angt) / (ONE + angt * angt);
+                        temp = shs + angt * (angt * dhd - dhs - dhs);
+                        sdec = sth * (angt * dredg - sredg - HALF * sth * temp);
+                        if (sdec <= ZERO) {
+                            state = 190;
+                            break;
+                        }
+                        // Update GNEW, D and HRED. If the angle of the alternative iteration
+                        // is restricted by a bound on a free variable, that variable is fixed
+                        // at the bound.
+                        dredg = ZERO;
+                        gredsq = ZERO;
+                        for (int i = 0; i < n; i++) {
+                            gnew.setEntry(i, gnew.getEntry(i) + (cth - ONE) * hred.getEntry(i) + sth * hs.getEntry(i));
+                            if (xbdi.getEntry(i) == ZERO) {
+                                trialStepPoint.setEntry(i, cth * trialStepPoint.getEntry(i) + sth * s.getEntry(i));
+                                dredg += trialStepPoint.getEntry(i) * gnew.getEntry(i);
+                                // Computing 2nd power
+                                final double d1 = gnew.getEntry(i);
+                                gredsq += d1 * d1;
+                            }
+                            hred.setEntry(i, cth * hred.getEntry(i) + sth * hs.getEntry(i));
+                        }
+                        qred += sdec;
+                        if (iact >= 0 && isav == iu) {
+                            ++nact;
+                            xbdi.setEntry(iact, xsav);
+                            state = 100;
+                            break;
+                        }
+                        // If SDEC is sufficiently small, then RETURN after setting XNEW to
+                        // XOPT+D, giving careful attention to the bounds.
+                        if (sdec > qred * .01) {
+                            state = 120;
+                            break;
                         }
                     }
-                }
-            }
-
-            // Calculate HHD and some curvatures for the alternative iteration.
-
-            state = 210; break;
-        }
-        case 150: {
-            shs = ZERO;
-            dhs = ZERO;
-            dhd = ZERO;
-            for (int i = 0; i < n; i++) {
-                if (xbdi.getEntry(i) == ZERO) {
-                    shs += s.getEntry(i) * hs.getEntry(i);
-                    dhs += trialStepPoint.getEntry(i) * hs.getEntry(i);
-                    dhd += trialStepPoint.getEntry(i) * hred.getEntry(i);
-                }
-            }
-
-            // Seek the greatest reduction in Q for a range of equally spaced values
-            // of ANGT in [0,ANGBD], where ANGT is the tangent of half the angle of
-            // the alternative iteration.
-
-            redmax = ZERO;
-            isav = -1;
-            redsav = ZERO;
-            int iu = (int) (angbd * 17. + 3.1);
-            for (int i = 0; i < iu; i++) {
-                angt = angbd * i / iu;
-                sth = (angt + angt) / (ONE + angt * angt);
-                temp = shs + angt * (angt * dhd - dhs - dhs);
-                rednew = sth * (angt * dredg - sredg - HALF * sth * temp);
-                if (rednew > redmax) {
-                    redmax = rednew;
-                    isav = i;
-                    rdprev = redsav;
-                } else if (i == isav + 1) {
-                    rdnext = rednew;
-                }
-                redsav = rednew;
-            }
-
-            // Return if the reduction is zero. Otherwise, set the sine and cosine
-            // of the angle of the alternative iteration, and calculate SDEC.
-
-            if (isav < 0) {
-                state = 190; break;
-            }
-            if (isav < iu) {
-                temp = (rdnext - rdprev) / (redmax + redmax - rdprev - rdnext);
-                angt = angbd * (isav + HALF * temp) / iu;
-            }
-            cth = (ONE - angt * angt) / (ONE + angt * angt);
-            sth = (angt + angt) / (ONE + angt * angt);
-            temp = shs + angt * (angt * dhd - dhs - dhs);
-            sdec = sth * (angt * dredg - sredg - HALF * sth * temp);
-            if (sdec <= ZERO) {
-                state = 190; break;
-            }
-
-            // Update GNEW, D and HRED. If the angle of the alternative iteration
-            // is restricted by a bound on a free variable, that variable is fixed
-            // at the bound.
-
-            dredg = ZERO;
-            gredsq = ZERO;
-            for (int i = 0; i < n; i++) {
-                gnew.setEntry(i, gnew.getEntry(i) + (cth - ONE) * hred.getEntry(i) + sth * hs.getEntry(i));
-                if (xbdi.getEntry(i) == ZERO) {
-                    trialStepPoint.setEntry(i, cth * trialStepPoint.getEntry(i) + sth * s.getEntry(i));
-                    dredg += trialStepPoint.getEntry(i) * gnew.getEntry(i);
-                    // Computing 2nd power
-                    final double d1 = gnew.getEntry(i);
-                    gredsq += d1 * d1;
-                }
-                hred.setEntry(i, cth * hred.getEntry(i) + sth * hs.getEntry(i));
-            }
-            qred += sdec;
-            if (iact >= 0 && isav == iu) {
-                ++nact;
-                xbdi.setEntry(iact, xsav);
-                state = 100; break;
-            }
-
-            // If SDEC is sufficiently small, then RETURN after setting XNEW to
-            // XOPT+D, giving careful attention to the bounds.
-
-            if (sdec > qred * .01) {
-                state = 120; break;
-            }
-        }
-        case 190: { // NOPMD
-            dsq = ZERO;
-            for (int i = 0; i < n; i++) {
-                // Computing MAX
-                // Computing MIN
-                final double min = FastMath.min(trustRegionCenterOffset.getEntry(i) + trialStepPoint.getEntry(i),
-                                            upperDifference.getEntry(i));
-                newPoint.setEntry(i, FastMath.max(min, lowerDifference.getEntry(i)));
-                if (xbdi.getEntry(i) == MINUS_ONE) {
-                    newPoint.setEntry(i, lowerDifference.getEntry(i));
-                }
-                if (xbdi.getEntry(i) == ONE) {
-                    newPoint.setEntry(i, upperDifference.getEntry(i));
-                }
-                trialStepPoint.setEntry(i, newPoint.getEntry(i) - trustRegionCenterOffset.getEntry(i));
-                // Computing 2nd power
-                final double d1 = trialStepPoint.getEntry(i);
-                dsq += d1 * d1;
-            }
-            return new double[] { dsq, crvmin };
-            // The following instructions multiply the current S-vector by the second
-            // derivative matrix of the quadratic model, putting the product in HS.
-            // They are reached from three different parts of the software above and
-            // they can be regarded as an external subroutine.
-        }
-        case 210: {
-            int ih = 0;
-            for (int j = 0; j < n; j++) {
-                hs.setEntry(j, ZERO);
-                for (int i = 0; i <= j; i++) {
-                    if (i < j) {
-                        hs.setEntry(j, hs.getEntry(j) + modelSecondDerivativesValues.getEntry(ih) * s.getEntry(i));
+                case 190:
+                    {
+                        // NOPMD
+                        dsq = ZERO;
+                        for (int i = 0; i < n; i++) {
+                            // Computing MAX
+                            // Computing MIN
+                            final double min = FastMath.min(trustRegionCenterOffset.getEntry(i) + trialStepPoint.getEntry(i), upperDifference.getEntry(i));
+                            newPoint.setEntry(i, FastMath.max(min, lowerDifference.getEntry(i)));
+                            if (xbdi.getEntry(i) == MINUS_ONE) {
+                                newPoint.setEntry(i, lowerDifference.getEntry(i));
+                            }
+                            if (xbdi.getEntry(i) == ONE) {
+                                newPoint.setEntry(i, upperDifference.getEntry(i));
+                            }
+                            trialStepPoint.setEntry(i, newPoint.getEntry(i) - trustRegionCenterOffset.getEntry(i));
+                            // Computing 2nd power
+                            final double d1 = trialStepPoint.getEntry(i);
+                            dsq += d1 * d1;
+                        }
+                        return new double[] { dsq, crvmin };
+                        // The following instructions multiply the current S-vector by the second
+                        // derivative matrix of the quadratic model, putting the product in HS.
+                        // They are reached from three different parts of the software above and
+                        // they can be regarded as an external subroutine.
                     }
-                    hs.setEntry(i, hs.getEntry(i) + modelSecondDerivativesValues.getEntry(ih) * s.getEntry(j));
-                    ih++;
-                }
-            }
-            final RealVector tmp = interpolationPoints.operate(s).ebeMultiply(modelSecondDerivativesParameters);
-            for (int k = 0; k < npt; k++) {
-                if (modelSecondDerivativesParameters.getEntry(k) != ZERO) {
-                    for (int i = 0; i < n; i++) {
-                        hs.setEntry(i, hs.getEntry(i) + tmp.getEntry(k) * interpolationPoints.getEntry(k, i));
+                case 210:
+                    {
+                        int ih = 0;
+                        for (int j = 0; j < n; j++) {
+                            hs.setEntry(j, ZERO);
+                            for (int i = 0; i <= j; i++) {
+                                if (i < j) {
+                                    hs.setEntry(j, hs.getEntry(j) + modelSecondDerivativesValues.getEntry(ih) * s.getEntry(i));
+                                }
+                                hs.setEntry(i, hs.getEntry(i) + modelSecondDerivativesValues.getEntry(ih) * s.getEntry(j));
+                                ih++;
+                            }
+                        }
+                        final RealVector tmp = interpolationPoints.operate(s).ebeMultiply(modelSecondDerivativesParameters);
+                        for (int k = 0; k < npt; k++) {
+                            if (modelSecondDerivativesParameters.getEntry(k) != ZERO) {
+                                for (int i = 0; i < n; i++) {
+                                    hs.setEntry(i, hs.getEntry(i) + tmp.getEntry(k) * interpolationPoints.getEntry(k, i));
+                                }
+                            }
+                        }
+                        if (crvmin != ZERO) {
+                            state = 50;
+                            break;
+                        }
+                        if (iterc > itcsav) {
+                            state = 150;
+                            break;
+                        }
+                        for (int i = 0; i < n; i++) {
+                            hred.setEntry(i, hs.getEntry(i));
+                        }
+                        state = 120;
+                        break;
                     }
-                }
+                default:
+                    {
+                        throw new MathIllegalStateException(LocalizedCoreFormats.SIMPLE_MESSAGE, "trsbox");
+                    }
             }
-            if (crvmin != ZERO) {
-                state = 50; break;
-            }
-            if (iterc > itcsav) {
-                state = 150; break;
-            }
-            for (int i = 0; i < n; i++) {
-                hred.setEntry(i, hs.getEntry(i));
-            }
-            state = 120; break;
         }
-        default: {
-            throw new MathIllegalStateException(LocalizedCoreFormats.SIMPLE_MESSAGE, "trsbox");
-        }}
-        }
-    } // trsbox
+    }
 
+    // trsbox
     // ----------------------------------------------------------------------------------------
-
     /**
      *     The arrays BMAT and ZMAT are updated, as required by the new position
      *     of the interpolation point that has the index KNEW. The vector VLAG has
@@ -2298,18 +2244,12 @@ public class BOBYQAOptimizer
      * @param denom
      * @param knew
      */
-    private void update(
-            double beta,
-            double denom,
-            int knew) {
-
+    private void update(double beta, double denom, int knew) {
         final int n = currentBest.getDimension();
         final int npt = numberOfInterpolationPoints;
         final int nptm = npt - n - 1;
-
         // XXX Should probably be split into two arrays.
         final ArrayRealVector work = new ArrayRealVector(npt + n);
-
         double ztest = ZERO;
         for (int k = 0; k < npt; k++) {
             for (int j = 0; j < nptm; j++) {
@@ -2318,9 +2258,7 @@ public class BOBYQAOptimizer
             }
         }
         ztest *= 1e-20;
-
         // Apply the rotations that put zeros in the KNEW-th row of ZMAT.
-
         for (int j = 1; j < nptm; j++) {
             final double d1 = zMatrix.getEntry(knew, j);
             if (FastMath.abs(d1) > ztest) {
@@ -2339,74 +2277,57 @@ public class BOBYQAOptimizer
             }
             zMatrix.setEntry(knew, j, ZERO);
         }
-
         // Put the first NPT components of the KNEW-th column of HLAG into W,
         // and calculate the parameters of the updating formula.
-
         for (int i = 0; i < npt; i++) {
             work.setEntry(i, zMatrix.getEntry(knew, 0) * zMatrix.getEntry(i, 0));
         }
         final double alpha = work.getEntry(knew);
         final double tau = lagrangeValuesAtNewPoint.getEntry(knew);
         lagrangeValuesAtNewPoint.setEntry(knew, lagrangeValuesAtNewPoint.getEntry(knew) - ONE);
-
         // Complete the updating of ZMAT.
-
         final double sqrtDenom = FastMath.sqrt(denom);
         final double d1 = tau / sqrtDenom;
         final double d2 = zMatrix.getEntry(knew, 0) / sqrtDenom;
         for (int i = 0; i < npt; i++) {
-            zMatrix.setEntry(i, 0,
-                          d1 * zMatrix.getEntry(i, 0) - d2 * lagrangeValuesAtNewPoint.getEntry(i));
+            zMatrix.setEntry(i, 0, d1 * zMatrix.getEntry(i, 0) - d2 * lagrangeValuesAtNewPoint.getEntry(i));
         }
-
         // Finally, update the matrix BMAT.
-
         for (int j = 0; j < n; j++) {
             final int jp = npt + j;
             work.setEntry(jp, bMatrix.getEntry(knew, j));
             final double d3 = (alpha * lagrangeValuesAtNewPoint.getEntry(jp) - tau * work.getEntry(jp)) / denom;
             final double d4 = (-beta * work.getEntry(jp) - tau * lagrangeValuesAtNewPoint.getEntry(jp)) / denom;
             for (int i = 0; i <= jp; i++) {
-                bMatrix.setEntry(i, j,
-                              bMatrix.getEntry(i, j) + d3 * lagrangeValuesAtNewPoint.getEntry(i) + d4 * work.getEntry(i));
+                bMatrix.setEntry(i, j, bMatrix.getEntry(i, j) + d3 * lagrangeValuesAtNewPoint.getEntry(i) + d4 * work.getEntry(i));
                 if (i >= npt) {
                     bMatrix.setEntry(jp, (i - npt), bMatrix.getEntry(i, j));
                 }
             }
         }
-    } // update
+    }
 
+    // update
     /**
      * Performs validity checks.
      *
      * @param lowerBound Lower bounds (constraints) of the objective variables.
      * @param upperBound Upperer bounds (constraints) of the objective variables.
      */
-    private void setup(double[] lowerBound,
-                       double[] upperBound) {
-
+    private void setup(double[] lowerBound, double[] upperBound) {
         double[] init = getStartPoint();
         final int dimension = init.length;
-
         // Check problem dimension.
         if (dimension < MINIMUM_PROBLEM_DIMENSION) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL,
-                                                   dimension, MINIMUM_PROBLEM_DIMENSION);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL, dimension, MINIMUM_PROBLEM_DIMENSION);
         }
         // Check number of interpolation points.
         final int[] nPointsInterval = { dimension + 2, (dimension + 2) * (dimension + 1) / 2 };
-        if (numberOfInterpolationPoints < nPointsInterval[0] ||
-            numberOfInterpolationPoints > nPointsInterval[1]) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_INTERPOLATION_POINTS,
-                                          numberOfInterpolationPoints,
-                                          nPointsInterval[0],
-                                          nPointsInterval[1]);
+        if (numberOfInterpolationPoints < nPointsInterval[0] || numberOfInterpolationPoints > nPointsInterval[1]) {
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_OF_INTERPOLATION_POINTS, numberOfInterpolationPoints, nPointsInterval[0], nPointsInterval[1]);
         }
-
         // Initialize bound differences.
         boundDifference = new double[dimension];
-
         double requiredMinDiff = 2 * initialTrustRegionRadius;
         double minDiff = Double.POSITIVE_INFINITY;
         for (int i = 0; i < dimension; i++) {
@@ -2416,14 +2337,10 @@ public class BOBYQAOptimizer
         if (minDiff < requiredMinDiff) {
             initialTrustRegionRadius = minDiff / 3.0;
         }
-
         // Initialize the data structures used by the "bobyqa" method.
-        bMatrix = new Array2DRowRealMatrix(dimension + numberOfInterpolationPoints,
-                                           dimension);
-        zMatrix = new Array2DRowRealMatrix(numberOfInterpolationPoints,
-                                           numberOfInterpolationPoints - dimension - 1);
-        interpolationPoints = new Array2DRowRealMatrix(numberOfInterpolationPoints,
-                                                       dimension);
+        bMatrix = new Array2DRowRealMatrix(dimension + numberOfInterpolationPoints, dimension);
+        zMatrix = new Array2DRowRealMatrix(numberOfInterpolationPoints, numberOfInterpolationPoints - dimension - 1);
+        interpolationPoints = new Array2DRowRealMatrix(numberOfInterpolationPoints, dimension);
         originShift = new ArrayRealVector(dimension);
         fAtInterpolationPoints = new ArrayRealVector(numberOfInterpolationPoints);
         trustRegionCenterOffset = new ArrayRealVector(dimension);
@@ -2437,6 +2354,5 @@ public class BOBYQAOptimizer
         lagrangeValuesAtNewPoint = new ArrayRealVector(dimension + numberOfInterpolationPoints);
         modelSecondDerivativesValues = new ArrayRealVector(dimension * (dimension + 1) / 2);
     }
-
 }
 //CHECKSTYLE: resume all

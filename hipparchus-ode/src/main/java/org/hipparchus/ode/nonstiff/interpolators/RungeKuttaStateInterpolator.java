@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.ode.nonstiff.interpolators;
 
 import org.hipparchus.ode.EquationsMapper;
@@ -23,23 +22,27 @@ import org.hipparchus.ode.nonstiff.EmbeddedRungeKuttaIntegrator;
 import org.hipparchus.ode.nonstiff.FixedStepRungeKuttaIntegrator;
 import org.hipparchus.ode.sampling.AbstractODEStateInterpolator;
 
-/** This class represents an interpolator over the last step during an
+/**
+ * This class represents an interpolator over the last step during an
  * ODE integration for Runge-Kutta and embedded Runge-Kutta integrators.
  *
  * @see FixedStepRungeKuttaIntegrator
  * @see EmbeddedRungeKuttaIntegrator
- *
  */
-
 public abstract class RungeKuttaStateInterpolator extends AbstractODEStateInterpolator {
 
-    /** Serializable UID. */
+    /**
+     * Serializable UID.
+     */
     private static final long serialVersionUID = 20160328L;
 
-    /** Slopes at the intermediate points */
+    /**
+     * Slopes at the intermediate points
+     */
     protected double[][] yDotK;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param forward integration direction indicator
      * @param yDotK slopes at the intermediate points
      * @param globalPreviousState start of the global step
@@ -48,13 +51,7 @@ public abstract class RungeKuttaStateInterpolator extends AbstractODEStateInterp
      * @param softCurrentState end of the restricted step
      * @param mapper equations mapper for the all equations
      */
-    protected RungeKuttaStateInterpolator(final boolean forward,
-                                          final double[][] yDotK,
-                                          final ODEStateAndDerivative globalPreviousState,
-                                          final ODEStateAndDerivative globalCurrentState,
-                                          final ODEStateAndDerivative softPreviousState,
-                                          final ODEStateAndDerivative softCurrentState,
-                                          final EquationsMapper mapper) {
+    protected RungeKuttaStateInterpolator(final boolean forward, final double[][] yDotK, final ODEStateAndDerivative globalPreviousState, final ODEStateAndDerivative globalCurrentState, final ODEStateAndDerivative softPreviousState, final ODEStateAndDerivative softCurrentState, final EquationsMapper mapper) {
         super(forward, globalPreviousState, globalCurrentState, softPreviousState, softCurrentState, mapper);
         this.yDotK = new double[yDotK.length][];
         for (int i = 0; i < yDotK.length; ++i) {
@@ -62,19 +59,16 @@ public abstract class RungeKuttaStateInterpolator extends AbstractODEStateInterp
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected RungeKuttaStateInterpolator create(boolean newForward,
-                                                 ODEStateAndDerivative newGlobalPreviousState,
-                                                 ODEStateAndDerivative newGlobalCurrentState,
-                                                 ODEStateAndDerivative newSoftPreviousState,
-                                                 ODEStateAndDerivative newSoftCurrentState,
-                                                 EquationsMapper newMapper) {
-        return create(newForward, yDotK, newGlobalPreviousState, newGlobalCurrentState,
-                      newSoftPreviousState, newSoftCurrentState, newMapper);
+    protected RungeKuttaStateInterpolator create(boolean newForward, ODEStateAndDerivative newGlobalPreviousState, ODEStateAndDerivative newGlobalCurrentState, ODEStateAndDerivative newSoftPreviousState, ODEStateAndDerivative newSoftCurrentState, EquationsMapper newMapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Create a new instance.
+    /**
+     * Create a new instance.
      * @param newForward integration direction indicator
      * @param newYDotK slopes at the intermediate points
      * @param newGlobalPreviousState start of the global step
@@ -84,45 +78,42 @@ public abstract class RungeKuttaStateInterpolator extends AbstractODEStateInterp
      * @param newMapper equations mapper for the all equations
      * @return a new instance
      */
-    protected abstract RungeKuttaStateInterpolator create(boolean newForward, double[][] newYDotK,
-                                                          ODEStateAndDerivative newGlobalPreviousState,
-                                                          ODEStateAndDerivative newGlobalCurrentState,
-                                                          ODEStateAndDerivative newSoftPreviousState,
-                                                          ODEStateAndDerivative newSoftCurrentState,
-                                                          EquationsMapper newMapper);
+    protected abstract RungeKuttaStateInterpolator create(boolean newForward, double[][] newYDotK, ODEStateAndDerivative newGlobalPreviousState, ODEStateAndDerivative newGlobalCurrentState, ODEStateAndDerivative newSoftPreviousState, ODEStateAndDerivative newSoftCurrentState, EquationsMapper newMapper);
 
-    /** Compute a state by linear combination added to previous state.
+    /**
+     * Compute a state by linear combination added to previous state.
      * @param coefficients coefficients to apply to the method staged derivatives
      * @return combined state
      */
-    protected final double[] previousStateLinearCombination(final double ... coefficients) {
-        return combine(getGlobalPreviousState().getCompleteState(),
-                       coefficients);
+    protected final double[] previousStateLinearCombination(final double... coefficients) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute a state by linear combination added to current state.
+    /**
+     * Compute a state by linear combination added to current state.
      * @param coefficients coefficients to apply to the method staged derivatives
      * @return combined state
      */
-    protected double[] currentStateLinearCombination(final double ... coefficients) {
-        return combine(getGlobalCurrentState().getCompleteState(),
-                       coefficients);
+    protected double[] currentStateLinearCombination(final double... coefficients) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute a state derivative by linear combination.
+    /**
+     * Compute a state derivative by linear combination.
      * @param coefficients coefficients to apply to the method staged derivatives
      * @return combined state
      */
-    protected double[] derivativeLinearCombination(final double ... coefficients) {
-        return combine(new double[yDotK[0].length], coefficients);
+    protected double[] derivativeLinearCombination(final double... coefficients) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Linearly combine arrays.
+    /**
+     * Linearly combine arrays.
      * @param a array to add to
      * @param coefficients coefficients to apply to the method staged derivatives
      * @return a itself, as a conveniency for fluent API
      */
-    private double[] combine(final double[] a, final double ... coefficients) {
+    private double[] combine(final double[] a, final double... coefficients) {
         for (int i = 0; i < a.length; ++i) {
             for (int k = 0; k < coefficients.length; ++k) {
                 a[i] += coefficients[k] * yDotK[k][i];
@@ -130,5 +121,4 @@ public abstract class RungeKuttaStateInterpolator extends AbstractODEStateInterp
         }
         return a;
     }
-
 }

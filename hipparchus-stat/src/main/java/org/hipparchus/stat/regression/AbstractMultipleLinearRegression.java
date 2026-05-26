@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -36,55 +35,66 @@ import org.hipparchus.util.MathUtils;
 /**
  * Abstract base class for implementations of MultipleLinearRegression.
  */
-public abstract class AbstractMultipleLinearRegression implements
-        MultipleLinearRegression {
+public abstract class AbstractMultipleLinearRegression implements MultipleLinearRegression {
 
-    /** X sample data. */
+    /**
+     * X sample data.
+     */
     private RealMatrix xMatrix;
 
-    /** Y sample data. */
+    /**
+     * Y sample data.
+     */
     private RealVector yVector;
 
-    /** Whether or not the regression model includes an intercept.  True means no intercept. */
+    /**
+     * Whether or not the regression model includes an intercept.  True means no intercept.
+     */
     private boolean noIntercept;
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    protected AbstractMultipleLinearRegression() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    protected AbstractMultipleLinearRegression() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** Get the X sample data.
+    /**
+     * Get the X sample data.
      * @return the X sample data.
      */
     protected RealMatrix getX() {
-        return xMatrix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the Y sample data.
+    /**
+     * Get the Y sample data.
      * @return the Y sample data.
      */
     protected RealVector getY() {
-        return yVector;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Chekc if the model has no intercept term.
+    /**
+     * Chekc if the model has no intercept term.
      * @return true if the model has no intercept term; false otherwise
      */
     public boolean isNoIntercept() {
-        return noIntercept;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set intercept flag.
+    /**
+     * Set intercept flag.
      * @param noIntercept true means the model is to be estimated without an intercept term
      */
     public void setNoIntercept(boolean noIntercept) {
-        this.noIntercept = noIntercept;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -122,27 +132,7 @@ public abstract class AbstractMultipleLinearRegression implements
      * <code>nvars + 1</code>
      */
     public void newSampleData(double[] data, int nobs, int nvars) {
-        MathUtils.checkNotNull(data, LocalizedCoreFormats.INPUT_ARRAY);
-        MathUtils.checkDimension(data.length, nobs * (nvars + 1));
-        if (nobs <= nvars) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE,
-                                                   nobs, nvars + 1);
-        }
-        double[] y = new double[nobs];
-        final int cols = noIntercept ? nvars: nvars + 1;
-        double[][] x = new double[nobs][cols];
-        int pointer = 0;
-        for (int i = 0; i < nobs; i++) {
-            y[i] = data[pointer++];
-            if (!noIntercept) {
-                x[i][0] = 1.0d;
-            }
-            for (int j = noIntercept ? 0 : 1; j < cols; j++) {
-                x[i][j] = data[pointer++];
-            }
-        }
-        this.xMatrix = new Array2DRowRealMatrix(x);
-        this.yVector = new ArrayRealVector(y);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -153,13 +143,7 @@ public abstract class AbstractMultipleLinearRegression implements
      * @throws MathIllegalArgumentException if y is empty
      */
     protected void newYSampleData(double[] y) {
-        if (y == null) {
-            throw new NullArgumentException();
-        }
-        if (y.length == 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NO_DATA);
-        }
-        this.yVector = new ArrayRealVector(y);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -192,24 +176,7 @@ public abstract class AbstractMultipleLinearRegression implements
      * @throws MathIllegalArgumentException if x is not rectangular
      */
     protected void newXSampleData(double[][] x) {
-        if (x == null) {
-            throw new NullArgumentException();
-        }
-        if (x.length == 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NO_DATA);
-        }
-        if (noIntercept) {
-            this.xMatrix = new Array2DRowRealMatrix(x, true);
-        } else { // Augment design matrix with initial unitary column
-            final int nVars = x[0].length;
-            final double[][] xAug = new double[x.length][nVars + 1];
-            for (int i = 0; i < x.length; i++) {
-                MathUtils.checkDimension(x[i].length, nVars);
-                xAug[i][0] = 1.0d;
-                System.arraycopy(x[i], 0, xAug[i], 1, nVars);
-            }
-            this.xMatrix = new Array2DRowRealMatrix(xAug, false);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -233,18 +200,7 @@ public abstract class AbstractMultipleLinearRegression implements
      * or the number of columns if there is no intercept term
      */
     protected void validateSampleData(double[][] x, double[] y) throws MathIllegalArgumentException {
-        if ((x == null) || (y == null)) {
-            throw new NullArgumentException();
-        }
-        MathUtils.checkDimension(x.length, y.length);
-        if (x.length == 0) {  // Must be no y data either
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NO_DATA);
-        }
-        if (x[0].length + (noIntercept ? 0 : 1) > x.length) {
-            throw new MathIllegalArgumentException(
-                    LocalizedStatFormats.NOT_ENOUGH_DATA_FOR_NUMBER_OF_PREDICTORS,
-                    x.length, x[0].length);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -258,11 +214,7 @@ public abstract class AbstractMultipleLinearRegression implements
      * @throws MathIllegalArgumentException if the covariance matrix is not square
      */
     protected void validateCovarianceData(double[][] x, double[][] covariance) {
-        MathUtils.checkDimension(x.length, covariance.length);
-        if (covariance.length > 0 && covariance.length != covariance[0].length) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NON_SQUARE_MATRIX,
-                                                   covariance.length, covariance[0].length);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -270,8 +222,7 @@ public abstract class AbstractMultipleLinearRegression implements
      */
     @Override
     public double[] estimateRegressionParameters() {
-        RealVector b = calculateBeta();
-        return b.toArray();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -279,9 +230,7 @@ public abstract class AbstractMultipleLinearRegression implements
      */
     @Override
     public double[] estimateResiduals() {
-        RealVector b = calculateBeta();
-        RealVector e = yVector.subtract(xMatrix.operate(b));
-        return e.toArray();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -289,7 +238,7 @@ public abstract class AbstractMultipleLinearRegression implements
      */
     @Override
     public double[][] estimateRegressionParametersVariance() {
-        return calculateBetaVariance().getData();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -297,14 +246,7 @@ public abstract class AbstractMultipleLinearRegression implements
      */
     @Override
     public double[] estimateRegressionParametersStandardErrors() {
-        double[][] betaVariance = estimateRegressionParametersVariance();
-        double sigma = calculateErrorVariance();
-        int length = betaVariance[0].length;
-        double[] result = new double[length];
-        for (int i = 0; i < length; i++) {
-            result[i] = FastMath.sqrt(sigma * betaVariance[i][i]);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -312,7 +254,7 @@ public abstract class AbstractMultipleLinearRegression implements
      */
     @Override
     public double estimateRegressandVariance() {
-        return calculateYVariance();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -321,8 +263,7 @@ public abstract class AbstractMultipleLinearRegression implements
      * @return estimate of the error variance
      */
     public double estimateErrorVariance() {
-        return calculateErrorVariance();
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -331,7 +272,7 @@ public abstract class AbstractMultipleLinearRegression implements
      * @return regression standard error
      */
     public double estimateRegressionStandardError() {
-        return FastMath.sqrt(estimateErrorVariance());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -349,14 +290,13 @@ public abstract class AbstractMultipleLinearRegression implements
      */
     protected abstract RealMatrix calculateBetaVariance();
 
-
     /**
      * Calculates the variance of the y values.
      *
      * @return Y variance
      */
     protected double calculateYVariance() {
-        return new Variance().evaluate(yVector.toArray());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -370,9 +310,7 @@ public abstract class AbstractMultipleLinearRegression implements
      * @return error variance estimate
      */
     protected double calculateErrorVariance() {
-        RealVector residuals = calculateResiduals();
-        return residuals.dotProduct(residuals) /
-               (xMatrix.getRowDimension() - xMatrix.getColumnDimension());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -386,8 +324,6 @@ public abstract class AbstractMultipleLinearRegression implements
      * @return The residuals [n,1] matrix
      */
     protected RealVector calculateResiduals() {
-        RealVector b = calculateBeta();
-        return yVector.subtract(xMatrix.operate(b));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

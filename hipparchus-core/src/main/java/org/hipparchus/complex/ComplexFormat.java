@@ -14,19 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.complex;
 
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Locale;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathIllegalStateException;
@@ -41,13 +38,24 @@ import org.hipparchus.util.MathUtils;
  */
 public class ComplexFormat {
 
-     /** The default imaginary character. */
+    /**
+     * The default imaginary character.
+     */
     private static final String DEFAULT_IMAGINARY_CHARACTER = "i";
-    /** The notation used to signify the imaginary part of the complex number. */
+
+    /**
+     * The notation used to signify the imaginary part of the complex number.
+     */
     private final String imaginaryCharacter;
-    /** The format used for the imaginary part. */
+
+    /**
+     * The format used for the imaginary part.
+     */
     private final NumberFormat imaginaryFormat;
-    /** The format used for the real part. */
+
+    /**
+     * The format used for the real part.
+     */
     private final NumberFormat realFormat;
 
     /**
@@ -80,12 +88,10 @@ public class ComplexFormat {
      * @param imaginaryFormat the custom format for the imaginary part.
      * @throws NullArgumentException if {@code imaginaryFormat} is {@code null}.
      * @throws NullArgumentException if {@code realFormat} is {@code null}.
-      */
-    public ComplexFormat(NumberFormat realFormat, NumberFormat imaginaryFormat)
-        throws NullArgumentException {
+     */
+    public ComplexFormat(NumberFormat realFormat, NumberFormat imaginaryFormat) throws NullArgumentException {
         MathUtils.checkNotNull(imaginaryFormat, LocalizedCoreFormats.IMAGINARY_FORMAT);
         MathUtils.checkNotNull(realFormat, LocalizedCoreFormats.REAL_FORMAT);
-
         this.imaginaryCharacter = DEFAULT_IMAGINARY_CHARACTER;
         this.imaginaryFormat = imaginaryFormat;
         this.realFormat = realFormat;
@@ -100,8 +106,7 @@ public class ComplexFormat {
      * @throws MathIllegalArgumentException if {@code imaginaryCharacter} is an
      * empty string.
      */
-    public ComplexFormat(String imaginaryCharacter)
-        throws MathIllegalArgumentException, NullArgumentException {
+    public ComplexFormat(String imaginaryCharacter) throws MathIllegalArgumentException, NullArgumentException {
         this(imaginaryCharacter, CompositeFormat.getDefaultNumberFormat());
     }
 
@@ -116,8 +121,7 @@ public class ComplexFormat {
      * empty string.
      * @throws NullArgumentException if {@code format} is {@code null}.
      */
-    public ComplexFormat(String imaginaryCharacter, NumberFormat format)
-        throws MathIllegalArgumentException, NullArgumentException {
+    public ComplexFormat(String imaginaryCharacter, NumberFormat format) throws MathIllegalArgumentException, NullArgumentException {
         this(imaginaryCharacter, format, format);
     }
 
@@ -136,10 +140,7 @@ public class ComplexFormat {
      * @throws NullArgumentException if {@code imaginaryFormat} is {@code null}.
      * @throws NullArgumentException if {@code realFormat} is {@code null}.
      */
-    public ComplexFormat(String imaginaryCharacter,
-                         NumberFormat realFormat,
-                         NumberFormat imaginaryFormat)
-        throws MathIllegalArgumentException, NullArgumentException {
+    public ComplexFormat(String imaginaryCharacter, NumberFormat realFormat, NumberFormat imaginaryFormat) throws MathIllegalArgumentException, NullArgumentException {
         if (imaginaryCharacter == null) {
             throw new NullArgumentException();
         }
@@ -148,7 +149,6 @@ public class ComplexFormat {
         }
         MathUtils.checkNotNull(imaginaryFormat, LocalizedCoreFormats.IMAGINARY_FORMAT);
         MathUtils.checkNotNull(realFormat, LocalizedCoreFormats.REAL_FORMAT);
-
         this.imaginaryCharacter = imaginaryCharacter;
         this.imaginaryFormat = imaginaryFormat;
         this.realFormat = realFormat;
@@ -160,7 +160,7 @@ public class ComplexFormat {
      * @return available complex format locales.
      */
     public static Locale[] getAvailableLocales() {
-        return NumberFormat.getAvailableLocales();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -170,7 +170,7 @@ public class ComplexFormat {
      * @return A formatted number in the form "Re(c) + Im(c)i".
      */
     public String format(Complex c) {
-        return format(c, new StringBuffer(), new FieldPosition(0)).toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -180,7 +180,7 @@ public class ComplexFormat {
      * @return A formatted number.
      */
     public String format(Double c) {
-        return format(new Complex(c, 0), new StringBuffer(), new FieldPosition(0)).toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -192,29 +192,8 @@ public class ComplexFormat {
      *            offsets of the alignment field
      * @return the value passed in as toAppendTo.
      */
-    public StringBuffer format(Complex complex, StringBuffer toAppendTo,
-                               FieldPosition pos) {
-        pos.setBeginIndex(0);
-        pos.setEndIndex(0);
-
-        // format real
-        double re = complex.getReal();
-        CompositeFormat.formatDouble(re, getRealFormat(), toAppendTo, pos);
-
-        // format sign and imaginary
-        double im = complex.getImaginary();
-        StringBuffer imAppendTo;
-        if (im < 0.0) {
-            toAppendTo.append(" - ");
-            imAppendTo = formatImaginary(-im, new StringBuffer(), pos);
-            toAppendTo.append(imAppendTo).append(getImaginaryCharacter());
-        } else if (im > 0.0 || Double.isNaN(im)) {
-            toAppendTo.append(" + ");
-            imAppendTo = formatImaginary(im, new StringBuffer(), pos);
-            toAppendTo.append(imAppendTo).append(getImaginaryCharacter());
-        }
-
-        return toAppendTo;
+    public StringBuffer format(Complex complex, StringBuffer toAppendTo, FieldPosition pos) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -226,18 +205,14 @@ public class ComplexFormat {
      * offsets of the alignment field.
      * @return the value passed in as toAppendTo.
      */
-    private StringBuffer formatImaginary(double absIm,
-                                         StringBuffer toAppendTo,
-                                         FieldPosition pos) {
+    private StringBuffer formatImaginary(double absIm, StringBuffer toAppendTo, FieldPosition pos) {
         pos.setBeginIndex(0);
         pos.setEndIndex(0);
-
         CompositeFormat.formatDouble(absIm, getImaginaryFormat(), toAppendTo, pos);
         if ("1".equals(toAppendTo.toString())) {
             // Remove the character "1" if it is the only one.
             toAppendTo.setLength(0);
         }
-
         return toAppendTo;
     }
 
@@ -254,19 +229,8 @@ public class ComplexFormat {
      * @see java.text.Format#format(java.lang.Object, java.lang.StringBuffer, java.text.FieldPosition)
      * @throws MathIllegalArgumentException is {@code obj} is not a valid type.
      */
-    public StringBuffer format(Object obj, StringBuffer toAppendTo,
-                               FieldPosition pos)
-        throws MathIllegalArgumentException {
-
-        if (obj instanceof Complex) {
-            return format( (Complex)obj, toAppendTo, pos);
-        } else if (obj instanceof Number) {
-            return format(new Complex(((Number)obj).doubleValue(), 0.0), toAppendTo, pos);
-        } else {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.CANNOT_FORMAT_INSTANCE_AS_COMPLEX,
-                                                   obj.getClass().getName());
-        }
-
+    public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -274,7 +238,7 @@ public class ComplexFormat {
      * @return the imaginaryCharacter.
      */
     public String getImaginaryCharacter() {
-        return imaginaryCharacter;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -282,7 +246,7 @@ public class ComplexFormat {
      * @return the imaginaryFormat.
      */
     public NumberFormat getImaginaryFormat() {
-        return imaginaryFormat;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -291,7 +255,7 @@ public class ComplexFormat {
      * @since 1.4
      */
     public static ComplexFormat getComplexFormat() {
-        return getComplexFormat(Locale.getDefault());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -301,8 +265,7 @@ public class ComplexFormat {
      * @since 1.4
      */
     public static ComplexFormat getComplexFormat(Locale locale) {
-        NumberFormat f = CompositeFormat.getDefaultNumberFormat(locale);
-        return new ComplexFormat(f);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -316,10 +279,8 @@ public class ComplexFormat {
      * empty string.
      * @since 1.4
      */
-    public static ComplexFormat getComplexFormat(String imaginaryCharacter, Locale locale)
-        throws MathIllegalArgumentException, NullArgumentException {
-        NumberFormat f = CompositeFormat.getDefaultNumberFormat(locale);
-        return new ComplexFormat(imaginaryCharacter, f);
+    public static ComplexFormat getComplexFormat(String imaginaryCharacter, Locale locale) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -327,7 +288,7 @@ public class ComplexFormat {
      * @return the realFormat.
      */
     public NumberFormat getRealFormat() {
-        return realFormat;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -339,14 +300,7 @@ public class ComplexFormat {
      * cannot be parsed.
      */
     public Complex parse(String source) throws MathIllegalStateException {
-        ParsePosition parsePosition = new ParsePosition(0);
-        Complex result = parse(source, parsePosition);
-        if (parsePosition.getIndex() == 0) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.CANNOT_PARSE_AS_TYPE,
-                                                source, parsePosition.getErrorIndex(),
-                                                Complex.class);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -357,62 +311,6 @@ public class ComplexFormat {
      * @return the parsed {@link Complex} object.
      */
     public Complex parse(String source, ParsePosition pos) {
-        int initialIndex = pos.getIndex();
-
-        // parse whitespace
-        CompositeFormat.parseAndIgnoreWhitespace(source, pos);
-
-        // parse real
-        Number re = CompositeFormat.parseNumber(source, getRealFormat(), pos);
-        if (re == null) {
-            // invalid real number
-            // set index back to initial, error index should already be set
-            pos.setIndex(initialIndex);
-            return null;
-        }
-
-        // parse sign
-        int startIndex = pos.getIndex();
-        char c = CompositeFormat.parseNextCharacter(source, pos);
-        int sign;
-        switch (c) {
-        case 0 :
-            // no sign
-            // return real only complex number
-            return new Complex(re.doubleValue(), 0.0);
-        case '-' :
-            sign = -1;
-            break;
-        case '+' :
-            sign = 1;
-            break;
-        default :
-            // invalid sign
-            // set index back to initial, error index should be the last
-            // character examined.
-            pos.setIndex(initialIndex);
-            pos.setErrorIndex(startIndex);
-            return null;
-        }
-
-        // parse whitespace
-        CompositeFormat.parseAndIgnoreWhitespace(source, pos);
-
-        // parse imaginary
-        Number im = CompositeFormat.parseNumber(source, getRealFormat(), pos);
-        if (im == null) {
-            // invalid imaginary number
-            // set index back to initial, error index should already be set
-            pos.setIndex(initialIndex);
-            return null;
-        }
-
-        // parse imaginary character
-        if (!CompositeFormat.parseFixedstring(source, getImaginaryCharacter(), pos)) {
-            return null;
-        }
-
-        return new Complex(re.doubleValue(), im.doubleValue() * sign);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

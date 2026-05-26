@@ -18,26 +18,30 @@ package org.hipparchus.optim.nonlinear.vector.constrained;
 
 import org.hipparchus.optim.OptimizationData;
 
-/** Tolerance for symmetric matrix decomposition.
+/**
+ * Tolerance for symmetric matrix decomposition.
  * @since 4.1
  */
 public class MatrixDecompositionTolerance implements OptimizationData {
 
-    /** Tolerance for symmetric matrix decomposition. */
+    /**
+     * Tolerance for symmetric matrix decomposition.
+     */
     private final double epsMatrixDecomposition;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param epsMatrixDecomposition tolerance for symmetric matrix decomposition
      */
     public MatrixDecompositionTolerance(final double epsMatrixDecomposition) {
         this.epsMatrixDecomposition = epsMatrixDecomposition;
     }
 
-    /** Get tolerance for symmetric matrix decomposition.
+    /**
+     * Get tolerance for symmetric matrix decomposition.
      * @return tolerance for symmetric matrix decomposition
      */
     public double getEpsMatrixDecomposition() {
-        return epsMatrixDecomposition;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

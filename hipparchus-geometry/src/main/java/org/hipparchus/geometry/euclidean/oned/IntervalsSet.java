@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -26,27 +25,26 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-
 import org.hipparchus.geometry.partitioning.AbstractRegion;
 import org.hipparchus.geometry.partitioning.BSPTree;
 import org.hipparchus.geometry.partitioning.BoundaryProjection;
 import org.hipparchus.util.Precision;
 
-/** This class represents a 1D region: a set of intervals.
+/**
+ * This class represents a 1D region: a set of intervals.
  */
-public class IntervalsSet
-    extends AbstractRegion<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint,
-                           Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint>
-    implements Iterable<double[]> {
+public class IntervalsSet extends AbstractRegion<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint, Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> implements Iterable<double[]> {
 
-    /** Build an intervals set representing the whole real line.
+    /**
+     * Build an intervals set representing the whole real line.
      * @param tolerance tolerance below which points are considered identical.
      */
     public IntervalsSet(final double tolerance) {
         super(tolerance);
     }
 
-    /** Build an intervals set corresponding to a single interval.
+    /**
+     * Build an intervals set corresponding to a single interval.
      * @param lower lower bound of the interval, must be lesser or equal
      * to {@code upper} (may be {@code Double.NEGATIVE_INFINITY})
      * @param upper upper bound of the interval, must be greater or equal
@@ -57,7 +55,8 @@ public class IntervalsSet
         super(buildTree(lower, upper, tolerance), tolerance);
     }
 
-    /** Build an intervals set from an inside/outside BSP tree.
+    /**
+     * Build an intervals set from an inside/outside BSP tree.
      * <p>The leaf nodes of the BSP tree <em>must</em> have a
      * {@code Boolean} attribute representing the inside status of
      * the corresponding cell (true for inside cells, false for outside
@@ -67,12 +66,12 @@ public class IntervalsSet
      * @param tree inside/outside BSP tree representing the intervals set
      * @param tolerance tolerance below which points are considered identical.
      */
-    public IntervalsSet(final BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> tree,
-                        final double tolerance) {
+    public IntervalsSet(final BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> tree, final double tolerance) {
         super(tree, tolerance);
     }
 
-    /** Build an intervals set from a Boundary REPresentation (B-rep).
+    /**
+     * Build an intervals set from a Boundary REPresentation (B-rep).
      * <p>The boundary is provided as a collection of {@link
      * org.hipparchus.geometry.partitioning.SubHyperplane sub-hyperplanes}. Each sub-hyperplane has the
      * interior part of the region on its minus side and the exterior on
@@ -96,7 +95,8 @@ public class IntervalsSet
         super(boundary, tolerance);
     }
 
-    /** Build an inside/outside tree representing a single interval.
+    /**
+     * Build an inside/outside tree representing a single interval.
      * @param lower lower bound of the interval, must be lesser or equal
      * to {@code upper} (may be {@code Double.NEGATIVE_INFINITY})
      * @param upper upper bound of the interval, must be greater or equal
@@ -104,8 +104,7 @@ public class IntervalsSet
      * @param tolerance tolerance below which points are considered identical.
      * @return the built tree
      */
-    private static BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint>
-        buildTree(final double lower, final double upper, final double tolerance) {
+    private static BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> buildTree(final double lower, final double upper, final double tolerance) {
         if (Double.isInfinite(lower) && (lower < 0)) {
             if (Double.isInfinite(upper) && (upper > 0)) {
                 // the tree must cover the whole real line
@@ -120,149 +119,67 @@ public class IntervalsSet
             // the tree must be open on the positive infinity side
             return new BSPTree<>(lowerCut, new BSPTree<>(Boolean.FALSE), new BSPTree<>(Boolean.TRUE), null);
         }
-
         // the tree must be bounded on the two sides
         final SubOrientedPoint upperCut = new OrientedPoint(new Vector1D(upper), true, tolerance).wholeHyperplane();
-        return new BSPTree<>(lowerCut,
-                             new BSPTree<>(Boolean.FALSE),
-                             new BSPTree<>(upperCut, new BSPTree<>(Boolean.FALSE), new BSPTree<>(Boolean.TRUE), null),
-                             null);
-
+        return new BSPTree<>(lowerCut, new BSPTree<>(Boolean.FALSE), new BSPTree<>(upperCut, new BSPTree<>(Boolean.FALSE), new BSPTree<>(Boolean.TRUE), null), null);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IntervalsSet buildNew(final BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> tree) {
-        return new IntervalsSet(tree, getTolerance());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector1D getInteriorPoint() {
-
-        // look for the midpoint of the longest interval
-        // or some finite point if interval extends to ±∞
-        double selectedPoint  = Double.NaN;
-        double selectedLength = 0;
-        for (final double[] a : this) {
-            final double length = a[1] - a[0];
-            if (length > selectedLength) {
-                // this interval is longer than the selected one, change selection
-                if (Double.isInfinite(a[0])) {
-                    // interval starts at -∞, it may extend to +∞ as well
-                    selectedPoint = Double.isInfinite(a[1]) ? 0 : a[1] - 1.0e9 * getTolerance();
-                } else if (Double.isInfinite(a[1])) {
-                    // interval ends at +∞
-                    selectedPoint = a[0] + 1.0e9 * getTolerance();
-                } else {
-                    selectedPoint  = 0.5 * (a[0] + a[1]);
-                }
-                selectedLength = length;
-            }
-        }
-
-        return Double.isNaN(selectedPoint) ? null : new Vector1D(selectedPoint);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void computeGeometricalProperties() {
-        if (getTree(false).getCut() == null) {
-            setBarycenter(Vector1D.NaN);
-            setSize(((Boolean) getTree(false).getAttribute()) ? Double.POSITIVE_INFINITY : 0);
-        } else {
-            double size = 0.0;
-            double sum = 0.0;
-            for (final Interval interval : asList()) {
-                size += interval.getSize();
-                sum  += interval.getSize() * interval.getBarycenter();
-            }
-            setSize(size);
-            if (Double.isInfinite(size)) {
-                setBarycenter(Vector1D.NaN);
-            } else if (size >= Precision.SAFE_MIN) {
-                setBarycenter(new Vector1D(sum / size));
-            } else {
-                setBarycenter(getTree(false).getCut().getHyperplane().getLocation());
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the lowest value belonging to the instance.
+    /**
+     * Get the lowest value belonging to the instance.
      * @return lowest value belonging to the instance
      * ({@code Double.NEGATIVE_INFINITY} if the instance doesn't
      * have any low bound, {@code Double.POSITIVE_INFINITY} if the
      * instance is empty)
      */
     public double getInf() {
-        BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> node = getTree(false);
-        double  inf  = Double.POSITIVE_INFINITY;
-        while (node.getCut() != null) {
-            final OrientedPoint op = node.getCut().getHyperplane();
-            inf  = op.getLocation().getX();
-            node = op.isDirect() ? node.getMinus() : node.getPlus();
-        }
-        return ((Boolean) node.getAttribute()) ? Double.NEGATIVE_INFINITY : inf;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the highest value belonging to the instance.
+    /**
+     * Get the highest value belonging to the instance.
      * @return highest value belonging to the instance
      * ({@code Double.POSITIVE_INFINITY} if the instance doesn't
      * have any high bound, {@code Double.NEGATIVE_INFINITY} if the
      * instance is empty)
      */
     public double getSup() {
-        BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> node = getTree(false);
-        double  sup  = Double.NEGATIVE_INFINITY;
-        while (node.getCut() != null) {
-            final OrientedPoint op = node.getCut().getHyperplane();
-            sup  = op.getLocation().getX();
-            node = op.isDirect() ? node.getPlus() : node.getMinus();
-        }
-        return ((Boolean) node.getAttribute()) ? Double.POSITIVE_INFINITY : sup;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      */
     @Override
     public BoundaryProjection<Euclidean1D, Vector1D> projectToBoundary(final Vector1D point) {
-
-        // get position of test point
-        final double x = point.getX();
-
-        double previous = Double.NEGATIVE_INFINITY;
-        for (final double[] a : this) {
-            if (x < a[0]) {
-                // the test point lies between the previous and the current intervals
-                // offset will be positive
-                final double previousOffset = x - previous;
-                final double currentOffset  = a[0] - x;
-                if (previousOffset < currentOffset) {
-                    return new BoundaryProjection<>(point, finiteOrNullPoint(previous), previousOffset);
-                } else {
-                    return new BoundaryProjection<>(point, finiteOrNullPoint(a[0]), currentOffset);
-                }
-            } else if (x <= a[1]) {
-                // the test point lies within the current interval
-                // offset will be negative
-                final double offset0 = a[0] - x;
-                final double offset1 = x - a[1];
-                if (offset0 < offset1) {
-                    return new BoundaryProjection<>(point, finiteOrNullPoint(a[1]), offset1);
-                } else {
-                    return new BoundaryProjection<>(point, finiteOrNullPoint(a[0]), offset0);
-                }
-            }
-            previous = a[1];
-        }
-
-        // the test point if past the last sub-interval
-        return new BoundaryProjection<>(point, finiteOrNullPoint(previous), x - previous);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Build a finite point.
+    /**
+     * Build a finite point.
      * @param x abscissa of the point
      * @return a new point for finite abscissa, null otherwise
      */
@@ -270,7 +187,8 @@ public class IntervalsSet
         return Double.isInfinite(x) ? null : new Vector1D(x);
     }
 
-    /** Build an ordered list of intervals representing the instance.
+    /**
+     * Build an ordered list of intervals representing the instance.
      * <p>This method builds this intervals set as an ordered list of
      * {@link Interval Interval} elements. If the intervals set has no
      * lower limit, the first interval will have its low bound equal to
@@ -284,177 +202,148 @@ public class IntervalsSet
      * elements
      */
     public List<Interval> asList() {
-        final List<Interval> list = new ArrayList<>();
-        for (final double[] a : this) {
-            list.add(new Interval(a[0], a[1]));
-        }
-        return list;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the first leaf node of a tree.
+    /**
+     * Get the first leaf node of a tree.
      * @param root tree root
      * @return first leaf node
      */
-    private BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint>
-        getFirstLeaf(final BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> root) {
-
+    private BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> getFirstLeaf(final BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> root) {
         if (root.getCut() == null) {
             return root;
         }
-
         // find the smallest internal node
         BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> smallest = null;
         for (BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> n = root; n != null; n = previousInternalNode(n)) {
             smallest = n;
         }
-
         return leafBefore(smallest);
-
     }
 
-    /** Get the node corresponding to the first interval boundary.
+    /**
+     * Get the node corresponding to the first interval boundary.
      * @return smallest internal node,
      * or null if there are no internal nodes (i.e. the set is either empty or covers the real line)
      */
     private BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> getFirstIntervalBoundary() {
-
         // start search at the tree root
         BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> node = getTree(false);
         if (node.getCut() == null) {
             return null;
         }
-
         // walk tree until we find the smallest internal node
         node = getFirstLeaf(node).getParent();
-
         // walk tree until we find an interval boundary
         while (node != null && !(isIntervalStart(node) || isIntervalEnd(node))) {
             node = nextInternalNode(node);
         }
-
         return node;
-
     }
 
-    /** Check if an internal node corresponds to the start abscissa of an interval.
+    /**
+     * Check if an internal node corresponds to the start abscissa of an interval.
      * @param node internal node to check
      * @return true if the node corresponds to the start abscissa of an interval
      */
     private boolean isIntervalStart(final BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> node) {
-
         if ((Boolean) leafBefore(node).getAttribute()) {
             // it has an inside cell before it, it may end an interval but not start it
             return false;
         }
-
         if (!(Boolean) leafAfter(node).getAttribute()) {
             // it has an outside cell after it, it is a dummy cut away from real intervals
             return false;
         }
-
         // the cell has an outside before and an inside after it,
         // it is the start of an interval
         return true;
-
     }
 
-    /** Check if an internal node corresponds to the end abscissa of an interval.
+    /**
+     * Check if an internal node corresponds to the end abscissa of an interval.
      * @param node internal node to check
      * @return true if the node corresponds to the end abscissa of an interval
      */
     private boolean isIntervalEnd(final BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> node) {
-
         if (!(Boolean) leafBefore(node).getAttribute()) {
             // it has an outside cell before it, it may start an interval but not end it
             return false;
         }
-
         if ((Boolean) leafAfter(node).getAttribute()) {
             // it has an inside cell after it, it is a dummy cut in the middle of an interval
             return false;
         }
-
         // the cell has an inside before and an outside after it,
         // it is the end of an interval
         return true;
-
     }
 
-    /** Get the next internal node.
+    /**
+     * Get the next internal node.
      * @param node current internal node
      * @return next internal node in ascending order, or null
      * if this is the last internal node
      */
-    private BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint>
-        nextInternalNode(BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> node) {
-
+    private BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> nextInternalNode(BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> node) {
         if (childAfter(node).getCut() != null) {
             // the next node is in the subtree
             return leafAfter(node).getParent();
         }
-
         // there is nothing left deeper in the tree, we backtrack
         while (isAfterParent(node)) {
             node = node.getParent();
         }
         return node.getParent();
-
     }
 
-    /** Get the previous internal node.
+    /**
+     * Get the previous internal node.
      * @param node current internal node
      * @return previous internal node in ascending order, or null
      * if this is the first internal node
      */
-    private BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint>
-        previousInternalNode(BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> node) {
-
+    private BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> previousInternalNode(BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> node) {
         if (childBefore(node).getCut() != null) {
             // the next node is in the subtree
             return leafBefore(node).getParent();
         }
-
         // there is nothing left deeper in the tree, we backtrack
         while (isBeforeParent(node)) {
             node = node.getParent();
         }
         return node.getParent();
-
     }
 
-    /** Find the leaf node just before an internal node.
+    /**
+     * Find the leaf node just before an internal node.
      * @param node internal node at which the subtree starts
      * @return leaf node just before the internal node
      */
-    private BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint>
-        leafBefore(BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> node) {
-
+    private BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> leafBefore(BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> node) {
         node = childBefore(node);
         while (node.getCut() != null) {
             node = childAfter(node);
         }
-
         return node;
-
     }
 
-    /** Find the leaf node just after an internal node.
+    /**
+     * Find the leaf node just after an internal node.
      * @param node internal node at which the subtree starts
      * @return leaf node just after the internal node
      */
-    private BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint>
-        leafAfter(BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> node) {
-
+    private BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> leafAfter(BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> node) {
         node = childAfter(node);
         while (node.getCut() != null) {
             node = childBefore(node);
         }
-
         return node;
-
     }
 
-    /** Check if a node is the child before its parent in ascending order.
+    /**
+     * Check if a node is the child before its parent in ascending order.
      * @param node child node considered
      * @return true is the node has a parent end is before it in ascending order
      */
@@ -467,7 +356,8 @@ public class IntervalsSet
         }
     }
 
-    /** Check if a node is the child after its parent in ascending order.
+    /**
+     * Check if a node is the child after its parent in ascending order.
      * @param node child node considered
      * @return true is the node has a parent end is after it in ascending order
      */
@@ -480,12 +370,12 @@ public class IntervalsSet
         }
     }
 
-    /** Find the child node just before an internal node.
+    /**
+     * Find the child node just before an internal node.
      * @param node internal node at which the subtree starts
      * @return child node just before the internal node
      */
-    private BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint>
-        childBefore(BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> node) {
+    private BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> childBefore(BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> node) {
         if (isDirect(node)) {
             // smaller abscissas are on minus side, larger abscissas are on plus side
             return node.getMinus();
@@ -495,12 +385,12 @@ public class IntervalsSet
         }
     }
 
-    /** Find the child node just after an internal node.
+    /**
+     * Find the child node just after an internal node.
      * @param node internal node at which the subtree starts
      * @return child node just after the internal node
      */
-    private BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint>
-        childAfter(BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> node) {
+    private BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> childAfter(BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> node) {
         if (isDirect(node)) {
             // smaller abscissas are on minus side, larger abscissas are on plus side
             return node.getPlus();
@@ -510,7 +400,8 @@ public class IntervalsSet
         }
     }
 
-    /** Check if an internal node has a direct oriented point.
+    /**
+     * Check if an internal node has a direct oriented point.
      * @param node internal node to check
      * @return true if the oriented point is direct
      */
@@ -518,7 +409,8 @@ public class IntervalsSet
         return node.getCut().getHyperplane().isDirect();
     }
 
-    /** Get the abscissa of an internal node.
+    /**
+     * Get the abscissa of an internal node.
      * @param node internal node to check
      * @return abscissa
      */
@@ -526,7 +418,8 @@ public class IntervalsSet
         return node.getCut().getHyperplane().getLocation().getX();
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * The iterator returns the limit values of sub-intervals in ascending order.
      * </p>
@@ -536,115 +429,101 @@ public class IntervalsSet
      */
     @Override
     public Iterator<double[]> iterator() {
-        return new SubIntervalsIterator();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Local iterator for sub-intervals. */
+    /**
+     * Local iterator for sub-intervals.
+     */
     private class SubIntervalsIterator implements Iterator<double[]> {
 
-        /** Current node. */
+        /**
+         * Current node.
+         */
         private BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> current;
 
-        /** Sub-interval no yet returned. */
+        /**
+         * Sub-interval no yet returned.
+         */
         private double[] pending;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          */
         SubIntervalsIterator() {
-
             current = getFirstIntervalBoundary();
-
             if (current == null) {
                 // all the leaf tree nodes share the same inside/outside status
                 if ((Boolean) getFirstLeaf(getTree(false)).getAttribute()) {
                     // it is an inside node, it represents the full real line
-                    pending = new double[] {
-                        Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY
-                    };
+                    pending = new double[] { Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY };
                 } else {
                     pending = null;
                 }
             } else if (isIntervalEnd(current)) {
                 // the first boundary is an interval end,
                 // so the first interval starts at infinity
-                pending = new double[] {
-                    Double.NEGATIVE_INFINITY, getAngle(current)
-                };
+                pending = new double[] { Double.NEGATIVE_INFINITY, getAngle(current) };
             } else {
                 selectPending();
             }
         }
 
-        /** Walk the tree to select the pending sub-interval.
+        /**
+         * Walk the tree to select the pending sub-interval.
          */
         private void selectPending() {
-
             // look for the start of the interval
             BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> start = current;
             while (start != null && !isIntervalStart(start)) {
                 start = nextInternalNode(start);
             }
-
             if (start == null) {
                 // we have exhausted the iterator
                 current = null;
                 pending = null;
                 return;
             }
-
             // look for the end of the interval
             BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> end = start;
             while (end != null && !isIntervalEnd(end)) {
                 end = nextInternalNode(end);
             }
-
             if (end != null) {
-
                 // we have identified the interval
-                pending = new double[] {
-                    getAngle(start), getAngle(end)
-                };
-
+                pending = new double[] { getAngle(start), getAngle(end) };
                 // prepare search for next interval
                 current = end;
-
             } else {
-
                 // the final interval is open toward infinity
-                pending = new double[] {
-                    getAngle(start), Double.POSITIVE_INFINITY
-                };
-
+                pending = new double[] { getAngle(start), Double.POSITIVE_INFINITY };
                 // there won't be any other intervals
                 current = null;
-
             }
-
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean hasNext() {
-            return pending != null;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public double[] next() {
-            if (pending == null) {
-                throw new NoSuchElementException();
-            }
-            final double[] next = pending;
-            selectPending();
-            return next;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void remove() {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
-
 }

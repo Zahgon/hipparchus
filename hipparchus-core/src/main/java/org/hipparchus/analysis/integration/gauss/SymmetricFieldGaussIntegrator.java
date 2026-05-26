@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -35,6 +34,7 @@ import org.hipparchus.util.Pair;
  * @since 2.0
  */
 public class SymmetricFieldGaussIntegrator<T extends CalculusFieldElement<T>> extends FieldGaussIntegrator<T> {
+
     /**
      * Creates an integrator from the given {@code points} and {@code weights}.
      * The integration interval is defined by the first and last value of
@@ -46,8 +46,7 @@ public class SymmetricFieldGaussIntegrator<T extends CalculusFieldElement<T>> ex
      * sorted in increasing order.
      * @throws MathIllegalArgumentException if points and weights don't have the same length
      */
-    public SymmetricFieldGaussIntegrator(T[] points, T[] weights)
-        throws MathIllegalArgumentException {
+    public SymmetricFieldGaussIntegrator(T[] points, T[] weights) throws MathIllegalArgumentException {
         super(points, weights);
     }
 
@@ -61,8 +60,7 @@ public class SymmetricFieldGaussIntegrator<T extends CalculusFieldElement<T>> ex
      *
      * @see #SymmetricFieldGaussIntegrator(CalculusFieldElement[], CalculusFieldElement[])
      */
-    public SymmetricFieldGaussIntegrator(Pair<T[], T[]> pointsAndWeights)
-        throws MathIllegalArgumentException {
+    public SymmetricFieldGaussIntegrator(Pair<T[], T[]> pointsAndWeights) throws MathIllegalArgumentException {
         this(pointsAndWeights.getFirst(), pointsAndWeights.getSecond());
     }
 
@@ -71,39 +69,6 @@ public class SymmetricFieldGaussIntegrator<T extends CalculusFieldElement<T>> ex
      */
     @Override
     public T integrate(CalculusFieldUnivariateFunction<T> f) {
-        final int ruleLength = getNumberOfPoints();
-
-        final T zero = getPoint(0).getField().getZero();
-        if (ruleLength == 1) {
-            return getWeight(0).multiply(f.value(zero));
-        }
-
-        final int iMax = ruleLength / 2;
-        T s = zero;
-        T c = zero;
-        for (int i = 0; i < iMax; i++) {
-            final T p = getPoint(i);
-            final T w = getWeight(i);
-
-            final T f1 = f.value(p);
-            final T f2 = f.value(p.negate());
-
-            final T y = w.multiply(f1.add(f2)).subtract(c);
-            final T t = s.add(y);
-
-            c = t.subtract(s).subtract(y);
-            s = t;
-        }
-
-        if (ruleLength % 2 != 0) {
-            final T w = getWeight(iMax);
-
-            final T y = w.multiply(f.value(zero)).subtract(c);
-            final T t = s.add(y);
-
-            s = t;
-        }
-
-        return s;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

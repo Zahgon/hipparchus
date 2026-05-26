@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -33,12 +32,19 @@ import org.hipparchus.util.FastMath;
  */
 public class NakagamiDistribution extends AbstractRealDistribution {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 20141003;
 
-    /** The shape parameter. */
+    /**
+     * The shape parameter.
+     */
     private final double mu;
-    /** The scale parameter. */
+
+    /**
+     * The scale parameter.
+     */
     private final double omega;
 
     /**
@@ -49,8 +55,7 @@ public class NakagamiDistribution extends AbstractRealDistribution {
      * @throws MathIllegalArgumentException if {@code mu < 0.5}
      * @throws MathIllegalArgumentException if {@code omega <= 0}
      */
-    public NakagamiDistribution(double mu, double omega)
-        throws MathIllegalArgumentException {
+    public NakagamiDistribution(double mu, double omega) throws MathIllegalArgumentException {
         this(mu, omega, DEFAULT_SOLVER_ABSOLUTE_ACCURACY);
     }
 
@@ -64,20 +69,14 @@ public class NakagamiDistribution extends AbstractRealDistribution {
      * @throws MathIllegalArgumentException if {@code mu < 0.5}
      * @throws MathIllegalArgumentException if {@code omega <= 0}
      */
-    public NakagamiDistribution(double mu,
-                                double omega,
-                                double inverseAbsoluteAccuracy)
-        throws MathIllegalArgumentException {
+    public NakagamiDistribution(double mu, double omega, double inverseAbsoluteAccuracy) throws MathIllegalArgumentException {
         super(inverseAbsoluteAccuracy);
-
         if (mu < 0.5) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL,
-                                                   mu, 0.5);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL, mu, 0.5);
         }
         if (omega <= 0) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.NOT_POSITIVE_SCALE, omega);
         }
-
         this.mu = mu;
         this.omega = omega;
     }
@@ -88,7 +87,7 @@ public class NakagamiDistribution extends AbstractRealDistribution {
      * @return the shape parameter.
      */
     public double getShape() {
-        return mu;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -97,54 +96,62 @@ public class NakagamiDistribution extends AbstractRealDistribution {
      * @return the scale parameter.
      */
     public double getScale() {
-        return omega;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double density(double x) {
-        if (x <= 0) {
-            return 0.0;
-        }
-        return 2.0 * FastMath.pow(mu, mu) / (Gamma.gamma(mu) * FastMath.pow(omega, mu)) *
-                     FastMath.pow(x, 2 * mu - 1) * FastMath.exp(-mu * x * x / omega);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double cumulativeProbability(double x) {
-        return Gamma.regularizedGammaP(mu, mu * x * x / omega);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getNumericalMean() {
-        return Gamma.gamma(mu + 0.5) / Gamma.gamma(mu) * FastMath.sqrt(omega / mu);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getNumericalVariance() {
-        double v = Gamma.gamma(mu + 0.5) / Gamma.gamma(mu);
-        return omega * (1 - 1 / mu * v * v);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getSupportLowerBound() {
-        return 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getSupportUpperBound() {
-        return Double.POSITIVE_INFINITY;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

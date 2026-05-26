@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.ode.nonstiff;
 
 import org.hipparchus.CalculusFieldElement;
@@ -51,14 +49,15 @@ import org.hipparchus.util.MathArrays;
  * @see LutherFieldIntegrator
  * @param <T> the type of the field elements
  */
+public class ThreeEighthesFieldIntegrator<T extends CalculusFieldElement<T>> extends FixedStepRungeKuttaFieldIntegrator<T> {
 
-public class ThreeEighthesFieldIntegrator<T extends CalculusFieldElement<T>>
-    extends FixedStepRungeKuttaFieldIntegrator<T> {
-
-    /** Name of integration scheme. */
+    /**
+     * Name of integration scheme.
+     */
     public static final String METHOD_NAME = ThreeEighthesIntegrator.METHOD_NAME;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * Build a 3/8 integrator with the given step.
      * @param field field to which the time and state vector elements belong
      * @param step integration step
@@ -67,52 +66,35 @@ public class ThreeEighthesFieldIntegrator<T extends CalculusFieldElement<T>>
         super(field, METHOD_NAME, step);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[] getC() {
-        final T[] c = MathArrays.buildArray(getField(), 3);
-        c[0] = FieldExplicitRungeKuttaIntegrator.fraction(getField(), 1, 3);
-        c[1] = c[0].add(c[0]);
-        c[2] = getField().getOne();
-        return c;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[][] getA() {
-        final T[][] a = MathArrays.buildArray(getField(), 3, -1);
-        for (int i = 0; i < a.length; ++i) {
-            a[i] = MathArrays.buildArray(getField(), i + 1);
-        }
-        a[0][0] = FieldExplicitRungeKuttaIntegrator.fraction(getField(), 1, 3);
-        a[1][0] = a[0][0].negate();
-        a[1][1] = getField().getOne();
-        a[2][0] = getField().getOne();
-        a[2][1] = getField().getOne().negate();
-        a[2][2] = getField().getOne();
-        return a;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T[] getB() {
-        final T[] b = MathArrays.buildArray(getField(), 4);
-        b[0] = FieldExplicitRungeKuttaIntegrator.fraction(getField(), 1, 8);
-        b[1] = FieldExplicitRungeKuttaIntegrator.fraction(getField(), 3, 8);
-        b[2] = b[1];
-        b[3] = b[0];
-        return b;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected ThreeEighthesFieldStateInterpolator<T>
-        createInterpolator(final boolean forward, T[][] yDotK,
-                           final FieldODEStateAndDerivative<T> globalPreviousState,
-                           final FieldODEStateAndDerivative<T> globalCurrentState,
-                           final FieldEquationsMapper<T> mapper) {
-        return new ThreeEighthesFieldStateInterpolator<>(getField(), forward, yDotK, globalPreviousState, globalCurrentState,
-                                                         globalPreviousState, globalCurrentState, mapper);
+    protected ThreeEighthesFieldStateInterpolator<T> createInterpolator(final boolean forward, T[][] yDotK, final FieldODEStateAndDerivative<T> globalPreviousState, final FieldODEStateAndDerivative<T> globalCurrentState, final FieldEquationsMapper<T> mapper) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

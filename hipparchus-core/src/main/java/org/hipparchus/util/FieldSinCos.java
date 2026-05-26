@@ -18,7 +18,8 @@ package org.hipparchus.util;
 
 import org.hipparchus.CalculusFieldElement;
 
-/** Holder for both sine and cosine values.
+/**
+ * Holder for both sine and cosine values.
  * <p>
  * This class is a simple container, it does not provide any computational method.
  * </p>
@@ -28,13 +29,18 @@ import org.hipparchus.CalculusFieldElement;
  */
 public class FieldSinCos<T> {
 
-    /** Value of the sine. */
+    /**
+     * Value of the sine.
+     */
     private final T sin;
 
-    /** Value of the cosine. */
+    /**
+     * Value of the cosine.
+     */
     private final T cos;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param sin value of the sine
      * @param cos value of the cosine
      */
@@ -43,21 +49,24 @@ public class FieldSinCos<T> {
         this.cos = cos;
     }
 
-    /** Get the value of the sine.
+    /**
+     * Get the value of the sine.
      * @return value of the sine
      */
     public T sin() {
-        return sin;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the value of the cosine.
+    /**
+     * Get the value of the cosine.
      * @return value of the cosine
      */
     public T cos() {
-        return cos;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute sine and cosine of angles sum.
+    /**
+     * Compute sine and cosine of angles sum.
      * @param scAlpha \((\sin \alpha, \cos \alpha)\)
      * @param scBeta \((\sin \beta, \cos \beta)\)
      * @param <S> the type of the field elements
@@ -65,11 +74,11 @@ public class FieldSinCos<T> {
      * @since 1.8
      */
     public static <S extends CalculusFieldElement<S>> FieldSinCos<S> sum(final FieldSinCos<S> scAlpha, final FieldSinCos<S> scBeta) {
-        return new FieldSinCos<>(scAlpha.sin.linearCombination(scAlpha.sin, scBeta.cos, scAlpha.cos,          scBeta.sin),
-                                 scAlpha.sin.linearCombination(scAlpha.cos, scBeta.cos, scAlpha.sin.negate(), scBeta.sin));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Compute sine and cosine of angles difference.
+    /**
+     * Compute sine and cosine of angles difference.
      * @param scAlpha \((\sin \alpha, \cos \alpha)\)
      * @param scBeta \((\sin \beta, \cos \beta)\)
      * @param <S> the type of the field elements
@@ -77,8 +86,6 @@ public class FieldSinCos<T> {
      * @since 1.8
      */
     public static <S extends CalculusFieldElement<S>> FieldSinCos<S> difference(final FieldSinCos<S> scAlpha, final FieldSinCos<S> scBeta) {
-        return new FieldSinCos<>(scAlpha.sin.linearCombination(scAlpha.sin, scBeta.cos, scAlpha.cos.negate(), scBeta.sin),
-                                 scAlpha.sin.linearCombination(scAlpha.cos, scBeta.cos, scAlpha.sin,          scBeta.sin));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

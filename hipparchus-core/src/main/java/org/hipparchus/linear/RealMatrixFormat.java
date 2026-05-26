@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.linear;
 
 import java.text.FieldPosition;
@@ -28,7 +26,6 @@ import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalStateException;
 import org.hipparchus.util.CompositeFormat;
@@ -54,35 +51,72 @@ import org.hipparchus.util.CompositeFormat;
  * <p><b>Note:</b> the grouping functionality of the used {@link NumberFormat} is
  * disabled to prevent problems when parsing (e.g. 1,345.34 would be a valid number
  * but conflicts with the default column separator).</p>
- *
  */
 public class RealMatrixFormat {
 
-    /** The default prefix: "{". */
+    /**
+     * The default prefix: "{".
+     */
     private static final String DEFAULT_PREFIX = "{";
-    /** The default suffix: "}". */
+
+    /**
+     * The default suffix: "}".
+     */
     private static final String DEFAULT_SUFFIX = "}";
-    /** The default row prefix: "{". */
+
+    /**
+     * The default row prefix: "{".
+     */
     private static final String DEFAULT_ROW_PREFIX = "{";
-    /** The default row suffix: "}". */
+
+    /**
+     * The default row suffix: "}".
+     */
     private static final String DEFAULT_ROW_SUFFIX = "}";
-    /** The default row separator: ",". */
+
+    /**
+     * The default row separator: ",".
+     */
     private static final String DEFAULT_ROW_SEPARATOR = ",";
-    /** The default column separator: ",". */
+
+    /**
+     * The default column separator: ",".
+     */
     private static final String DEFAULT_COLUMN_SEPARATOR = ",";
-    /** Prefix. */
+
+    /**
+     * Prefix.
+     */
     private final String prefix;
-    /** Suffix. */
+
+    /**
+     * Suffix.
+     */
     private final String suffix;
-    /** Row prefix. */
+
+    /**
+     * Row prefix.
+     */
     private final String rowPrefix;
-    /** Row suffix. */
+
+    /**
+     * Row suffix.
+     */
     private final String rowSuffix;
-    /** Row separator. */
+
+    /**
+     * Row separator.
+     */
     private final String rowSeparator;
-    /** Column separator. */
+
+    /**
+     * Column separator.
+     */
     private final String columnSeparator;
-    /** The format used for components. */
+
+    /**
+     * The format used for components.
+     */
     private final NumberFormat format;
 
     /**
@@ -91,8 +125,7 @@ public class RealMatrixFormat {
      * "[", "]", ";" and ", " and the default number format for components.</p>
      */
     public RealMatrixFormat() {
-        this(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ROW_PREFIX, DEFAULT_ROW_SUFFIX,
-                DEFAULT_ROW_SEPARATOR, DEFAULT_COLUMN_SEPARATOR, CompositeFormat.getDefaultNumberFormat());
+        this(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ROW_PREFIX, DEFAULT_ROW_SUFFIX, DEFAULT_ROW_SEPARATOR, DEFAULT_COLUMN_SEPARATOR, CompositeFormat.getDefaultNumberFormat());
     }
 
     /**
@@ -100,8 +133,7 @@ public class RealMatrixFormat {
      * @param format the custom format for components.
      */
     public RealMatrixFormat(final NumberFormat format) {
-        this(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ROW_PREFIX, DEFAULT_ROW_SUFFIX,
-                DEFAULT_ROW_SEPARATOR, DEFAULT_COLUMN_SEPARATOR, format);
+        this(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ROW_PREFIX, DEFAULT_ROW_SUFFIX, DEFAULT_ROW_SEPARATOR, DEFAULT_COLUMN_SEPARATOR, format);
     }
 
     /**
@@ -113,11 +145,8 @@ public class RealMatrixFormat {
      * @param rowSeparator tow separator to use instead of the default ";"
      * @param columnSeparator column separator to use instead of the default ", "
      */
-    public RealMatrixFormat(final String prefix, final String suffix,
-                            final String rowPrefix, final String rowSuffix,
-                            final String rowSeparator, final String columnSeparator) {
-        this(prefix, suffix, rowPrefix, rowSuffix, rowSeparator, columnSeparator,
-                CompositeFormat.getDefaultNumberFormat());
+    public RealMatrixFormat(final String prefix, final String suffix, final String rowPrefix, final String rowSuffix, final String rowSeparator, final String columnSeparator) {
+        this(prefix, suffix, rowPrefix, rowSuffix, rowSeparator, columnSeparator, CompositeFormat.getDefaultNumberFormat());
     }
 
     /**
@@ -131,17 +160,14 @@ public class RealMatrixFormat {
      * @param columnSeparator column separator to use instead of the default ", "
      * @param format the custom format for components.
      */
-    public RealMatrixFormat(final String prefix, final String suffix,
-                            final String rowPrefix, final String rowSuffix,
-                            final String rowSeparator, final String columnSeparator,
-                            final NumberFormat format) {
-        this.prefix            = prefix;
-        this.suffix            = suffix;
-        this.rowPrefix         = rowPrefix;
-        this.rowSuffix         = rowSuffix;
-        this.rowSeparator      = rowSeparator;
-        this.columnSeparator   = columnSeparator;
-        this.format            = format;
+    public RealMatrixFormat(final String prefix, final String suffix, final String rowPrefix, final String rowSuffix, final String rowSeparator, final String columnSeparator, final NumberFormat format) {
+        this.prefix = prefix;
+        this.suffix = suffix;
+        this.rowPrefix = rowPrefix;
+        this.rowSuffix = rowSuffix;
+        this.rowSeparator = rowSeparator;
+        this.columnSeparator = columnSeparator;
+        this.format = format;
         // disable grouping to prevent parsing problems
         this.format.setGroupingUsed(false);
     }
@@ -152,7 +178,7 @@ public class RealMatrixFormat {
      * @return available real vector format locales.
      */
     public static Locale[] getAvailableLocales() {
-        return NumberFormat.getAvailableLocales();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -160,7 +186,7 @@ public class RealMatrixFormat {
      * @return format prefix.
      */
     public String getPrefix() {
-        return prefix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -168,7 +194,7 @@ public class RealMatrixFormat {
      * @return format suffix.
      */
     public String getSuffix() {
-        return suffix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -176,7 +202,7 @@ public class RealMatrixFormat {
      * @return format prefix.
      */
     public String getRowPrefix() {
-        return rowPrefix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -184,7 +210,7 @@ public class RealMatrixFormat {
      * @return format suffix.
      */
     public String getRowSuffix() {
-        return rowSuffix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -192,7 +218,7 @@ public class RealMatrixFormat {
      * @return format separator for rows.
      */
     public String getRowSeparator() {
-        return rowSeparator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -200,7 +226,7 @@ public class RealMatrixFormat {
      * @return format separator between components.
      */
     public String getColumnSeparator() {
-        return columnSeparator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -208,7 +234,7 @@ public class RealMatrixFormat {
      * @return components format.
      */
     public NumberFormat getFormat() {
-        return format;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -217,7 +243,7 @@ public class RealMatrixFormat {
      * @since 1.4
      */
     public static RealMatrixFormat getRealMatrixFormat() {
-        return getRealMatrixFormat(Locale.getDefault());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -227,7 +253,7 @@ public class RealMatrixFormat {
      * @since 1.4
      */
     public static RealMatrixFormat getRealMatrixFormat(final Locale locale) {
-        return new RealMatrixFormat(CompositeFormat.getDefaultNumberFormat(locale));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -237,7 +263,7 @@ public class RealMatrixFormat {
      * @return a formatted matrix.
      */
     public String format(RealMatrix m) {
-        return format(m, new StringBuffer(), new FieldPosition(0)).toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -248,35 +274,8 @@ public class RealMatrixFormat {
      *            offsets of the alignment field
      * @return the value passed in as toAppendTo.
      */
-    public StringBuffer format(RealMatrix matrix, StringBuffer toAppendTo,
-                               FieldPosition pos) {
-
-        pos.setBeginIndex(0);
-        pos.setEndIndex(0);
-
-        // format prefix
-        toAppendTo.append(prefix);
-
-        // format rows
-        final int rows = matrix.getRowDimension();
-        for (int i = 0; i < rows; ++i) {
-            toAppendTo.append(rowPrefix);
-            for (int j = 0; j < matrix.getColumnDimension(); ++j) {
-                if (j > 0) {
-                    toAppendTo.append(columnSeparator);
-                }
-                CompositeFormat.formatDouble(matrix.getEntry(i, j), format, toAppendTo, pos);
-            }
-            toAppendTo.append(rowSuffix);
-            if (i < rows - 1) {
-                toAppendTo.append(rowSeparator);
-            }
-        }
-
-        // format suffix
-        toAppendTo.append(suffix);
-
-        return toAppendTo;
+    public StringBuffer format(RealMatrix matrix, StringBuffer toAppendTo, FieldPosition pos) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -288,14 +287,7 @@ public class RealMatrixFormat {
      * cannot be parsed.
      */
     public RealMatrix parse(String source) {
-        final ParsePosition parsePosition = new ParsePosition(0);
-        final RealMatrix result = parse(source, parsePosition);
-        if (parsePosition.getIndex() == 0) {
-            throw new MathIllegalStateException(LocalizedCoreFormats.CANNOT_PARSE_AS_TYPE,
-                                                source, parsePosition.getErrorIndex(),
-                                                Array2DRowRealMatrix.class);
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -306,96 +298,6 @@ public class RealMatrixFormat {
      * @return the parsed {@link RealMatrix} object.
      */
     public RealMatrix parse(String source, ParsePosition pos) {
-        int initialIndex = pos.getIndex();
-
-        final String trimmedPrefix = prefix.trim();
-        final String trimmedSuffix = suffix.trim();
-        final String trimmedRowPrefix = rowPrefix.trim();
-        final String trimmedRowSuffix = rowSuffix.trim();
-        final String trimmedColumnSeparator = columnSeparator.trim();
-        final String trimmedRowSeparator = rowSeparator.trim();
-
-        // parse prefix
-        CompositeFormat.parseAndIgnoreWhitespace(source, pos);
-        if (!CompositeFormat.parseFixedstring(source, trimmedPrefix, pos)) {
-            return null;
-        }
-
-        // parse components
-        List<List<Number>> matrix = new ArrayList<>();
-        List<Number> rowComponents = new ArrayList<>();
-        for (boolean loop = true; loop;){
-
-            if (!rowComponents.isEmpty()) {
-                CompositeFormat.parseAndIgnoreWhitespace(source, pos);
-                if (!CompositeFormat.parseFixedstring(source, trimmedColumnSeparator, pos)) {
-                    if (!trimmedRowSuffix.isEmpty() &&
-                        !CompositeFormat.parseFixedstring(source, trimmedRowSuffix, pos)) {
-                        return null;
-                    } else {
-                        CompositeFormat.parseAndIgnoreWhitespace(source, pos);
-                        if (CompositeFormat.parseFixedstring(source, trimmedRowSeparator, pos)) {
-                            matrix.add(rowComponents);
-                            rowComponents = new ArrayList<>();
-                            continue;
-                        } else {
-                            loop = false;
-                        }
-                    }
-                }
-            } else {
-                CompositeFormat.parseAndIgnoreWhitespace(source, pos);
-                if (!trimmedRowPrefix.isEmpty() &&
-                    !CompositeFormat.parseFixedstring(source, trimmedRowPrefix, pos)) {
-                    return null;
-                }
-            }
-
-            if (loop) {
-                CompositeFormat.parseAndIgnoreWhitespace(source, pos);
-                Number component = CompositeFormat.parseNumber(source, format, pos);
-                if (component != null) {
-                    rowComponents.add(component);
-                } else {
-                    if (rowComponents.isEmpty()) {
-                        loop = false;
-                    } else {
-                        // invalid component
-                        // set index back to initial, error index should already be set
-                        pos.setIndex(initialIndex);
-                        return null;
-                    }
-                }
-            }
-
-        }
-
-        if (!rowComponents.isEmpty()) {
-            matrix.add(rowComponents);
-        }
-
-        // parse suffix
-        CompositeFormat.parseAndIgnoreWhitespace(source, pos);
-        if (!CompositeFormat.parseFixedstring(source, trimmedSuffix, pos)) {
-            return null;
-        }
-
-        // do not allow an empty matrix
-        if (matrix.isEmpty()) {
-            pos.setIndex(initialIndex);
-            return null;
-        }
-
-        // build vector
-        double[][] data = new double[matrix.size()][];
-        int row = 0;
-        for (List<Number> rowList : matrix) {
-            data[row] = new double[rowList.size()];
-            for (int i = 0; i < rowList.size(); i++) {
-                data[row][i] = rowList.get(i).doubleValue();
-            }
-            row++;
-        }
-        return MatrixUtils.createRealMatrix(data);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

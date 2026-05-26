@@ -18,18 +18,18 @@ package org.hipparchus.ode;
 
 import java.util.Collections;
 import java.util.List;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathIllegalStateException;
 
-/** Interface expanding {@link OrdinaryDifferentialEquation first order
+/**
+ * Interface expanding {@link OrdinaryDifferentialEquation first order
  *  differential equations} in order to compute exactly the Jacobian
  *  matrices for {@link VariationalEquation partial derivatives equations}.
  */
-public interface ODEJacobiansProvider
-    extends OrdinaryDifferentialEquation, NamedParameterJacobianProvider {
+public interface ODEJacobiansProvider extends OrdinaryDifferentialEquation, NamedParameterJacobianProvider {
 
-    /** Compute the Jacobian matrix of ODE with respect to state.
+    /**
+     * Compute the Jacobian matrix of ODE with respect to state.
      * @param t current value of the independent <I>time</I> variable
      * @param y array containing the current value of the main state vector
      * @param yDot array containing the current value of the time derivative of the main state vector
@@ -37,40 +37,38 @@ public interface ODEJacobiansProvider
      * @exception MathIllegalStateException if the number of functions evaluations is exceeded
      * @exception MathIllegalArgumentException if arrays dimensions do not match equations settings
      */
-    double[][] computeMainStateJacobian(double t, double[] y, double[] yDot)
-        throws MathIllegalArgumentException, MathIllegalStateException;
+    double[][] computeMainStateJacobian(double t, double[] y, double[] yDot) throws MathIllegalArgumentException, MathIllegalStateException;
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * The default implementation has no parameters at all.
      * </p>
      */
     @Override
     default List<String> getParametersNames() {
-        return Collections.emptyList();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * The default implementation supports no parameters at all.
      * </p>
      */
     @Override
     default boolean isSupported(String name) {
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * <p>
      * The default implementation supports no parameters at all.
      * </p>
      */
     @Override
-    default double[] computeParameterJacobian(double t, double[] y, double[] yDot,
-                                              String paramName)
-        throws MathIllegalArgumentException {
-        throw new MathIllegalArgumentException(LocalizedODEFormats.UNKNOWN_PARAMETER,
-                                               paramName);
+    default double[] computeParameterJacobian(double t, double[] y, double[] yDot, String paramName) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

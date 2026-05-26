@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -30,7 +29,8 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-/** Control class loading properties in UTF-8 encoding.
+/**
+ * Control class loading properties in UTF-8 encoding.
  * <p>
  * This class has been very slightly adapted from BalusC answer to question: <a
  * href="http://stackoverflow.com/questions/4659929/how-to-use-utf-8-in-resource-properties-with-resourcebundle">
@@ -39,48 +39,24 @@ import java.util.ResourceBundle;
  */
 public class UTF8Control extends ResourceBundle.Control {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public UTF8Control() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public UTF8Control() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ResourceBundle newBundle(final String baseName, final Locale locale, final String format,
-                                    final ClassLoader loader, final boolean reload)
-        throws IllegalAccessException, InstantiationException, IOException {
-        // The below is a copy of the default implementation.
-        final String bundleName = toBundleName(baseName, locale);
-        final String resourceName = toResourceName(bundleName, "utf8");
-        ResourceBundle bundle = null;
-        InputStream stream = null;
-        if (reload) {
-            final URL url = loader.getResource(resourceName);
-            if (url != null) {
-                final URLConnection connection = url.openConnection();
-                if (connection != null) {
-                    connection.setUseCaches(false);
-                    stream = connection.getInputStream();
-                }
-            }
-        } else {
-            stream = loader.getResourceAsStream(resourceName);
-        }
-        if (stream != null) {
-            try { // NOPMD
-                // Only this line is changed to make it to read properties files as UTF-8.
-                bundle = new PropertyResourceBundle(new InputStreamReader(stream, "UTF-8"));
-            } finally {
-                stream.close();
-            }
-        }
-        return bundle;
+    public ResourceBundle newBundle(final String baseName, final Locale locale, final String format, final ClassLoader loader, final boolean reload) throws IllegalAccessException, InstantiationException, IOException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

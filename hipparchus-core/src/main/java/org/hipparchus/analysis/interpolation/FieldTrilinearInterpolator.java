@@ -24,8 +24,7 @@ import org.hipparchus.exception.MathIllegalArgumentException;
  * @param <T> type of the field elements
  * @since 4.1
  */
-public class FieldTrilinearInterpolator<T extends CalculusFieldElement<T>>
-    implements FieldTrivariateGridInterpolator<T> {
+public class FieldTrilinearInterpolator<T extends CalculusFieldElement<T>> implements FieldTrivariateGridInterpolator<T> {
 
     /**
      * Empty constructor.
@@ -35,15 +34,16 @@ public class FieldTrilinearInterpolator<T extends CalculusFieldElement<T>>
      * </p>
      * @since 4.1
      */
-    public FieldTrilinearInterpolator() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public FieldTrilinearInterpolator() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public FieldTrilinearInterpolatingFunction<T> interpolate(final T[] xval, final T[] yval, final T[] zval, final T[][][] fval)
-        throws MathIllegalArgumentException {
-        return new FieldTrilinearInterpolatingFunction<>(xval, yval, zval, fval);
+    public FieldTrilinearInterpolatingFunction<T> interpolate(final T[] xval, final T[] yval, final T[] zval, final T[][][] fval) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -24,7 +23,6 @@ package org.hipparchus.distribution;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.util.Pair;
@@ -53,7 +51,9 @@ import org.hipparchus.util.Precision;
  */
 public class EnumeratedDistribution<T> implements Serializable {
 
-    /** Serializable UID. */
+    /**
+     * Serializable UID.
+     */
     private static final long serialVersionUID = 20123308L;
 
     /**
@@ -76,21 +76,16 @@ public class EnumeratedDistribution<T> implements Serializable {
      * pairs.
      * @throws MathIllegalArgumentException of weights includes negative, NaN or infinite values or only 0's
      */
-    public EnumeratedDistribution(final List<Pair<T, Double>> pmf)
-        throws MathIllegalArgumentException {
-
+    public EnumeratedDistribution(final List<Pair<T, Double>> pmf) throws MathIllegalArgumentException {
         singletons = new ArrayList<>(pmf.size());
         final double[] probs = new double[pmf.size()];
-
         for (int i = 0; i < pmf.size(); i++) {
             final Pair<T, Double> sample = pmf.get(i);
             singletons.add(sample.getKey());
             final double p = sample.getValue();
             probs[i] = p;
         }
-
         probabilities = checkAndNormalize(probs);
-
     }
 
     /**
@@ -106,16 +101,7 @@ public class EnumeratedDistribution<T> implements Serializable {
      * @return the value of the probability mass function at {@code x}
      */
     public double probability(final T x) {
-        double probability = 0;
-
-        for (int i = 0; i < probabilities.length; i++) {
-            if ((x == null && singletons.get(i) == null) ||
-                (x != null && x.equals(singletons.get(i)))) {
-                probability += probabilities[i];
-            }
-        }
-
-        return probability;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -129,13 +115,7 @@ public class EnumeratedDistribution<T> implements Serializable {
      * @return the probability mass function.
      */
     public List<Pair<T, Double>> getPmf() {
-        final List<Pair<T, Double>> samples = new ArrayList<>(probabilities.length);
-
-        for (int i = 0; i < probabilities.length; i++) {
-            samples.add(new Pair<>(singletons.get(i), probabilities[i]));
-        }
-
-        return samples;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -148,42 +128,6 @@ public class EnumeratedDistribution<T> implements Serializable {
      *         infinite values or only 0's
      */
     public static double[] checkAndNormalize(double[] weights) {
-        if (weights == null || weights.length == 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.ARRAY_ZERO_LENGTH_OR_NULL_NOT_ALLOWED);
-        }
-        final int len = weights.length;
-        double sumWt = 0;
-        boolean posWt = false;
-        for (int i = 0; i < len; i++) {
-            if (weights[i] < 0) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL,
-                                                       weights[i], 0);
-            }
-            if (weights[i] > 0) {
-                posWt = true;
-            }
-            if (Double.isNaN(weights[i])) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.NAN_ELEMENT_AT_INDEX, i);
-            }
-            if (Double.isInfinite(weights[i])) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.INFINITE_ARRAY_ELEMENT,
-                                                       weights[i], i);
-            }
-            sumWt += weights[i];
-        }
-        if (!posWt) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.WEIGHT_AT_LEAST_ONE_NON_ZERO);
-        }
-        double[] normWt;
-        if (Precision.equals(sumWt, 1d, 10)) { // allow small error (10 ulps)
-            normWt = weights;
-        } else {
-            normWt = new double[len];
-            for (int i = 0; i < len; i++) {
-                normWt[i] = weights[i] / sumWt;
-            }
-        }
-        return normWt;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

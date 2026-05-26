@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -27,11 +26,12 @@ import org.hipparchus.util.Incrementor;
 
 /**
  * An adapter that delegates to another implementation of {@link LeastSquaresProblem}.
- *
  */
 public class LeastSquaresAdapter implements LeastSquaresProblem {
 
-    /** the delegate problem */
+    /**
+     * the delegate problem
+     */
     private final LeastSquaresProblem problem;
 
     /**
@@ -43,45 +43,59 @@ public class LeastSquaresAdapter implements LeastSquaresProblem {
         this.problem = problem;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector getStart() {
-        return problem.getStart();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getObservationSize() {
-        return problem.getObservationSize();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getParameterSize() {
-        return problem.getParameterSize();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Evaluation evaluate(final RealVector point) {
-        return problem.evaluate(point);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Incrementor getEvaluationCounter() {
-        return problem.getEvaluationCounter();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Incrementor getIterationCounter() {
-        return problem.getIterationCounter();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ConvergenceChecker<Evaluation> getConvergenceChecker() {
-        return problem.getConvergenceChecker();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

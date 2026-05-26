@@ -18,10 +18,8 @@ package org.hipparchus.ode;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathIllegalStateException;
-
 
 /**
  * This class represents a combined set of first order differential equations,
@@ -42,44 +40,52 @@ import org.hipparchus.exception.MathIllegalStateException;
  *
  * @see OrdinaryDifferentialEquation
  * @see VariationalEquation
- *
  */
-
 public class ExpandableODE {
 
-    /** Primary differential equation. */
+    /**
+     * Primary differential equation.
+     */
     private final OrdinaryDifferentialEquation primary;
 
-    /** Components of the expandable ODE. */
+    /**
+     * Components of the expandable ODE.
+     */
     private List<SecondaryODE> components;
 
-    /** Mapper for all equations. */
+    /**
+     * Mapper for all equations.
+     */
     private EquationsMapper mapper;
 
-    /** Build an expandable set from its primary ODE set.
+    /**
+     * Build an expandable set from its primary ODE set.
      * @param primary the primary set of differential equations to be integrated.
      */
     public ExpandableODE(final OrdinaryDifferentialEquation primary) {
-        this.primary    = primary;
+        this.primary = primary;
         this.components = new ArrayList<>();
-        this.mapper     = new EquationsMapper(null, primary.getDimension());
+        this.mapper = new EquationsMapper(null, primary.getDimension());
     }
 
-    /** Get the primary set of differential equations to be integrated.
+    /**
+     * Get the primary set of differential equations to be integrated.
      * @return primary set of differential equations to be integrated
      */
     public OrdinaryDifferentialEquation getPrimary() {
-        return primary;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the mapper for the set of equations.
+    /**
+     * Get the mapper for the set of equations.
      * @return mapper for the set of equations
      */
     public EquationsMapper getMapper() {
-        return mapper;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Add a set of secondary equations to be integrated along with the primary set.
+    /**
+     * Add a set of secondary equations to be integrated along with the primary set.
      * @param secondary secondary equations set
      * @return index of the secondary equation in the expanded state, to be used
      * as the parameter to {@link FieldODEState#getSecondaryState(int)} and
@@ -87,68 +93,29 @@ public class ExpandableODE {
      * 0 corresponds to primary state, secondary states start at 1)
      */
     public int addSecondaryEquations(final SecondaryODE secondary) {
-
-        components.add(secondary);
-        mapper = new EquationsMapper(mapper, secondary.getDimension());
-
-        return components.size();
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Initialize equations at the start of an ODE integration.
+    /**
+     * Initialize equations at the start of an ODE integration.
      * @param s0 state at integration start
      * @param finalTime target time for the integration
      * @exception MathIllegalStateException if the number of functions evaluations is exceeded
      * @exception MathIllegalArgumentException if arrays dimensions do not match equations settings
      */
     public void init(final ODEState s0, final double finalTime) {
-
-        final double t0 = s0.getTime();
-
-        // initialize primary equations
-        final double[] primary0 = s0.getPrimaryState();
-        primary.init(t0, primary0, finalTime);
-
-        // initialize secondary equations
-        for (int index = 1; index < mapper.getNumberOfEquations(); ++index) {
-            final double[] secondary0 = s0.getSecondaryState(index);
-            components.get(index - 1).init(t0, primary0, secondary0, finalTime);
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the current time derivative of the complete state vector.
+    /**
+     * Get the current time derivative of the complete state vector.
      * @param t current value of the independent <I>time</I> variable
      * @param y array containing the current value of the complete state vector
      * @return time derivative of the complete state vector
      * @exception MathIllegalStateException if the number of functions evaluations is exceeded
      * @exception MathIllegalArgumentException if arrays dimensions do not match equations settings
      */
-    public double[] computeDerivatives(final double t, final double[] y)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-
-        final double[] yDot = new double[mapper.getTotalDimension()];
-
-        // compute derivatives of the primary equations
-        final double[] primaryState    = mapper.extractEquationData(0, y);
-        final double[] primaryStateDot = primary.computeDerivatives(t, primaryState);
-
-        // Add contribution for secondary equations
-        for (int index = 1; index < mapper.getNumberOfEquations(); ++index) {
-            final double[] componentState    = mapper.extractEquationData(index, y);
-            final double[] componentStateDot = components.get(index - 1).computeDerivatives(t, primaryState, primaryStateDot,
-                                                                                            componentState);
-            mapper.insertEquationData(index, componentStateDot, yDot);
-        }
-
-        // we retrieve the primaryStateDot array after the secondary equations have
-        // been computed in case they change the main state derivatives; this happens
-        // for example in optimal control when the secondary equations handle co-state,
-        // which changes control, and the control changes the primary state
-        mapper.insertEquationData(0, primaryStateDot, yDot);
-
-        return yDot;
-
+    public double[] computeDerivatives(final double t, final double[] y) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

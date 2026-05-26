@@ -18,7 +18,6 @@ package org.hipparchus.complex;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.hipparchus.CalculusFieldElement;
 import org.hipparchus.Field;
 
@@ -31,73 +30,78 @@ import org.hipparchus.Field;
  */
 public class FieldComplexField<T extends CalculusFieldElement<T>> implements Field<FieldComplex<T>> {
 
-    /** Cached fields. */
+    /**
+     * Cached fields.
+     */
     private static final Map<Field<?>, FieldComplexField<?>> CACHE = new HashMap<>();
 
-    /** Constant 0. */
+    /**
+     * Constant 0.
+     */
     private final FieldComplex<T> zero;
 
-    /** Constant 1. */
+    /**
+     * Constant 1.
+     */
     private final FieldComplex<T> one;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param field type of the field element
      */
     private FieldComplexField(final Field<T> field) {
         zero = FieldComplex.getZero(field);
-        one  = FieldComplex.getOne(field);
+        one = FieldComplex.getOne(field);
     }
 
-    /** Get the field for complex numbers.
+    /**
+     * Get the field for complex numbers.
      * @param partsField field for the real and imaginary parts
      * @param <T> the type of the field elements
      * @return cached field
      */
     public static <T extends CalculusFieldElement<T>> FieldComplexField<T> getField(final Field<T> partsField) {
-        FieldComplexField<?> cachedField;
-        synchronized (CACHE) {
-            cachedField = CACHE.get(partsField);
-            if (cachedField == null) {
-                cachedField = new FieldComplexField<>(partsField);
-                CACHE.put(partsField, cachedField);
-            }
-        }
-
-        @SuppressWarnings("unchecked")
-        final FieldComplexField<T> tCached = (FieldComplexField<T>) cachedField;
-        return tCached;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> getOne() {
-        return one;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FieldComplex<T> getZero() {
-        return zero;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
     @Override
     public Class<FieldComplex<T>> getRuntimeClass() {
-        return (Class<FieldComplex<T>>) getZero().getClass();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(final Object other) {
-        return this == other;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
-        return 0xd368f208;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

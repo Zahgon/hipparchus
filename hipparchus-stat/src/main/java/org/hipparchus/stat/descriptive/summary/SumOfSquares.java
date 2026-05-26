@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.stat.descriptive.summary;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.NullArgumentException;
 import org.hipparchus.stat.descriptive.AbstractStorelessUnivariateStatistic;
@@ -42,16 +40,21 @@ import org.hipparchus.util.MathUtils;
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.
  */
-public class SumOfSquares extends AbstractStorelessUnivariateStatistic
-    implements AggregatableStatistic<SumOfSquares>, Serializable {
+public class SumOfSquares extends AbstractStorelessUnivariateStatistic implements AggregatableStatistic<SumOfSquares>, Serializable {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20150412L;
 
-    /** Number of values that have been added */
+    /**
+     * Number of values that have been added
+     */
     private long n;
 
-    /** The currently running sumSq */
+    /**
+     * The currently running sumSq
+     */
     private double value;
 
     /**
@@ -71,44 +74,48 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic
      */
     public SumOfSquares(SumOfSquares original) throws NullArgumentException {
         MathUtils.checkNotNull(original);
-        this.n     = original.n;
+        this.n = original.n;
         this.value = original.value;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void increment(final double d) {
-        value += d * d;
-        n++;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getResult() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long getN() {
-        return n;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
-        value = 0;
-        n = 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void aggregate(SumOfSquares other) {
-        MathUtils.checkNotNull(other);
-        if (other.n > 0) {
-            this.n     += other.n;
-            this.value += other.value;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -124,23 +131,15 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values,final int begin, final int length)
-        throws MathIllegalArgumentException {
-
-        double sumSq = Double.NaN;
-        if (MathArrays.verifyValues(values, begin, length, true)) {
-            sumSq = 0.0;
-            for (int i = begin; i < begin + length; i++) {
-                sumSq += values[i] * values[i];
-            }
-        }
-        return sumSq;
+    public double evaluate(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SumOfSquares copy() {
-        return new SumOfSquares(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

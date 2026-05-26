@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -40,16 +39,19 @@ import org.hipparchus.util.MathUtils;
  * but provided by one sample, or when the hypothesis under test is that the two
  * samples come from the same underlying distribution.
  */
-public class ChiSquareTest { // NOPMD - this is not a Junit test class, PMD false positive here
+public class // NOPMD - this is not a Junit test class, PMD false positive here
+ChiSquareTest {
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public ChiSquareTest() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public ChiSquareTest() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
@@ -84,40 +86,8 @@ public class ChiSquareTest { // NOPMD - this is not a Junit test class, PMD fals
      * not strictly positive
      * @throws MathIllegalArgumentException if the arrays length is less than 2
      */
-    public double chiSquare(final double[] expected, final long[] observed)
-        throws MathIllegalArgumentException {
-
-        if (expected.length < 2) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   expected.length, 2);
-        }
-        MathUtils.checkDimension(expected.length, observed.length);
-        MathArrays.checkPositive(expected);
-        MathArrays.checkNonNegative(observed);
-
-        double sumExpected = 0d;
-        double sumObserved = 0d;
-        for (int i = 0; i < observed.length; i++) {
-            sumExpected += expected[i];
-            sumObserved += observed[i];
-        }
-        double ratio = 1.0d;
-        boolean rescale = false;
-        if (FastMath.abs(sumExpected - sumObserved) > 10E-6) {
-            ratio = sumObserved / sumExpected;
-            rescale = true;
-        }
-        double sumSq = 0.0d;
-        for (int i = 0; i < observed.length; i++) {
-            if (rescale) {
-                final double dev = observed[i] - ratio * expected[i];
-                sumSq += dev * dev / (ratio * expected[i]);
-            } else {
-                final double dev = observed[i] - expected[i];
-                sumSq += dev * dev / expected[i];
-            }
-        }
-        return sumSq;
+    public double chiSquare(final double[] expected, final long[] observed) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -156,11 +126,8 @@ public class ChiSquareTest { // NOPMD - this is not a Junit test class, PMD fals
      * @throws MathIllegalArgumentException if the arrays length is less than 2
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public double chiSquareTest(final double[] expected, final long[] observed)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-
-        final ChiSquaredDistribution distribution = new ChiSquaredDistribution(expected.length - 1.0);
-        return 1.0 - distribution.cumulativeProbability(chiSquare(expected, observed));
+    public double chiSquareTest(final double[] expected, final long[] observed) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -203,16 +170,8 @@ public class ChiSquareTest { // NOPMD - this is not a Junit test class, PMD fals
      * @throws MathIllegalArgumentException if <code>alpha</code> is not in the range (0, 0.5]
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public boolean chiSquareTest(final double[] expected, final long[] observed,
-                                 final double alpha)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-
-        if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new MathIllegalArgumentException(LocalizedStatFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
-                                          alpha, 0, 0.5);
-        }
-        return chiSquareTest(expected, observed) < alpha;
-
+    public boolean chiSquareTest(final double[] expected, final long[] observed, final double alpha) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -242,35 +201,8 @@ public class ChiSquareTest { // NOPMD - this is not a Junit test class, PMD fals
      * @throws MathIllegalArgumentException if the array is not rectangular
      * @throws MathIllegalArgumentException if {@code counts} has negative entries
      */
-    public double chiSquare(final long[][] counts)
-        throws MathIllegalArgumentException, NullArgumentException {
-
-        checkArray(counts);
-        int nRows = counts.length;
-        int nCols = counts[0].length;
-
-        // compute row, column and total sums
-        double[] rowSum = new double[nRows];
-        double[] colSum = new double[nCols];
-        double total = 0.0d;
-        for (int row = 0; row < nRows; row++) {
-            for (int col = 0; col < nCols; col++) {
-                rowSum[row] += counts[row][col];
-                colSum[col] += counts[row][col];
-                total += counts[row][col];
-            }
-        }
-
-        // compute expected counts and chi-square
-        double sumSq = 0.0d;
-        for (int row = 0; row < nRows; row++) {
-            for (int col = 0; col < nCols; col++) {
-                final double expected = (rowSum[row] * colSum[col]) / total;
-                sumSq += ((counts[row][col] - expected) *
-                        (counts[row][col] - expected)) / expected;
-            }
-        }
-        return sumSq;
+    public double chiSquare(final long[][] counts) throws MathIllegalArgumentException, NullArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -303,13 +235,8 @@ public class ChiSquareTest { // NOPMD - this is not a Junit test class, PMD fals
      * @throws MathIllegalArgumentException if {@code counts} has negative entries
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public double chiSquareTest(final long[][] counts)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-
-        checkArray(counts);
-        double df = ((double) counts.length -1) * ((double) counts[0].length - 1);
-        final ChiSquaredDistribution distribution = new ChiSquaredDistribution(df);
-        return 1 - distribution.cumulativeProbability(chiSquare(counts));
+    public double chiSquareTest(final long[][] counts) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -351,14 +278,8 @@ public class ChiSquareTest { // NOPMD - this is not a Junit test class, PMD fals
      * @throws MathIllegalArgumentException if <code>alpha</code> is not in the range (0, 0.5]
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public boolean chiSquareTest(final long[][] counts, final double alpha)
-        throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
-
-        if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new MathIllegalArgumentException(LocalizedStatFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
-                                          alpha, 0, 0.5);
-        }
-        return chiSquareTest(counts) < alpha;
+    public boolean chiSquareTest(final long[][] counts, final double alpha) throws MathIllegalArgumentException, NullArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -404,55 +325,8 @@ public class ChiSquareTest { // NOPMD - this is not a Junit test class, PMD fals
      * <code>observed2</code> are zero, or if the count at some index is zero
      * for both arrays
      */
-    public double chiSquareDataSetsComparison(long[] observed1, long[] observed2)
-        throws MathIllegalArgumentException {
-
-        // Make sure lengths are same
-        if (observed1.length < 2) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   observed1.length, 2);
-        }
-        MathUtils.checkDimension(observed1.length, observed2.length);
-
-        // Ensure non-negative counts
-        MathArrays.checkNonNegative(observed1);
-        MathArrays.checkNonNegative(observed2);
-
-        // Compute and compare count sums
-        long countSum1 = 0;
-        long countSum2 = 0;
-        for (int i = 0; i < observed1.length; i++) {
-            countSum1 += observed1[i];
-            countSum2 += observed2[i];
-        }
-        // Ensure neither sample is uniformly 0
-        if (countSum1 == 0 || countSum2 == 0) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.ZERO_NOT_ALLOWED);
-        }
-        // Compare and compute weight only if different
-        double weight = 0.0;
-        boolean unequalCounts = countSum1 != countSum2;
-        if (unequalCounts) {
-            weight = FastMath.sqrt(((double) countSum1) / countSum2);
-        }
-        // Compute ChiSquare statistic
-        double sumSq = 0.0d;
-        for (int i = 0; i < observed1.length; i++) {
-            if (observed1[i] == 0 && observed2[i] == 0) {
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.OBSERVED_COUNTS_BOTTH_ZERO_FOR_ENTRY, i);
-            } else {
-                final double obs1 = observed1[i];
-                final double obs2 = observed2[i];
-                final double dev;
-                if (unequalCounts) { // apply weights
-                    dev = obs1/weight - obs2 * weight;
-                } else {
-                    dev = obs1 - obs2;
-                }
-                sumSq += (dev * dev) / (obs1 + obs2);
-            }
-        }
-        return sumSq;
+    public double chiSquareDataSetsComparison(long[] observed1, long[] observed2) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -494,14 +368,8 @@ public class ChiSquareTest { // NOPMD - this is not a Junit test class, PMD fals
      * for both arrays
      * @throws MathIllegalStateException if an error occurs computing the p-value
      */
-    public double chiSquareTestDataSetsComparison(long[] observed1, long[] observed2)
-        throws MathIllegalArgumentException,
-        MathIllegalStateException {
-
-        final ChiSquaredDistribution distribution =
-                new ChiSquaredDistribution((double) observed1.length - 1);
-        return 1 - distribution.cumulativeProbability(
-                chiSquareDataSetsComparison(observed1, observed2));
+    public double chiSquareTestDataSetsComparison(long[] observed1, long[] observed2) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -543,18 +411,8 @@ public class ChiSquareTest { // NOPMD - this is not a Junit test class, PMD fals
      * @throws MathIllegalArgumentException if <code>alpha</code> is not in the range (0, 0.5]
      * @throws MathIllegalStateException if an error occurs performing the test
      */
-    public boolean chiSquareTestDataSetsComparison(final long[] observed1,
-                                                   final long[] observed2,
-                                                   final double alpha)
-        throws MathIllegalArgumentException, MathIllegalStateException {
-
-        if (alpha <= 0 ||
-            alpha > 0.5) {
-            throw new MathIllegalArgumentException(LocalizedStatFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
-                                          alpha, 0, 0.5);
-        }
-        return chiSquareTestDataSetsComparison(observed1, observed2) < alpha;
-
+    public boolean chiSquareTestDataSetsComparison(final long[] observed1, final long[] observed2, final double alpha) throws MathIllegalArgumentException, MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -566,21 +424,14 @@ public class ChiSquareTest { // NOPMD - this is not a Junit test class, PMD fals
      * @throws MathIllegalArgumentException if the array is not valid
      * @throws MathIllegalArgumentException if the array contains any negative entries
      */
-    private void checkArray(final long[][] in)
-        throws MathIllegalArgumentException, NullArgumentException {
-
+    private void checkArray(final long[][] in) throws MathIllegalArgumentException, NullArgumentException {
         if (in.length < 2) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   in.length, 2);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH, in.length, 2);
         }
-
         if (in[0].length < 2) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   in[0].length, 2);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH, in[0].length, 2);
         }
-
         MathArrays.checkRectangular(in);
         MathArrays.checkNonNegative(in);
     }
-
 }

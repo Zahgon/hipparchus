@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -27,23 +26,31 @@ import org.hipparchus.exception.MathRuntimeException;
 /**
  * A default concrete implementation of the abstract class
  * {@link IterativeLinearSolverEvent}.
- *
  */
 public class DefaultIterativeLinearSolverEvent extends IterativeLinearSolverEvent {
 
-    /** */
+    /**
+     */
     private static final long serialVersionUID = 20120129L;
 
-    /** The right-hand side vector. */
+    /**
+     * The right-hand side vector.
+     */
     private final RealVector b;
 
-    /** The current estimate of the residual. */
+    /**
+     * The current estimate of the residual.
+     */
     private final RealVector r;
 
-    /** The current estimate of the norm of the residual. */
+    /**
+     * The current estimate of the norm of the residual.
+     */
     private final double rnorm;
 
-    /** The current estimate of the solution. */
+    /**
+     * The current estimate of the solution.
+     */
     private final RealVector x;
 
     /**
@@ -65,9 +72,7 @@ public class DefaultIterativeLinearSolverEvent extends IterativeLinearSolverEven
      * @param r the current estimate of the residual (can be {@code null})
      * @param rnorm the norm of the current estimate of the residual
      */
-    public DefaultIterativeLinearSolverEvent(final Object source, final int iterations,
-        final RealVector x, final RealVector b, final RealVector r,
-        final double rnorm) {
+    public DefaultIterativeLinearSolverEvent(final Object source, final int iterations, final RealVector x, final RealVector b, final RealVector r, final double rnorm) {
         super(source, iterations);
         this.x = x;
         this.b = b;
@@ -93,8 +98,7 @@ public class DefaultIterativeLinearSolverEvent extends IterativeLinearSolverEven
      * @param b the right-hand side vector
      * @param rnorm the norm of the current estimate of the residual
      */
-    public DefaultIterativeLinearSolverEvent(final Object source, final int iterations,
-        final RealVector x, final RealVector b, final double rnorm) {
+    public DefaultIterativeLinearSolverEvent(final Object source, final int iterations, final RealVector x, final RealVector b, final double rnorm) {
         super(source, iterations);
         this.x = x;
         this.b = b;
@@ -102,10 +106,12 @@ public class DefaultIterativeLinearSolverEvent extends IterativeLinearSolverEven
         this.rnorm = rnorm;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getNormOfResidual() {
-        return rnorm;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -116,22 +122,23 @@ public class DefaultIterativeLinearSolverEvent extends IterativeLinearSolverEven
      */
     @Override
     public RealVector getResidual() {
-        if (r != null) {
-            return r;
-        }
-        throw new MathRuntimeException(LocalizedCoreFormats.UNSUPPORTED_OPERATION);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector getRightHandSideVector() {
-        return b;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RealVector getSolution() {
-        return x;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -144,6 +151,6 @@ public class DefaultIterativeLinearSolverEvent extends IterativeLinearSolverEven
      */
     @Override
     public boolean providesResidual() {
-        return r != null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

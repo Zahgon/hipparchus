@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.stat.descriptive.moment;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.NullArgumentException;
 import org.hipparchus.stat.descriptive.AbstractStorelessUnivariateStatistic;
@@ -47,13 +45,16 @@ import org.hipparchus.util.MathUtils;
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.
  */
-public class StandardDeviation extends AbstractStorelessUnivariateStatistic
-    implements Serializable {
+public class StandardDeviation extends AbstractStorelessUnivariateStatistic implements Serializable {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20150412L;
 
-    /** Wrapped Variance instance */
+    /**
+     * Wrapped Variance instance
+     */
     private final Variance variance;
 
     /**
@@ -122,28 +123,36 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
         this.variance = original.variance.copy();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void increment(final double d) {
-        variance.increment(d);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long getN() {
-        return variance.getN();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getResult() {
-        return FastMath.sqrt(variance.getResult());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
-        variance.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -163,9 +172,8 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException  {
-        return FastMath.sqrt(variance.evaluate(values, begin, length));
+    public double evaluate(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -190,10 +198,8 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
-    public double evaluate(final double[] values, final double mean,
-                           final int begin, final int length)
-        throws MathIllegalArgumentException  {
-        return FastMath.sqrt(variance.evaluate(values, mean, begin, length));
+    public double evaluate(final double[] values, final double mean, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -215,16 +221,16 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * @return the standard deviation of the values or Double.NaN if length = 0
      * @throws MathIllegalArgumentException if the array is null
      */
-    public double evaluate(final double[] values, final double mean)
-        throws MathIllegalArgumentException  {
-        return FastMath.sqrt(variance.evaluate(values, mean));
+    public double evaluate(final double[] values, final double mean) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Check if bias is corrected.
+    /**
+     * Check if bias is corrected.
      * @return Returns the isBiasCorrected.
      */
     public boolean isBiasCorrected() {
-        return variance.isBiasCorrected();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -235,13 +241,14 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * @return a copy of this instance with the given bias correction setting
      */
     public StandardDeviation withBiasCorrection(boolean biasCorrection) {
-        return new StandardDeviation(variance.withBiasCorrection(biasCorrection));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public StandardDeviation copy() {
-        return new StandardDeviation(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

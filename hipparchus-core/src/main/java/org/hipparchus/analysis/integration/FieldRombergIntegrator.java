@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -43,7 +42,9 @@ import org.hipparchus.util.MathArrays;
  */
 public class FieldRombergIntegrator<T extends CalculusFieldElement<T>> extends BaseAbstractFieldUnivariateIntegrator<T> {
 
-    /** Maximal number of iterations for Romberg. */
+    /**
+     * Maximal number of iterations for Romberg.
+     */
     public static final int ROMBERG_MAX_ITERATIONS_COUNT = 32;
 
     /**
@@ -61,16 +62,10 @@ public class FieldRombergIntegrator<T extends CalculusFieldElement<T>> extends B
      * @exception MathIllegalArgumentException if maximal number of iterations
      * is greater than {@link #ROMBERG_MAX_ITERATIONS_COUNT}
      */
-    public FieldRombergIntegrator(final Field<T> field,
-                                  final double relativeAccuracy,
-                                  final double absoluteAccuracy,
-                                  final int minimalIterationCount,
-                                  final int maximalIterationCount)
-        throws MathIllegalArgumentException {
+    public FieldRombergIntegrator(final Field<T> field, final double relativeAccuracy, final double absoluteAccuracy, final int minimalIterationCount, final int maximalIterationCount) throws MathIllegalArgumentException {
         super(field, relativeAccuracy, absoluteAccuracy, minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > ROMBERG_MAX_ITERATIONS_COUNT) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                   maximalIterationCount, ROMBERG_MAX_ITERATIONS_COUNT);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED, maximalIterationCount, ROMBERG_MAX_ITERATIONS_COUNT);
         }
     }
 
@@ -87,14 +82,10 @@ public class FieldRombergIntegrator<T extends CalculusFieldElement<T>> extends B
      * @exception MathIllegalArgumentException if maximal number of iterations
      * is greater than {@link #ROMBERG_MAX_ITERATIONS_COUNT}
      */
-    public FieldRombergIntegrator(final Field<T> field,
-                                  final int minimalIterationCount,
-                                  final int maximalIterationCount)
-        throws MathIllegalArgumentException {
+    public FieldRombergIntegrator(final Field<T> field, final int minimalIterationCount, final int maximalIterationCount) throws MathIllegalArgumentException {
         super(field, minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > ROMBERG_MAX_ITERATIONS_COUNT) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                   maximalIterationCount, ROMBERG_MAX_ITERATIONS_COUNT);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED, maximalIterationCount, ROMBERG_MAX_ITERATIONS_COUNT);
         }
     }
 
@@ -107,47 +98,11 @@ public class FieldRombergIntegrator<T extends CalculusFieldElement<T>> extends B
         super(field, DEFAULT_MIN_ITERATIONS_COUNT, ROMBERG_MAX_ITERATIONS_COUNT);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected T doIntegrate()
-        throws MathIllegalStateException {
-
-        final int m = iterations.getMaximalCount() + 1;
-        T[] previousRow = MathArrays.buildArray(getField(), m);
-        T[] currentRow = MathArrays.buildArray(getField(), m);
-
-        FieldTrapezoidIntegrator<T> qtrap = new FieldTrapezoidIntegrator<>(getField());
-        currentRow[0] = qtrap.stage(this, 0);
-        iterations.increment();
-        T olds = currentRow[0];
-        while (true) {
-
-            final int i = iterations.getCount();
-
-            // switch rows
-            final T[] tmpRow = previousRow;
-            previousRow = currentRow;
-            currentRow = tmpRow;
-
-            currentRow[0] = qtrap.stage(this, i);
-            iterations.increment();
-            for (int j = 1; j <= i; j++) {
-                // Richardson extrapolation coefficient
-                final double r = (1L << (2 * j)) - 1;
-                final T tIJm1 = currentRow[j - 1];
-                currentRow[j] = tIJm1.add(tIJm1.subtract(previousRow[j - 1]).divide(r));
-            }
-            final T s = currentRow[i];
-            if (i >= getMinimalIterationCount()) {
-                final double delta  = FastMath.abs(s.subtract(olds)).getReal();
-                final double rLimit = FastMath.abs(olds).add(FastMath.abs(s)).multiply(0.5 * getRelativeAccuracy()).getReal();
-                 if ((delta <= rLimit) || (delta <= getAbsoluteAccuracy())) {
-                    return s;
-                }
-            }
-            olds = s;
-        }
-
+    protected T doIntegrate() throws MathIllegalStateException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

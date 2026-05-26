@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.util;
 
 import java.io.IOException;
@@ -40,13 +38,19 @@ import java.util.NoSuchElementException;
  */
 public class OpenIntToDoubleHashMap extends AbstractOpenIntHashMap implements Serializable {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20240326L;
 
-    /** Values table. */
+    /**
+     * Values table.
+     */
     private double[] values;
 
-    /** Return value for missing entries. */
+    /**
+     * Return value for missing entries.
+     */
     private final double missingEntries;
 
     /**
@@ -77,8 +81,7 @@ public class OpenIntToDoubleHashMap extends AbstractOpenIntHashMap implements Se
      * @param expectedSize expected number of elements in the map
      * @param missingEntries value to return when a missing entry is fetched
      */
-    public OpenIntToDoubleHashMap(final int expectedSize,
-                                  final double missingEntries) {
+    public OpenIntToDoubleHashMap(final int expectedSize, final double missingEntries) {
         super(expectedSize);
         values = new double[getCapacity()];
         this.missingEntries = missingEntries;
@@ -101,8 +104,7 @@ public class OpenIntToDoubleHashMap extends AbstractOpenIntHashMap implements Se
      * @return data associated with the key
      */
     public double get(final int key) {
-        final int index = locate(key);
-        return index < 0 ? missingEntries : values[index];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -113,26 +115,23 @@ public class OpenIntToDoubleHashMap extends AbstractOpenIntHashMap implements Se
      * @return iterator over the map elements
      */
     public Iterator iterator() {
-        return new Iterator();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        final OpenIntToDoubleHashMap that = (OpenIntToDoubleHashMap) o;
-        return equalKeys(that) && equalStates(that) && Arrays.equals(values, that.values);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
-        return keysStatesHashCode() + Arrays.hashCode(values);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -141,15 +140,7 @@ public class OpenIntToDoubleHashMap extends AbstractOpenIntHashMap implements Se
      * @return removed value
      */
     public double remove(final int key) {
-        final int index = locate(key);
-        if (index < 0) {
-            return missingEntries;
-        } else {
-            final double previous = values[index];
-            doRemove(index);
-            values[index] = missingEntries;
-            return previous;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -159,33 +150,31 @@ public class OpenIntToDoubleHashMap extends AbstractOpenIntHashMap implements Se
      * @return previous value associated with the key
      */
     public double put(final int key, final double value) {
-        final InsertionHolder ih = put(key);
-        final double previous = ih.isExisting() ? values[ih.getIndex()] : missingEntries;
-        values[ih.getIndex()] = value;
-        return previous;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected int growTable(final int oldIndex) {
-        final double[] newValues = new double[RESIZE_MULTIPLIER * values.length];
-        final int      newIndex  = doGrowTable(oldIndex, (src, dest) -> newValues[dest] = values[src]);
-        values = newValues;
-        return newIndex;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Iterator class for the map. */
+    /**
+     * Iterator class for the map.
+     */
     public class Iterator extends BaseIterator {
 
-        /** Get the value of current entry.
+        /**
+         * Get the value of current entry.
          * @return value of current entry
          * @exception ConcurrentModificationException if the map is modified during iteration
          * @exception NoSuchElementException if there is no element left in the map
          */
         public double value() throws ConcurrentModificationException, NoSuchElementException {
-            return values[getCurrent()];
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
 
     /**
@@ -195,8 +184,7 @@ public class OpenIntToDoubleHashMap extends AbstractOpenIntHashMap implements Se
      * @throws ClassNotFoundException if the class corresponding
      * to the serialized object cannot be found
      */
-    private void readObject(final ObjectInputStream stream)
-        throws IOException, ClassNotFoundException {
+    private void readObject(final ObjectInputStream stream) throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
         resetCount();
     }
@@ -209,38 +197,50 @@ public class OpenIntToDoubleHashMap extends AbstractOpenIntHashMap implements Se
         return new DataTransferObject(missingEntries, getSize(), iterator());
     }
 
-    /** Internal class used only for serialization. */
+    /**
+     * Internal class used only for serialization.
+     */
     private static class DataTransferObject implements Serializable {
 
-        /** Serializable UID. */
+        /**
+         * Serializable UID.
+         */
         private static final long serialVersionUID = 20240326L;
 
-        /** Return value for missing entries. */
+        /**
+         * Return value for missing entries.
+         */
         private final double missingEntries;
 
-        /** Keys table. */
+        /**
+         * Keys table.
+         */
         private final int[] keys;
 
-        /** Values table. */
+        /**
+         * Values table.
+         */
         private final double[] values;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          * @param missingEntries return value for missing entries
          * @param size number of objects in the map
          * @param iterator iterator on serialized map
          */
         DataTransferObject(final double missingEntries, final int size, final Iterator iterator) {
             this.missingEntries = missingEntries;
-            this.keys           = new int[size];
-            this.values         = new double[size];
+            this.keys = new int[size];
+            this.values = new double[size];
             for (int i = 0; i < size; ++i) {
                 iterator.advance();
-                keys[i]   = iterator.key();
+                keys[i] = iterator.key();
                 values[i] = iterator.value();
             }
         }
 
-        /** Replace the deserialized data transfer object with a {@link OpenIntToDoubleHashMap}.
+        /**
+         * Replace the deserialized data transfer object with a {@link OpenIntToDoubleHashMap}.
          * @return replacement {@link OpenIntToDoubleHashMap}
          */
         private Object readResolve() {
@@ -250,7 +250,5 @@ public class OpenIntToDoubleHashMap extends AbstractOpenIntHashMap implements Se
             }
             return map;
         }
-
     }
-
 }

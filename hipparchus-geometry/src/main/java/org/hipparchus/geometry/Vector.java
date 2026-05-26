@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -25,10 +24,10 @@ import org.hipparchus.analysis.polynomials.SmoothStepFactory;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.MathRuntimeException;
 import org.hipparchus.util.Blendable;
-
 import java.text.NumberFormat;
 
-/** This interface represents a generic vector in a vectorial space or a point in an affine space.
+/**
+ * This interface represents a generic vector in a vectorial space or a point in an affine space.
  * @param <S> Type of the space.
  * @param <V> Type of vector implementing this interface.
  * @see Space
@@ -36,93 +35,103 @@ import java.text.NumberFormat;
  */
 public interface Vector<S extends Space, V extends Vector<S, V>> extends Point<S, V>, Blendable<V> {
 
-    /** Get the null vector of the vectorial space or origin point of the affine space.
+    /**
+     * Get the null vector of the vectorial space or origin point of the affine space.
      * @return null vector of the vectorial space or origin point of the affine space
      */
     V getZero();
 
-    /** Get the L<sub>1</sub> norm for the vector.
+    /**
+     * Get the L<sub>1</sub> norm for the vector.
      * @return L<sub>1</sub> norm for the vector
      */
     double getNorm1();
 
-    /** Get the L<sub>2</sub> norm for the vector.
+    /**
+     * Get the L<sub>2</sub> norm for the vector.
      * @return Euclidean norm for the vector
      * @since 4.1
      */
     default double getNorm2() {
-        return getNorm();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the square of the 2-norm for the vector.
+    /**
+     * Get the square of the 2-norm for the vector.
      * @return square of the Euclidean norm for the vector
      * @since 4.1
      */
     default double getNorm2Sq() {
-        return getNorm2() * getNorm2();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the most common norm for the vector. By default, it is the Euclidean one.
+    /**
+     * Get the most common norm for the vector. By default, it is the Euclidean one.
      * @return norm for the vector
      */
     double getNorm();
 
-    /** Get the square of the norm for the vector.
+    /**
+     * Get the square of the norm for the vector.
      * @return square of the Euclidean norm for the vector
      * @deprecated since 4.1, use getNorm2Sq
      */
     @Deprecated
     double getNormSq();
 
-    /** Get the L<sub>&infin;</sub> norm for the vector.
+    /**
+     * Get the L<sub>&infin;</sub> norm for the vector.
      * @return L<sub>&infin;</sub> norm for the vector
      */
     double getNormInf();
 
-    /** Add a vector to the instance.
+    /**
+     * Add a vector to the instance.
      * @param v vector to add
      * @return a new vector
      */
     V add(V v);
 
-    /** Add a scaled vector to the instance.
+    /**
+     * Add a scaled vector to the instance.
      * @param factor scale factor to apply to v before adding it
      * @param v vector to add
      * @return a new vector
      */
     V add(double factor, V v);
 
-    /** Subtract a vector from the instance.
+    /**
+     * Subtract a vector from the instance.
      * @param v vector to subtract
      * @return a new vector
      */
     V subtract(V v);
 
-    /** Subtract a scaled vector from the instance.
+    /**
+     * Subtract a scaled vector from the instance.
      * @param factor scale factor to apply to v before subtracting it
      * @param v vector to subtract
      * @return a new vector
      */
     V subtract(double factor, V v);
 
-    /** Get the opposite of the instance.
+    /**
+     * Get the opposite of the instance.
      * @return a new vector which is opposite to the instance
      */
     V negate();
 
-    /** Get a normalized vector aligned with the instance.
+    /**
+     * Get a normalized vector aligned with the instance.
      * @return a new normalized vector
      * @exception MathRuntimeException if the norm is zero
      */
-    default V normalize() throws MathRuntimeException{
-        double s = getNorm();
-        if (s == 0) {
-            throw new MathRuntimeException(LocalizedGeometryFormats.CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR);
-        }
-        return scalarMultiply(1 / s);
+    default V normalize() throws MathRuntimeException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Multiply the instance by a scalar.
+    /**
+     * Multiply the instance by a scalar.
      * @param a scalar
      * @return a new vector
      */
@@ -136,7 +145,8 @@ public interface Vector<S extends Space, V extends Vector<S, V>> extends Point<S
      */
     boolean isInfinite();
 
-    /** Compute the distance between the instance and another vector according to the L<sub>1</sub> norm.
+    /**
+     * Compute the distance between the instance and another vector according to the L<sub>1</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>q.subtract(p).getNorm1()</code> except that no intermediate
      * vector is built</p>
@@ -145,7 +155,8 @@ public interface Vector<S extends Space, V extends Vector<S, V>> extends Point<S
      */
     double distance1(V v);
 
-    /** Compute the distance between the instance and another vector according to the L<sub>&infin;</sub> norm.
+    /**
+     * Compute the distance between the instance and another vector according to the L<sub>&infin;</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>q.subtract(p).getNormInf()</code> except that no intermediate
      * vector is built</p>
@@ -154,7 +165,8 @@ public interface Vector<S extends Space, V extends Vector<S, V>> extends Point<S
      */
     double distanceInf(V v);
 
-    /** Compute the square of the distance between the instance and another vector.
+    /**
+     * Compute the square of the distance between the instance and another vector.
      * <p>Calling this method is equivalent to calling:
      * <code>q.subtract(p).getNorm2Sq()</code> except that no intermediate
      * vector is built</p>
@@ -163,23 +175,25 @@ public interface Vector<S extends Space, V extends Vector<S, V>> extends Point<S
      */
     double distanceSq(V v);
 
-    /** Compute the dot-product of the instance and another vector.
+    /**
+     * Compute the dot-product of the instance and another vector.
      * @param v second vector
      * @return the dot product this.v
      */
     double dotProduct(V v);
 
-    /** Get a string representation of this vector.
+    /**
+     * Get a string representation of this vector.
      * @param format the custom format for components
      * @return a string representation of this vector
      */
     String toString(NumberFormat format);
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    default V blendArithmeticallyWith(V other, double blendingValue)
-            throws MathIllegalArgumentException {
-        SmoothStepFactory.checkBetweenZeroAndOneIncluded(blendingValue);
-        return this.scalarMultiply(1 - blendingValue).add(other.scalarMultiply(blendingValue));
+    default V blendArithmeticallyWith(V other, double blendingValue) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -18,7 +18,6 @@ package org.hipparchus.util;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 import org.hipparchus.exception.LocalizedCoreFormats;
 import org.hipparchus.exception.MathIllegalArgumentException;
 
@@ -40,32 +39,38 @@ import org.hipparchus.exception.MathIllegalArgumentException;
  */
 public class RosenNumberPartitionIterator implements Iterator<int[]> {
 
-    /** Number of elements. */
+    /**
+     * Number of elements.
+     */
     private final int n;
 
-    /** Subset/sample size. */
+    /**
+     * Subset/sample size.
+     */
     private final int k;
 
-    /** Work array. */
+    /**
+     * Work array.
+     */
     private int[] a;
 
-    /** Count of unique combinations. */
+    /**
+     * Count of unique combinations.
+     */
     private long count;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param n the number of elements
      * @param k divided into k parts
      */
     public RosenNumberPartitionIterator(final int n, final int k) {
-
         this.n = n - 1;
         this.k = k - 1;
         if (k > n || k < 1) {
             throw new MathIllegalArgumentException(LocalizedCoreFormats.OUT_OF_RANGE_SIMPLE, k, 1, n);
         }
-
         reset();
-
     }
 
     /**
@@ -75,7 +80,7 @@ public class RosenNumberPartitionIterator implements Iterator<int[]> {
      */
     @Override
     public final boolean hasNext() {
-        return count > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -85,56 +90,13 @@ public class RosenNumberPartitionIterator implements Iterator<int[]> {
      */
     @Override
     public final int[] next() {
-
-        if (count == 0) {
-            throw new NoSuchElementException();
-        }
-
-        // rosenNext start
-        if (a == null) {
-            this.a = new int[k];
-            for (int i = 0; i < k; ++i) {
-                this.a[i] = i;
-            }
-        } else {
-            int i = k - 1;
-            while (a[i] == n - k + i) {
-                i--;
-            }
-            final int t = ++a[i] - i++;
-            int j = i;
-            while (j < k) {
-                a[j] = t + j++;
-            }
-        }
-        --count;
-        // rosenNext end
-
-        final int kPlus1 = k + 1;
-        final int[] temp = new int[kPlus1];
-
-        for (int i = 0; i < kPlus1; i++) {
-            if (i == 0) {
-                temp[i] = a[i] + 1;
-            } else {
-                if (i == k) {
-                    temp[i] = n - a[i - 1];
-                } else {
-                    temp[i] = a[i] - a[i - 1];
-                }
-            }
-        }
-        return temp;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Reset this iterator to the start condition.
+    /**
+     * Reset this iterator to the start condition.
      */
     public void reset() {
-        count = 1;
-        for (int i = 0; i < k; ++i) {
-            count = count * (n - i) / (i + 1);
-        }
-        a = null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

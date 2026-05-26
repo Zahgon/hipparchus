@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -32,6 +31,7 @@ public enum PivotingStrategy {
      * A mid point strategy based on the average of begin and end indices.
      */
     CENTRAL {
+
         /**
          * {@inheritDoc}
          * This in particular picks a average of begin and end indices
@@ -40,17 +40,16 @@ public enum PivotingStrategy {
          * @throws MathIllegalArgumentException when indices exceeds range
          */
         @Override
-        public int pivotIndex(final double[] work, final int begin, final int end)
-            throws MathIllegalArgumentException {
-            MathArrays.verifyValues(work, begin, end-begin);
-            return begin + (end - begin)/2;
+        public int pivotIndex(final double[] work, final int begin, final int end) throws MathIllegalArgumentException {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-    },
-
+    }
+    ,
     /**
      * Classic median of 3 strategy given begin and end indices.
      */
     MEDIAN_OF_3 {
+
         /**
          * {@inheritDoc}
          * This in specific makes use of median of 3 pivoting.
@@ -59,30 +58,11 @@ public enum PivotingStrategy {
          * @throws MathIllegalArgumentException when indices exceeds range
          */
         @Override
-        public int pivotIndex(final double[] work, final int begin, final int end)
-            throws MathIllegalArgumentException {
-            MathArrays.verifyValues(work, begin, end-begin);
-            final int inclusiveEnd = end - 1;
-            final int middle = begin + (inclusiveEnd - begin) / 2;
-            final double wBegin = work[begin];
-            final double wMiddle = work[middle];
-            final double wEnd = work[inclusiveEnd];
-
-            if (wBegin < wMiddle) {
-                if (wMiddle < wEnd) {
-                    return middle;
-                } else {
-                    return wBegin < wEnd ? inclusiveEnd : begin;
-                }
-            } else {
-                if (wBegin < wEnd) {
-                    return begin;
-                } else {
-                    return wMiddle < wEnd ? inclusiveEnd : middle;
-                }
-            }
+        public int pivotIndex(final double[] work, final int begin, final int end) throws MathIllegalArgumentException {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-    };
+    }
+    ;
 
     /**
      * Find pivot index of the array so that partition and K<sup>th</sup>
@@ -94,7 +74,5 @@ public enum PivotingStrategy {
      * first and the last element of the array slice
      * @throws MathIllegalArgumentException when indices exceeds range
      */
-    public abstract int pivotIndex(double[] work, int begin, int end)
-        throws MathIllegalArgumentException;
-
+    public abstract int pivotIndex(double[] work, int begin, int end) throws MathIllegalArgumentException;
 }

@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.analysis.function;
 
 import org.hipparchus.analysis.ParametricUnivariateFunction;
@@ -34,12 +32,17 @@ import org.hipparchus.util.MathUtils;
  * <a href="http://en.wikipedia.org/wiki/Logit">
  *  Logit</a> function.
  * It is the inverse of the {@link Sigmoid sigmoid} function.
- *
  */
 public class Logit implements UnivariateDifferentiableFunction {
-    /** Lower bound. */
+
+    /**
+     * Lower bound.
+     */
     private final double lo;
-    /** Higher bound. */
+
+    /**
+     * Higher bound.
+     */
     private final double hi;
 
     /**
@@ -56,17 +59,17 @@ public class Logit implements UnivariateDifferentiableFunction {
      * @param lo Lower bound of the function domain.
      * @param hi Higher bound of the function domain.
      */
-    public Logit(double lo,
-                 double hi) {
+    public Logit(double lo, double hi) {
         this.lo = lo;
         this.hi = hi;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double value(double x)
-        throws MathIllegalArgumentException {
-        return value(x, lo, hi);
+    public double value(double x) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -79,14 +82,16 @@ public class Logit implements UnivariateDifferentiableFunction {
      */
     public static class Parametric implements ParametricUnivariateFunction {
 
-        /** Empty constructor.
+        /**
+         * Empty constructor.
          * <p>
          * This constructor is not strictly necessary, but it prevents spurious
          * javadoc warnings with JDK 18 and later.
          * </p>
          * @since 3.0
          */
-        public Parametric() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+        public Parametric() {
+            // NOPMD - unnecessary constructor added intentionally to make javadoc happy
             // nothing to do
         }
 
@@ -101,10 +106,8 @@ public class Logit implements UnivariateDifferentiableFunction {
          * not 2.
          */
         @Override
-        public double value(double x, double ... param)
-            throws MathIllegalArgumentException, NullArgumentException {
-            validateParameters(param);
-            return Logit.value(x, param[0], param[1]);
+        public double value(double x, double... param) throws MathIllegalArgumentException, NullArgumentException {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -121,14 +124,8 @@ public class Logit implements UnivariateDifferentiableFunction {
          * not 2.
          */
         @Override
-        public double[] gradient(double x, double ... param)
-            throws MathIllegalArgumentException, NullArgumentException {
-            validateParameters(param);
-
-            final double lo = param[0];
-            final double hi = param[1];
-
-            return new double[] { 1 / (lo - x), 1 / (hi - x) };
+        public double[] gradient(double x, double... param) throws MathIllegalArgumentException, NullArgumentException {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -141,8 +138,7 @@ public class Logit implements UnivariateDifferentiableFunction {
          * @throws MathIllegalArgumentException if the size of {@code param} is
          * not 2.
          */
-        private void validateParameters(double[] param)
-            throws MathIllegalArgumentException, NullArgumentException {
+        private void validateParameters(double[] param) throws MathIllegalArgumentException, NullArgumentException {
             MathUtils.checkNotNull(param);
             MathUtils.checkDimension(param.length, 2);
         }
@@ -155,55 +151,17 @@ public class Logit implements UnivariateDifferentiableFunction {
      * @return the value of the logit function at {@code x}.
      * @throws MathIllegalArgumentException if {@code x < lo} or {@code x > hi}.
      */
-    private static double value(double x,
-                                double lo,
-                                double hi)
-        throws MathIllegalArgumentException {
+    private static double value(double x, double lo, double hi) throws MathIllegalArgumentException {
         MathUtils.checkRangeInclusive(x, lo, hi);
         return FastMath.log((x - lo) / (hi - x));
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
      * @exception MathIllegalArgumentException if parameter is outside of function domain
      */
     @Override
-    public <T extends Derivative<T>> T value(T t)
-        throws MathIllegalArgumentException {
-        final double x = t.getValue();
-        MathUtils.checkRangeInclusive(x, lo, hi);
-        double[] f = new double[t.getOrder() + 1];
-
-        // function value
-        f[0] = FastMath.log((x - lo) / (hi - x));
-
-        if (Double.isInfinite(f[0])) {
-
-            if (f.length > 1) {
-                f[1] = Double.POSITIVE_INFINITY;
-            }
-            // fill the array with infinities
-            // (for x close to lo the signs will flip between -inf and +inf,
-            //  for x close to hi the signs will always be +inf)
-            // this is probably overkill, since the call to compose at the end
-            // of the method will transform most infinities into NaN ...
-            for (int i = 2; i < f.length; ++i) {
-                f[i] = f[i - 2];
-            }
-
-        } else {
-
-            // function derivatives
-            final double invL = 1.0 / (x - lo);
-            double xL = invL;
-            final double invH = 1.0 / (hi - x);
-            double xH = invH;
-            for (int i = 1; i < f.length; ++i) {
-                f[i] = xL + xH;
-                xL  *= -i * invL;
-                xH  *=  i * invH;
-            }
-        }
-
-        return t.compose(f);
+    public <T extends Derivative<T>> T value(T t) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

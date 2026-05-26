@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.hipparchus.filtering.kalman.extended;
 
 import org.hipparchus.linear.RealMatrix;
@@ -27,22 +26,33 @@ import org.hipparchus.linear.RealVector;
  */
 public class NonLinearEvolution {
 
-    /** Current time. */
+    /**
+     * Current time.
+     */
     private final double currentTime;
 
-    /** State vector at current time. */
+    /**
+     * State vector at current time.
+     */
     private final RealVector currentState;
 
-    /** State transition matrix between previous and current state. */
+    /**
+     * State transition matrix between previous and current state.
+     */
     private final RealMatrix stateTransitionMatrix;
 
-    /** Process noise matrix. */
+    /**
+     * Process noise matrix.
+     */
     private final RealMatrix processNoiseMatrix;
 
-    /** Jacobian of the measurement with respect to the state (may be null). */
+    /**
+     * Jacobian of the measurement with respect to the state (may be null).
+     */
     private final RealMatrix measurementJacobian;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param currentTime current time
      * @param currentState state vector at current time
      * @param stateTransitionMatrix state transition matrix between previous and current state
@@ -50,50 +60,52 @@ public class NonLinearEvolution {
      * @param measurementJacobian Jacobian of the measurement with respect to the state
      * (may be null if measurement should be ignored)
      */
-    public NonLinearEvolution(final double currentTime, final RealVector currentState,
-                              final RealMatrix stateTransitionMatrix, final RealMatrix processNoiseMatrix,
-                              final RealMatrix measurementJacobian) {
-        this.currentTime           = currentTime;
-        this.currentState          = currentState;
+    public NonLinearEvolution(final double currentTime, final RealVector currentState, final RealMatrix stateTransitionMatrix, final RealMatrix processNoiseMatrix, final RealMatrix measurementJacobian) {
+        this.currentTime = currentTime;
+        this.currentState = currentState;
         this.stateTransitionMatrix = stateTransitionMatrix;
-        this.processNoiseMatrix    = processNoiseMatrix;
-        this.measurementJacobian   = measurementJacobian;
+        this.processNoiseMatrix = processNoiseMatrix;
+        this.measurementJacobian = measurementJacobian;
     }
 
-    /** Get current time.
+    /**
+     * Get current time.
      * @return current time
      */
     public double getCurrentTime() {
-        return currentTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get current state.
+    /**
+     * Get current state.
      * @return current state
      */
     public RealVector getCurrentState() {
-        return currentState;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get state transition matrix between previous and current state.
+    /**
+     * Get state transition matrix between previous and current state.
      * @return state transition matrix between previous and current state
      */
     public RealMatrix getStateTransitionMatrix() {
-        return stateTransitionMatrix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get process noise.
+    /**
+     * Get process noise.
      * @return process noise
      */
     public RealMatrix getProcessNoiseMatrix() {
-        return processNoiseMatrix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get measurement Jacobian.
+    /**
+     * Get measurement Jacobian.
      * @return Jacobian of the measurement with respect to the state
      * (may be null if measurement should be ignored)
      */
     public RealMatrix getMeasurementJacobian() {
-        return measurementJacobian;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

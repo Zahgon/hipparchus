@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.stat.descriptive.moment;
 
 import java.io.Serializable;
-
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.exception.NullArgumentException;
 import org.hipparchus.stat.descriptive.AbstractStorelessUnivariateStatistic;
@@ -52,13 +50,16 @@ import org.hipparchus.util.MathUtils;
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.
  */
-public class GeometricMean extends AbstractStorelessUnivariateStatistic
-    implements AggregatableStatistic<GeometricMean>, Serializable {
+public class GeometricMean extends AbstractStorelessUnivariateStatistic implements AggregatableStatistic<GeometricMean>, Serializable {
 
-    /** Serializable version identifier */
+    /**
+     * Serializable version identifier
+     */
     private static final long serialVersionUID = 20150412L;
 
-    /** Wrapped SumOfLogs instance */
+    /**
+     * Wrapped SumOfLogs instance
+     */
     private final SumOfLogs sumOfLogs;
 
     /**
@@ -95,49 +96,48 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic
      */
     public GeometricMean(GeometricMean original) throws NullArgumentException {
         MathUtils.checkNotNull(original);
-        this.sumOfLogs    = original.sumOfLogs.copy();
+        this.sumOfLogs = original.sumOfLogs.copy();
         this.incSumOfLogs = original.incSumOfLogs;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GeometricMean copy() {
-        return new GeometricMean(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void increment(final double d) {
-        if (incSumOfLogs) {
-            sumOfLogs.increment(d);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getResult() {
-        if (sumOfLogs.getN() > 0) {
-            return FastMath.exp(sumOfLogs.getResult() / sumOfLogs.getN());
-        } else {
-            return Double.NaN;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
-        if (incSumOfLogs) {
-            sumOfLogs.clear();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void aggregate(GeometricMean other) {
-        MathUtils.checkNotNull(other);
-        if (incSumOfLogs) {
-            this.sumOfLogs.aggregate(other.sumOfLogs);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -155,15 +155,15 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic
      * index parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values, final int begin, final int length)
-        throws MathIllegalArgumentException {
-        return FastMath.exp(sumOfLogs.evaluate(values, begin, length) / length);
+    public double evaluate(final double[] values, final int begin, final int length) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long getN() {
-        return sumOfLogs.getN();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

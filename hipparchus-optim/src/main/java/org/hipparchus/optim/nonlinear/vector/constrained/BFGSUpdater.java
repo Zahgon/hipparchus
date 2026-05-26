@@ -41,21 +41,30 @@ import org.hipparchus.util.Precision;
  */
 public class BFGSUpdater {
 
-    /** Damping factor. */
+    /**
+     * Damping factor.
+     */
     private static final double GAMMA = 0.2;
 
-    /** Regularization factor for diagonal of Hessian. */
+    /**
+     * Regularization factor for diagonal of Hessian.
+     */
     private final double regFactor;
 
-    /** Tolerance for symmetric matrices decomposition.
+    /**
+     * Tolerance for symmetric matrices decomposition.
      * @since 4.1
      */
     private final double decompositionEpsilon;
 
-    /** Stored initial Hessian for resets. */
+    /**
+     * Stored initial Hessian for resets.
+     */
     private final RealMatrix initialH;
 
-    /** Current Cholesky factor L such that H = L·Lᵀ. */
+    /**
+     * Current Cholesky factor L such that H = L·Lᵀ.
+     */
     private RealMatrix L;
 
     /**
@@ -65,8 +74,8 @@ public class BFGSUpdater {
      * @param decompositionEpsilon tolerance for symmetric matrices decomposition
      */
     public BFGSUpdater(final RealMatrix initialHess, final double regFactor, final double decompositionEpsilon) {
-        this.initialH             = new Array2DRowRealMatrix(initialHess.getData());
-        this.regFactor            = regFactor;
+        this.initialH = new Array2DRowRealMatrix(initialHess.getData());
+        this.regFactor = regFactor;
         this.decompositionEpsilon = decompositionEpsilon;
         resetHessian();
     }
@@ -77,33 +86,27 @@ public class BFGSUpdater {
      * @return current Hessian
      */
     public RealMatrix getHessian() {
-        return L.multiplyTransposed(L);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
-     * Updates the Hessian approximation using the BFGS formula.
-     * <p>
-     * If curvature condition fails, applies damping or regularization.
-     *</p>
+     *  Updates the Hessian approximation using the BFGS formula.
+     *  <p>
+     *  If curvature condition fails, applies damping or regularization.
+     * </p>
      *
-     * @param s displacement vector (x_{k+1} − x_k)
-     * @param y1 gradient difference (∇f_{k+1} − ∇f_k)
+     *  @param s displacement vector (x_{k+1} − x_k)
+     *  @param y1 gradient difference (∇f_{k+1} − ∇f_k)
      */
     public void update(RealVector s, RealVector y1) {
-        RealVector y = damp(s, y1);
-        if (y == null) {
-            return;
-        }
-        // Attempt rank‐one BFGS update; regularize on failure
-        rankOneUpdate(s, y);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Resets the Hessian approximation to its initial value.
      */
     public void resetHessian() {
-        final CholeskyDecomposition ch = new CholeskyDecomposition(initialH, decompositionEpsilon, decompositionEpsilon);
-        L = ch.getL();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -114,24 +117,7 @@ public class BFGSUpdater {
      * @return damped y, or null if update should be skipped
      */
     public RealVector damp(RealVector s, RealVector y1) {
-        RealVector y = new ArrayRealVector(y1);
-        double sty = s.dotProduct(y1);
-        RealVector Hs = getHessian().operate(s);
-        double sHs = s.dotProduct(Hs);
-        if (sty <= Precision.EPSILON) {
-            return null;
-        }
-        if (sty < GAMMA * sHs) {
-            double phi = (1.0 - GAMMA) * sHs / (sHs - sty);
-            // clamp phi to [0,1]
-            phi = FastMath.max(0.0, FastMath.min(1.0, phi));
-            y = y1.mapMultiply(phi).add(Hs.mapMultiply(1.0 - phi));
-            sty = s.dotProduct(y);
-            if (sty < GAMMA * sHs) {
-                return null;
-            }
-        }
-        return y;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -148,8 +134,7 @@ public class BFGSUpdater {
         double theta = 1.0 / FastMath.sqrt(s.dotProduct(Hs));
         RealVector v = y.mapMultiply(rho);
         RealVector w = Hs.mapMultiply(theta);
-        cholupdateLower(v, +1) ;
-
+        cholupdateLower(v, +1);
         if (!cholupdateLower(w, -1)) {
             //try to regularize
             L.setSubMatrix(Lcopy.getData(), 0, 0);
@@ -192,5 +177,4 @@ public class BFGSUpdater {
         }
         return true;
     }
-
 }

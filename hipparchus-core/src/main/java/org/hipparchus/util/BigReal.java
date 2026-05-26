@@ -14,20 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
 package org.hipparchus.util;
 
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
-
 import org.hipparchus.Field;
 import org.hipparchus.FieldElement;
 import org.hipparchus.exception.LocalizedCoreFormats;
@@ -41,39 +38,54 @@ import org.hipparchus.exception.MathRuntimeException;
  */
 public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Serializable {
 
-    /** A big real representing 0. */
+    /**
+     * A big real representing 0.
+     */
     public static final BigReal ZERO = new BigReal(BigDecimal.ZERO);
 
-    /** A big real representing 1. */
+    /**
+     * A big real representing 1.
+     */
     public static final BigReal ONE = new BigReal(BigDecimal.ONE);
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = 4984534880991310382L;
 
-    /** Underlying BigDecimal. */
+    /**
+     * Underlying BigDecimal.
+     */
     private final BigDecimal d;
 
-    /** Rounding mode for divisions. **/
+    /**
+     * Rounding mode for divisions. *
+     */
     private RoundingMode roundingMode = RoundingMode.HALF_UP;
 
-    /*** BigDecimal scale ***/
+    /**
+     * BigDecimal scale **
+     */
     private int scale = 64;
 
-    /** Build an instance from a BigDecimal.
+    /**
+     * Build an instance from a BigDecimal.
      * @param val value of the instance
      */
     public BigReal(BigDecimal val) {
-        d =  val;
+        d = val;
     }
 
-    /** Build an instance from a BigInteger.
+    /**
+     * Build an instance from a BigInteger.
      * @param val value of the instance
      */
     public BigReal(BigInteger val) {
         d = new BigDecimal(val);
     }
 
-    /** Build an instance from an unscaled BigInteger.
+    /**
+     * Build an instance from an unscaled BigInteger.
      * @param unscaledVal unscaled value
      * @param scale scale to use
      */
@@ -81,7 +93,8 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
         d = new BigDecimal(unscaledVal, scale);
     }
 
-    /** Build an instance from an unscaled BigInteger.
+    /**
+     * Build an instance from an unscaled BigInteger.
      * @param unscaledVal unscaled value
      * @param scale scale to use
      * @param mc to used
@@ -90,7 +103,8 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
         d = new BigDecimal(unscaledVal, scale, mc);
     }
 
-    /** Build an instance from a BigInteger.
+    /**
+     * Build an instance from a BigInteger.
      * @param val value of the instance
      * @param mc context to use
      */
@@ -98,14 +112,16 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
         d = new BigDecimal(val, mc);
     }
 
-    /** Build an instance from a characters representation.
+    /**
+     * Build an instance from a characters representation.
      * @param in character representation of the value
      */
     public BigReal(char[] in) {
         d = new BigDecimal(in);
     }
 
-    /** Build an instance from a characters representation.
+    /**
+     * Build an instance from a characters representation.
      * @param in character representation of the value
      * @param offset offset of the first character to analyze
      * @param len length of the array slice to analyze
@@ -114,7 +130,8 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
         d = new BigDecimal(in, offset, len);
     }
 
-    /** Build an instance from a characters representation.
+    /**
+     * Build an instance from a characters representation.
      * @param in character representation of the value
      * @param offset offset of the first character to analyze
      * @param len length of the array slice to analyze
@@ -124,7 +141,8 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
         d = new BigDecimal(in, offset, len, mc);
     }
 
-    /** Build an instance from a characters representation.
+    /**
+     * Build an instance from a characters representation.
      * @param in character representation of the value
      * @param mc context to use
      */
@@ -132,29 +150,35 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
         d = new BigDecimal(in, mc);
     }
 
-    /** Build an instance from a double.
+    /**
+     * Build an instance from a double.
      * @param val value of the instance
      */
     public BigReal(double val) {
-        d = new BigDecimal(val); // NOPMD - we really want double conversion here
+        // NOPMD - we really want double conversion here
+        d = new BigDecimal(val);
     }
 
-    /** Build an instance from a double.
+    /**
+     * Build an instance from a double.
      * @param val value of the instance
      * @param mc context to use
      */
     public BigReal(double val, MathContext mc) {
-        d = new BigDecimal(val, mc); // NOPMD - we really want double conversion here
+        // NOPMD - we really want double conversion here
+        d = new BigDecimal(val, mc);
     }
 
-    /** Build an instance from an int.
+    /**
+     * Build an instance from an int.
      * @param val value of the instance
      */
     public BigReal(int val) {
         d = new BigDecimal(val);
     }
 
-    /** Build an instance from an int.
+    /**
+     * Build an instance from an int.
      * @param val value of the instance
      * @param mc context to use
      */
@@ -162,14 +186,16 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
         d = new BigDecimal(val, mc);
     }
 
-    /** Build an instance from a long.
+    /**
+     * Build an instance from a long.
      * @param val value of the instance
      */
     public BigReal(long val) {
         d = new BigDecimal(val);
     }
 
-    /** Build an instance from a long.
+    /**
+     * Build an instance from a long.
      * @param val value of the instance
      * @param mc context to use
      */
@@ -177,77 +203,87 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
         d = new BigDecimal(val, mc);
     }
 
-    /** Build an instance from a String representation.
+    /**
+     * Build an instance from a String representation.
      * @param val character representation of the value
      */
     public BigReal(String val) {
         d = new BigDecimal(val);
     }
 
-    /** Build an instance from a String representation.
+    /**
+     * Build an instance from a String representation.
      * @param val character representation of the value
      * @param mc context to use
      */
-    public BigReal(String val, MathContext mc)  {
+    public BigReal(String val, MathContext mc) {
         d = new BigDecimal(val, mc);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getReal() {
-        return doubleValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /***
+    /**
      * Gets the rounding mode for division operations
      * The default is {@code RoundingMode.HALF_UP}
      * @return the rounding mode.
      */
     public RoundingMode getRoundingMode() {
-        return roundingMode;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /***
+    /**
      * Sets the rounding mode for decimal divisions.
      * @param roundingMode rounding mode for decimal divisions
      */
     public void setRoundingMode(RoundingMode roundingMode) {
-        this.roundingMode = roundingMode;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /***
+    /**
      * Sets the scale for division operations.
      * The default is 64
      * @return the scale
      */
     public int getScale() {
-        return scale;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /***
+    /**
      * Sets the scale for division operations.
      * @param scale scale for division operations
      */
     public void setScale(int scale) {
-        this.scale = scale;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BigReal add(BigReal a) {
-        return new BigReal(d.add(a.d));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BigReal subtract(BigReal a) {
-        return new BigReal(d.subtract(a.d));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BigReal negate() {
-        return new BigReal(d.negate());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -257,12 +293,7 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
      */
     @Override
     public BigReal divide(BigReal a) throws MathRuntimeException {
-        try {
-            return new BigReal(d.divide(a.d, scale, roundingMode));
-        } catch (ArithmeticException e) {
-            // Division by zero has occurred
-            throw new MathRuntimeException(e, LocalizedCoreFormats.ZERO_NOT_ALLOWED);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -272,68 +303,70 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
      */
     @Override
     public BigReal reciprocal() throws MathRuntimeException {
-        try {
-            return new BigReal(BigDecimal.ONE.divide(d, scale, roundingMode));
-        } catch (ArithmeticException e) {
-            // Division by zero has occurred
-            throw new MathRuntimeException(e, LocalizedCoreFormats.ZERO_NOT_ALLOWED);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BigReal multiply(BigReal a) {
-        return new BigReal(d.multiply(a.d));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BigReal multiply(final int n) {
-        return new BigReal(d.multiply(new BigDecimal(n)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int compareTo(BigReal a) {
-        return d.compareTo(a.d);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the double value corresponding to the instance.
+    /**
+     * Get the double value corresponding to the instance.
      * @return double value corresponding to the instance
      */
     public double doubleValue() {
-        return d.doubleValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the BigDecimal value corresponding to the instance.
+    /**
+     * Get the BigDecimal value corresponding to the instance.
      * @return BigDecimal value corresponding to the instance
      */
     public BigDecimal bigDecimalValue() {
-        return d;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object other) {
-        if (this == other){
-            return true;
-        }
-
-        if (other instanceof BigReal){
-            return d.equals(((BigReal) other).d);
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
-        return d.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Field<BigReal> getField() {
-        return BigRealField.getInstance();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

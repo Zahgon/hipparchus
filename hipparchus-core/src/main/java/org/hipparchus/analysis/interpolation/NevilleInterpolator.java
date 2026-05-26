@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -22,7 +21,6 @@
 package org.hipparchus.analysis.interpolation;
 
 import java.io.Serializable;
-
 import org.hipparchus.analysis.polynomials.PolynomialFunctionLagrangeForm;
 import org.hipparchus.exception.MathIllegalArgumentException;
 
@@ -34,22 +32,24 @@ import org.hipparchus.exception.MathIllegalArgumentException;
  * <p>
  * The actual code of Neville's algorithm is in PolynomialFunctionLagrangeForm,
  * this class provides an easy-to-use interface to it.</p>
- *
  */
-public class NevilleInterpolator implements UnivariateInterpolator,
-    Serializable {
+public class NevilleInterpolator implements UnivariateInterpolator, Serializable {
 
-    /** serializable version identifier */
+    /**
+     * serializable version identifier
+     */
     static final long serialVersionUID = 3003707660147873733L;
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public NevilleInterpolator() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public NevilleInterpolator() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
@@ -65,9 +65,7 @@ public class NevilleInterpolator implements UnivariateInterpolator,
      * value.
      */
     @Override
-    public PolynomialFunctionLagrangeForm interpolate(double[] x, double[] y)
-        throws MathIllegalArgumentException {
-        return new PolynomialFunctionLagrangeForm(x, y);
+    public PolynomialFunctionLagrangeForm interpolate(double[] x, double[] y) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

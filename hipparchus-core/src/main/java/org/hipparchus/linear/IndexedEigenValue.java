@@ -18,62 +18,62 @@ package org.hipparchus.linear;
 
 import org.hipparchus.complex.Complex;
 
-/** Container for index and eigenvalue pair.
+/**
+ * Container for index and eigenvalue pair.
  * @since 3.0
  */
 class IndexedEigenvalue {
 
-    /** Index in the diagonal matrix. */
+    /**
+     * Index in the diagonal matrix.
+     */
     private int index;
 
-    /** Eigenvalue. */
+    /**
+     * Eigenvalue.
+     */
     private final Complex eigenValue;
 
-    /** Build the container from its fields.
+    /**
+     * Build the container from its fields.
      * @param index index in the diagonal matrix
      * @param eigenvalue eigenvalue
      */
     IndexedEigenvalue(final int index, final Complex eigenvalue) {
-        this.index      = index;
+        this.index = index;
         this.eigenValue = eigenvalue;
     }
 
-    /** Get the index in the diagonal matrix.
+    /**
+     * Get the index in the diagonal matrix.
      * @return index in the diagonal matrix
      */
     public int getIndex() {
-        return index;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Set the index in the diagonal matrix.
+    /**
+     * Set the index in the diagonal matrix.
      * @param index new index in the diagonal matrix
      */
     public void setIndex(final int index) {
-        this.index = index;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the eigenvalue.
+    /**
+     * Get the eigenvalue.
      * @return eigenvalue
      */
     public Complex getEigenvalue() {
-        return eigenValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(final Object other) {
-
-        if (this == other) {
-            return true;
-        }
-
-        if (other instanceof IndexedEigenvalue) {
-            final IndexedEigenvalue rhs = (IndexedEigenvalue) other;
-            return eigenValue.equals(rhs.eigenValue);
-        }
-
-        return false;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -82,7 +82,6 @@ class IndexedEigenvalue {
      */
     @Override
     public int hashCode() {
-        return 4563 + index + eigenValue.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

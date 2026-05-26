@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.clustering;
 
 import java.io.Serializable;
@@ -32,10 +30,14 @@ import java.util.List;
  */
 public class Cluster<T extends Clusterable> implements Serializable {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = -3442297081515880464L;
 
-    /** The points contained in this cluster. */
+    /**
+     * The points contained in this cluster.
+     */
     private final List<T> points;
 
     /**
@@ -50,7 +52,7 @@ public class Cluster<T extends Clusterable> implements Serializable {
      * @param point point to add
      */
     public void addPoint(final T point) {
-        points.add(point);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -58,7 +60,6 @@ public class Cluster<T extends Clusterable> implements Serializable {
      * @return points contained in the cluster
      */
     public List<T> getPoints() {
-        return points;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

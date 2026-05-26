@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -29,37 +28,32 @@ import org.hipparchus.util.MathArrays;
  * Calculates the Earh Mover's distance (also known as Wasserstein metric) between two distributions.
  *
  * @see <a href="http://en.wikipedia.org/wiki/Earth_mover's_distance">Earth Mover's distance (Wikipedia)</a>
- *
  */
 public class EarthMoversDistance implements DistanceMeasure {
 
-    /** Serializable version identifier. */
+    /**
+     * Serializable version identifier.
+     */
     private static final long serialVersionUID = -5406732779747414922L;
 
-    /** Empty constructor.
+    /**
+     * Empty constructor.
      * <p>
      * This constructor is not strictly necessary, but it prevents spurious
      * javadoc warnings with JDK 18 and later.
      * </p>
      * @since 3.0
      */
-    public EarthMoversDistance() { // NOPMD - unnecessary constructor added intentionally to make javadoc happy
+    public EarthMoversDistance() {
+        // NOPMD - unnecessary constructor added intentionally to make javadoc happy
         // nothing to do
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double compute(double[] a, double[] b)
-    throws MathIllegalArgumentException {
-        MathArrays.checkEqualLength(a, b);
-        double lastDistance = 0;
-        double totalDistance = 0;
-        for (int i = 0; i < a.length; i++) {
-            final double currentDistance = (a[i] + lastDistance) - b[i];
-            totalDistance += FastMath.abs(currentDistance);
-            lastDistance = currentDistance;
-        }
-        return totalDistance;
+    public double compute(double[] a, double[] b) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

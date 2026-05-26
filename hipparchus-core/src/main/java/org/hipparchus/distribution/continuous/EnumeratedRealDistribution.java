@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -26,7 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.hipparchus.distribution.EnumeratedDistribution;
 import org.hipparchus.exception.MathIllegalArgumentException;
 import org.hipparchus.util.MathArrays;
@@ -44,7 +42,9 @@ import org.hipparchus.util.Pair;
  */
 public class EnumeratedRealDistribution extends AbstractRealDistribution {
 
-    /** Serializable UID. */
+    /**
+     * Serializable UID.
+     */
     private static final long serialVersionUID = 20130308L;
 
     /**
@@ -79,8 +79,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
             probabilities[index] = entry.getValue() / denom;
             index++;
         }
-        innerDistribution =
-                new EnumeratedDistribution<>(createDistribution(values, probabilities));
+        innerDistribution = new EnumeratedDistribution<>(createDistribution(values, probabilities));
     }
 
     /**
@@ -95,12 +94,9 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      * @throws MathIllegalArgumentException if any of the probabilities are NaN.
      * @throws MathIllegalArgumentException if any of the probabilities are infinite.
      */
-    public EnumeratedRealDistribution(final double[] singletons, final double[] probabilities)
-        throws MathIllegalArgumentException {
-        innerDistribution =
-                new EnumeratedDistribution<>(createDistribution(singletons, probabilities));
+    public EnumeratedRealDistribution(final double[] singletons, final double[] probabilities) throws MathIllegalArgumentException {
+        innerDistribution = new EnumeratedDistribution<>(createDistribution(singletons, probabilities));
     }
-
 
     /**
      * Create the list of Pairs representing the distribution from singletons and probabilities.
@@ -110,11 +106,9 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      * @return list of value/probability pairs
      * @throws MathIllegalArgumentException if probabilities contains negative, infinite or NaN values or only 0's
      */
-    private static List<Pair<Double, Double>> createDistribution(double[] singletons,
-                                                                 double[] probabilities) {
+    private static List<Pair<Double, Double>> createDistribution(double[] singletons, double[] probabilities) {
         MathArrays.checkEqualLength(singletons, probabilities);
         final List<Pair<Double, Double>> samples = new ArrayList<>(singletons.length);
-
         final double[] normalizedProbabilities = EnumeratedDistribution.checkAndNormalize(probabilities);
         for (int i = 0; i < singletons.length; i++) {
             samples.add(new Pair<>(singletons[i], normalizedProbabilities[i]));
@@ -135,7 +129,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      * @return the value of the probability mass function at {@code x}
      */
     public double probability(final double x) {
-        return innerDistribution.probability(x);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -149,7 +143,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      */
     @Override
     public double density(final double x) {
-        return probability(x);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -157,15 +151,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      */
     @Override
     public double cumulativeProbability(final double x) {
-        double probability = 0;
-
-        for (final Pair<Double, Double> sample : innerDistribution.getPmf()) {
-            if (sample.getKey() <= x) {
-                probability += sample.getValue();
-            }
-        }
-
-        return probability;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -173,24 +159,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      */
     @Override
     public double inverseCumulativeProbability(final double p) throws MathIllegalArgumentException {
-        MathUtils.checkRangeInclusive(p, 0, 1);
-
-        double probability = 0;
-        double x = getSupportLowerBound();
-        for (final Pair<Double, Double> sample : innerDistribution.getPmf()) {
-            if (sample.getValue() == 0.0) {
-                continue;
-            }
-
-            probability += sample.getValue();
-            x = sample.getKey();
-
-            if (probability >= p) {
-                break;
-            }
-        }
-
-        return x;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -200,13 +169,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalMean() {
-        double mean = 0;
-
-        for (final Pair<Double, Double> sample : innerDistribution.getPmf()) {
-            mean += sample.getValue() * sample.getKey();
-        }
-
-        return mean;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -216,15 +179,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        double mean = 0;
-        double meanOfSquares = 0;
-
-        for (final Pair<Double, Double> sample : innerDistribution.getPmf()) {
-            mean += sample.getValue() * sample.getKey();
-            meanOfSquares += sample.getValue() * sample.getKey() * sample.getKey();
-        }
-
-        return meanOfSquares - mean * mean;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -236,14 +191,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportLowerBound() {
-        double min = Double.POSITIVE_INFINITY;
-        for (final Pair<Double, Double> sample : innerDistribution.getPmf()) {
-            if (sample.getKey() < min && sample.getValue() > 0) {
-                min = sample.getKey();
-            }
-        }
-
-        return min;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -255,14 +203,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      */
     @Override
     public double getSupportUpperBound() {
-        double max = Double.NEGATIVE_INFINITY;
-        for (final Pair<Double, Double> sample : innerDistribution.getPmf()) {
-            if (sample.getKey() > max && sample.getValue() > 0) {
-                max = sample.getKey();
-            }
-        }
-
-        return max;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -274,7 +215,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      */
     @Override
     public boolean isSupportConnected() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -283,6 +224,6 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      * @return the probability mass function.
      */
     public List<Pair<Double, Double>> getPmf() {
-        return innerDistribution.getPmf();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

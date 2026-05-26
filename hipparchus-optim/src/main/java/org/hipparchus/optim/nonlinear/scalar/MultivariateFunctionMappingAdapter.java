@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -78,16 +77,21 @@ import org.hipparchus.util.MathUtils;
  * </p>
  *
  * @see MultivariateFunctionPenaltyAdapter
- *
  */
-public class MultivariateFunctionMappingAdapter
-    implements MultivariateFunction {
-    /** Underlying bounded function. */
+public class MultivariateFunctionMappingAdapter implements MultivariateFunction {
+
+    /**
+     * Underlying bounded function.
+     */
     private final MultivariateFunction bounded;
-    /** Mapping functions. */
+
+    /**
+     * Mapping functions.
+     */
     private final Mapper[] mappers;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param bounded bounded function
      * @param lower lower bounds for each element of the input parameters array
      * (some elements may be set to {@code Double.NEGATIVE_INFINITY} for
@@ -98,22 +102,19 @@ public class MultivariateFunctionMappingAdapter
      * @exception MathIllegalArgumentException if lower and upper bounds are not
      * consistent, either according to dimension or to values
      */
-    public MultivariateFunctionMappingAdapter(final MultivariateFunction bounded,
-                                              final double[] lower, final double[] upper) {
+    public MultivariateFunctionMappingAdapter(final MultivariateFunction bounded, final double[] lower, final double[] upper) {
         // safety checks
         MathUtils.checkNotNull(lower);
         MathUtils.checkNotNull(upper);
         if (lower.length != upper.length) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH,
-                                                   lower.length, upper.length);
+            throw new MathIllegalArgumentException(LocalizedCoreFormats.DIMENSIONS_MISMATCH, lower.length, upper.length);
         }
         for (int i = 0; i < lower.length; ++i) {
-            if (!(upper[i] >= lower[i])) { // NOPMD - the test is written this way so it also fails for NaN
-                throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL,
-                                                       upper[i], lower[i]);
+            if (!(upper[i] >= lower[i])) {
+                // NOPMD - the test is written this way so it also fails for NaN
+                throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_SMALL, upper[i], lower[i]);
             }
         }
-
         this.bounded = bounded;
         this.mappers = new Mapper[lower.length];
         for (int i = 0; i < mappers.length; ++i) {
@@ -144,13 +145,7 @@ public class MultivariateFunctionMappingAdapter
      * @return the bounded values.
      */
     public double[] unboundedToBounded(double[] point) {
-        // Map unbounded input point to bounded point.
-        final double[] mapped = new double[mappers.length];
-        for (int i = 0; i < mappers.length; ++i) {
-            mapped[i] = mappers[i].unboundedToBounded(point[i]);
-        }
-
-        return mapped;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -160,13 +155,7 @@ public class MultivariateFunctionMappingAdapter
      * @return the unbounded values.
      */
     public double[] boundedToUnbounded(double[] point) {
-        // Map bounded input point to unbounded point.
-        final double[] mapped = new double[mappers.length];
-        for (int i = 0; i < mappers.length; ++i) {
-            mapped[i] = mappers[i].boundedToUnbounded(point[i]);
-        }
-
-        return mapped;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -182,11 +171,14 @@ public class MultivariateFunctionMappingAdapter
      */
     @Override
     public double value(double[] point) {
-        return bounded.value(unboundedToBounded(point));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Mapping interface. */
+    /**
+     * Mapping interface.
+     */
     private interface Mapper {
+
         /**
          * Maps a value from unbounded to bounded.
          *
@@ -204,24 +196,36 @@ public class MultivariateFunctionMappingAdapter
         double boundedToUnbounded(double x);
     }
 
-    /** Local class for no bounds mapping. */
+    /**
+     * Local class for no bounds mapping.
+     */
     private static class NoBoundsMapper implements Mapper {
-        /** {@inheritDoc} */
+
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public double unboundedToBounded(final double y) {
-            return y;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public double boundedToUnbounded(final double x) {
-            return x;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
-    /** Local class for lower bounds mapping. */
+    /**
+     * Local class for lower bounds mapping.
+     */
     private static class LowerBoundMapper implements Mapper {
-        /** Low bound. */
+
+        /**
+         * Low bound.
+         */
         private final double lower;
 
         /**
@@ -233,52 +237,71 @@ public class MultivariateFunctionMappingAdapter
             this.lower = lower;
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public double unboundedToBounded(final double y) {
-            return lower + FastMath.exp(y);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public double boundedToUnbounded(final double x) {
-            return FastMath.log(x - lower);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
 
-    /** Local class for upper bounds mapping. */
+    /**
+     * Local class for upper bounds mapping.
+     */
     private static class UpperBoundMapper implements Mapper {
 
-        /** Upper bound. */
+        /**
+         * Upper bound.
+         */
         private final double upper;
 
-        /** Simple constructor.
+        /**
+         * Simple constructor.
          * @param upper upper bound
          */
         UpperBoundMapper(final double upper) {
             this.upper = upper;
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public double unboundedToBounded(final double y) {
-            return upper - FastMath.exp(-y);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public double boundedToUnbounded(final double x) {
-            return -FastMath.log(upper - x);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
 
-    /** Local class for lower and bounds mapping. */
+    /**
+     * Local class for lower and bounds mapping.
+     */
     private static class LowerUpperBoundMapper implements Mapper {
-        /** Function from unbounded to bounded. */
+
+        /**
+         * Function from unbounded to bounded.
+         */
         private final UnivariateFunction boundingFunction;
-        /** Function from bounded to unbounded. */
+
+        /**
+         * Function from bounded to unbounded.
+         */
         private final UnivariateFunction unboundingFunction;
 
         /**
@@ -288,20 +311,24 @@ public class MultivariateFunctionMappingAdapter
          * @param upper upper bound
          */
         LowerUpperBoundMapper(final double lower, final double upper) {
-            boundingFunction   = new Sigmoid(lower, upper);
+            boundingFunction = new Sigmoid(lower, upper);
             unboundingFunction = new Logit(lower, upper);
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public double unboundedToBounded(final double y) {
-            return boundingFunction.value(y);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public double boundedToUnbounded(final double x) {
-            return unboundingFunction.value(x);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

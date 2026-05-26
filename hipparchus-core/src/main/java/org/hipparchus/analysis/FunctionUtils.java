@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-
 package org.hipparchus.analysis;
 
 import org.hipparchus.analysis.differentiation.DSFactory;
@@ -35,35 +33,13 @@ import org.hipparchus.util.MathUtils;
 
 /**
  * Utilities for manipulating function objects.
- *
  */
 public class FunctionUtils {
+
     /**
      * Class only contains static methods.
      */
-    private FunctionUtils() {}
-
-    /**
-     * Composes functions.
-     * <p>
-     * The functions in the argument list are composed sequentially, in the
-     * given order.  For example, compose(f1,f2,f3) acts like f1(f2(f3(x))).</p>
-     *
-     * @param f List of functions.
-     * @return the composite function.
-     */
-    public static UnivariateFunction compose(final UnivariateFunction ... f) {
-        return new UnivariateFunction() {
-            /** {@inheritDoc} */
-            @Override
-            public double value(double x) {
-                double r = x;
-                for (int i = f.length - 1; i >= 0; i--) {
-                    r = f[i].value(r);
-                }
-                return r;
-            }
-        };
+    private FunctionUtils() {
     }
 
     /**
@@ -75,30 +51,21 @@ public class FunctionUtils {
      * @param f List of functions.
      * @return the composite function.
      */
-    public static UnivariateDifferentiableFunction compose(final UnivariateDifferentiableFunction ... f) {
-        return new UnivariateDifferentiableFunction() {
+    public static UnivariateFunction compose(final UnivariateFunction... f) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-            /** {@inheritDoc} */
-            @Override
-            public double value(final double t) {
-                double r = t;
-                for (int i = f.length - 1; i >= 0; i--) {
-                    r = f[i].value(r);
-                }
-                return r;
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public <T extends Derivative<T>> T value(final T t) {
-                T r = t;
-                for (int i = f.length - 1; i >= 0; i--) {
-                    r = f[i].value(r);
-                }
-                return r;
-            }
-
-        };
+    /**
+     * Composes functions.
+     * <p>
+     * The functions in the argument list are composed sequentially, in the
+     * given order.  For example, compose(f1,f2,f3) acts like f1(f2(f3(x))).</p>
+     *
+     * @param f List of functions.
+     * @return the composite function.
+     */
+    public static UnivariateDifferentiableFunction compose(final UnivariateDifferentiableFunction... f) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -107,18 +74,8 @@ public class FunctionUtils {
      * @param f List of functions.
      * @return a function that computes the sum of the functions.
      */
-    public static UnivariateFunction add(final UnivariateFunction ... f) {
-        return new UnivariateFunction() {
-            /** {@inheritDoc} */
-            @Override
-            public double value(double x) {
-                double r = f[0].value(x);
-                for (int i = 1; i < f.length; i++) {
-                    r += f[i].value(x);
-                }
-                return r;
-            }
-        };
+    public static UnivariateFunction add(final UnivariateFunction... f) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -127,33 +84,8 @@ public class FunctionUtils {
      * @param f List of functions.
      * @return a function that computes the sum of the functions.
      */
-    public static UnivariateDifferentiableFunction add(final UnivariateDifferentiableFunction ... f) {
-        return new UnivariateDifferentiableFunction() {
-
-            /** {@inheritDoc} */
-            @Override
-            public double value(final double t) {
-                double r = f[0].value(t);
-                for (int i = 1; i < f.length; i++) {
-                    r += f[i].value(t);
-                }
-                return r;
-            }
-
-            /** {@inheritDoc}
-             * @throws MathIllegalArgumentException if functions are not consistent with each other
-             */
-            @Override
-            public <T extends Derivative<T>> T value(final T t)
-                throws MathIllegalArgumentException {
-                T r = f[0].value(t);
-                for (int i = 1; i < f.length; i++) {
-                    r = r.add(f[i].value(t));
-                }
-                return r;
-            }
-
-        };
+    public static UnivariateDifferentiableFunction add(final UnivariateDifferentiableFunction... f) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -162,18 +94,8 @@ public class FunctionUtils {
      * @param f List of functions.
      * @return a function that computes the product of the functions.
      */
-    public static UnivariateFunction multiply(final UnivariateFunction ... f) {
-        return new UnivariateFunction() {
-            /** {@inheritDoc} */
-            @Override
-            public double value(double x) {
-                double r = f[0].value(x);
-                for (int i = 1; i < f.length; i++) {
-                    r *= f[i].value(x);
-                }
-                return r;
-            }
-        };
+    public static UnivariateFunction multiply(final UnivariateFunction... f) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -182,30 +104,8 @@ public class FunctionUtils {
      * @param f List of functions.
      * @return a function that computes the product of the functions.
      */
-    public static UnivariateDifferentiableFunction multiply(final UnivariateDifferentiableFunction ... f) {
-        return new UnivariateDifferentiableFunction() {
-
-            /** {@inheritDoc} */
-            @Override
-            public double value(final double t) {
-                double r = f[0].value(t);
-                for (int i = 1; i < f.length; i++) {
-                    r  *= f[i].value(t);
-                }
-                return r;
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public <T extends Derivative<T>> T value(final T t) {
-                T r = f[0].value(t);
-                for (int i = 1; i < f.length; i++) {
-                    r = r.multiply(f[i].value(t));
-                }
-                return r;
-            }
-
-        };
+    public static UnivariateDifferentiableFunction multiply(final UnivariateDifferentiableFunction... f) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -217,16 +117,8 @@ public class FunctionUtils {
      * @param g Function.
      * @return the composite function.
      */
-    public static UnivariateFunction combine(final BivariateFunction combiner,
-                                             final UnivariateFunction f,
-                                             final UnivariateFunction g) {
-        return new UnivariateFunction() {
-            /** {@inheritDoc} */
-            @Override
-            public double value(double x) {
-                return combiner.value(f.value(x), g.value(x));
-            }
-        };
+    public static UnivariateFunction combine(final BivariateFunction combiner, final UnivariateFunction f, final UnivariateFunction g) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -239,20 +131,8 @@ public class FunctionUtils {
      * @param initialValue Initial value.
      * @return a collector function.
      */
-    public static MultivariateFunction collector(final BivariateFunction combiner,
-                                                 final UnivariateFunction f,
-                                                 final double initialValue) {
-        return new MultivariateFunction() {
-            /** {@inheritDoc} */
-            @Override
-            public double value(double[] point) {
-                double result = combiner.value(initialValue, f.value(point[0]));
-                for (int i = 1; i < point.length; i++) {
-                    result = combiner.value(result, f.value(point[i]));
-                }
-                return result;
-            }
-        };
+    public static MultivariateFunction collector(final BivariateFunction combiner, final UnivariateFunction f, final double initialValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -264,9 +144,8 @@ public class FunctionUtils {
      * @param initialValue Initial value.
      * @return a collector function.
      */
-    public static MultivariateFunction collector(final BivariateFunction combiner,
-                                                 final double initialValue) {
-        return collector(combiner, new Identity(), initialValue);
+    public static MultivariateFunction collector(final BivariateFunction combiner, final double initialValue) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -276,16 +155,10 @@ public class FunctionUtils {
      * @param fixed value to which the first argument of {@code f} is set.
      * @return the unary function h(x) = f(fixed, x)
      */
-    public static UnivariateFunction fix1stArgument(final BivariateFunction f,
-                                                    final double fixed) {
-        return new UnivariateFunction() {
-            /** {@inheritDoc} */
-            @Override
-            public double value(double x) {
-                return f.value(fixed, x);
-            }
-        };
+    public static UnivariateFunction fix1stArgument(final BivariateFunction f, final double fixed) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     /**
      * Creates a unary function by fixing the second argument of a binary function.
      *
@@ -293,15 +166,8 @@ public class FunctionUtils {
      * @param fixed value to which the second argument of {@code f} is set.
      * @return the unary function h(x) = f(x, fixed)
      */
-    public static UnivariateFunction fix2ndArgument(final BivariateFunction f,
-                                                    final double fixed) {
-        return new UnivariateFunction() {
-            /** {@inheritDoc} */
-            @Override
-            public double value(double x) {
-                return f.value(x, fixed);
-            }
-        };
+    public static UnivariateFunction fix2ndArgument(final BivariateFunction f, final double fixed) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -321,28 +187,12 @@ public class FunctionUtils {
      * @throws MathIllegalArgumentException if the number of sample points
      * {@code n} is negative.
      */
-    public static double[] sample(UnivariateFunction f, double min, double max, int n)
-       throws MathIllegalArgumentException {
-
-        if (n <= 0) {
-            throw new MathIllegalArgumentException(
-                    LocalizedCoreFormats.NOT_POSITIVE_NUMBER_OF_SAMPLES,
-                    n);
-        }
-        if (min >= max) {
-            throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-                                                   min, max);
-        }
-
-        final double[] s = new double[n];
-        final double h = (max - min) / n;
-        for (int i = 0; i < n; i++) {
-            s[i] = f.value(min + i * h);
-        }
-        return s;
+    public static double[] sample(UnivariateFunction f, double min, double max, int n) throws MathIllegalArgumentException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Convert regular functions to {@link UnivariateDifferentiableFunction}.
+    /**
+     * Convert regular functions to {@link UnivariateDifferentiableFunction}.
      * <p>
      * This method handle the case with one free parameter and several derivatives.
      * For the case with several free parameters and only first order derivatives,
@@ -366,37 +216,12 @@ public class FunctionUtils {
      * @see #toDifferentiable(MultivariateFunction, MultivariateVectorFunction)
      * @see #derivative(UnivariateDifferentiableFunction, int)
      */
-    public static UnivariateDifferentiableFunction toDifferentiable(final UnivariateFunction f,
-                                                                    final UnivariateFunction ... derivatives) {
-
-        return new UnivariateDifferentiableFunction() {
-
-            /** {@inheritDoc} */
-            @Override
-            public double value(final double x) {
-                return f.value(x);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public <T extends Derivative<T>> T value(final T x) {
-                if (x.getOrder() > derivatives.length) {
-                    throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE,
-                                                           x.getOrder(), derivatives.length);
-                }
-                final double[] packed = new double[x.getOrder() + 1];
-                packed[0] = f.value(x.getValue());
-                for (int i = 0; i < x.getOrder(); ++i) {
-                    packed[i + 1] = derivatives[i].value(x.getValue());
-                }
-                return x.compose(packed);
-            }
-
-        };
-
+    public static UnivariateDifferentiableFunction toDifferentiable(final UnivariateFunction f, final UnivariateFunction... derivatives) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Convert regular functions to {@link MultivariateDifferentiableFunction}.
+    /**
+     * Convert regular functions to {@link MultivariateDifferentiableFunction}.
      * <p>
      * This method handle the case with several free parameters and only first order derivatives.
      * For the case with one free parameter and several derivatives,
@@ -420,65 +245,12 @@ public class FunctionUtils {
      * @see #toDifferentiable(UnivariateFunction, UnivariateFunction...)
      * @see #derivative(MultivariateDifferentiableFunction, int[])
      */
-    public static MultivariateDifferentiableFunction toDifferentiable(final MultivariateFunction f,
-                                                                      final MultivariateVectorFunction gradient) {
-
-        return new MultivariateDifferentiableFunction() {
-
-            /** {@inheritDoc} */
-            @Override
-            public double value(final double[] point) {
-                return f.value(point);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public DerivativeStructure value(final DerivativeStructure[] point) {
-
-                // set up the input parameters
-                final double[] dPoint = new double[point.length];
-                for (int i = 0; i < point.length; ++i) {
-                    dPoint[i] = point[i].getValue();
-                    if (point[i].getOrder() > 1) {
-                        throw new MathIllegalArgumentException(LocalizedCoreFormats.NUMBER_TOO_LARGE,
-                                                               point[i].getOrder(), 1);
-                    }
-                }
-
-                // evaluate regular functions
-                final double    v = f.value(dPoint);
-                final double[] dv = gradient.value(dPoint);
-                MathUtils.checkDimension(dv.length, point.length);
-
-                // build the combined derivative
-                final int parameters = point[0].getFreeParameters();
-                final double[] partials = new double[point.length];
-                final double[] packed = new double[parameters + 1];
-                packed[0] = v;
-                final int[] orders = new int[parameters];
-                for (int i = 0; i < parameters; ++i) {
-
-                    // we differentiate once with respect to parameter i
-                    orders[i] = 1;
-                    for (int j = 0; j < point.length; ++j) {
-                        partials[j] = point[j].getPartialDerivative(orders);
-                    }
-                    orders[i] = 0;
-
-                    // compose partial derivatives
-                    packed[i + 1] = MathArrays.linearCombination(dv, partials);
-
-                }
-
-                return point[0].getFactory().build(packed);
-
-            }
-
-        };
-
+    public static MultivariateDifferentiableFunction toDifferentiable(final MultivariateFunction f, final MultivariateVectorFunction gradient) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Convert an {@link UnivariateDifferentiableFunction} to an
+    /**
+     * Convert an {@link UnivariateDifferentiableFunction} to an
      * {@link UnivariateFunction} computing n<sup>th</sup> order derivative.
      * <p>
      * This converter is only a convenience method. Beware computing only one derivative does
@@ -492,22 +264,11 @@ public class FunctionUtils {
      * @see #toDifferentiable(UnivariateFunction, UnivariateFunction...)
      */
     public static UnivariateFunction derivative(final UnivariateDifferentiableFunction f, final int order) {
-
-        final DSFactory factory = new DSFactory(1, order);
-
-        return new UnivariateFunction() {
-
-            /** {@inheritDoc} */
-            @Override
-            public double value(final double x) {
-                final DerivativeStructure dsX = factory.variable(0, x);
-                return f.value(dsX).getPartialDerivative(order);
-            }
-
-        };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Convert an {@link MultivariateDifferentiableFunction} to an
+    /**
+     * Convert an {@link MultivariateDifferentiableFunction} to an
      * {@link MultivariateFunction} computing n<sup>th</sup> order derivative.
      * <p>
      * This converter is only a convenience method. Beware computing only one derivative does
@@ -521,39 +282,6 @@ public class FunctionUtils {
      * @see #toDifferentiable(MultivariateFunction, MultivariateVectorFunction)
      */
     public static MultivariateFunction derivative(final MultivariateDifferentiableFunction f, final int[] orders) {
-
-        // the maximum differentiation order is the sum of all orders
-        int sum = 0;
-        for (final int order : orders) {
-            sum += order;
-        }
-        final int sumOrders = sum;
-
-        return new MultivariateFunction() {
-
-            /** Factory used for building derivatives. */
-            private DSFactory factory;
-
-            /** {@inheritDoc} */
-            @Override
-            public double value(final double[] point) {
-
-                if (factory == null || point.length != factory.getCompiler().getFreeParameters()) {
-                    // rebuild the factory in case of mismatch
-                    factory = new DSFactory(point.length, sumOrders);
-                }
-
-                // set up the input parameters
-                final DerivativeStructure[] dsPoint = new DerivativeStructure[point.length];
-                for (int i = 0; i < point.length; ++i) {
-                    dsPoint[i] = factory.variable(i, point[i]);
-                }
-
-                return f.value(dsPoint).getPartialDerivative(orders);
-
-            }
-
-        };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

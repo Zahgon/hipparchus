@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /*
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
@@ -23,7 +22,6 @@ package org.hipparchus.geometry.euclidean.twod;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hipparchus.geometry.euclidean.oned.Euclidean1D;
 import org.hipparchus.geometry.euclidean.oned.Interval;
 import org.hipparchus.geometry.euclidean.oned.IntervalsSet;
@@ -36,21 +34,22 @@ import org.hipparchus.geometry.partitioning.Region;
 import org.hipparchus.geometry.partitioning.Region.Location;
 import org.hipparchus.util.FastMath;
 
-/** This class represents a sub-hyperplane for {@link Line}.
+/**
+ * This class represents a sub-hyperplane for {@link Line}.
  */
-public class SubLine
-    extends AbstractSubHyperplane<Euclidean2D, Vector2D, Line, SubLine, Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> {
+public class SubLine extends AbstractSubHyperplane<Euclidean2D, Vector2D, Line, SubLine, Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> {
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
      * @param hyperplane underlying hyperplane
      * @param remainingRegion remaining region of the hyperplane
      */
-    public SubLine(final Line hyperplane,
-                   final Region<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> remainingRegion) {
+    public SubLine(final Line hyperplane, final Region<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> remainingRegion) {
         super(hyperplane, remainingRegion);
     }
 
-    /** Create a sub-line from two endpoints.
+    /**
+     * Create a sub-line from two endpoints.
      * @param start start point
      * @param end end point
      * @param tolerance tolerance below which points are considered identical
@@ -59,15 +58,16 @@ public class SubLine
         super(new Line(start, end, tolerance), buildIntervalSet(start, end, tolerance));
     }
 
-    /** Create a sub-line from a segment.
+    /**
+     * Create a sub-line from a segment.
      * @param segment single segment forming the sub-line
      */
     public SubLine(final Segment segment) {
-        super(segment.getLine(),
-              buildIntervalSet(segment.getStart(), segment.getEnd(), segment.getLine().getTolerance()));
+        super(segment.getLine(), buildIntervalSet(segment.getStart(), segment.getEnd(), segment.getLine().getTolerance()));
     }
 
-    /** Get the endpoints of the sub-line.
+    /**
+     * Get the endpoints of the sub-line.
      * <p>
      * A subline may be any arbitrary number of disjoints segments, so the endpoints
      * are provided as a list of endpoint pairs. Each element of the list represents
@@ -82,21 +82,11 @@ public class SubLine
      * @return list of segments endpoints
      */
     public List<Segment> getSegments() {
-
-        final List<Interval> list = ((IntervalsSet) getRemainingRegion()).asList();
-        final List<Segment> segments = new ArrayList<>(list.size());
-
-        for (final Interval interval : list) {
-            final Vector2D start = getHyperplane().toSpace(new Vector1D(interval.getInf()));
-            final Vector2D end   = getHyperplane().toSpace(new Vector1D(interval.getSup()));
-            segments.add(new Segment(start, end, getHyperplane()));
-        }
-
-        return segments;
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Get the intersection of the instance and another sub-line.
+    /**
+     * Get the intersection of the instance and another sub-line.
      * <p>
      * This method is related to the {@link Line#intersection(Line)
      * intersection} method in the {@link Line Line} class, but in addition
@@ -111,32 +101,11 @@ public class SubLine
      * @return the intersection point if there is one, null if the sub-lines don't intersect
      */
     public Vector2D intersection(final SubLine subLine, final boolean includeEndPoints) {
-
-        // retrieve the underlying lines
-        Line line1 = getHyperplane();
-        Line line2 = subLine.getHyperplane();
-
-        // compute the intersection on infinite line
-        Vector2D v2D = line1.intersection(line2);
-        if (v2D == null) {
-            return null;
-        }
-
-        // check location of point with respect to first sub-line
-        Location loc1 = getRemainingRegion().checkPoint(line1.toSubSpace(v2D));
-
-        // check location of point with respect to second sub-line
-        Location loc2 = subLine.getRemainingRegion().checkPoint(line2.toSubSpace(v2D));
-
-        if (includeEndPoints) {
-            return ((loc1 != Location.OUTSIDE) && (loc2 != Location.OUTSIDE)) ? v2D : null;
-        } else {
-            return ((loc1 == Location.INSIDE) && (loc2 == Location.INSIDE)) ? v2D : null;
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** Build an interval set from two points.
+    /**
+     * Build an interval set from two points.
      * @param start start point
      * @param end end point
      * @param tolerance tolerance below which points are considered identical
@@ -144,64 +113,30 @@ public class SubLine
      */
     private static IntervalsSet buildIntervalSet(final Vector2D start, final Vector2D end, final double tolerance) {
         final Line line = new Line(start, end, tolerance);
-        return new IntervalsSet(line.toSubSpace(start).getX(),
-                                line.toSubSpace(end).getX(),
-                                tolerance);
+        return new IntervalsSet(line.toSubSpace(start).getX(), line.toSubSpace(end).getX(), tolerance);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected SubLine buildNew(final Line hyperplane,
-                               final Region<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> remainingRegion) {
-        return new SubLine(hyperplane, remainingRegion);
+    protected SubLine buildNew(final Line hyperplane, final Region<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> remainingRegion) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector2D getInteriorPoint() {
-        final Vector1D v = getRemainingRegion().getInteriorPoint();
-        return isEmpty() ? null : getHyperplane().toSpace(v);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SplitSubHyperplane<Euclidean2D, Vector2D, Line, SubLine> split(final Line hyperplane) {
-
-        final Line    thisLine  = getHyperplane();
-        final Vector2D crossing = thisLine.intersection(hyperplane);
-        final double tolerance  = thisLine.getTolerance();
-
-        if (crossing == null) {
-            // the lines are parallel
-            final double global = hyperplane.getOffset(thisLine);
-            if (global < -tolerance) {
-                return new SplitSubHyperplane<>(null, this);
-            } else if (global > tolerance) {
-                return new SplitSubHyperplane<>(this, null);
-            } else {
-                return new SplitSubHyperplane<>(null, null);
-            }
-        }
-
-        // the lines do intersect
-        final boolean direct = FastMath.sin(thisLine.getAngle() - hyperplane.getAngle()) < 0;
-        final Vector1D x      = thisLine.toSubSpace(crossing);
-        final SubOrientedPoint subPlus  = new OrientedPoint(x, !direct, tolerance).wholeHyperplane();
-        final SubOrientedPoint subMinus = new OrientedPoint(x,  direct, tolerance).wholeHyperplane();
-
-        final BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> splitTree =
-                getRemainingRegion().getTree(false).split(subMinus);
-        final BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> plusTree  =
-                getRemainingRegion().isEmpty(splitTree.getPlus()) ?
-                                             new BSPTree<>(Boolean.FALSE) :
-                                             new BSPTree<>(subPlus, new BSPTree<>(Boolean.FALSE), splitTree.getPlus(), null);
-        final BSPTree<Euclidean1D, Vector1D, OrientedPoint, SubOrientedPoint> minusTree =
-                getRemainingRegion().isEmpty(splitTree.getMinus()) ?
-                                             new BSPTree<>(Boolean.FALSE) :
-                                             new BSPTree<>(subMinus, new BSPTree<>(Boolean.FALSE), splitTree.getMinus(), null);
-        return new SplitSubHyperplane<>(new SubLine(thisLine.copySelf(), new IntervalsSet(plusTree, tolerance)),
-                                        new SubLine(thisLine.copySelf(), new IntervalsSet(minusTree, tolerance)));
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }
